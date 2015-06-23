@@ -1,0 +1,184 @@
+———————————————————————————————————————————————————————————
+HOWTO: Import Grand Comics Database into Comics Cantina
+———————————————————————————————————————————————————————————
+By: Bartlomiej Mika
+Date: April, 29th, 2015
+
+
+
+*****************
+* DOWNLOAD GCD  *
+*****************
+1) Register
+
+
+2) Download the SQL script of the database
+
+
+
+*********************
+* IMPORT INTO MYSQL *
+*********************
+1) Create a database called "ecantina_db" in your MySQL database
+
+
+2) Run the SQL script and import it into that database
+
+
+
+*************************
+* EXPORT INTO XML FILES *
+*************************
+1) Go into your database and select all the gcd_* tables and click "Export as XML"
+
+
+2) Please ensure to use "Simple XML", no "MySQL Schema".
+
+
+3) Export
+To verify that your files are properly exported. Make sure they are structured
+exactly as follows. See your "gcd_countries.xml" file and it should look something
+like this. If it does not, please play around with your toolset until the exported
+files like similar.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+<?xml version="1.0"?>
+
+<!--
+-
+- Sequel Pro XML dump
+- Version 4096
+-
+- http://www.sequelpro.com/
+- http://code.google.com/p/sequel-pro/
+-
+- Host: 127.0.0.1 (MySQL 5.6.17)
+- Database: ecantina_db_1_0
+- Generation Time Time: 2015-04-28 22:33:24 +0000
+-
+-->
+
+<ecantina_db_1_0>
+
+    <gcd_country>
+    <row>
+        <id>1</id>
+        <code>ad</code>
+        <name>Andorra</name>
+    </row>
+
+    <row>
+        <id>2</id>
+        <code>ae</code>
+        <name>United Arab Emirates</name>
+    </row>
+
+
+...
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+************************
+* FIX UP THE XML FILES *
+************************
+1) Go to your directory with all your XML exported files. Here's my
+$ cd /Users/bartlomiejmika/Developer/ecantina/gcd/xml
+
+2) Next we need to touch up our files. Run this type of codes for all the files.
+Copy and paste the following into your console
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Brand
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_brand.xml > gcd_brand2.xml
+mv gcd_brand2.xml gcd_brand.xml
+
+# Brand Group
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_brand_group.xml > gcd_brand_group2.xml
+mv gcd_brand_group2.xml gcd_brand_group.xml
+
+# Country
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_country.xml > gcd_country2.xml
+mv gcd_country2.xml gcd_country.xml
+
+# Indicia Publisher
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_indicia_publisher.xml > gcd_indicia_publisher2.xml
+mv gcd_indicia_publisher2 gcd_indicia_publisher.xml
+
+# Issue
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_issue.xml > gcd_issue2.xml
+mv gcd_issue2.xml gcd_issue.xml
+
+# Language
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_languagexml > gcd_language.xml
+mv gcd_language.xml gcd_language.xml
+
+# Publisher
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_publisher.xml > gcd_publisher2.xml
+mv gcd_publisher2.xml gcd_publisher.xml
+
+# Series
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_series.xml > gcd_series2.xml
+mv gcd_series2.xml gcd_series.xml
+
+# Story
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_story.xml > gcd_story2.xml
+mv gcd_story2.xml gcd_story.xml
+
+# Story Type
+tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_story.xml > gcd_story2.xml
+mv gcd_story2.xml gcd_story.xml
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+**********************************
+* IMPORT XML FILES USING OUR ETL *
+**********************************
+
+1) I am assuming you have completed or almost finished the instructions
+inside "django.txt" file. If not, please follow through them before
+continuing here.
+
+2) Go to
+$ cd py-ecantina/ecantina_project
+
+3) Run the script to import
+$ python manage.py import_gcd /Users/bartlomiejmika/Developer/ecantina/gcd/xml
+
+(Note: That file path is where I have my XML files stored in. Please enter your own
+directory where you stored your XML exported files.)
+
+
+***************************
+*   IMPORT COVER IMAGES   *
+***************************
+
+1) Inside your image server, for example http://img.ecantina.com, create:
+  (a) A virtual instance folder called "env" using "VirtualEnv"
+  (b) Pip beautifulsoup4 and urllib3
+  (c) Create a etl folder
+  (d) Copy into the ETL folder:
+    (i) gcd_issue_cover_downloader
+    (ii) gcd_issue_cover_cataloger
+
+
+2) Run the image scrapper(s), note, this will take 40+ hours to run.
+$ python gcd_issue_cover_downloader.py /Users/bartlomiejmika/Developer/ecantina/gcd/xml/gcd_issue.xml 0
+$ python gcd_series_cover_downloader.py /Users/bartlomiejmika/Developer/ecantina/gcd/xml/gcd_series.xml 0
+
+
+3) Once your done, run the cataloger(s).
+$ python gcd_issue_cover_cataloger.py /Users/bartlomiejmika/Developer/ecantina/py-ecantina/scripts/cover
+$ python gcd_series_cover_cataloger.py /Users/bartlomiejmika/Developer/ecantina/py-ecantina/scripts/cover
+
+
+4) Now copy all the images to the "http://img.ecantina.com/" server. Do not copy the XML files though!
+Please be sure that the "cover" folder still exists and inside it there are only XML files.
+
+
+6) Now go back to your ecantina.com server and run the following ETL.
+$ python manage.py import_gcd_issue_covers /Users/bartlomiejmika/Developer/ecantina/py-ecantina/scripts/cover/issue_catalog.xml
+$ python manage.py import_gcd_series_covers /Users/bartlomiejmika/Developer/ecantina/py-ecantina/scripts/cover/series_catalog.xml
+
+

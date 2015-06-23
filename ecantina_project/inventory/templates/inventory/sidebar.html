@@ -1,0 +1,109 @@
+{% load staticfiles %}
+<aside class="aside">
+    <!-- START Sidebar (left)-->
+    <div class="aside-inner">
+        <nav class="sidebar">
+            <!-- START sidebar nav-->
+            <ul class="nav">
+                
+                <!-- START user info-->
+                <li class="has-user-block">
+                    <div id="user-block">
+                        <div class="item user-block">
+                            <!-- User picture-->
+                            <div class="user-block-picture">
+                                <div class="user-block-status">
+                                    <img src="{{ employee.image.url }}" alt="Avatar" width="60" height="60" class="img-thumbnail img-circle">
+                                        <div class="circle circle-success circle-lg"></div>
+                                        </div>
+                            </div>
+                            <!-- Name and Job-->
+                            <div class="user-block-info">
+                                <span class="user-block-name">Hello, {{ employee.user.first_name }} {{ employee.user.last_name }}</span>
+                                <span class="user-block-role">{{ employee.store.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                
+                
+                <!-- Iterates over all sidebar items-->
+                <li class="nav-heading ">
+                    <span data-localize="sidebar.heading.HEADER">Menu Navigation</span>
+                </li>
+                
+                <!-- DASHBOARD -->
+                <li class={% if tab == 'dashboard' %}" active" {% else %} {% endif %}>
+                    <a href="/inventory/dashboard" title="Dashboard">
+                        <em class="icon-speedometer"></em>
+                        <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
+                    </a>
+                </li>
+                
+                <!-- INVENTORY -->
+                <li class=" ">
+                    <!-- inventory menu header -->
+                    <a href="#inventory" title="Inventory" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                        <em class="icon-book-open"></em>
+                        <div class="label label-warning pull-right">5</div>
+                        <span data-localize="sidebar.nav.INVENTORY">Inventory</span>
+                    </a>
+                    <!-- inventory menu items -->
+                    <ul id="inventory" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
+                        <li class="sidebar-subnav-header">Inventory</li>
+                        <li class={% if tab == 'list' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/list" title="View Inventory">
+                                <div class="label label-danger pull-right">2</div>
+                                <span>View Inventory</span>
+                            </a>
+                        </li>
+                        <li class={% if tab == 'inventory' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/pull_list" title="Pull List">
+                                <span>Pull List</span>
+                            </a>
+                        </li>
+                        <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/add" title="Add Inventory">
+                                <span>Add Inventory Item</span>
+                            </a>
+                        </li>
+                        <li class={% if tab == 'print' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/print_queue" title="Print Labels">
+                                <div class="label label-primary pull-right">2</div>
+                                <span>Print Labels</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <!-- SALES -->
+                <li class={% if tab == 'sales' %}" active" {% else %}" "{% endif %}>
+                    <!-- sales menu header -->
+                    <a href="#sales" title="Layouts" data-toggle="collapse">
+                        <em class="icon-bar-chart"></em>
+                        <div class="label label-danger pull-right">2</div>
+                        <span>Sales</span>
+                    </a>
+                    <!-- inventory menu items -->
+                    <ul id="sales" class="nav sidebar-subnav collapse">
+                        <li class="sidebar-subnav-header">Sales</li>
+                        <li class={% if tab == 'sales_data' %}" active" {% else %}" "{% endif %}>
+                            <a href="sales_data.html" title="Sales Data">
+                                <span>Sales Data</span>
+                            </a>
+                        </li>
+                        <li class={% if tab == 'orders' %}" active" {% else %}" "{% endif %}>
+                            <a href="orders_view.html" title="View Orders">
+                                <div class="label label-danger pull-right">2</div>
+                                <span>View Orders</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+               
+            </ul>
+            <!-- END sidebar nav-->
+        </nav>
+    </div>
+    <!-- END Sidebar (left)-->
+</aside>

@@ -1,0 +1,21 @@
+{% load staticfiles %}
+{% for issue in issues %}
+
+<div class="list-group-item clearfix search-list-item" onclick="window.location='/inventory/add/{{ issue.issue_id }}';">
+    {% if issue.small_url == '' or issue.cover_url == None %}
+    <img src="{% static "inventory/img/missing_cover.png" %}" class="cover-image pull-left">
+    {% else %}
+    <img src="{{ issue.small_url }}" class="cover-image pull-left">
+    {% endif %}
+    <div class="pull-left left-info">
+        <h3 class="list-info">{{ issue }}</h3>
+        <h4 class="list-info">{{ issue.publication_date }}</h4>
+        <span class="list-info">{{ issue.number }}</span>
+    </div>
+    <div class="pull-right add-btn">
+        <em class="fa fa-2x fa-plus-square"></em>
+    </div>
+</div>
+{% empty %}
+No Results
+{% endfor %}

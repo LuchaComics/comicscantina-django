@@ -1,0 +1,359 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<!-- Main section-->
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper pb0">
+        
+        <h3 class="mb0">Inventory
+            <small>Add Item To Your Store's Inventory</small>
+        </h3>
+        
+        <a href="/inventory/add" class="btn btn-primary pull-right back-btn">
+            <em class="fa fa-arrow-left"></em>&nbsp;&nbsp;&nbsp;Back&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <!-- START row 1 -->
+        <div class="row main-row">
+            <div class="col-sm-12">
+                <form class="clearfix mb0 p10" name="add-item-form" id="add-item-form">
+                    <div class="col-sm-6">
+                        <img src="" alt="Cover Image" class="img-thumbnail center-block mb0 add-cover-image" name="cover-image" id="cover-image" style="width:auto;height:420px;">
+                            
+                            <div class="col-sm-12">
+                                <label class="form-control btn btn-success mt10 curp">
+                                    <em class="fa fa-upload"></em>&nbsp;&nbsp; Select Cover Image
+                                    <!-- COVER IMAGE UPLOAD -->
+                                    <input type="file" class="form-control mb10 hide" name="cover-image" id="id_image" onchange="ajax_upload_cover_image({{ issue.issue_id }});">
+                                    <!-- Upload ID --><input id="id_hidden_upload_id" type="hidden"><!-- /.Upload ID -->
+                                        
+                                </label>
+                            </div>
+                            </div>
+                    <div class="col-sm-6">
+                        
+                        <!-- series / issue -->
+                        <div class="col-sm-8 p0 pr10">
+                            <label class="control-label mb0" style="font-size:8pt;">SERIES</label>
+                            {{ issue_form.series }}
+                        </div>
+                        <div class="col-sm-4 p0">
+                            <label class="control-label mb0" style="font-size:8pt;">ISSUE #</label>
+                            {{ issue_form.number }}
+                        </div>
+        
+                        <!-- title / publisher -->
+                        <div class="col-sm-8 p0 pr10">
+                            <label class="control-label mb0" style="font-size:8pt;">TITLE</label>
+                            {{ issue_form.title }}
+                        </div>
+                        <div class="col-sm-4 p0">
+                            <label class="control-label mb0" style="font-size:8pt;">PUBLISHER</label>
+                            {{ issue_form.publisher }}
+                        </div>
+                        
+                        <!-- genre / age -->
+                        <div class="col-sm-6 p0 pr10">
+                            <label class="control-label mb0" style="font-size:8pt;">GENRE</label>
+                            {{ issue_form.genre }}
+                        </div>
+                        <div class="col-sm-6 p0">
+                            {{ product_form.age }}
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        
+                        <!-- location / section -->
+                        <div class="col-sm-6 p0 pr10">
+                            {{ product_form.location }}
+                        </div>
+                        <div class="col-sm-6 p0" id="id_section_placeholder">
+                            {{ product_form.section }}
+                        </div>
+                        
+                        <!-- price / cost -->
+                        <div class="col-sm-6 p0 pr10">
+                            {{ product_form.price }}
+                        </div>
+                        <div class="col-sm-6 p0">
+                            {{ product_form.cost }}
+                        </div>
+                        
+                        <!-- cgc rating -->
+                        <div class="col-sm-4" style="padding:7px;">
+                            <label class="control-label">
+                            {{ product_form.is_cgc_rated }}   CGC Rated 
+            
+                        </div>
+                        <div class="col-sm-4 p0 pr10">
+                            {{ product_form.label_colour }}
+                        </div>
+                        <div class="col-sm-4 p0" id="id_condition_rating_ui">
+                            {{ product_form.condition_rating }}
+                        </div>
+                        <div class="col-sm-4 p0" id="id_cgc_rating_ui">
+                            {{ product_form.cgc_rating }}
+                        </div>
+                        
+                        <div class="clearfix"></div>
+                        
+                        <!-- variants  -->
+                        <div class="col-sm-6 p0 mt10">
+                            <label class="control-label">
+                                {{ product_form.is_canadian_priced_variant }}&nbsp;&nbsp;Canadian price variant
+                            </label>
+                        </div>
+                        <div class="col-sm-6 p0 mt10 ">
+                            <label class="control-label">
+                                {{ product_form.is_variant_cover }}&nbsp;&nbsp;Variant cover
+                            </label>
+                        </div>
+                        <div class="col-sm-6 p0 mt10 mb10">
+                            <label class="control-label">
+                                {{ product_form.is_retail_incentive_variant }}&nbsp;&nbsp;Retailer incentive cover
+                            </label>
+                        </div>
+                        <div class="col-sm-6 p0 mt10 mb10">
+                            <label class="control-label">
+                                {{ product_form.is_newsstand_edition }}&nbsp;&nbsp;Newsstand Edition
+                                </label>
+                        </div>
+                        
+                        <div class="col-sm-12 hrule"></div>
+                        
+                        <div class="col-xs-3">
+                            <label class="control-label lbl-qty">Quantity</label>
+                        </div>
+                        <div class="col-xs-3">
+                            <input class="form-control" value="1" min="1" max="100" type="number" name="quantity" id="txt-quantity">
+                                </div>
+                        <div class="col-xs-6">
+                            <input type="button" data-notify="" data-message="New item added to print queue...&lt;a href='inventory_print_queue.html'&gt;Print now&lt;/a&gt;" data-options="{&quot;status&quot;:&quot;success&quot;}" class="btn btn-success w100" value="Add Items"
+                                onclick="ajax_add_items({{ issue.issue_id }});">
+                                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 mt40" id="id_table_placeholder">
+                <!-- START table-responsive-->
+                <div class="table-responsive">
+                    <table id="added-items-table" class="table table-condensed table-striped table-hover inventory-details">
+                        <thead>
+                            <tr>
+                                <th>Condition</th>
+                                <th>Price</th>
+                                <th>Location</th>
+                                <th>Section</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <!-- END table-responsive-->
+            </div>
+        </div>
+ 
+    </div>
+</section>
+
+
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+<script>
+    $(document).ready(function(){
+        // Initialize the UI.
+        $('#id_section').prop("disabled", true);
+        $('#id_label_colour').prop("disabled", true);
+        $('#id_cgc_rating_ui').hide();
+        ajax_refresh_table({{ issue.issue_id }});
+                      
+        // When the user clicks the 'Location', the 'Sections' will get filtered
+        // down to the specific location.
+        $('#id_location').on('change', function(){
+            var location_id = $(this).val();
+            if (location_id > 0)
+            {
+                ajax_load_section_dropdown({{ issue.issue_id }}, location_id)
+            }
+        });
+                      
+        // this changes the options available in the condition rating dropdown
+        $('#id_is_cgc_rated').on('click', function(){
+            if( $(this).is(':checked') ){
+                //alert("Checked"); // Debugging Purposes Only
+                $('#id_label_colour').prop("disabled", false);
+                $('#id_cgc_rating_ui').show();
+                $('#id_condition_rating_ui').hide();
+            }
+            else {
+                //alert("unchecked"); // Debugging Purposes Only
+                $('#id_label_colour').prop("disabled", true);
+                $("#id_label_colour").val($("#target option:first").val());
+                $("#id_condition_rating").val($("#target option:first").val());
+                $('#id_condition_rating_ui').show();
+                $('#id_cgc_rating_ui').hide();
+            }
+        });
+    });
+    
+    function ajax_load_section_dropdown(issue_id, location_id)
+    {
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: '/inventory/add/'+issue_id+'/section_dropbox/' + location_id,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(html_result){
+                // Replace the code
+                $('#id_section_placeholder').html(html_result);
+            },
+            error: function(xhr,status,error) {
+            // error code here
+                },
+            complete: function(xhr,status) {
+            // completion code here
+            }
+        });
+    }
+
+    // this is to upload the cover image
+    function ajax_upload_cover_image(issue_id) {
+        var errors = 0;
+        //alert('ajax_upload_logo_image()'); // Debugging Purposes.
+    
+        if ($('#id_image').val() == "") {
+            alert('Please select an image to upload');
+            errors++;
+        }
+    
+        if (errors > 0) {
+            return false;
+        }
+    
+        // change this to the ajax function call in python
+        var url = '/inventory/add/'+issue_id+'/upload_cover';
+    
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('image', document.getElementById('id_image').files[0]);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                // If success then update the image, else display error.
+                if (json_result.status == "success")
+                {
+                    $('#cover-image').attr('src', json_result.src);
+                    $('#id_hidden_upload_id').val(json_result.id);
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function ajax_add_items(issue_id)
+    {
+        var upload_id = $('#id_hidden_upload_id').val();
+        var quantity = $('#txt-quantity').val();
+        for (var i = 0; i < quantity; i++)
+        {
+            ajax_add_item(issue_id, upload_id);
+        }
+        
+    }
+
+    function ajax_add_item(issue_id, upload_id) {
+        // change this to the ajax function call in python
+        var url = '/inventory/add/'+issue_id+'/add_product';
+    
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('age', $('#id_age').val());
+        data.append('upload_id', upload_id);
+        data.append('location', $('#id_location').val());
+        data.append('section', $('#id_section').val());
+        data.append('price', $('#id_price').val());
+        data.append('cost', $('#id_cost').val());
+        data.append('is_cgc_rated', $('#id_is_cgc_rated').val());
+        data.append('label_colour', $('#id_label_colour').val());
+        data.append('cgc_rating', $('#id_cgc_rating').val());
+        data.append('condition_rating', $('#id_condition_rating').val());
+        data.append('is_canadian_priced_variant', $('#id_is_canadian_priced_variant').val());
+        data.append('is_variant_cover', $('#id_is_variant_cover').val());
+        data.append('is_retail_incentive_variant', $('#id_is_retail_incentive_variant').val());
+        data.append('is_newsstand_edition', $('#id_is_newsstand_edition').val());
+        
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                // If success then update the image, else display error.
+                if (json_result.status == "success")
+                {
+                    // alert("ok saved"); // Debugging Purposes
+                    ajax_refresh_table(issue_id);
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+            
+            }
+        });
+    }
+
+
+    function ajax_refresh_table(issue_id)
+    {
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: '/inventory/add/'+issue_id+'/list_products',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(html_result){
+                    // Replace the code
+                    $('#id_table_placeholder').html(html_result);
+                },
+                error: function(xhr,status,error) {
+                    // error code here
+                },
+                complete: function(xhr,status) {
+                    // completion code here
+                }
+        });
+    }
+
+</script>
+{% endblock content %}

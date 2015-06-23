@@ -1,0 +1,26 @@
+<div class="table-responsive">
+    <table id="added-items-table" class="table table-condensed table-striped table-hover inventory-details">
+        <thead>
+            <tr>
+                <th>Condition</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Section</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+        <td>{{ product.condition_rating }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.location }}</td>
+            <td>{{ product.section }}</td>
+        {% empty %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
