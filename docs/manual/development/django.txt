@@ -93,6 +93,7 @@ DATABASES = {
 $ python manage.py startapp inventory
 $ python manage.py startapp etl
 $ python manage.py startapp store
+$ python manage.py startapp register
 
 
 (11) Then go to comicscantina_project/settings.py and make sure to include ‘webapp’ in the file.
@@ -107,7 +108,8 @@ INSTALLED_APPS = (
     'captcha',
     'inventory',
     'etl',
-    'store','
+    'store',
+    'register',
 )
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 

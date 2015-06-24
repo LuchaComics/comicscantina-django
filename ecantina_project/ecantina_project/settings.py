@@ -55,36 +55,37 @@ INSTALLED_APPS = (
     'inventory',
     'etl',
     'store',
+    'register',
 )
 
 MIDDLEWARE_CLASSES = (
-                      'django.contrib.sessions.middleware.SessionMiddleware',
-                      'django.middleware.common.CommonMiddleware',
-                      'django.middleware.csrf.CsrfViewMiddleware',
-                      'django.contrib.auth.middleware.AuthenticationMiddleware',
-                      'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-                      'django.contrib.messages.middleware.MessageMiddleware',
-                      'django.middleware.clickjacking.XFrameOptionsMiddleware',
-                      'django.middleware.security.SecurityMiddleware',
-                      )
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+)
 
 ROOT_URLCONF = 'ecantina_project.urls'
 
 TEMPLATES = [
-             {
-             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-             'DIRS': [],
-             'APP_DIRS': True,
-             'OPTIONS': {
-             'context_processors': [
-                                    'django.template.context_processors.debug',
-                                    'django.template.context_processors.request',
-                                    'django.contrib.auth.context_processors.auth',
-                                    'django.contrib.messages.context_processors.messages',
-                                    ],
-             },
-             },
-             ]
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+        ],
+    },
+},
+]
 
 WSGI_APPLICATION = 'ecantina_project.wsgi.application'
 
@@ -199,8 +200,8 @@ STORE_CSS_LIBRARY= [
 ]
 
 STORE_JS_LIBRARY_HEADER = [
-    {"type":"text/javascript", "src":"vendor/inventory/jquery/dist/jquery.js",},
-    {"type":"text/javascript", "src":"vendor/inventory/bootstrap/dist/js/bootstrap.js",},
+    {"type":"text/javascript", "src":"store/inventory/jquery/dist/jquery.js",},
+    {"type":"text/javascript", "src":"store/inventory/bootstrap/dist/js/bootstrap.js",},
     {"type":"text/javascript", "src":"store/js/pace.min.js",},
 ]
 
