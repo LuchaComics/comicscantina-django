@@ -5,9 +5,10 @@ from django.forms import ModelForm, Textarea, TextInput, NumberInput
 from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.gcd.issue import Issue
-from inventory.models.ec.comic import Comic
+from inventory.models.ec.imageupload import ImageUpload
+from inventory.models.ec.organization import Organization
 
 
 class StoreRegistrationForm (forms.Form):
@@ -17,7 +18,7 @@ class StoreRegistrationForm (forms.Form):
         widget=forms.TextInput(attrs={
             'class':'form-control',
             'placeholder':'Enter Email',
-            'autocomplete':'off',
+            'autocomplete':'on',
             'data-parsley-id':'7556',
             'required':'',
         }),
@@ -30,6 +31,8 @@ class StoreRegistrationForm (forms.Form):
         widget=forms.TextInput(attrs={
             'class':'form-control',
             'placeholder':'Enter Store Name',
+            'autocomplete':'on',
+            'required':'',
         }),
         required=True,
     )
@@ -37,14 +40,24 @@ class StoreRegistrationForm (forms.Form):
     first_name = forms.CharField(
         label='First Name',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter First Name'}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Enter First Name',
+            'autocomplete':'on',
+            'required':'',
+        }),
         required=True,
     )
                                  
     last_name = forms.CharField(
         label='Last Name',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Last Name'}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Enter Last Name',
+            'autocomplete':'on',
+            'required':'',
+        }),
         required=True,
     )
     
@@ -84,58 +97,111 @@ class StoreRegistrationForm (forms.Form):
     phone = forms.CharField(
         label='Phone',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Phone Number', 'autocomplete':'off'}),
-        required=True,
+        widget=forms.TextInput(attrs={
+            'class':'form-control',
+            'placeholder':'Enter Phone Number',
+            'autocomplete':'on'
+        }),
+        required=False,
+    )
+    fax = forms.CharField(
+        label='Fax',
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Fax Number', 'autocomplete':'on'
+        }),
+        required=False,
     )
 
     website = forms.CharField(
         label='Website',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Website URL', 'autocomplete':'off',}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Website URL', 'autocomplete':'on',
+        }),
         required=False,
     )
 
     twitter = forms.CharField(
         label='Website',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'@twitter', 'autocomplete':'off',}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'@twitter', 'autocomplete':'on',
+        }),
         required=False,
     )
 
     facebook = forms.CharField(
         label='Website',
         max_length=255,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Facebook URL', 'autocomplete':'off',}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Facebook URL', 'autocomplete':'on',
+        }),
         required=False,
     )
 
     # Location
     #----------
-    street = forms.CharField(
+    street_number = forms.CharField(
         label='Street Address',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Street Address', 'autocomplete':'off'}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Street Number', 'autocomplete':'on'
+        }),
         required=True,
+    )
+    
+    street_name = forms.CharField(
+        label='Street Address',
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Street Name', 'autocomplete':'on'
+        }),
+        required=True,
+    )
+
+    unit_number = forms.CharField(
+        label='Street Address',
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Unit Number', 'autocomplete':'on'
+        }),
+        required=False,
     )
 
     city = forms.CharField(
         label='City',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter City', 'autocomplete':'off'}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter City', 'autocomplete':'on'
+        }),
         required=True,
     )
 
     province = forms.CharField(
         label='Province',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Province', 'autocomplete':'off'}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Province', 'autocomplete':'on'
+        }),
         required=True,
     )
 
     country = forms.CharField(
         label='Country',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Country', 'autocomplete':'off'}),
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter Country', 'autocomplete':'on'
+        }),
+        required=True,
+    )
+    
+    postal = forms.CharField(
+        label='Zip/Postal',
+        max_length=100,
+        widget=forms.TextInput(attrs={
+            'class':'form-control','placeholder':'Enter ZIP/Postal', 'autocomplete':'on'
+        }),
         required=True,
     )
 
@@ -143,3 +209,32 @@ class StoreRegistrationForm (forms.Form):
     is_terms_acceptable = forms.BooleanField(
         required=False
     )
+
+    # Hidden
+    hidden_upload_id = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False
+    )
+
+    # Functions
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email is not None and email is not '':
+            try:
+                User.objects.get(email=email)
+                raise forms.ValidationError("Email already exists.")
+            except User.DoesNotExist:
+                return email
+        else:
+            raise forms.ValidationError("Cannot be blank")
+
+    def clean_store_name(self):
+        store_name = self.cleaned_data['store_name']
+        if store_name is not None and store_name is not '':
+            try:
+                Organization.objects.get(name=store_name)
+                raise forms.ValidationError("Organization name already exists.")
+            except Organization.DoesNotExist:
+                return store_name
+        else:
+            raise forms.ValidationError("Cannot be blank")

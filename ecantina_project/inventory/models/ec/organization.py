@@ -1,6 +1,8 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
+from inventory.models.ec.imageupload import ImageUpload
+
 
 class Organization(models.Model):
     class Meta:
@@ -10,7 +12,6 @@ class Organization(models.Model):
     
     # Basic
     org_id = models.AutoField(primary_key=True)
-    image = models.ImageField(upload_to='upload', null=True, blank=True)
     name = models.CharField(max_length=127)
     description = models.TextField(null=True, blank=True)
     joined = models.DateField(null=True, blank=True)
@@ -41,11 +42,9 @@ class Organization(models.Model):
     youtube_url = models.URLField(null=True, blank=True)
     flickr_url = models.URLField(null=True, blank=True)
 
+    # References
+    administrator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    logo = models.ForeignKey(ImageUpload, null=True, blank=True)
+    
     def __str__(self):
         return self.name
-
-    def delete(self, *args, **kwargs):
-        if self.image:
-            if os.path.isfile(self.image.path):
-                os.remove(self.image.path)
-                super(Organization, self).delete(*args, **kwargs) # Call the "real" delete() method

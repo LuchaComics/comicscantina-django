@@ -51,7 +51,9 @@
                         <legend class="text-muted mb">Contact</legend>
                         <fieldset class="col-sm-6 logo bb0 p0 mb0">
                             <!-- LOGO -->
-                            <!-- Upload ID --><input id="id_hidden_upload_id" type="hidden"><!-- /.Upload ID -->
+                            <!-- Upload ID -->
+                                {{ form.hidden_upload_id }}
+                            <!-- /.Upload ID -->
                             <img src="" style="height:100px;width:100px;" alt="Store Logo"
                                 class="img-thumbnail center-block mb0 add-cover-image"
                                 name="logo-image" id="logo-image">
@@ -67,10 +69,14 @@
                                 {{ form.phone }}
                             </div>
                             <div class="form-group col-sm-12 p0">
-                                <label for="signupWebSite" class="text-muted">Website</label>
-                                {{ form.website }}
+                                <label for="signupFax" class="text-muted">Fax</label>
+                                {{ form.fax }}
                             </div>
                         </fieldset>
+                        <div class="form-group col-sm-6 pt0 mt0">
+                            <label for="signupWebSite" class="text-muted">Website</label>
+                            {{ form.website }}
+                        </div>
                         <div class="form-group col-sm-6 pt0 mt0">
                             <label for="signupTwitter" class="text-muted">Twitter</label>
                             {{ form.twitter }}
@@ -83,8 +89,16 @@
                     <fieldset class="col-sm-8 store-info m0">
                         <legend class="text-muted mb0">Location</legend>
                         <div class="form-group col-sm-6">
-                            <label for="signupStoreStreet" class="text-muted">Street</label>
-                            {{ form.street }}
+                            <label for="signupStoreStreetNumber" class="text-muted">Street Number</label>
+                            {{ form.street_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetName" class="text-muted">Street Name</label>
+                            {{ form.street_name }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreUnitNumber" class="text-muted">Unit Number</label>
+                            {{ form.unit_number }}
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="signupStoreCity" class="text-muted">City</label>
@@ -98,6 +112,10 @@
                             <label for="signupStoreProvince" class="text-muted">State/Province</label>
                             {{ form.province }}
                         </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStorePostal" class="text-muted">Zip/Postal</label>
+                            {{ form.postal }}
+                        </div>
                     </fieldset>
                     <fieldset class="col-sm-12 mb0 pb0">
                         <div class="clearfix"></div>
@@ -110,9 +128,9 @@
                                 </label>
                             </div>
                             <div class="col-sm-4 pull-right">
-                                <button onchange=""
-                                            type="submit"
-                                           class="pull-right btn btn-block btn-primary" >Create account
+                                <button onclick="ajax_create_account();"
+                                           type="button"
+                                          class="pull-right btn btn-block btn-primary" >Create account
                                 </button>
                             </div>
                         </div>
@@ -131,7 +149,33 @@
 </div>
 <script>
     $(document).ready(function(){
-                     
+        $(function() {
+            var availableTags = [
+                "Ontario",
+                "Quebec",
+                "Nova Scotia",
+                "New Brunswick",
+                "Manitoba",
+                "British Columbia",
+                "Prince Edward Island",
+                "Saskatchewan",
+                "Alberta",
+                "Newfoundland and Labrador",
+            ];
+            $( "#id_province" ).autocomplete({
+            source: availableTags
+            });
+        });
+                      
+        $(function() {
+            var availableTags = [
+                "Canada",
+                "United States",
+            ];
+            $( "#id_country" ).autocomplete({
+                source: availableTags
+            });
+        });
     });
     
     // this is to upload the cover image
@@ -181,7 +225,58 @@
             }
         });
     }
+
+    function ajax_create_account() {
+        // change this to the ajax function call in python
+        var url = '/inventory/create_account';
+    
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('email', $('#id_email').val());
+        data.append('hidden_upload_id', $('#id_hidden_upload_id').val());
+        data.append('first_name', $('#id_first_name').val());
+        data.append('last_name', $('#id_last_name').val());
+        data.append('password', $('#id_password').val());
+        data.append('repeat_password', $('#id_repeat_password').val());
+        data.append('store_name', $('#id_store_name').val());
+        data.append('is_digital_store_only', $('#id_is_digital_store_only').val());
+        data.append('phone', $('#id_phone').val());
+        data.append('fax', $('#id_fax').val());
+        data.append('website', $('#id_website').val());
+        data.append('twitter', $('#id_twitter').val());
+        data.append('facebook', $('#id_facebook').val());
+        data.append('street_number', $('#id_street_number').val());
+        data.append('street_name', $('#id_street_name').val());
+        data.append('unit_number', $('#id_unit_number').val());
+        data.append('city', $('#id_city').val());
+        data.append('country', $('#id_country').val());
+        data.append('province', $('#id_province').val());
+        data.append('postal', $('#id_postal').val());
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    alert("ok saved"); // Debugging Purposes
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
 </script>
-
-
 {% endblock content %}
