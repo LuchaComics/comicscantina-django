@@ -19,8 +19,12 @@
                             {{ form.email }}
                         </div>
                         <div class="form-group mt-lg">
-                            <label for="signupInputCompanyName1" class="text-muted">Store Name</label>
-                            {{ form.store_name }}
+                            <label for="signupInputCompanyOwnerFirstName" class="text-muted">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-group mt-lg">
+                            <label for="signupInputCompanyOwnerLastName" class="text-muted">Last Name</label>
+                            {{ form.last_name }}
                         </div>
                         <div class="form-group mt-lg has-feedback">
                             <label for="signupInputPassword1" class="text-muted">Password</label>
@@ -30,10 +34,14 @@
                             <label for="signupInputRePassword1" class="text-muted">Retype Password</label>
                             {{ form.repeat_password }}
                         </div>
+                        <div class="form-group mt-lg">
+                            <label for="signupInputCompanyName1" class="text-muted">Store Name</label>
+                            {{ form.store_name }}
+                        </div>
                         <div class="mt-sm clearfix">
                             <div class="checkbox c-checkbox pull-left mt-lg">
                                 <label>
-                                    <input type="checkbox" class="digital-only" value="" required name="digital-only">
+                                    {{ form.is_digital_store_only }}
                                     <span class="fa fa-check"></span>Digital store only
                                 </label>
                             </div>
@@ -42,146 +50,69 @@
                     <div class="col-sm-8 mb0">
                         <legend class="text-muted mb">Contact</legend>
                         <fieldset class="col-sm-6 logo bb0 p0 mb0">
+                            <!-- LOGO -->
+                            <!-- Upload ID --><input id="id_hidden_upload_id" type="hidden"><!-- /.Upload ID -->
                             <img src="" style="height:100px;width:100px;" alt="Store Logo"
                                 class="img-thumbnail center-block mb0 add-cover-image"
                                 name="logo-image" id="logo-image">
                                 <label class="form-control btn btn-success mb0 mt10 curp center-block" >
                                     <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Store Logo...
                                     <input type="file" class="form-control mb10 hide" name="logo-image"
-                                    id="file-logo-image" onchange="ajax_upload_logo_image();"/>
+                                    id="id_image" onchange="ajax_upload_image();"/>
                                 </label>
-                                </fieldset>
+                            </fieldset><!-- /.LOGO -->
                         <fieldset class="col-sm-6 contact mb0">
                             <div class="form-group col-sm-12 p0">
                                 <label for="signupPhone" class="text-muted">Phone</label>
-                                <input id="signupPhone" type="text" placeholder="Phone Number" autocomplete="off" required class="form-control">
-                                    </div>
+                                {{ form.phone }}
+                            </div>
                             <div class="form-group col-sm-12 p0">
                                 <label for="signupWebSite" class="text-muted">Website</label>
-                                <input id="signupWebSite" type="url" placeholder="Website" autocomplete="off" required class="form-control">
-                                    </div>
+                                {{ form.website }}
+                            </div>
                         </fieldset>
                         <div class="form-group col-sm-6 pt0 mt0">
                             <label for="signupTwitter" class="text-muted">Twitter</label>
-                            <input id="signupTwitter" type="text" placeholder="@twitter" autocomplete="off" class="form-control">
-                                </div>
+                            {{ form.twitter }}
+                        </div>
                         <div class="form-group col-sm-6 pt0 mt0">
                             <label for="signupFacebook" class="text-muted">Facebook</label>
-                            <input id="signupFacebook" type="text" placeholder="facebookname" autocomplete="off" class="form-control">
-                                </div>
+                            {{ form.facebook }}
+                        </div>
                     </div>
                     <fieldset class="col-sm-8 store-info m0">
                         <legend class="text-muted mb0">Location</legend>
                         <div class="form-group col-sm-6">
                             <label for="signupStoreStreet" class="text-muted">Street</label>
-                            <input id="signupStoreStreet" type="text" placeholder="Street address" autocomplete="off" class="form-control">
-                                </div>
+                            {{ form.street }}
+                        </div>
                         <div class="form-group col-sm-6">
                             <label for="signupStoreCity" class="text-muted">City</label>
-                            <input id="signupStoreCity" type="text" placeholder="City" autocomplete="off" class="form-control">
-                                </div>
+                            {{ form.city }}
+                        </div>
                         <div class="form-group col-sm-6">
                             <label for="signupStoreCountry" class="text-muted">Country</label>
-                            <input id="signupStoreCountry" type="text" placeholder="Street address" autocomplete="off" class="form-control">
-                                </div>
+                            {{ form.country }}
+                        </div>
                         <div class="form-group col-sm-6">
                             <label for="signupStoreProvince" class="text-muted">State/Province</label>
-                            <select id="signupStoreProvince" class="form-control">
-                                <option value="ON">Ontario</option>
-                                <option value="AL">Alberta</option>
-                                <option value="NS">Nova Scotia</option>
-                                <option value="BC">British Columbia</option>
-                                <option value="...">...etc...</option>
-                            </select>
+                            {{ form.province }}
                         </div>
                     </fieldset>
-                    <!-- hidden for now
-                     <fieldset class="col-sm-8 products">
-                     <legend class="text-muted mb0">Products</legend>
-                     <span class="pull-right text-muted" style="margin-top:-23px;">(select at least 1)</span>
-                     <div class="form-group col-sm-4">
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Comics
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Action Figures
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Toys
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     </div>
-                     <div class="form-group col-sm-4">
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Books
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Board Games
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Art
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     </div>
-                     <div class="form-group col-sm-4">
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Furniture
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Clothing
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     <div class="checkbox c-checkbox pull-left mt-lg">
-                     <label>
-                     <input type="checkbox" value="" required name="comics">
-                     <span class="fa fa-check"></span>Other
-                     </label>
-                     </div>
-                     <div class="clearfix"></div>
-                     </div>
-                     </fieldset>
-                     -->
                     <fieldset class="col-sm-12 mb0 pb0">
                         <div class="clearfix"></div>
                         <hr/>
                         <div class="checkbox c-checkbox pull-left m0 p0 col-sm-12">
                             <div class="col-sm-offset-2 col-sm-6 pull-left text-right pt-sm">
                                 <label>
-                                    <input type="checkbox" value="" required name="agreed">
-                                        <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
-                                        </label>
+                                    {{ form.is_terms_accepted }}
+                                    <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
+                                </label>
                             </div>
                             <div class="col-sm-4 pull-right">
-                                <button type="submit" class="pull-right btn btn-block btn-primary">Create account
+                                <button onchange=""
+                                            type="submit"
+                                           class="pull-right btn btn-block btn-primary" >Create account
                                 </button>
                             </div>
                         </div>
@@ -202,6 +133,54 @@
     $(document).ready(function(){
                      
     });
+    
+    // this is to upload the cover image
+    function ajax_upload_image() {
+        var errors = 0;
+        //alert('ajax_upload_logo_image()'); // Debugging Purposes.
+        
+        if ($('#id_image').val() == "") {
+            alert('Please select an image to upload');
+            errors++;
+        }
+        
+        if (errors > 0) {
+            return false;
+        }
+        
+        // change this to the ajax function call in python
+        var url = '/inventory/save_image';
+        
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('image', document.getElementById('id_image').files[0]);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                // If success then update the image, else display error.
+                if (json_result.status == "success")
+                {
+                    $('#logo-image').attr('src', json_result.src);
+                    $('#id_hidden_upload_id').val(json_result.id);
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        });
+    }
 </script>
 
 
