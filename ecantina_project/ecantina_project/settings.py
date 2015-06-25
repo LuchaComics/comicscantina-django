@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'etl',
     'store',
     'register',
+    'login',
 )
 
 MIDDLEWARE_CLASSES = (

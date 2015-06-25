@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'', include('inventory.urls')),
     url(r'', include('store.urls')),
     url(r'', include('register.urls')),
+    url(r'', include('login.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
