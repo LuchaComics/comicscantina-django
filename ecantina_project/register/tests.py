@@ -13,6 +13,7 @@ from . import views
 from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
+from inventory.models.ec.employee import Employee
 
 # Contants
 TEST_USER_EMAIL = "ledo@gah.com"
@@ -32,6 +33,12 @@ class RegistrationTestCase(TestCase):
         User.objects.all().delete()
         for image in ImageUpload.objects.all():
             image.delete()
+        for org in Organization.objects.all():
+            org.delete()
+        for store in Store.objects.all():
+            store.delete()
+        for employee in Employee.objects.all():
+            employee.delete()
     
     def setUp(self):
         captcha_count = CaptchaStore.objects.count()

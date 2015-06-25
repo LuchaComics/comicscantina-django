@@ -9,6 +9,7 @@ from inventory.forms.imageuploadform import ImageUploadForm
 from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
+from inventory.models.ec.employee import Employee
 
 
 def store_registration_page(request):
@@ -67,6 +68,11 @@ def create(request, form):
 
     # Create store
     response_data = create_store(form)
+    if response_data['status'] is 'failure':
+        return response_data
+
+    # Create Owner Employee
+    response_data = create_employee(form)
     if response_data['status'] is 'failure':
         return response_data
 
@@ -191,6 +197,33 @@ def create_store(form):
             'status' : 'failure',
             'message' : 'an unknown error occured when creating store'
         }
+
+
+def create_employee(form):
+    # Create the user in our database
+    email = form['email'].value().lower()
+    org_name = form['org_name'].value()
+    organization = Organization.objects.get(name=org_name)
+    store = Store.objects.get(
+        name='Main Store',
+        organization=organization,
+    )
+    user = User.objects.get(email=email)
+    
+    try:
+        Employee.objects.create(
+            role = settings.EMPLOYEE_OWNER_ROLE,
+            store = store,
+            user = user,
+            organization = organization,
+        )
+        return {'status' : 'success', 'message' : 'store registered'}
+    except Exception as e:
+        return {
+            'status' : 'failure',
+            'message' : 'An unknown error occured, failed registering employee.'
+    }
+
 
 def store_registation_successful_page(request):
     return render(request, 'register/store_ok.html',{
