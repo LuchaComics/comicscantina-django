@@ -25,12 +25,12 @@ class StoreRegistrationForm (forms.Form):
         required=True,
     )
     
-    store_name = forms.CharField(
+    org_name = forms.CharField(
         label='Series',
         max_length=100,
         widget=forms.TextInput(attrs={
             'class':'form-control',
-            'placeholder':'Enter Store Name',
+            'placeholder':'Enter Organizations Name',
             'autocomplete':'on',
             'required':'',
         }),
@@ -228,13 +228,13 @@ class StoreRegistrationForm (forms.Form):
         else:
             raise forms.ValidationError("Cannot be blank")
 
-    def clean_store_name(self):
-        store_name = self.cleaned_data['store_name']
-        if store_name is not None and store_name is not '':
+    def clean_org_name(self):
+        org_name = self.cleaned_data['org_name']
+        if org_name is not None and org_name is not '':
             try:
-                Organization.objects.get(name=store_name)
+                Organization.objects.get(name=org_name)
                 raise forms.ValidationError("Organization name already exists.")
             except Organization.DoesNotExist:
-                return store_name
+                return org_name
         else:
             raise forms.ValidationError("Cannot be blank")

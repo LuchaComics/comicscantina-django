@@ -35,8 +35,8 @@
                             {{ form.repeat_password }}
                         </div>
                         <div class="form-group mt-lg">
-                            <label for="signupInputCompanyName1" class="text-muted">Store Name</label>
-                            {{ form.store_name }}
+                            <label for="signupInputCompanyName1" class="text-muted">Organization Name</label>
+                            {{ form.org_name }}
                         </div>
                         <div class="mt-sm clearfix">
                             <div class="checkbox c-checkbox pull-left mt-lg">
@@ -238,7 +238,7 @@
         data.append('last_name', $('#id_last_name').val());
         data.append('password', $('#id_password').val());
         data.append('repeat_password', $('#id_repeat_password').val());
-        data.append('store_name', $('#id_store_name').val());
+        data.append('org_name', $('#id_org_name').val());
         data.append('is_digital_store_only', $('#id_is_digital_store_only').val());
         data.append('phone', $('#id_phone').val());
         data.append('fax', $('#id_fax').val());
@@ -262,7 +262,9 @@
             success: function(json_result){
                 if (json_result.status == "success")
                 {
-                    alert("ok saved"); // Debugging Purposes
+                    //alert("ok saved"); // Debugging Purposes
+                    var url = '/inventory/'+json_result.org_id+'/'+json_result.store_id+'/dashboard';
+                    window.location = url;
                 }
                 else
                 {
