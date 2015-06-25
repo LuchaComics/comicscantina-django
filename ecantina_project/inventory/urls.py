@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 from inventory.views import dashboard
-from inventory.views import login
 from inventory.views import list
 from inventory.views import add
 from inventory.views import search
@@ -15,11 +14,6 @@ urlpatterns = patterns('',
     url(r'^inventory$', dashboard.dashboard_page),
     url(r'^inventory/dashboard$', dashboard.dashboard_page),
                        
-    # Logging In / Logging Out
-    url(r'^inventory/login$', login.login_page),
-    url(r'^inventory/login_authentication$', login.login_authentication),
-    url(r'^inventory/logout_authentication$', login.logout_authentication),
-                       
     # Inventory List
     url(r'^inventory/list$', list.list_page),
                        
@@ -31,7 +25,6 @@ urlpatterns = patterns('',
     url(r'^inventory/add/(\d+)/add_product$', add.add_product),
     url(r'^inventory/add/(\d+)/list_products$', add.list_products),
            
-                       
     # Inventory Searching
     url(r'^inventory/search_series$', search.search_series),
     url(r'^inventory/search_issues$', search.search_issues),

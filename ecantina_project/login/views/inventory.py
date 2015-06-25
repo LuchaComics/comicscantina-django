@@ -9,8 +9,9 @@ from django.contrib.auth.decorators import login_required
 from inventory.forms.loginform import LoginForm
 from inventory.models.ec.employee import Employee
 
+
 def login_page(request):
-    return render(request, 'inventory/login/view.html',{
+    return render(request, 'login/inventory.html',{
         'form': LoginForm(),
         'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,

@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, include, url
-from store.views import landpage
+from login.views import inventory
 
 urlpatterns = patterns('',
-#    url(r'^$', landpage.front_page),
-#    url(r'^store$', landpage.front_page),
-#    url(r'^landpage$', landpage.front_page),
+    # Logging In / Logging Out
+    url(r'^inventory/login$', inventory.login_page),
+    url(r'^inventory/login_authentication$', inventory.login_authentication),
+    url(r'^inventory/logout_authentication$', inventory.logout_authentication),
 )
 
