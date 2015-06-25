@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
@@ -136,7 +137,7 @@ def create_organization(form):
         Organization.objects.create(
             name=form['org_name'].value(),
             description = '',
-            #joined = ''
+            joined = datetime.now(),
             street_name=form['street_name'].value(),
             street_number=form['street_number'].value(),
             unit_number=form['unit_number'].value(),
@@ -178,7 +179,7 @@ def create_store(form):
             organization=organization,
             name = 'Main Store',
             description = 'The main location.',
-            # joined =
+            joined = datetime.now(),
             street_name = form['street_name'].value(),
             street_number = form['street_number'].value(),
             unit_number = form['unit_number'].value(),

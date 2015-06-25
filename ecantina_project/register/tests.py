@@ -94,7 +94,6 @@ class RegistrationTestCase(TestCase):
     def test_register_with_succesful_login(self):
         image = ImageUpload.objects.create(
             upload_id = 1,
-            is_assigned = True,
             image = None,
             user =None,
         )

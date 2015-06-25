@@ -116,7 +116,7 @@ class Comic(models.Model):
     )
     
     # Images
-    cover = models.ForeignKey(ImageUpload, null=True, blank=True)
+    cover = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
     images = models.ManyToManyField(ImageUpload, blank=True, related_name='comic_images')
 
     # Catalog Reference

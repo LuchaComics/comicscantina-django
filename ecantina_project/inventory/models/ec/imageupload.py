@@ -16,10 +16,9 @@ class ImageUpload(models.Model):
         db_table = 'ec_image_uploads'
     
     upload_id = models.AutoField(primary_key=True)
-    is_assigned = models.BooleanField(default=False)
-    upload_date = models.DateField(auto_now= True, null=True)
+    upload_date = models.DateField(auto_now=True, null=True)
     image = models.ImageField(upload_to='upload', null=True, blank=True)
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True)
     
     def delete(self, *args, **kwargs):
         """
