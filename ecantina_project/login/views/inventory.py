@@ -50,7 +50,12 @@ def validate_user(user):
         if user.is_active:
             try:
                 employee = Employee.objects.get(user=user)
-                return {'status' : 'success', 'message' : 'logged on'}
+                return {
+                    'status': 'success',
+                    'message': 'logged on',
+                    'org_id': employee.organization.org_id,
+                    'store_id': employee.store.store_id,
+                }
             except Employee.DoesNotExist:
                 return {'status' : 'failure', 'message' : 'you are not an employee'}
         else:

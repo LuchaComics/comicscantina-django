@@ -27,7 +27,7 @@
                 if (json_result.status == "success")
                 {
                     $(document).unbind("keypress.key13");
-                    window.location = '/inventory';
+                    window.location = '/inventory/'+json_result.org_id+'/'+json_result.store_id+'/dashboard';
                 }
                 else
                 {

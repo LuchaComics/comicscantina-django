@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from inventory.models.ec.employee import Employee
 
 @login_required(login_url='/inventory/login')
-def dashboard_page(request):
+def dashboard_page(request, org_id, store_id):
     return render(request, 'inventory/dashboard/view.html',{
         'tab':'dashboard',
         'employee': Employee.objects.get(user=request.user),

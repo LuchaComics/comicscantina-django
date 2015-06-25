@@ -11,8 +11,8 @@ urlpatterns = patterns('',
 #
                        
     # Dashboard
-    url(r'^inventory$', dashboard.dashboard_page),
-    url(r'^inventory/dashboard$', dashboard.dashboard_page),
+    url(r'^inventory/(\d+)/(\d+)$', dashboard.dashboard_page),
+    url(r'^inventory/(\d+)/(\d+)/dashboard$', dashboard.dashboard_page),
                        
     # Inventory List
     url(r'^inventory/list$', list.list_page),
