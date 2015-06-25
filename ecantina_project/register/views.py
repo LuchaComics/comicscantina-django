@@ -21,7 +21,7 @@ def store_registration_page(request):
     })
 
 
-def store_save_image(request):
+def ajax_store_save_image(request):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
@@ -39,7 +39,7 @@ def store_save_image(request):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def create_account(request):
+def ajax_create_account(request):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
