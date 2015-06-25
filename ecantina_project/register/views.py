@@ -55,18 +55,6 @@ def create(request, form):
     """
         Function creates the store in the inventory and returns the status.
     """
-    
-    # Confirm logo was uploaded prior.
-    upload_id = form['hidden_upload_id'].value()
-    if upload_id is not None and upload_id is not '':
-        try:
-            image_upload = ImageUpload.objects.get(upload_id=int(upload_id))
-        except ImageUpload.DoesNotExist:
-            return {
-                'status' : 'failure',
-                'message' : 'missing logo',
-            }
-
     # Create administrator
     response_data = create_user(form)
     if response_data['status'] is 'failure':
@@ -82,17 +70,9 @@ def create(request, form):
     if response_data['status'] is 'failure':
         return response_data
 
-    # Return successful status and ids.
-    organization = Organization.objects.get(name=form['org_name'].value())
-    store = Store.objects.get(
-        organization=organization,
-        name = 'Main Store',
-    )
     return {
         'status' : 'success',
         'message' : 'successfully registered',
-        'org_id': organization.org_id,
-        'store_id': store.store_id,
     }
 
 
@@ -107,6 +87,7 @@ def create_user(form):
         )
         user.first_name = form['first_name'].value()
         user.last_name = form['last_name'].value()
+        user.is_active = False;  # Need email verification to change status.
         user.save()
     except Exception as e:
         return {
@@ -210,3 +191,12 @@ def create_store(form):
             'status' : 'failure',
             'message' : 'an unknown error occured when creating store'
         }
+
+def store_registation_successful_page(request):
+    return render(request, 'register/store_ok.html',{
+        'form': StoreRegistrationForm(),
+        'image_form': ImageUploadForm(),
+        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
+    })

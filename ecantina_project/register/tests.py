@@ -48,6 +48,22 @@ class RegistrationTestCase(TestCase):
     def test_url_resolves_to_ajax_create_account(self):
         found = resolve('/inventory/create_account')
         self.assertEqual(found.func, views.ajax_create_account)
+    
+    def test_url_resolves_to_store_registation_successful_page(self):
+        found = resolve('/inventory/registered_successful')
+        self.assertEqual(found.func, views.store_registation_successful_page)
+
+    def test_store_registration_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/register', { })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'id_org_name',response.content)
+        self.assertIn(b'id_password',response.content)
+
 
     def test_save_image_with_success(self):
         client = Client()
@@ -55,7 +71,7 @@ class RegistrationTestCase(TestCase):
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        file_path = settings.STATIC_ROOT + '/inventory/img/logo.png'
+        file_path = settings.MEDIA_ROOT + '/upload/pepe.png'
         with open(file_path, 'rb') as fp:
             self.assertTrue(fp is not None)
             response = client.post('/inventory/save_image', {
@@ -116,3 +132,14 @@ class RegistrationTestCase(TestCase):
         except User.DoesNotExist:
             user = None
         self.assertEqual(user.username, TEST_USER_EMAIL)
+
+    def test_store_registation_successful_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/registered_successful', { })
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'login',response.content)
+        self.assertIn(b'inventory',response.content)

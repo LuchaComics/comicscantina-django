@@ -213,7 +213,7 @@ class StoreRegistrationForm (forms.Form):
     # Hidden
     hidden_upload_id = forms.CharField(
         widget=forms.HiddenInput(),
-        required=False
+        required=True,
     )
 
     # Functions
