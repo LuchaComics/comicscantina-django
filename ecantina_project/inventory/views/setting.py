@@ -71,15 +71,24 @@ def ajax_org_save_logo(request, org_id, store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def ajax_create_account(request):
+def ajax_save_org_data(request, org_id, store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
-#    if request.is_ajax():
-#        if request.method == 'POST':
-#            form = StoreRegistrationForm(request.POST, request.FILES)
-#            if form.is_valid():  # Ensure no missing fields are entered.
-#                response_data = create(request, form)  # Create our store
-#            else:
-#                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+    if request.is_ajax():
+        if request.method == 'POST':
+            organization = Organization.objects.get(org_id=org_id)
+            form = OrganizationForm(request.POST, instance=organization)
+            if form.is_valid():  # Ensure no missing fields are entered.
+                # Include logo with saving.
+                try:
+                    upload_id = request.POST['upload_id']
+                    if upload_id is not '':
+                        organization.logo = ImageUpload.objects.get(upload_id=int(upload_id))
+                except ImageUpload.DoesNotExist:
+                    pass
+                form.save()
+                response_data = {'status' : 'success', 'message' : 'saved',}
+            else:
+                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
