@@ -10,6 +10,8 @@ from inventory.models.ec.employee import Employee
 @login_required(login_url='/inventory/login')
 def dashboard_page(request, org_id, store_id):
     return render(request, 'inventory/dashboard/view.html',{
+        'org_id': org_id,
+        'store_id': store_id,
         'tab':'dashboard',
         'employee': Employee.objects.get(user=request.user),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

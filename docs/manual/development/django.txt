@@ -159,6 +159,14 @@ $ export PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 $ pip install -r requirements.txt
 
 
+(8) Lets load up our apps data
+(a) Create our store.
+$ python manage.py setup_comicscantina
+
+
+(b) Import comic book data.
+(See gcd.txt)
+
 
 **********
 * SOURCE *
