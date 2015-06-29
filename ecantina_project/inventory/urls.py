@@ -17,6 +17,8 @@ urlpatterns = patterns('',
                        
     # Settings
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', setting.org_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/save_logo$', setting.ajax_org_save_logo),
+                       
     url(r'^inventory/(\d+)/(\d+)/settings/stores$', setting.store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/locations$', setting.store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/users$', setting.store_settings_page),
