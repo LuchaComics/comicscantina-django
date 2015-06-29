@@ -30,7 +30,6 @@ class RegistrationTestCase(TestCase):
         python manage.py test register
     """
     def tearDown(self):
-        User.objects.all().delete()
         for image in ImageUpload.objects.all():
             image.delete()
         for org in Organization.objects.all():
@@ -39,6 +38,7 @@ class RegistrationTestCase(TestCase):
             store.delete()
         for employee in Employee.objects.all():
             employee.delete()
+        User.objects.all().delete()
     
     def setUp(self):
         captcha_count = CaptchaStore.objects.count()

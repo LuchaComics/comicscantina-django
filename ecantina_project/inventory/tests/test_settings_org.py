@@ -34,7 +34,6 @@ class OrganizationSettingsTestCase(TestCase):
         python manage.py test inventory.tests.test_settings_org
     """
     def tearDown(self):
-        User.objects.all().delete()
         for image in ImageUpload.objects.all():
             image.delete()
         for org in Organization.objects.all():
@@ -43,6 +42,7 @@ class OrganizationSettingsTestCase(TestCase):
             store.delete()
         for employee in Employee.objects.all():
             employee.delete()
+        User.objects.all().delete()
     
     def setUp(self):
         captcha_count = CaptchaStore.objects.count()
@@ -66,24 +66,8 @@ class OrganizationSettingsTestCase(TestCase):
         #----------------
         # Image Uploads
         #----------------
-        try:
-            logo = ImageUpload.objects.create(
-                upload_id = 1,
-                upload_date = now,
-                image = 'upload/bascomics_logo.png',
-                user = user,
-            )
-        except Exception as e:
-            logo = ImageUpload.objects.get(upload_id=1)
-        try:
-            profile = ImageUpload.objects.create(
-                upload_id = 2,
-                upload_date = now,
-                image = 'upload/pepe.png',
-                user = user,
-            )
-        except Exception as e:
-            profile = ImageUpload.objects.get(upload_id=2)
+        logo = None
+        profile = None
             
         #-----------------
         # Organization
@@ -201,61 +185,41 @@ class OrganizationSettingsTestCase(TestCase):
         self.assertEqual(array['message'], 'saved')
         self.assertEqual(array['status'], 'success')
 
-#    def test_register_with_succesful_login(self):
-#        image = ImageUpload.objects.create(
-#            upload_id = 1,
-#            image = None,
-#            user =None,
-#        )
-#        
-#        # Developer Notes:
-#        # To get unit tests working with the django-simple-captcha then follow:
-#        # http://stackoverflow.com/questions/3159284/how-to-unit-test-a-form-with-a-captcha-field-in-django
-#        
-#        # Test
-#        client = Client()
-#        response = client.post('/inventory/create_account',{
-#            'hidden_upload_id': image.upload_id,
-#            'email': TEST_USER_EMAIL,
-#            'password': TEST_USER_PASSWORD,
-#            'repeat_password': TEST_USER_PASSWORD,
-#            'first_name': 'Ledo',
-#            'last_name': 'Dunno',
-#            'street_number': 1,
-#            'street_name': 'Test Street',
-#            'unit_number': 1,
-#            'city': 'London',
-#            'province': 'Ontario',
-#            'country': 'Canada',
-#            'postal': 'N6J4X4',
-#            'org_name': 'Galactic Alliance of Humankind',
-#            'captcha_0': 'dummy-value',
-#            'captcha_1': 'PASSED',
-#        },**KWARGS)
-#        
-#        # Verify: Check that the response is 200 OK.
-#        self.assertEqual(response.status_code, 200)
-#                               
-#        # Verify: Successful response.
-#        json_string = response.content.decode(encoding='UTF-8')
-#        array = json.loads(json_string)
-#        self.assertEqual(array['message'], 'successfully registered')
-#        self.assertEqual(array['status'], 'success')
-#                               
-#        # Verify: Database updated
-#        try:
-#            user = User.objects.get(email=TEST_USER_EMAIL)
-#        except User.DoesNotExist:
-#            user = None
-#        self.assertEqual(user.username, TEST_USER_EMAIL)
-#
-#    def test_store_registation_successful_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/registered_successful', { })
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b'login',response.content)
-#        self.assertIn(b'inventory',response.content)
+    def test_save_org_data_with_success(self):
+        # Developer Notes:
+        # To get unit tests working with the django-simple-captcha then follow:
+        # http://stackoverflow.com/questions/3159284/how-to-unit-test-a-form-with-a-captcha-field-in-django
+        
+        # Test
+        client = Client()
+        response = client.post('/inventory/1/1/settings/save_org_data',{
+            'email': TEST_USER_EMAIL,
+            'name': TEST_USER_USERNAME,
+            'upload_id': 1,
+            'street_number': 1,
+            'street_name': 'Test Street',
+            'unit_number': 1,
+            'city': 'London',
+            'province': 'Ontario',
+            'country': 'Canada',
+            'postal': 'N6J4X4',
+            'org_name': 'Galactic Alliance of Humankind',
+            'captcha_0': 'dummy-value',
+            'captcha_1': 'PASSED',
+        },**KWARGS)
+        
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+                               
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['message'], 'saved')
+        self.assertEqual(array['status'], 'success')
+                               
+        # Verify: Database updated
+        try:
+            user = User.objects.get(email=TEST_USER_EMAIL)
+        except User.DoesNotExist:
+            user = None
+        self.assertEqual(user.username, TEST_USER_EMAIL)
