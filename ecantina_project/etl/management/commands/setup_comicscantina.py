@@ -72,7 +72,7 @@ class Command(BaseCommand):
         try:
             organization = Organization.objects.create(
                 org_id=1,
-                name='BA Comic\'s',
+                name='B.A.\'s Comics',
                 description = 'Located in London, Ontario, BA\’s Comics and Nostalgia is operated by Bruno Andreacchi, an industry veteran with over 30 years experience in grading, curating, and offering Comic Books and Graphic Novels. Bruno first began collecting in the 1960s, and since then has gone on to become an industry expert, writing articles for several key industry publications, such as Wizard.',
                 joined = now,
                 street_name='Hamilton Rd',
