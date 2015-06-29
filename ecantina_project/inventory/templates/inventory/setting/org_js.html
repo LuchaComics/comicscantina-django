@@ -1,0 +1,142 @@
+{% load staticfiles %}
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+<script>
+    $(document).ready(function () {
+                      // this will remove the item from the table which had remove clicked
+                      $('body').on('click', '.remove-item', function () {
+                                   $(this).parentsUntil('tbody').detach().remove();
+                                   });
+                      
+                      // this will remove the relevant store
+                      $('body').on('click', '.remove-store', function () {
+                                   $(this).parentsUntil('.row.main-row').detach().remove();
+                                   
+                                   });
+                      
+                      $('#txt-about').trigger('focus');
+                      });
+                      
+                      var store_count = 1;
+                      
+                      // this is to add another store
+                      function add_store() {
+                          store_count++;
+                          
+                          $('.location:last-child').after(
+                                                          '<div class="location"><!-- START panel-->' +
+                                                          '<div class="panel panel-default" style="border-bottom: 0;border-right: 0;">' +
+                                                          '<div class="panel-heading"><legend class="pb mb0"><h3>Store ' + store_count + '</h3>' +
+                                                          '<a class="pull-left remove-store curp text-danger" style="margin-top:-45px;margin-left:120px;"><em class="fa fa-2x fa-minus-circle"></em></a></legend></div>' +
+                                                          '<div class="panel-body mt0"><div class="col-sm-12">' +
+                                                          '<form class="clearfix mb0 p10" name="store-settings-form" id="store-' + store_count + '-settings-form">' +
+                                                          '<div class="col-sm-12 p">' +
+                                                          '<label class="control-label">Store Display Name</label>' +
+                                                          '<input type="text" class="form-control mb-lg" placeholder="Name" id="txt-store-' + store_count + '-name" name="store-name-' + store_count + '" />' +
+                                                          '<div class="col-md-4 col-sm-6 p0 pr10">' +
+                                                          '<label class="control-label">Street</label>' +
+                                                          '<input type="text" class="form-control mb-lg" placeholder="Street Address" id="txt-address-' + store_count + '" name="address-' + store_count + '" />' +
+                                                          '</div>' +
+                                                          '<div class="col-md-3 col-sm-6 p0 pr10">' +
+                                                          '<label class="control-label">City</label>' +
+                                                          '<input type="text" class="form-control mb-lg" placeholder="City" id="txt-city-' + store_count + '" name="city-' + store_count + '" />' +
+                                                          '</div>' +
+                                                          '<div class="col-md-3 col-sm-6 p0 pr10">' +
+                                                          '<label class="control-label">Country</label>' +
+                                                          '<select class="form-control mb-lg" id="sel-country-' + store_count + '" name="country-' + store_count + '">' +
+                                                          '<option value="Canada">Canada</option>' +
+                                                          '<option value="United States">United States</option>' +
+                                                          '<option value="United Kingdom">United Kingdom</option>' +
+                                                          '<option value="Mexico">Mexico</option>' +
+                                                          '<option value="Other Locations Listed Here">Other locations listed as well</option>' +
+                                                          '</select>' +
+                                                          '</div>' +
+                                                          '<div class="col-md-2 col-sm-6 p0">' +
+                                                          '<label class="control-label">State/Province</label>' +
+                                                          '<select class="form-control mb-lg" id="sel-state-' + store_count + '" name="state-' + store_count + '">' +
+                                                          '<option value="ON">ON</option>' +
+                                                          '<option value="AL">AL</option>' +
+                                                          '<option value="BC">BC</option>' +
+                                                          '<option value="NB">NB</option>' +
+                                                          '<option value="NS">NS</option>' +
+                                                          '<option value="...">other options loaded by country</option>' +
+                                                          '</select>' +
+                                                          '</div>' +
+                                                          '<div class="col-sm-4 p0 pr10">' +
+                                                          '<label class="control-label">Phone #</label>' +
+                                                          '<input type="tel" class="form-control mb-lg" placeholder="Phone" id="txt-store-phone-' + store_count + '" name="phone-' + store_count + '" />' +
+                                                          '</div>' +
+                                                          '<div class="col-sm-8 p0">' +
+                                                          '<label class="control-label">Contact Email</label>' +
+                                                          '<input type="email" class="form-control mb-lg" placeholder="Email" id="txt-email-' + store_count + '" name="email-' + store_count + '" />' +
+                                                          '</div>' +
+                                                          '</div>' +
+                                                          '</form>' +
+                                                          '<hr class="store-sep" /></div>' +
+                                                          '<div class="col-sm-12">' +
+                                                          '<div class="col-sm-12 table-responsive" style="margin-top:-20px;">' +
+                                                          '<legend>' +
+                                                          '<div class="col-sm-6 p0">' +
+                                                          '<h3>Store Sections</h3>' +
+                                                          '</div>' +
+                                                          '<div class="col-sm-6 p0">' +
+                                                          '<a class="btn btn-success pull-right" style="position:relative;top:15px;">' +
+                                                          '<em class="fa fa-location-arrow"></em>&nbsp;&nbsp;&nbsp;Add Section&nbsp;&nbsp;&nbsp;&nbsp;</a>' +
+                                                          '<input type="text" class="form-control pull-right mr" style="position:relative;top:15px;width:155px;" placeholder="Section Name" />' +
+                                                          '</div>' +
+                                                          '<div class="clearfix"></div>' +
+                                                          '</legend>' +
+                                                          '<table id="added-locations-table-' + store_count + '" class="table table-condensed table-striped table-hover inventory-details">' +
+                                                          '<thead>' +
+                                                          '<tr>' +
+                                                          '<th style="width:40%;">Section Name</th>' +
+                                                          '<th class="text-right" style="width:30%;">Edit / Remove</th>' +
+                                                          '</tr>' +
+                                                          '</thead>' +
+                                                          '<tbody>' +
+                                                          '</tbody>' +
+                                                          '</table>' +
+                                                          '</div>' +
+                                                          '</div></div></div>' +
+                                                          '<div class="clearfix"></div>'
+                                                          );
+                      }
+
+// this is to upload the cover image, check out q59_controller.php in the smegurus full plan
+// and see if you can convert that into python
+function ajax_upload_logo_image() {
+    var errors = 0;
+    
+    alert('ajax_upload_logo_image()');
+    
+    if ($('#file-logo-image').val() == "") {
+        alert('Please select an image to upload');
+        errors++;
+    }
+    
+    if (errors > 0) {
+        return false;
+    }
+    
+    var savedata = new FormData(document.getElementById('store-settings-form'));
+    
+    // change this to the ajax function call in python
+    var url = '';
+    
+    $.ajax(url, {
+           data: savedata,
+           dataType: 'json',
+           type: 'POST',
+           cache: false,
+           contentType: false,
+           processData: false,
+           success: function (data) {
+           $('#logo-image').attr('src', data.src);
+           $('#image-modal').find('#image-modal-img').attr('src', data.src);
+           $('#image-modal').modal('show');
+           },
+           error: function (xhr, status, error) {
+           console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+           }
+           });
+}
+</script>

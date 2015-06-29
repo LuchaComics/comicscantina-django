@@ -1,0 +1,213 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="wrapper bgwhite">
+    <section>
+        <!-- Page content-->
+        <div class="content-wrapper pb0">
+            
+            <h3 class="mb0">Store Settings
+                <small>Edit your store information</small>
+            </h3>
+            
+            <a class="btn btn-success pull-right back-btn" onclick="add_store();"
+                style="position:relative;right:160px;">
+                <em class="fa fa-plus-circle"></em>&nbsp;&nbsp;&nbsp;Add Store&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            
+            <a href="#" class="btn btn-primary pull-right back-btn">
+                <em class="fa fa-cog"></em>&nbsp;&nbsp;&nbsp;Save Settings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <!-- START row 1 -->
+            <div class="row main-row">
+                <div class="location">
+                    <!-- START panel-->
+                    <div class="panel panel-default" style="border-bottom: 0;border-right: 0;">
+                        <div class="panel-heading">
+                            <legend class="pb mb0"><h3>{{ employee.store.name }}</h3></legend>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12">
+                                <form class="clearfix mb0 p10" name="store-settings-form" id="store-settings-form">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-6">
+                                            {% if employee.store.name }}
+                                            <img src="" style="height:260px;" alt="Store Logo"
+                                               class="img-thumbnail center-block mb0 add-cover-image"
+                                                name="logo-image" id="logo-image">
+                                                <label class="form-control btn btn-success mt10 curp">
+                                                    <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Store Logo...
+                                                    <input type="file" class="form-control mb10 hide" name="logo-image"
+                                                    id="file-logo-image" onchange="ajax_upload_logo_image();"/>
+                                                </label>
+                                                </div>
+                                        
+                                        <div class="col-sm-6">
+                                            <label class="control-label">About Store</label>
+                                            <textarea class="form-control" name="about" id="txt-about"
+                                                style="height:280px;"></textarea>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-sm-6 p">
+                                        <label class="control-label">Store Display Name</label>
+                                        <input type="text" class="form-control mb-lg" placeholder="Name"
+                                        id="txt-store-name" name="store-name"/>
+                                        
+                                        <div class="col-md-4 col-sm-6 p0 pr10">
+                                            <label class="control-label">Street</label>
+                                            <input type="text" class="form-control mb-lg" placeholder="Street Address"
+                                            id="txt-address" name="address"/>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">City</label>
+                                            <input type="text" class="form-control mb-lg" placeholder="City"
+                                            id="txt-city" name="city"/>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Country</label>
+                                            <select class="form-control mb-lg" id="sel-country" name="country">
+                                                <option value="Canada">Canada</option>
+                                                <option value="United States">United States</option>
+                                                <option value="United Kingdom">United Kingdom</option>
+                                                <option value="Mexico">Mexico</option>
+                                                <option value="Other Locations Listed Here">Other locations listed as
+                                                    well
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 col-sm-6 p0">
+                                            <label class="control-label">State/Province</label>
+                                            <select class="form-control mb-lg" id="sel-state" name="state">
+                                                <option value="ON">ON</option>
+                                                <option value="AL">AL</option>
+                                                <option value="BC">BC</option>
+                                                <option value="NB">NB</option>
+                                                <option value="NS">NS</option>
+                                                <option value="...">other options loaded by country</option>
+                                            </select>
+                                        </div>
+                                        
+                                        
+                                        <div class="col-sm-4 p0 pr10">
+                                            <label class="control-label">Phone #</label>
+                                            <input type="tel" class="form-control mb-lg" placeholder="Phone"
+                                            id="txt-store-phone" name="phone"/>
+                                        </div>
+                                        
+                                        <div class="col-sm-8 p0">
+                                            <label class="control-label">Contact Email</label>
+                                            <input type="email" class="form-control mb-lg" placeholder="Email"
+                                            id="txt-email" name="email"/>
+                                        </div>
+                                        
+                                        <div class="col-sm-4 p0 pr10">
+                                            <label class="control-label">Website</label>
+                                            <input type="text" class="form-control mb-lg" id="txt-website"
+                                            name="website" placeholder="www.example.com"/>
+                                        </div>
+                                        <div class="col-sm-4 p0 pr10">
+                                            <label class="control-label">Facebook</label>
+                                            <input type="text" class="form-control mb-lg" id="txt-facebook"
+                                            name="facebook" placeholder="example"/>
+                                        </div>
+                                        <div class="col-sm-4 p0">
+                                            <label class="control-label">Twitter</label>
+                                            <input type="text" class="form-control mb-lg" id="txt-twitter"
+                                            name="twitter" placeholder="@example"/>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr class="store-sep"/>
+                            </div>
+                            
+                            <div class="col-sm-12">
+                                <!-- START table-responsive-->
+                                <div class="col-sm-12 table-responsive" style="margin-top:-20px;">
+                                    <legend>
+                                        <div class="col-sm-6 p0">
+                                            <h3>Store Sections</h3>
+                                        </div>
+                                        <div class="col-sm-6 p0">
+                                            <a class="btn btn-success pull-right" style="position:relative;top:15px;">
+                                                <em class="fa fa-location-arrow"></em>&nbsp;&nbsp;&nbsp;Add Section&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </a>
+                                            <input type="text" class="form-control pull-right mr"
+                                            style="position:relative;top:15px;width:155px;"
+                                            placeholder="Section Name"/>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </legend>
+                                    <table id="added-locations-table"
+                                        class="table table-condensed table-striped table-hover inventory-details">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:40%;">Section Name</th>
+                                                <th style="width:30%;text-align:right;">Edit / Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Bin A</td>
+                                                <td class="text-right">
+                                                    <a class="edit-item pr10 curp"><em class="fa fa-2x fa-edit"></em></a>
+                                                    <a class="remove-item curp text-danger"><em
+                                                        class="fa fa-2x fa-remove"></em></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Wall Rack 3</td>
+                                                <td class="text-right">
+                                                    <a class="edit-item pr10 curp"><em class="fa fa-2x fa-edit"></em></a>
+                                                    <a class="remove-item curp text-danger"><em
+                                                        class="fa fa-2x fa-remove"></em></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- END table-responsive-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Page footer-->
+    <footer>
+        <span>&copy; 2015 - Comics Cantina</span>
+    </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true"
+    style="border:none;">
+    <div class="modal-dialog" style="overflow:hidden;border-radius:10px;border:none;max-width:80%;">
+        <div class="modal-content" style="border:none;">
+            <div class="modal-header" style="color:white;font-size:10pt;height:40px;border-bottom:none;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="font-size:13pt;text-align:center;">
+                <img src="" id="image-modal-img" alt="" style="margin: 0px; max-width:90%;max-height:600px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------------------------------------------------------------------->
+
+<!-- Modal -->
+<div id="ajax_modal_placeholder"
+   name="ajax_modal_placeholder"></div>
+<!-- end modal -->
+
+<!----------------------------------------------------------------------------->
+
+{% include "inventory/setting/store_js.html" %}
+
+{% endblock content %}

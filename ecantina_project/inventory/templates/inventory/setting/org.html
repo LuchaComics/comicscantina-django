@@ -1,0 +1,201 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="wrapper bgwhite">
+    <section>
+        <!-- Page content-->
+        <div class="content-wrapper pb0">
+            
+            <h3 class="mb0">Organization Settings
+                <small>Edit your organizations information</small>
+            </h3>
+            
+            <a href="#" class="btn btn-primary pull-right back-btn">
+                <em class="fa fa-cog"></em>&nbsp;&nbsp;&nbsp;Save Settings&nbsp;&nbsp;&nbsp;&nbsp;</a>
+            <!-- START row 1 -->
+            <div class="row main-row">
+                <div class="location">
+                    <!-- START panel-->
+                    <div class="panel panel-default" style="border-bottom: 0;border-right: 0;">
+                        <div class="panel-heading">
+                            <legend class="pb mb0"><h3>{{ employee.organization.name }}</h3></legend>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-12">
+                                <form class="clearfix mb0 p10" name="store-settings-form" id="store-settings-form">
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-6">
+                                            {% if employee.organization.logo.image == '' %}
+                                            <img src="" style="height:260px;" alt="Store Logo"
+                                               class="img-thumbnail center-block mb0 add-cover-image"
+                                                name="logo-image" id="logo-image">
+                                            {% else %}
+                                            <img src="{{ employee.organization.logo.image.url }}" style="height:260px;" alt="Store Logo"
+                                                class="img-thumbnail center-block mb0 add-cover-image"
+                                                name="logo-image" id="logo-image">
+                                            {% endif %}
+                                                <label class="form-control btn btn-success mt10 curp">
+                                                    <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Store Logo...
+                                                    <input type="file" class="form-control mb10 hide" name="logo-image"
+                                                    id="file-logo-image" onchange="ajax_upload_logo_image();"/>
+                                                </label>
+                                        </div>
+                                        
+                                        <div class="col-sm-6">
+                                            <label class="control-label">About Organization</label>
+                                            {{ form.description }}
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-sm-6 p">
+                                        <label class="control-label">Store Display Name</label>
+                                        {{ form.name }}
+            
+                                        <div class="col-md-4 col-sm-6 p0 pr10">
+                                            <label class="control-label">Street #</label>
+                                            {{ form.street_number }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Street Name</label>
+                                            {{ form.street_name }}
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Unit #</label>
+                                            {{ form.unit_number }}
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">City</label>
+                                            {{ form.city }}
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Province</label>
+                                            {{ form.province }}
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Country</label>
+                                            {{ form.country }}
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Postal</label>
+                                            {{ form.postal }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Website</label>
+                                            {{ form.website }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Email</label>
+                                            {{ form.email }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Phone</label>
+                                            {{ form.phone }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">fax</label>
+                                            {{ form.fax }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Twitter</label>
+                                            {{ form.twitter_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Facebook</label>
+                                            {{ form.facebook_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Instagram</label>
+                                            {{ form.instagram_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">LinkedIn</label>
+                                            {{ form.linkedin_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">GitHub</label>
+                                            {{ form.github_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Google</label>
+                                            {{ form.google_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">YouTube</label>
+                                            {{ form.youtube_url }}
+                                        </div>
+                                        
+                                        <div class="col-md-3 col-sm-6 p0 pr10">
+                                            <label class="control-label">Flickr</label>
+                                            {{ form.flickr_url }}
+                                        </div>
+
+
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- END table-responsive-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Page footer-->
+    <footer>
+        <span>&copy; 2015 - Comics Cantina</span>
+    </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="image-modal" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true"
+    style="border:none;">
+    <div class="modal-dialog" style="overflow:hidden;border-radius:10px;border:none;max-width:80%;">
+        <div class="modal-content" style="border:none;">
+            <div class="modal-header" style="color:white;font-size:10pt;height:40px;border-bottom:none;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" style="font-size:13pt;text-align:center;">
+                <img src="" id="image-modal-img" alt="" style="margin: 0px; max-width:90%;max-height:600px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------------------------------------------------------------------->
+
+<!-- Modal -->
+<div id="ajax_modal_placeholder"
+   name="ajax_modal_placeholder"></div>
+<!-- end modal -->
+
+<!----------------------------------------------------------------------------->
+
+{% include "inventory/setting/org_js.html" %}
+
+{% endblock content %}

@@ -38,7 +38,7 @@
                 
                 <!-- DASHBOARD -->
                 <li class={% if tab == 'dashboard' %}" active" {% else %} {% endif %}>
-                    <a href="/inventory/dashboard" title="Dashboard">
+                    <a href="/inventory/{{ org_id }}/{{ store_id }}/dashboard" title="Dashboard">
                         <em class="icon-speedometer"></em>
                         <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
                     </a>
@@ -116,12 +116,22 @@
                    <ul id="settings" class="nav sidebar-subnav collapse">
                        <li class="sidebar-subnav-header">Settings</li>
                        <li class=" ">
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings" title="Store Settings">
-                               <span>Store Settings</span>
+                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/organization" title="Organization">
+                               <span>Organization</span>
                            </a>
                        </li>
                        <li class=" ">
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/users" title="Users">
+                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/stores" title="Store">
+                               <span>Stores</span>
+                           </a>
+                       </li>
+                       <li class=" ">
+                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/locations" title="Locations">
+                               <span>Locations</span>
+                           </a>
+                       </li>
+                       <li class=" ">
+                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/users" title="Users">
                                <span>Users</span>
                            </a>
                        </li>

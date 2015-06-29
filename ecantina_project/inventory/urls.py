@@ -3,6 +3,7 @@ from inventory.views import dashboard
 from inventory.views import list
 from inventory.views import add
 from inventory.views import search
+from inventory.views import setting
 
 urlpatterns = patterns('',
 #                       # Custom Files
@@ -14,6 +15,17 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)$', dashboard.dashboard_page),
     url(r'^inventory/(\d+)/(\d+)/dashboard$', dashboard.dashboard_page),
                        
+    # Settings
+    url(r'^inventory/(\d+)/(\d+)/settings/organization$', setting.org_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/stores$', setting.store_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/locations$', setting.store_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users$', setting.store_settings_page),
+              
+                       
+                       
+                       
+    # TODO: Update all entries below.
+    #-------
     # Inventory List
     url(r'^inventory/list$', list.list_page),
                        
