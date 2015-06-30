@@ -16,7 +16,7 @@
         <div class="products-list">
         <!-- begin product listing -->
         {% for issue in series.list %}
-            <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+            <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix" data-issue-id="{{ issue.issue_id }}">
                 <div class="add-message">Add To Inventory</div>
                 {% if issue.small_url == '' or issue.cover_url == None %}
                     <img src="{% static "inventory/img/missing_cover.png" %}" class="product-image center-block" width="100" alt="product-title">
