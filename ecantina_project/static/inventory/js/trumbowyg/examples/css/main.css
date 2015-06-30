@@ -5,9 +5,11 @@ body {
     background-color: #F2F2F2;
     font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
+
 header {
     text-align: center;
 }
+
 #main {
     max-width: 960px;
     margin: 0 auto;

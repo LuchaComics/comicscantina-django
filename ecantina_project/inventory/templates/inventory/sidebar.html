@@ -55,20 +55,15 @@
                     <!-- inventory menu items -->
                     <ul id="inventory" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
                         <li class="sidebar-subnav-header">Inventory</li>
+                        <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/{{ org_id }}/{{ store_id }}/add/comic" title="Add Inventory">
+                                <span>Add Inventory Item</span>
+                            </a>
+                        </li>
                         <li class={% if tab == 'list' %}" active" {% else %}" "{% endif %}>
                             <a href="/inventory/list" title="View Inventory">
                                 <div class="label label-danger pull-right">2</div>
                                 <span>View Inventory</span>
-                            </a>
-                        </li>
-                        <li class={% if tab == 'inventory' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/pull_list" title="Pull List">
-                                <span>Pull List</span>
-                            </a>
-                        </li>
-                        <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/add" title="Add Inventory">
-                                <span>Add Inventory Item</span>
                             </a>
                         </li>
                         <li class={% if tab == 'print' %}" active" {% else %}" "{% endif %}>

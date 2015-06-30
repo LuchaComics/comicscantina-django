@@ -22,7 +22,9 @@ var options = {
     },
     tooltip: true,
     tooltipOpts: {
-        content: function (label, x, y) { return x + ' : ' + y; }
+        content: function (label, x, y) {
+            return x + ' : ' + y;
+        }
     },
     xaxis: {
         tickColor: '#fcfcfc',

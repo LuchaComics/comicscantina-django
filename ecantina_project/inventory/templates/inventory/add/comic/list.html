@@ -1,0 +1,37 @@
+{% load staticfiles %}
+{% regroup issues by series as series_list %}
+{% for series in series_list %}
+<div class="clearfix"></div>
+<div class="product-listing m-lg">
+    <div class="product-type-listing clearfix">
+        <div class="product-listing-header pt-xl pb0 mb0">
+            <h4 class="p0 m0">
+                <a class="product-type-minimize">{{ series.grouper }}
+                    <span class="text-sm">(2006)</span>
+                    <span class="pl-sm product-type-publisher text-muted text-sm">DC</span>
+                    <em class="pl-sm fa fa-caret-down"></em>
+                </a>
+            </h4>
+        </div>
+        <div class="products-list">
+        <!-- begin product listing -->
+        {% for issue in series.list %}
+            <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                <div class="add-message">Add To Inventory</div>
+                {% if issue.small_url == '' or issue.cover_url == None %}
+                    <img src="{% static "inventory/img/missing_cover.png" %}" class="product-image center-block" width="100" alt="product-title">
+                {% else %}
+                    <img src="{{ issue.small_url }}" class="product-image center-block" width="100" alt="product-title">
+                {% endif %}
+                <div class="product-item-details">
+                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #{{ issue.number }}</h4>
+                    <span class="center-block comic-date text-muted text-center">{{ issue.publication_date }}</span>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- end product listing -->
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- "regrouper" https://docs.djangoproject.com/en/1.8/ref/templates/builtins/#regroup -->

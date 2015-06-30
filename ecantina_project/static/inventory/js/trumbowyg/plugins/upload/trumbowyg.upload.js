@@ -8,7 +8,7 @@
  *          Website : alex-d.fr
  */
 
-(function($){
+(function ($) {
     'use strict';
 
     addXhrProgressEvent();
@@ -17,22 +17,22 @@
         langs: {
             en: {
                 upload: "Upload",
-                file:   "File",
+                file: "File",
                 uploadError: "Error"
             },
             sk: {
                 upload: "Nahrať",
-                file:   "Súbor",
+                file: "Súbor",
                 uploadError: "Chyba"
             },
             fr: {
                 upload: "Envoi",
-                file:   "Fichier",
+                file: "Fichier",
                 uploadError: "Erreur"
             },
             cs: {
                 upload: "Nahrát obrázek",
-                file:   "Soubor",
+                file: "Soubor",
                 uploadError: "Chyba"
             }
         },
@@ -44,7 +44,7 @@
         opts: {
             btnsDef: {
                 upload: {
-                    func: function(params, tbw){
+                    func: function (params, tbw) {
                         var file,
                             pfx = tbw.o.prefix;
 
@@ -64,42 +64,42 @@
                             },
 
                             // Callback
-                            function(){
+                            function () {
                                 var data = new FormData();
                                 data.append('fileToUpload', file);
 
-                                if($('.' + pfx +'progress', $modal).length === 0)
+                                if ($('.' + pfx + 'progress', $modal).length === 0)
                                     $('.' + pfx + 'modal-title', $modal)
-                                    .after(
+                                        .after(
                                         $('<div/>', {
-                                            'class': pfx +'progress'
+                                            'class': pfx + 'progress'
                                         })
-                                        .append(
+                                            .append(
                                             $('<div/>', {
-                                                'class': pfx +'progress-bar'
+                                                'class': pfx + 'progress-bar'
                                             })
                                         )
                                     );
 
                                 $.ajax({
-                                    url:            $.trumbowyg.upload.serverPath,
-                                    type:           'POST',
-                                    data:           data,
-                                    cache:          false,
-                                    dataType:       'json',
-                                    processData:    false,
-                                    contentType:    false,
+                                    url: $.trumbowyg.upload.serverPath,
+                                    type: 'POST',
+                                    data: data,
+                                    cache: false,
+                                    dataType: 'json',
+                                    processData: false,
+                                    contentType: false,
 
-                                    progressUpload: function(e){
+                                    progressUpload: function (e) {
                                         $('.' + pfx + 'progress-bar').stop().animate({
                                             width: Math.round(e.loaded * 100 / e.total) + '%'
                                         }, 200);
                                     },
 
-                                    success: function(data){
-                                        if(data.message == "uploadSuccess") {
+                                    success: function (data) {
+                                        if (data.message == "uploadSuccess") {
                                             tbw.execCmd('insertImage', data.file);
-                                            setTimeout(function(){
+                                            setTimeout(function () {
                                                 tbw.closeModal();
                                             }, 250);
                                         } else {
@@ -109,7 +109,7 @@
                                             );
                                         }
                                     },
-                                    error: function(){
+                                    error: function () {
                                         tbw.addErrorOnModalField(
                                             $('input[type=file]', $modal),
                                             tbw.lang.uploadError
@@ -119,7 +119,7 @@
                             }
                         );
 
-                        $('input[type=file]').on('change', function(e){
+                        $('input[type=file]').on('change', function (e) {
                             try {
                                 // If multiple files allowed, we just get the first.
                                 file = e.target.files[0];
@@ -136,15 +136,15 @@
     });
 
 
-    function addXhrProgressEvent(){
+    function addXhrProgressEvent() {
         if (!$.trumbowyg && !$.trumbowyg.addedXhrProgressEvent) {   // Avoid adding progress event multiple times
             var originalXhr = $.ajaxSettings.xhr;
             $.ajaxSetup({
-                xhr: function() {
-                    var req  = originalXhr(),
+                xhr: function () {
+                    var req = originalXhr(),
                         that = this;
-                    if(req && typeof req.upload == "object" && that.progressUpload !== undefined)
-                        req.upload.addEventListener("progress", function(e){
+                    if (req && typeof req.upload == "object" && that.progressUpload !== undefined)
+                        req.upload.addEventListener("progress", function (e) {
                             that.progressUpload(e);
                         }, false);
 
