@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 from inventory.views import dashboard
 from inventory.views import list
 from inventory.views import add
-from inventory.views import add_comic
 from inventory.views import search
 from inventory.views import setting
 
@@ -24,9 +23,9 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/locations$', setting.store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/users$', setting.store_settings_page),
              
-    # Inventory Adding
-    url(r'^inventory/(\d+)/(\d+)/add/comic$', add_comic.search_page),
-    url(r'^inventory/(\d+)/(\d+)/search_comics$', add_comic.ajax_search),
+    # Inventory Searching/Adding
+    url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
+    url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search.ajax_search_comics),
                        
                        
     # TODO: Update all entries below.
