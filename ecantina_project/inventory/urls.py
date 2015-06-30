@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     # Inventory Searching/Adding
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search.ajax_search_comics),
+    url(r'^inventory/(\d+)/(\d+)/add/(\d+)$', add.add_product_page),
                        
                        
     # TODO: Update all entries below.
@@ -34,7 +35,7 @@ urlpatterns = patterns('',
     url(r'^inventory/list$', list.list_page),
                        
     
-    url(r'^inventory/add/(\d+)$', add.add_product_page),
+    
     url(r'^inventory/add/(\d+)/section_dropbox/(\d+)$', add.sections_per_location),
     url(r'^inventory/add/(\d+)/upload_cover$', add.save_uploaded_cover),
     url(r'^inventory/add/(\d+)/add_product$', add.add_product),

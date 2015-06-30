@@ -19,18 +19,7 @@ from inventory.forms.imageuploadform import ImageUploadForm
 
 
 @login_required(login_url='/inventory/login')
-def add_inventory_search_page(request):
-    return render(request, 'inventory/add/master/view.html',{
-        'tab':'add',
-        'employee': Employee.objects.get(user=request.user),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
-    })
-
-
-@login_required(login_url='/inventory/login')
-def add_product_page(request, issue_id):
+def add_product_page(request, org_id, store_id, issue_id):
     # Get Models
     employee = Employee.objects.get(user=request.user)
     try:
@@ -45,11 +34,11 @@ def add_product_page(request, issue_id):
         issue = Issue.objects.get(issue_id=issue_id)
     except Issue.DoesNotExist:
         issue = None
-    try:
-        story = Story.objects.get(issue_id=issue_id)
-    except Story.DoesNotExist:
-        story = None
-    
+#    try:
+#        story = Story.objects.get(issue_id=issue_id)
+#    except Story.DoesNotExist:
+#        story = None
+
     # Generate Forms
     imageupload_form = ImageUploadForm()
     
@@ -63,8 +52,8 @@ def add_product_page(request, issue_id):
     })
 
     # Update forms
-    if story is not None:
-        issue_form.fields['genre'].initial = story.genre
+#    if story is not None:
+#        issue_form.fields['genre'].initial = story.genre
     if locations is not None:
         # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
         product_form.fields["location"].queryset = locations
@@ -72,7 +61,9 @@ def add_product_page(request, issue_id):
         product_form.fields["section"].queryset = sections
     
     # Render page
-    return render(request, 'inventory/add/details/add_view.html',{
+    return render(request, 'inventory/add/comic/add.html',{
+        'org_id': org_id,
+        'store_id': store_id,
         'issue': issue,
         'tab':'add',
         'imageupload_form': imageupload_form,

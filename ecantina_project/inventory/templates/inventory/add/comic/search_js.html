@@ -21,18 +21,10 @@
         $('body').on('click', '.product-item', function () {
             // for the first case, adding in a data value (line 4 above)
             var issue_id = $(this).data('issue-id');
-            alert(issue_id);
-                                   
-            // for the second case, adding in a hidden input field (line 14 above)
-            //    var issue_id_2 = $(this).find('.issue-id-field').val();
-            //  alert(issue_id_2);
-                                   
-            // this should redirect to the add details page using the issue id
-            window.location = 'inventory_add_comic_db/' + issue_id; // or however you want the url to be
+            // alert(issue_id); // Debugging purposes only.
+            window.location = '/inventory/{{ org_id }}/{{ store_id }}/add/' + issue_id;
         });
             
-                      
-                      
         $('body').on('click', '.btn-remove-filter', function(){
             $(this).parentsUntil('.search-box').detach().remove();
         });
