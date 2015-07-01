@@ -101,7 +101,7 @@
                 </li>
                
                <!-- SETTINGS -->
-               <li class={% if tab == 'settings' %}" active" {% else %}" "{% endif %}>
+               <li class=" ">
                    <!-- inventory menu header -->
                    <a href="#settings" title="Settings" data-toggle="collapse">
                        <em class="icon-settings"></em>
@@ -110,7 +110,7 @@
                    <!-- inventory menu items -->
                    <ul id="settings" class="nav sidebar-subnav collapse">
                        <li class="sidebar-subnav-header">Settings</li>
-                       <li class=" ">
+                       <li class={% if tab == 'org_settings' %}" active" {% else %}" "{% endif %}>
                            <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/organization" title="Organization">
                                <span>Organization</span>
                            </a>

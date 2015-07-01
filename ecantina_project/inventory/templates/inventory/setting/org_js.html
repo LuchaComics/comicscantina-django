@@ -79,7 +79,9 @@
         var url = '/inventory/{{ org_id }}/{{ store_id }}/settings/save_org_data';
     
         var data = new FormData();
+        // Organization
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('joined', $('#id_joined').val());
         data.append('email', $('#id_email').val());
         data.append('upload_id', $('#id_hidden_upload_id').val());
         data.append('name', $('#id_name').val());
@@ -87,8 +89,8 @@
         data.append('phone', $('#id_phone').val());
         data.append('fax', $('#id_fax').val());
         data.append('website', $('#id_website').val());
-        data.append('twitter', $('#id_twitter').val());
-        data.append('facebook', $('#id_facebook').val());
+        data.append('twitter_url', $('#id_twitter_url').val());
+        data.append('facebook_url', $('#id_facebook_url').val());
         data.append('instagram_url', $('#id_instagram_url').val());
         data.append('linkedin_url', $('#id_linkedin_url').val());
         data.append('github_url', $('#id_github_url').val());
@@ -102,6 +104,12 @@
         data.append('country', $('#id_country').val());
         data.append('province', $('#id_province').val());
         data.append('postal', $('#id_postal').val());
+        // User
+        data.append('first_name', $('#id_first_name').val());
+        data.append('last_name', $('#id_last_name').val());
+        data.append('old_password', $('#id_old_password').val());
+        data.append('password', $('#id_password').val());
+        data.append('password_repeated', $('#id_password_repeated').val());
         jQuery.ajax({
             url: url,
             data: data,
@@ -113,7 +121,7 @@
                 if (json_result.status == "success")
                 {
                     //alert("ok saved"); // Debugging Purposes
-                    //window.location = '/inventory/registered_successful';
+                    window.location = '';
                 }
                 else
                 {

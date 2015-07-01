@@ -2,180 +2,179 @@
 {% load staticfiles %}
 {% block content %}
 
-<div class="wrapper bgwhite">
-    <section>
-        <!-- Page content-->
-        <div class="content-wrapper pb0">
-            
-            <h3 class="mb0">Organization Settings
-                <small>Edit your organizations information</small>
-            </h3>
-            
-            <a onclick="ajax_save();" class="btn btn-primary pull-right back-btn">
-                <em class="fa fa-cog"></em>&nbsp;&nbsp;&nbsp;Save Settings&nbsp;&nbsp;&nbsp;&nbsp;</a>
-            <!-- START row 1 -->
-            <div class="row main-row">
-                <div class="location">
-                    <!-- START panel-->
-                    <div class="panel panel-default" style="border-bottom: 0;border-right: 0;">
-                        <div class="panel-heading">
-                            <legend class="pb mb0"><h3>{{ employee.organization.name }}</h3></legend>
+<!-- Main section-->
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-cog mr"></em>Settings <em class="fa fa-angle-right pl pr"></em>  Organization</h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="locations-panel" class="clearfix panel panel-default m-lg">
+                    <form class="form-horizontal">
+                        <div class="panel-tabs w100 p m0">
+                            <ul class="tab-list clearfix center-block">
+                                <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                                <li class="tab"></li></ul>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="panel-body">
+                        <div class="clearfix"></div>
+                        <div class="panel-body panel-body-main">
+                            <div class="col-sm-12 mt-lg">
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Organization Details</h3>
+                                        <p class="mb0 text-justify">Your org name will show up as the title of your online store, and the about section is where you can give your customers some information about who you are, and what your store specializes in.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label for="txt-store-name" class="col-md-4 control-label">Organization Name</label>
+                                        <div class="col-md-8">
+                                            {{ form.name }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-about" class="col-md-4 control-label">About</label>
+                                        <div class="col-md-8">
+                                            {{ form.description }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-phone" class="col-md-4 control-label">Phone</label>
+                                        <div class="col-md-8">
+                                            {{ form.phone }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-website" class="col-md-4 control-label">Website</label>
+                                        <div class="col-md-8">
+                                            {{ form.website }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-twitter" class="col-md-4 control-label">Twitter</label>
+                                        <div class="col-md-8">
+                                            {{ form.twitter_url }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-facebook" class="col-md-4 control-label">Facebook</label>
+                                        <div class="col-md-8">
+                                            {{ form.facebook_url }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
                             <div class="col-sm-12">
-                                <form class="clearfix mb0 p10" name="store-settings-form" id="store-settings-form">
-                                    <div class="col-sm-6">
-                                        <div class="col-sm-6">
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Logo</h3>
+                                        <p class="mb0 text-justify">You may enter a logo. Your logo will appear on your store page, on emails to customers, and on receipt and order printouts.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label for="file-logo-square" class="col-md-4 control-label">Logo</label>
+                                        <div class="col-md-8">
                                             <!-- Upload ID -->
                                             <input type="hidden" id="id_hidden_upload_id" value="{{ upload_id }}"/>
                                             <!-- /.Upload ID -->
                                             
                                             {% if employee.organization.logo.image == '' %}
-                                            <img src="" style="height:260px;" alt="Store Logo"
-                                               class="img-thumbnail center-block mb0 add-cover-image"
-                                                name="logo-image" id="logo-image">
-                                            {% else %}
-                                            <img src="{{ employee.organization.logo.image.url }}" style="height:260px;" alt="Store Logo"
+                                            <img src="" style="height:140px;width:140px;" alt="Store Logo"
                                                 class="img-thumbnail center-block mb0 add-cover-image"
                                                 name="logo-image" id="logo-image">
+                                            {% else %}
+                                            <img src="{{ employee.organization.logo.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
+                                                    class="img-thumbnail center-block mb0 add-cover-image"
+                                                    name="logo-image" id="logo-image">
                                             {% endif %}
-                                            
+                                                    
                                             <label class="form-control btn btn-success mt10 curp" >
                                                 <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Logo...
                                                 <input type="file" class="form-control mb10 hide" name="logo-image"
-                                                id="id_image" onchange="ajax_upload_image();"/>
+                                                        id="id_image" onchange="ajax_upload_image();"/>
                                             </label>
-                                            
                                         </div>
-                                        
-                                        <div class="col-sm-6">
-                                            <label class="control-label">About Organization</label>
-                                            {{ form.description }}
-                                            
-                                        </div>
-                                        
                                     </div>
-                                    <div class="col-sm-6 p">
-                                        <label class="control-label">Store Display Name</label>
-                                        {{ form.name }}
-            
-                                        <div class="col-md-4 col-sm-6 p0 pr10">
-                                            <label class="control-label">Street #</label>
-                                            {{ form.street_number }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Street Name</label>
-                                            {{ form.street_name }}
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Unit #</label>
-                                            {{ form.unit_number }}
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">City</label>
-                                            {{ form.city }}
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Province</label>
-                                            {{ form.province }}
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Country</label>
-                                            {{ form.country }}
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Postal</label>
-                                            {{ form.postal }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Website</label>
-                                            {{ form.website }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Email</label>
-                                            {{ form.email }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Phone</label>
-                                            {{ form.phone }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">fax</label>
-                                            {{ form.fax }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Twitter</label>
-                                            {{ form.twitter_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Facebook</label>
-                                            {{ form.facebook_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Instagram</label>
-                                            {{ form.instagram_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">LinkedIn</label>
-                                            {{ form.linkedin_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">GitHub</label>
-                                            {{ form.github_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Google</label>
-                                            {{ form.google_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">YouTube</label>
-                                            {{ form.youtube_url }}
-                                        </div>
-                                        
-                                        <div class="col-md-3 col-sm-6 p0 pr10">
-                                            <label class="control-label">Flickr</label>
-                                            {{ form.flickr_url }}
-                                        </div>
-
-
-                                    </div>
-                                </form>
+                                <div class="clearfix"></div>
                             </div>
-                            
-                            <!-- END table-responsive-->
+                            <div class="col-sm-12">
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Admin Information</h3>
+                                        <p class="mb0 text-justify">This is your account's contact and location information.  This is only for the account owner and will not be displayed to customers.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label for="txt-owner-joindate" class="col-md-4 control-label">User Since</label>
+                                        <div class="col-md-8">
+                                            {{ form.joined }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-owner-fname" class="col-md-4 control-label">Name</label>
+                                        <div class="col-md-4 mb-sm">
+                                            {{ user_form.first_name }}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ user_form.last_name }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-owner-email" class="col-md-4 control-label">Email Address</label>
+                                        <div class="col-md-8">
+                                            {{ user_form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-owner-oldpass" class="col-md-4 control-label">Old Password</label>
+                                        <div class="col-md-8">
+                                            {{ user_form.old_password }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-owner-newpass" class="col-md-4 control-label">New Password</label>
+                                        <div class="col-md-8">
+                                            {{ user_form.password }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-owner-newpass" class="col-md-4 control-label">Retype New Password</label>
+                                        <div class="col-md-8">
+                                            {{ user_form.password_repeated }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="clearfix"></div>
+                        <div class="panel-footer">
+                            <button onclick="ajax_save();" type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                                <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                
+                <!-- END panel-->
             </div>
         </div>
-    </section>
-    
-    <!-- Page footer-->
-    <footer>
-        <span>&copy; 2015 - Comics Cantina</span>
-    </footer>
-</div>
+    </div>
+</section>
+
+<!-- Page footer-->
+<footer>
+    <span>&copy; 2015 - Comics Cantina</span>
+</footer>
 
 <!----------------------------------------------------------------------------->
 

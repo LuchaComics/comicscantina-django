@@ -10,6 +10,7 @@ from inventory.models.ec.organization import Organization
 from inventory.models.ec.employee import Employee
 from inventory.forms.organizationform import OrganizationForm
 from inventory.forms.imageuploadform import ImageUploadForm
+from inventory.forms.userform import UserForm
 
 
 # Organization
@@ -20,13 +21,15 @@ def org_settings_page(request, org_id, store_id):
     employee = Employee.objects.get(user=request.user)
     form = OrganizationForm(instance=employee.organization)
     logo = employee.organization.logo
+    user_form = UserForm(instance=request.user)
     return render(request, 'inventory/setting/org.html',{
         'org_id': org_id,
         'store_id': store_id,
         'upload_id': 0 if logo is None else logo.upload_id,
-        'tab':'settings',
+        'tab':'org_settings',
         'employee': employee,
         'form': form,
+        'user_form': user_form,
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
@@ -76,6 +79,8 @@ def ajax_save_org_data(request, org_id, store_id):
     if request.is_ajax():
         if request.method == 'POST':
             organization = Organization.objects.get(org_id=org_id)
+            
+            # Save Organization
             form = OrganizationForm(request.POST, instance=organization)
             if form.is_valid():  # Ensure no missing fields are entered.
                 # Include logo with saving.
@@ -86,9 +91,24 @@ def ajax_save_org_data(request, org_id, store_id):
                 except ImageUpload.DoesNotExist:
                     pass
                 form.save()
-                response_data = {'status' : 'success', 'message' : 'saved',}
             else:
-                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+                return HttpResponse(json.dumps({
+                    'status' : 'failed',
+                    'message' : json.dumps(form.errors
+                )}), content_type="application/json")
+
+            # Save Administrator
+            form = UserForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+            else:
+                return HttpResponse(json.dumps({
+                    'status' : 'failed',
+                    'message' : json.dumps(form.errors
+                )}), content_type="application/json")
+
+            # Success
+            response_data = {'status' : 'success', 'message' : 'saved',}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
