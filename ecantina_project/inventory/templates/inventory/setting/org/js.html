@@ -39,7 +39,7 @@
         }
     
         // change this to the ajax function call in python
-        var url = '/inventory/{{ org_id }}/{{ store_id }}/settings/save_org_logo';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/save_org_logo';
     
         var data = new FormData();
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
@@ -76,7 +76,7 @@
 
     function ajax_save() {
         // change this to the ajax function call in python
-        var url = '/inventory/{{ org_id }}/{{ store_id }}/settings/save_org_data';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/save_org_data';
     
         var data = new FormData();
         // Organization

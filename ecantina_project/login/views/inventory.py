@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from inventory.forms.loginform import LoginForm
 from inventory.models.ec.employee import Employee
+from inventory.models.ec.store import Store
 
 
 def login_page(request):
@@ -49,12 +50,14 @@ def validate_user(user):
     if user is not None:
         if user.is_active:
             try:
+                # Get the employee and return the first store in the organization.
                 employee = Employee.objects.get(user=user)
+                store = Store.objects.filter(organization=employee.organization)[0]
                 return {
                     'status': 'success',
                     'message': 'logged on',
                     'org_id': employee.organization.org_id,
-                    'store_id': employee.store.store_id,
+                    'store_id': store.store_id,
                 }
             except Employee.DoesNotExist:
                 return {'status' : 'failure', 'message' : 'you are not an employee'}

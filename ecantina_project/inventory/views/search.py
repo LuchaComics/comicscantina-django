@@ -9,6 +9,7 @@ from inventory.models.gcd.series import Series
 from inventory.models.gcd.issue import Issue
 from inventory.models.gcd.story import Story
 from inventory.forms.issueform import IssueForm
+from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.location import Location
@@ -22,8 +23,8 @@ from inventory.forms.imageuploadform import ImageUploadForm
 @login_required(login_url='/inventory/login')
 def search_comics_page(request, org_id, store_id):
     return render(request, 'inventory/add/comic/search.html',{
-        'org_id': org_id,
-        'store_id': store_id,
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
         'tab':'add',
         'employee': Employee.objects.get(user=request.user),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
@@ -18,6 +19,7 @@ from inventory.forms.userform import UserForm
 # Organization
 #-------------
 
+
 @login_required(login_url='/inventory/login')
 def org_settings_page(request, org_id, store_id):
     employee = Employee.objects.get(user=request.user)
@@ -25,8 +27,8 @@ def org_settings_page(request, org_id, store_id):
     logo = employee.organization.logo
     user_form = UserForm(instance=request.user)
     return render(request, 'inventory/setting/org/view.html',{
-        'org_id': org_id,
-        'store_id': store_id,
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
         'upload_id': 0 if logo is None else logo.upload_id,
         'tab':'org_settings',
         'employee': employee,
@@ -133,8 +135,8 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
     logo = employee.organization.logo
     user_form = UserForm(instance=request.user)
     return render(request, 'inventory/setting/store/edit/view.html',{
-        'org_id': org_id,
-        'store_id': store_id,
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
         'this_store_id': this_store_id,
         'stores': stores,
         'upload_id': 0 if logo is None else logo.upload_id,
@@ -162,16 +164,16 @@ def store_settings_page(request, org_id, store_id, this_store_id):
     logo = employee.organization.logo
     user_form = UserForm(instance=request.user)
     return render(request, 'inventory/setting/store/add/view.html',{
-                  'org_id': org_id,
-                  'store_id': store_id,
-                  'this_store_id': this_store_id,
-                  'stores': stores,
-                  'upload_id': 0 if logo is None else logo.upload_id,
-                  'tab':'store_settings',
-                  'employee': employee,
-                  'form': form,
-                  'user_form': user_form,
-                  'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-                  'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-                  'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
-                  })
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'this_store_id': this_store_id,
+        'stores': stores,
+        'upload_id': 0 if logo is None else logo.upload_id,
+        'tab':'store_settings',
+        'employee': employee,
+        'form': form,
+        'user_form': user_form,
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })

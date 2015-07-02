@@ -205,16 +205,21 @@ def create_employee(form):
     email = form['email'].value().lower()
     org_name = form['org_name'].value()
     organization = Organization.objects.get(name=org_name)
-    store = Store.objects.get(
-        name='Main Store',
-        organization=organization,
-    )
     user = User.objects.get(email=email)
     
     try:
         Employee.objects.create(
+            joined = datetime.now(),
+            street_name = form['street_name'].value(),
+            street_number = form['street_number'].value(),
+            unit_number = form['unit_number'].value(),
+            city = form['city'].value(),
+            province = form['province'].value(),
+            country = form['country'].value(),
+            postal = form['postal'].value(),
+            email = form['email'].value().lower(),
+            phone = form['phone'].value(),
             role = settings.EMPLOYEE_OWNER_ROLE,
-            store = store,
             user = user,
             organization = organization,
         )

@@ -24,7 +24,7 @@
                             <!-- Name and Job-->
                             <div class="user-block-info">
                                 <span class="user-block-name">Hello, {{ employee.user.first_name }} {{ employee.user.last_name }}</span>
-                                <span class="user-block-role">{{ employee.store.name }}</span>
+                                <span class="user-block-role">{{ store.name }}</span>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                 
                 <!-- DASHBOARD -->
                 <li class={% if tab == 'dashboard' %}" active" {% else %} {% endif %}>
-                    <a href="/inventory/{{ org_id }}/{{ store_id }}/dashboard" title="Dashboard">
+                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/dashboard" title="Dashboard">
                         <em class="icon-speedometer"></em>
                         <span data-localize="sidebar.nav.DASHBOARD">Dashboard</span>
                     </a>
@@ -56,7 +56,7 @@
                     <ul id="inventory" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
                         <li class="sidebar-subnav-header">Inventory</li>
                         <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org_id }}/{{ store_id }}/add/comic" title="Add Inventory">
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic" title="Add Inventory">
                                 <span>Add Inventory Item</span>
                             </a>
                         </li>
@@ -111,22 +111,22 @@
                    <ul id="settings" class="nav sidebar-subnav collapse">
                        <li class="sidebar-subnav-header">Settings</li>
                        <li class={% if tab == 'org_settings' %}" active" {% else %}" "{% endif %}>
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/organization" title="Organization">
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/organization" title="Organization">
                                <span>Organization</span>
                            </a>
                        </li>
                        <li class={% if tab == 'store_settings' %}" active" {% else %}" "{% endif %}>
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/store/{{ store_id }}" title="Store">
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ store.store_id }}" title="Store">
                                <span>Stores</span>
                            </a>
                        </li>
                        <li class=" ">
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/locations" title="Locations">
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/locations" title="Locations">
                                <span>Locations</span>
                            </a>
                        </li>
                        <li class=" ">
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/users" title="Users">
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users" title="Users">
                                <span>Users</span>
                            </a>
                        </li>

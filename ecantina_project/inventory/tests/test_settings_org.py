@@ -17,6 +17,7 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.location import Location
 from inventory.models.ec.section import Section
+from inventory.tests.sample import SamplDataPopulator
 
 
 # Contants
@@ -34,114 +35,19 @@ class OrganizationSettingsTestCase(TestCase):
         python manage.py test inventory.tests.test_settings_org
     """
     def tearDown(self):
-        for image in ImageUpload.objects.all():
-            image.delete()
-        for org in Organization.objects.all():
-            org.delete()
-        for store in Store.objects.all():
-            store.delete()
-        for employee in Employee.objects.all():
-            employee.delete()
-        User.objects.all().delete()
+        # Clear Sample Data
+        populator = SamplDataPopulator()
+        populator.dealloc()
     
     def setUp(self):
         captcha_count = CaptchaStore.objects.count()
         self.failUnlessEqual(captcha_count, 0)
         now = datetime.now()
-        
-        #----------------
-        # Administrator
-        #----------------
-        try:
-            user = User.objects.create_user(
-                TEST_USER_EMAIL,  # Username
-                TEST_USER_EMAIL,  # Email
-                TEST_USER_PASSWORD,
-            )
-            user.is_active = True
-            user.save()
-        except Exception as e:
-            user = User.objects.get(email=TEST_USER_EMAIL)
     
-        #----------------
-        # Image Uploads
-        #----------------
-        logo = None
-        profile = None
-            
-        #-----------------
-        # Organization
-        #-----------------
-        try:
-            organization = Organization.objects.create(
-                org_id=1,
-                name='B.A.\'s Comics',
-                description = 'Located in London, Ontario, BA\’s Comics and Nostalgia is operated by Bruno Andreacchi, an industry veteran with over 30 years experience in grading, curating, and offering Comic Books and Graphic Novels. Bruno first began collecting in the 1960s, and since then has gone on to become an industry expert, writing articles for several key industry publications, such as Wizard.',
-                joined = now,
-                street_name='Hamilton Rd',
-                street_number='426',
-                unit_number=None,
-                city='London',
-                province='Ontario',
-                country='Canada',
-                postal='N5Z 1R9',
-                website='http://www.bacomics.ca',
-                email=None,
-                phone='519-439-9636',
-                fax=None,
-                twitter_url='https://twitter.com/bascomics',
-                facebook_url=None,
-                instagram_url=None,
-                linkedin_url=None,
-                github_url=None,
-                google_url='https://plus.google.com/105760942218297346537/about',
-                youtube_url=None,
-                flickr_url=None,
-                administrator = user,
-                logo = logo,
-            )
-        except Exception as e:
-            organization = Organization.objects.get(org_id=1)
-                                                                          
-        #-----------------
-        # Store
-        #-----------------
-        try:
-            store = Store.objects.create(
-            store_id=1,
-            name='Main Store',
-            description='Located in London, Ontario, BA\’s Comics and Nostalgia is operated by Bruno Andreacchi, an industry veteran with over 30 years experience in grading, curating, and offering Comic Books and Graphic Novels. Bruno first began collecting in the 1960s, and since then has gone on to become an industry expert, writing articles for several key industry publications, such as Wizard.',
-            joined=now,
-            street_name='Hamilton Rd',
-            street_number='426',
-            unit_number=None,
-            city='London',
-            province='Ontario',
-            country='Canada',
-            postal='N5Z 1R9',
-            website='http://www.bacomics.ca',
-            email=None,
-            phone='519-439-9636',
-            fax=None,
-            organization=organization,
-            )
-        except Exception as e:
-            store = Store.objects.get(store_id=1)
-
-        #-----------------
-        # Employees
-        #-----------------
-        try:
-            Employee.objects.create(
-                employee_id=1,
-                role = settings.EMPLOYEE_OWNER_ROLE,
-                store = store,
-                user = user,
-                organization = organization,
-                profile=profile,
-            )
-        except Exception as e:
-            pass
+        # Create Sample Data
+        populator = SamplDataPopulator()
+        populator.populate()
+    
     
     def test_url_resolves_to_org_settings_page(self):
         found = resolve('/inventory/1/1/settings/organization')
@@ -163,7 +69,7 @@ class OrganizationSettingsTestCase(TestCase):
         )
         response = client.post('/inventory/1/1/settings/organization')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Organization Settings',response.content)
+        self.assertIn(b'Organization',response.content)
         self.assertIn(b'id_name',response.content)
 
     def test_save_org_logo_with_success(self):
@@ -192,6 +98,10 @@ class OrganizationSettingsTestCase(TestCase):
         
         # Test
         client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
         response = client.post('/inventory/1/1/settings/save_org_data',{
             'email': TEST_USER_EMAIL,
             'name': TEST_USER_USERNAME,

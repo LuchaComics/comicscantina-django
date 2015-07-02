@@ -147,8 +147,17 @@ class SamplDataPopulator():
         try:
             Employee.objects.create(
                 employee_id=1,
+                joined = datetime.now(),
+                street_name = 'Centre Street',
+                street_number = '120',
+                unit_number = '102',
+                city = 'London',
+                province = 'Ontario',
+                country = 'Canada',
+                postal = 'N6J4X4',
+                email = 'bmika@icloud.com',
+                phone = '519-432-7898',
                 role = settings.EMPLOYEE_OWNER_ROLE,
-                store = store,
                 user = user,
                 organization = organization,
                 profile=profile,
