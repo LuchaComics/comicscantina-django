@@ -1,0 +1,355 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<!-- Main section-->
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-cog mr"></em>Settings <em class="fa fa-angle-right pl pr"></em>  Stores</h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="locations-panel" class="clearfix panel panel-default m-lg">
+                    <form class="form-horizontal">
+                        <div class="panel-tabs w100 p m0">
+                            <ul class="tab-list clearfix center-block">
+                                <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                                <li class="tab new-location">
+                                    <em class="fa fa-plus-square pr"></em>Add Location</li><li class="tab selected">
+                                    <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/store/{{ this_store_id }}">Main Location</a>
+                                </li>
+                                {% for store in stores %}
+                                {% if store.store_id != store_id %}
+                                <li class="tab">
+                                    <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/store/{{ store.store_id }}">{{ store.name }}</a>
+                                </li>
+                                {% endif %}
+                                {% empty %}
+                                {% endfor %}
+                                </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="panel-body panel-body-main">
+                            <div class="col-sm-12 mt-lg">
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Location Address</h3>
+                                        <p class="mb0 text-justify">This is where your customers can find your brick and mortar store.  On your 'About' store page, this will show up on a map of your store locations</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txt-store-name" name="store-name" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-phone" class="col-md-4 control-label">Phone Number</label>
+                                        <div class="col-md-8">
+                                            <input type="phone" id="txt-store-phone" name="store-phone" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-street" class="col-md-4 control-label">Street Address</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txt-store-street" name="store-street" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-city" class="col-md-4 control-label">City</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txt-store-city" name="store-city" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-postcode" class="col-md-4 control-label">Zip/Postal Code</label>
+                                        <div class="col-md-8">
+                                            <input type="text" id="txt-store-postcode" name="store-postcode" class="form-control" required />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel-store-country" class="col-md-4 control-label">Country</label>
+                                        <div class="col-md-8">
+                                            <select id="sel-store-country" name="store-country" class="form-control" required>
+                                                <option value="">Country</option>
+                                                <option value="Canada">Canada</option>
+                                                <option value="United States">United States</option>
+                                                <option value="Mexico">Mexico</option>
+                                                <option value="United Kingdom">United Kingdom</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel-store-province" class="col-md-4 control-label">State/Province</label>
+                                        <div class="col-md-8">
+                                            <select id="sel-store-province" name="store-province" class="form-control" required>
+                                                <option value="">Province</option>
+                                                <option value="Alberta">Alberta</option>
+                                                <option value="British Columbia">British Columbia</option>
+                                                <option value="Manitoba">Manitoba</option>
+                                                <option value="New Brunswick">New Brunswick</option>
+                                                <option value="Newfoundland">Newfoundland</option>
+                                                <option value="Northwest Territories">NorthwestTerritories</option>
+                                                <option value="Nova Scotia">Nova Scotia</option>6
+                                                <option value="Nunavut">Nunavut</option>
+                                                <option value="Ontario">Ontario</option>
+                                                <option value="Quebec">Quebec</option>
+                                                <option value="Saskatchewan">Saskatchewan</option>
+                                                <option value="Yukon">Yukon</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Store Hours</h3>
+                                        <p class="mb0 text-justify">These are the hours that this store is open to customers.  They will appear with this location on your 'About' store page.  Please use 24hr format.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <!-- monday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 mb control-label">Monday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-mon-open" name="store-hours-mon-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-mon-from" name="store-hours-mon-from" placeholder="from  (ex: 00:00)" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-mon-to" name="store-hours-mon-to" placeholder="to  (ex: 23:59)" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- tuesday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 mb control-label">Tuesday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-tues-open" name="store-hours-tues-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-tues-from" name="store-hours-tues-from" placeholder="from" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-tues-to" name="store-hours-tues-to" placeholder="to" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- wednesday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 mb control-label">Wednesday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-wed-open" name="store-hours-mon-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-wed-from" name="store-hours-wed-from" placeholder="from" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-wed-to" name="store-hours-wed-to" placeholder="to" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- thursday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 mb control-label">Thursday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-thurs-open" name="store-hours-mon-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-thurs-from" name="store-hours-thurs-from" placeholder="from" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-thurs-to" name="store-hours-thurs-to" placeholder="to" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- friday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 mb control-label">Friday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-fri-open" name="store-hours-mon-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-fri-from" name="store-hours-fri-from" placeholder="from" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-fri-to" name="store-hours-fri-to" placeholder="to" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- saturday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 mb control-label">Saturday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-sat-open" name="store-hours-mon-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-sat-from" name="store-hours-sat-from" placeholder="from" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-sat-to" name="store-hours-sat-to" placeholder="to" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- sunday -->
+                                    <div class="form-group clearfix">
+                                        <label for="txt-store-hours-mon-from" class="col-xs-6 col-md-3 control-label mb">Sunday</label>
+                                        <div class="col-xs-6 col-md-3 mb">
+                                            <div class="checkbox c-checkbox text-center">
+                                                <label>
+                                                    <input type="checkbox" id="cb-store-hours-sun-open" name="store-hours-mon-open">
+                                                        <span class="fa fa-check"></span>Open
+                                                        </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-sun-from" name="store-hours-sun-from" placeholder="from" class="form-control" />
+                                        </div>
+                                        <div class="col-xs-6 col-md-3">
+                                            <input type="time" id="txt-store-hours-sun-to" name="store-hours-sun-to" placeholder="to" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Store Sections</h3>
+                                        <p class="mb0 text-justify">Think of a section as 'Wall Rack 1' or 'Sale Bin A' somewhere in your store.  This will appear when you are adding new inventory and help you keep track of your inventory.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-5">
+                                    <div class="table-responsive">
+                                        <table class="store-section-table table">
+                                            <tr>
+                                                <th>Section Name</th>
+                                                <th>Add/Remove</th>
+                                            </tr>
+                                            <!-- filled out section -->
+                                            <tr>
+                                                <td>
+                                                    <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="Section A" />
+                                                </td>
+                                                <td>
+                                                    <button type="button" role="button" class="btn btn-danger">
+                                                        <em class="section-button fa fa-remove"></em>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- filled out section -->
+                                            <tr>
+                                                <td>
+                                                    <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="Section B" />
+                                                </td>
+                                                <td>
+                                                    <button type="button" role="button" class="btn btn-danger">
+                                                        <em class="section-button fa fa-remove"></em>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- filled out section -->
+                                            <tr>
+                                                <td>
+                                                    <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="Section C" />
+                                                </td>
+                                                <td>
+                                                    <button type="button" role="button" class="btn btn-danger">
+                                                        <em class="section-button fa fa-remove"></em>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- new section -->
+                                            <tr>
+                                                <td>
+                                                    <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" />
+                                                </td>
+                                                <td>
+                                                    <button type="button" role="button" class="btn btn-success">
+                                                        <em class="section-button fa fa-check"></em>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
+                                <span class="btn-label"><i class="fa fa-remove"></i></span>Remove Location
+                            </button>
+                            <button type="submit" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                                <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- END panel-->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Page footer-->
+<footer>
+    <span>&copy; 2015 - Comics Cantina</span>
+</footer>
+
+<!----------------------------------------------------------------------------->
+
+<!-- Modal -->
+<div id="ajax_modal_placeholder"
+   name="ajax_modal_placeholder"></div>
+<!-- end modal -->
+
+<!----------------------------------------------------------------------------->
+
+{% include "inventory/setting/store/add/js.html" %}
+
+{% endblock content %}

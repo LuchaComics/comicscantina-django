@@ -5,9 +5,11 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.employee import Employee
+from inventory.models.ec.store import Store
 from inventory.forms.organizationform import OrganizationForm
 from inventory.forms.imageuploadform import ImageUploadForm
 from inventory.forms.userform import UserForm
@@ -22,7 +24,7 @@ def org_settings_page(request, org_id, store_id):
     form = OrganizationForm(instance=employee.organization)
     logo = employee.organization.logo
     user_form = UserForm(instance=request.user)
-    return render(request, 'inventory/setting/org.html',{
+    return render(request, 'inventory/setting/org/view.html',{
         'org_id': org_id,
         'store_id': store_id,
         'upload_id': 0 if logo is None else logo.upload_id,
@@ -118,13 +120,58 @@ def ajax_save_org_data(request, org_id, store_id):
 
 
 @login_required(login_url='/inventory/login')
-def store_settings_page(request, org_id, store_id):
-    return render(request, 'inventory/setting/store.html',{
+def edit_store_settings_page(request, org_id, store_id, this_store_id):
+    organization = Organization.objects.get(org_id=org_id)
+    
+    # Return all the stores belonging to this organization EXCEPT
+    # the main store we are logged in as.
+    stores =  Store.objects.filter(organization=organization)
+    stores =  stores.filter(~Q(store_id = store_id))
+        
+    employee = Employee.objects.get(user=request.user)
+    form = OrganizationForm(instance=employee.organization)
+    logo = employee.organization.logo
+    user_form = UserForm(instance=request.user)
+    return render(request, 'inventory/setting/store/edit/view.html',{
         'org_id': org_id,
         'store_id': store_id,
-        'tab':'settings',
-        'employee': Employee.objects.get(user=request.user),
+        'this_store_id': this_store_id,
+        'stores': stores,
+        'upload_id': 0 if logo is None else logo.upload_id,
+        'tab':'store_settings',
+        'employee': employee,
+        'form': form,
+        'user_form': user_form,
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+@login_required(login_url='/inventory/login')
+def store_settings_page(request, org_id, store_id, this_store_id):
+    organization = Organization.objects.get(org_id=org_id)
+    
+    # Return all the stores belonging to this organization EXCEPT
+    # the main store we are logged in as.
+    stores =  Store.objects.filter(organization=organization)
+    stores =  stores.filter(~Q(store_id = store_id))
+    
+    employee = Employee.objects.get(user=request.user)
+    form = OrganizationForm(instance=employee.organization)
+    logo = employee.organization.logo
+    user_form = UserForm(instance=request.user)
+    return render(request, 'inventory/setting/store/add/view.html',{
+                  'org_id': org_id,
+                  'store_id': store_id,
+                  'this_store_id': this_store_id,
+                  'stores': stores,
+                  'upload_id': 0 if logo is None else logo.upload_id,
+                  'tab':'store_settings',
+                  'employee': employee,
+                  'form': form,
+                  'user_form': user_form,
+                  'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+                  'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+                  'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+                  })

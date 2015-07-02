@@ -115,8 +115,8 @@
                                <span>Organization</span>
                            </a>
                        </li>
-                       <li class=" ">
-                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/stores" title="Store">
+                       <li class={% if tab == 'store_settings' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org_id }}/{{ store_id }}/settings/store/{{ store_id }}" title="Store">
                                <span>Stores</span>
                            </a>
                        </li>
