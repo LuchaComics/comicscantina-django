@@ -42,7 +42,7 @@
                             <div class="col-sm-12 mt-lg">
                                 <div class="col-sm-5">
                                     <div class="jumbotron bg-gray-lighter">
-                                        <h3 class="p0 mt0 mb-lg">Location Address</h3>
+                                        <h3 class="p0 mt0 mb-lg">Store Address</h3>
                                         <p class="mb0 text-justify">This is where your customers can find your brick and mortar store.  On your 'About' store page, this will show up on a map of your store locations</p>
                                     </div>
                                 </div>
@@ -50,64 +50,61 @@
                                     <div class="form-group">
                                         <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
                                         <div class="col-md-8">
-                                            <input type="text" id="txt-store-name" name="store-name" class="form-control" required />
+                                            {{ form.name }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel-store-province" class="col-md-4 control-label">About</label>
+                                        <div class="col-md-8">
+                                            {{ form.description }}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-store-phone" class="col-md-4 control-label">Phone Number</label>
                                         <div class="col-md-8">
-                                            <input type="phone" id="txt-store-phone" name="store-phone" class="form-control" required />
+                                            {{ form.phone }}
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="txt-store-street" class="col-md-4 control-label">Street Address</label>
+                                        <label for="txt-store-street" class="col-md-4 control-label">Street Number</label>
                                         <div class="col-md-8">
-                                            <input type="text" id="txt-store-street" name="store-street" class="form-control" required />
+                                            {{ form.street_number }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-street" class="col-md-4 control-label">Street Name</label>
+                                        <div class="col-md-8">
+                                            {{ form.street_name }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-store-street" class="col-md-4 control-label">Unit Number</label>
+                                        <div class="col-md-8">
+                                            {{ form.unit_number }}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-store-city" class="col-md-4 control-label">City</label>
                                         <div class="col-md-8">
-                                            <input type="text" id="txt-store-city" name="store-city" class="form-control" required />
+                                            {{ form.city }}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-store-postcode" class="col-md-4 control-label">Zip/Postal Code</label>
                                         <div class="col-md-8">
-                                            <input type="text" id="txt-store-postcode" name="store-postcode" class="form-control" required />
+                                            {{ form.postal }}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="sel-store-country" class="col-md-4 control-label">Country</label>
                                         <div class="col-md-8">
-                                            <select id="sel-store-country" name="store-country" class="form-control" required>
-                                                <option value="">Country</option>
-                                                <option value="Canada">Canada</option>
-                                                <option value="United States">United States</option>
-                                                <option value="Mexico">Mexico</option>
-                                                <option value="United Kingdom">United Kingdom</option>
-                                                <option value="Other">Other</option>
-                                            </select>
+                                            {{ form.country }}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="sel-store-province" class="col-md-4 control-label">State/Province</label>
                                         <div class="col-md-8">
-                                            <select id="sel-store-province" name="store-province" class="form-control" required>
-                                                <option value="">Province</option>
-                                                <option value="Alberta">Alberta</option>
-                                                <option value="British Columbia">British Columbia</option>
-                                                <option value="Manitoba">Manitoba</option>
-                                                <option value="New Brunswick">New Brunswick</option>
-                                                <option value="Newfoundland">Newfoundland</option>
-                                                <option value="Northwest Territories">NorthwestTerritories</option>
-                                                <option value="Nova Scotia">Nova Scotia</option>6
-                                                <option value="Nunavut">Nunavut</option>
-                                                <option value="Ontario">Ontario</option>
-                                                <option value="Quebec">Quebec</option>
-                                                <option value="Saskatchewan">Saskatchewan</option>
-                                                <option value="Yukon">Yukon</option>
-                                            </select>
+                                            {{ form.province }}
                                         </div>
                                     </div>
                                 </div>
@@ -128,16 +125,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-mon-open" name="store-hours-mon-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                    {{ form.is_open_monday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-mon-from" name="store-hours-mon-from" placeholder="from  (ex: 00:00)" class="form-control" />
+                                            {{ form.monday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-mon-to" name="store-hours-mon-to" placeholder="to  (ex: 23:59)" class="form-control" />
+                                            {{ form.monday_from }}
                                         </div>
                                     </div>
                                     
@@ -147,16 +144,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-tues-open" name="store-hours-tues-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                    {{ form.is_open_tuesday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-tues-from" name="store-hours-tues-from" placeholder="from" class="form-control" />
+                                            {{ form.tuesday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-tues-to" name="store-hours-tues-to" placeholder="to" class="form-control" />
+                                            {{ form.tuesday_from }}
                                         </div>
                                     </div>
                                     
@@ -166,16 +163,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-wed-open" name="store-hours-mon-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                   {{ form.is_open_wednesday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-wed-from" name="store-hours-wed-from" placeholder="from" class="form-control" />
+                                            {{ form.wednesday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-wed-to" name="store-hours-wed-to" placeholder="to" class="form-control" />
+                                            {{ form.wednesday_from }}
                                         </div>
                                     </div>
                                     
@@ -185,16 +182,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-thurs-open" name="store-hours-mon-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                    {{ form.is_open_thursday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-thurs-from" name="store-hours-thurs-from" placeholder="from" class="form-control" />
+                                            {{ form.thursday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-thurs-to" name="store-hours-thurs-to" placeholder="to" class="form-control" />
+                                            {{ form.thursday_from }}
                                         </div>
                                     </div>
                                     
@@ -204,16 +201,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-fri-open" name="store-hours-mon-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                    {{ form.is_open_friday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-fri-from" name="store-hours-fri-from" placeholder="from" class="form-control" />
+                                            {{ form.friday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-fri-to" name="store-hours-fri-to" placeholder="to" class="form-control" />
+                                            {{ form.friday_from }}
                                         </div>
                                     </div>
                                     
@@ -223,16 +220,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-sat-open" name="store-hours-mon-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                    {{ form.is_open_saturday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-sat-from" name="store-hours-sat-from" placeholder="from" class="form-control" />
+                                            {{ form.saturday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-sat-to" name="store-hours-sat-to" placeholder="to" class="form-control" />
+                                            {{ form.saturday_from }}
                                         </div>
                                     </div>
                                     
@@ -242,16 +239,16 @@
                                         <div class="col-xs-6 col-md-3 mb">
                                             <div class="checkbox c-checkbox text-center">
                                                 <label>
-                                                    <input type="checkbox" id="cb-store-hours-sun-open" name="store-hours-mon-open">
-                                                        <span class="fa fa-check"></span>Open
-                                                        </label>
+                                                   {{ form.is_open_sunday }}
+                                                    <span class="fa fa-check"></span>Open
+                                                </label>
                                             </div>
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-sun-from" name="store-hours-sun-from" placeholder="from" class="form-control" />
+                                            {{ form.sunday_to }}
                                         </div>
                                         <div class="col-xs-6 col-md-3">
-                                            <input type="time" id="txt-store-hours-sun-to" name="store-hours-sun-to" placeholder="to" class="form-control" />
+                                            {{ form.sunday_from }}
                                         </div>
                                     </div>
                                 </div>
