@@ -26,7 +26,7 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         os.system('clear;')  # Clear the console text.
-        now = datetime.datetime.now()
+        now = datetime.now()
         
         #----------------
         # Administrator
