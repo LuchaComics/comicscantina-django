@@ -132,22 +132,83 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
     # the main store we are logged in as.
     stores =  Store.objects.filter(organization=organization)
     stores =  stores.filter(~Q(store_id = store_id))
-        
-    form = StoreForm(instance=store)
-    logo = employee.organization.logo
     return render(request, 'inventory/setting/store/edit/view.html',{
         'org': Organization.objects.get(org_id=org_id),
-        'store': Store.objects.get(store_id=store_id),
+        'store': store,
         'this_store_id': this_store_id,
         'stores': stores,
-        'upload_id': 0 if logo is None else logo.upload_id,
         'tab':'store_settings',
         'employee': employee,
-        'form': form,
+        'form': StoreForm(instance=store),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+def ajax_edit_save_store_logo(request, org_id, store_id):
+    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            # Fetch objects
+            store = Store.objects.get(store_id=store_id)
+            
+            # Delete existing image if it exists.
+            try:
+                upload_id = request.POST['upload_id']
+                if upload_id is not '':
+                    logo = ImageUpload.objects.get(upload_id=int(upload_id))
+                    logo.delete()
+            except ImageUpload.DoesNotExist:
+                pass
+        
+            # Save the new image.
+            form = ImageUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.instance.user = request.user
+                form.save()
+                
+                # Update store with new logo image.
+                store.logo = form.instance
+                store.save()
+                
+                # Return status.
+                response_data = {
+                    'status' : 'success',
+                    'message' : 'saved',
+                    'src': form.instance.image.url,
+                    'id': form.instance.upload_id,
+                }
+            else:
+                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def ajax_edit_save_store_data(request, org_id, store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            store = Store.objects.get(store_id=store_id)
+            form = StoreForm(request.POST, instance=store)
+            if form.is_valid():  # Ensure no missing fields are entered.
+                # Include logo with saving.
+                try:
+                    upload_id = request.POST['upload_id']
+                    if upload_id is not '':
+                        store.logo = ImageUpload.objects.get(upload_id=int(upload_id))
+                except ImageUpload.DoesNotExist:
+                    pass
+                form.save()
+                response_data = {'status' : 'success', 'message' : 'saved',}
+            else:
+                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+
+
+
+
 
 
 @login_required(login_url='/inventory/login')

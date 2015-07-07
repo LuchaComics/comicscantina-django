@@ -48,14 +48,14 @@ class Command(BaseCommand):
         # Image Uploads
         #----------------
         try:
-            logo = ImageUpload.objects.create(
+            org_logo = ImageUpload.objects.create(
                 upload_id = 1,
                 upload_date = now,
                 image = 'upload/bascomics_logo.png',
                 user = user,
             )
         except Exception as e:
-            logo = ImageUpload.objects.get(upload_id=1)
+            org_logo = ImageUpload.objects.get(upload_id=1)
         try:
             profile = ImageUpload.objects.create(
                 upload_id = 2,
@@ -65,6 +65,16 @@ class Command(BaseCommand):
             )
         except Exception as e:
             profile = ImageUpload.objects.get(upload_id=2)
+        try:
+            store_logo = ImageUpload.objects.create(
+                upload_id = 3,
+                upload_date = now,
+                image = 'upload/bascomics_logo.png',
+                user = user,
+            )
+        except Exception as e:
+            store_logo = ImageUpload.objects.get(upload_id=1)
+
 
         #-----------------
         # Organization
@@ -95,7 +105,7 @@ class Command(BaseCommand):
                 youtube_url=None,
                 flickr_url=None,
                 administrator = user,
-                logo = logo,
+                logo = org_logo,
             )
         except Exception as e:
             organization = Organization.objects.get(org_id=1)
@@ -121,6 +131,7 @@ class Command(BaseCommand):
                 phone='519-439-9636',
                 fax=None,
                 organization=organization,
+                logo=store_logo,
             )
         except Exception as e:
             store = Store.objects.get(store_id=1)

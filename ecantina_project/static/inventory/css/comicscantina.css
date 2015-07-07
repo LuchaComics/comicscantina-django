@@ -121,7 +121,7 @@
 }
 
 .login-body {
-    background-image: url('../img/inventory/bg3.jpg');
+    background-image: url('/static/inventory/img/bg1.jpg');
     background-color: #000;
     background-size: auto;
     background-attachment: fixed;

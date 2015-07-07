@@ -191,6 +191,7 @@ INVENTORY_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"inventory/js/animo.js/animo.js",},
     #{"type":"text/javascript", "src":"inventory/vendor/jquery-localize-i18n/dist/jquery.localize.js",},
     {"type":"text/javascript", "src":"inventory/js/jQuery-Storage-API/jquery.storageapi.js",},
+    {"type":"text/javascript", "src":"inventory/js/dropzone/dropzone.js",},
     {"type":"text/javascript", "src":"inventory/js/app.js",},
 ]
 
