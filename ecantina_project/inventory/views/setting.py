@@ -120,8 +120,8 @@ def ajax_save_org_data(request, org_id, store_id):
 
 
 
-# Stores - Edit
-#--------------
+# Stores
+#--------
 
 
 @login_required(login_url='/inventory/login')
@@ -150,6 +150,16 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+@login_required(login_url='/inventory/login')
+def ajax_refresh_sections(request, org_id, store_id, this_store_id):
+    store = Store.objects.get(store_id=store_id)
+    sections = Section.objects.filter(store=store)
+    return render(request, 'inventory/setting/store/edit/sections.html',{
+        'sections': sections,
+    })
+
 
 
 def ajax_edit_save_store_logo(request, org_id, store_id, this_store_id):

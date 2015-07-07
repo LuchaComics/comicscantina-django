@@ -307,38 +307,15 @@
                                         </div>
                                         <div class="col-sm-offset-1 col-sm-6">
                                             <div class="table-responsive">
-                                                <table class="store-section-table table">
-                                                    <tbody><tr>
-                                                        <th>Section Name</th>
-                                                        <th>Add/Remove</th>
-                                                    </tr>
-                                                    <!-- new section -->
-                                                    <tr>
-                                                        <td>
-                                                            <input id="id_section_name" type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name">
-                                                                </td>
-                                                        <td>
-                                                            <button onclick="ajax_section(0);" id="id_section_name" 
-                                                                type="button" class="btn btn-labeled btn-success btn-add">
-                                                                <span class="btn-label"><em class="fa fa-plus"></em></span><span style="font-size:12pt;">Add</span>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    {% for section in sections %}
-                                                    <!-- filled out section -->
-                                                    <tr>
-                                                        <td>
-                                                            <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="{{ section.name }}">
-                                                        </td>
-                                                        <td>
-                                                            <button onclick="ajax_delete_section({{ section.section_id }});"
-                                                                type="button" role="button" class="btn btn-danger">
-                                                                <em class="section-button fa fa-remove"></em>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody></table>
+                                                <!-- Ajax results -->
+                                                {% comment %}
+                                                Here is where we load up dynamic
+                                                UI which gets loaded up when AJAX
+                                                calls are made.
+                                                {% endcomment %}
+                                                <div id="ajax_sections_placeholder"
+                                                    name="ajax_sections_placeholder"></div>
+                                                <!-- /.Ajax. Results -->
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>

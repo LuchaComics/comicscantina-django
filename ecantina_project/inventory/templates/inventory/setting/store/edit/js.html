@@ -2,6 +2,17 @@
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     $(document).ready(function () {
+        /**
+         *  The following section makes the 'sections' automatically load
+         *  when this page is refreshed or loaded.
+         */
+        ajax_refresh_sections();
+                      
+        /**
+         *  The following section adds auto-complete fields for the following
+         *  textfields.
+         */
+                      
         $(function() {
             var availableTags = [
                 "Ontario",
@@ -153,13 +164,38 @@
         });
     }
 
+    function ajax_refresh_sections() {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store_id }}/refresh_sections';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(result){
+                $('#ajax_sections_placeholder').html(result); // Update UI.
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
     function ajax_section(section_id) {
         var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store_id }}/section';
     
         var data = new FormData();
         // Store
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('name', $('#id_section_name').val());
+        data.append('name', $('#id_section_id_' + section_id ).val());
         data.append('section_id', section_id);
         jQuery.ajax({
             url: url,
@@ -172,7 +208,8 @@
                 if (json_result.status == "success")
                 {
                     //alert("ok saved"); // Debugging Purposes
-                    window.location = ''; // Reload page.
+                    //window.location = ''; // Reload page.
+                    ajax_refresh_sections();
                 }
                 else
                 {
@@ -207,7 +244,8 @@
                 if (json_result.status == "success")
                 {
                     //alert("ok saved"); // Debugging Purposes
-                    window.location = ''; // Reload page.
+                    //window.location = ''; // Reload page.
+                    ajax_refresh_sections();
                 }
                 else
                 {

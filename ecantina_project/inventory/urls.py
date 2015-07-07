@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_data$', setting.ajax_edit_save_store_data),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/section$', setting.ajax_section),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', setting.ajax_delete_section),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', setting.ajax_refresh_sections),
                        
                        
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', setting.store_settings_page),
