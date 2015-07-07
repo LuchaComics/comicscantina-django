@@ -315,47 +315,29 @@
                                                     <!-- new section -->
                                                     <tr>
                                                         <td>
-                                                            <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name">
+                                                            <input id="id_section_name" type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name">
                                                                 </td>
                                                         <td>
-                                                            <button type="button" class="btn btn-labeled btn-success btn-add">
+                                                            <button onclick="ajax_section(0);" id="id_section_name" 
+                                                                type="button" class="btn btn-labeled btn-success btn-add">
                                                                 <span class="btn-label"><em class="fa fa-plus"></em></span><span style="font-size:12pt;">Add</span>
                                                             </button>
                                                         </td>
                                                     </tr>
+                                                    {% for section in sections %}
                                                     <!-- filled out section -->
                                                     <tr>
                                                         <td>
-                                                            <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="Section A">
-                                                                </td>
+                                                            <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="{{ section.name }}">
+                                                        </td>
                                                         <td>
-                                                            <button type="button" role="button" class="btn btn-danger">
+                                                            <button onclick="ajax_delete_section({{ section.section_id }});"
+                                                                type="button" role="button" class="btn btn-danger">
                                                                 <em class="section-button fa fa-remove"></em>
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                    <!-- filled out section -->
-                                                    <tr>
-                                                        <td>
-                                                            <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="Section B">
-                                                                </td>
-                                                        <td>
-                                                            <button type="button" role="button" class="btn btn-danger">
-                                                                <em class="section-button fa fa-remove"></em>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- filled out section -->
-                                                    <tr>
-                                                        <td>
-                                                            <input type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name" value="Section C">
-                                                                </td>
-                                                        <td>
-                                                            <button type="button" role="button" class="btn btn-danger">
-                                                                <em class="section-button fa fa-remove"></em>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                    {% endfor %}
                                                 </tbody></table>
                                             </div>
                                         </div>

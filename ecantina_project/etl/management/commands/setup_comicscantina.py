@@ -8,7 +8,6 @@ from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
-from inventory.models.ec.location import Location
 from inventory.models.ec.section import Section
 
 class Command(BaseCommand):

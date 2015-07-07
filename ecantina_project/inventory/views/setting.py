@@ -11,10 +11,12 @@ from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.store import Store
+from inventory.models.ec.section import Section
 from inventory.forms.storeform import StoreForm
 from inventory.forms.organizationform import OrganizationForm
 from inventory.forms.imageuploadform import ImageUploadForm
 from inventory.forms.userform import UserForm
+from inventory.forms.sectionform import SectionForm
 
 
 # Organization
@@ -118,8 +120,8 @@ def ajax_save_org_data(request, org_id, store_id):
 
 
 
-# Stores
-#-------------
+# Stores - Edit
+#--------------
 
 
 @login_required(login_url='/inventory/login')
@@ -127,6 +129,9 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
     organization = Organization.objects.get(org_id=org_id)
     store = Store.objects.get(store_id=store_id)
     employee = Employee.objects.get(user=request.user)
+    
+    # Get all sections for store.
+    sections = Section.objects.filter(store=store)
     
     # Return all the stores belonging to this organization EXCEPT
     # the main store we are logged in as.
@@ -137,6 +142,7 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
         'store': store,
         'this_store_id': this_store_id,
         'stores': stores,
+        'sections': sections,
         'tab':'store_settings',
         'employee': employee,
         'form': StoreForm(instance=store),
@@ -146,12 +152,12 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
     })
 
 
-def ajax_edit_save_store_logo(request, org_id, store_id):
+def ajax_edit_save_store_logo(request, org_id, store_id, this_store_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
             # Fetch objects
-            store = Store.objects.get(store_id=store_id)
+            store = Store.objects.get(store_id=this_store_id)
             
             # Delete existing image if it exists.
             try:
@@ -184,11 +190,11 @@ def ajax_edit_save_store_logo(request, org_id, store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def ajax_edit_save_store_data(request, org_id, store_id):
+def ajax_edit_save_store_data(request, org_id, store_id, this_store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
-            store = Store.objects.get(store_id=store_id)
+            store = Store.objects.get(store_id=this_store_id)
             form = StoreForm(request.POST, instance=store)
             if form.is_valid():  # Ensure no missing fields are entered.
                 # Include logo with saving.
@@ -205,11 +211,46 @@ def ajax_edit_save_store_data(request, org_id, store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+def ajax_section(request, org_id, store_id, this_store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            organization = Organization.objects.get(org_id=org_id)
+            store = Store.objects.get(store_id=this_store_id)
+            section_id = request.POST['section_id']
+            try:
+                section = Section.objects.get(section_id=section_id)
+            except Section.DoesNotExist:
+                section = None
+            form = SectionForm(request.POST, instance=section)
+            form.instance.organization = organization
+            form.instance.store = store
+            if form.is_valid():  # Ensure no missing fields are entered.
+                form.save()
+                response_data = {'status' : 'success', 'message' : 'saved',}
+            else:
+                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def ajax_delete_section(request, org_id, store_id, this_store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            organization = Organization.objects.get(org_id=org_id)
+            store = Store.objects.get(store_id=this_store_id)
+            section_id = request.POST['section_id']
+            try:
+                Section.objects.get(section_id=section_id).delete()
+                response_data = {'status' : 'success', 'message' : 'deleted',}
+            except Section.DoesNotExist:
+                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 
-
-
+# Stores - Add
+#--------------
 
 @login_required(login_url='/inventory/login')
 def store_settings_page(request, org_id, store_id, this_store_id):

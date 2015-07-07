@@ -6,7 +6,6 @@ import os
 from inventory.models.gcd.issue import Issue
 from inventory.models.gcd.image import Image
 from inventory.models.ec.organization import Organization
-from inventory.models.ec.location import Location
 from inventory.models.ec.section import Section
 from inventory.models.ec.store import Store
 from inventory.models.ec.imageupload import ImageUpload
@@ -125,7 +124,6 @@ class Comic(models.Model):
     # Inventory Reference
     organization = models.ForeignKey(Organization)
     store = models.ForeignKey(Store)
-    location = models.ForeignKey(Location, null=True, blank=True)
     section = models.ForeignKey(Section, null=True, blank=True)
    
     def __str__(self):

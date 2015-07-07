@@ -10,7 +10,6 @@ from inventory.models.gcd.story import Story
 from inventory.forms.issueform import IssueForm
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
-from inventory.models.ec.location import Location
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
 from inventory.models.ec.imageupload import ImageUpload
@@ -22,10 +21,6 @@ from inventory.forms.imageuploadform import ImageUploadForm
 def add_product_page(request, org_id, store_id, issue_id):
     # Get Models
     employee = Employee.objects.get(user=request.user)
-    try:
-        locations = Location.objects.filter(store=employee.store)
-    except Location.DoesNotExist:
-        locations = None
     try:
         sections = Section.objects.filter(store=employee.store)
     except Section.DoesNotExist:
