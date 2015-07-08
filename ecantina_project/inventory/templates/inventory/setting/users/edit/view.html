@@ -32,14 +32,15 @@
                                         <input type="hidden" id="id_hidden_upload_id" value="{{ this_employee.profile.upload_id }}"/>
                                         <!-- /.Upload ID -->
                                         
-                                        {% if employee.profile.image == '' %}
+                                        {% if this_employee.profile.image == '' %}
                                         <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                            class="img-thumbnail center-block mb0 add-cover-image"
+                                           class="img-thumbnail center-block mb0 add-cover-image"
                                             name="logo-image" id="logo-image">
                                         {% else %}
-                                        <img src="{{ employee.profile.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
-                                                class="img-thumbnail center-block mb0 add-cover-image"
-                                                name="logo-image" id="logo-image">
+                                        <img src="{{ this_employee.profile.image.url }}" style="height:140px;width:140px;"
+                                             alt="Store Logo"
+                                           class="img-thumbnail center-block mb0 add-cover-image"
+                                            name="logo-image" id="logo-image">
                                         {% endif %}
                                                 
                                         <label class="form-control btn btn-success mt10 curp" >
