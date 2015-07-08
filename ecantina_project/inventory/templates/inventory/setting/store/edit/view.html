@@ -22,16 +22,16 @@
                                 <li class="tab new-location">
                                     <em class="fa fa-plus-square pr">
                                     </em>
-                                    <a href="/inventory/{{ org.org_id }}/{{ open_store_id }}/settings/store/new">
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/new">
                                         Add Store
                                     </a>
                                 </li>
                                 <li class="tab selected">
-                                    <a style=""; href="/inventory/{{ org.org_id }}/{{ open_store_id }}/settings/store/{{ this_store_id }}">{{ this_store.name }}</a>
+                                    <a style=""; href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id  }}">{{ this_store.name }}</a>
                                 </li>
                                 {% for a_store in stores %}
                                 <li class="tab">
-                                    <a href="/inventory/{{ org.org_id }}/{{ open_store_id }}/settings/store/{{ a_store.store_id }}">{{ a_store.name }}</a>
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ a_store.store_id }}">{{ a_store.name }}</a>
                                 </li>
                                 {% empty %}
                                 {% endfor %}
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <!-- Upload ID -->
-                                        <input type="hidden" id="id_hidden_upload_id" value="{{ store.logo.upload_id }}"/>
+                                        <input type="hidden" id="id_hidden_upload_id" value="{{ this_store.logo.upload_id }}"/>
                                         <!-- /.Upload ID -->
                                         
                                         {% if store.logo.image == '' %}
@@ -58,7 +58,7 @@
                                            class="img-thumbnail center-block mb0 add-cover-image"
                                             name="logo-image" id="logo-image">
                                         {% else %}
-                                        <img src="{{ store.logo.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
+                                        <img src="{{ this_store.logo.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
                                             class="img-thumbnail center-block mb0 add-cover-image"
                                              name="logo-image" id="logo-image">
                                         {% endif %}

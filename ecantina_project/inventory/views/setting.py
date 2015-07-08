@@ -256,8 +256,6 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'this_store': this_store,
-        'open_store_id': store_id,
-        'this_store_id': this_store_id,
         'stores': stores,
         'sections': Section.objects.filter(store=this_store),
         'tab':'store_settings',
