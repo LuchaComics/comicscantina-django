@@ -22,7 +22,7 @@ class StoreForm(forms.ModelForm):
         widgets = {
            'name': TextInput(attrs={
                 'class': u'form-control mb-lg',
-                'placeholder': u'Enter Organization Name'
+                'placeholder': u'Enter Store Name'
             }),
             'description': Textarea(attrs={
                 'class': u'form-control',

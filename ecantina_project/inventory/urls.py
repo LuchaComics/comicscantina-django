@@ -20,16 +20,14 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/save_org_logo$', setting.ajax_org_save_logo),
     url(r'^inventory/(\d+)/(\d+)/settings/save_org_data$', setting.ajax_save_org_data),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', setting.edit_store_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_logo$', setting.ajax_edit_save_store_logo),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_data$', setting.ajax_edit_save_store_data),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_logo$', setting.ajax_save_store_logo),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_data$', setting.ajax_save_store_data),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/section$', setting.ajax_section),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', setting.ajax_delete_section),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', setting.ajax_refresh_sections),
-                       
-                       
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', setting.store_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/locations$', setting.store_settings_page),
         
+                       
     url(r'^inventory/(\d+)/(\d+)/settings/users$', setting.store_settings_page),
              
     # Inventory Searching/Adding
