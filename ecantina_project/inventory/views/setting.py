@@ -312,21 +312,27 @@ def store_settings_page(request, org_id, store_id):
 def user_settings_page(request, org_id, store_id, this_store_id):
     organization = Organization.objects.get(org_id=org_id)
     store = Store.objects.get(store_id=store_id)
-    employee = Employee.objects.get(user=request.user)
+    employee = Employee.objects.get(user=request.user) # Current logged in user.
     
-    # Get all sections for store.
-    sections = Section.objects.filter(store=store)
-    
-    # Return all the stores belonging to this organization EXCEPT
-    # the main store we are logged in as.
+    # Try to find the store we will be processing and their respected employees.
+    try:
+        this_store = Store.objects.get(store_id=this_store_id)
+        employees = this_store.employees.all()
+    except Store.DoesNotExist:
+        this_store = None
+        employees = Employee.objects.filter(organization=organization)
+
+    # Return all the stores belonging to this organization.
     stores =  Store.objects.filter(organization=organization)
-    return render(request, 'inventory/setting/store/add/view.html',{
+
+    return render(request, 'inventory/setting/users/list/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': store,
+        'this_store': this_store,
         'stores': stores,
-        'sections': sections,
         'tab':'users_settings',
         'employee': employee,
+        'employees': employees,
         'form': StoreForm(),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,

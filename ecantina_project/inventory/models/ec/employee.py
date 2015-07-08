@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
-from inventory.models.ec.store import Store
+
 
 ROLE_CHOICES = (
     (settings.EMPLOYEE_OWNER_ROLE, 'Owner'),

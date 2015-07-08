@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.imageupload import ImageUpload
+from inventory.models.ec.employee import Employee
 
 
 class Store(models.Model):
@@ -60,6 +61,7 @@ class Store(models.Model):
     
     # Reference
     organization = models.ForeignKey(Organization)
+    employees = models.ManyToManyField(Employee)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):

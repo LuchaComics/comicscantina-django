@@ -1,0 +1,234 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-cog mr"></em>Settings <em class="fa fa-angle-right pl pr"></em>
+                Users</h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="users-panel" class="clearfix panel panel-default m-lg">
+                    <div class="panel-tabs w100 p m0" style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
+                        <ul class="tab-list clearfix">
+                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                            <li class="tab product-type dropdown" role="presentation">
+                                <a class="dropdown-toggle&quot;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                    {{ org.name }}
+                                </a>
+                            </li>
+                            <li class="tab {% if this_store == None %}selected{% endif %}">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0">All Stores</a>
+                            </li>
+                            {% for a_store in stores %}
+                            <li class="tab {% if a_store == this_store %}selected{% endif %}">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ a_store.store_id }}">{{ a_store.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel-body panel-body-main">
+                        <div class="col-sm-12">
+                            {% if this_store == None %}
+                            <legend>Users - All Stores</legend>
+                            {% else %}
+                            <legend>Users - {{ this_store.name }}</legend>
+                            {% endif %}
+                            <table class="table table-hover">
+                                <tbody><tr>
+                                    <th style="border:0;width:15%;"></th>
+                                    <th style="border:0;width:27%;">Name</th>
+                                    <th style="border:0;width:27%;">Email</th>
+                                    <th class="text-center" style="border:0;width:27%;">Edit/Remove</th>
+                                </tr>
+                                {% for an_employee in employees %}
+                                <tr>
+                                    <td>
+                                        <img style="width: 44px; height: 44px;"
+                                               src="{{ an_employee.profile.image.url }}"
+                                               alt="J Smith" class="user-image center-block">
+                                            </td>
+                                    <td>
+                                        <span class="mb0 pb0" style="font-size:12pt;font-weight:bold;display:block;">
+                                            {{ an_employee.user.first_name }} {{ an_employee.user.last_name }}
+                                        </span>
+                                        <span class="text-muted mt0 pt0" style="display:block;font-size:10pt;">
+                                            {% if an_employee.role == 0 %}
+                                                Owner
+                                            {% else %}
+                                            todo
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="mailto:johndoe@email.com">janedoe@email.com</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="submit" class="btn btn-sm btn-primary" style="width:37px;">
+                                            <em class="fa fa-edit center-block text-center p-sm"></em>
+                                        </button>
+                                        <button type="submit" class="btn btn-sm btn-danger" style="width:37px;">
+                                            <em class="fa fa-remove center-block text-center p-sm"></em>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-12 mt-lg">
+                            <hr class="pb">
+                            <div class="col-sm-5">
+                                <div class="jumbotron bg-gray-lighter">
+                                    <h3 class="p0 mt0 mb-lg">Profile Image</h3>
+                                    <p class="mb0 text-justify">This is the user's contact image.  It will appear when they are logged in, and with their user information, as well as in reports for sales they have made.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label text-right">Profile Image</label>
+                                    <div class="col-md-8">
+                                        <form action="/upload-org-logo" class="dropzone dz-clickable" id="org-logo-uploader">
+                                            <div class="dz-default dz-message"><span>Drop profile image here, or click to select a file.</span></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="form-horizontal">
+                            <div class="col-sm-12">
+                                <hr class="pb">
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Account Information</h3>
+                                        <p class="mb0 text-justify">This is the employee's login information to access the point of sale checkout page, as well as the inventory.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 mt-lg">
+                                    <div class="form-group">
+                                        <label for="txt-login" class="col-md-4 control-label">User Login</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-login" name="login" class="form-control" required="" type="text">
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-login" class="col-md-4 control-label">Password</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-password" name="password" class="form-control" required="" type="password">
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-firstname" class="col-md-4 control-label">First Name</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-firstname" name="firstname" class="form-control" required="" type="text">
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-lastname" class="col-md-4 control-label">Last Name</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-lastname" name="lastname" class="form-control" required="" type="email">
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-email" class="col-md-4 control-label">Email Address</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-email" name="email" class="form-control" required="" type="text">
+                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr class="pb">
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Location &amp; User Types</h3>
+                                        <p class="mb0 text-justify" style="font-size:12pt;">Here you can assign your user to a store (or multiple stores).  This will allow them to access the features for a particular store, depending on the user type you assign them.<br>
+                                        User type determines which pages a user can access: <br>
+                                        </p><ul style="list-style-type:circle;">
+                                            <li>Owner: access everything in the administration panel</li>
+                                            <li>Manager: access most of the administration for the store(s) they are assigned to</li>
+                                            <li>Employee: access to inventory, point of sale, and pull list for the store(s) they are assigned to</li>
+                                        </ul>
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 mt-lg">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Location Access</label>
+                                        <div class="col-md-8">
+                                            <div class="checkbox c-checkbox pull-left mr-xl">
+                                                <label>
+                                                    <input id="cb-location-store1" name="location[]" type="checkbox">
+                                                        <span class="fa fa-check"></span>Store 1
+                                                        </label>
+                                            </div>
+                                            <div class="checkbox c-checkbox pull-left mr-xl">
+                                                <label>
+                                                    <input id="cb-location-store2" name="location[]" type="checkbox">
+                                                        <span class="fa fa-check"></span>Store 2
+                                                        </label>
+                                            </div>
+                                            <div class="checkbox c-checkbox pull-left mr-xl">
+                                                <label>
+                                                    <input id="cb-location-store3" name="location[]" type="checkbox">
+                                                        <span class="fa fa-check"></span>Store 3
+                                                        </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sel-role" class="col-md-4 control-label">User Type</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control mb10" name="role" id="sel-role" required="">
+                                                <option value="">User Type</option>
+                                                <option value="Owner">Owner</option>
+                                                <option value="Manager">Manager</option>
+                                                <option value="Employee">Employee</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel-footer">
+                        <button class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
+                            <span class="btn-label"><i class="fa fa-remove"></i></span>Remove User
+                        </button>
+                        <button type="submit" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                            <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
+                        </button>
+                    </div>
+                    <!-- END panel-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Page footer-->
+<footer>
+    <span>&copy; 2015 - Comics Cantina</span>
+</footer>
+
+<!----------------------------------------------------------------------------->
+
+<!-- Modal -->
+<div id="ajax_modal_placeholder"
+   name="ajax_modal_placeholder"></div>
+<!-- end modal -->
+
+<!----------------------------------------------------------------------------->
+
+{% include "inventory/setting/users/edit/js.html" %}
+
+{% endblock content %}
