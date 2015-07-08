@@ -248,7 +248,6 @@ def ajax_save_store_logo(request, org_id, store_id, this_store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-
 # Stores - Edit
 #---------------
 
@@ -440,6 +439,40 @@ def ajax_delete_user(request, org_id, store_id, this_employee_id):
                 'status': 'success',
                 'message': 'deleted',
             }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+@login_required()
+def ajax_assign_employee_to_store(request, org_id, store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            this_employee_id = request.POST['this_employee_id']
+            this_store_id = request.POST['this_store_id']
+            
+            # Find store & employee
+            try:
+                store = Store.objects.get(store_id=this_store_id)
+            except Store.DoesNotExist:
+                store = None
+            try:
+                employee = Employee.objects.get(employee_id=this_employee_id)
+            except Employee.DoesNotExist:
+                employee = None
+        
+            # Assignment - If employee exists for this store then remove it,
+            # else then add it in there.
+            if employee in store.employees.all():
+                store.employees.remove(employee)
+            else:
+                store.employees.add(employee)
+        
+            response_data = {
+                'status': 'success',
+                'message': 'saved',
+            }
+        else:
+            response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 

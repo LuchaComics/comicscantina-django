@@ -247,4 +247,40 @@
         });
     }
 
+    function ajax_store_selection(store_id) {
+    var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
+    
+    var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('this_employee_id', {{ this_employee.employee_id }});
+        data.append('this_store_id', store_id);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+                    //window.location = ''; // Reload page.
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+                },
+            error: function(xhr,status,error) {
+                    console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+
 </script>
