@@ -26,7 +26,10 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', setting.ajax_delete_section),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', setting.ajax_refresh_sections),
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', setting.store_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', setting.user_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', setting.users_list_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)$', setting.user_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_image$', setting.ajax_save_employee_image),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', setting.ajax_save_user_data),                   
              
     # Inventory Searching/Adding
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),

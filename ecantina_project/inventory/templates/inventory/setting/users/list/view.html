@@ -72,10 +72,13 @@
                                         <a href="mailto:{{ an_employee.user.email }}">{{ an_employee.user.email }}</a>
                                     </td>
                                     <td class="text-center">
-                                        <button type="submit" class="btn btn-sm btn-primary" style="width:37px;">
+                                        <!-- Edit -->
+                                        <button onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ store.store_id }}/{{ an_employee.employee_id }}';"
+                                                   type="button" class="btn btn-sm btn-primary" style="width:37px;">
                                             <em class="fa fa-edit center-block text-center p-sm"></em>
                                         </button>
-                                        <button type="submit" class="btn btn-sm btn-danger" style="width:37px;">
+                                        <!-- Remove -->
+                                        <button {% if an_employee.role == 0 %}disabled="true"{% endif %} type="button" class="btn btn-sm btn-danger" style="width:37px;">
                                             <em class="fa fa-remove center-block text-center p-sm"></em>
                                         </button>
                                     </td>
