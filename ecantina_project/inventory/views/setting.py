@@ -43,6 +43,7 @@ def org_settings_page(request, org_id, store_id):
     })
 
 
+@login_required()
 def ajax_org_save_logo(request, org_id, store_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
@@ -81,6 +82,7 @@ def ajax_org_save_logo(request, org_id, store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_save_org_data(request, org_id, store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -132,6 +134,7 @@ def ajax_refresh_sections(request, org_id, store_id, this_store_id):
     })
 
 
+@login_required()
 def ajax_section(request, org_id, store_id, this_store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -154,6 +157,7 @@ def ajax_section(request, org_id, store_id, this_store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_delete_section(request, org_id, store_id, this_store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -169,6 +173,7 @@ def ajax_delete_section(request, org_id, store_id, this_store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_save_store_data(request, org_id, store_id, this_store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -199,6 +204,7 @@ def ajax_save_store_data(request, org_id, store_id, this_store_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_save_store_logo(request, org_id, store_id, this_store_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
@@ -289,6 +295,37 @@ def store_settings_page(request, org_id, store_id):
         'stores': stores,
         'sections': sections,
         'tab':'store_settings',
+        'employee': employee,
+        'form': StoreForm(),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+
+# User - Edit
+#--------------
+
+
+@login_required(login_url='/inventory/login')
+def user_settings_page(request, org_id, store_id, this_store_id):
+    organization = Organization.objects.get(org_id=org_id)
+    store = Store.objects.get(store_id=store_id)
+    employee = Employee.objects.get(user=request.user)
+    
+    # Get all sections for store.
+    sections = Section.objects.filter(store=store)
+    
+    # Return all the stores belonging to this organization EXCEPT
+    # the main store we are logged in as.
+    stores =  Store.objects.filter(organization=organization)
+    return render(request, 'inventory/setting/store/add/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': store,
+        'stores': stores,
+        'sections': sections,
+        'tab':'users_settings',
         'employee': employee,
         'form': StoreForm(),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

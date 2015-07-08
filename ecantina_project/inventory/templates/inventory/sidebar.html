@@ -120,8 +120,8 @@
                                <span>Stores</span>
                            </a>
                        </li>
-                       <li class=" ">
-                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users" title="Users">
+                       <li class={% if tab == 'users_settings' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ store.store_id }}" title="Users">
                                <span>Users</span>
                            </a>
                        </li>

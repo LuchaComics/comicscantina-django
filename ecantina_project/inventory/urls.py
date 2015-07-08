@@ -26,9 +26,7 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', setting.ajax_delete_section),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', setting.ajax_refresh_sections),
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', setting.store_settings_page),
-        
-                       
-    url(r'^inventory/(\d+)/(\d+)/settings/users$', setting.store_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', setting.user_settings_page),
              
     # Inventory Searching/Adding
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
