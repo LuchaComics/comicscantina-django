@@ -261,4 +261,37 @@
         });
     }
 
+    function ajax_delete_employee(employee_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/delete/'+employee_id;
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(json_result){
+                    if (json_result.status == "success")
+                    {
+                        //alert("ok saved"); // Debugging Purposes
+                        window.location = ''; // Reload page.
+                        //ajax_refresh_sections();
+                    }
+                    else
+                    {
+                        alert(json_result.message);
+                    }
+                },
+                error: function(xhr,status,error) {
+                    console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                },
+                complete: function(xhr,status) {
+                
+                }
+            });
+    }
+
+
 </script>

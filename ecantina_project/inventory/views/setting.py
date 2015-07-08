@@ -420,6 +420,29 @@ def ajax_save_user_data(request, org_id, store_id, this_store_id, this_employee_
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
+def ajax_delete_user(request, org_id, store_id, this_employee_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            # Load up our employee & user objects.
+            try:
+                employee = Employee.objects.get(employee_id=this_employee_id)
+                user = employee.user
+            except Employee.DoesNotExist:
+                employee = None
+                user = None
+        
+            # Delete & return success
+            user.delete()
+            employee.delete()
+            response_data = {
+                'status': 'success',
+                'message': 'deleted',
+            }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
 # User - Edit
 #----------------
 
