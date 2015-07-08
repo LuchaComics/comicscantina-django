@@ -92,6 +92,7 @@
         var data = new FormData();
         // Store
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('role', $('#id_role').val());
         data.append('joined', $('#id_joined').val());
         data.append('email', $('#id_email').val());
         data.append('upload_id', $('#id_hidden_upload_id').val());
@@ -133,7 +134,7 @@
                 if (json_result.status == "success")
                 {
                     //alert("ok saved"); // Debugging Purposes
-                    window.location = ''; // Reload page.
+                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0';
                 }
                 else
                 {

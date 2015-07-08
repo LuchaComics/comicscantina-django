@@ -20,7 +20,7 @@
                             <li class="tab new-location">
                                 <em class="fa fa-plus-square pr">
                                 </em>
-                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ store.store_id }}/new">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ store.store_id }}/new" style="color: #fff;">
                                     Add User
                                 </a>
                             </li>
@@ -64,6 +64,10 @@
                                         <span class="text-muted mt0 pt0" style="display:block;font-size:10pt;">
                                             {% if an_employee.role == 0 %}
                                                 Owner
+                                            {% elif an_employee.role == 1 %}
+                                                Manager
+                                            {% elif an_employee.role == 2 %}
+                                                Worker
                                             {% else %}
                                             todo
                                             {% endif %}

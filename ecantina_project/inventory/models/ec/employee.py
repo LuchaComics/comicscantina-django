@@ -10,8 +10,7 @@ from inventory.models.ec.organization import Organization
 ROLE_CHOICES = (
     (settings.EMPLOYEE_OWNER_ROLE, 'Owner'),
     (settings.EMPLOYEE_MANAGER_ROLE, 'Manager'),
-    (settings.EMPLOYEE_CLERC_ROLE, 'Clerc'),
-    (settings.EMPLOYEE_CASHIER_ROLE, 'Cashier'),
+    (settings.EMPLOYEE_WORKER_ROLE, 'Worker'),
 )
 
 class Employee(models.Model):

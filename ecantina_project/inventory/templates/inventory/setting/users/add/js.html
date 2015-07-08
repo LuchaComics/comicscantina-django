@@ -50,7 +50,7 @@
         }
     
         // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ this_store.store_id }}/{{ this_employee.employee_id }}/save_image';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0/0/save_image';
     
         var data = new FormData();
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
@@ -86,12 +86,12 @@
     }
 
     function ajax_save_edit() {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ this_store.store_id }}/{{ this_employee.employee_id }}/save_data';
-
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0/0/save_data';
     
         var data = new FormData();
         // Store
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('role', $('#id_role').val());
         data.append('joined', $('#id_joined').val());
         data.append('email', $('#id_email').val());
         data.append('upload_id', $('#id_hidden_upload_id').val());
@@ -133,7 +133,7 @@
                 if (json_result.status == "success")
                 {
                     //alert("ok saved"); // Debugging Purposes
-                    window.location = ''; // Reload page.
+                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0'; 
                 }
                 else
                 {

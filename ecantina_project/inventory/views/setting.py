@@ -30,7 +30,7 @@ def org_settings_page(request, org_id, store_id):
     form = OrganizationForm(instance=employee.organization)
     logo = employee.organization.logo
     return render(request, 'inventory/setting/org/view.html',{
-        'org': Organization.objects.get(org_id=org_id),
+        'org': employee.organization,
         'store': Store.objects.get(store_id=store_id),
         'upload_id': 0 if logo is None else logo.upload_id,
         'tab':'org_settings',
@@ -387,37 +387,36 @@ def ajax_save_user_data(request, org_id, store_id, this_store_id, this_employee_
                 employee = None
                 user = None
 
-            # Save User
+            # Validate
             user_form = UserForm(request.POST, instance=user)
-            if user_form.is_valid():
-                user_form.save()
-            else:
+            employee_form = EmployeeForm(request.POST, instance=employee)
+            employee_form.instance.organization = Organization.objects.get(org_id=org_id)
+            if user_form.is_valid() is False:
                 return HttpResponse(json.dumps({
                     'status' : 'failed',
                     'message' : json.dumps(user_form.errors
                 )}), content_type="application/json")
-
-            # Save Employee
-            form = EmployeeForm(request.POST, instance=employee)
-            form.instance.organization = Organization.objects.get(org_id=org_id)
-            if form.is_valid():  # Ensure no missing fields are entered.
-                # Include logo with saving.
-                try:
-                    upload_id = request.POST['upload_id']
-                    if upload_id is not '':
-                        form.profile = ImageUpload.objects.get(upload_id=int(upload_id))
-                except ImageUpload.DoesNotExist:
-                    pass
-                form.instance.user = user_form.instance
-                form.save()
-                response_data = {
-                    'status': 'success',
-                    'message': 'saved',
-                    'store_id': form.instance.employee_id,
-                }
-            else:
-                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
-
+            if employee_form.is_valid() is False:
+                return HttpResponse(json.dumps({
+                    'status' : 'failed',
+                    'message' : json.dumps(employee_form.errors
+                )}), content_type="application/json")
+    
+            # Save
+            try:
+                upload_id = request.POST['upload_id']
+                if upload_id is not '':
+                    employee_form.profile = ImageUpload.objects.get(upload_id=int(upload_id))
+            except ImageUpload.DoesNotExist:
+                pass
+            user_form.save()
+            employee_form.instance.user = user_form.instance
+            employee_form.save()
+            response_data = {
+                'status': 'success',
+                'message': 'saved',
+                'store_id': employee_form.instance.employee_id,
+            }
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
@@ -470,7 +469,7 @@ def add_user_settings_page(request, org_id, store_id, this_store_id):
         'stores': Store.objects.filter(organization=organization),
         'employee': Employee.objects.get(user=request.user),
         'this_employee': None,
-        'employee_form': EmployeeForm(instance=None),
+        'employee_form': EmployeeForm(initial={'joined':datetime.now()}),
         'user_form': UserForm(),
         'tab':'users_settings',
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

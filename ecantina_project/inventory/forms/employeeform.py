@@ -14,12 +14,13 @@ from inventory.models.ec.employee import Employee
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['joined', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'email' , 'phone' ,
+        fields = ['role', 'joined', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'email' , 'phone' ,
         ]
         labels = {
         
         }
         widgets = {
+            'role': Select(attrs={'class': u'form-control'}),
             'joined': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'readonly': u'',
