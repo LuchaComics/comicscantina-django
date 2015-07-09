@@ -22,4 +22,5 @@ from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.comic import Comic
+from inventory.models.ec.helprequest import HelpRequest
 

@@ -37,6 +37,8 @@ urlpatterns = patterns('',
              
     # Help
     url(r'^inventory/(\d+)/(\d+)/help$', help.help_page),
+    url(r'^inventory/(\d+)/(\d+)/help/save_image$', help.ajax_save_image),
+    url(r'^inventory/(\d+)/(\d+)/help/save_data$', help.ajax_save_data),
                        
     # Inventory Searching/Adding
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
