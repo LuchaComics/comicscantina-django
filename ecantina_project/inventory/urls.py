@@ -3,7 +3,9 @@ from inventory.views import dashboard
 from inventory.views import list
 from inventory.views import add
 from inventory.views import search
-from inventory.views import setting
+from inventory.views import setting_org
+from inventory.views import setting_stores
+from inventory.views import setting_users
 from inventory.views import help
 
 urlpatterns = patterns('',
@@ -13,34 +15,41 @@ urlpatterns = patterns('',
 #
                        
     # Dashboard
+    #------------
     url(r'^inventory/(\d+)/(\d+)$', dashboard.dashboard_page),
     url(r'^inventory/(\d+)/(\d+)/dashboard$', dashboard.dashboard_page),
                        
     # Settings
-    url(r'^inventory/(\d+)/(\d+)/settings/organization$', setting.org_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/save_org_logo$', setting.ajax_org_save_logo),
-    url(r'^inventory/(\d+)/(\d+)/settings/save_org_data$', setting.ajax_save_org_data),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', setting.edit_store_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_logo$', setting.ajax_save_store_logo),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_data$', setting.ajax_save_store_data),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/section$', setting.ajax_section),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', setting.ajax_delete_section),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', setting.ajax_refresh_sections),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/new$', setting.store_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', setting.users_list_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)$', setting.edit_user_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/new', setting.add_user_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_image$', setting.ajax_save_employee_image),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', setting.ajax_save_user_data),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', setting.ajax_delete_user),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', setting.ajax_assign_employee_to_store),
+    #-------------
+    # Org
+    url(r'^inventory/(\d+)/(\d+)/settings/organization$', setting_org.org_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/save_org_logo$', setting_org.ajax_org_save_logo),
+    url(r'^inventory/(\d+)/(\d+)/settings/save_org_data$', setting_org.ajax_save_org_data),
+    # Store
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', setting_stores.edit_store_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_logo$', setting_stores.ajax_save_store_logo),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_data$', setting_stores.ajax_save_store_data),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/section$', setting_stores.ajax_section),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', setting_stores.ajax_delete_section),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', setting_stores.ajax_refresh_sections),
+    url(r'^inventory/(\d+)/(\d+)/settings/store/new$', setting_stores.store_settings_page),
+    # Users
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', setting_users.users_list_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)$', setting_users.edit_user_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/new', setting_users.add_user_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_image$', setting_users.ajax_save_employee_image),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', setting_users.ajax_save_user_data),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', setting_users.ajax_delete_user),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', setting_users.ajax_assign_employee_to_store),
              
     # Help
+    #-------------
     url(r'^inventory/(\d+)/(\d+)/help$', help.help_page),
     url(r'^inventory/(\d+)/(\d+)/help/save_image$', help.ajax_save_image),
     url(r'^inventory/(\d+)/(\d+)/help/save_data$', help.ajax_save_data),
                        
     # Inventory Searching/Adding
+    #-------------
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search.ajax_search_comics),
     url(r'^inventory/(\d+)/(\d+)/add/(\d+)$', add.add_product_page),

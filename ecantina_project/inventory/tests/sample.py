@@ -10,7 +10,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
-from inventory.views import setting
 from inventory.models.gcd.country import Country
 from inventory.models.gcd.publisher import Publisher
 from inventory.models.gcd.language import Language
@@ -56,6 +55,8 @@ class SamplDataPopulator():
             store.delete()
         for employee in Employee.objects.all():
             employee.delete()
+        for section in Section.objects.all():
+            section.delete()
         User.objects.all().delete()
 
     def run_populate(self):
@@ -139,6 +140,36 @@ class SamplDataPopulator():
             )
         except Exception as e:
             store = Store.objects.get(store_id=1)
+
+        #-----------------
+        # Sections
+        #-----------------
+        sections = Section.objects.filter(store=store)
+        if len(sections) is 0:
+            Section.objects.create(
+                section_id=1,
+                name='Downstairs',
+                store=store,
+                organization = organization,
+            )
+            Section.objects.create(
+                section_id=2,
+                name='Upstairs',
+                store=store,
+                organization = organization,
+            )
+            Section.objects.create(
+                section_id=3,
+                name='Front Pile',
+                store=store,
+                organization = organization,
+            )
+            Section.objects.create(
+                section_id=4,
+                name='Back Pile',
+                store=store,
+                organization = organization,
+            )
 
         #-----------------
         # Employees

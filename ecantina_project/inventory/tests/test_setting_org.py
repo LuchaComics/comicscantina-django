@@ -9,8 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
-from captcha.models import CaptchaStore
-from inventory.views import setting
+from inventory.views import setting_org
 from inventory.models.ec.imageupload import ImageUpload
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
@@ -31,7 +30,7 @@ KWARGS = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
 class OrganizationSettingsTestCase(TestCase):
     """
         Run in Console:
-        python manage.py test inventory.tests.test_settings_org
+        python manage.py test inventory.tests.test_setting_org
     """
     def tearDown(self):
         # Clear Sample Data
@@ -39,8 +38,6 @@ class OrganizationSettingsTestCase(TestCase):
         populator.dealloc()
     
     def setUp(self):
-        captcha_count = CaptchaStore.objects.count()
-        self.failUnlessEqual(captcha_count, 0)
         now = datetime.now()
     
         # Create Sample Data
@@ -50,15 +47,15 @@ class OrganizationSettingsTestCase(TestCase):
     
     def test_url_resolves_to_org_settings_page(self):
         found = resolve('/inventory/1/1/settings/organization')
-        self.assertEqual(found.func, setting.org_settings_page)
+        self.assertEqual(found.func, setting_org.org_settings_page)
 
     def test_url_resolves_to_ajax_store_save_image(self):
         found = resolve('/inventory/1/1/settings/save_org_logo')
-        self.assertEqual(found.func, setting.ajax_org_save_logo)
+        self.assertEqual(found.func, setting_org.ajax_org_save_logo)
 
     def test_url_resolves_to_ajax_save_org_data(self):
         found = resolve('/inventory/1/1/settings/save_org_data')
-        self.assertEqual(found.func, setting.ajax_save_org_data)
+        self.assertEqual(found.func, setting_org.ajax_save_org_data)
 
     def test_org_settings_page_returns_correct_html(self):
         client = Client()
@@ -91,11 +88,6 @@ class OrganizationSettingsTestCase(TestCase):
         self.assertEqual(array['status'], 'success')
 
     def test_save_org_data_with_success(self):
-        # Developer Notes:
-        # To get unit tests working with the django-simple-captcha then follow:
-        # http://stackoverflow.com/questions/3159284/how-to-unit-test-a-form-with-a-captcha-field-in-django
-        
-        # Test
         client = Client()
         client.login(
             username=TEST_USER_USERNAME,
