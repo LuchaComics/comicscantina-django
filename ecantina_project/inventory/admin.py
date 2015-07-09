@@ -18,12 +18,19 @@ from inventory.models.gcd.brandemblemgroup import BrandEmblemGroup
 
 # Comics Cantina Database Models
 #------------------------------------------------------------------
-from inventory.models.ec.store import Store
-from inventory.models.ec.employee import Employee
 from inventory.models.ec.comic import Comic
+from inventory.models.ec.customer import Customer
+from inventory.models.ec.employee import Employee
+from inventory.models.ec.helprequest import HelpRequest
+from inventory.models.ec.imageupload import ImageUpload
+from inventory.models.ec.organization import Organization
+from inventory.models.ec.section import Section
+from inventory.models.ec.store import Store
+
 
 # Registering Models
 #------------------------------------------------------------------
+# GCD
 admin.site.register(Country)
 admin.site.register(Language)
 admin.site.register(Image)
@@ -36,6 +43,12 @@ admin.site.register(StoryType)
 admin.site.register(Story)
 admin.site.register(BrandUse)
 admin.site.register(BrandEmblemGroup)
-admin.site.register(Store)
-admin.site.register(Employee)
+# EC
 admin.site.register(Comic)
+admin.site.register(Customer)
+admin.site.register(Employee)
+admin.site.register(HelpRequest)
+admin.site.register(ImageUpload)
+admin.site.register(Organization)
+admin.site.register(Section)
+admin.site.register(Store)

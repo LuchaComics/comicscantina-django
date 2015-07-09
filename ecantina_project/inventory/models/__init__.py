@@ -16,6 +16,7 @@ from inventory.models.gcd.brandemblemgroup import BrandEmblemGroup
 
 # Comics Cantina Database Models
 #------------------------------------------------------------------
+from inventory.models.ec.customer import Customer
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee

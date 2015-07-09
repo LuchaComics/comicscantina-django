@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.contrib.auth.models import User
 from inventory.models.ec.imageupload import ImageUpload
+from inventory.models.ec.customer import Customer
 
 
 class Organization(models.Model):
@@ -45,6 +46,7 @@ class Organization(models.Model):
     # References
     administrator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
+    customers = models.ManyToManyField(Customer)
     
     def __str__(self):
         return self.name

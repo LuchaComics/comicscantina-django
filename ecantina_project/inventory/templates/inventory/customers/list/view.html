@@ -1,0 +1,66 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<section style="height:100% !important;">
+    <!-- Page content-->
+    <div class="content-wrapper" style="padding-bottom:0;height:100% !important;">
+        
+        <h3 style="margin-bottom:0;">Customer List
+            <small>View list of customers subscribed to your organization.</small>
+        </h3>
+        <!-- START row 1 -->
+        <div class="row main-row">
+            <div id="list-filter-bar" class="clearfix navbar-inverse"
+                style="background-color:#eee;width:100%;border-bottom:1px solid rgb(207,219,226);">
+                <div class="pull-left">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                            style="margin:3px;margin-right:3px;" data-toggle="dropdown" aria-expanded="false">
+                            Sort By&nbsp;&nbsp;<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">First Name&nbsp;&nbsp;<em class="fa fa-sort-alpha-asc"
+                                style="top:2px;"></em></a></li>
+                            <li><a href="#">Last Name</a></li>
+                            <li><a href="#">Email</a></li>
+                            <li><a href="#">Last Login</a></li>
+                            <li><a href="#"># Orders</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="pull-right;" style="float:right;">
+                    <div class="input-group input-group-sm pull-right"
+                        style="width:400px;margin-top:3px;margin-right:10px;">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" style="margin-top:0px;">Search
+                                    Customers
+                                </button>
+                            </span>
+                            </div>
+                    <!-- /input-group -->
+                </div>
+            </div>
+            
+            <!-- TABLE RESULTS -->
+            <div id="ajax_placeholder"
+               name="ajax_placeholder"></div>
+            <!-- /.TABLE RESULTS -->
+        </div>
+    </div>
+</section>
+
+
+<!----------------------------------------------------------------------------->
+
+<!-- Modal -->
+<div id="ajax_modal_placeholder"
+   name="ajax_modal_placeholder"></div>
+<!-- end modal -->
+
+<!----------------------------------------------------------------------------->
+
+{% include "inventory/customers/list/js.html" %}
+
+{% endblock content %}

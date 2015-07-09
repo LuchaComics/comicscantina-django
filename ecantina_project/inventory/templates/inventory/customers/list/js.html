@@ -1,0 +1,108 @@
+{% load staticfiles %}
+<script>
+    $(document).ready(function () {
+       /**
+        *  The following section makes the 'sections' automatically load
+        *  when this page is refreshed or loaded.
+        */
+        ajax_refresh_table();
+    });
+    
+    
+    function ajax_refresh_table() {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customers/refresh_table';
+        
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(result){
+                $('#ajax_placeholder').html(result); // Update UI.
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        });
+    }
+
+    function ajax_section(section_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/section';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('name', $('#id_section_id_' + section_id ).val());
+        data.append('section_id', section_id);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                //alert("ok saved"); // Debugging Purposes
+                //window.location = ''; // Reload page.
+                ajax_refresh_sections();
+                }
+                else
+                {
+                alert(json_result.message);
+                }
+                },
+                error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                },
+                complete: function(xhr,status) {
+                
+                }
+                });
+}
+
+function ajax_delete_section(section_id) {
+    var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/delete_section';
+    
+    var data = new FormData();
+    // Store
+    data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+    data.append('name', $('#id_section_name').val());
+    data.append('section_id', section_id);
+    jQuery.ajax({
+                url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(json_result){
+                if (json_result.status == "success")
+                {
+                //alert("ok saved"); // Debugging Purposes
+                //window.location = ''; // Reload page.
+                ajax_refresh_sections();
+                }
+                else
+                {
+                alert(json_result.message);
+                }
+                },
+                error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                },
+                complete: function(xhr,status) {
+                
+                }
+                });
+}
+</script>
