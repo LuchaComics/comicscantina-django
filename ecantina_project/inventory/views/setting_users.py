@@ -79,6 +79,8 @@ def ajax_save_employee_image(request, org_id, store_id, this_store_id, this_empl
                     employee = Employee.objects.get(employee_id=this_employee_id)
                     employee.profile = form.instance
                     employee.save()
+                    form.instance.is_assigned = True
+                    form.save()
                 except Employee.DoesNotExist:
                     pass
                 
@@ -88,7 +90,7 @@ def ajax_save_employee_image(request, org_id, store_id, this_store_id, this_empl
                     'message' : 'saved',
                     'src': form.instance.image.url,
                     'id': form.instance.upload_id,
-            }
+                }
             else:
                 response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
     return HttpResponse(json.dumps(response_data), content_type="application/json")

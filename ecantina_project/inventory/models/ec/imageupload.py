@@ -17,6 +17,7 @@ class ImageUpload(models.Model):
     
     upload_id = models.AutoField(primary_key=True)
     upload_date = models.DateField(auto_now=True, null=True)
+    is_assigned = models.BooleanField(default=False)
     image = models.ImageField(upload_to='upload', null=True, blank=True)
     user = models.ForeignKey(User, null=True)
     

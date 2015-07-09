@@ -128,6 +128,8 @@ def ajax_save_store_logo(request, org_id, store_id, this_store_id):
                     store = Store.objects.get(store_id=this_store_id)
                     store.logo = form.instance
                     store.save()
+                    form.instance.is_assigned = True
+                    form.save()
                 except Store.DoesNotExist:
                     pass
                 

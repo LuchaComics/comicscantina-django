@@ -68,6 +68,7 @@ def ajax_org_save_logo(request, org_id, store_id):
             form = ImageUploadForm(request.POST, request.FILES)
             if form.is_valid():
                 form.instance.user = request.user
+                form.instance.is_assigned = True
                 form.save()
                 
                 # Update organization with new logo image.

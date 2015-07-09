@@ -129,6 +129,8 @@ def create_organization(form):
     if upload_id is not None and upload_id is not '':
         try:
             image_upload = ImageUpload.objects.get(upload_id=int(upload_id))
+            image_upload.is_assigned = True
+            image_upload.save()
         except ImageUpload.DoesNotExist:
             image_upload = None
 
