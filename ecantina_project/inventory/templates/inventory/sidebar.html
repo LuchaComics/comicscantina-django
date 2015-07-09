@@ -125,10 +125,14 @@
                                <span>Users</span>
                            </a>
                        </li>
-                   </ul>
+                    </ul>
                </li>
-
-               
+               <li class={% if tab == 'help' %}" active" {% else %}" "{% endif %}>
+                   <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/help" title="Help">
+                       <em class="icon-question"></em>
+                       <span>Help</span>
+                   </a>
+               </li>
             </ul>
             <!-- END sidebar nav-->
         </nav>

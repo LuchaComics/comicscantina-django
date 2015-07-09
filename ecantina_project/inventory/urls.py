@@ -4,6 +4,7 @@ from inventory.views import list
 from inventory.views import add
 from inventory.views import search
 from inventory.views import setting
+from inventory.views import help
 
 urlpatterns = patterns('',
 #                       # Custom Files
@@ -34,6 +35,9 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', setting.ajax_delete_user),
     url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', setting.ajax_assign_employee_to_store),
              
+    # Help
+    url(r'^inventory/(\d+)/(\d+)/help$', help.help_page),
+                       
     # Inventory Searching/Adding
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search.ajax_search_comics),
