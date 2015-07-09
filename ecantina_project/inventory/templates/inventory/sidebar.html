@@ -44,6 +44,14 @@
                     </a>
                 </li>
                 
+                <!-- CHECKOUT -->
+                <li class={% if tab == 'checkout' %}" active" {% else %} {% endif %}>
+                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout" title="Checkout">
+                        <em class="fa fa-shopping-cart"></em>
+                        <span>Checkout</span>
+                    </a>
+                </li>
+                
                 <!-- INVENTORY -->
                 <li class=" ">
                     <!-- inventory menu header -->
