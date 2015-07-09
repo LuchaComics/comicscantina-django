@@ -8,6 +8,7 @@ from inventory.views import setting_stores
 from inventory.views import setting_users
 from inventory.views import help
 from inventory.views import customers
+from inventory.views import checkout
 
 urlpatterns = patterns('',
 #                       # Custom Files
@@ -54,6 +55,9 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/customers$', customers.customers_page),
     url(r'^inventory/(\d+)/(\d+)/add_customer$', customers.add_customer_page),
                        
+    # Checkout
+    #-------------
+    url(r'^inventory/(\d+)/(\d+)/checkout$', checkout.checkout_page),
                        
                        
                        
