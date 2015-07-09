@@ -99,6 +99,29 @@
                         </li>
                     </ul>
                 </li>
+                
+               <!-- EMAIL LISTS -->
+               <li class=" ">
+                   <!-- sales menu header -->
+                   <a href="#customers" title="Customers" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                       <em class="icon-user"></em>
+                       <span>Emailing List</span>
+                   </a>
+                   <!-- inventory menu items -->
+                   <ul id="customers" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
+                       <li class="sidebar-subnav-header">Mailing List</li>
+                       <li class={% if tab == 'add_customer' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/add_customer" title="Add Customer">
+                               <span>Add Customer</span>
+                           </a>
+                       </li>
+                       <li class={% if tab == 'customers_list' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customers" title="Customer List">
+                               <span>Customer List</span>
+                           </a>
+                       </li>
+                   </ul>
+               </li>
                
                <!-- SETTINGS -->
                <li class=" ">
@@ -127,6 +150,7 @@
                        </li>
                     </ul>
                </li>
+               <!-- HELP -->
                <li class={% if tab == 'help' %}" active" {% else %}" "{% endif %}>
                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/help" title="Help">
                        <em class="icon-question"></em>

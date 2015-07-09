@@ -7,6 +7,7 @@ from inventory.views import setting_org
 from inventory.views import setting_stores
 from inventory.views import setting_users
 from inventory.views import help
+from inventory.views import customers
 
 urlpatterns = patterns('',
 #                       # Custom Files
@@ -47,6 +48,20 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/help$', help.help_page),
     url(r'^inventory/(\d+)/(\d+)/help/save_image$', help.ajax_save_image),
     url(r'^inventory/(\d+)/(\d+)/help/save_data$', help.ajax_save_data),
+               
+    # Customers
+    #-------------
+    url(r'^inventory/(\d+)/(\d+)/customers$', customers.customers_page),
+    url(r'^inventory/(\d+)/(\d+)/add_customer$', customers.add_customer_page),
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+    # TODO: Update all entries below.
+    #---------------------------------------------------------------------------
                        
     # Inventory Searching/Adding
     #-------------
@@ -54,9 +69,7 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search.ajax_search_comics),
     url(r'^inventory/(\d+)/(\d+)/add/(\d+)$', add.add_product_page),
                        
-                       
-    # TODO: Update all entries below.
-    #---------------------------------------------------------------------------
+     
     # Inventory List
     url(r'^inventory/list$', list.list_page),
                        
