@@ -17,7 +17,7 @@
                 <td>
                     <div class="checkbox c-checkbox">
                         <label>
-                            <input type="checkbox" checked disabled>
+                            <input type="checkbox" {% if customer.has_consented %}checked{% endif %} disabled>
                             <span class="fa fa-check" style="background-color: #4C9ED9 !important;"></span>
                         </label>
                     </div>
@@ -31,8 +31,6 @@
                         data-original-title="Unsubscribe"></span>
                 </td>
             </tr>
-            {% empty %}
-            
             {% endfor %}
         </tbody>
     </table>

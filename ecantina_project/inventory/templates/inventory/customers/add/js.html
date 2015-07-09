@@ -30,6 +30,7 @@
         data.append('country', $('#id_country').val());
         data.append('province', $('#id_province').val());
         data.append('postal', $('#id_postal').val());
+        data.append('has_consented', $('#id_has_consented').is(':checked'));
         
         jQuery.ajax({
             url: url,

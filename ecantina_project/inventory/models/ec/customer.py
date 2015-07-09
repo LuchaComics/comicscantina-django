@@ -32,6 +32,9 @@ class Customer(models.Model):
     country = models.CharField(max_length=63)
     postal = models.CharField(max_length=31)
     
+    # Legal
+    has_consented = models.BooleanField(default=False)
+    
     # References.
     user = models.ForeignKey(User, null=True, blank=True)
     profile = models.ForeignKey(ImageUpload, null=True, blank=True)
