@@ -92,7 +92,7 @@
         // Store
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
         data.append('role', $('#id_role').val());
-        data.append('joined', $('#id_joined').val());
+        data.append('joined', get_date());
         data.append('email', $('#id_email').val());
         data.append('upload_id', $('#id_hidden_upload_id').val());
         data.append('name', $('#id_name').val());
@@ -133,6 +133,24 @@
                 if (json_result.status == "success")
                 {
                     //alert("ok saved"); // Debugging Purposes
+
+                    // STEP 1:
+                    // Iterate through all the stores an and process the
+                    // checked stores by assigning the returned 'employee_id'
+                    // with the 'store_id'.
+                    $('#id_store_checkboxes').children('input').each(function () {
+                        if (this.checked)
+                        {
+                            store_id = this.id;
+                            employee_id = json_result.employee_id;
+                                                                     
+                            // STEP 2:
+                            // Assign in the database.
+                            ajax_store_selection(store_id, employee_id);
+                        }
+                    });
+                    
+                    // STEP 3: Load up the list page.
                     window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0'; 
                 }
                 else
@@ -244,6 +262,60 @@
                 
             }
         });
+    }
+
+    function ajax_store_selection(store_id, employee_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('this_employee_id', employee_id);
+        data.append('this_store_id', store_id);
+        jQuery.ajax({
+            url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(json_result){
+                if (json_result.status == "success")
+                {
+                //alert("ok saved"); // Debugging Purposes
+                //window.location = ''; // Reload page.
+                }
+                else
+                {
+                alert(json_result.message);
+                }
+                },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function get_date()
+    {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+    
+        if(dd<10) {
+            dd='0'+dd
+        }
+    
+        if(mm<10) {
+            mm='0'+mm
+        }
+    
+        today = yyyy+'-'+mm+'-'+dd;
+        return today
     }
 
 </script>

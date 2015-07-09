@@ -400,21 +400,47 @@ def ajax_save_user_data(request, org_id, store_id, this_store_id, this_employee_
                     'status' : 'failed',
                     'message' : json.dumps(employee_form.errors
                 )}), content_type="application/json")
-    
-            # Save
+            
+            # (If not initialized) create user, else update user.
+            if user is None:
+                email = user_form['email'].value().lower()
+                user = User.objects.create_user(
+                    email,  # Username
+                    email,  # Email
+                    user_form['password'].value(),
+                )
+                user.first_name = user_form['first_name'].value()
+                user.last_name = user_form['last_name'].value()
+                user.is_active = False;  # Need email verification to change status.
+                user.save()
+            else:
+                user.username = user_form['email'].value().lower()
+                user.email = user_form['email'].value().lower()
+                user.first_name = user_form['first_name'].value()
+                user.last_name = user_form['last_name'].value()
+                password = user_form['password'].value()
+                if password is not '':
+                    pass
+            
+            # Fetch Profile Image. Update the user inside the profile image.
             try:
                 upload_id = request.POST['upload_id']
+                upload = None
                 if upload_id is not '':
-                    employee_form.profile = ImageUpload.objects.get(upload_id=int(upload_id))
+                    upload = ImageUpload.objects.get(upload_id=int(upload_id))
+                    upload.user = user
+                    upload.save()
+                    employee_form.instance.profile = upload
             except ImageUpload.DoesNotExist:
                 pass
-            user_form.save()
-            employee_form.instance.user = user_form.instance
+
+            # Save Employee & return success message.
+            employee_form.instance.user = user
             employee_form.save()
             response_data = {
                 'status': 'success',
                 'message': 'saved',
-                'store_id': employee_form.instance.employee_id,
+                'employee_id': employee_form.instance.employee_id,
             }
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
@@ -428,11 +454,15 @@ def ajax_delete_user(request, org_id, store_id, this_employee_id):
             try:
                 employee = Employee.objects.get(employee_id=this_employee_id)
                 user = employee.user
+                images = ImageUpload.objects.filter(user=employee.user)
             except Employee.DoesNotExist:
                 employee = None
                 user = None
+                images = None
         
             # Delete & return success
+            for image in images:
+                image.delete()
             user.delete()
             employee.delete()
             response_data = {
@@ -460,19 +490,16 @@ def ajax_assign_employee_to_store(request, org_id, store_id):
             except Employee.DoesNotExist:
                 employee = None
         
-            # Assignment - If employee exists for this store then remove it,
-            # else then add it in there.
-            if employee in store.employees.all():
-                store.employees.remove(employee)
+            if employee is not None and store is not None:
+                # Assignment - If employee exists for this store then remove it,
+                # else then add it in there.
+                if employee in store.employees.all():
+                    store.employees.remove(employee)
+                else:
+                    store.employees.add(employee)
+                response_data = {'status': 'success', 'message': 'saved',}
             else:
-                store.employees.add(employee)
-        
-            response_data = {
-                'status': 'success',
-                'message': 'saved',
-            }
-        else:
-            response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
+                response_data = {'status': 'failed', 'message': 'missing objects',}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
