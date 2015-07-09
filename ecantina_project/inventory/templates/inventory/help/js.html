@@ -43,43 +43,43 @@
         });
     }
 
-function ajax_save() {
-    var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/help/save_data';
+    function ajax_save() {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/help/save_data';
     
-    var data = new FormData();
-    // Store
-    data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    data.append('upload_id', $('#id_hidden_upload_id').val());
-    data.append('subject', $('#id_subject').val());
-    data.append('subject_url', $('#id_subject_url').val());
-    data.append('message', $('#id_message').val());
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('upload_id', $('#id_hidden_upload_id').val());
+        data.append('subject', $('#id_subject').val());
+        data.append('subject_url', $('#id_subject_url').val());
+        data.append('message', $('#id_message').val());
     
-    jQuery.ajax({
-        url: url,
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        type: 'POST',
-        success: function(json_result){
-            if (json_result.status == "success")
-            {
-                //alert("ok saved"); // Debugging Purposes
-                alert("Help Request Submitted! Your ticket ID is #" + json_result.id + ". Thank you for your submission.");
-                window.location = '';
-            }
-            else
-            {
-                alert(json_result.message);
-            }
-        },
-        error: function(xhr,status,error) {
-            console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-        },
-        complete: function(xhr,status) {
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+                    alert("Help Request Submitted! Your ticket ID is #" + json_result.id + ". Thank you for your submission.");
+                    window.location = '';
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
                 
-        }
-    });
+            }
+        });
     }
 
 </script>
