@@ -16,7 +16,13 @@
         <tbody>
         {% for product in products %}
         <tr>
-            <td class="text-center">{{ product.condition_rating }}</td>
+            <td class="text-center">
+                {% if product.is_cgc_rated %}
+                {{ product.label_colour }} {{ product.cgc_rating }}
+                {% else %}
+                {{ product.condition_rating }}
+                {% endif %}
+            </td>
             <td class="price">{{ product.price }}</td>
             <td>{{ product.store }}</td>
             <td>{{ product.section }}</td>
