@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.store import Store
+from inventory.models.ec.customer import Customer
 from inventory.forms.customerform import CustomerForm
 
 
@@ -78,6 +79,26 @@ def ajax_add_customer(request, org_id, store_id):
                     'status': 'success',
                     'message': 'saved',
                     'customer_id': form.instance.customer_id,
+                }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+@login_required()
+def ajax_delete_customer(request, org_id, store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            customer_id = request.POST['customer_id']
+            try:
+                customer = Customer.objects.get(customer_id=customer_id)
+                customer.delete()
+                response_data = {
+                    'status': 'success',
+                    'message': 'saved',
+                }
+            except Customer.DoesNotExist:
+                response_data = {
+                    'status': 'failed',
+                    'message' : 'does not exist',
                 }
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 

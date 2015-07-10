@@ -34,14 +34,13 @@
         });
     }
 
-    function ajax_section(section_id) {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/section';
+    function ajax_delete_customer(customer_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customers/delete';
     
         var data = new FormData();
         // Store
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('name', $('#id_section_id_' + section_id ).val());
-        data.append('section_id', section_id);
+        data.append('customer_id', customer_id);
         jQuery.ajax({
             url: url,
             data: data,
@@ -52,57 +51,21 @@
             success: function(json_result){
                 if (json_result.status == "success")
                 {
-                //alert("ok saved"); // Debugging Purposes
-                //window.location = ''; // Reload page.
-                ajax_refresh_sections();
+                    //alert("ok saved"); // Debugging Purposes
+                    //window.location = ''; // Reload page.
+                    ajax_refresh_table();
                 }
                 else
                 {
-                alert(json_result.message);
+                    alert(json_result.message);
                 }
-                },
-                error: function(xhr,status,error) {
+            },
+            error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                },
-                complete: function(xhr,status) {
+            },
+            complete: function(xhr,status) {
                 
-                }
-                });
-}
-
-function ajax_delete_section(section_id) {
-    var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/delete_section';
-    
-    var data = new FormData();
-    // Store
-    data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    data.append('name', $('#id_section_name').val());
-    data.append('section_id', section_id);
-    jQuery.ajax({
-                url: url,
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function(json_result){
-                if (json_result.status == "success")
-                {
-                //alert("ok saved"); // Debugging Purposes
-                //window.location = ''; // Reload page.
-                ajax_refresh_sections();
-                }
-                else
-                {
-                alert(json_result.message);
-                }
-                },
-                error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                },
-                complete: function(xhr,status) {
-                
-                }
-                });
-}
+            }
+        });
+    }
 </script>

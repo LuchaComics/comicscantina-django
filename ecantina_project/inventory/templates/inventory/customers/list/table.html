@@ -27,7 +27,8 @@
                 <td>{{ customer.email }}</td>
                 <td>1</td>
                 <td style="text-align:center;">
-                    <span class="fa fa-2x fa-remove text-danger curp" data-toggle="tooltip"
+                    <span onclick="ajax_delete_customer({{ customer.customer_id }});"
+                        class="fa fa-2x fa-remove text-danger curp" data-toggle="tooltip"
                         data-original-title="Unsubscribe"></span>
                 </td>
             </tr>

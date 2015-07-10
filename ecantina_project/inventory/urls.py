@@ -54,6 +54,7 @@ urlpatterns = patterns('',
     #-------------
     url(r'^inventory/(\d+)/(\d+)/customers$', customers.customers_page),
     url(r'^inventory/(\d+)/(\d+)/customers/refresh_table$', customers.ajax_refresh_table),
+    url(r'^inventory/(\d+)/(\d+)/customers/delete$', customers.ajax_delete_customer),
     url(r'^inventory/(\d+)/(\d+)/add_customer$', customers.add_customer_page),
     url(r'^inventory/(\d+)/(\d+)/add_customer/submit$', customers.ajax_add_customer),
                        
