@@ -7,22 +7,26 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from inventory.models.gcd.issue import Issue
 from inventory.models.gcd.story import Story
-from inventory.forms.issueform import IssueForm
+from inventory.models.ec.imageupload import ImageUpload
+from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
-from inventory.models.ec.imageupload import ImageUpload
+
+from inventory.forms.issueform import IssueForm
 from inventory.forms.productform import ProductForm
 from inventory.forms.imageuploadform import ImageUploadForm
 
 
 @login_required(login_url='/inventory/login')
 def add_product_page(request, org_id, store_id, issue_id):
-    # Get Models
+    org = Organization.objects.get(org_id=org_id)
     employee = Employee.objects.get(user=request.user)
+    store = Store.objects.get(store_id=store_id)
+    stores = Store.objects.filter(organization=org)
     try:
-        sections = Section.objects.filter(store=employee.store)
+        sections = Section.objects.filter(store=store)
     except Section.DoesNotExist:
         sections = None
     try:
@@ -49,16 +53,16 @@ def add_product_page(request, org_id, store_id, issue_id):
     # Update forms
 #    if story is not None:
 #        issue_form.fields['genre'].initial = story.genre
-    if locations is not None:
-        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
-        product_form.fields["location"].queryset = locations
-    if locations is not None:
+#    if locations is not None:
+#        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
+#        product_form.fields["location"].queryset = locations
+    if sections is not None:
         product_form.fields["section"].queryset = sections
-    
+
     # Render page
-    return render(request, 'inventory/add/comic/add.html',{
-        'org_id': org_id,
-        'store_id': store_id,
+    return render(request, 'inventory/add_inventory/comic/add.html',{
+        'org': org,
+        'store': store,
         'issue': issue,
         'tab':'add',
         'imageupload_form': imageupload_form,
@@ -163,6 +167,6 @@ def list_products(request, issue_id):
                 products = Comic.objects.filter(issue_id=issue_id)
             except Product.DoesNotExist:
                 products = None
-    return render(request, 'inventory/add/details/list.html',{
+    return render(request, 'inventory/add_inventory/details/list.html',{
         'products': products,
     })

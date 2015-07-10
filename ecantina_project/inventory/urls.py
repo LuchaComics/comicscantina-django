@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 from inventory.views import dashboard
 from inventory.views import list
-from inventory.views import add
 from inventory.views import search
 from inventory.views import setting_org
 from inventory.views import setting_stores
@@ -9,6 +8,8 @@ from inventory.views import setting_users
 from inventory.views import help
 from inventory.views import customers
 from inventory.views import checkout
+from inventory.views import comics_searching
+from inventory.views import comics_add
 
 urlpatterns = patterns('',
 #                       # Custom Files
@@ -63,6 +64,17 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/checkout$', checkout.checkout_page),
                        
                        
+    # Add Inventory Item
+    #-------------
+    # Comics
+    url(r'^inventory/(\d+)/(\d+)/add/comic$', comics_searching.search_comics_page),
+    url(r'^inventory/(\d+)/(\d+)/add/search_comics$', comics_searching.ajax_search_comics),
+    url(r'^inventory/(\d+)/(\d+)/add/(\d+)$', comics_add.add_product_page),
+    url(r'^inventory/add/(\d+)/section_dropbox/(\d+)$', comics_add.sections_per_location),
+    url(r'^inventory/add/(\d+)/upload_cover$', comics_add.save_uploaded_cover),
+    url(r'^inventory/add/(\d+)/add_product$', comics_add.add_product),
+    url(r'^inventory/add/(\d+)/list_products$', comics_add.list_products),
+                      
                        
                        
                        
@@ -70,22 +82,11 @@ urlpatterns = patterns('',
     # TODO: Update all entries below.
     #---------------------------------------------------------------------------
                        
-    # Inventory Searching/Adding
-    #-------------
-    url(r'^inventory/(\d+)/(\d+)/add/comic$', search.search_comics_page),
-    url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search.ajax_search_comics),
-    url(r'^inventory/(\d+)/(\d+)/add/(\d+)$', add.add_product_page),
-                       
-     
     # Inventory List
-    url(r'^inventory/list$', list.list_page),
-                       
-    
-    
-    url(r'^inventory/add/(\d+)/section_dropbox/(\d+)$', add.sections_per_location),
-    url(r'^inventory/add/(\d+)/upload_cover$', add.save_uploaded_cover),
-    url(r'^inventory/add/(\d+)/add_product$', add.add_product),
-    url(r'^inventory/add/(\d+)/list_products$', add.list_products),
+#    url(r'^inventory/list$', list.list_page),
+#                       
+#    
+#    
 )
 
 # Captchas
