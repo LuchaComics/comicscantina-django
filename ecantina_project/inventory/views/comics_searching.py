@@ -14,9 +14,6 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.forms.productform import ProductForm
-from inventory.forms.imageuploadform import ImageUploadForm
 
 
 @login_required(login_url='/inventory/login')

@@ -15,7 +15,7 @@ from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
 
 from inventory.forms.issueform import IssueForm
-from inventory.forms.productform import ProductForm
+from inventory.forms.comicform import ComicForm
 from inventory.forms.imageuploadform import ImageUploadForm
 
 
@@ -41,7 +41,7 @@ def add_product_page(request, org_id, store_id, issue_id):
     # Generate Forms
     imageupload_form = ImageUploadForm()
     
-    product_form = ProductForm()
+    product_form = ComicForm()
 
     issue_form = IssueForm(initial={
         'series': issue.series,
@@ -56,11 +56,11 @@ def add_product_page(request, org_id, store_id, issue_id):
 #    if locations is not None:
 #        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
 #        product_form.fields["location"].queryset = locations
-    if sections is not None:
-        product_form.fields["section"].queryset = sections
+#    if sections is not None:
+#        product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory/add_inventory/comic/add.html',{
+    return render(request, 'inventory/add_inventory/comic/add/add.html',{
         'org': org,
         'store': store,
         'issue': issue,
@@ -74,6 +74,7 @@ def add_product_page(request, org_id, store_id, issue_id):
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
+
 @login_required()
 def sections_per_location(request, issue_id, location_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
@@ -83,9 +84,10 @@ def sections_per_location(request, issue_id, location_id):
                 sections = Section.objects.filter(location_id=location_id)
             except Section.DoesNotExist:
                 sections = None
-    return render(request, 'inventory/add/details/section_dropdown.html',{
+    return render(request, 'inventory/add_inventory/comic/add/section_dropdown.html',{
         'sections': sections,
     })
+
 
 @login_required()
 def save_uploaded_cover(request, course_id):
@@ -105,6 +107,7 @@ def save_uploaded_cover(request, course_id):
             else:
                 response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 
 @login_required()
 def add_product(request, issue_id):
@@ -167,6 +170,6 @@ def list_products(request, issue_id):
                 products = Comic.objects.filter(issue_id=issue_id)
             except Product.DoesNotExist:
                 products = None
-    return render(request, 'inventory/add_inventory/details/list.html',{
+    return render(request, 'inventory/add_inventory/comic/add/list.html',{
         'products': products,
     })

@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 from inventory.views import dashboard
 from inventory.views import list
-from inventory.views import search
 from inventory.views import setting_org
 from inventory.views import setting_stores
 from inventory.views import setting_users

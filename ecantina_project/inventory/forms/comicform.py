@@ -10,7 +10,7 @@ from inventory.models.gcd.issue import Issue
 from inventory.models.ec.comic import Comic
 
 
-class ProductForm(forms.ModelForm):
+class ComicForm(forms.ModelForm):
     class Meta:
         model = Comic
         fields = ['cover','age','is_cgc_rated', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'price', 'section','price','cost',]
