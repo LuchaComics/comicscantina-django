@@ -9,28 +9,31 @@
                 <th>Condition</th>
                 <th>Price</th>
                 <th>Store</th>
-                <th>Location</th>
+                <th>Section</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for product in products %}
-            <td class="text-center">{{ product.condition_rating }}
-            <div data-label="90%" class="radial-bar radial-bar-90 radial-bar-sm"></div></td>
+        {% for product in products %}
+        <tr>
+            <td class="text-center">{{ product.condition_rating }}</td>
             <td class="price">{{ product.price }}</td>
-            <td>{{ product.location }}</td>
+            <td>{{ product.store }}</td>
             <td>{{ product.section }}</td>
             <td>
                 <a class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>
                 <a class="remove-item curp" data-toggle="tooltip" data-original-title="Remove Item" data-placement="top"><em class="fa fa-2x fa-remove"></em></a>
             </td>
-            {% empty %}
+        </tr>
+        {% empty %}
+        <tr>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            {% endfor %}
+        </td>
+        {% endfor %}
         </tbody>
     </table>
 </div>

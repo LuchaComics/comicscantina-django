@@ -108,11 +108,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="sel-location" class="col-md-4 control-label">Location / Section</label>
+                                        <label for="sel-location" class="col-md-4 control-label">Store / Section</label>
                                         <div class="col-md-4 mb">
-                                            {{ product_form.stores}}
+                                            {{ product_form.store }}
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4" id="id_section_placeholder">
                                             {{ product_form.section }}
                                         </div>
                                     </div>
@@ -203,15 +203,17 @@
         $('#id_section').prop("disabled", true);
         $('#id_label_colour').prop("disabled", true);
         $('#id_cgc_rating_ui').hide();
+                      
+        // Get the latest table data when this page loads up first.
         ajax_refresh_table({{ issue.issue_id }});
         
-        // When the user clicks the 'Location', the 'Sections' will get filtered
+        // When the user clicks the 'Store', the 'Sections' will get filtered
         // down to the specific location.
-        $('#id_location').on('change', function(){
-            var location_id = $(this).val();
-            if (location_id > 0)
+        $('#id_store').on('change', function(){
+            var store_id = $(this).val();
+            if (store_id > 0)
             {
-                ajax_load_section_dropdown({{ issue.issue_id }}, location_id)
+                ajax_load_section_dropdown({{ issue.issue_id }}, store_id)
             }
         });
         
@@ -234,12 +236,12 @@
         });
     });
     
-    function ajax_load_section_dropdown(issue_id, location_id)
+    function ajax_load_section_dropdown(issue_id, store_id)
     {
         var data = new FormData();
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
         jQuery.ajax({
-            url: '/inventory/add/'+issue_id+'/section_dropbox/' + location_id,
+            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/section_dropbox/'+store_id+'',
             data: data,
             cache: false,
             contentType: false,
@@ -325,7 +327,7 @@
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
         data.append('age', $('#id_age').val());
         data.append('upload_id', upload_id);
-        data.append('location', $('#id_location').val());
+        data.append('store', $('#id_store').val());
         data.append('section', $('#id_section').val());
         data.append('price', $('#id_price').val());
         data.append('cost', $('#id_cost').val());

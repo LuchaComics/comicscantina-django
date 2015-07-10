@@ -52,11 +52,11 @@ def add_product_page(request, org_id, store_id, issue_id):
     # Update forms
 #    if story is not None:
 #        issue_form.fields['genre'].initial = story.genre
-#    if locations is not None:
-#        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
-#        product_form.fields["location"].queryset = locations
-#    if sections is not None:
-#        product_form.fields["section"].queryset = sections
+    if stores is not None:
+        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
+        product_form.fields["store"].queryset = stores
+    if sections is not None:
+        product_form.fields["section"].queryset = sections
 
     # Render page
     return render(request, 'inventory/add_inventory/comic/add/view.html',{
@@ -115,9 +115,12 @@ def add_product(request, org_id, store_id, issue_id):
         if request.method == 'POST':
             form = ComicForm(request.POST, request.FILES)
             
-            # Step (1): Attach "store" & "organization" object.
+            # Step (1): Attach "store", "organization", & "section" object.
+            this_store_id = int(form['store'].value())
+            this_section_id = int(form['section'].value())
             form.instance.organization = Organization.objects.get(org_id=org_id)
-            form.instance.store = Store.objects.get(store_id=store_id)
+            form.instance.store = Store.objects.get(store_id=this_store_id)
+            form.instance.section = Section.objects.get(section_id=this_section_id)
         
             # Step (2): Attach "cover" image if one was uploaded previously.
             upload_id = request.POST['upload_id']
@@ -155,12 +158,12 @@ def add_product(request, org_id, store_id, issue_id):
 
 
 @login_required()
-def sections_per_location(request, issue_id, location_id):
+def sections_per_store(request, org_id, store_id, issue_id, this_store_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                sections = Section.objects.filter(location_id=location_id)
+                sections = Section.objects.filter(store_id=this_store_id)
             except Section.DoesNotExist:
                 sections = None
     return render(request, 'inventory/add_inventory/comic/add/section_dropdown.html',{

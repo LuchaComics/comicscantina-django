@@ -72,8 +72,7 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/list_products$', comics_add.list_products),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/upload_cover$', comics_add.save_uploaded_cover),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/add_product$', comics_add.add_product),
-                       
-    url(r'^inventory/add/(\d+)/section_dropbox/(\d+)$', comics_add.sections_per_location),
+    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/section_dropbox/(\d+)$', comics_add.sections_per_store),
     
     
                       
