@@ -21,6 +21,7 @@ from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
+from inventory.models.ec.customer import Customer
 from django.db import IntegrityError, transaction
 
 # Contants
@@ -47,6 +48,8 @@ class SamplDataPopulator():
             pass
 
     def run_dealloc(self):
+        for customer in Customer.objects.all():
+            customer.delete()
         for image in ImageUpload.objects.all():
             image.delete()
         for org in Organization.objects.all():
@@ -81,7 +84,29 @@ class SamplDataPopulator():
         #----------------
         logo = None
         profile = None
-            
+        
+        #-----------------
+        # Customer
+        #-----------------
+#        try:
+#            customer = Customer.objects.create(
+#                customer_id=1,
+#                first_name='Main Store',
+#                last_name='Test',
+#                joined=now,
+#                street_name='Hamilton Rd',
+#                street_number='426',
+#                unit_number='1',
+#                city='London',
+#                province='Ontario',
+#                country='Canada',
+#                postal='N5Z 1R9',
+#                email='test@testing.com',
+#                phone='519-439-9636',
+#            )
+#        except Exception as e:
+#            customer = Customer.objects.get(customer_id=1)
+
         #-----------------
         # Organization
         #-----------------
@@ -113,6 +138,7 @@ class SamplDataPopulator():
                 administrator = user,
                 logo = logo,
             )
+#            organization.customers.add(customer)
         except Exception as e:
             organization = Organization.objects.get(org_id=1)
                                                                           
