@@ -13,7 +13,6 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
-
 from inventory.forms.issueform import IssueForm
 from inventory.forms.comicform import ComicForm
 from inventory.forms.imageuploadform import ImageUploadForm
@@ -60,7 +59,7 @@ def add_product_page(request, org_id, store_id, issue_id):
 #        product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory/add_inventory/comic/add/add.html',{
+    return render(request, 'inventory/add_inventory/comic/add/view.html',{
         'org': org,
         'store': store,
         'issue': issue,
@@ -76,21 +75,21 @@ def add_product_page(request, org_id, store_id, issue_id):
 
 
 @login_required()
-def sections_per_location(request, issue_id, location_id):
+def list_products(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                sections = Section.objects.filter(location_id=location_id)
-            except Section.DoesNotExist:
-                sections = None
-    return render(request, 'inventory/add_inventory/comic/add/section_dropdown.html',{
-        'sections': sections,
+                products = Comic.objects.filter(issue_id=issue_id)
+            except Product.DoesNotExist:
+                products = None
+    return render(request, 'inventory/add_inventory/comic/add/list.html',{
+        'products': products,
     })
 
 
 @login_required()
-def save_uploaded_cover(request, course_id):
+def save_uploaded_cover(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
@@ -110,21 +109,15 @@ def save_uploaded_cover(request, course_id):
 
 
 @login_required()
-def add_product(request, issue_id):
+def add_product(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
-            form = ProductForm(request.POST, request.FILES)
+            form = ComicForm(request.POST, request.FILES)
             
-            # Step (1): Attach "store" object.
-            try:
-                employee = Employee.objects.get(user=request.user)
-                form.instance.store = employee.store
-            except Issue.DoesNotExist:
-                return HttpResponse(json.dumps({
-                        'status' : 'failed',
-                        'message' : 'could not find store',
-                    }), content_type="application/json")
+            # Step (1): Attach "store" & "organization" object.
+            form.instance.organization = Organization.objects.get(org_id=org_id)
+            form.instance.store = Store.objects.get(store_id=store_id)
         
             # Step (2): Attach "cover" image if one was uploaded previously.
             upload_id = request.POST['upload_id']
@@ -134,12 +127,14 @@ def add_product(request, issue_id):
                     cover = ImageUpload.objects.get(upload_id=int(upload_id))
                     cover.is_assigned = True
                     cover.save()
+                    form.instance.cover = cover
                 except ImageUpload.DoesNotExist:
                     pass
             
             # Step (3): Attach "issue" object.
             try:
                 issue = Issue.objects.get(issue_id=issue_id)
+                form.instance.issue = issue
             except Issue.DoesNotExist:
                 return HttpResponse(json.dumps({
                     'status' : 'failed',
@@ -149,8 +144,6 @@ def add_product(request, issue_id):
             # Step (4): Validate the form.
             if form.is_valid():
                 # Step (5): Save & return OK status.
-                form.instance.issue = issue
-                form.instance.cover = cover
                 form.save()
                 response_data = {
                     'status' : 'success',
@@ -162,14 +155,14 @@ def add_product(request, issue_id):
 
 
 @login_required()
-def list_products(request, issue_id):
+def sections_per_location(request, issue_id, location_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                products = Comic.objects.filter(issue_id=issue_id)
-            except Product.DoesNotExist:
-                products = None
-    return render(request, 'inventory/add_inventory/comic/add/list.html',{
-        'products': products,
+                sections = Section.objects.filter(location_id=location_id)
+            except Section.DoesNotExist:
+                sections = None
+    return render(request, 'inventory/add_inventory/comic/add/section_dropdown.html',{
+        'sections': sections,
     })

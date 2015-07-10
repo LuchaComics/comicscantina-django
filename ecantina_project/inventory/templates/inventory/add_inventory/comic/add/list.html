@@ -1,26 +1,36 @@
 <div class="table-responsive">
-    <table id="added-items-table" class="table table-condensed table-striped table-hover inventory-details">
+    <div class="jumbotron bg-gray-lighter">
+        <h3 class="p0 mt0 mb-lg">Inventory Items</h3>
+        <p class="mb0 text-justify">This is a list of items of this product in the store's inventory.  These may be product variants or condition variants, or may be copies of the same product.</p>
+    </div>
+    <table id="added-items-table" class="table table-condensed table-striped    table-hover inventory-details">
         <thead>
             <tr>
                 <th>Condition</th>
                 <th>Price</th>
+                <th>Store</th>
                 <th>Location</th>
-                <th>Section</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
-        <td>{{ product.condition_rating }}</td>
-            <td>{{ product.price }}</td>
+            {% for product in products %}
+            <td class="text-center">{{ product.condition_rating }}
+            <div data-label="90%" class="radial-bar radial-bar-90 radial-bar-sm"></div></td>
+            <td class="price">{{ product.price }}</td>
             <td>{{ product.location }}</td>
             <td>{{ product.section }}</td>
-        {% empty %}
+            <td>
+                <a class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>
+                <a class="remove-item curp" data-toggle="tooltip" data-original-title="Remove Item" data-placement="top"><em class="fa fa-2x fa-remove"></em></a>
+            </td>
+            {% empty %}
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 </div>
