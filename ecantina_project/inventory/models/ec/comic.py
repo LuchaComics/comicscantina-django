@@ -73,7 +73,7 @@ class Comic(models.Model):
         ordering = ('issue',)
         db_table = 'ec_comics'
     
-    product_id = models.AutoField(primary_key=True)
+    comic_id = models.AutoField(primary_key=True)
     is_cgc_rated = models.BooleanField(default=False)
     age = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(4)],
@@ -124,7 +124,7 @@ class Comic(models.Model):
     # Inventory Reference
     organization = models.ForeignKey(Organization)
     store = models.ForeignKey(Store)
-    section = models.ForeignKey(Section, null=True, blank=True)
+    section = models.ForeignKey(Section)
    
     def __str__(self):
         return str(self.issue)

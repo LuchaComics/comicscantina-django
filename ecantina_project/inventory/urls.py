@@ -70,10 +70,10 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', comics_searching.ajax_search_comics),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)$', comics_add.add_product_page),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/list_products$', comics_add.list_products),
-    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/upload_cover$', comics_add.save_uploaded_cover),
-    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/add_product$', comics_add.add_product),
-    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/section_dropbox/(\d+)$', comics_add.sections_per_store),
-    
+    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/upload_cover$', comics_add.ajax_save_uploaded_cover),
+    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/add_product$', comics_add.ajax_add_product),
+    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/section_dropbox/(\d+)$', comics_add.ajax_sections_per_store),
+    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/delete/(\d+)$', comics_add.ajax_delete_comic),
     
                       
                        

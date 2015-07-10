@@ -89,7 +89,7 @@ def list_products(request, org_id, store_id, issue_id):
 
 
 @login_required()
-def save_uploaded_cover(request, org_id, store_id, issue_id):
+def ajax_save_uploaded_cover(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
@@ -109,18 +109,21 @@ def save_uploaded_cover(request, org_id, store_id, issue_id):
 
 
 @login_required()
-def add_product(request, org_id, store_id, issue_id):
+def ajax_add_product(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
             form = ComicForm(request.POST, request.FILES)
             
             # Step (1): Attach "store", "organization", & "section" object.
-            this_store_id = int(form['store'].value())
-            this_section_id = int(form['section'].value())
             form.instance.organization = Organization.objects.get(org_id=org_id)
-            form.instance.store = Store.objects.get(store_id=this_store_id)
-            form.instance.section = Section.objects.get(section_id=this_section_id)
+            this_store_id = form['store'].value()
+            if this_store_id is not '':
+                form.instance.store = Store.objects.get(store_id=int(this_store_id))
+
+            this_section_id = form['section'].value()
+            if this_section_id is not '':
+                form.instance.section = Section.objects.get(section_id=int(this_section_id))
         
             # Step (2): Attach "cover" image if one was uploaded previously.
             upload_id = request.POST['upload_id']
@@ -158,7 +161,7 @@ def add_product(request, org_id, store_id, issue_id):
 
 
 @login_required()
-def sections_per_store(request, org_id, store_id, issue_id, this_store_id):
+def ajax_sections_per_store(request, org_id, store_id, issue_id, this_store_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
     if request.is_ajax():
         if request.method == 'POST':
@@ -169,3 +172,20 @@ def sections_per_store(request, org_id, store_id, issue_id, this_store_id):
     return render(request, 'inventory/add_inventory/comic/add/section_dropdown.html',{
         'sections': sections,
     })
+
+
+@login_required()
+def ajax_delete_comic(request, org_id, store_id, issue_id, comic_id):
+    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                comic = Comic.objects.get(comic_id=comic_id)
+                comic.delete()
+                response_data = {
+                    'status' : 'success',
+                    'message' : 'saved',
+                }
+            except Comic.DoesNotExist:
+                response_data = {'status' : 'failed', 'message' : 'does not exist'}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
