@@ -77,11 +77,12 @@ def add_product_page(request, org_id, store_id, issue_id):
 @login_required()
 def list_products(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
+    products = None
     if request.is_ajax():
         if request.method == 'POST':
             try:
                 products = Comic.objects.filter(issue_id=issue_id)
-            except Product.DoesNotExist:
+            except Comic.DoesNotExist:
                 products = None
     return render(request, 'inventory/add_inventory/comic/add/list.html',{
         'products': products,
@@ -163,6 +164,7 @@ def ajax_add_product(request, org_id, store_id, issue_id):
 @login_required()
 def ajax_sections_per_store(request, org_id, store_id, issue_id, this_store_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
+    sections = None
     if request.is_ajax():
         if request.method == 'POST':
             try:
@@ -184,7 +186,7 @@ def ajax_delete_comic(request, org_id, store_id, issue_id, comic_id):
                 comic.delete()
                 response_data = {
                     'status' : 'success',
-                    'message' : 'saved',
+                    'message' : 'deleted',
                 }
             except Comic.DoesNotExist:
                 response_data = {'status' : 'failed', 'message' : 'does not exist'}

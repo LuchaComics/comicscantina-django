@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
-from inventory.views import search
+from inventory.views import comics_searching
 from inventory.models.gcd.series import Series
 from inventory.models.gcd.issue import Issue
 from inventory.models.gcd.story import Story
@@ -51,11 +51,11 @@ class SearchTestCase(TestCase):
     
     def test_url_resolves_to_search_comics_page(self):
         found = resolve('/inventory/1/1/add/comic')
-        self.assertEqual(found.func, search.search_comics_page)
+        self.assertEqual(found.func, comics_searching.search_comics_page)
 
     def test_url_resolves_to_ajax_search_comics(self):
         found = resolve('/inventory/1/1/add/search_comics')
-        self.assertEqual(found.func, search.ajax_search_comics)
+        self.assertEqual(found.func, comics_searching.ajax_search_comics)
 
     def test_search_comics_page_returns_correct_html(self):
         client = Client()
