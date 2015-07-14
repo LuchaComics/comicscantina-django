@@ -163,16 +163,27 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="col-xs-3">
+                                        {% if product_form.instance.comic_id < 0 %}
                                         <label class="control-label lbl-qty" style="position:relative;top:-2px;font-size:14pt;">Quantity</label>
+                                        {% endif %}
                                     </div>
                                     <div class="col-xs-3">
+                                        {% if product_form.instance.comic_id < 0 %}
                                         <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
-                                            </div>
+                                        {% endif %}
+                                    </div>
                                     <div class="col-xs-6">
+                                        {% if product_form.instance.comic_id > 0 %}
+                                        <button onclick="ajax_edit_items({{ issue.issue_id }});"
+                                            type="button" class="btn btn-labeled btn-lg btn-warning pull-right mb mr" style="font-size:14pt;">
+                                            <span class="btn-label"><i class="fa fa-plus-square"></i></span>Save
+                                        </button>
+                                        {% else %}
                                         <button onclick="ajax_add_items({{ issue.issue_id }});"
                                                    type="button" class="btn btn-labeled btn-lg btn-success pull-right mb mr" style="font-size:14pt;">
                                             <span class="btn-label"><i class="fa fa-plus-square"></i></span>Add Items
                                         </button>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -319,12 +330,22 @@
         
     }
 
+{% if product_form.instance.comic_id > 0 %}
+    function ajax_edit_items(issue_id)
+    {
+        var upload_id = $('#id_hidden_upload_id').val();
+        ajax_add_item(issue_id, upload_id);
+        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/{{ issue.issue_id }}/product/0';
+    }
+{% endif %}
+
     function ajax_add_item(issue_id, upload_id) {
         // change this to the ajax function call in python
         var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/add_product';
     
         var data = new FormData();
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('comic_id', {{ product_form.instance.comic_id }});
         data.append('age', $('#id_age').val());
         data.append('upload_id', upload_id);
         data.append('store', $('#id_store').val());
@@ -416,32 +437,5 @@
             }
         });
     }
-
-
-    function ajax_load_comic(issue_id, comic_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/'+comic_id+'',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(html_result){
-                // Replace the code
-                $('#id_section_placeholder').html(html_result);
-                },
-            error: function(xhr,status,error) {
-                // error code here
-            },
-            complete: function(xhr,status) {
-                // completion code here
-            }
-        });
-    }
-
-
 </script>
 {% endblock content %}

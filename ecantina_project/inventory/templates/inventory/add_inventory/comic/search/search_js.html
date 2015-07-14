@@ -22,7 +22,7 @@
             // for the first case, adding in a data value (line 4 above)
             var issue_id = $(this).data('issue-id');
             // alert(issue_id); // Debugging purposes only.
-            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/' + issue_id;
+            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/' + issue_id + '/product/0';
         });
             
         $('body').on('click', '.btn-remove-filter', function(){

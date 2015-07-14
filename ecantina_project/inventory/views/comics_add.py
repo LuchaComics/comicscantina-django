@@ -19,7 +19,7 @@ from inventory.forms.imageuploadform import ImageUploadForm
 
 
 @login_required(login_url='/inventory/login')
-def add_product_page(request, org_id, store_id, issue_id):
+def comic_page(request, org_id, store_id, issue_id, comic_id):
     org = Organization.objects.get(org_id=org_id)
     employee = Employee.objects.get(user=request.user)
     store = Store.objects.get(store_id=store_id)
@@ -32,15 +32,19 @@ def add_product_page(request, org_id, store_id, issue_id):
         issue = Issue.objects.get(issue_id=issue_id)
     except Issue.DoesNotExist:
         issue = None
-#    try:
-#        story = Story.objects.get(issue_id=issue_id)
-#    except Story.DoesNotExist:
-#        story = None
+    try:
+        story = Story.objects.filter(issue_id=issue_id)[:1]
+    except Story.DoesNotExist:
+        story = None
 
     # Generate Forms
     imageupload_form = ImageUploadForm()
-    
-    product_form = ComicForm()
+
+    try:
+        comic = Comic.objects.get(comic_id=comic_id)
+        product_form = ComicForm(instance=comic)
+    except Comic.DoesNotExist:
+        product_form = ComicForm()
 
     issue_form = IssueForm(initial={
         'series': issue.series,
@@ -86,6 +90,9 @@ def list_products(request, org_id, store_id, issue_id):
                 products = None
     return render(request, 'inventory/add_inventory/comic/add/list.html',{
         'products': products,
+        'org_id':org_id,
+        'store_id':store_id,
+        'issue_id':issue_id,
     })
 
 
@@ -114,9 +121,17 @@ def ajax_add_product(request, org_id, store_id, issue_id):
     response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
     if request.is_ajax():
         if request.method == 'POST':
-            form = ComicForm(request.POST, request.FILES)
-            
-            # Step (1): Attach "store", "organization", & "section" object.
+            # Step (1): Find the product to edit, else load new model into database.
+            try:
+                comic_id = request.POST['comic_id']
+                comic = None
+                if comic_id is not '':
+                    comic = Comic.objects.get(comic_id=int(comic_id))
+                form = ComicForm(request.POST, request.FILES, instance=comic)
+            except Comic.DoesNotExist:
+                form = ComicForm(request.POST, request.FILES)
+
+            # Step (2): Attach "store", "organization", & "section" object.
             form.instance.organization = Organization.objects.get(org_id=org_id)
             this_store_id = form['store'].value()
             if this_store_id is not '':
@@ -126,7 +141,7 @@ def ajax_add_product(request, org_id, store_id, issue_id):
             if this_section_id is not '':
                 form.instance.section = Section.objects.get(section_id=int(this_section_id))
         
-            # Step (2): Attach "cover" image if one was uploaded previously.
+            # Step (3): Attach "cover" image if one was uploaded previously.
             upload_id = request.POST['upload_id']
             cover = None
             if upload_id is not '':
@@ -138,7 +153,7 @@ def ajax_add_product(request, org_id, store_id, issue_id):
                 except ImageUpload.DoesNotExist:
                     pass
             
-            # Step (3): Attach "issue" object.
+            # Step (4): Attach "issue" object.
             try:
                 issue = Issue.objects.get(issue_id=issue_id)
                 form.instance.issue = issue
@@ -148,9 +163,9 @@ def ajax_add_product(request, org_id, store_id, issue_id):
                     'message' : 'could not find issue',
                 }), content_type="application/json")
 
-            # Step (4): Validate the form.
+            # Step (5): Validate the form.
             if form.is_valid():
-                # Step (5): Save & return OK status.
+                # Step (6): Save & return OK status.
                 form.save()
                 response_data = {
                     'status' : 'success',

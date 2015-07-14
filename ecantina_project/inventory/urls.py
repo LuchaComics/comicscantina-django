@@ -10,6 +10,7 @@ from inventory.views import checkout
 from inventory.views import comics_searching
 from inventory.views import comics_add
 
+
 urlpatterns = patterns('',
 #                       # Custom Files
 #                       url(r'^robots\.txt$', txt.robots_txt_page),
@@ -65,17 +66,20 @@ urlpatterns = patterns('',
                        
     # Add Inventory Item
     #-------------
-    # Comics
+    # Comics - Search
     url(r'^inventory/(\d+)/(\d+)/add/comic$', comics_searching.search_comics_page),
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', comics_searching.ajax_search_comics),
-    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)$', comics_add.add_product_page),
+                       
+    # Comics - Add/Edit
+    url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/product/(\d+)$', comics_add.comic_page),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/list_products$', comics_add.list_products),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/upload_cover$', comics_add.ajax_save_uploaded_cover),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/add_product$', comics_add.ajax_add_product),
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/section_dropbox/(\d+)$', comics_add.ajax_sections_per_store),
+                    
+    # Comics - Delete
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/delete/(\d+)$', comics_add.ajax_delete_comic),
     
-                      
                        
                        
                        
