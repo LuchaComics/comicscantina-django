@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 from inventory.views import dashboard
-from inventory.views import list
 from inventory.views import setting_org
 from inventory.views import setting_stores
 from inventory.views import setting_users
@@ -9,6 +8,7 @@ from inventory.views import customers
 from inventory.views import checkout
 from inventory.views import comics_searching
 from inventory.views import comics_add
+from inventory.views import comic_inventory_list
 
 
 urlpatterns = patterns('',
@@ -18,12 +18,12 @@ urlpatterns = patterns('',
 #
                        
     # Dashboard
-    #------------
+    #----------------------
     url(r'^inventory/(\d+)/(\d+)$', dashboard.dashboard_page),
     url(r'^inventory/(\d+)/(\d+)/dashboard$', dashboard.dashboard_page),
                        
     # Settings
-    #-------------
+    #----------------------
     # Org
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', setting_org.org_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/save_org_logo$', setting_org.ajax_org_save_logo),
@@ -46,13 +46,13 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', setting_users.ajax_assign_employee_to_store),
              
     # Help
-    #-------------
+    #----------------------
     url(r'^inventory/(\d+)/(\d+)/help$', help.help_page),
     url(r'^inventory/(\d+)/(\d+)/help/save_image$', help.ajax_save_image),
     url(r'^inventory/(\d+)/(\d+)/help/save_data$', help.ajax_save_data),
                
     # Customers
-    #-------------
+    #----------------------
     url(r'^inventory/(\d+)/(\d+)/customers$', customers.customers_page),
     url(r'^inventory/(\d+)/(\d+)/customers/refresh_table$', customers.ajax_refresh_table),
     url(r'^inventory/(\d+)/(\d+)/customers/delete$', customers.ajax_delete_customer),
@@ -60,12 +60,12 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/add_customer/submit$', customers.ajax_add_customer),
                        
     # Checkout
-    #-------------
+    #----------------------
     url(r'^inventory/(\d+)/(\d+)/checkout$', checkout.checkout_page),
                        
                        
     # Add Inventory Item
-    #-------------
+    #----------------------
     # Comics - Search
     url(r'^inventory/(\d+)/(\d+)/add/comic$', comics_searching.search_comics_page),
     url(r'^inventory/(\d+)/(\d+)/add/search_comics$', comics_searching.ajax_search_comics),
@@ -80,18 +80,9 @@ urlpatterns = patterns('',
     # Comics - Delete
     url(r'^inventory/(\d+)/(\d+)/add/comic/(\d+)/delete/(\d+)$', comics_add.ajax_delete_comic),
     
-                       
-                       
-                       
-                       
-    # TODO: Update all entries below.
-    #---------------------------------------------------------------------------
-                       
     # Inventory List
-#    url(r'^inventory/list$', list.list_page),
-#                       
-#    
-#    
+    #----------------------
+    url(r'^inventory/(\d+)/(\d+)/list/comics$', comic_inventory_list.list_comics_page),
 )
 
 # Captchas

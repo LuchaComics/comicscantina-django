@@ -742,6 +742,43 @@ fieldset{
 }
 /* ----------- end add product details ---------- */
 
+/* ----------- view product details ------------- */
+.btn-add-cart{
+    position:relative;
+    top: -150px;
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+.btn-view-details{
+    position:relative;
+    top: -145px;
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* ----------- end view product details --------- */
+
+.btn-tbl{
+    width: 37px;
+}
+
+.txt-username{
+    font-size: 12pt;
+    font-weight: bold;
+    display: block;
+}
+
+.txt-usertype{
+    display: block;
+    font-size: 10pt;
+}
+
+.tbl-userimg{
+    width: auto;
+    height: 44px;
+}
+
 /* ----------- dropzone ------------- */
 #product-image-uploader{
     border: 1px solid #ddd;

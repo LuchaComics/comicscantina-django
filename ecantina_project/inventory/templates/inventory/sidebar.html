@@ -68,8 +68,8 @@
                                 <span>Add Inventory Item</span>
                             </a>
                         </li>
-                        <li class={% if tab == 'list' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/list" title="View Inventory">
+                        <li class={% if tab == 'comic_list' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/list/comics" title="View Inventory">
                                 <div class="label label-danger pull-right">2</div>
                                 <span>View Inventory</span>
                             </a>
