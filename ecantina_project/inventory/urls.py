@@ -88,7 +88,7 @@ urlpatterns = patterns('',
                        
     # Print Label
     #----------------------
-    url(r'^inventory/(\d+)/(\d+)/print_label$', print_label.print_label_page),
+    url(r'^inventory/(\d+)/(\d+)/print_label/comics$', print_label.print_label_comics_page),
 )
 
 # Captchas
