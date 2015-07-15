@@ -31,10 +31,10 @@ TEST_USER_PASSWORD = "password"
 KWARGS = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
 
 
-class AddComicTest(TestCase):
+class ComicsAddTest(TestCase):
     """
         Run in Console:
-        python manage.py test inventory.tests.test_add_comic
+        python manage.py test inventory.tests.test_comics_add
     """
     def tearDown(self):
         # Clear Sample Data
