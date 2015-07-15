@@ -163,12 +163,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="col-xs-3">
-                                        {% if product_form.instance.comic_id < 0 %}
+                                        {% if product_form.instance.comic_id > 0%}
+                                        {% else %}
                                         <label class="control-label lbl-qty" style="position:relative;top:-2px;font-size:14pt;">Quantity</label>
                                         {% endif %}
                                     </div>
                                     <div class="col-xs-3">
-                                        {% if product_form.instance.comic_id < 0 %}
+                                        {% if product_form.instance.comic_id > 0 %}
+                                        {% else %}
                                         <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
                                         {% endif %}
                                     </div>
@@ -345,7 +347,11 @@
     
         var data = new FormData();
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+    {% if product_form.instance.comic_id > 0 %}
         data.append('comic_id', {{ product_form.instance.comic_id }});
+    {% else %}
+        data.append('comic_id', '');
+    {% endif %}
         data.append('age', $('#id_age').val());
         data.append('upload_id', upload_id);
         data.append('store', $('#id_store').val());
