@@ -30,7 +30,6 @@ def print_label_comics_page(request, org_id, store_id):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         comics = paginator.page(paginator.num_pages)
-
     
     return render(request, 'inventory/print_label/view.html',{
         'org': Organization.objects.get(org_id=org_id),

@@ -1,1 +1,32 @@
 {% load staticfiles %}
+<script>
+    function load_comic(issue_id, comic_id)
+    {
+        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/product/'+comic_id;
+    }
+
+
+    function ajax_delete_comic(issue_id, comic_id)
+    {
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/delete/'+comic_id,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(html_result){
+                // Update Table.
+                window.location='';
+            },
+            error: function(xhr,status,error) {
+                // error code here
+            },
+            complete: function(xhr,status) {
+                // completion code here
+            }
+        });
+    }
+</script>
