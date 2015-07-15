@@ -41,6 +41,8 @@ def ajax_search_comics(request, org_id, store_id):
             from_text = request.POST['from']
             to_text = request.POST['to']
             comics = find_comics(
+                org_id,
+                store_id,
                 series_text,
                 issue_num_text,
                 publisher_text,
@@ -53,7 +55,7 @@ def ajax_search_comics(request, org_id, store_id):
     })
 
 
-def find_comics(series_text, issue_num_text, publisher_text, genre_text, from_text, to_text):
+def find_comics(org_id, store_id, series_text, issue_num_text, publisher_text, genre_text, from_text, to_text):
     try:
         # Lookup 'Series'.
         q = Comic.objects.filter(issue__series__sort_name__icontains=series_text)
@@ -76,8 +78,9 @@ def find_comics(series_text, issue_num_text, publisher_text, genre_text, from_te
             q = q.filter(issue__series__year_ended__lte=int(to_text))
 
         #
-        # Group by Series
-#        q.query.group_by = ['series_id']
+        # Filter by store / organization
+        q = q.filter(store_id=store_id)
+        q = q.filter(organization_id=org_id)
 
         #
         # Note: Causing a "slice" action forces the database to run the above script.
