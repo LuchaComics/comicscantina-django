@@ -349,8 +349,10 @@
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
     {% if product_form.instance.comic_id > 0 %}
         data.append('comic_id', {{ product_form.instance.comic_id }});
+        data.append('created', "{{ product_form.instance.created }}");
     {% else %}
         data.append('comic_id', '');
+        data.append('created', get_date());
     {% endif %}
         data.append('age', $('#id_age').val());
         data.append('upload_id', upload_id);
@@ -442,6 +444,25 @@
                 // completion code here
             }
         });
+    }
+
+    function get_date()
+    {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+    
+        if(dd<10) {
+            dd='0'+dd
+        }
+    
+        if(mm<10) {
+            mm='0'+mm
+        }
+    
+        today = yyyy+'-'+mm+'-'+dd;
+        return today
     }
 </script>
 {% endblock content %}

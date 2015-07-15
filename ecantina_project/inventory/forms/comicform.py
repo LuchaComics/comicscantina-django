@@ -13,7 +13,7 @@ from inventory.models.ec.comic import Comic
 class ComicForm(forms.ModelForm):
     class Meta:
         model = Comic
-        fields = ['cover','age','is_cgc_rated', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'price', 'section','price','cost', 'store',]
+        fields = ['cover','created','age','is_cgc_rated', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'price', 'section','price','cost', 'store',]
         labels = {
             'cover': 'Image',
             'is_cgc_rated': 'CGC Rated',
