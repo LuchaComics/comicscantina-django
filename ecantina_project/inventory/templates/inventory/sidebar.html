@@ -36,6 +36,26 @@
                     <span data-localize="sidebar.heading.HEADER">Menu Navigation</span>
                 </li>
                 
+                <!-- LOCATIONS -->
+                <li class=" ">
+                    <!-- inventory menu header -->
+                    <a href="#location" title="Location" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                        <em class="fa fa-home"></em>
+                        <span>Location</span>
+                    </a>
+                    <!-- inventory menu items -->
+                    <ul id="location" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
+                        <li class="sidebar-subnav-header">Location</li>
+                        {% for location in locations %}
+                        <li class=" ">
+                            <a href="/inventory/{{ org.org_id }}/{{ location.store_id }}/dashboard" title="Store A">
+                                <span>{{ location }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                
                 <!-- DASHBOARD -->
                 <li class={% if tab == 'dashboard' %}" active" {% else %} {% endif %}>
                     <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/dashboard" title="Dashboard">

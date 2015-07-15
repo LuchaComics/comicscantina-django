@@ -72,6 +72,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         'product_form': product_form,
         'issue_form': issue_form,
         'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
