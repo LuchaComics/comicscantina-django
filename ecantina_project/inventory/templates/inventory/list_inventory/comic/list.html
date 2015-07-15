@@ -1,0 +1,56 @@
+{% load staticfiles %}
+{% regroup comics by issue.series as series_list %}
+{% for series in series_list %}
+<div class="clearfix"></div>
+<div class="product-listing m-lg">
+    <div class="product-type-listing clearfix">
+        <div class="product-listing-header pt-xl pb0 mb0">
+            <h4 class="p0 m0">
+                <a class="product-type-minimize">{{ series.grouper }}
+                    <span class="text-sm"><!-- Year --></span>
+                    <span class="pl-sm product-type-publisher text-muted text-sm"><!-- Publisher --></span>
+                    <em class="pl-sm fa fa-caret-down"></em>
+                </a>
+            </h4>
+        </div>
+        <div class="products-list">
+            <!-- begin product listing -->
+            {% for comic in series.list %}
+            <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix"
+         data-comic-id="{{ comic.comic_id }}"
+         data-issue-id="{{ comic.issue.issue_id }}">
+                {% if comic.issue.small_url == '' or comic.issue.cover_url == None %}
+                <img src="{% static "inventory/img/missing_cover.png" %}" class="product-image center-block" width="100" alt="product-title">
+                {% else %}
+                <img src="{{ comic.issue.small_url }}" class="product-image center-block" width="100" alt="product-title">
+                {% endif %}
+                <div class="product-item-details">
+                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #{{ comic.issue.number }}</h4>
+                    <span class="center-block comic-date text-muted text-center">{{ comic.issue.publication_date }}</span>
+                    <span class="center-block product-stock text-success text-center">In stock</span>
+                    <span class="center-block comic-date text-muted text-center">
+                        {% if comic.is_cgc_rated %}
+                        {{ comic.label_colour }} {{ comic.cgc_rating }}
+                        {% else %}
+                        {{ comic.condition_rating }}
+                        {% endif %}
+                    </span>
+                    <span class="center-block product-price text-bold text-center">
+                        {% if comic.price == None %}
+                            Free
+                        {% else %}
+                            ${{ comic.price }}
+                        {% endif %}
+                    </span>
+                </div>
+                <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
+                <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
+            </div>
+            {% endfor %}
+            <!-- end product listing -->
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="panel-footer">{{ comics.count }} Results Listed</div>
+<!-- "regrouper" https://docs.djangoproject.com/en/1.8/ref/templates/builtins/#regroup -->

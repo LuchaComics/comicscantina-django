@@ -7,7 +7,6 @@
     <div class="content-wrapper p0 bg-gray-lighter">
         <div class="header w100 bb m0 p-lg bg-white">
             <h3 class="m0 b0 p0"><em class="fa fa-tag mr"></em>Inventory <em class="fa fa-angle-right pl pr"></em>  View</h3>
-            
         </div>
         <div class="clearfix"></div>
         <!-- START row 1 -->
@@ -22,356 +21,131 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
                                     Comics
                                     <!-- also should get rid of caret if only 1 product type
-                                    <span class="caret"></span>
-                                    end caret -->
-                                    </a>
-                                    
-                                    <!-- this is the dropdown part
-                                    <ul class="dropdown-menu">
-                                    <li><a href="#">Comics</a></li>
-                                    <li><a href="#">Furniture</a></li>
-                                    <li><a href="#">Coins</a></li>
-                                    </ul>
-                                    end dropdown -->
-                                    </li><li class="tab selected"><a href="#">All</a></li><li class="tab"><a href="#">Physical</a></li><li class="tab"><a href="#">Digital</a></li>
-                                    </ul>
-                                    <div class="clearfix"></div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="panel-body panel-body-main">
-                                    <!-- begin filter search boxes -->
-                                    <div class="search-box pb-lg">
-                                    <div class="col-sm-8 col-md-5 mb">
-                                    <div class="input-group">
+                                     <span class="caret"></span>
+                                     end caret -->
+                                </a>
+                                <!-- this is the dropdown part
+                                 <ul class="dropdown-menu">
+                                 <li><a href="#">Comics</a></li>
+                                 <li><a href="#">Furniture</a></li>
+                                 <li><a href="#">Coins</a></li>
+                                 </ul>
+                                 end dropdown -->
+                            </li>
+                            <li class="tab selected"><a href="#">All</a></li>
+                            <li class="tab"><a href="#">Physical</a></li>
+                            <li class="tab"><a href="#">Digital</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel-body panel-body-main">
+                        <!-- begin filter search boxes -->
+                        <div class="search-box pb-lg">
+                            <!-- SERIES -->
+                            <div class="col-sm-12 col-md-6 mb">
+                                <div class="input-group">
                                     <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Series <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Series</button>
+                                    </div><!-- /btn-group -->
+                                    <input id="id_series" type="text" class="form-control">
+                                        </div><!-- /input-group -->
+                            </div>
+                            <!-- /.SERIES -->
+                            <!-- ISSUES -->
+                            <div class="col-sm-12 col-md-6 mb">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Issue #</button>
+                                    </div><!-- /btn-group -->
+                                    <input id="id_issue" type="text" class="form-control">
+                                        </div><!-- /input-group -->
+                            </div><!-- /.ISSUES -->
+                            <!-- PUBLISHER -->
+                            <div class="col-sm-12 col-md-6 mb">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Publisher</button>
+                                    </div><!-- /btn-group -->
+                                    <input id="id_publisher" type="text" class="form-control">
+                                        </div><!-- /input-group -->
+                            </div>
+                            <!-- /.PUBLISHER -->
+                            <!-- GENRE -->
+                            <div class="col-sm-12 col-md-6 mb">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genre</button>
+                                    </div><!-- /btn-group -->
+                                    <input id="id_genre" type="text" class="form-control" disabled="true">
+                                        </div><!-- /input-group -->
+                            </div>
+                            <!-- /.GENRE -->
+                            <!-- FROM YEAR -->
+                            <div class="col-sm-12 col-md-6 mb">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">From Year</button>
+                                    </div><!-- /btn-group -->
+                                    <input id="id_from" type="text" class="form-control">
+                                        </div><!-- /input-group -->
+                            </div>
+                            <!-- /.FROM YEAR -->
+                            <!-- TO YEAR -->
+                            <div class="col-sm-12 col-md-6 mb">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">To Year</button>
+                                    </div><!-- /btn-group -->
+                                    <input id="id_to" type="text" class="form-control">
+                                        </div><!-- /input-group -->
+                            </div>
+                            <!-- /.TO YEAR -->
+                            
+                        </div>
+                        <div class="clearfix"></div>
+                        <!-- end filter search boxes -->
+                        <!--                      -->
+                        <!-- Begin Search Results -->
+                        <!--                      -->
+                        <div class="clearfix"></div>
+                            <div id="ajax_search_results_placeholder"
+                                name="ajax_search_results_placeholder"></div>
+                        </div>
+                    <!--                      -->
+                    <!--  End Search Results  -->
+                    <!--                      -->
+                    </div>
+                </div>
+                <!-- END panel-->
+                <!-- tempalte for cloned filter box -->
+                <div style="display:none;">
+                    <div class="col-sm-8 col-md-5 mb search-filter">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Series <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
                                     <li><a href="#">Series</a></li>
                                     <li><a href="#">Issue</a></li>
                                     <li><a href="#">Publisher</a></li>
                                     <li><a href="#">Genre</a></li>
-                                    </ul>
-                                    </div><!-- /btn-group -->
-                                    <input type="text" class="form-control" value="Batman">
-                                    </div><!-- /input-group -->
-                                    </div>
-                                    <div class="col-sm-8 col-md-5 mb">
-                                    <div class="input-group">
-                                    <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Issue <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                    <li><a href="#">Series</a></li>
-                                    <li><a href="#">Issue</a></li>
-                                    <li><a href="#">Publisher</a></li>
-                                    <li><a href="#">Genre</a></li>
-                                    </ul>
-                                    </div><!-- /btn-group -->
-                                    <input type="text" class="form-control">
-                                    </div><!-- /input-group -->
-                                    </div>
-                                    <div class="col-sm-4 col-md-2 add-filter-button">
-                                    <button type="button" class="btn btn-success btn-add-filter btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add Filter</button>
-                                    </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <!-- end filter search boxes -->
-                                    
-                                    <!-- begin product listing -->
-                                    <div class="product-listing m-lg">
-                                    <div class="product-type-listing clearfix">
-                                    <div class="product-listing-header pt-xl pb0 mb0">
-                                    <h4 class="p0 m0">
-                                    <a class="product-type-minimize">Batman Annual
-                                    <span class="text-sm">(2006)</span>
-                                    <span class="pl-sm product-type-publisher text-muted text-sm">DC</span>
-                                    <em class="pl-sm fa fa-caret-down"></em>
-                                    </a>
-                                    </h4>
-                                    </div>
-                                    <div class="products-list">
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-1.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #25</h4>
-                                    <span class="center-block comic-date text-muted text-center">May 2006</span>
-                                    <span class="center-block product-stock text-success text-center">3 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-2.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #26</h4>
-                                    <span class="center-block comic-date text-muted text-center">October 2007</span>
-                                    <span class="center-block product-stock text-success text-center">6 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-3.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #27</h4>
-                                    <span class="center-block comic-date text-muted text-center">December 2009</span>
-                                    <span class="center-block product-stock text-success text-center">1 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix out-of-stock">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-4.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #28</h4>
-                                    <span class="center-block comic-date text-muted text-center">February 2011</span>
-                                    <span class="center-block product-stock text-danger text-center">0 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-1.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #25</h4>
-                                    <span class="center-block comic-date text-muted text-center">May 2006</span>
-                                    <span class="center-block product-stock text-success text-center">3 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-2.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #26</h4>
-                                    <span class="center-block comic-date text-muted text-center">October 2007</span>
-                                    <span class="center-block product-stock text-success text-center">6 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-3.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #27</h4>
-                                    <span class="center-block comic-date text-muted text-center">December 2009</span>
-                                    <span class="center-block product-stock text-success text-center">1 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart</button>
-                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>View Details</button>
-                                    </div>
-                                    
-                                    <!-- loading comics -->
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <div class="ball-grid-pulse center-block">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    </div>
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #28</h4>
-                                    <span class="center-block comic-date text-muted text-center">February 2011</span>
-                                    <span class="center-block product-stock text-danger text-center">0 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <div class="ball-grid-pulse center-block">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    </div>
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #28</h4>
-                                    <span class="center-block comic-date text-muted text-center">February 2011</span>
-                                    <span class="center-block product-stock text-danger text-center">0 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <div class="ball-grid-pulse center-block">
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                    </div>
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #28</h4>
-                                    <span class="center-block comic-date text-muted text-center">February 2011</span>
-                                    <span class="center-block product-stock text-danger text-center">0 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <!-- end loading comics -->
-                                    </div>
-                                    </div>
-                                    
-                                    <div class="product-type-listing clearfix">
-                                    <div class="product-listing-header pt-xl pb0 mb0">
-                                    <h4 class="p0 m0">
-                                    <a class="product-type-minimize">Batman
-                                    <span class="text-sm">(2011)</span>
-                                    <span class="pl-sm product-type-publisher text-muted text-sm">DC</span>
-                                    <em class="pl-sm fa fa-caret-down"></em>
-                                    </a>
-                                    </h4>
-                                    </div>
-                                    <div class="products-list">
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-5.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #1</h4>
-                                    <span class="center-block comic-date text-muted text-center">November 2011</span>
-                                    <span class="center-block product-stock text-success text-center">3 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-6.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #2</h4>
-                                    <span class="center-block comic-date text-muted text-center">December 2011</span>
-                                    <span class="center-block product-stock text-success text-center">6 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-7.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #3</h4>
-                                    <span class="center-block comic-date text-muted text-center">January 2012</span>
-                                    <span class="center-block product-stock text-success text-center">1 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix out-of-stock">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-8.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #4</h4>
-                                    <span class="center-block comic-date text-muted text-center">February 2012</span>
-                                    <span class="center-block product-stock text-danger text-center">0 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-5.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #1</h4>
-                                    <span class="center-block comic-date text-muted text-center">November 2011</span>
-                                    <span class="center-block product-stock text-success text-center">3 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-6.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #2</h4>
-                                    <span class="center-block comic-date text-muted text-center">December 2011</span>
-                                    <span class="center-block product-stock text-success text-center">6 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-7.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #3</h4>
-                                    <span class="center-block comic-date text-muted text-center">January 2012</span>
-                                    <span class="center-block product-stock text-success text-center">1 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix out-of-stock">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-8.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #4</h4>
-                                    <span class="center-block comic-date text-muted text-center">February 2012</span>
-                                    <span class="center-block product-stock text-danger text-center">0 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="product-type-listing clearfix">
-                                    <div class="product-listing-header pt-xl pb0 mb0">
-                                    <h4 class="p0 m0">
-                                    <a class="product-type-minimize">Batman
-                                    <span class="text-sm">(1966)</span>
-                                    <span class="pl-sm product-type-publisher text-muted text-sm">New American Library</span>
-                                    <em class="pl-sm fa fa-caret-down"></em>
-                                    </a>
-                                    </h4>
-                                    </div>
-                                    <div class="products-list">
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item clearfix">
-                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-9.jpg" />
-                                    <div class="product-item-details">
-                                    <h4 class="comic-issue product-title m-sm center-block text-center">Issue #D2939</h4>
-                                    <span class="center-block comic-date text-muted text-center">March 1966</span>
-                                    <span class="center-block product-stock text-success text-center">1 in stock</span>
-                                    <span class="center-block product-price text-bold text-center">$100.99</span>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    </div>
-                                    <!-- end product listing -->
-                                    </div>
-                                    <div class="panel-footer">20 Results Listed</div>
-                                    </div>
-                                    <!-- END panel-->
-                                    
-                                    <!-- tempalte for cloned filter box -->
-                                    <div style="display:none;">
-                                    <div class="col-sm-8 col-md-5 mb search-filter">
-                                    <div class="input-group">
-                                    <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Series <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                    <li><a href="#">Series</a></li>
-                                    <li><a href="#">Issue</a></li>
-                                    <li><a href="#">Publisher</a></li>
-                                    <li><a href="#">Genre</a></li>
-                                    </ul>
-                                    </div><!-- /btn-group -->
-                                    <input type="text" class="form-control" value="Batman">
-                                    <em class="fa fa-2x fa-remove text-gray-light btn-remove-filter"></em>
-                                    </div><!-- /input-group -->
-                                    </div>
-                                    </div>
-                                    <!-- end clone template -->
-                                    
-                                    </div>
-                                    </div>
-                                    </div>
-                                    </section>
+                                </ul>
+                            </div>
+                            <!-- /btn-group -->
+                            <input type="text" class="form-control" value="">
+                                <em class="fa fa-2x fa-remove text-gray-light btn-remove-filter"></em>
+                                </div>
+                        <!-- /input-group -->
+                    </div>
+                </div>
+                <!-- end clone template -->
+            </div>
+        </div>
+    </div>
+</section>
 
 
-
-{% include "inventory/list_inventory/comic/js.html" %}
+{% include "inventory/list_inventory/comic/view_js.html" %}
 
 {% endblock content %}

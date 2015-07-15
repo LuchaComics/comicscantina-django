@@ -27,3 +27,60 @@ def list_comics_page(request, org_id, store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+@login_required()
+def ajax_search_comics(request, org_id, store_id):
+    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            series_text = request.POST['series']
+            issue_num_text = request.POST['issue_num']
+            publisher_text = request.POST['publisher']
+            genre_text = request.POST['genre']
+            from_text = request.POST['from']
+            to_text = request.POST['to']
+            comics = find_comics(
+                series_text,
+                issue_num_text,
+                publisher_text,
+                genre_text,
+                from_text,
+                to_text
+            )
+    return render(request, 'inventory/list_inventory/comic/list.html',{
+        'comics' : comics,
+    })
+
+
+def find_comics(series_text, issue_num_text, publisher_text, genre_text, from_text, to_text):
+    try:
+        # Lookup 'Series'.
+        q = Comic.objects.filter(issue__series__sort_name__icontains=series_text)
+        
+        # Find 'Issue #'.
+        if issue_num_text is not '':
+            q = q.filter(issue__number=issue_num_text)
+    
+        # Find 'Publisher'.
+        if publisher_text is not '':
+            q = q.filter(issue__series__publisher__name__icontains=publisher_text)
+
+        # Find Genre
+        #TODO
+        
+        # Limit publishing years.
+        if from_text is not '':
+            q = q.filter(issue__series__year_began__gte=int(from_text))
+        if to_text is not '':
+            q = q.filter(issue__series__year_ended__lte=int(to_text))
+
+        #
+        # Group by Series
+#        q.query.group_by = ['series_id']
+
+        #
+        # Note: Causing a "slice" action forces the database to run the above script.
+        return q[:250]
+    except Issue.DoesNotExist:
+        return None

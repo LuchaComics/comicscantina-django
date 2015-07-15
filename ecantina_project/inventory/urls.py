@@ -83,6 +83,7 @@ urlpatterns = patterns('',
     # Inventory List
     #----------------------
     url(r'^inventory/(\d+)/(\d+)/list/comics$', comic_inventory_list.list_comics_page),
+    url(r'^inventory/(\d+)/(\d+)/list/search_comics$', comic_inventory_list.ajax_search_comics),
 )
 
 # Captchas
