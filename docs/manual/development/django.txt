@@ -95,6 +95,7 @@ $ python manage.py startapp etl
 $ python manage.py startapp store
 $ python manage.py startapp register
 $ python manage.py startapp login
+$ python manage.py startapp webservice
 
 
 (11) Then go to comicscantina_project/settings.py and make sure to include ‘webapp’ in the file.
@@ -112,6 +113,7 @@ INSTALLED_APPS = (
     'store',
     'register',
     'login',
+    'webservice',
 )
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 
