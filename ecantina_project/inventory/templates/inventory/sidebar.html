@@ -75,7 +75,7 @@
                             </a>
                         </li>
                         <li class={% if tab == 'print' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/print_queue" title="Print Labels">
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_label" title="Print Labels">
                                 <div class="label label-primary pull-right">2</div>
                                 <span>Print Labels</span>
                             </a>

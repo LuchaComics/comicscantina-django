@@ -9,6 +9,7 @@ from inventory.views import checkout
 from inventory.views import comics_searching
 from inventory.views import comics_add
 from inventory.views import comic_inventory_list
+from inventory.views import print_label
 
 
 urlpatterns = patterns('',
@@ -84,6 +85,10 @@ urlpatterns = patterns('',
     #----------------------
     url(r'^inventory/(\d+)/(\d+)/list/comics$', comic_inventory_list.list_comics_page),
     url(r'^inventory/(\d+)/(\d+)/list/search_comics$', comic_inventory_list.ajax_search_comics),
+                       
+    # Print Label
+    #----------------------
+    url(r'^inventory/(\d+)/(\d+)/print_label$', print_label.print_label_page),
 )
 
 # Captchas
