@@ -1,0 +1,37 @@
+from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
+import os
+from inventory.models.ec.organization import Organization
+from inventory.models.ec.store import Store
+from inventory.models.ec.customer import Customer
+from inventory.models.ec.comic import Comic
+
+
+class Purchase(models.Model):
+    class Meta:
+        app_label = 'inventory'
+        ordering = ('purchased_date',)
+        db_table = 'ec_purchases'
+    organization = models.ForeignKey(Organization)
+    store = models.ForeignKey(Store)
+    customer = models.ForeignKey(Customer)
+    comic = models.ForeignKey(Comic)
+    purchase_id = models.AutoField(primary_key=True)
+    purchased_date = models.DateTimeField(auto_now=True)
+    amount = models.FloatField(
+        validators=[MinValueValidator(0),],
+        default=0,
+    )
+    tax_amount = models.FloatField(
+        validators=[MinValueValidator(0),],
+        default=0,
+    )
+    after_tax_amount = models.FloatField(
+        validators=[MinValueValidator(0),],
+        default=0,
+    )
+
+    def __str__(self):
+        return self.name

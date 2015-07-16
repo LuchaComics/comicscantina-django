@@ -2,34 +2,254 @@
 {% load staticfiles %}
 {% block content %}
 
+<!-- Main section-->
 <section>
     <!-- Page content-->
-    <div class="content-wrapper">
-        <div class="content-heading">
-            <!-- START Language list-->
-            <div class="pull-right">
-                <div class="btn-group">
-                    <button type="button" data-toggle="dropdown" class="btn btn-default">English</button>
-                    <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
-                        <li><a href="#" data-set-lang="en">English</a>
-                        </li>
-                        <li><a href="#" data-set-lang="es">Spanish</a>
-                        </li>
-                    </ul>
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-shopping-cart mr"></em>Point of Sale <em class="fa fa-angle-right pl pr"></em>
+                Checkout
+            </h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="users-panel" class="clearfix panel panel-default m-lg">
+                    <div class="panel-tabs w100 p m0"
+                        style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
+                        <ul class="tab-list clearfix customer-select">
+                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                            <li class="tab product-type dropdown" role="presentation">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" role="button">
+                                    Ba's Comics
+                                </a>
+                            </li>
+                            <li class="tab selected"><a href="#" data-option="Guest">Guest</a></li>
+                            <li class="tab"><a href="#" data-option="New Customer">New Customer</a></li>
+                            <li class="tab"><a href="#" data-option="Returning Customer">Returning Customer</a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel-body pt0" id="new-customer-info-panel" style="display:none;">
+                        <div class="col-sm-12">
+                            <h2>Customer Information</h2>
+                            <form>
+                                <div class="col-sm-12 p pt0">
+                                    <div class="col-sm-6 p0 pr10">
+                                        <label class="control-label">First Name</label>
+                                        <input type="text" class="form-control mb-lg" placeholder="First Name"
+                                        id="txt-fname" name="fname"/>
+                                    </div>
+                                    <div class="col-sm-6 p0">
+                                        <label class="control-label">Last Name</label>
+                                        <input type="text" class="form-control mb-lg" placeholder="Last Name" id="txt-lname"
+                                        name="lname"/>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 p0 pr10">
+                                        <label class="control-label">Street</label>
+                                        <input type="text" class="form-control mb-lg" placeholder="Street Address"
+                                        id="txt-address" name="address"/>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 p0 pr10">
+                                        <label class="control-label">City</label>
+                                        <input type="text" class="form-control mb-lg" placeholder="City" id="txt-city"
+                                        name="city"/>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 p0 pr10">
+                                        <label class="control-label">Country</label>
+                                        <select class="form-control mb-lg" id="sel-country" name="country">
+                                            <option value="Canada">Canada</option>
+                                            <option value="United States">United States</option>
+                                            <option value="United Kingdom">United Kingdom</option>
+                                            <option value="Mexico">Mexico</option>
+                                            <option value="Other Locations Listed Here">Other locations listed as well
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6 p0">
+                                        <label class="control-label">State/Province</label>
+                                        <select class="form-control mb-lg" id="sel-state" name="state">
+                                            <option value="ON">ON</option>
+                                            <option value="AL">AL</option>
+                                            <option value="BC">BC</option>
+                                            <option value="NB">NB</option>
+                                            <option value="NS">NS</option>
+                                            <option value="...">other options loaded by country</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 p0 pr10">
+                                        <label class="control-label">Phone #</label>
+                                        <input type="tel" class="form-control mb-lg" placeholder="Phone"
+                                        id="txt-store-phone" name="phone"/>
+                                    </div>
+                                    <div class="col-sm-8 p0">
+                                        <label class="control-label">Contact Email</label>
+                                        <input type="email" class="form-control mb-lg" placeholder="Email" id="txt-email"
+                                        name="email"/>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary pull-right">Print Customer Card</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel-body pt0" id="return-customer-info-panel" style="display:none;">
+                        <div class="col-sm-12">
+                            <h2>Search Customer</h2>
+                            <form>
+                                <div class="col-sm-4 p">
+                                    <label class="control-label">First Name</label>
+                                    <datalist id="FirstNameChoices">
+                                        <option data-cust-id="customer_id" value="Alfred">Alfred</option>
+                                        <option data-cust-id="customer_id" value="Bart">Bart</option>
+                                        <option data-cust-id="customer_id" value="Carmen">Carmen</option>
+                                        <option data-cust-id="customer_id" value="Dave">Dave</option>
+                                        <option data-cust-id="customer_id" value="Dilbert">Dilbert</option>
+                                    </datalist>
+                                    <input type="text" class="form-control mb-lg" list="FirstNameChoices"
+                                    placeholder="Type 'a' to test autocomplete" id="txt-searchfname" name="fname"/>
+                                </div>
+                                <div class="col-sm-4 p">
+                                    <label class="control-label">Last Name</label>
+                                    <datalist id="LastNameChoices">
+                                        <option data-cust-id="customer_id" value="Doe">Doe</option>
+                                        <option data-cust-id="customer_id" value="Kent">Kent</option>
+                                        <option data-cust-id="customer_id" value="Martinez">Martinez</option>
+                                        <option data-cust-id="customer_id" value="Smith">Smith</option>
+                                        <option data-cust-id="customer_id" value="Wallace">Wallace</option>
+                                    </datalist>
+                                    <input type="text" class="form-control mb-lg" list="LastNameChoices"
+                                    placeholder="Type 'e' to test autocomplete" id="txt-searchlname" name="lname"/>
+                                </div>
+                                <div class="col-sm-4 p">
+                                    <label class="control-label">Contact Email</label>
+                                    <datalist id="EmailChoices">
+                                        <option data-cust-id="customer_id" value="abcdefg@qwerty.com">abcdefg@qwerty.com
+                                        </option>
+                                        <option data-cust-id="customer_id" value="bikjtr@yuiop.com">bikjtr@yuiop.com
+                                        </option>
+                                        <option data-cust-id="customer_id" value="zyxwvut@zxcvbnm.com">zyxwvut@zxcvbnm.com
+                                        </option>
+                                    </datalist>
+                                    <input type="email" class="form-control mb-lg" list="EmailChoices" placeholder="Email"
+                                    id="txt-searchemail" name="email"/>
+                                </div>
+                                <button type="button" class="btn btn-primary pull-right">Print Customer Card</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="search-issues-list" class="inventory-search-list inventory-list" style="border:none;border-top:1px solid #ddd;">
+                        <div id="list-filter-bar" class="clearfix navbar-inverse"
+                            style="background-color:#eee;width:100%;border-bottom:1px solid rgb(207,219,226);">
+                            <div class="pull-left">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle"
+                                        style="margin:3px;margin-right:3px;" data-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Sort By&nbsp;&nbsp;<span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Title&nbsp;&nbsp;<em class="fa fa-sort-alpha-asc"
+                                            style="top:2px;"></em></a></li>
+                                        <li><a href="#">Series</a></li>
+                                        <li><a href="#">Publisher</a></li>
+                                        <li><a href="#">Release Date</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Price</a></li>
+                                        <li><a href="#">Quantity On Hand</a></li>
+                                        <li><a href="#">Quantity Needed</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="pull-right;" style="float:right;">
+                                <div class="input-group input-group-sm pull-right"
+                                    style="width:400px;margin-top:3px;margin-right:10px;">
+                                    <input type="text" class="form-control" placeholder="Search for..." />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" style="margin-top:0px;">Search Cart Items
+                                        </button>
+                                    </span>
+                                </div>
+                                <!-- /input-group -->
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="panel-body pt0">
+                            <div class="col-sm-12">
+                                <div class="row clearfix" style="margin-left:-20px;margin-right:-20px;height:100% !important;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width:10%">Remove Item</th>
+                                                <th style="width:15%;" class="text-center">Item ID</th>
+                                                <th style="width:15%;">Description</th>
+                                                <th style="width:15%;">Quantity</th>
+                                                <th style="width:15%;">Unit Price</th>
+                                                <th style="width:15%;">Discount</th>
+                                                <th style="width:15%;" class="text-right pr-xl">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center text-danger"><button type="button" class="btn btn-sm btn-danger" style="width:37px;">
+                                                    <em class="fa fa-remove center-block text-center p-sm"></em>
+                                                </button>
+                                                </td>
+                                                <td class="text-center">1001</td>
+                                                <td>Comic A</td>
+                                                <td>3</td>
+                                                <td>$ 200</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control pull-left" value="0" class="discount"
+                                                        style="width:70px;"/>
+                                                        <select class="form-control pull-right"
+                                                            style="width:45px;padding:0;padding-left:5px;">
+                                                            <option value="percent">%</option>
+                                                            <option value="dollars">$</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right pr-xl">$ 600</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row mb-lg">
+                                    <div class="col-sm-offset-8 col-sm-4 pv">
+                                        <div class="clearfix">
+                                            <p class="pull-left">Subtotal</p>
+                                            <p class="pull-right mr-xl">$ 10300</p>
+                                        </div>
+                                        <div class="clearfix">
+                                            <p class="pull-left">Tax (21%)</p>
+                                            <p class="pull-right mr-xl">$ 2700</p>
+                                        </div>
+                                        <div class="clearfix">
+                                            <p class="pull-left h3">GRAND TOTAL</p>
+                                            <p class="pull-right mr-xl h3">$ 13000</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="panel-footer">
+                            <button class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
+                                <span class="btn-label"><i class="fa fa-remove"></i></span>Cancel Sale
+                            </button>
+                            <button type="submit" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                                <span class="btn-label"><i class="fa fa-check"></i></span>Complete Sale
+                            </button>
+                        </div>
+                        <!-- END panel-->
+                    </div>
                 </div>
             </div>
-            <!-- END Language list    -->
-            Single View
-            <small data-localize="dashboard.WELCOME"></small>
         </div>
-        <div class="row">
-            <div class="col-xs-12 text-center">
-                <h2 class="text-thin">Single view content</h2>
-                <p>This project is an application skeleton. You can use it to quickly bootstrap your jQuery webapp projects and dev environment for these projects.
-                <br>The seed app doesn't do much and has most of the feature removed so you can add theme as per your needs just following the demo app examples.</p>
-            </div>
-        </div>
-    </div>
 </section>
 
 <!----------------------------------------------------------------------------->
@@ -41,6 +261,6 @@
 
 <!----------------------------------------------------------------------------->
 
-{% include "inventory/dashboard/js.html" %}
+{% include "inventory/checkout/js.html" %}
 
 {% endblock content %}

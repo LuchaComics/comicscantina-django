@@ -52,6 +52,7 @@ $ pip3 install django-simple-captcha  # Captchas
 $ pip3 install pep8                   # Coding Style Checker
 $ pip3 install urllib3                # Library for making HTTP requests to external websites
 $ pip3 install beautifulsoup4         # HTML Scrapper
+$ pip3 install simplejson             # JSON Reader
 
 
 (7) After installation

@@ -1,39 +1,22 @@
-import json
 from datetime import datetime
 from django.shortcuts import render
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+import simplejson
 
 
-def ajax_secure_login(request):
-    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
-    #    if request.is_ajax():
-    #        if request.method == 'POST':
-    #            form = ImageUploadForm(request.POST, request.FILES)
-    #            if form.is_valid():
-    #                form.save()
-    #                response_data = {
-    #                    'status' : 'success',
-    #                    'message' : 'saved',
-    #            }
-    #            else:
-    #                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-def ajax_add_to_cart(request):
-    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
-#    if request.is_ajax():
-#        if request.method == 'POST':
-#            form = ImageUploadForm(request.POST, request.FILES)
-#            if form.is_valid():
-#                form.save()
-#                response_data = {
-#                    'status' : 'success',
-#                    'message' : 'saved',
-#            }
-#            else:
-#                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+@csrf_exempt
+def json_rpc_view(request):
+    response_data = {'jsonrpc':'2.0', 'id': 666, 'result': 'not post', }
+    if request.method == 'POST':
+        post = request.body
+        post = simplejson.loads(post)
+        print(post["jsonrpc"])
+        print(post["id"])
+        print(post["method"])
+        print(post.get("params"))
+        response_data = {'id': 6, 'result': 'ok', }
+    return JsonResponse(response_data)
