@@ -19,7 +19,7 @@ from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
 from . import views
 from inventory.tests.sample import SamplDataPopulator
-
+import urllib3
 
 TEST_USER_EMAIL = "ledo@gah.com"
 TEST_USER_USERNAME = "ledo@gah.com"
@@ -43,9 +43,9 @@ class WebServiceTest(TestCase):
         populator = SamplDataPopulator()
         populator.populate()
     
-    def test_url_resolves_to_ajax_add_to_cart_view(self):
-        found = resolve('/inventory/webservice/add_to_cart')
-        self.assertEqual(found.func, views.ajax_add_to_cart)
+    def test_url_resolves_to_json_webservice_view(self):
+        found = resolve('/inventory/webservice/json')
+        self.assertEqual(found.func, views.json_rpc_view)
 
 ##Todo!
 #    def test_login_authentication_with_succesful_login(self):
@@ -69,14 +69,17 @@ class WebServiceTest(TestCase):
 #        self.assertEqual(array['status'], 'success')
 #        self.assertEqual(array['message'], 'logged on')
 
-    def test_save_org_data_with_success(self):
+    def test_hello_world_with_success(self):
         client = Client()
         client.login(
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        response = client.post('/inventory/webservice/add_to_cart',{
-                               
+        response = client.post('/inventory/webservice/json',{
+            'jsonrpc':'2.0',
+            'id':'1',
+            'method':'hello_world',
+            'params':'',
         },**KWARGS)
                      
         # Verify: Check that the response is 200 OK.
@@ -85,5 +88,4 @@ class WebServiceTest(TestCase):
         # Verify: Successful response.
         json_string = response.content.decode(encoding='UTF-8')
         array = json.loads(json_string)
-        self.assertEqual(array['message'], 'added to cart')
-        self.assertEqual(array['status'], 'success')
+        self.assertEqual(array['result'], 'ok')
