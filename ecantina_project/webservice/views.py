@@ -40,8 +40,15 @@ def json_rpc_view(request):
 
 
 def json_rpc_processor(jsonrpc, id, method, params):
-    return {'jsonrpc': '2.0', 'id': 6, 'result': 'ok', }
+    if method is 'hello_world':
+        return hello_world(jsonrpc, id, method, params)
+    else:
+        return {'jsonrpc': '2.0', 'id': 6, 'result': 'method not found', }
 
 
 # FUNCTIONS
 #-------------------
+
+
+def hello_world(jsonrpc, id, method, params):
+    return {'jsonrpc': jsonrpc, 'id': id++, 'result': 'ok', }
