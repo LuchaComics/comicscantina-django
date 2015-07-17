@@ -150,3 +150,25 @@ class WebServiceTest(TestCase):
                                
         # Verify: Check that the response is 200 Success.
         self.assertEqual(response.status_code, 200)
+    
+    def test_open_cart_with_success(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/webservice/json', {
+            'method':'open_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+                     
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+            
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], 'cart opened')
+
