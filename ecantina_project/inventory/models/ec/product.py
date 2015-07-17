@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
-import os
 from inventory.models.ec.organization import Organization
 from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
@@ -37,7 +36,7 @@ class Product(models.Model):
     )
     
     # Product Supported References
-    comics = models.ForeignKey(Comic, null=True, blank=True)
+    comic = models.ForeignKey(Comic, null=True, blank=True)
     # Add more future products here ...
     
     def __str__(self):

@@ -19,6 +19,7 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
+from inventory.models.ec.product import Product
 from inventory.tests.sample import SamplDataPopulator
 
 
@@ -142,6 +143,11 @@ class ComicsAddTest(TestCase):
                      
         # Verify Results.
         self.assertIn(b'saved',response.content)
+    
+        # Verify database.
+        self.assertEqual(Product.objects.all().count(), 1)
+        self.assertEqual(Comic.objects.all().count(), 1)
+
 
     def test_ajax_sections_per_store_with_success(self):
         client = Client()
@@ -193,6 +199,10 @@ class ComicsAddTest(TestCase):
                      
         # Verify Results.
         self.assertIn(b'deleted',response.content)
+    
+        # Verify database.
+        self.assertEqual(Product.objects.all().count(), 0)
+        self.assertEqual(Comic.objects.all().count(), 0)
 
     def test_edit_product_with_success(self):
         # Setup.

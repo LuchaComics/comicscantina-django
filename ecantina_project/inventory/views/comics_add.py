@@ -13,6 +13,7 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
+from inventory.models.ec.product import Product
 from inventory.forms.issueform import IssueForm
 from inventory.forms.comicform import ComicForm
 from inventory.forms.imageuploadform import ImageUploadForm
@@ -168,6 +169,18 @@ def ajax_add_product(request, org_id, store_id, issue_id):
             if form.is_valid():
                 # Step (6): Save & return OK status.
                 form.save()
+                
+                # Step (7) Create "product" by inserting an object if "comic"
+                #          cannot be found.
+                try:
+                    product = Product.objects.get(comic=form.instance)
+                except Product.DoesNotExist:
+                    Product.objects.create(
+                        comic=form.instance,
+                        type=settings.COMIC_PRODUCT_TYPE,
+                    )
+
+                # Step (8) Return success status.
                 response_data = {
                     'status' : 'success',
                     'message' : 'saved',
