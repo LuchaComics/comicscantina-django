@@ -23,7 +23,7 @@ import urllib3
 
 TEST_USER_EMAIL = "ledo@gah.com"
 TEST_USER_USERNAME = "ledo@gah.com"
-TEST_USER_PASSWORD = "ContinentalUnion"
+TEST_USER_PASSWORD = "password"
 # Extra parameters to make this a Ajax style request.
 KWARGS = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
 
@@ -43,8 +43,12 @@ class WebServiceTest(TestCase):
         populator = SamplDataPopulator()
         populator.populate()
     
-    def test_url_resolves_to_json_webservice_view(self):
+    def test_url_resolves_to_json_secure_webservice_view(self):
         found = resolve('/inventory/webservice/json')
+        self.assertEqual(found.func, views.json_rpc_secure_view)
+    
+    def test_url_resolves_to_json_webservice_view(self):
+        found = resolve('/inventory/webservice/auth/json')
         self.assertEqual(found.func, views.json_rpc_view)
 
     def test_hello_world_with_success(self):
@@ -53,7 +57,7 @@ class WebServiceTest(TestCase):
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        response = client.post('/inventory/webservice/json',{
+        response = client.post('/inventory/webservice/auth/json',{
             'jsonrpc':'2.0',
             'id':'1',
             'method':'hello_world',
@@ -74,7 +78,7 @@ class WebServiceTest(TestCase):
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        response = client.post('/inventory/webservice/json', {
+        response = client.post('/inventory/webservice/auth/json', {
             'method':'add',
             'id':'1',
             'jsonrpc':'2.0',
@@ -88,3 +92,61 @@ class WebServiceTest(TestCase):
         json_string = response.content.decode(encoding='UTF-8')
         array = json.loads(json_string)
         self.assertEqual(array['result'], 3)
+
+    def test_logout_without_login_with_authorization_required(self):
+        client = Client()
+        response = client.post('/inventory/webservice/auth/json', {
+            'method':'logout',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_login_with_success(self):
+        client = Client()
+        response = client.post('/inventory/webservice/auth/json', {
+            'method':'login',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'username': TEST_USER_USERNAME,
+                'password': TEST_USER_PASSWORD
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+                               
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], 'success')
+
+    def test_logout_with_login_with_success(self):
+        client = Client()
+        response = client.post('/inventory/webservice/auth/json', {
+            'method':'login',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                    'username': TEST_USER_USERNAME,
+                    'password': TEST_USER_PASSWORD
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+                               
+        # Verify: Check that the response is 200 Success.
+        self.assertEqual(response.status_code, 200)
+                               
+        response = client.post('/inventory/webservice/auth/json', {
+            'method':'logout',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+                               
+        # Verify: Check that the response is 200 Success.
+        self.assertEqual(response.status_code, 200)
