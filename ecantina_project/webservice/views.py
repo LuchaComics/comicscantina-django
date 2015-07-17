@@ -18,9 +18,9 @@ def json_rpc_view(request):
     if request.method == 'POST':
         # Attempt to parse the data from a mobile device.
         try:
+            #print(repr(request.POST)) # Debugging purposes only
             post = simplejson.loads(request.body)
         except:
-            #print(repr(request.POST))
             post = None
         
         # If parsing failed, attempt to parse again using a different method.
@@ -30,9 +30,11 @@ def json_rpc_view(request):
             except:
                 # If we still get an exception, then return error.
                 return JsonResponse({'id': 1, 'result': 'failed parsing error', })
-                    
+    
+        #print(repr(post)) # Debugging purposes only
         jsonrpc = post.get("jsonrpc")
-        id = post.get("id")
+        id = int(post.get("id"))
+        id = id+1
         method = post.get("method")
         params = post.get("params")
         response_data = json_rpc_processor(jsonrpc, id, method, params)
@@ -40,8 +42,10 @@ def json_rpc_view(request):
 
 
 def json_rpc_processor(jsonrpc, id, method, params):
-    if method is 'hello_world':
+    if method == 'hello_world':
         return hello_world(jsonrpc, id, method, params)
+    if method == 'add':
+        return add(jsonrpc, id, method, params)
     else:
         return {'jsonrpc': '2.0', 'id': 6, 'result': 'method not found', }
 
@@ -51,4 +55,11 @@ def json_rpc_processor(jsonrpc, id, method, params):
 
 
 def hello_world(jsonrpc, id, method, params):
-    return {'jsonrpc': jsonrpc, 'id': id++, 'result': 'ok', }
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'Hello World!', }
+
+
+def add(jsonrpc, id, method, params):
+    #print(params) # Debugging purposes only
+    a = float(params.get("a"))
+    b = float(params.get("b"))
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': 1, }

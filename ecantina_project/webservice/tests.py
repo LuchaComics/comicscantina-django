@@ -47,28 +47,6 @@ class WebServiceTest(TestCase):
         found = resolve('/inventory/webservice/json')
         self.assertEqual(found.func, views.json_rpc_view)
 
-##Todo!
-#    def test_login_authentication_with_succesful_login(self):
-#        # Extra parameters to make this a Ajax style request.
-#        kwargs = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
-#        
-#        # Test
-#        client = Client()
-#        response = client.post(
-#            '/inventory/login_authentication',
-#            {'username': TEST_USER_USERNAME, 'password': TEST_USER_PASSWORD},
-#                            **kwargs
-#        )
-#                               
-#        # Verify: Check that the response is 200 OK.
-#        self.assertEqual(response.status_code, 200)
-#                               
-#        # Verify: Successful response.
-#        json_string = response.content.decode(encoding='UTF-8')
-#        array = json.loads(json_string)
-#        self.assertEqual(array['status'], 'success')
-#        self.assertEqual(array['message'], 'logged on')
-
     def test_hello_world_with_success(self):
         client = Client()
         client.login(
@@ -88,4 +66,32 @@ class WebServiceTest(TestCase):
         # Verify: Successful response.
         json_string = response.content.decode(encoding='UTF-8')
         array = json.loads(json_string)
-        self.assertEqual(array['result'], 'ok')
+        self.assertEqual(array['result'], 'Hello World!')
+
+    def test_add_with_success(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        
+        parameters = {
+            'method':'add',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': {'a': '1', 'b': '3'},
+        }
+        parameters = json.dumps(parameters)
+        response = client.post('/inventory/webservice/json', parameters ,**KWARGS)
+                     
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+                     
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], 3)
+
+# TEST:  <QueryDict: {'method': ['add'], 'id': ['1'], 'jsonrpc': ['2.0'], 'params': ['a', 'b']}>
+# TEST2: <QueryDict: {'{"id": "1", "jsonrpc": "2.0", "params": {"b": "3", "a": "1"}, "method": "add"}': ['']}>
+# IOS:   <QueryDict: {'{"method":"add","id":-1402517793,"jsonrpc":"2.0","params":{"a":"1","b":"3"}}': ['']}>
