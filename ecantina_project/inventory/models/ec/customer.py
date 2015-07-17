@@ -40,4 +40,4 @@ class Customer(models.Model):
     profile = models.ForeignKey(ImageUpload, null=True, blank=True)
     
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return self.first_name + ' ' + self.last_name + ' (ID: ' + str(self.customer_id) + ')'

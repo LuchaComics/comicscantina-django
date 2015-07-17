@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.store import Store
+from inventory.models.ec.cart import Cart
+from inventory.models.ec.customer import Customer
+from inventory.models.ec.product import Product
 
 
 # JSON RPC VIEW
@@ -71,6 +74,8 @@ def json_rpc_secure_view(request):
             return JsonResponse(assign_cart(request, jsonrpc, id, method, params))
         elif method == 'add_to_cart':
             return JsonResponse(add_to_cart(request, jsonrpc, id, method, params))
+        elif method == 'remove_from_cart':
+            return JsonResponse(remove_from_cart(request, jsonrpc, id, method, params))
         elif method == 'checkout_cart':
             return JsonResponse(checkout_cart(request, jsonrpc, id, method, params))
         elif method == 'add_to_checkedout_cart':
@@ -204,23 +209,54 @@ def open_cart(request, jsonrpc, id, method, params):
         Opens a new cart to be loaded in by the store employee. If a previous
         cart existed it will be deleted.
     """
-    # Close the previous cart if it exist.
-    
+    # Close the previous cart if it exist for the current customer / employee
+    employee = Employee.objects.get(user=request.user)
+    q = Cart.objects.filter(employee=employee)
+    q = q.filter(is_closed=False)
+    for cart in q:
+        cart.is_closed = True
+        cart.save()
     
     # Open a new cart.
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'cart opened', }
+    try:
+        cart = Cart.objects.create(
+            employee = employee,
+            created = datetime.now(),
+        )
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': cart.cart_id }
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': -1, }
 
 
 def assign_cart(request, jsonrpc, id, method, params):
     """
         Assign a customer to the current cart.
     """
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+    try:
+        customer_id = int(params.get("customer_id"))
+        customer = Customer.objects.get(customer_id=customer_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: customer not found', }
+
+    try:
+        cart_id = int(params.get("cart_id"))
+        cart = Cart.objects.get(cart_id=cart_id)
+        cart.customer = customer
+        cart.save()
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'success', }
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find cart', }
 
 
 def add_to_cart(request, jsonrpc, id, method, params):
     """
         Assign a product to the current cart.
+    """
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+
+def remove_from_cart(request, jsonrpc, id, method, params):
+    """
+        Removes a product from the current cart.
     """
     return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
 

@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.http import QueryDict

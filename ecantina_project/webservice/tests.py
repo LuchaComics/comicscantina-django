@@ -17,6 +17,8 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
+from inventory.models.ec.customer import Customer
+from inventory.models.ec.cart import Cart
 from . import views
 from inventory.tests.sample import SamplDataPopulator
 import urllib3
@@ -37,7 +39,9 @@ class WebServiceTest(TestCase):
         # Clear Sample Data
         populator = SamplDataPopulator()
         populator.dealloc()
-    
+        for cart in Cart.objects.all():
+            cart.delete()
+                
     def setUp(self):
         # Create Sample Data
         populator = SamplDataPopulator()
@@ -157,6 +161,7 @@ class WebServiceTest(TestCase):
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
+        self.assertEqual(Cart.objects.all().count(), 0)
         response = client.post('/inventory/webservice/json', {
             'method':'open_cart',
             'id':'1',
@@ -167,8 +172,41 @@ class WebServiceTest(TestCase):
         # Verify: Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
             
+        # Verify: Database.
+        self.assertEqual(Cart.objects.all().count(), 1)
+
+    def test_assign_cart_with_success(self):
+        # Setup
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        self.assertEqual(Cart.objects.all().count(), 0)
+        response = client.post('/inventory/webservice/json', {
+            'method':'open_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(Cart.objects.all().count(), 1)
+        
+        # Test
+        response = client.post('/inventory/webservice/json', {
+            'method':'assign_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({'customer_id': 1,'cart_id':array['result']}),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+                     
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+                     
         # Verify: Successful response.
         json_string = response.content.decode(encoding='UTF-8')
         array = json.loads(json_string)
-        self.assertEqual(array['result'], 'cart opened')
+        self.assertEqual(array['result'], 'success')
 

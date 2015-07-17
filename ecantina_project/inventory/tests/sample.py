@@ -78,6 +78,16 @@ class SamplDataPopulator():
             user.save()
         except Exception as e:
             user = User.objects.get(email=TEST_USER_EMAIL)
+        try:
+            user2 = User.objects.create_user(
+                "Hideauze",  # Username
+                "Hideauze1@evolvers.com",  # Email
+                TEST_USER_PASSWORD,
+            )
+            user2.is_active = True
+            user2.save()
+        except Exception as e:
+            user2 = User.objects.get(email="Hideauze1@evolvers.com")
     
         #----------------
         # Image Uploads
@@ -88,24 +98,26 @@ class SamplDataPopulator():
         #-----------------
         # Customer
         #-----------------
-#        try:
-#            customer = Customer.objects.create(
-#                customer_id=1,
-#                first_name='Main Store',
-#                last_name='Test',
-#                joined=now,
-#                street_name='Hamilton Rd',
-#                street_number='426',
-#                unit_number='1',
-#                city='London',
-#                province='Ontario',
-#                country='Canada',
-#                postal='N5Z 1R9',
-#                email='test@testing.com',
-#                phone='519-439-9636',
-#            )
-#        except Exception as e:
-#            customer = Customer.objects.get(customer_id=1)
+        try:
+            customer1 = Customer.objects.create(
+                user=user2,
+                customer_id=1,
+                first_name='Rei',
+                last_name='Ayanami',
+                joined=now,
+                street_name='Hamilton Rd',
+                street_number='426',
+                unit_number='1',
+                city='London',
+                province='Ontario',
+                country='Canada',
+                postal='N5Z 1R9',
+                email='test@testing.com',
+                phone='519-439-9636',
+            )
+        except Exception as e:
+            print("Failed creating customer 1")
+            customer1 = Customer.objects.get(user=user2)
 
         #-----------------
         # Organization
