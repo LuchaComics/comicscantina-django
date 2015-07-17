@@ -64,17 +64,17 @@ def json_rpc_secure_view(request):
         
         # Process the request
         if method == 'cashier_logout':
-            return JsonResponse(cashier_logout(jsonrpc, id, method, params))
+            return JsonResponse(cashier_logout(request, jsonrpc, id, method, params))
         elif method == 'open_cart':
-            return JsonResponse(open_cart(jsonrpc, id, method, params))
+            return JsonResponse(open_cart(request, jsonrpc, id, method, params))
         elif method == 'assign_cart':
-            return JsonResponse(assign_cart(jsonrpc, id, method, params))
+            return JsonResponse(assign_cart(request, jsonrpc, id, method, params))
         elif method == 'add_to_cart':
-            return JsonResponse(add_to_cart(jsonrpc, id, method, params))
+            return JsonResponse(add_to_cart(request, jsonrpc, id, method, params))
         elif method == 'checkout_cart':
-            return JsonResponse(checkout_cart(jsonrpc, id, method, params))
+            return JsonResponse(checkout_cart(request, jsonrpc, id, method, params))
         elif method == 'add_to_checkedout_cart':
-            return JsonResponse(add_to_checkedout_cart(jsonrpc, id, method, params))
+            return JsonResponse(add_to_checkedout_cart(request, jsonrpc, id, method, params))
         else:
             return JsonResponse({'jsonrpc': '2.0', 'id': 6, 'result': 'method not found', })
     return JsonResponse(response_data)
@@ -199,29 +199,33 @@ def employee_logout(request, jsonrpc, id, method, params):
         return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed logging out', }
 
 
-def open_cart(jsonrpc, id, method, params):
+def open_cart(request, jsonrpc, id, method, params):
     """
         Opens a new cart to be loaded in by the store employee. If a previous
         cart existed it will be deleted.
     """
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+    # Close the previous cart if it exist.
+    
+    
+    # Open a new cart.
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'cart opened', }
 
 
-def assign_cart(jsonrpc, id, method, params):
+def assign_cart(request, jsonrpc, id, method, params):
     """
         Assign a customer to the current cart.
     """
     return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
 
 
-def add_to_cart(jsonrpc, id, method, params):
+def add_to_cart(request, jsonrpc, id, method, params):
     """
         Assign a product to the current cart.
     """
     return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
 
 
-def checkout_cart(jsonrpc, id, method, params):
+def checkout_cart(request, jsonrpc, id, method, params):
     """
         Close the cart and tell the system to handle dealing with a
         finished purchasing session.
@@ -229,7 +233,7 @@ def checkout_cart(jsonrpc, id, method, params):
     return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
 
 
-def add_to_checkedout_cart(jsonrpc, id, method, params):
+def add_to_checkedout_cart(request, jsonrpc, id, method, params):
     """
         Assign a product to the cart which was previously checked out.
     """
