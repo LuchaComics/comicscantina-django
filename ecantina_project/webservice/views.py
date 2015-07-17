@@ -18,7 +18,7 @@ def json_rpc_view(request):
     if request.method == 'POST':
         # Attempt to parse the data from a mobile device.
         try:
-            #print(repr(request.POST)) # Debugging purposes only
+            #print('Raw Data: %s' % request.body )# Debugging Purposes Only.
             post = simplejson.loads(request.body)
         except:
             post = None
@@ -27,21 +27,30 @@ def json_rpc_view(request):
         if post is None:
             try:
                 post = request.POST.dict()
+                
+                # Attempt to convert the parameters into a python dictionary
+                # if it fails that's ok, just skip this step.
+                try:
+                    post['params'] = simplejson.loads(post.get("params"))
+                    #print(post) # Debugging purposes only
+                except:
+                    pass
             except:
-                # If we still get an exception, then return error.
                 return JsonResponse({'id': 1, 'result': 'failed parsing error', })
     
-        #print(repr(post)) # Debugging purposes only
+        # Extract the parameters
         jsonrpc = post.get("jsonrpc")
         id = int(post.get("id"))
         id = id+1
         method = post.get("method")
         params = post.get("params")
-        response_data = json_rpc_processor(jsonrpc, id, method, params)
+        
+        # Process the request.
+        response_data = process_request(jsonrpc, id, method, params)
     return JsonResponse(response_data)
 
 
-def json_rpc_processor(jsonrpc, id, method, params):
+def process_request(jsonrpc, id, method, params):
     if method == 'hello_world':
         return hello_world(jsonrpc, id, method, params)
     if method == 'add':
@@ -59,7 +68,6 @@ def hello_world(jsonrpc, id, method, params):
 
 
 def add(jsonrpc, id, method, params):
-    #print(params) # Debugging purposes only
     a = float(params.get("a"))
     b = float(params.get("b"))
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 1, }
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': a+b, }
