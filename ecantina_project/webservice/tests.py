@@ -321,4 +321,110 @@ class WebServiceTest(TestCase):
         array = json.loads(json_string)
         self.assertEqual(array['result'], 'success')
 
+    def test_close_cart_with_success(self):
+        # Setup
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        # Create Cart
+        response = client.post('/inventory/webservice/json', {
+            'method':'open_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+        array = json.loads(response.content.decode(encoding='UTF-8'))
+                     
+        # Add Product to Cart.
+        response = client.post('/inventory/webservice/json', {
+            'method':'add_product_to_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+                'product_id': '1',
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+                     
+        # Test
+        response = client.post('/inventory/webservice/json', {
+            'method':'close_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+                'product_id': '1',
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+        
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], 'success')
+
+    def test_is_cart_closed_with_success(self):
+        # Setup
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        
+        # Create Cart
+        response = client.post('/inventory/webservice/json', {
+            'method':'open_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+        array = json.loads(response.content.decode(encoding='UTF-8'))
+                     
+        # Add Product to Cart.
+        response = client.post('/inventory/webservice/json', {
+            'method':'add_product_to_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+                'product_id': '1',
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+                     
+        # Close Cart
+        response = client.post('/inventory/webservice/json', {
+            'method':'close_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+
+        # Test
+        response = client.post('/inventory/webservice/json', {
+            'method':'is_cart_closed',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+    
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+        
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], True)
 

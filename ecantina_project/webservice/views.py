@@ -77,10 +77,14 @@ def json_rpc_secure_view(request):
             return JsonResponse(add_product_to_cart(request, jsonrpc, id, method, params))
         elif method == 'remove_product_from_cart':
             return JsonResponse(remove_product_from_cart(request, jsonrpc, id, method, params))
-        elif method == 'checkout_cart':
-            return JsonResponse(checkout_cart(request, jsonrpc, id, method, params))
-        elif method == 'add_to_checkedout_cart':
-            return JsonResponse(add_to_checkedout_cart(request, jsonrpc, id, method, params))
+#        elif method == 'checkout_cart':
+#            return JsonResponse(checkout_cart(request, jsonrpc, id, method, params))
+#        elif method == 'add_to_checkedout_cart':
+#            return JsonResponse(add_to_checkedout_cart(request, jsonrpc, id, method, params))
+        elif method == 'close_cart':
+            return JsonResponse(close_cart(request, jsonrpc, id, method, params))
+        elif method == 'is_cart_closed':
+            return JsonResponse(is_cart_closed(request, jsonrpc, id, method, params))
         else:
             return JsonResponse({'jsonrpc': '2.0', 'id': 6, 'result': 'method not found', })
     return JsonResponse(response_data)
@@ -311,16 +315,60 @@ def remove_product_from_cart(request, jsonrpc, id, method, params):
         return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot add product to cart', }
 
 
-def checkout_cart(request, jsonrpc, id, method, params):
+#def checkout_cart(request, jsonrpc, id, method, params):
+#    """
+#        Compute the receipt for this cart.
+#    """
+#    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+#
+#
+#def add_to_checkedout_cart(request, jsonrpc, id, method, params):
+#    """
+#        Assign a product to the cart which was previously checked out.
+#    """
+#    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+
+
+def close_cart(request, jsonrpc, id, method, params):
     """
         Close the cart and tell the system to handle dealing with a
         finished purchasing session.
     """
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+    # Attempt to load the parameters
+    try:
+        cart_id = int(params.get("cart_id"))
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: customer not found', }
+    
+    # Attempt to find the cart.
+    try:
+        cart = Cart.objects.get(cart_id=cart_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find cart', }
+    
+    # Modify cart.
+    cart.is_closed = True
+    cart.save()
+    
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'success', }
 
 
-def add_to_checkedout_cart(request, jsonrpc, id, method, params):
+def is_cart_closed(request, jsonrpc, id, method, params):
     """
-        Assign a product to the cart which was previously checked out.
+        Close the cart and tell the system to handle dealing with a
+        finished purchasing session.
     """
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+    # Attempt to load the parameters
+    try:
+        cart_id = int(params.get("cart_id"))
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: customer not found', }
+    
+    # Attempt to find the cart.
+    try:
+        cart = Cart.objects.get(cart_id=cart_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find cart', }
+    
+    # Return cart status
+    return {'jsonrpc': jsonrpc, 'id': id, 'result': cart.is_closed, }
