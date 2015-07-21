@@ -18,7 +18,7 @@ class Cart(models.Model):
     
     customer = models.ForeignKey(Customer, null=True, blank=True)
     employee = models.ForeignKey(Employee, null=True, blank=True)
-    product = models.ManyToManyField(Product)
+    products = models.ManyToManyField(Product)
     cart_id = models.AutoField(primary_key=True)
     created = models.DateField(null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)

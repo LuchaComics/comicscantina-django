@@ -13,6 +13,7 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.cart import Cart
 from inventory.models.ec.customer import Customer
 from inventory.models.ec.product import Product
+from inventory.models.ec.comic import Comic
 
 
 # JSON RPC VIEW
@@ -72,10 +73,10 @@ def json_rpc_secure_view(request):
             return JsonResponse(open_cart(request, jsonrpc, id, method, params))
         elif method == 'assign_cart':
             return JsonResponse(assign_cart(request, jsonrpc, id, method, params))
-        elif method == 'add_to_cart':
-            return JsonResponse(add_to_cart(request, jsonrpc, id, method, params))
-        elif method == 'remove_from_cart':
-            return JsonResponse(remove_from_cart(request, jsonrpc, id, method, params))
+        elif method == 'add_product_to_cart':
+            return JsonResponse(add_product_to_cart(request, jsonrpc, id, method, params))
+        elif method == 'remove_product_from_cart':
+            return JsonResponse(remove_product_from_cart(request, jsonrpc, id, method, params))
         elif method == 'checkout_cart':
             return JsonResponse(checkout_cart(request, jsonrpc, id, method, params))
         elif method == 'add_to_checkedout_cart':
@@ -248,17 +249,66 @@ def assign_cart(request, jsonrpc, id, method, params):
         return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find cart', }
 
 
-def add_to_cart(request, jsonrpc, id, method, params):
+def add_product_to_cart(request, jsonrpc, id, method, params):
     """
         Assign a product to the current cart.
     """
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+    # Attempt to load the parameters
+    try:
+        product_id = int(params.get("product_id"))
+        cart_id = int(params.get("cart_id"))
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: customer not found', }
+    
+    # Attempt to find the product.
+    try:
+        product = Product.objects.get(product_id=product_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find product', }
 
-def remove_from_cart(request, jsonrpc, id, method, params):
+    # Attempt to find the cart.
+    try:
+        cart = Cart.objects.get(cart_id=cart_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find cart', }
+
+    # Create the cart item.
+    try:
+        cart.products.add(product)
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'success', }
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot add product to cart', }
+
+
+def remove_product_from_cart(request, jsonrpc, id, method, params):
     """
         Removes a product from the current cart.
     """
-    return {'jsonrpc': jsonrpc, 'id': id, 'result': 'todo', }
+    # Attempt to load the parameters
+    try:
+        product_id = int(params.get("product_id"))
+        cart_id = int(params.get("cart_id"))
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: customer not found', }
+    
+    # Attempt to find the product.
+    try:
+        product = Product.objects.get(product_id=product_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find product', }
+    
+    # Attempt to find the cart.
+    try:
+        cart = Cart.objects.get(cart_id=cart_id)
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot find cart', }
+    
+    # Remove the cart item.
+    try:
+        cart.products.remove(product)
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'success', }
+    except:
+        return {'jsonrpc': jsonrpc, 'id': id, 'result': 'failed: cannot add product to cart', }
 
 
 def checkout_cart(request, jsonrpc, id, method, params):

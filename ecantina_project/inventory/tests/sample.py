@@ -22,6 +22,8 @@ from inventory.models.ec.store import Store
 from inventory.models.ec.employee import Employee
 from inventory.models.ec.section import Section
 from inventory.models.ec.customer import Customer
+from inventory.models.ec.comic import Comic
+from inventory.models.ec.product import Product
 from django.db import IntegrityError, transaction
 
 # Contants
@@ -60,6 +62,10 @@ class SamplDataPopulator():
             employee.delete()
         for section in Section.objects.all():
             section.delete()
+        for product in Product.objects.all():
+            product.delete()
+        for comic in Comic.objects.all():
+            comic.delete()
         User.objects.all().delete()
 
     def run_populate(self):

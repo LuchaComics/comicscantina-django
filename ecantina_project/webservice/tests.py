@@ -19,6 +19,7 @@ from inventory.models.ec.section import Section
 from inventory.models.ec.comic import Comic
 from inventory.models.ec.customer import Customer
 from inventory.models.ec.cart import Cart
+from inventory.models.ec.product import Product
 from . import views
 from inventory.tests.sample import SamplDataPopulator
 import urllib3
@@ -46,6 +47,32 @@ class WebServiceTest(TestCase):
         # Create Sample Data
         populator = SamplDataPopulator()
         populator.populate()
+    
+        # Create comic & product
+        Comic.objects.create(
+            comic_id = 1,
+            created = '2015-01-01',
+            is_cgc_rated = True,
+            age = 1,
+            cgc_rating = 1,
+            label_colour = '',
+            condition_rating = 1,
+            is_canadian_priced_variant = True,
+            is_variant_cover = False,
+            is_retail_incentive_variant = False,
+            is_newsstand_edition = False,
+            price = 1,
+            cost = 1,
+            issue = Issue.objects.get(issue_id=1),
+            organization = Organization.objects.get(org_id=1),
+            store = Store.objects.get(store_id=1),
+            section = Section.objects.get(section_id=1),
+        )
+        Product.objects.create(
+            product_id = 1,
+            type =1,
+            comic = Comic.objects.get(comic_id=1),
+        )
     
     def test_url_resolves_to_json_secure_webservice_view(self):
         found = resolve('/inventory/webservice/json')
@@ -209,4 +236,89 @@ class WebServiceTest(TestCase):
         json_string = response.content.decode(encoding='UTF-8')
         array = json.loads(json_string)
         self.assertEqual(array['result'], 'success')
+
+    def test_add_product_to_cart_with_success(self):
+        # Setup
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        # Create Cart
+        response = client.post('/inventory/webservice/json', {
+            'method':'open_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+        array = json.loads(response.content.decode(encoding='UTF-8'))
+                     
+        # Test
+        response = client.post('/inventory/webservice/json', {
+            'method':'add_product_to_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+                'product_id': '1',
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+                     
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+                     
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], 'success')
+
+    def test_remove_product_from_cart_with_success(self):
+        # Setup
+        client = Client()
+        client.login(
+                     username=TEST_USER_USERNAME,
+                     password=TEST_USER_PASSWORD
+        )
+        # Create Cart
+        response = client.post('/inventory/webservice/json', {
+            'method':'open_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': '',
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+        array = json.loads(response.content.decode(encoding='UTF-8'))
+                     
+        # Add Product to Cart.
+        response = client.post('/inventory/webservice/json', {
+            'method':'add_product_to_cart',
+            'id':'1',
+            'jsonrpc':'2.0',
+            'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+                'product_id': '1',
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        self.assertEqual(response.status_code, 200)
+
+        # Test
+        response = client.post('/inventory/webservice/json', {
+                'method':'remove_product_from_cart',
+                'id':'1',
+                'jsonrpc':'2.0',
+                'params': json.dumps({
+                'cart_id': 1,'cart_id':array['result'],
+                'product_id': '1',
+            }),
+        } ,**{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+    
+        # Verify: Check that the response is 200 OK.
+        self.assertEqual(response.status_code, 200)
+        
+        # Verify: Successful response.
+        json_string = response.content.decode(encoding='UTF-8')
+        array = json.loads(json_string)
+        self.assertEqual(array['result'], 'success')
+
 

@@ -146,17 +146,17 @@ class CustomersTestCase(TestCase):
             # Duplicates should be prevented.
             with transaction.atomic():
                 response = client.post('/inventory/1/1/add_customer/submit',{
-                    'first_name':'Main Store12',
-                    'last_name':'Tes12t',
-                    'joined':'2015-01-01',
+                    'first_name':'Main Store123',
+                    'last_name':'Tes12t4',
+                    'joined':'2015-01-02',
                     'street_name':'Hamilton Rd',
-                    'street_number':'426',
-                    'unit_number':'1',
+                    'street_number':'427',
+                    'unit_number':'2',
                     'city':'London',
                     'province':'Ontario',
                     'country':'Canada',
                     'postal':'N5Z 1R9',
-                    'email':'123test123@testing.com',
+                    'email':'123test1231@testing.com',
                     'phone':'519-439-9636',
                 },**KWARGS)
     
