@@ -1,13 +1,22 @@
 from django.conf.urls import url, include
-from rest_framework import routers
-from . import views
+from api.views import customer
+from api.views import cart
+from api.views import product
+from api.views import employee
+from rest_framework.routers import DefaultRouter
+from api.views import api
 
-router = routers.DefaultRouter()
-router.register(r'customers', views.CustomerViewSet)
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'customers', customer.CustomerViewSet)
+router.register(r'carts', cart.CartViewSet)
+router.register(r'products', product.ProductViewSet)
+router.register(r'employees', employee.EmployeeViewSet)
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
+# The API URLs are now determined automatically by the router.
+# Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
+    url(r'^api/', include(router.urls, namespace='api')),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
