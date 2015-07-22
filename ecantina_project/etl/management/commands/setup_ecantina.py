@@ -18,7 +18,7 @@ class Command(BaseCommand):
         This command will initialize our database.
         
         Run in your console:
-        $ python manage.py setup_comicscantina
+        $ python manage.py setup_ecantina
     """
     help = 'Populates the tables neccessary to give us a initial start.'
     
@@ -159,24 +159,6 @@ class Command(BaseCommand):
         except Exception as e:
             pass
         
-        # Create Store Location
-        locations = Location.objects.filter(store=store)
-        main_location = None
-        warehouse_location = None
-        if len(locations) is 0:
-            main_location = Location.objects.create(
-                location_id=1,
-                name='Main Store',
-                store=store,
-                organization = organization,
-            )
-            warehouse_location = Location.objects.create(
-                location_id=3,
-                name='Storage Locker',
-                store=store,
-                organization = organization,
-            )
-        
         # Create Sections
         sections = Section.objects.filter(store=store)
         if len(sections) is 0:
@@ -184,28 +166,24 @@ class Command(BaseCommand):
                 section_id=1,
                 name='Downstairs',
                 store=store,
-                location=main_location,
                 organization = organization,
             )
             Section.objects.create(
                 section_id=2,
                 name='Upstairs',
                 store=store,
-                location=main_location,
                 organization = organization,
             )
             Section.objects.create(
                 section_id=3,
                 name='Front Pile',
                 store=store,
-                location=warehouse_location,
                 organization = organization,
             )
             Section.objects.create(
                 section_id=4,
                 name='Back Pile',
                 store=store,
-                location=warehouse_location,
                 organization = organization,
             )
 
