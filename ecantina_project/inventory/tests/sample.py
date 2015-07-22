@@ -10,20 +10,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
-from inventory.models.gcd.country import Country
-from inventory.models.gcd.publisher import Publisher
-from inventory.models.gcd.language import Language
-from inventory.models.gcd.series import Series
-from inventory.models.gcd.issue import Issue
-from inventory.models.gcd.story import Story
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
-from inventory.models.ec.store import Store
-from inventory.models.ec.employee import Employee
-from inventory.models.ec.section import Section
-from inventory.models.ec.customer import Customer
-from inventory.models.ec.comic import Comic
-from inventory.models.ec.product import Product
+from api.models.gcd.country import Country
+from api.models.gcd.publisher import Publisher
+from api.models.gcd.language import Language
+from api.models.gcd.series import Series
+from api.models.gcd.issue import Issue
+from api.models.gcd.story import Story
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
+from api.models.ec.store import Store
+from api.models.ec.employee import Employee
+from api.models.ec.section import Section
+from api.models.ec.customer import Customer
+from api.models.ec.comic import Comic
+from api.models.ec.product import Product
 from django.db import IntegrityError, transaction
 
 # Contants
@@ -110,7 +110,6 @@ class SamplDataPopulator():
                 customer_id=1,
                 first_name='Rei',
                 last_name='Ayanami',
-                joined=now,
                 street_name='Hamilton Rd',
                 street_number='426',
                 unit_number='1',
@@ -133,7 +132,6 @@ class SamplDataPopulator():
                 org_id=1,
                 name='B.A.\'s Comics',
                 description = 'Located in London, Ontario, BA\’s Comics and Nostalgia is operated by Bruno Andreacchi, an industry veteran with over 30 years experience in grading, curating, and offering Comic Books and Graphic Novels. Bruno first began collecting in the 1960s, and since then has gone on to become an industry expert, writing articles for several key industry publications, such as Wizard.',
-                joined = now,
                 street_name='Hamilton Rd',
                 street_number='426',
                 unit_number=None,
@@ -168,7 +166,6 @@ class SamplDataPopulator():
             store_id=1,
             name='Main Store',
             description='Located in London, Ontario, BA\’s Comics and Nostalgia is operated by Bruno Andreacchi, an industry veteran with over 30 years experience in grading, curating, and offering Comic Books and Graphic Novels. Bruno first began collecting in the 1960s, and since then has gone on to become an industry expert, writing articles for several key industry publications, such as Wizard.',
-            joined=now,
             street_name='Hamilton Rd',
             street_number='426',
             unit_number=None,
@@ -221,7 +218,6 @@ class SamplDataPopulator():
         try:
             Employee.objects.create(
                 employee_id=1,
-                joined = datetime.now(),
                 street_name = 'Centre Street',
                 street_number = '120',
                 unit_number = '102',

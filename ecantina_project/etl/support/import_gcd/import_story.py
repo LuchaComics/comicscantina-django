@@ -3,9 +3,9 @@ import sys
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 from django.conf import settings
-from inventory.models.gcd.storytype import StoryType
-from inventory.models.gcd.story import Story
-from inventory.models.gcd.issue import Issue
+from api.models.gcd.storytype import StoryType
+from api.models.gcd.story import Story
+from api.models.gcd.issue import Issue
 
 class ImportStory:
     """

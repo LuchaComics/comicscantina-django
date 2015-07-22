@@ -7,7 +7,7 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.ec.helprequest import HelpRequest
+from api.models.ec.helprequest import HelpRequest
 
 
 

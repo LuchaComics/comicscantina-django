@@ -7,14 +7,14 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
 
 
 class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = ['name', 'description', 'joined', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'twitter_url' , 'facebook_url' ,
+        fields = ['name', 'description', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'twitter_url' , 'facebook_url' ,
 #                  'instagram_url' , 'linkedin_url' , 'github_url' , 'google_url' , 'youtube_url' , 'flickr_url'
                   ]
         labels = {
@@ -29,10 +29,6 @@ class OrganizationForm(forms.ModelForm):
                 'class': u'form-control',
                 'placeholder': u'Enter Description',
                 'style':'height:100px;',
-            }),
-            'joined': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'readonly': u'',
             }),
             'street_number': TextInput(attrs={
                 'class': u'form-control mb-lg',

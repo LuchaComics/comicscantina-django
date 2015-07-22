@@ -3,7 +3,7 @@ import sys
 import xml.sax
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from inventory.models.gcd.issue import Issue
+from api.models.gcd.issue import Issue
 
 
 LARGE_ZOOM = 4

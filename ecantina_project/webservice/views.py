@@ -8,12 +8,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from inventory.models.ec.employee import Employee
-from inventory.models.ec.store import Store
-from inventory.models.ec.cart import Cart
-from inventory.models.ec.customer import Customer
-from inventory.models.ec.product import Product
-from inventory.models.ec.comic import Comic
+from api.models.ec.employee import Employee
+from api.models.ec.store import Store
+from api.models.ec.cart import Cart
+from api.models.ec.customer import Customer
+from api.models.ec.product import Product
+from api.models.ec.comic import Comic
 
 
 # JSON RPC VIEW

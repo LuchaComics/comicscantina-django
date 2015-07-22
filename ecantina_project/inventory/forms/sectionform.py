@@ -7,7 +7,7 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.ec.section import Section
+from api.models.ec.section import Section
 
 
 class SectionForm(forms.ModelForm):

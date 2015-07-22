@@ -8,10 +8,10 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
-from inventory.models.ec.store import Store
-from inventory.models.ec.employee import Employee
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
+from api.models.ec.store import Store
+from api.models.ec.employee import Employee
 from login.views import inventory
 
 

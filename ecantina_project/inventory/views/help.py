@@ -5,11 +5,11 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
-from inventory.models.ec.employee import Employee
-from inventory.models.ec.store import Store
-from inventory.models.ec.helprequest import HelpRequest
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
+from api.models.ec.employee import Employee
+from api.models.ec.store import Store
+from api.models.ec.helprequest import HelpRequest
 from inventory.forms.imageuploadform import ImageUploadForm
 from inventory.forms.helprequestform import HelpRequestForm
 

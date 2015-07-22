@@ -55,12 +55,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'rest_framework',
     'captcha',
     'inventory',
     'etl',
     'store',
     'register',
     'login',
+    'webservice',
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (

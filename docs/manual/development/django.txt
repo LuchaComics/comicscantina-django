@@ -44,15 +44,20 @@ $ export PATH="/Applications/Postgres.app/Contents/Versions/9.4/bin:$PATH"
 
 
 (6) Now finally lets install djnago
-$ pip3 install django                 # Our MVC Framework
-$ pip3 install psycopg2               # Postgres SQL DB
-$ pip3 install gunicorn               # Web-Server Helper
-$ pip3 install Pillow                 # Req: ImageField
-$ pip3 install django-simple-captcha  # Captchas
-$ pip3 install pep8                   # Coding Style Checker
-$ pip3 install urllib3                # Library for making HTTP requests to external websites
-$ pip3 install beautifulsoup4         # HTML Scrapper
-$ pip3 install simplejson             # JSON Reader
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+pip3 install django                 # Our MVC Framework
+pip3 install psycopg2               # Postgres SQL DB
+pip3 install gunicorn               # Web-Server Helper
+pip3 install Pillow                 # Req: ImageField
+pip3 install django-simple-captcha  # Captchas
+pip3 install pep8                   # Coding Style Checker
+pip3 install urllib3                # Library for making HTTP requests to external websites
+pip3 install beautifulsoup4         # HTML Scrapper
+pip3 install simplejson             # JSON Reader
+pip3 install djangorestframework    # Web browsable API Framework
+pip3 install markdown               # Markdown support for the browsable API.
+pip3 install django-filter          # Filtering support
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 (7) After installation
@@ -97,9 +102,9 @@ $ python manage.py startapp store
 $ python manage.py startapp register
 $ python manage.py startapp login
 $ python manage.py startapp webservice
+$ python manage.py startapp api
 
-
-(11) Then go to comicscantina_project/settings.py and make sure to include ‘webapp’ in the file.
+(11) Then go to ecantina_project/settings.py and make sure to include ‘webapp’ in the file.
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -108,6 +113,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'rest_framework',
     'captcha',
     'inventory',
     'etl',
@@ -115,16 +123,35 @@ INSTALLED_APPS = (
     'register',
     'login',
     'webservice',
+    'api','
 )
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
+(12) Also don't forget to add the following to that file.
+- - - - - - - - - - - - - - - - - - - - - - - - - -
+# 'Sites Framework' requires this line.
+SITE_ID = 1
+- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-(12) Finally, create a file called ‘requirements.txt’ and add all the libraries this project will use. Make sure this file is located in the root of the project. Run this code.
+
+(13) Now go to ecantina_project/urls.py and make sure to include the following:
+- - - - - - - - - - - - - - - - - - - - - - - - - -
+url(r'^admin/', include(admin.site.urls)),
+url(r'', include('inventory.urls')),
+url(r'', include('store.urls')),
+url(r'', include('register.urls')),
+url(r'', include('login.urls')),
+url(r'', include('webservice.urls')),
+url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+(13) Finally, create a file called ‘requirements.txt’ and add all the libraries this project will use. Make sure this file is located in the root of the project. Run this code.
 $ pip freeze > requirements.txt
 
 
-(13) Submit this code to git. We now have the project setup. See “git.txt”.
+(14) Submit this code to git. We now have the project setup. See “git.txt”.
 
 
 

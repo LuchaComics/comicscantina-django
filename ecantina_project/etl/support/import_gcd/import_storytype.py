@@ -2,7 +2,7 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from inventory.models.gcd.storytype import StoryType
+from api.models.gcd.storytype import StoryType
 
 
 class ImportStoryType:

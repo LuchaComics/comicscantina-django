@@ -10,10 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
 from . import views
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
-from inventory.models.ec.store import Store
-from inventory.models.ec.employee import Employee
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
+from api.models.ec.store import Store
+from api.models.ec.employee import Employee
 
 # Contants
 TEST_USER_EMAIL = "ledo@gah.com"

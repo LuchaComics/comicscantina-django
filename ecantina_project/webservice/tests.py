@@ -8,18 +8,18 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
-from inventory.models.gcd.series import Series
-from inventory.models.gcd.issue import Issue
-from inventory.models.gcd.story import Story
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
-from inventory.models.ec.store import Store
-from inventory.models.ec.employee import Employee
-from inventory.models.ec.section import Section
-from inventory.models.ec.comic import Comic
-from inventory.models.ec.customer import Customer
-from inventory.models.ec.cart import Cart
-from inventory.models.ec.product import Product
+from api.models.gcd.series import Series
+from api.models.gcd.issue import Issue
+from api.models.gcd.story import Story
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
+from api.models.ec.store import Store
+from api.models.ec.employee import Employee
+from api.models.ec.section import Section
+from api.models.ec.comic import Comic
+from api.models.ec.customer import Customer
+from api.models.ec.cart import Cart
+from api.models.ec.product import Product
 from . import views
 from inventory.tests.sample import SamplDataPopulator
 import urllib3

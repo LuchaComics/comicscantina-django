@@ -2,10 +2,10 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from inventory.models.gcd.country import Country
-from inventory.models.gcd.publisher import Publisher
-from inventory.models.gcd.brandgroup import BrandGroup
-from inventory.models.gcd.brand import Brand
+from api.models.gcd.country import Country
+from api.models.gcd.publisher import Publisher
+from api.models.gcd.brandgroup import BrandGroup
+from api.models.gcd.brand import Brand
 
 class ImportBrand:
     """

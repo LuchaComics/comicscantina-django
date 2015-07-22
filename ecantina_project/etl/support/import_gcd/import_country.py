@@ -2,7 +2,7 @@ import os
 import sys
 import xml.sax
 from django.conf import settings
-from inventory.models.gcd.country import Country
+from api.models.gcd.country import Country
 
 TODO_COMMAND = "TODO_ME_NOW"
 

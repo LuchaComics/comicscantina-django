@@ -2,9 +2,9 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from inventory.models.gcd.country import Country
-from inventory.models.gcd.publisher import Publisher
-from inventory.models.gcd.indiciapublisher import IndiciaPublisher
+from api.models.gcd.country import Country
+from api.models.gcd.publisher import Publisher
+from api.models.gcd.indiciapublisher import IndiciaPublisher
 
 
 class ImportIndiciaPublisher:

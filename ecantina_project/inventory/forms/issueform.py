@@ -6,8 +6,8 @@ from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from inventory.models.gcd.issue import Issue
-from inventory.models.ec.comic import Comic
+from api.models.gcd.issue import Issue
+from api.models.ec.comic import Comic
 
 
 class IssueForm(forms.Form):

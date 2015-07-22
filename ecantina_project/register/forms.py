@@ -7,8 +7,8 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.organization import Organization
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.organization import Organization
 
 
 class StoreRegistrationForm (forms.Form):

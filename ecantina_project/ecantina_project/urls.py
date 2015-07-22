@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'', include('register.urls')),
     url(r'', include('login.urls')),
     url(r'', include('webservice.urls')),
+    url(r'', include('api.urls')),
                
     # Sitemap
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

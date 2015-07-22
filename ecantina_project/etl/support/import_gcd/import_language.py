@@ -2,7 +2,7 @@ import os
 import sys
 import xml.sax
 from django.conf import settings
-from inventory.models.gcd.language import Language
+from api.models.gcd.language import Language
 
 TODO_COMMAND = "TODO_ME_NOW"
 

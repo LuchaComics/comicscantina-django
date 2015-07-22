@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from inventory.forms.loginform import LoginForm
-from inventory.models.ec.employee import Employee
-from inventory.models.ec.store import Store
+from api.models.ec.employee import Employee
+from api.models.ec.store import Store
 
 
 def login_page(request):

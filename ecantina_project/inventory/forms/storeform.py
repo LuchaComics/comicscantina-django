@@ -7,14 +7,14 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.store import Store
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.store import Store
 
 
 class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
-        fields = ['name', 'description', 'joined', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'is_open_monday' , 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from',
+        fields = ['name', 'description', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'is_open_monday' , 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from',
                   ]
         labels = {
         
@@ -28,10 +28,6 @@ class StoreForm(forms.ModelForm):
                 'class': u'form-control',
                 'placeholder': u'Enter Description',
                 'style':'height:100px;',
-            }),
-            'joined': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'readonly': u'',
             }),
             'street_number': TextInput(attrs={
                 'class': u'form-control mb-lg',

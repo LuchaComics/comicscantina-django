@@ -7,14 +7,14 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from inventory.models.ec.imageupload import ImageUpload
-from inventory.models.ec.customer import Customer
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.customer import Customer
 
 
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'joined', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'email' , 'phone', 'has_consented',
+        fields = ['first_name', 'last_name', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'email' , 'phone', 'has_consented',
         ]
         labels = {
         
@@ -27,10 +27,6 @@ class CustomerForm(forms.ModelForm):
             'last_name': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Last Name'
-            }),
-            'joined': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'readonly': u'',
             }),
             'street_number': TextInput(attrs={
                 'class': u'form-control mb-lg',
