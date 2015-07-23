@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from rest_framework import permissions
 from api.models.ec.employee import Employee
 
-class IsEmployee(permissions.BasePermission):
+class IsEmployeeUser(permissions.BasePermission):
     """
         Custom permission to deny all non-employees that are logged in.
     """

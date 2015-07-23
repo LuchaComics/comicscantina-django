@@ -1,15 +1,22 @@
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
-from api.serializers import EmployeeSerializer
+from api.permissions import IsEmployeeUser
 from api.models.ec.employee import Employee
+from api.serializers import EmployeeSerializer
+from api.models.ec.organization import Organization
+from api.models.ec.employee import Employee
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
 
-class EmployeeViewSet(viewsets.ModelViewSet):
-    """
-        API endpoint that allows customers to be viewed or edited.
-    """
+
+class EmployeeList(generics.ListCreateAPIView):
+    permission_classes = (IsEmployeeUser, IsAuthenticated )
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    permission_classes = (IsAdminUser,)
+    
+    def get_queryset(self):
+        employee = Employee.objects.get(user=self.request.user)
+        return Employee.objects.filter(organization=employee.organization)
+
+class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsEmployeeUser, IsAuthenticated )
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer

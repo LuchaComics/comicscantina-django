@@ -48,4 +48,4 @@ class Employee(models.Model):
     profile = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
     
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name
+        return str(self.user.first_name) + ' ' + str(self.user.last_name)
