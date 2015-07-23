@@ -27,3 +27,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ('employee_id', 'role',  'joined', 'last_updated', 'email', 'phone', 'street_name', 'street_number', 'unit_number', 'province', 'country', 'postal', 'user', 'organization', 'profile',)
+
+
+#{
+#    "customer": null,
+#    "employee": null,
+#    "products": [],
+#    "is_closed": false
+#}
