@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'rest_framework',
+    'rest_framework.authtoken',
     'captcha',
     'inventory',
     'etl',
@@ -241,3 +242,13 @@ COMIC_PRODUCT_TYPE = 1
 FURNITURE_PRODUCT_TYPE = 2
 COIN_PRODUCT_TYPE = 3
 GENERAL_PRODUCT_TYPE = 4
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+                                       'rest_framework.authentication.BasicAuthentication',
+                                       'rest_framework.authentication.SessionAuthentication',
+                                       ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    )
+}
