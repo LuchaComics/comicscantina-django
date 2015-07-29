@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework import filters
 from api.permissions import IsEmployeeUser
 from api.serializers import CustomerSerializer
 from api.models.ec.customer import Customer
@@ -15,3 +16,5 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = (IsEmployeeUser, IsAuthenticated)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('=customer_id', 'first_name', 'last_name', 'email')
