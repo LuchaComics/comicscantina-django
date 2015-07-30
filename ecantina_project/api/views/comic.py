@@ -4,21 +4,21 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
 from api.permissions import IsEmployeeUser
-from api.serializers import ProductSerializer
-from api.models.ec.product import Product
+from api.serializers import ComicSerializer
+from api.models.ec.comic import Comic
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ComicViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows customers to be viewed or edited.
     """
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    queryset = Comic.objects.all()
+    serializer_class = ComicSerializer
     permission_classes = (IsEmployeeUser, IsAuthenticated)
 
     def list(self, request):
         employee = Employee.objects.get(user=self.request.user)
-        products = Product.objects.filter(comic__organization=employee.organization)
-        serializer = ProductSerializer(products, many=True)
+        comics = Comic.objects.filter(organization=employee.organization)
+        serializer = ComicSerializer(comics, many=True)
         return Response(serializer.data)

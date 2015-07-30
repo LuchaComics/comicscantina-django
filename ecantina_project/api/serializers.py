@@ -4,6 +4,7 @@ from api.models.ec.cart import Cart
 from api.models.ec.customer import Customer
 from api.models.ec.product import Product
 from api.models.ec.employee import Employee
+from api.models.ec.comic import Comic
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,10 +29,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = ('employee_id', 'role',  'joined', 'last_updated', 'email', 'phone', 'street_name', 'street_number', 'unit_number', 'province', 'country', 'postal', 'user', 'organization', 'profile',)
 
-
-#{
-#    "customer": null,
-#    "employee": null,
-#    "products": [],
-#    "is_closed": false
-#}
+class ComicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comic
+        fields = ('comic_id', 'created', 'last_updated', 'is_cgc_rated', 'age',
+                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'price', 'cost', 'cover', 'images', 'issue', 'organization', 'store', 'section',
+                  )
