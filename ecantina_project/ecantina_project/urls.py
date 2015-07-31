@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'', include('store.urls')),
     url(r'', include('register.urls')),
     url(r'', include('login.urls')),
-    url(r'', include('webservice.urls')),
+    url(r'', include('inventory_add_product.urls')),
     url(r'', include('api.urls')),
                
     # Sitemap

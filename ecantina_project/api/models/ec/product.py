@@ -6,7 +6,11 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.customer import Customer
-from api.models.ec.comic import Comic
+from api.models.gcd.image import Image
+from api.models.ec.organization import Organization
+from api.models.ec.section import Section
+from api.models.ec.store import Store
+from api.models.ec.imageupload import ImageUpload
 
 
 PRODUCT_TYPE_OPTIONS = (
@@ -34,10 +38,26 @@ class Product(models.Model):
         choices=PRODUCT_TYPE_OPTIONS,
         default=1,
     )
+    created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
     
-    # Product Supported References
-    comic = models.ForeignKey(Comic, null=True, blank=True)
-    # Add more future products here ...
+    price = models.FloatField(
+        validators=[MinValueValidator(0)],
+        null=True,
+        blank=True,
+    )
+    cost = models.FloatField(
+        validators=[MinValueValidator(0)],
+        null=True,
+        blank=True,
+    )
+                              
+    # References
+    image = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
+    images = models.ManyToManyField(ImageUpload, blank=True, related_name='product_images')
+    organization = models.ForeignKey(Organization)
+    store = models.ForeignKey(Store)
+    section = models.ForeignKey(Section)
     
     def __str__(self):
         return str(self.product_id) + " " + str(self.type)

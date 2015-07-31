@@ -59,11 +59,11 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'captcha',
     'inventory',
+    'inventory_add_product',
     'etl',
     'store',
     'register',
     'login',
-    'webservice',
     'api',
 )
 

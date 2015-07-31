@@ -149,150 +149,150 @@ class ComicsAddTest(TestCase):
         self.assertEqual(Comic.objects.all().count(), 1)
 
 
-    def test_ajax_sections_per_store_with_success(self):
-        client = Client()
-        client.login(
-            username=TEST_USER_USERNAME,
-            password=TEST_USER_PASSWORD
-        )
-        response = client.post('/inventory/1/1/add/comic/1/section_dropbox/1')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'id_section',response.content)
-        self.assertIn(b'<select',response.content)
-
-    def test_ajax_delete_comic_with_success(self):
-        client = Client()
-        client.login(
-            username=TEST_USER_USERNAME,
-            password=TEST_USER_PASSWORD
-        )
-        
-        # Create product for testing.
-        response = client.post('/inventory/1/1/add/comic/1/add_product',{
-            'comic_id': '0',
-            'upload_id': '1',
-            'age':'1',
-            'is_cgc_rated':'',
-            'cgc_rating':'',
-            'label_colour':'',
-            'condition_rating':'1',
-            'is_canadian_priced_variant':'true',
-            'is_variant_cover':'true',
-            'is_retail_incentive_variant':'true',
-            'is_newsstand_edition':'true',
-            'price':'',
-            'price':'',
-            'cost':'',
-            'section':'1',
-            'store':'1',
-        },**KWARGS)
-                               
-        # Verify test data was loaded.
-        self.assertEqual(response.status_code, 200)
-        
-        # Test.
-        response = client.post('/inventory/1/1/add/comic/1/delete/2',{
-        },**KWARGS)
-                     
-        # Verify: Check that the response is 200 OK.
-        self.assertEqual(response.status_code, 200)
-                     
-        # Verify Results.
-        self.assertIn(b'deleted',response.content)
-    
-        # Verify database.
-        self.assertEqual(Product.objects.all().count(), 0)
-        self.assertEqual(Comic.objects.all().count(), 0)
-
-    def test_edit_product_with_success(self):
-        # Setup.
-        client = Client()
-        client.login(
-            username=TEST_USER_USERNAME,
-            password=TEST_USER_PASSWORD
-        )
-        response = client.post('/inventory/1/1/add/comic/1/add_product',{
-            'comic_id': '0',
-            'upload_id': '1',
-            'age':'1',
-            'is_cgc_rated':'',
-            'cgc_rating':'',
-            'label_colour':'',
-            'condition_rating':'1',
-            'is_canadian_priced_variant':'true',
-            'is_variant_cover':'true',
-            'is_retail_incentive_variant':'true',
-            'is_newsstand_edition':'true',
-            'price':'45',
-            'cost':'666',
-            'section':'1',
-            'store':'1',
-        },**KWARGS)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'saved',response.content)
-
-        # Test & Verify.
-        comic = Comic.objects.all()[0]
-        response = client.post('/inventory/1/1/add/comic/1/product/'+str(comic.comic_id))
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Winter World (2015 series)',response.content)
-        self.assertIn(b'45',response.content)
-        self.assertIn(b'666',response.content)
-
-    def test_edit_and_edit_product_with_success(self):
-        # Setup.
-        client = Client()
-        client.login(
-            username=TEST_USER_USERNAME,
-            password=TEST_USER_PASSWORD
-        )
-        response = client.post('/inventory/1/1/add/comic/1/add_product',{
-            'comic_id': '0',
-            'upload_id': '1',
-            'age':'1',
-            'is_cgc_rated':'',
-            'cgc_rating':'',
-            'label_colour':'',
-            'condition_rating':'1',
-            'is_canadian_priced_variant':'true',
-            'is_variant_cover':'true',
-            'is_retail_incentive_variant':'true',
-            'is_newsstand_edition':'true',
-            'price':'45',
-            'cost':'666',
-            'section':'1',
-            'store':'1',
-        },**KWARGS)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'saved',response.content)
-        
-        # Test
-        comic = Comic.objects.all()[0]
-        response = client.post('/inventory/1/1/add/comic/1/add_product',{
-            'comic_id': str(comic.comic_id),
-            'upload_id': '1',
-            'age':'1',
-            'is_cgc_rated':'',
-            'cgc_rating':'',
-            'label_colour':'',
-            'condition_rating':'1',
-            'is_canadian_priced_variant':'true',
-            'is_variant_cover':'true',
-            'is_retail_incentive_variant':'true',
-            'is_newsstand_edition':'true',
-            'price':'45',
-            'cost':'999',
-            'section':'1',
-            'store':'1',
-        },**KWARGS)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'saved',response.content)
-
-        # Verify.
-        comic = Comic.objects.all()[0]
-        response = client.post('/inventory/1/1/add/comic/1/product/'+str(comic.comic_id))
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Winter World (2015 series)',response.content)
-        self.assertIn(b'45',response.content)
-        self.assertIn(b'999',response.content)
+#    def test_ajax_sections_per_store_with_success(self):
+#        client = Client()
+#        client.login(
+#            username=TEST_USER_USERNAME,
+#            password=TEST_USER_PASSWORD
+#        )
+#        response = client.post('/inventory/1/1/add/comic/1/section_dropbox/1')
+#        self.assertEqual(response.status_code, 200)
+#        self.assertIn(b'id_section',response.content)
+#        self.assertIn(b'<select',response.content)
+#
+#    def test_ajax_delete_comic_with_success(self):
+#        client = Client()
+#        client.login(
+#            username=TEST_USER_USERNAME,
+#            password=TEST_USER_PASSWORD
+#        )
+#        
+#        # Create product for testing.
+#        response = client.post('/inventory/1/1/add/comic/1/add_product',{
+#            'comic_id': '0',
+#            'upload_id': '1',
+#            'age':'1',
+#            'is_cgc_rated':'',
+#            'cgc_rating':'',
+#            'label_colour':'',
+#            'condition_rating':'1',
+#            'is_canadian_priced_variant':'true',
+#            'is_variant_cover':'true',
+#            'is_retail_incentive_variant':'true',
+#            'is_newsstand_edition':'true',
+#            'price':'',
+#            'price':'',
+#            'cost':'',
+#            'section':'1',
+#            'store':'1',
+#        },**KWARGS)
+#                               
+#        # Verify test data was loaded.
+#        self.assertEqual(response.status_code, 200)
+#        
+#        # Test.
+#        response = client.post('/inventory/1/1/add/comic/1/delete/2',{
+#        },**KWARGS)
+#                     
+#        # Verify: Check that the response is 200 OK.
+#        self.assertEqual(response.status_code, 200)
+#                     
+#        # Verify Results.
+#        self.assertIn(b'deleted',response.content)
+#    
+#        # Verify database.
+#        self.assertEqual(Product.objects.all().count(), 0)
+#        self.assertEqual(Comic.objects.all().count(), 0)
+#
+#    def test_edit_product_with_success(self):
+#        # Setup.
+#        client = Client()
+#        client.login(
+#            username=TEST_USER_USERNAME,
+#            password=TEST_USER_PASSWORD
+#        )
+#        response = client.post('/inventory/1/1/add/comic/1/add_product',{
+#            'comic_id': '0',
+#            'upload_id': '1',
+#            'age':'1',
+#            'is_cgc_rated':'',
+#            'cgc_rating':'',
+#            'label_colour':'',
+#            'condition_rating':'1',
+#            'is_canadian_priced_variant':'true',
+#            'is_variant_cover':'true',
+#            'is_retail_incentive_variant':'true',
+#            'is_newsstand_edition':'true',
+#            'price':'45',
+#            'cost':'666',
+#            'section':'1',
+#            'store':'1',
+#        },**KWARGS)
+#        self.assertEqual(response.status_code, 200)
+#        self.assertIn(b'saved',response.content)
+#
+#        # Test & Verify.
+#        comic = Comic.objects.all()[0]
+#        response = client.post('/inventory/1/1/add/comic/1/product/'+str(comic.comic_id))
+#        self.assertEqual(response.status_code, 200)
+#        self.assertIn(b'Winter World (2015 series)',response.content)
+#        self.assertIn(b'45',response.content)
+#        self.assertIn(b'666',response.content)
+#
+#    def test_edit_and_edit_product_with_success(self):
+#        # Setup.
+#        client = Client()
+#        client.login(
+#            username=TEST_USER_USERNAME,
+#            password=TEST_USER_PASSWORD
+#        )
+#        response = client.post('/inventory/1/1/add/comic/1/add_product',{
+#            'comic_id': '0',
+#            'upload_id': '1',
+#            'age':'1',
+#            'is_cgc_rated':'',
+#            'cgc_rating':'',
+#            'label_colour':'',
+#            'condition_rating':'1',
+#            'is_canadian_priced_variant':'true',
+#            'is_variant_cover':'true',
+#            'is_retail_incentive_variant':'true',
+#            'is_newsstand_edition':'true',
+#            'price':'45',
+#            'cost':'666',
+#            'section':'1',
+#            'store':'1',
+#        },**KWARGS)
+#        self.assertEqual(response.status_code, 200)
+#        self.assertIn(b'saved',response.content)
+#        
+#        # Test
+#        comic = Comic.objects.all()[0]
+#        response = client.post('/inventory/1/1/add/comic/1/add_product',{
+#            'comic_id': str(comic.comic_id),
+#            'upload_id': '1',
+#            'age':'1',
+#            'is_cgc_rated':'',
+#            'cgc_rating':'',
+#            'label_colour':'',
+#            'condition_rating':'1',
+#            'is_canadian_priced_variant':'true',
+#            'is_variant_cover':'true',
+#            'is_retail_incentive_variant':'true',
+#            'is_newsstand_edition':'true',
+#            'price':'45',
+#            'cost':'999',
+#            'section':'1',
+#            'store':'1',
+#        },**KWARGS)
+#        self.assertEqual(response.status_code, 200)
+#        self.assertIn(b'saved',response.content)
+#
+#        # Verify.
+#        comic = Comic.objects.all()[0]
+#        response = client.post('/inventory/1/1/add/comic/1/product/'+str(comic.comic_id))
+#        self.assertEqual(response.status_code, 200)
+#        self.assertIn(b'Winter World (2015 series)',response.content)
+#        self.assertIn(b'45',response.content)
+#        self.assertIn(b'999',response.content)
 

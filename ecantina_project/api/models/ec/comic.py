@@ -9,6 +9,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.section import Section
 from api.models.ec.store import Store
 from api.models.ec.imageupload import ImageUpload
+from api.models.ec.product import Product
 
 
 CGC_RATING_OPTIONS = (
@@ -120,7 +121,7 @@ class Comic(models.Model):
     cover = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
     images = models.ManyToManyField(ImageUpload, blank=True, related_name='comic_images')
 
-    # Catalog Reference
+    product = models.ForeignKey(Product)
     issue = models.ForeignKey(Issue)
 
     # Inventory Reference

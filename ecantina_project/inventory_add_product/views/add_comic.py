@@ -14,9 +14,9 @@ from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
-from inventory.forms.issueform import IssueForm
-from inventory.forms.comicform import ComicForm
-from inventory.forms.imageuploadform import ImageUploadForm
+from inventory_add_product.forms import IssueForm
+from inventory_add_product.forms import ComicForm
+from inventory_add_product.forms import ImageUploadForm
 
 
 @login_required(login_url='/inventory/login')
@@ -64,7 +64,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory/add_inventory/comic/add/view.html',{
+    return render(request, 'inventory_add_product/comic/add/view.html',{
         'org': org,
         'store': store,
         'issue': issue,
@@ -90,7 +90,7 @@ def list_products(request, org_id, store_id, issue_id):
                 products = Comic.objects.filter(issue_id=issue_id)
             except Comic.DoesNotExist:
                 products = None
-    return render(request, 'inventory/add_inventory/comic/add/list.html',{
+    return render(request, 'inventory_add_product/comic/add/list.html',{
         'products': products,
         'org_id':org_id,
         'store_id':store_id,
@@ -200,7 +200,7 @@ def ajax_sections_per_store(request, org_id, store_id, issue_id, this_store_id):
                 sections = Section.objects.filter(store_id=this_store_id)
             except Section.DoesNotExist:
                 sections = None
-    return render(request, 'inventory/add_inventory/comic/add/section_dropdown.html',{
+    return render(request, 'inventory_add_product/comic/add/section_dropdown.html',{
         'sections': sections,
     })
 

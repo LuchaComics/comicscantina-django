@@ -97,11 +97,15 @@ DATABASES = {
 
 (10) Create the application(s).
 $ python manage.py startapp inventory
+$ python manage.py startapp inventory_add_product
+$ python manage.py startapp inventory_products
+$ python manage.py startapp inventory_print_label
+$ python manage.py startapp inventory_dashboard
+$ python manage.py startapp inventory_setting
 $ python manage.py startapp etl
 $ python manage.py startapp store
 $ python manage.py startapp register
 $ python manage.py startapp login
-$ python manage.py startapp webservice
 $ python manage.py startapp api
 
 (11) Then go to ecantina_project/settings.py and make sure to include ‘webapp’ in the file.
@@ -118,11 +122,11 @@ INSTALLED_APPS = (
     'rest_framework',
     'captcha',
     'inventory',
+    'inventory_add_product',
     'etl',
     'store',
     'register',
     'login',
-    'webservice',
     'api','
 )
 - - - - - - - - - - - - - - - - - - - - - - - - - -
