@@ -14,27 +14,27 @@
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
+        {% for comic in comics %}
         <tr>
             <td class="text-center">
-                {% if product.is_cgc_rated %}
-                {{ product.label_colour }} {{ product.cgc_rating }}
+                {% if comic.is_cgc_rated %}
+                {{ comic.label_colour }} {{ comic.cgc_rating }}
                 {% else %}
-                {{ product.condition_rating }}
+                {{ comic.condition_rating }}
                 {% endif %}
             </td>
-            <td class="price">{{ product.price }}</td>
-            <td>{{ product.store }}</td>
-            <td>{{ product.section }}</td>
+            <td class="price">{{ comic.product.price }}</td>
+            <td>{{ comic.product.store }}</td>
+            <td>{{ comic.product.section }}</td>
             <td>
-                <a onclick="window.location='/inventory/{{ org_id }}/{{ store_id }}/add/comic/{{ issue_id }}/product/{{ product.comic_id }}';"
+                <a onclick="window.location='/inventory/{{ org_id }}/{{ store_id }}/add/comic/{{ issue_id }}/product/{{ comic.comic_id }}';"
                      class="edit-item pr10 curp"
                data-toggle="tooltip"
        data-original-title="Edit Item"
             data-placement="top">
                     <em class="fa fa-2x fa-edit"></em>
                 </a>
-                <a onclick="ajax_delete_comic({{ product.issue_id }},{{ product.comic_id }});"
+                <a onclick="ajax_delete_comic({{ comic.issue_id }},{{ comic.comic_id }});"
                      class="remove-item curp"
                data-toggle="tooltip"
        data-original-title="Remove Item"

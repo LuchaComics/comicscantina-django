@@ -8,14 +8,14 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from api.models.gcd.issue import Issue
 from api.models.ec.comic import Comic
+from api.models.ec.product import Product
 
 
 class ComicForm(forms.ModelForm):
     class Meta:
         model = Comic
-        fields = ['cover','age','is_cgc_rated', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'price', 'section','price','cost', 'store',]
+        fields = ['age','is_cgc_rated', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', ]
         labels = {
-            'cover': 'Image',
             'is_cgc_rated': 'CGC Rated',
             'cgc_rating': 'CGC Rating',
             'label_colour': 'Label Colour',
@@ -29,11 +29,6 @@ class ComicForm(forms.ModelForm):
             'cgc_rating': Select(attrs={'class': u'form-control'}),
             'label_colour': Select(attrs={'class': u'form-control m0 mb10'}),
             'condition_rating': Select(attrs={'class': u'form-control m0 mb10'}),
-            'price': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Price Amount'}),
-            'cost': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Cost Amount'}),
-            'location': Select(attrs={'class': u'form-control m0 mb10'}),
-            'section': Select(attrs={'class': u'form-control m0 mb10'}),
-            'store': Select(attrs={'class': u'form-control m0 mb10'}),
         }
 
 
@@ -117,4 +112,22 @@ class ImageUploadForm(forms.ModelForm):
         }
         widgets = {
     
+    }
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['image', 'price', 'section','price','cost', 'store','type','images',]
+        labels = {
+            'image': 'Product Image',
+        }
+        widgets = {
+            'images': Select(attrs={'class': u'form-control mb10 mt-lg'}),
+            'type': Select(attrs={'class': u'form-control'}),
+            'price': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Price Amount'}),
+            'cost': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Cost Amount'}),
+            'location': Select(attrs={'class': u'form-control m0 mb10'}),
+            'section': Select(attrs={'class': u'form-control m0 mb10'}),
+            'store': Select(attrs={'class': u'form-control m0 mb10'}),
     }

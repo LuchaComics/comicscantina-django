@@ -104,7 +104,7 @@
                                     <div class="form-group">
                                         <label for="sel-age" class="col-md-4 control-label">Age</label>
                                         <div class="col-md-8">
-                                            {{ product_form.age }}
+                                            {{ comic_form.age }}
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -127,55 +127,55 @@
                                     </div>
                                     <!-- cgc rating -->
                                     <div class="col-sm-4 text-right" style="">
-                                        {{ product_form.is_cgc_rated }}
+                                        {{ comic_form.is_cgc_rated }}
                                         <label for="cb-cgc-rated" class="control-label">&nbsp;&nbsp;CGC Rated</label>
                                     </div>
                                     <div class="col-sm-4 p10 pt0">
-                                        {{ product_form.label_colour }}
+                                        {{ comic_form.label_colour }}
                                     </div>
                                     <div class="col-sm-4 p10 pt0" id="id_condition_rating_ui">
-                                        {{ product_form.condition_rating }}
+                                        {{ comic_form.condition_rating }}
                                     </div>
                                     <div class="col-sm-4 p10 pt0" id="id_cgc_rating_ui">
-                                        {{ product_form.cgc_rating }}
+                                        {{ comic_form.cgc_rating }}
                                     </div>
                                     <!-- alternate covers -->
                                     <div class="col-sm-offset-4 col-sm-8 p10 pt0">
                                         <label class="control-label">
-                                            {{ product_form.is_canadian_priced_variant }}&nbsp;&nbsp;Canadian price variant
+                                            {{ comic_form.is_canadian_priced_variant }}&nbsp;&nbsp;Canadian price variant
                                         </label>
                                     </div>
                                     <div class="col-sm-offset-4 col-sm-8 p10 pt0">
                                         <label class="control-label">
-                                            {{ product_form.is_variant_cover }}&nbsp;&nbsp;Variant cover
+                                            {{ comic_form.is_variant_cover }}&nbsp;&nbsp;Variant cover
                                         </label>
                                     </div>
                                     <div class="col-sm-offset-4 col-sm-8 p10 pt0">
                                         <label class="control-label">
-                                            {{ product_form.is_retail_incentive_variant }}&nbsp;&nbsp;Retailer incentive cover
+                                            {{ comic_form.is_retail_incentive_variant }}&nbsp;&nbsp;Retailer incentive cover
                                         </label>
                                     </div>
                                     <div class="col-sm-offset-4 col-sm-8 p10 pt0">
                                         <label class="control-label">
-                                            {{ product_form.is_newsstand_edition }}&nbsp;&nbsp;Newsstand Edition
+                                            {{ comic_form.is_newsstand_edition }}&nbsp;&nbsp;Newsstand Edition
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="col-xs-3">
-                                        {% if product_form.instance.comic_id > 0%}
+                                        {% if product_form.instance.product_id > 0%}
                                         {% else %}
                                         <label class="control-label lbl-qty" style="position:relative;top:-2px;font-size:14pt;">Quantity</label>
                                         {% endif %}
                                     </div>
                                     <div class="col-xs-3">
-                                        {% if product_form.instance.comic_id > 0 %}
+                                        {% if product_form.instance.product_id > 0 %}
                                         {% else %}
                                         <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
                                         {% endif %}
                                     </div>
                                     <div class="col-xs-6">
-                                        {% if product_form.instance.comic_id > 0 %}
+                                        {% if product_form.instance.product_id > 0 %}
                                         <button onclick="ajax_edit_items({{ issue.issue_id }});"
                                             type="button" class="btn btn-labeled btn-lg btn-warning pull-right mb mr" style="font-size:14pt;">
                                             <span class="btn-label"><i class="fa fa-plus-square"></i></span>Save
@@ -355,6 +355,7 @@
         data.append('created', get_date());
     {% endif %}
         data.append('age', $('#id_age').val());
+        data.append('type', 1);
         data.append('upload_id', upload_id);
         data.append('store', $('#id_store').val());
         data.append('section', $('#id_section').val());

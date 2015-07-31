@@ -10,7 +10,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
-from inventory.views import comics_searching
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue
 from api.models.gcd.story import Story
@@ -20,6 +19,7 @@ from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from inventory.tests.sample import SamplDataPopulator
+from inventory_add_product.views import search_comic
 
 # Contants
 TEST_USER_EMAIL = "ledo@gah.com"
@@ -33,7 +33,7 @@ KWARGS = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
 class ComicsSearchTestCase(TestCase):
     """
         Run in Console:
-        python manage.py test inventory.tests.test_comics_searching
+        python manage.py test inventory_add_product.tests.test_comics_searching
     """
     def tearDown(self):
         # Clear Sample Data
@@ -51,11 +51,11 @@ class ComicsSearchTestCase(TestCase):
     
     def test_url_resolves_to_search_comics_page(self):
         found = resolve('/inventory/1/1/add/comic')
-        self.assertEqual(found.func, comics_searching.search_comics_page)
+        self.assertEqual(found.func, search_comic.search_comics_page)
 
     def test_url_resolves_to_ajax_search_comics(self):
         found = resolve('/inventory/1/1/add/search_comics')
-        self.assertEqual(found.func, comics_searching.ajax_search_comics)
+        self.assertEqual(found.func, search_comic.ajax_search_comics)
 
     def test_search_comics_page_returns_correct_html(self):
         client = Client()

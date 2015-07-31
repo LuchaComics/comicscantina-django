@@ -75,8 +75,6 @@ class Comic(models.Model):
         db_table = 'ec_comics'
     
     comic_id = models.AutoField(primary_key=True)
-    created = models.DateTimeField(auto_now_add=True)
-    last_updated = models.DateTimeField(auto_now=True)
     is_cgc_rated = models.BooleanField(default=False)
     age = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(4)],
@@ -106,28 +104,17 @@ class Comic(models.Model):
     is_variant_cover = models.BooleanField(default=False)
     is_retail_incentive_variant = models.BooleanField(default=False)
     is_newsstand_edition = models.BooleanField(default=False)
-    price = models.FloatField(
-        validators=[MinValueValidator(0)],
-        null=True,
-        blank=True,
-    )
-    cost = models.FloatField(
-        validators=[MinValueValidator(0)],
-        null=True,
-        blank=True,
-    )
     
-    # Images
-    cover = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
-    images = models.ManyToManyField(ImageUpload, blank=True, related_name='comic_images')
-
     product = models.ForeignKey(Product)
     issue = models.ForeignKey(Issue)
-
-    # Inventory Reference
-    organization = models.ForeignKey(Organization)
-    store = models.ForeignKey(Store)
-    section = models.ForeignKey(Section)
    
     def __str__(self):
         return str(self.issue)
+
+    def delete(self, *args, **kwargs):
+        """
+            Deleting comic entry automatically deletes the foreign key.
+        """
+        if self.product:
+            self.product.delete()
+        super(Comic, self).delete(*args, **kwargs) # Call the "real" delete() method
