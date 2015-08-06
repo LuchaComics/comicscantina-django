@@ -21,7 +21,7 @@ class CartSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'type', 'comic',)
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):

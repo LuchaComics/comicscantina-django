@@ -19,6 +19,6 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         employee = Employee.objects.get(user=self.request.user)
-        products = Product.objects.filter(comic__organization=employee.organization)
+        products = Product.objects.filter(organization=employee.organization)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)

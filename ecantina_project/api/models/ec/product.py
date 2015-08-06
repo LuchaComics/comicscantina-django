@@ -33,6 +33,7 @@ class Product(models.Model):
     
     # Basic
     product_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=127, null=True, blank=True)
     type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         choices=PRODUCT_TYPE_OPTIONS,
@@ -40,7 +41,7 @@ class Product(models.Model):
     )
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    
+    is_sold = models.BooleanField(default=False)
     price = models.FloatField(
         validators=[MinValueValidator(0)],
         null=True,
