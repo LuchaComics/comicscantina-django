@@ -33,8 +33,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class ComicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comic
-        fields = ('comic_id', 'created', 'last_updated', 'is_cgc_rated', 'age',
-                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'price', 'cost', 'cover', 'images', 'issue', 'organization', 'store', 'section',
+        fields = ('comic_id', 'is_cgc_rated', 'age',
+                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue',
                   )
 
 class PurchaseSerializer(serializers.ModelSerializer):
