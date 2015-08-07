@@ -1,6 +1,3 @@
-{% load staticfiles %}
-
-                       
 <form class="form-horizontal">
     <div class="col-sm-12">
         <hr class="pb">
@@ -12,45 +9,45 @@
         </div>
         <div class="col-sm-7 mt-lg">
             <div class="form-group">
-                <label for="txt-search-first-name" class="col-md-4 control-label">First Name</label>
+                <label for="txt-scanned-first-name" class="col-md-4 control-label">First Name</label>
                 <div class="col-md-8">
-                    <input id="txt-search-first-name" name="search-first-name" class="form-control" type="text">
+                    <input id="txt-scanned-first-name" name="scanned-first-name" class="form-control" required type="text">
                         </div>
             </div>
             <div class="form-group">
-                <label for="txt-search-last-name" class="col-md-4 control-label">Last Name</label>
+                <label for="txt-scanned-last-name" class="col-md-4 control-label">Last Name</label>
                 <div class="col-md-8">
-                    <input id="txt-search-last-name" name="search-last-name " class="form-control" type="text">
+                    <input id="txt-scanned-last-name" name="scanned-last-name " class="form-control" required type="text">
                         </div>
             </div>
             <div class="form-group">
-                <label for="txt-search-phoneno" class="col-md-4 control-label">Phone Number</label>
+                <label for="txt-scanned-phoneno" class="col-md-4 control-label">Phone Number</label>
                 <div class="col-md-8">
-                    <input id="txt-search-phoneno" name="search-phoneno" class="form-control" type="phone">
+                    <input id="txt-scanned-phoneno" name="scanned-phoneno" class="form-control" required type="phone">
                         </div>
             </div>
             <div class="form-group">
-                <label for="txt-search-email" class="col-md-4 control-label">Email Address</label>
+                <label for="txt-scanned-email" class="col-md-4 control-label">Email Address</label>
                 <div class="col-md-8">
-                    <input id="txt-search-email" name="search-email" class="form-control" type="email">
+                    <input id="txt-scanned-email" name="scanned-email" class="form-control" required type="email">
                         </div>
             </div>
             <div class="form-group">
-                <label for="txt-search-street" class="col-md-4 control-label">Street Address</label>
+                <label for="txt-scanned-street" class="col-md-4 control-label">Street Address</label>
                 <div class="col-md-8">
-                    <input id="txt-search-street" name="search-street" class="form-control" type="text">
+                    <input id="txt-scanned-street" name="scanned-street" class="form-control" required type="text">
                         </div>
             </div>
             <div class="form-group">
-                <label for="txt-search-city" class="col-md-4 control-label">City</label>
+                <label for="txt-scanned-city" class="col-md-4 control-label">City</label>
                 <div class="col-md-8">
-                    <input id="txt-search-city" name="search-city" class="form-control" type="text">
+                    <input id="txt-scanned-city" name="scanned-city" class="form-control" required type="text">
                         </div>
             </div>
             <div class="form-group">
-                <label for="sel-search-country" class="col-md-4 control-label">Country</label>
+                <label for="sel-scanned-country" class="col-md-4 control-label">Country</label>
                 <div class="col-md-8">
-                    <select id="sel-search-country" name="search-country" class="form-control" >
+                    <select id="sel-scanned-country" name="scanned-country" class="form-control" required>
                         <option value="Canada">Canada</option>
                         <option value="United States">United States</option>
                         <option value="Afghanistan">Afghanistan</option>
@@ -299,9 +296,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="sel-search-province" class="col-md-4 control-label">State/Province</label>
+                <label for="sel-scanned-province" class="col-md-4 control-label">State/Province</label>
                 <div class="col-md-8">
-                    <select id="sel-search-province" name="search-province" class="form-control" >
+                    <select id="sel-scanned-province" name="scanned-province" class="form-control" required>
                         <option value="AB">Alberta</option>
                         <option value="BC">British Columbia</option>
                         <option value="MB">Manitoba</option>
@@ -370,21 +367,24 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="txt-search-postal-code" class="col-md-4 control-label">Postal Code</label>
+                <label for="txt-scanned-postal-code" class="col-md-4 control-label">Postal Code</label>
                 <div class="col-md-8">
-                    <input id="txt-search-postal-code" name="search-postal-code" class="form-control" type="text">
+                    <input id="txt-scanned-postal-code" name="scanned-postal-code" class="form-control" required type="text">
                         </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4"></div>
+                <div class="checkbox c-checkbox needsclick">
+                    <label class="needsclick col-md-8 control-label">
+                        <input value="" class="needsclick" type="checkbox" id="cb-scanned-allow-contact" name="scanned-allow-contact">
+                            <span class="fa fa-check"></span>&nbsp;Allow store contact</label>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-sm-6 text-center">
         <button type="button" class="btn btn-lg btn-labeled btn-primary mb" style="font-size: 14pt;">
             <span class="btn-label"><i class="fa fa-print"></i></span>Print Customer Card
-        </button>
-    </div>
-    <div class="col-sm-6 text-center">
-        <button type="button" class="btn btn-lg btn-labeled btn-success mb" style="font-size: 14pt;">
-            <span class="btn-label"><i class="fa fa-search"></i></span>Search Customer
         </button>
     </div>
 </form>

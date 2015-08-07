@@ -11,8 +11,8 @@ from api.models.ec.store import Store
 
 
 @login_required(login_url='/inventory/login')
-def checkout_page(request, org_id, store_id):
-    return render(request, 'inventory_checkout/view.html',{
+def checkout_page(request, org_id, store_id, cart_id):
+    return render(request, 'inventory_checkout/item/index.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'tab':'checkout',

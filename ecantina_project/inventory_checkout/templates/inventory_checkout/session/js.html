@@ -6,9 +6,9 @@
               
         // The following code will poll the server every 10 seconds to see if
         // we have the latest data.
-        //window.setInterval(function(){
-        //    ajax_refresh_table();
-        //}, 5000);
+        window.setInterval(function(){
+            ajax_refresh_table();
+        }, 5000);
     });
     
     /**
@@ -57,7 +57,7 @@
         html += '<tbody>';
         
         $(result).each(function(iter,val){
-            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + val['cart_id'] +"/";
+            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + val['cart_id'] +"/customer";
             html += '<tr>';
             html += '<td>' + val['cart_id'] + '</td>';
             html += '<td>' + '<button type="button" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick="window.location=\'' + url +'\'"><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
@@ -94,7 +94,7 @@
             type: 'POST',
             success: function(json_result){
                 var cart_id = json_result['cart_id'];
-                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+cart_id+"/";
+                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+cart_id+"/customer";
             },
             error: function(xhr,status,error) {
                     console.debug(status + ': ' + error + ' -- ' + xhr.responseText);

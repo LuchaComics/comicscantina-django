@@ -53,7 +53,7 @@
                     <div class="panel-body pt0" id="new-customer-info-panel">
                         <div class="col-sm-12">
                             <h2>Customer Information</h2>
-                            {% include 'inventory_checkout/process/new_customer.html' %}
+                            {% include 'inventory_checkout/customer/new_customer.html' %}
                         </div>
                     </div>
                     
@@ -61,7 +61,7 @@
                     <div class="panel-body pt0" id="return-customer-info-panel" style="display:none;">
                         <div class="col-sm-12">
                             <h2>Search Customer</h2>
-                            {% include 'inventory_checkout/process/returning_customer.html' %}
+                            {% include 'inventory_checkout/customer/returning_customer.html' %}
                         </div>
                     </div>
                     
@@ -83,7 +83,7 @@
                             </div>
                             <button id="test-scan-cust-card" class="btn btn-primary btn-sm">Test (card is scanned)</button>
                             <h2>Customer Information</h2>
-                            {% include 'inventory_checkout/process/scan_customer.html' %}
+                            {% include 'inventory_checkout/customer/scan_customer.html' %}
                         </div>
                     </div>
                     
@@ -96,7 +96,7 @@
                             </button>
                         </div>
                         <div class="col-sm-6 text-center">
-                            <button type="submit" class="btn btn-lg btn-labeled btn-success mb" style="font-size:14pt;" onclick="window.location='pos_checkout_wizard_2.html';">
+                            <button type="submit" class="btn btn-lg btn-labeled btn-success mb" style="font-size:14pt;" onclick="scan_cart_items_load();">
                                 <span class="btn-label"><i class="fa fa-qrcode"></i></span>Scan cart items
                             </button>
                         </div>
@@ -109,6 +109,6 @@
     </div>
 </section>
 
-{% include "inventory_checkout/process/js.html" %}
+{% include "inventory_checkout/customer/js.html" %}
 
 {% endblock content %}
