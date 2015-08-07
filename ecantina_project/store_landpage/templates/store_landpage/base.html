@@ -44,9 +44,9 @@
     </div>
     <div class="pace-activity"></div></div>
     
-    {% include "store/login.html" %}
-    {% include "store/signin.html" %}
-    {% include "store/header.html" %}
+    {% include "store_landpage/login.html" %}
+    {% include "store_landpage/signin.html" %}
+    {% include "store_landpage/header.html" %}
     
     <!-- CSRF Token -->
     {% csrf_token %}
@@ -55,7 +55,7 @@
     {% block content %}
     {% endblock %}
     
-    {% include "store/footer.html" %}
+    {% include "store_landpage/footer.html" %}
     
 <script>
     // this script required for subscribe modal

@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from store.views import landpage
+from store_landpage.views import landpage
 
 urlpatterns = patterns('',
     url(r'^$', landpage.front_page),

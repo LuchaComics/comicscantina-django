@@ -26,7 +26,12 @@ sitemaps = {
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('inventory.urls')),
-    url(r'', include('store.urls')),
+    url(r'', include('store_landpage.urls')),
+    url(r'', include('store_about.urls')),
+    url(r'', include('store_products.urls')),
+    url(r'', include('store_blog.urls')),
+    url(r'', include('store_checkout.urls')),
+    url(r'', include('store_customer.urls')),               
     url(r'', include('register.urls')),
     url(r'', include('login.urls')),
     url(r'', include('inventory_add_product.urls')),
