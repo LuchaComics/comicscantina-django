@@ -1,0 +1,136 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<!-- Main section-->
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-shopping-cart mr"></em>Point of Sale <em class="fa fa-angle-right pl pr"></em>
+                Checkout
+            </h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row mt-xl">
+            <div class="col-sm-6 text-center center-block mb-lg">
+                <button type="submit" class="btn btn-labeled btn-danger" style="font-size: 23pt;margin-left: auto;margin-right: auto;">
+                    <span class="btn-label"><i class="fa fa-remove"></i></span>Return Items
+                </button>
+            </div>
+            <div class="col-sm-6 text-center center-block mb-lg">
+                <button type="submit" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick="window.location='pos_checkout_wizard_1.html'">
+                    <span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Begin Checkout
+                </button>
+            </div>
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="store-info-panel" class="clearfix panel panel-default m-xl">
+                    <div class="panel-body panel-body-main">
+                        <div class="store-info-text col-sm-4 mb-lg">
+                            <!-- store address info -->
+                            <div class="row clearfix">
+                                <h3 class="pl-lg mt mb-sm">BA's Comics</h3>
+                                <h4 class="pl-lg mt-sm mb-sm">Store A</h4>
+                                <p class="pl-lg">
+                                <span>123 Fake Street</span><br/>
+                                <span>London, Ontario, Canada</span><br/>
+                                <span>N1N 1N1</span><br/>
+                                </p>
+                            </div>
+                            <hr class="pb m-sm">
+                            <!-- store contact info -->
+                            <div class="row clearfix">
+                                <div class="clearfix mt-sm mb-sm">
+                                    <!-- phone contact -->
+                                    <div class="col-xs-4 pl text-center">
+                                        <em class="fa fa-2x fa-phone-square"></em>
+                                    </div>
+                                    <div class="col-xs-8 p0 text-center" style="line-height:25px;">519-521-3135</div>
+                                </div>
+                                <div class="clearfix mt0 mb-sm">
+                                    <!-- email contact -->
+                                    <div class="col-xs-4 pl text-center">
+                                        <em class="fa fa-2x fa-envelope-square"></em>
+                                    </div>
+                                    <div class="col-sm-8 p0 text-center" style="line-height:25px;"><a class="text-right" href="mailto:rodolfomartinez@theshootingstarpress.com">Tech Support</a></div>
+                                </div>
+                                <div class="clearfix mt0 mb-sm">
+                                    <!-- twitter contact -->
+                                    <div class="col-xs-4 pl text-center">
+                                        <em class="fa fa-2x fa-twitter-square"></em>
+                                    </div>
+                                    <div class="col-sm-8 p0 text-center" style="line-height:25px;"><a class="text-right" href="http://twitter.com/@comicscantina">@comicscantina</a></div>
+                                </div>
+                                <div class="clearfix mt0 mb-sm">
+                                    <!-- facebook contact -->
+                                    <div class="col-xs-4 pl text-center">
+                                        <em class="fa fa-2x fa-facebook-square"></em>
+                                    </div>
+                                    <div class="col-sm-8 p0 text-center" style="line-height:25px;"><a class="text-right" href="http://facebook.com/comicscantina">comicscantina</a></div>
+                                </div>
+                            </div>
+                            <hr class="pb m-sm">
+                            <!-- store hours info -->
+                            <div class="row clearfix">
+                                <p class="pl">
+                                <span class="col-xs-3 text-center">Mon</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                <span class="col-xs-3 text-center">Tue</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                <span class="col-xs-3 text-center">Wed</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                <span class="col-xs-3 text-center">Thu</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                <span class="col-xs-3 text-center">Fri</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                <span class="col-xs-3 text-center">Sat</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                <span class="col-xs-3 text-center">Sun</span><span class="col-xs-9 text-center">08:00 - 18:00</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="store-info-map col-sm-8">
+                            <div class="table-responsive">
+                                <h2>Open Sessions</h2>
+                                <!-- Table -->
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Cart ID #</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Username</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Frank</td>
+                                            <td>Bismark</td>
+                                            <td>@bis</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.Table -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+<!----------------------------------------------------------------------------->
+
+<!-- Modal -->
+<div id="ajax_modal_placeholder"
+   name="ajax_modal_placeholder"></div>
+<!-- end modal -->
+
+<!----------------------------------------------------------------------------->
+
+{% include "inventory_checkout/session/js.html" %}
+
+{% endblock content %}

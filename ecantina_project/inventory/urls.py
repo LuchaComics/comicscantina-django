@@ -5,7 +5,6 @@ from inventory.views import setting_stores
 from inventory.views import setting_users
 from inventory.views import help
 from inventory.views import customers
-from inventory.views import checkout
 from inventory.views import comic_inventory_list
 from inventory.views import print_label
 
@@ -58,10 +57,6 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/add_customer$', customers.add_customer_page),
     url(r'^inventory/(\d+)/(\d+)/add_customer/submit$', customers.ajax_add_customer),
                        
-    # Checkout
-    #----------------------
-    url(r'^inventory/(\d+)/(\d+)/checkout$', checkout.checkout_page),
-    
     # Inventory List
     #----------------------
     url(r'^inventory/(\d+)/(\d+)/list/comics$', comic_inventory_list.list_comics_page),

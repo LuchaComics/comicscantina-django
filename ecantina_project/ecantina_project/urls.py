@@ -30,6 +30,13 @@ urlpatterns = [
     url(r'', include('register.urls')),
     url(r'', include('login.urls')),
     url(r'', include('inventory_add_product.urls')),
+    url(r'', include('inventory_checkout.urls')),
+    url(r'', include('inventory_customer.urls')),
+    url(r'', include('inventory_dashboard.urls')),
+    url(r'', include('inventory_help.urls')),
+    url(r'', include('inventory_print_label.urls')),
+    url(r'', include('inventory_products.urls')),
+    url(r'', include('inventory_setting.urls')),
     url(r'', include('api.urls')),
                
     # Sitemap
