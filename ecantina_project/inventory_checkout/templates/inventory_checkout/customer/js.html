@@ -154,6 +154,7 @@
         data.append('postal', $('#id_postal').val());
         data.append('first_name', $('#id_first_name').val());
         data.append('last_name', $('#id_last_name').val());
+        data.append('has_consented', $('#id_has_consented').is(':checked'));
 
         var url = "/api/customers/";
         
