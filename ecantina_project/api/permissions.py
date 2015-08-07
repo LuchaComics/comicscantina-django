@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from rest_framework import permissions
 from api.models.ec.employee import Employee
 
+
 class IsEmployeeUser(permissions.BasePermission):
     """
         Custom permission to deny all non-employees that are logged in.
@@ -19,7 +20,21 @@ class IsEmployeeUser(permissions.BasePermission):
         except Employee.DoesNotExist:
             return False
 
-class IsEmployeeMemberOfOrganization(permissions.BasePermission):
+
+class IsOnlyOwnedByEmployee(permissions.BasePermission):
+    """
+        Object-level permission to only allow employees who own the object
+        are thus given permission to access the employee.
+    """
+    message = 'Only employees who belong to the same organization are able to access data.'
+    def has_object_permission(self, request, view, obj):
+        employee = Employee.objects.get(user=request.user)
+        
+        # Instance must have an attribute named `organization`.
+        return obj.employee == employee
+
+
+class IsOnlyOwnedByOrganization(permissions.BasePermission):
     """
         Object-level permission to only allow employees who belong to the
         organization (of the object) be able to access/modify the object.

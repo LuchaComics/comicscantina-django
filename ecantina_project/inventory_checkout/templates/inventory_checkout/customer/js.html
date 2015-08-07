@@ -1,7 +1,29 @@
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <input type="hidden" id="nav_tracker" value="2" />
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    
     $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+           
+        // The remaineder of the code loads up the UI.
         $('.customer-select li').on('click', function () {
             var option = $(this).find('a').data('option');
                                     
@@ -102,28 +124,117 @@
         }
     }
 
+    /**
+     *  Function will simply load up the next page.
+     */
     function handle_guest_customer()
     {
         load_checkout_page(); // Simply load the next page.
     }
 
+    /**
+     *  Function will save the new customer and load up the next page.
+     */
     function handle_new_customer()
     {
-        alert("New");
+        /////////////////////
+        // INSERT CUSTOMER //
+        /////////////////////
+        var data = new FormData();
+        data.append('format', 'json');
+        data.append('email', $('#id_email').val());
+        data.append('name', $('#id_name').val());
+        data.append('phone', $('#id_phone').val());
+        data.append('street_number', $('#id_street_number').val());
+        data.append('street_name', $('#id_street_name').val());
+        data.append('unit_number', $('#id_unit_number').val());
+        data.append('city', $('#id_city').val());
+        data.append('country', $('#id_country').val());
+        data.append('province', $('#id_province').val());
+        data.append('postal', $('#id_postal').val());
+        data.append('first_name', $('#id_first_name').val());
+        data.append('last_name', $('#id_last_name').val());
+
+        var url = "/api/customers/";
+        
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                /////////////////
+                // UPDATE CART //
+                /////////////////
+                // Extract the "customer_id" value.
+                var customer_id = json_result['customer_id'];
+                    
+                // Create the cart object.
+                var data2 = new FormData();
+                data2.append('format', 'json');
+                data2.append('employee', '{{ cart.employee_id }}');
+                data2.append('cart_id', '{{ cart.cart_id }}');
+                data2.append('is_closed', 'false');
+                data2.append('customer', customer_id);
+                    
+                var url2 = "/api/carts/{{ cart.cart_id }}/";
+                    
+                jQuery.ajax({
+                    url: url2,
+                    data: data2,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'PUT',
+                    success: function(json_result){
+                        // Extract "cart_id" and load up the next page.
+                        var cart_id = json_result['cart_id'];
+                        window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+cart_id+"/items";
+                        },
+                    error: function(xhr,status,error) {
+                        console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                    },
+                    complete: function(xhr,status) {
+                            
+                    }
+                }); // End Cart jQuery
+                
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                
+            },
+                complete: function(xhr,status) {
+            
+            }
+        }); // End Customer jQuery.
     }
 
+    /**
+     *  Function will find an existing customer and load up the next page.
+     */
     function handle_returning_customer()
     {
         alert("Return");
     }
 
+    /**
+     *  Function will simply load up the next page.
+     */
     function handle_scan_customer()
     {
-        alert("Scan");
+        load_checkout_page(); // Simply load the next page.
     }
 
     function load_checkout_page()
     {
         window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items";
+    }
+
+    function print_customer_card()
+    {
+        alert("TODO");
     }
 </script>

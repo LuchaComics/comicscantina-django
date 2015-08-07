@@ -16,6 +16,9 @@
      *  we have under this employee.
      */
     function ajax_refresh_table() {
+        //////////
+        // LIST //
+        //////////
         var url = "/api/carts/?is_closed=False&employee={{ employee.employee_id }}";
         jQuery.ajax({
             url: url,
@@ -76,6 +79,9 @@
      */
     function open_new_cart()
     {
+        ////////////
+        // INSERT //
+        ////////////
         var data = new FormData();
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
         data.append('format', 'json');
