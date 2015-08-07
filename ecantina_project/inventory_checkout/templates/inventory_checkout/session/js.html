@@ -33,17 +33,10 @@
 
     function generate_table(result)
     {
-        
-         
-        
-        var json_text = JSON.stringify(result, null, 2);
-        var obj = JSON.parse(json_text);
-       
-        $(result).each(function(iter,val){
-            alert(val['employee']);
-        });
-        
-        var data = [ [ 1, 2, 3 ], [ 4, 5, 6 ], [7, 8, 9 ] ];
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
+    
         var html = '<div class="table-responsive">';
         html += '<h2>Open Sessions</h2>';
         html += '<table class="table table-striped">';
@@ -55,23 +48,14 @@
         html += '</thead>';
         html += '<tbody>';
         
-
-        for (var i = 0, len = data.length; i < len; ++i) {
+        $(result).each(function(iter,val){
             html += '<tr>';
-            for (var j = 0, rowLen = data[i].length; j < rowLen; ++j ) {
-                html += '<td>' + data[i][j] + '</td>';
-            }
-            html += "</tr>";
-        }
+            html += '<td>' + val['cart_id'] + '</td>';
+            html += '<td>' + '<button type="submit" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick=""><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
+            html += '</tr>';
+        });
         html += '</tbody></table></div>';
-        
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
     }
-
-//<tr>
-//<td>1</td>
-//<td>Mark</td>
-//</tr>
-
 </script>
