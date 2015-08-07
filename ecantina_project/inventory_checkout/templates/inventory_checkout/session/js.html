@@ -1,7 +1,33 @@
 {% load staticfiles %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
-    $(document).ready(function() {
-       
+    $(document).ready(function() { // Run the following when the page loads up..
+        ajax_refresh_table(); // Refresh the table for the first time.
+              
+        // The following code will poll the server every 10 seconds to see if
+        // we have the latest data.
+        //window.setInterval(function(){
+        //    ajax_refresh_table();
+        //}, 5000);
     });
+    
+    function ajax_refresh_table() {
+        var url = "/api/carts/?is_closed=False&employee={{ employee.employee_id }}";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(result){
+                console.debug(result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
 </script>

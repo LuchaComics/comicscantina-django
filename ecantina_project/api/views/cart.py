@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
-from api.permissions import IsEmployeeUser
+from api.permissions import IsEmployeeUser, IsEmployeeMemberOfOrganization
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.cart import Cart
@@ -16,13 +16,7 @@ class CartViewSet(viewsets.ModelViewSet):
     """
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
-    permission_classes = (IsEmployeeUser, IsAuthenticated)
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('=employee__employee_id', '=cart_id')
+    permission_classes = (IsEmployeeUser, IsEmployeeMemberOfOrganization, IsAuthenticated)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('is_closed','customer','employee',)
 
-    def list(self, request):
-        employee = Employee.objects.get(user=self.request.user)
-        carts = Cart.objects.filter(employee=employee)
-        carts = carts.filter(is_closed=False).order_by("-created")
-        serializer = CartSerializer(carts, many=True)
-        return Response(serializer.data)
