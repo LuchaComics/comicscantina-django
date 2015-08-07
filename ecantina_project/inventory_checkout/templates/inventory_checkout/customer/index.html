@@ -50,22 +50,32 @@
                         </ul>
                         <div class="clearfix"></div>
                     </div>
+                    <!-- New Customer -->
                     <div class="panel-body pt0" id="new-customer-info-panel">
                         <div class="col-sm-12">
                             <h2>Customer Information</h2>
                             {% include 'inventory_checkout/customer/new_customer.html' %}
                         </div>
                     </div>
+                    <!-- /.New Customer -->
                     
                     
+                    <!-- Returning Customer -->
                     <div class="panel-body pt0" id="return-customer-info-panel" style="display:none;">
                         <div class="col-sm-12">
                             <h2>Search Customer</h2>
                             {% include 'inventory_checkout/customer/returning_customer.html' %}
                         </div>
+                        <div class="col-sm-12">
+                            <div id="id_table_placeholder">
+                                <!-- Search Results Load Here ... -->
+                            </div>
+                        </div>
                     </div>
+                    <!-- /.Returning Customer -->
                     
                     
+                    <!-- Scan Customer -->
                     <div class="panel-body pt0" id="scan-customer-card-panel" style="display:none;">
                         <div class="col-sm-12">
                             <div class="jumbotron bg-gray-lighter mt-lg">
@@ -86,6 +96,7 @@
                             {% include 'inventory_checkout/customer/scan_customer.html' %}
                         </div>
                     </div>
+                    <!-- /.Scan Customer -->
                     
                     
                     <div class="clearfix"></div>

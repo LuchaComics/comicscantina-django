@@ -215,11 +215,48 @@
     }
 
     /**
-     *  Function will find an existing customer and load up the next page.
+     *  Function will load up the next page.
      */
     function handle_returning_customer()
     {
-        alert("Return");
+        load_checkout_page(); // Simply load the next page.
+    }
+
+    /**
+     *  Function will set the "customer_id" for the cart.
+     */
+    function update_cart_by_set_customer_id(customer_id)
+    {
+        /////////////////
+        // UPDATE CART //
+        /////////////////
+        var data = new FormData();
+        data.append('format', 'json');
+        data.append('employee', '{{ cart.employee_id }}');
+        data.append('cart_id', '{{ cart.cart_id }}');
+        data.append('is_closed', 'false');
+        data.append('customer', customer_id);
+    
+        var url = "/api/carts/{{ cart.cart_id }}/";
+    
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'PUT',
+            success: function(json_result){
+                // alert("Saved"); // Debugging Purposes Only
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        }); // End Cart jQuery
     }
 
     /**
@@ -230,6 +267,9 @@
         load_checkout_page(); // Simply load the next page.
     }
 
+    /**
+     *  Function will cause the browser to move to the next page.
+     */
     function load_checkout_page()
     {
         window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items";
@@ -238,5 +278,111 @@
     function print_customer_card()
     {
         alert("TODO");
+    }
+
+    /**
+     *  Function will search through all the customers depending on the search
+     *  criteria and return the results in a table for the employee to choose 
+     *  from.
+     */
+    function customer_lookup()
+    {
+        // Get the criteria to search by.
+        var email = $('#id_email2').val();
+        var phone = $('#id_phone2').val();
+        var first_name = $('#id_first_name2').val();
+        var last_name = $('#id_last_name2').val();
+        var postal = $('#id_postal2').val();
+        
+        // Generate the search URL.
+        var url = "/api/customers/";
+        url += "?postal=";
+        if (postal != '') {
+            url += postal;
+        }
+        
+        url += "&email=";
+        if (email != '') {
+            url += email;
+        }
+        
+        url += "&phone=";
+        if (phone != '') {
+            url += phone;
+        }
+        
+        url += "&first_name=";
+        if (first_name != '') {
+            url += first_name;
+        }
+        
+        url += "&last_name=";
+        if (last_name != '') {
+            url += last_name;
+        }
+        
+        //////////
+        // LIST //
+        //////////
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(result){
+                // Take the JSON results and generate a HTML table from it.
+                generate_search_results_table(result);
+            },
+            error: function(xhr,status,error) {
+            console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        });
+    }
+
+    /**
+     *  Renders a table listing all the open cart sessions in our system.
+     */
+    function generate_search_results_table(result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
+    
+        var html = '<div class="table-responsive">';
+        html += '<table class="table table-striped">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>First Name</th>';
+        html += '<th>Last Name</th>';
+        html += '<th>Email</th>';
+        html += '<th>Phone</th>';
+        html += '<th>Select</th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+    
+        $(result).each(function(iter,val){
+            html += '<tr>';
+            html += '<td>' + val['first_name'] + '</td>';
+            html += '<td>' + val['last_name'] + '</td>';
+            html += '<td>' + val['email'] + '</td>';
+            html += '<td>' + val['phone'] + '</td>';
+            html += '<td style="text-align:center;">';
+            html += '<div class="radio c-radio">';
+            html += '<label>';
+            html += '<input name="selected-customer" value="custid-1" checked="" type="radio" onclick="update_cart_by_set_customer_id(' + val['customer_id'] +');">';
+            html += '<span class="fa fa-circle"></span></label>';
+            html += '</div>';
+            html += '</td>';
+            html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
     }
 </script>

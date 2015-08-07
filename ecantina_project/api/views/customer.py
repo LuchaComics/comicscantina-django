@@ -16,5 +16,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = (IsEmployeeUser, IsAuthenticated)
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     search_fields = ('=customer_id', 'first_name', 'last_name', 'email')
+    filter_fields = ('first_name','last_name','email','phone',)
