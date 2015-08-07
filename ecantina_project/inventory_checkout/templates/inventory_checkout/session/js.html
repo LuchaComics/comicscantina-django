@@ -11,6 +11,10 @@
         //}, 5000);
     });
     
+    /**
+     *  Makes a JSON call to our API service to fetch all the open cart sessions
+     *  we have under this employee.
+     */
     function ajax_refresh_table() {
         var url = "/api/carts/?is_closed=False&employee={{ employee.employee_id }}";
         jQuery.ajax({
@@ -20,7 +24,8 @@
             processData: false,
             type: 'GET',
             success: function(result){
-                    generate_table(result);
+                // Take the JSON results and generate a HTML table from it.
+                generate_table(result);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
@@ -31,6 +36,9 @@
         });
     }
 
+    /**
+     *  Renders a table listing all the open cart sessions in our system.
+     */
     function generate_table(result)
     {
         // Debugging code
@@ -49,13 +57,51 @@
         html += '<tbody>';
         
         $(result).each(function(iter,val){
+            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + val['cart_id'] +"/";
             html += '<tr>';
             html += '<td>' + val['cart_id'] + '</td>';
-            html += '<td>' + '<button type="submit" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick=""><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
+            html += '<td>' + '<button type="button" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick="window.location=\'' + url +'\'"><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
             html += '</tr>';
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
+    /**
+     *  Create a new cart by submitting an API call to create a new cart where
+     *  the web-service will create the new cart and return the newly created
+     *  cart object. This function will take the newly created object and load
+     *  up the processing UI based on the 'cart_id'.
+     */
+    function open_new_cart()
+    {
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('format', 'json');
+        data.append('employee', '{{ employee.employee_id }}');
+        data.append('customer', '');
+        data.append('is_closed', 'false');
+        
+        var url = "/api/carts/";
+        
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                var cart_id = json_result['cart_id'];
+                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+cart_id+"/";
+            },
+            error: function(xhr,status,error) {
+                    console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        });
     }
 </script>

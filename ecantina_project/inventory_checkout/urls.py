@@ -7,5 +7,6 @@ urlpatterns = patterns('',
     # Checkout Main
     #----------------------
     url(r'^inventory/(\d+)/(\d+)/checkout$', pos_session.checkout_page),
+    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/$', pos_process.checkout_page),
 
 )
