@@ -81,6 +81,13 @@
                             <div class="jumbotron bg-gray-lighter mt-lg">
                                 <h2>Scan Card</h2>
                                 <p>Please scan the customer's card (qr code) using the mobile scanning application.  Waiting for response...</p>
+                                <div id="id_scanner_response">
+                                    <!-- Scaner response goes here -->
+                                </div>
+                                
+                                <!-- Store the current customer ID -->
+                                <input type="hidden" id="current_customer_id" value="{{ cart.customer_id }}" />
+                                
                                 <div class="text-center center-block">
                                     <div id="cust-card-wait-spinner" class="line-scale">
                                         <div></div>
@@ -91,9 +98,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <button id="test-scan-cust-card" class="btn btn-primary btn-sm">Test (card is scanned)</button>
-                            <h2>Customer Information</h2>
-                            {% include 'inventory_checkout/customer/scan_customer.html' %}
                         </div>
                     </div>
                     <!-- /.Scan Customer -->

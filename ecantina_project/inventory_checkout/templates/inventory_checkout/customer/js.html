@@ -57,22 +57,6 @@
             }
         });
                       
-        $('#test-scan-cust-card').on('click', function(){
-            $('#cust-card-wait-spinner').after('<p>Loading customer information for id: 001</p>');
-            $('#cust-card-wait-spinner').detach().remove();
-                                                   
-            $('#txt-scanned-first-name').val('John');
-            $('#txt-scanned-last-name').val('Doe');
-            $('#txt-scanned-phoneno').val('555-555-5555');
-            $('#txt-scanned-email').val('jdoe@email.com');
-            $('#txt-scanned-street').val('123 Fake St.');
-            $('#txt-scanned-city').val('London');
-            $('#sel-scanned-country').val('Canada');
-            $('#sel-scanned-province').val('ON');
-            $('#txt-scanned-postal-code').val('N1N 1N1');
-            $('#cb-scanned-allow-contact').attr('checked', 'true');
-        });
-                      
         // the list options holding the autocomplete stuff
         // that should be loaded as the user types with relevant
         // options will hold the customer_id as a data attribute...
@@ -96,6 +80,12 @@
             $('#txt-searchfname').val('John');
             $('#txt-searchlname').val('Doe');
         });
+                      
+        // The following code will poll the server every 10 seconds to see if
+        // we have the latest data.
+        window.setInterval(function(){
+            background_card_scanner();
+        }, 5000);
     });
     
     /**
@@ -335,7 +325,7 @@
                 generate_search_results_table(result);
             },
             error: function(xhr,status,error) {
-            console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
                 alert(xhr.responseText);
             },
             complete: function(xhr,status) {
@@ -384,5 +374,44 @@
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
+    /**
+     *  Function is to be called continously be jQuery. This function polls
+     *  the cart and checks to see if the "customer_id" has been set. If not
+     *  a loading type animation will play.
+     */
+    function background_card_scanner()
+    {
+        /////////
+        // GET //
+        /////////
+        var url = "/api/carts/{{ cart.cart_id }}/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(result){
+                // Detect non-empty "customer_id".
+                if (result['customer_id'] != '')
+                {
+                    // To give the appearance of new card scanned. Only display
+                    // the message if the current customer_id of the cart is
+                    // different then what was scanned.
+                    if ( result['customer_id'] == $('#current_customer_id').val() ) {
+                        $('#id_scanner_response').html('<p><i>Customer Successfully Assigned</i></p>');
+                    }
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
     }
 </script>
