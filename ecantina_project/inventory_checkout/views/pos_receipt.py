@@ -12,10 +12,11 @@ from api.models.ec.cart import Cart
 
 
 @login_required(login_url='/inventory/login')
-def checkout_page(request, org_id, store_id):
-    return render(request, 'inventory_checkout/session/index.html',{
+def checkout_page(request, org_id, store_id, cart_id):
+    return render(request, 'inventory_checkout/receipt/index.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
+        'cart': Cart.objects.get(cart_id=cart_id),
         'tab':'checkout',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),

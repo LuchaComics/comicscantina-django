@@ -184,7 +184,7 @@
                     <div class="clearfix"></div>
                     <div class="panel-footer">
                         <div class="col-md-4 text-center">
-                            <button type="button" class="btn btn-lg btn-labeled btn-danger mb" style="font-size:14pt;" onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ store.store_id }}/customer';">
+                            <button type="button" class="btn btn-lg btn-labeled btn-danger mb" style="font-size:14pt;" onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/customer';">
                                 <span class="btn-label"><i class="fa fa-remove"></i></span>Cancel checkout
                             </button>
                         </div>
@@ -194,7 +194,7 @@
                             </button>
                         </div>
                         <div class="col-md-4 text-center">
-                            <button type="submit" class="btn btn-lg btn-labeled btn-success mb" style="font-size:14pt;" onclick="window.location='pos_checkout_wizard_3.html';">
+                            <button type="submit" class="btn btn-lg btn-labeled btn-success mb" style="font-size:14pt;" onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/receipt';">
                                 <span class="btn-label"><i class="fa fa-dollar"></i></span>Payment completed
                             </button>
                         </div>
