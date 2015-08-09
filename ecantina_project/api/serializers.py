@@ -16,13 +16,13 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
-        fields = ('customer', 'employee', 'products', 'cart_id', 'created', 'last_updated', 'is_closed',)
+        fields = ('customer', 'employee', 'products', 'cart_id', 'created', 'last_updated', 'is_closed','has_tax',)
 
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section',)
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -40,4 +40,4 @@ class ComicSerializer(serializers.ModelSerializer):
 class PurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Purchase
-        fields = ('customer', 'product', 'purchase_id', 'purchased_date', 'sub_amount', 'tax_amount', 'amount', 'type', 'country')
+        fields = ('customer', 'product', 'purchase_id', 'purchased_date', 'sub_amount', 'discount_amount', 'tax_amount', 'amount', 'type', 'country')

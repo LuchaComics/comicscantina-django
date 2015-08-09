@@ -20,6 +20,10 @@ PRODUCT_TYPE_OPTIONS = (
     (settings.GENERAL_PRODUCT_TYPE, 'General'),
 )
 
+PRODUCT_DISCOUNT_TYPE_OPTIONS = (
+    (1, '%'),
+    (2, '$'),
+)
 
 class Product(models.Model):
     """
@@ -42,10 +46,22 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_sold = models.BooleanField(default=False)
-    price = models.FloatField(
+    sub_price = models.FloatField( # Note: Price before discount applied.
         validators=[MinValueValidator(0)],
-        null=True,
-        blank=True,
+        default=0,
+    )
+    discount = models.FloatField( # Note: Meaured in dollar ($) amount.
+        validators=[MinValueValidator(0),],
+        default=0,
+    )
+    discount_type = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(2)],
+        choices=PRODUCT_DISCOUNT_TYPE_OPTIONS,
+        default=1,
+    )
+    price = models.FloatField( # Note: Price after discount applied.
+        validators=[MinValueValidator(0)],
+        default=0,
     )
     cost = models.FloatField(
         validators=[MinValueValidator(0)],

@@ -29,6 +29,10 @@ class Purchase(models.Model):
         validators=[MinValueValidator(0),],
         default=0,
     )
+    discount_amount = models.FloatField(
+        validators=[MinValueValidator(0),],
+        default=0,
+    )
     tax_amount = models.FloatField(
         validators=[MinValueValidator(0),],
         default=0,

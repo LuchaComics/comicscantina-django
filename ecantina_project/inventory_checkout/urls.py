@@ -10,5 +10,6 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/checkout$', pos_session.checkout_page),
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/customer$', pos_customer.checkout_page),
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items$', pos_item.checkout_page),
+    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/content$', pos_item.content_page),
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/receipt$', pos_receipt.checkout_page),
 )

@@ -24,3 +24,26 @@ def checkout_page(request, org_id, store_id, cart_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+@login_required(login_url='/inventory/login')
+def content_page(request, org_id, store_id, cart_id):
+    cart = Cart.objects.get(cart_id=cart_id)
+    sub_total_amount = 0.0
+    total_amount = 0.0
+    total_tax = 0.0
+    
+    for product in cart.products.all():
+        sub_total_amount += product.price
+        if cart.has_tax:
+           total_tax += 0.13 * product.price
+    total_amount = sub_total_amount + total_tax
+            
+    return render(request, 'inventory_checkout/item/content.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'cart': cart,
+        'sub_total_amount': sub_total_amount,
+        'total_tax': total_tax,
+        'total_amount': total_amount,
+        'employee': Employee.objects.get(user=request.user),
+    })

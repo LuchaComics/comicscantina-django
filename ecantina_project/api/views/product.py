@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
-from api.permissions import IsEmployeeUser
+from api.permissions import IsEmployeeUser, IsOnlyOwnedByOrganization
 from api.serializers import ProductSerializer
 from api.models.ec.product import Product
 from api.models.ec.organization import Organization
@@ -15,10 +15,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsEmployeeUser, IsAuthenticated)
-
-    def list(self, request):
-        employee = Employee.objects.get(user=self.request.user)
-        products = Product.objects.filter(organization=employee.organization)
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
+    permission_classes = (IsEmployeeUser, IsOnlyOwnedByOrganization, IsAuthenticated)
+    filter_backends = (filters.DjangoFilterBackend,)
+#    filter_fields = ('product_id',)

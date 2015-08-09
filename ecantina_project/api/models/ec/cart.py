@@ -23,6 +23,7 @@ class Cart(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_closed = models.BooleanField(default=False)
+    has_tax = models.BooleanField(default=True)
     
     def __str__(self):
         return str(self.cart_id) + " " + str(self.created)
