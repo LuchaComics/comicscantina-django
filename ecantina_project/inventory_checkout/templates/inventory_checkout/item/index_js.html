@@ -1,5 +1,26 @@
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
     $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                  
         $('.customer-select li').on('click', function () {
             var option = $(this).find('a').data('option');
                                                   
@@ -83,9 +104,44 @@
     /**
      *  Deletes the product from the inventory and refreshes the table.
      */
-    function delete_product(product_id)
+    function update_cart_products(products)
     {
+            
+        /////////////////
+        // UPDATE CART //
+        /////////////////
+        var data = new FormData();
+        data.append('format', 'json');
+        data.append('employee', '{{ cart.employee_id }}');
+        data.append('cart_id', '{{ cart.cart_id }}');
+        data.append('is_closed', 'false');
+        data.append('customer', '{{ cart.customer_id }}');
         
+        // Note: If we don't have any items left, then leave out this field.
+        if (products.length > 0)
+        {
+            data.append('products', products);
+        }
+        
+        var url = "/api/carts/{{ cart.cart_id }}/";
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'PUT',
+            success: function(json_result){
+                render_cart_content(); // Update UI.
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        }); // End Cart jQuery
     }
 
     /**
