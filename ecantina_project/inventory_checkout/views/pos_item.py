@@ -154,14 +154,30 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                 # Iterate through all the products and create a 'Purchase'
                 # table object for the customer and product.
                 for product in cart.products.all():
+                    # Process discount
+                    discount_amount = Decimal(0.00)
+                    if product.discount_type is 1: # Percent
+                        rate = Decimal(product.discount) / Decimal(100)
+                        discount_amount = Decimal(rate) * Decimal(product.sub_price)
+                    elif product.discount_type is 2: # Amount
+                        discount_amount =  product.discount
+                    post_discount_price = product.sub_price - discount_amount
+                    
+                    # Process tax
+                    tax_amount = Decimal(0.00)
+                    if cart.has_tax:
+                        tax_rate = Decimal(0.13)
+                        tax_amount = post_discount_price * tax_rate
+                       
+                    # Create purchase item.
                     purchase = Purchase.objects.create(
                         customer = cart.customer,
                         product = product,
                         organization = product.organization,
                         sub_amount = product.sub_price,
-                        discount_amount = Decimal(0),
-                        tax_amount = Decimal(0),
-                        amount = Decimal(0),
+                        discount_amount = discount_amount,
+                        tax_amount = tax_amount,
+                        amount = post_discount_price + tax_amount,
                         type = 1, # In-Store
                     )
 
