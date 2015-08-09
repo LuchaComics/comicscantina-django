@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 import os
-from api.models.gcd.country import Country
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.customer import Customer
@@ -21,7 +20,7 @@ class Purchase(models.Model):
         app_label = 'inventory'
         ordering = ('purchased_date',)
         db_table = 'ec_purchases'
-    customer = models.ForeignKey(Customer)
+    customer = models.ForeignKey(Customer, null=True, blank=True,)
     product = models.ForeignKey(Product)
     organization = models.ForeignKey(Organization)
     purchase_id = models.AutoField(primary_key=True)
@@ -46,12 +45,6 @@ class Purchase(models.Model):
         decimal_places=2,
         default=0.00,
     )
-    type = models.PositiveSmallIntegerField(
-        default=1,
-        choices=PURCHASE_TYPE_CHOICES,
-        validators=[MinValueValidator(1), MaxValueValidator(2)],
-    )
-    country = models.ForeignKey(Country, null=True, default=250)
 
     def __str__(self):
         return str(self.purchase_id)

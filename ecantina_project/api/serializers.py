@@ -6,6 +6,7 @@ from api.models.ec.product import Product
 from api.models.ec.employee import Employee
 from api.models.ec.comic import Comic
 from api.models.ec.purchase import Purchase
+from api.models.ec.receipt import Receipt
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,4 +41,9 @@ class ComicSerializer(serializers.ModelSerializer):
 class PurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Purchase
-        fields = ('customer', 'product', 'purchase_id', 'purchased_date', 'sub_amount', 'discount_amount', 'tax_amount', 'amount', 'type', 'country', 'organization',)
+        fields = ('customer', 'product', 'purchase_id', 'purchased_date', 'sub_amount', 'discount_amount', 'tax_amount', 'amount', 'organization',)
+
+class ReceiptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Receipt
+        fields = ('organization','store','customer','receipt_id','purchased_date','type','payment_method','has_custom_billing_address','first_name','last_name','email','phone','street_name','street_number','unit_number','city','province','country','postal','purchases','sub_total','tax_amount','total_amount',)

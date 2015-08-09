@@ -6,6 +6,7 @@ from api.views import cart
 from api.views import product
 from api.views import employee
 from api.views import purchase
+from api.views import receipt
 from rest_framework.routers import DefaultRouter
 from api.views import api
 
@@ -17,6 +18,7 @@ router.register(r'carts', cart.CartViewSet)
 router.register(r'products', product.ProductViewSet)
 router.register(r'employees', employee.EmployeeViewSet)
 router.register(r'purchases', purchase.PurchaseViewSet)
+router.register(r'receipts', receipt.ReceiptViewSet)
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
