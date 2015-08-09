@@ -23,6 +23,7 @@ class Purchase(models.Model):
         db_table = 'ec_purchases'
     customer = models.ForeignKey(Customer)
     product = models.ForeignKey(Product)
+    organization = models.ForeignKey(Organization)
     purchase_id = models.AutoField(primary_key=True)
     purchased_date = models.DateTimeField(auto_now_add=True)
     sub_amount = models.DecimalField(

@@ -11,6 +11,7 @@ from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.cart import Cart
 from api.models.ec.product import Product
+from api.models.ec.purchase import Purchase
 
 
 @login_required(login_url='/inventory/login')
@@ -114,4 +115,61 @@ def ajax_change_tax(request, org_id, store_id, cart_id):
                 response_data = {'status': 'success', 'message': 'changed',}
             except Product.DoesNotExist:
                 response_data = {'status': 'failed','message': 'product does not exist',}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def ajax_verify(request, org_id, store_id, cart_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                cart = Cart.objects.get(cart_id=int(cart_id))
+                for product in cart.products.all():
+                    if product.is_sold is True:
+                        return HttpResponse(json.dumps({
+                            'status': 'failed',
+                            'message': str(product.product_id),
+                        }), content_type="application/json")
+                cart.save()
+                response_data = {'status': 'success', 'message': 'verified',}
+            except Product.DoesNotExist:
+                response_data = {'status': 'failed','message': 'does not exist',}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def ajax_process_cart(request, org_id, store_id, cart_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                cart = Cart.objects.get(cart_id=int(cart_id))
+                
+                # Iterate through all the products and make sure they are all
+                # set for "is_sold" to be true thus indicating no other cart
+                # can access this product.
+                for product in cart.products.all():
+                    product.is_sold = True
+                    product.save()
+
+                # Iterate through all the products and create a 'Purchase'
+                # table object for the customer and product.
+                for product in cart.products.all():
+                    purchase = Purchase.objects.create(
+                        customer = cart.customer,
+                        product = product,
+                        organization = product.organization,
+                        sub_amount = product.sub_price,
+                        discount_amount = Decimal(0),
+                        tax_amount = Decimal(0),
+                        amount = Decimal(0),
+                        type = 1, # In-Store
+                    )
+
+                # Finally, tell the cart that it is closed to prevent further
+                # accessing of this cart and then save.
+                cart.is_closed = True
+                cart.save()
+                response_data = {'status': 'success', 'message': 'processed',}
+            except Product.DoesNotExist:
+                response_data = {'status': 'failed','message': 'does not exist',}
     return HttpResponse(json.dumps(response_data), content_type="application/json")

@@ -227,6 +227,57 @@
      */
     function checkout()
     {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/verify';
         
+        $.ajax( url, {
+            data: {
+               'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            type: 'post',
+            success: function(result) {
+               // success code execution here
+               if (result['status'] == 'success') {
+                    // If we successfully verified the cart, then handle
+                    // processing the checkout.
+                    process_cart();
+               }
+               else {
+                    alert("Error, a product item is already sold out and reserved - you cannot purchase.");
+               }
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
+    }
+
+    function process_cart()
+    {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/process_cart';
+        
+        $.ajax( url, {
+            data: {
+               'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            type: 'post',
+            success: function(result) {
+               // success code execution here
+               if (result['status'] == 'success') {
+                    window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/receipt';
+               }
+               else {
+                    alert(result['message']);
+               }
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
     }
 </script>

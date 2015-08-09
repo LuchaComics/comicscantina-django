@@ -40,4 +40,4 @@ class ComicSerializer(serializers.ModelSerializer):
 class PurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Purchase
-        fields = ('customer', 'product', 'purchase_id', 'purchased_date', 'sub_amount', 'discount_amount', 'tax_amount', 'amount', 'type', 'country')
+        fields = ('customer', 'product', 'purchase_id', 'purchased_date', 'sub_amount', 'discount_amount', 'tax_amount', 'amount', 'type', 'country', 'organization',)

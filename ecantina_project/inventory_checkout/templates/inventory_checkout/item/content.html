@@ -11,7 +11,7 @@
         </thead>
         <tbody>
         {% for product in cart.products.all %}
-            <tr>
+        <tr {% if product.is_sold == True %}class="danger"{% endif %}>
                 <td class="text-center text-danger">
                     <button onclick="update_cart_products_except_product_id({{ product.product_id }});"
                         type="button" class="btn btn-sm btn-danger" style="width:37px;">
@@ -36,7 +36,9 @@
                         </select>
                     </div>
                 </td>
-                <td class="text-right pr-xl">$ {{ product.price }}</td>
+                <td class="text-right pr-xl">
+                    {% if product.is_sold == True %}[SOLD OUT]{% else %}$ {{ product.price }}{% endif %}
+                </td>
             </tr>
         {% empty %}
             <p>Cart is empty</p>

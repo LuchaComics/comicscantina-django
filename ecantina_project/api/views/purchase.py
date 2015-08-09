@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
+from api.permissions import IsEmployeeUser, IsOnlyOwnedByOrganization
 from api.permissions import IsEmployeeUser
 from api.serializers import PurchaseSerializer
 from api.models.ec.purchase import Purchase
@@ -15,10 +16,5 @@ class PurchaseViewSet(viewsets.ModelViewSet):
     """
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
-    permission_classes = (IsEmployeeUser, IsAuthenticated)
-
-    def list(self, request):
-        employee = Employee.objects.get(user=self.request.user)
-        purchases = Purchase.objects.filter(product__organization=employee.organization)
-        serializer = PurchaseSerializer(purchases, many=True)
-        return Response(serializer.data)
+    permission_classes = (IsEmployeeUser, IsOnlyOwnedByOrganization, IsAuthenticated)
+    filter_backends = (filters.DjangoFilterBackend,)
