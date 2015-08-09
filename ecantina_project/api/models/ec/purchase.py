@@ -25,26 +25,30 @@ class Purchase(models.Model):
     product = models.ForeignKey(Product)
     purchase_id = models.AutoField(primary_key=True)
     purchased_date = models.DateTimeField(auto_now_add=True)
-    sub_amount = models.FloatField(
-        validators=[MinValueValidator(0),],
-        default=0,
+    sub_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
-    discount_amount = models.FloatField(
-        validators=[MinValueValidator(0),],
-        default=0,
+    discount_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
-    tax_amount = models.FloatField(
-        validators=[MinValueValidator(0),],
-        default=0,
+    tax_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
-    amount = models.FloatField(
-        validators=[MinValueValidator(0),],
-        default=0,
+    amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
     type = models.PositiveSmallIntegerField(
         default=1,
         choices=PURCHASE_TYPE_CHOICES,
-        validators=[MinValueValidator(0), MaxValueValidator(3)],
+        validators=[MinValueValidator(1), MaxValueValidator(2)],
     )
     country = models.ForeignKey(Country, null=True, default=250)
 

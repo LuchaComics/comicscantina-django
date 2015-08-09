@@ -92,26 +92,76 @@
      *  Function will change how discounts are handled. Either discounts
      *  will be amounts or percentages.
      */
-    function change_discount_type()
+    function change_discount_type(product_id)
     {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/';
+        url += product_id + '/change_discount_type';
         
+        $.ajax( url, {
+            data: {
+               'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            type: 'post',
+            success: function(result) {
+               // success code execution here
+               render_cart_content(); // Update UI.
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
     }
 
     /**
-     *  Depending on how discounts are handled, function will update the price
-     *  of the product asynchronously.
+     *  Function will apply the discount to the particular item.
      */
-    function update_product_price()
+    function change_discount_amount(product_id)
     {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/';
+        url += product_id + '/change_discount_amount';
         
+        $.ajax( url, {
+            data: {
+               'csrfmiddlewaretoken': '{{ csrf_token }}',
+               'discount': $('#id_discount_'+product_id).val(),
+            },
+            type: 'post',
+            success: function(result) {
+               // success code execution here
+               render_cart_content(); // Update UI.
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
     }
 
-    /**
-     *  Set to either include or not include taxes on the final transaction.
-     */
-    function include_taxes()
+    function change_tax()
     {
-        
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/change_tax';
+    
+        $.ajax( url, {
+           data: {
+               'csrfmiddlewaretoken': '{{ csrf_token }}',
+           },
+           type: 'post',
+           success: function(result) {
+               // success code execution here
+               render_cart_content(); // Update UI.
+           },
+           error: function(xhr,status,error) {
+               // error code here
+           },
+           complete: function(xhr,status) {
+               // completion code here
+           }
+        });
     }
 
     /**

@@ -46,27 +46,30 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_sold = models.BooleanField(default=False)
-    sub_price = models.FloatField( # Note: Price before discount applied.
-        validators=[MinValueValidator(0)],
-        default=0,
+    sub_price = models.DecimalField( # Note: Price before discount applied.
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
-    discount = models.FloatField( # Note: Meaured in dollar ($) amount.
-        validators=[MinValueValidator(0),],
-        default=0,
+    discount = models.DecimalField( # Note: Meaured in dollar ($) amount.
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
     discount_type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(2)],
         choices=PRODUCT_DISCOUNT_TYPE_OPTIONS,
         default=1,
     )
-    price = models.FloatField( # Note: Price after discount applied.
-        validators=[MinValueValidator(0)],
-        default=0,
+    price = models.DecimalField( # Note: Price after discount applied.
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
-    cost = models.FloatField(
-        validators=[MinValueValidator(0)],
-        null=True,
-        blank=True,
+    cost = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
     )
                               
     # References

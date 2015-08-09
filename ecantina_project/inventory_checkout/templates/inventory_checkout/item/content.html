@@ -20,8 +20,15 @@
                 <td>$ {{ product.sub_price }}</td>
                 <td>
                     <div class="input-group">
-                        <input class="form-control pull-left" value="{{ product.discount }}" style="width:36px;padding:5px;" type="text">
-                        <select class="form-control pull-right" style="width:40px;padding:5px;">
+                        <input class="form-control pull-left"
+                               value="{{ product.discount }}"
+                               style="width:36px;padding:5px;"
+                                type="text"
+                                  id="id_discount_{{ product.product_id }}"
+                            onchange="change_discount_amount({{ product.product_id }});">
+                        <select class="form-control pull-right"
+                                style="width:40px;padding:5px;"
+                             onchange="change_discount_type({{ product.product_id }});">
                             <option {% if product.discount_type == 1 %}selected {% endif %}value="percent">%</option>
                             <option {% if product.discount_type == 2 %}selected {% endif %}value="dollars">$</option>
                         </select>
@@ -44,9 +51,9 @@
         <div class="clearfix">
             <div class="checkbox c-checkbox pull-left mr-xl">
                 <label>
-                    <input id="cb-include-tax" name="include-taxes" type="checkbox">
-                        <span class="fa fa-check"></span>&nbsp;&nbsp;&nbsp;&nbsp;Include tax in sub-total
-                        </label>
+                    <input onclick="change_tax();" id="cb-include-tax" name="include-taxes" type="checkbox" {% if cart.has_tax %}checked{% endif %}>
+                    <span class="fa fa-check"></span>&nbsp;&nbsp;&nbsp;&nbsp;Include tax in sub-total
+                </label>
             </div>
         </div>
         <div id="tax-total" class="clearfix">
