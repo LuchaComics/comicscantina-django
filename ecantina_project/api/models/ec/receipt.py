@@ -4,13 +4,14 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
-from api.models.ec.purchase import Purchase
+from api.models.ec.product import Product
 from api.models.ec.customer import Customer
 
 
 PURCHASE_TYPE_CHOICES = (
     (1, 'Store'),
     (2, 'Online'),
+    (3, 'Convention'),
 )
 
 PAYMENT_METHOD_CHOICES = (
@@ -49,23 +50,14 @@ class Receipt(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(9)],
     )
     
-    # Billing Information
-    has_custom_billing_address = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=63, null=True, blank=True)
-    last_name = models.CharField(max_length=63, null=True, blank=True)
-    email = models.EmailField(null=True, blank=True, unique=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
-    street_name = models.CharField(max_length=63, null=True, blank=True)
-    street_number = models.CharField(max_length=15, null=True, blank=True)
-    unit_number = models.CharField(max_length=15, null=True, blank=True)
-    city = models.CharField(max_length=63, null=True, blank=True)
-    province = models.CharField(max_length=63, null=True, blank=True)
-    country = models.CharField(max_length=63, null=True, blank=True)
-    postal = models.CharField(max_length=31, null=True, blank=True)
-
     # Financial
-    purchases = models.ManyToManyField(Purchase)
+    products = models.ManyToManyField(Product)
     sub_total = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    discount_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0.00,

@@ -80,4 +80,4 @@ class Product(models.Model):
     section = models.ForeignKey(Section)
     
     def __str__(self):
-        return str(self.product_id) + " " + str(self.type)
+        return str(self.name)

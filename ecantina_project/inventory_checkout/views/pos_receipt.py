@@ -10,7 +10,6 @@ from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.cart import Cart
 from api.models.ec.product import Product
-from api.models.ec.purchase import Purchase
 
 
 @login_required(login_url='/inventory/login')

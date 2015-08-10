@@ -6,12 +6,13 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.cart import Cart
 from api.models.ec.product import Product
-from api.models.ec.purchase import Purchase
+from api.models.ec.receipt import Receipt
 
 
 @login_required(login_url='/inventory/login')
@@ -151,35 +152,46 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                     product.is_sold = True
                     product.save()
 
-                # Iterate through all the products and create a 'Purchase'
-                # table object for the customer and product.
+                # Iterate through all the products and create a calculate
+                # our totals.
+                sub_tota_amount = Decimal(0.00)
+                total_discount_amount = Decimal(0.00)
+                total_tax_amount = Decimal(0.00)
+                total_amount = Decimal(0.00)
                 for product in cart.products.all():
+                    # Process sub-amount
+                    sub_tota_amount += product.sub_price
+                    
                     # Process discount
-                    discount_amount = Decimal(0.00)
                     if product.discount_type is 1: # Percent
                         rate = Decimal(product.discount) / Decimal(100)
                         discount_amount = Decimal(rate) * Decimal(product.sub_price)
                     elif product.discount_type is 2: # Amount
                         discount_amount =  product.discount
                     post_discount_price = product.sub_price - discount_amount
+                    total_discount_amount += discount_amount
                     
                     # Process tax
-                    tax_amount = Decimal(0.00)
                     if cart.has_tax:
                         tax_rate = Decimal(0.13)
                         tax_amount = post_discount_price * tax_rate
-                       
-                    # Create purchase item.
-                    purchase = Purchase.objects.create(
-                        customer = cart.customer,
-                        product = product,
-                        organization = product.organization,
-                        sub_amount = product.sub_price,
-                        discount_amount = discount_amount,
-                        tax_amount = tax_amount,
-                        amount = post_discount_price + tax_amount,
-                        type = 1, # In-Store
-                    )
+                    total_tax_amount += tax_amount
+                
+                    # Process total amount
+                    total_amount += post_discount_price + tax_amount
+
+                # Create our receipt for the customers records and our own.
+                Receipt.objects.create(
+                    organization =  Organization.objects.get(org_id=org_id),
+                    store = Store.objects.get(store_id=store_id),
+                    customer = cart.customer,
+                    type = 1,
+                    payment_method = 1,
+                    sub_total = sub_tota_amount,
+                    discount_amount = total_discount_amount,
+                    tax_amount = total_tax_amount,
+                    total_amount = total_amount,
+                )
 
                 # Finally, tell the cart that it is closed to prevent further
                 # accessing of this cart and then save.
