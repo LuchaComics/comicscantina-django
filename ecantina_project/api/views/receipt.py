@@ -18,5 +18,5 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     serializer_class = ReceiptSerializer
     permission_classes = (IsEmployeeUser, IsOnlyOwnedByEmployee, IsAuthenticated)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('customer',)
+    filter_fields = ('organization', 'store', 'has_finished',)
 
