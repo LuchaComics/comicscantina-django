@@ -20,7 +20,13 @@
                 }
             }
         });
-                  
+                      
+        // Check to see if this receipt has already been processed.
+        // If it already has then leave UI.
+        if ('{{ receipt.has_finished }}' == 'True') {
+            window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout';
+        }
+                      
         $('.customer-select li').on('click', function () {
             var option = $(this).find('a').data('option');
                                                   
