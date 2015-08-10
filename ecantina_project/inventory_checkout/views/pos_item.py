@@ -181,7 +181,7 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                     total_amount += post_discount_price + tax_amount
 
                 # Create our receipt for the customers records and our own.
-                Receipt.objects.create(
+                receipt = Receipt.objects.create(
                     organization =  Organization.objects.get(org_id=org_id),
                     store = Store.objects.get(store_id=store_id),
                     customer = cart.customer,
@@ -192,6 +192,11 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                     tax_amount = total_tax_amount,
                     total_amount = total_amount,
                 )
+                
+                # Add our products to the receipt.
+                for product in cart.products.all():
+                    receipt.products.add(product)
+                receipt.save()
 
                 # Finally, tell the cart that it is closed to prevent further
                 # accessing of this cart and then save.
