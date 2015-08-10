@@ -39,7 +39,7 @@
         //////////
         // LIST //
         //////////
-        var url = "/api/carts/?is_closed=False&employee={{ employee.employee_id }}";
+        var url = "/api/receipts/?has_finished=False&employee={{ employee.employee_id }}";
         jQuery.ajax({
             url: url,
             cache: false,
@@ -74,16 +74,17 @@
         html += '<table class="table table-striped">';
         html += '<thead>';
         html += '<tr>';
-        html += '<th>Cart ID #</th>';
+        html += '<th>Receipt ID #</th>';
         html += '<th>Function</th>';
         html += '</tr>';
         html += '</thead>';
         html += '<tbody>';
         
         $(result).each(function(iter,val){
-            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + val['cart_id'] +"/customer";
+            var receipt_id = val['receipt_id'];
+            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + receipt_id +"/customer";
             html += '<tr>';
-            html += '<td>' + val['cart_id'] + '</td>';
+            html += '<td>' + receipt_id + '</td>';
             html += '<td>' + '<button type="button" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick="window.location=\'' + url +'\'"><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
             html += '</tr>';
         });
@@ -105,11 +106,18 @@
         ////////////
         var data = new FormData();
         data.append('format', 'json');
+        data.append('organization', '{{ org.org_id }}');
+        data.append('store', '{{ store.store_id }}');
         data.append('employee', '{{ employee.employee_id }}');
         data.append('customer', '');
-        data.append('is_closed', 'false');
+        data.append('has_purchased_online', 'false');
+        data.append('format', 'json');
+        data.append('has_tax', 'true');
+        data.append('tax_rate', '{{ store.tax_rate }}');
+        data.append('has_finished', 'false');
+        data.append('has_paid', 'false');
         
-        var url = "/api/carts/";
+        var url = "/api/receipts/";
         
         jQuery.ajax({
             url: url,
@@ -119,8 +127,8 @@
             processData: false,
             type: 'POST',
             success: function(json_result){
-                var cart_id = json_result['cart_id'];
-                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+cart_id+"/customer";
+                var receipt_id = json_result['receipt_id'];
+                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/customer";
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);

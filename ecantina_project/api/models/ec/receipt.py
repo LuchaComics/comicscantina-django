@@ -6,13 +6,8 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.product import Product
 from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
 
-
-PURCHASE_TYPE_CHOICES = (
-    (1, 'Store'),
-    (2, 'Online'),
-    (3, 'Convention'),
-)
 
 PAYMENT_METHOD_CHOICES = (
     (1, 'Cash'),
@@ -30,20 +25,18 @@ PAYMENT_METHOD_CHOICES = (
 class Receipt(models.Model):
     class Meta:
         app_label = 'inventory'
-        ordering = ('purchased_date',)
+        ordering = ('last_updated',)
         db_table = 'ec_receipts'
     
     # Meta & Data-Mining
     organization = models.ForeignKey(Organization)
     store = models.ForeignKey(Store)
+    employee = models.ForeignKey(Employee, null=True, blank=True)
     customer = models.ForeignKey(Customer, null=True, blank=True,)
     receipt_id = models.AutoField(primary_key=True)
-    purchased_date = models.DateTimeField(auto_now_add=True)
-    type = models.PositiveSmallIntegerField(
-        default=1,
-        choices=PURCHASE_TYPE_CHOICES,
-        validators=[MinValueValidator(1), MaxValueValidator(2)],
-    )
+    created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+    has_purchased_online = models.BooleanField(default=False)
     payment_method = models.PositiveSmallIntegerField(
         default=1,
         choices=PAYMENT_METHOD_CHOICES,
@@ -62,6 +55,12 @@ class Receipt(models.Model):
         decimal_places=2,
         default=0.00,
     )
+    has_tax = models.BooleanField(default=True)
+    tax_rate = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
     tax_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -72,6 +71,8 @@ class Receipt(models.Model):
         decimal_places=2,
         default=0.00,
     )
+    has_finished = models.BooleanField(default=False)
+    has_paid = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.receipt_id)
