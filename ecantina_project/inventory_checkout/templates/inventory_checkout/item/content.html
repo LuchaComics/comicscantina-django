@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for product in cart.products.all %}
+        {% for product in receipt.products.all %}
         <tr {% if product.is_sold == True %}class="danger"{% endif %}>
                 <td class="text-center text-danger">
                     <button onclick="update_cart_products_except_product_id({{ product.product_id }});"
@@ -55,13 +55,13 @@
         <div class="clearfix">
             <div class="checkbox c-checkbox pull-left mr-xl">
                 <label>
-                    <input onclick="change_tax();" id="cb-include-tax" name="include-taxes" type="checkbox" {% if cart.has_tax %}checked{% endif %}>
+                    <input onclick="change_tax();" id="cb-include-tax" name="include-taxes" type="checkbox" {% if receipt.has_tax %}checked{% endif %}>
                     <span class="fa fa-check"></span>&nbsp;&nbsp;&nbsp;&nbsp;Include tax in sub-total
                 </label>
             </div>
         </div>
         <div id="tax-total" class="clearfix">
-            <p class="pull-left">Tax (13%)</p>
+            <p class="pull-left">Tax ({{ tax }}%)</p>
             <p class="pull-right mr-sm">$ {{ total_tax }}</p>
         </div>
         <div class="clearfix">
@@ -75,7 +75,7 @@
    {
        // Add all the products that exist for the cart.
        var products = new Array();
-       {% for product in cart.products.all %}products.push({{ product.product_id }});{% endfor %}
+       {% for product in receipt.products.all %}products.push({{ product.product_id }});{% endfor %}
        
        // Remove the specific product_id from the cart and update.
        for(var i = products.length-1; i >= 0; i--){  // STEP 1

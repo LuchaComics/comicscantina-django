@@ -12,6 +12,7 @@
         <!-- START row 1 -->
         <div class="row">
             <div class="col-sm-12">
+                
                 <!-- START panel-->
                 <div class="panel panel-default m-lg">
                     <div class="panel-body bb">
@@ -38,26 +39,37 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-body panel-body-main">
+                    <div class="panel-body panel-body-main print-receipt">
                         <div class="col-sm-12">
-                            
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                <div class="col-lg-6 col-xs-6 pv">
+                                    <div class="row">
+                                        <h4 class="m-sm p-sm">Invoice #: {{ receipt.receipt_id }}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xs-6 pv text-right">
+                                    <div class="row">
+                                        <h4 class="m-sm p-sm text-muted">Date: {{ receipt.last_updated }}</h4>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="clearfix"></div>
                             <div class="row mb-lg bb" style="border-top:1px solid #ddd;">
                                 <div class="col-lg-6 col-xs-6 br pv">
                                     <div class="row">
                                         <div class="col-md-2 text-center visible-md visible-lg">
-                                            <em class="fa fa-truck fa-4x text-muted"></em>
+                                            <em class="fa fa-home fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-6">
-                                            <h4>Bill Mitchelle &nbsp;<span class="text-sm">(Shipping)</span></h4>
-                                            <address></address>
-                                            Nowhere 1024
-                                            <br>Happy St., 50487
-                                            <br>Neverland
+                                            <h4>{{ org.name }} &nbsp;<span class="text-sm">({{ store.name }})</span></h4>
+                                            <address class="mb0">
+                                                {{ store.street_number }} {{ store.street_name }} {% if store.unit_number != None %}#{{ store.unit_number }}{% endif %}
+                                                <br>{{ city }} {{ store.postal }}
+                                                <br>{{ store.province }}, {{ store.country }}
+                                                <br>{{ store.phone }}
+                                            </address>
                                         </div>
-                                        <div class="col-md-4">
-                                            <input class="btn btn-default btn-sm pull-right" value="Print Label" style="margin-bottom:10px;" type="button">
-                                                </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-xs-6 pv">
@@ -66,55 +78,47 @@
                                             <em class="fa fa-credit-card fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-10">
-                                            <h4>Lloyd Gonzales &nbsp;<span class="text-sm">(Billing)</span></h4>
-                                            <address></address>
-                                            Basilisa 2145
-                                            <br>Mate, Cliff., 20145
-                                            <br>Moon
+                                            <h4>{{ customer.first_name }} {{ customer.last_name }} &nbsp;<span class="text-sm">(Customer)</span></h4>
+                                            <address class="mb0">
+                                            {% if customer == None %}
+                                                Guest
+                                            {% else %}
+                                                {{ customer.street_number }} {{ customer.street_name }}
+                                                <br>{{ customer.city }} {{ customer.postal }}
+                                                <br>{{ customer.province }}, {{ customer.country }}
+                                            {% endif %}
+                                            </address>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive table-bordered mb-lg">
-                                <table class="table">
+                            <div class="table-responsive mb-lg">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Item #</th>
+                                            <th>Product #</th>
                                             <th>Description</th>
-                                            <th>Quantity</th>
                                             <th>Unit Price</th>
+                                            <th>Discount</th>
                                             <th class="text-right">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for product in receipt.products.all %}
                                         <tr>
-                                            <td>1001</td>
-                                            <td>Comic A</td>
-                                            <td>3</td>
-                                            <td>$ 200</td>
-                                            <td class="text-right">$ 600</td>
+                                            <td>{{ product.product_id }}</td>
+                                            <td>{{ product.nane }}</td>
+                                            <td>$ {{ product.sub_price }}</td>
+                                            {% if product.discount_type == 1 %}
+                                            <td>{{ product.discount }} %</td>
+                                            {% elif product.discount_type == 2 %}
+                                            <td>$ {{ product.discount }}</td>
+                                            {% else %}
+                                            <td></td>
+                                            {% endif %}
+                                            <td class="text-right">$ {{ product.price }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>2002</td>
-                                            <td>Comic B</td>
-                                            <td>5</td>
-                                            <td>$ 500</td>
-                                            <td class="text-right">$ 2500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3010</td>
-                                            <td>Comic C</td>
-                                            <td>1</td>
-                                            <td>$ 650</td>
-                                            <td class="text-right">$ 650</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3009</td>
-                                            <td>Comic D</td>
-                                            <td>6</td>
-                                            <td>$ 1100</td>
-                                            <td class="text-right">$ 6600</td>
-                                        </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -123,17 +127,17 @@
                                     <div class="clearfix">
                                         <p class="pull-left">Subtotal</p>
                                         
-                                        <p class="pull-right mr">$ 10300</p>
+                                        <p class="pull-right mr">$ {{ receipt.sub_total }}</p>
                                     </div>
                                     <div class="clearfix">
-                                        <p class="pull-left">Tax (21%)</p>
+                                        <p class="pull-left">Tax ({{ tax }}%)</p>
                                         
-                                        <p class="pull-right mr">$ 2700</p>
+                                        <p class="pull-right mr">$ {{ receipt.tax_amount }}</p>
                                     </div>
                                     <div class="clearfix">
                                         <p class="pull-left h3">GRAND TOTAL</p>
                                         
-                                        <p class="pull-right mr h3">$ 13000</p>
+                                        <p class="pull-right mr h3">$ {{ receipt.total_amount }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +146,7 @@
                     <div class="clearfix"></div>
                     <div class="panel-footer">
                         <div class="col-sm-6 text-center">
-                            <button type="submit" class="btn btn-lg btn-labeled btn-primary mb" style="font-size:14pt;" onclick="alert('print receipt');">
+                            <button type="submit" class="btn btn-lg btn-labeled btn-primary mb" style="font-size:14pt;" onclick="window.print();">
                                 <span class="btn-label"><i class="fa fa-print"></i></span>Print receipt
                             </button>
                         </div>

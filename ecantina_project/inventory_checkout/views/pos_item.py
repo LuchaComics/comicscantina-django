@@ -10,17 +10,16 @@ from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
-from api.models.ec.cart import Cart
 from api.models.ec.product import Product
 from api.models.ec.receipt import Receipt
 
 
 @login_required(login_url='/inventory/login')
-def checkout_page(request, org_id, store_id, cart_id):
+def checkout_page(request, org_id, store_id, receipt_id):
     return render(request, 'inventory_checkout/item/index.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'cart': Cart.objects.get(cart_id=cart_id),
+        'receipt': Receipt.objects.get(receipt_id=receipt_id),
         'tab':'checkout',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
@@ -31,35 +30,37 @@ def checkout_page(request, org_id, store_id, cart_id):
 
 
 @login_required(login_url='/inventory/login')
-def content_page(request, org_id, store_id, cart_id):
+def content_page(request, org_id, store_id, receipt_id):
     # Note: If you want to know how to handle decimal places and rounding
     #       then checkout this URL:
     #       https://docs.python.org/3/library/decimal.html#decimal-faq
     
-    cart = Cart.objects.get(cart_id=cart_id)
+    store = Store.objects.get(store_id=store_id)
+    receipt = Receipt.objects.get(receipt_id=receipt_id)
     sub_total_amount = Decimal(0.00)
     total_amount = Decimal(0.00)
     total_tax = Decimal(0.00)
     
-    for product in cart.products.all():
+    for product in receipt.products.all():
         sub_total_amount += Decimal(product.price)
-        if cart.has_tax:
-           total_tax += Decimal(0.13) * Decimal(product.price)
+        if receipt.has_tax:
+           total_tax += Decimal(store.tax_rate) * Decimal(product.price)
     total_amount = Decimal(sub_total_amount) + Decimal(total_tax)
 
     TWOPLACES = Decimal(10) ** -2       # same as Decimal('0.01')
     return render(request, 'inventory_checkout/item/content.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'cart': cart,
+        'receipt': receipt,
         'sub_total_amount': sub_total_amount.quantize(TWOPLACES),
+        'tax': Decimal(store.tax_rate) * Decimal(100.00),
         'total_tax': total_tax.quantize(TWOPLACES),
         'total_amount': total_amount.quantize(TWOPLACES),
         'employee': Employee.objects.get(user=request.user),
     })
 
 
-def ajax_change_discount_type(request, org_id, store_id, cart_id, product_id):
+def ajax_change_discount_type(request, org_id, store_id, receipt_id, product_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
@@ -84,7 +85,7 @@ def ajax_change_discount_type(request, org_id, store_id, cart_id, product_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def ajax_change_discount_amount(request, org_id, store_id, cart_id, product_id):
+def ajax_change_discount_amount(request, org_id, store_id, receipt_id, product_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
@@ -105,50 +106,49 @@ def ajax_change_discount_amount(request, org_id, store_id, cart_id, product_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def ajax_change_tax(request, org_id, store_id, cart_id):
+def ajax_change_tax(request, org_id, store_id, receipt_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                cart = Cart.objects.get(cart_id=int(cart_id))
-                cart.has_tax = not cart.has_tax
-                cart.save()
+                receipt = Receipt.objects.get(receipt_id=int(receipt_id))
+                receipt.has_tax = not receipt.has_tax
+                receipt.save()
                 response_data = {'status': 'success', 'message': 'changed',}
             except Product.DoesNotExist:
                 response_data = {'status': 'failed','message': 'product does not exist',}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def ajax_verify(request, org_id, store_id, cart_id):
+def ajax_verify(request, org_id, store_id, receipt_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                cart = Cart.objects.get(cart_id=int(cart_id))
-                for product in cart.products.all():
+                receipt = Receipt.objects.get(receipt_id=int(receipt_id))
+                for product in receipt.products.all():
                     if product.is_sold is True:
                         return HttpResponse(json.dumps({
                             'status': 'failed',
                             'message': str(product.product_id),
                         }), content_type="application/json")
-                cart.save()
                 response_data = {'status': 'success', 'message': 'verified',}
             except Product.DoesNotExist:
                 response_data = {'status': 'failed','message': 'does not exist',}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def ajax_process_cart(request, org_id, store_id, cart_id):
+def ajax_process_receipt(request, org_id, store_id, receipt_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
             try:
-                cart = Cart.objects.get(cart_id=int(cart_id))
+                receipt = Receipt.objects.get(receipt_id=int(receipt_id))
                 
                 # Iterate through all the products and make sure they are all
-                # set for "is_sold" to be true thus indicating no other cart
+                # set for "is_sold" to be true thus indicating no other receipt
                 # can access this product.
-                for product in cart.products.all():
+                for product in receipt.products.all():
                     product.is_sold = True
                     product.save()
 
@@ -158,10 +158,7 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                 total_discount_amount = Decimal(0.00)
                 total_tax_amount = Decimal(0.00)
                 total_amount = Decimal(0.00)
-                for product in cart.products.all():
-                    # Process sub-amount
-                    sub_tota_amount += product.sub_price
-                    
+                for product in receipt.products.all():
                     # Process discount
                     if product.discount_type is 1: # Percent
                         rate = Decimal(product.discount) / Decimal(100)
@@ -171,8 +168,11 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                     post_discount_price = product.sub_price - discount_amount
                     total_discount_amount += discount_amount
                     
+                    # Process sub-amount
+                    sub_tota_amount += post_discount_price
+                    
                     # Process tax
-                    if cart.has_tax:
+                    if receipt.has_tax:
                         tax_rate = Decimal(0.13)
                         tax_amount = post_discount_price * tax_rate
                     total_tax_amount += tax_amount
@@ -180,28 +180,17 @@ def ajax_process_cart(request, org_id, store_id, cart_id):
                     # Process total amount
                     total_amount += post_discount_price + tax_amount
 
-                # Create our receipt for the customers records and our own.
-                receipt = Receipt.objects.create(
-                    organization =  Organization.objects.get(org_id=org_id),
-                    store = Store.objects.get(store_id=store_id),
-                    customer = cart.customer,
-                    type = 1,
-                    payment_method = 1,
-                    sub_total = sub_tota_amount,
-                    discount_amount = total_discount_amount,
-                    tax_amount = total_tax_amount,
-                    total_amount = total_amount,
-                )
+                # Update receipt
+                receipt.sub_total = sub_tota_amount
+                receipt.discount_amount = total_discount_amount
+                receipt.tax_amount = total_tax_amount
+                receipt.total_amount = total_amount
                 
-                # Add our products to the receipt.
-                for product in cart.products.all():
-                    receipt.products.add(product)
+                # Finally, tell the receipt that it is closed to prevent further
+                # accessing of this receipt and then save.
+                receipt.has_finished = True
+                receipt.has_paid = True
                 receipt.save()
-
-                # Finally, tell the cart that it is closed to prevent further
-                # accessing of this cart and then save.
-                cart.is_closed = True
-                cart.save()
                 response_data = {'status': 'success', 'message': 'processed',}
             except Product.DoesNotExist:
                 response_data = {'status': 'failed','message': 'does not exist',}

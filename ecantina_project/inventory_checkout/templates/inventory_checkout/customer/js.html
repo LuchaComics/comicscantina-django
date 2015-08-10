@@ -156,21 +156,21 @@
             processData: false,
             type: 'POST',
             success: function(json_result){
-                /////////////////
-                // UPDATE CART //
-                /////////////////
+                ////////////////////
+                // UPDATE Receipt //
+                ////////////////////
                 // Extract the "customer_id" value.
                 var customer_id = json_result['customer_id'];
                     
                 // Create the cart object.
                 var data2 = new FormData();
                 data2.append('format', 'json');
-                data2.append('employee', '{{ cart.employee_id }}');
-                data2.append('cart_id', '{{ cart.cart_id }}');
+                data2.append('employee', '{{ receipt.employee_id }}');
+                data2.append('receipt_id', '{{ receipt.receipt_id }}');
                 data2.append('is_closed', 'false');
                 data2.append('customer', customer_id);
                     
-                var url2 = "/api/carts/{{ cart.cart_id }}/";
+                var url2 = "/api/receipts/{{ receipt.receipt_id }}/";
                     
                 jQuery.ajax({
                     url: url2,
@@ -180,9 +180,9 @@
                     processData: false,
                     type: 'PUT',
                     success: function(json_result){
-                        // Extract "cart_id" and load up the next page.
-                        var cart_id = json_result['cart_id'];
-                        window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+cart_id+"/items";
+                        // Extract "receipt_id" and load up the next page.
+                        var receipt_id = json_result['receipt_id'];
+                        window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
                         },
                     error: function(xhr,status,error) {
                         console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
@@ -222,12 +222,12 @@
         /////////////////
         var data = new FormData();
         data.append('format', 'json');
-        data.append('employee', '{{ cart.employee_id }}');
-        data.append('cart_id', '{{ cart.cart_id }}');
+        data.append('employee', '{{ receipt.employee_id }}');
+        data.append('cart_id', '{{ receipt.receipt_id }}');
         data.append('is_closed', 'false');
         data.append('customer', customer_id);
     
-        var url = "/api/carts/{{ cart.cart_id }}/";
+        var url = "/api/receipts/{{ receipt.receipt_id }}/";
     
         jQuery.ajax({
             url: url,
@@ -262,7 +262,7 @@
      */
     function load_checkout_page()
     {
-        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items";
+        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items";
     }
 
     function print_customer_card()
@@ -386,7 +386,7 @@
         /////////
         // GET //
         /////////
-        var url = "/api/carts/{{ cart.cart_id }}/";
+        var url = "/api/receipts/{{ receipt.receipt_id }}/";
         jQuery.ajax({
             url: url,
             cache: false,

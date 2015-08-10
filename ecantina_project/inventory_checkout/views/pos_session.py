@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
-from api.models.ec.cart import Cart
 
 
 @login_required(login_url='/inventory/login')

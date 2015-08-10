@@ -81,7 +81,7 @@
     
     function render_cart_content()
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/content';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/content';
         
         $.ajax( url, {
             data: {
@@ -112,10 +112,21 @@
         /////////////////
         var data = new FormData();
         data.append('format', 'json');
-        data.append('employee', '{{ cart.employee_id }}');
-        data.append('cart_id', '{{ cart.cart_id }}');
-        data.append('is_closed', 'false');
-        data.append('customer', '{{ cart.customer_id }}');
+        data.append('organization', '{{ receipt.org_id }}');
+        data.append('store', '{{ receipt.store_id }}');
+        data.append('employee', '{{ receipt.employee_id }}');
+        data.append('receipt_id', '{{ receipt.receipt_id }}');
+        data.append('customer', '{{ receipt.customer }}');
+        data.append('payment_method', '{{ receipt.payment_method }}');
+        data.append('has_purchased_online', '{{ receipt.has_purchased_online }}');
+        data.append('has_tax', '{{ receipt.has_purchased_online }}');
+        data.append('tax_rate', '{{ receipt.tax_rate }}');
+        data.append('tax_amount', '{{ receipt.tax_amount }}');
+        data.append('sub_total', '{{ receipt.sub_total }}');
+        data.append('discount_amount', '{{ receipt.discount_amount }}');
+        data.append('total_amount', '{{ receipt.total_amount }}');
+        data.append('has_finished', '{{ receipt.has_finished }}');
+        data.append('has_paid', '{{ receipt.has_paid }}');
         
         // Note: If we don't have any items left, then leave out this field.
         if (products.length > 0)
@@ -123,7 +134,7 @@
             data.append('products', products);
         }
         
-        var url = "/api/carts/{{ cart.cart_id }}/";
+        var url = "/api/receipts/{{ receipt.receipt_id }}/";
         jQuery.ajax({
             url: url,
             data: data,
@@ -150,7 +161,7 @@
      */
     function change_discount_type(product_id)
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/';
         url += product_id + '/change_discount_type';
         
         $.ajax( url, {
@@ -176,7 +187,7 @@
      */
     function change_discount_amount(product_id)
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/';
         url += product_id + '/change_discount_amount';
         
         $.ajax( url, {
@@ -200,7 +211,7 @@
 
     function change_tax()
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/change_tax';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/change_tax';
     
         $.ajax( url, {
            data: {
@@ -227,7 +238,7 @@
      */
     function checkout()
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/verify';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/verify';
         
         $.ajax( url, {
             data: {
@@ -256,7 +267,7 @@
 
     function process_cart()
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/items/process_cart';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/process_receipt';
         
         $.ajax( url, {
             data: {
@@ -266,7 +277,7 @@
             success: function(result) {
                // success code execution here
                if (result['status'] == 'success') {
-                    window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ cart.cart_id }}/receipt';
+                    window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/receipt';
                }
                else {
                     alert(result['message']);
