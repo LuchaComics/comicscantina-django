@@ -19,7 +19,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
-        fields = ('customer', 'employee', 'products', 'cart_id', 'created', 'last_updated', 'is_closed','has_tax',)
+        fields = ('customer', 'employee', 'products', 'cart_id', 'created', 'last_updated', 'is_closed','has_tax','receipt',)
 
 
 class StoreSerializer(serializers.ModelSerializer):

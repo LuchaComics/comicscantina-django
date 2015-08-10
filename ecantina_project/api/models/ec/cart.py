@@ -8,6 +8,7 @@ from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.customer import Customer
 from api.models.ec.product import Product
+from api.models.ec.receipt import Receipt
 
 
 class Cart(models.Model):
@@ -16,6 +17,7 @@ class Cart(models.Model):
         ordering = ('created',)
         db_table = 'ec_carts'
     
+    receipt = models.ForeignKey(Receipt, null=True, blank=True)
     customer = models.ForeignKey(Customer, null=True, blank=True)
     employee = models.ForeignKey(Employee, null=True, blank=True)
     products = models.ManyToManyField(Product)
