@@ -18,5 +18,5 @@ class StoreViewSet(viewsets.ModelViewSet):
     serializer_class = StoreSerializer
     permission_classes = (IsEmployeeUser, IsOnlyOwnedByEmployee, IsAuthenticated)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('store_id',)
+    filter_fields = ('employees__employee_id',)
 
