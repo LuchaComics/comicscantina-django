@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from api.views import api
 from api.views import comic
 from api.views import customer
+from api.views import organization
 from api.views import store
 from api.views import cart
 from api.views import product
@@ -13,6 +14,7 @@ from api.views import api
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'comics', comic.ComicViewSet)
+router.register(r'organization', organization.OrganizationViewSet)
 router.register(r'customers', customer.CustomerViewSet)
 router.register(r'stores', store.StoreViewSet)
 router.register(r'carts', cart.CartViewSet)
