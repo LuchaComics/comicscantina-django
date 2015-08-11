@@ -1,0 +1,24 @@
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.list-group.group-header', function () {
+            if ($(this).next().is(':visible')) {
+                $(this).next().slideUp();
+                $(this).find('.fa-caret-up').removeClass('fa-caret-up').addClass('fa-caret-down');
+            }
+            else {
+                $(this).next().slideDown();
+                $(this).find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-up');
+            }
+        });
+    });
+    
+    function print_customer_card()
+    {
+        alert("TODO: Function not implemented yet.");
+    }
+    
+    function send_invoice()
+    {
+        alert("TODO: Function not implemented yet.");
+    }
+</script>

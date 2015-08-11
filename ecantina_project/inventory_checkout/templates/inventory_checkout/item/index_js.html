@@ -133,6 +133,15 @@
         data.append('total_amount', '{{ receipt.total_amount }}');
         data.append('has_finished', '{{ receipt.has_finished }}');
         data.append('has_paid', '{{ receipt.has_paid }}');
+        data.append('status', '{{ receipt.status }}');
+        data.append('payer_name', '{{ receipt.payer_name }}');
+        data.append('payer_address', '{{ receipt.payer_address }}');
+        data.append('payer_email', '{{ receipt. }}');
+        data.append('payer_phone', '{{ receipt.payer_phone }}');
+        data.append('payer_city', '{{ receipt.payer_city }}');
+        data.append('payer_province', '{{ receipt.payer_province }}');
+        data.append('payer_country', '{{ receipt.payer_country }}');
+        data.append('payer_postal', '{{ receipt.payer_postal }}');
         
         // Note: If we don't have any items left, then leave out this field.
         if (products.length > 0)
