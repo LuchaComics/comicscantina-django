@@ -22,6 +22,16 @@ PAYMENT_METHOD_CHOICES = (
 )
 
 
+STATUS_CHOICES = (
+    (1, 'New Order'),
+    (2, 'Picked'),
+    (3, 'Shipped'),
+    (4, 'Received'),
+    (5, 'In-Store Sale'),
+    (6, 'Online Sale'),
+)
+
+
 class Receipt(models.Model):
     class Meta:
         app_label = 'inventory'
@@ -41,6 +51,11 @@ class Receipt(models.Model):
         default=1,
         choices=PAYMENT_METHOD_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(9)],
+    )
+    status = models.PositiveSmallIntegerField(
+        default=1,
+        choices=STATUS_CHOICES,
+        validators=[MinValueValidator(1), MaxValueValidator(6)],
     )
     
     # Financial
@@ -73,6 +88,16 @@ class Receipt(models.Model):
     )
     has_finished = models.BooleanField(default=False)
     has_paid = models.BooleanField(default=False)
+    
+    # Payer Information
+    payer_name = models.CharField(max_length=63, null=True, blank=True)
+    payer_address = models.CharField(max_length=63, null=True, blank=True)
+    payer_email = models.EmailField(null=True, blank=True)
+    payer_phone = models.CharField(max_length=15, null=True, blank=True)
+    payer_city = models.CharField(max_length=63, null=True, blank=True)
+    payer_province = models.CharField(max_length=63, null=True, blank=True)
+    payer_country = models.CharField(max_length=63, null=True, blank=True)
+    payer_postal = models.CharField(max_length=31, null=True, blank=True)
 
     def __str__(self):
         return str(self.receipt_id)

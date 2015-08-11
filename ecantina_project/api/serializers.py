@@ -50,5 +50,4 @@ class ComicSerializer(serializers.ModelSerializer):
 class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
-        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method','products','sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid',)
-
+        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method','products','sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'payer_name', 'payer_address', 'payer_email', 'payer_phone', 'payer_city', 'payer_province', 'payer_country', 'payer_postal',)

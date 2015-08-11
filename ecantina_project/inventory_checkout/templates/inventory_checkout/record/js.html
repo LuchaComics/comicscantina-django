@@ -97,7 +97,7 @@
             var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + receipt_id +"/customer";
             html += '<tr>';
             html += '<td>' + receipt_id + '</td>';
-            html += '<td>' + 'todo' + '</td>';
+            html += '<td>' + val['payer_name'] + '</td>';
             html += '<td>' + val['last_updated'] + '</td>';
             html += '<td>' + val['products'].length; + '</td>';
             html += '<td>' + '<a href="orders_view_details.html" class="btn btn-success btn-sm">View Details</a>' + '</td>';
