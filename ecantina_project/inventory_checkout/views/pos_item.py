@@ -191,22 +191,6 @@ def ajax_process_receipt(request, org_id, store_id, receipt_id):
                 receipt.tax_amount = total_tax_amount
                 receipt.total_amount = total_amount
                 
-                # Update Payer
-                try:
-                    customer = Customer.objects.get(customer_id=receipt.customer_id)
-                    receipt.payer_name = customer.first_name + ' ' + customer.last_name
-                    receipt.payer_address = customer.street_number + ' ' + customer.street_name
-                    if customer.unit_number is not '':
-                        receipt.payer_address = customer.unit_number + '-' + receipt.payer_address
-                    receipt.payer_email = customer.email
-                    receipt.payer_phone = customer.phone
-                    receipt.payer_city = customer.city
-                    receipt.payer_province = customer.province
-                    receipt.payer_country = customer.country
-                    receipt.payer_postal = customer.postal
-                except Customer.DoesNotExist:
-                    pass
-                
                 # Finally, tell the receipt that it is closed to prevent further
                 # accessing of this receipt and then save.
                 receipt.has_finished = True

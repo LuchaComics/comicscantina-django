@@ -110,11 +110,33 @@
         data.append('store', '{{ store.store_id }}');
         data.append('employee', '{{ employee.employee_id }}');
         data.append('customer', '');
+        data.append('payment_method', '1');
         data.append('has_purchased_online', 'false');
         data.append('has_tax', 'true');
         data.append('tax_rate', '{{ store.tax_rate }}');
+        data.append('tax_amount', '0');
         data.append('has_finished', 'false');
         data.append('has_paid', 'false');
+        data.append('sub_total', '0');
+        data.append('discount_amount', '0');
+        data.append('total_amount', '0');
+        data.append('status', '1');
+        data.append('billing_name', '');
+        data.append('billing_address', '');
+        data.append('billing_email', '');
+        data.append('billing_phone', '');
+        data.append('billing_city', '');
+        data.append('billing_province', '');
+        data.append('billing_country', '');
+        data.append('billing_postal', '');
+        data.append('shipping_name', '');
+        data.append('shipping_address', '');
+        data.append('shipping_email', '');
+        data.append('shipping_phone', '');
+        data.append('shipping_city', '');
+        data.append('shipping_province', '');
+        data.append('shipping_country', '');
+        data.append('shipping_postal', '');
         
         var url = "/api/receipts/";
         

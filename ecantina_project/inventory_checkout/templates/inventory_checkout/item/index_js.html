@@ -134,14 +134,22 @@
         data.append('has_finished', '{{ receipt.has_finished }}');
         data.append('has_paid', '{{ receipt.has_paid }}');
         data.append('status', '{{ receipt.status }}');
-        data.append('payer_name', '{{ receipt.payer_name }}');
-        data.append('payer_address', '{{ receipt.payer_address }}');
-        data.append('payer_email', '{{ receipt. }}');
-        data.append('payer_phone', '{{ receipt.payer_phone }}');
-        data.append('payer_city', '{{ receipt.payer_city }}');
-        data.append('payer_province', '{{ receipt.payer_province }}');
-        data.append('payer_country', '{{ receipt.payer_country }}');
-        data.append('payer_postal', '{{ receipt.payer_postal }}');
+        data.append('billing_name', '{{ receipt.billing_name }}');
+        data.append('billing_address', '{{ receipt.billing_address }}');
+        data.append('billing_email', '{{ receipt.billing_email }}');
+        data.append('billing_phone', '{{ receipt.billing_phone }}');
+        data.append('billing_city', '{{ receipt.billing_city }}');
+        data.append('billing_province', '{{ receipt.billing_province }}');
+        data.append('billing_country', '{{ receipt.billing_country }}');
+        data.append('billing_postal', '{{ receipt.billing_postal }}');
+        data.append('shipping_name', '{{ receipt.shipping_name }}');
+        data.append('shipping_address', '{{ receipt.shipping_address }}');
+        data.append('shipping_email', '{{ receipt.shipping_email }}');
+        data.append('shipping_phone', '{{ receipt.shipping_phone }}');
+        data.append('shipping_city', '{{ receipt.shipping_city }}');
+        data.append('shipping_province', '{{ receipt.shipping_province }}');
+        data.append('shipping_country', '{{ receipt.shipping_country }}');
+        data.append('shipping_postal', '{{ receipt.shipping_postal }}');
         
         // Note: If we don't have any items left, then leave out this field.
         if (products.length > 0)
