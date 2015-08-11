@@ -122,29 +122,13 @@
                     </ul>
                 </li>
                 
-                <!-- SALES -->
-                <li class={% if tab == 'sales' %}" active" {% else %}" "{% endif %}>
+                <!-- ORDERS -->
+                <li class={% if tab == 'orders' %}" active" {% else %}" "{% endif %}>
                     <!-- sales menu header -->
-                    <a href="#sales" title="Layouts" data-toggle="collapse">
+                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/orders" title="Orders">
                         <em class="icon-bar-chart"></em>
-                        <div class="label label-danger pull-right">2</div>
-                        <span>Sales</span>
+                        <span>Orders</span>
                     </a>
-                    <!-- inventory menu items -->
-                    <ul id="sales" class="nav sidebar-subnav collapse">
-                        <li class="sidebar-subnav-header">Sales</li>
-                        <li class={% if tab == 'sales_data' %}" active" {% else %}" "{% endif %}>
-                            <a href="sales_data.html" title="Sales Data">
-                                <span>Sales Data</span>
-                            </a>
-                        </li>
-                        <li class={% if tab == 'orders' %}" active" {% else %}" "{% endif %}>
-                            <a href="orders_view.html" title="View Orders">
-                                <div class="label label-danger pull-right">2</div>
-                                <span>View Orders</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 
                <!-- EMAIL LISTS -->

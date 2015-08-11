@@ -99,6 +99,7 @@ DATABASES = {
 python manage.py startapp inventory
 python manage.py startapp inventory_add_product
 python manage.py startapp inventory_checkout
+python manage.py startapp inventory_order
 python manage.py startapp inventory_help
 python manage.py startapp inventory_customer
 python manage.py startapp inventory_products
@@ -132,6 +133,7 @@ INSTALLED_APPS = (
     'inventory', # Deprecated
     'inventory_add_product',
     'inventory_checkout',
+    'inventory_order'
     'inventory_help',
     'inventory_customer',
     'inventory_print_label',
