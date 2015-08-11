@@ -90,7 +90,8 @@ class Receipt(models.Model):
     has_paid = models.BooleanField(default=False)
     
     # Payer Information
-    billing_name = models.CharField(max_length=63, null=True, blank=True)
+    billing_first_name = models.CharField(max_length=63, null=True, blank=True)
+    billing_last_name = models.CharField(max_length=63, null=True, blank=True)
     billing_address = models.CharField(max_length=63, null=True, blank=True)
     billing_email = models.EmailField(null=True, blank=True)
     billing_phone = models.CharField(max_length=15, null=True, blank=True)
@@ -98,7 +99,8 @@ class Receipt(models.Model):
     billing_province = models.CharField(max_length=63, null=True, blank=True)
     billing_country = models.CharField(max_length=63, null=True, blank=True)
     billing_postal = models.CharField(max_length=31, null=True, blank=True)
-    shipping_name = models.CharField(max_length=63, null=True, blank=True)
+    shipping_first_name = models.CharField(max_length=63, null=True, blank=True)
+    shipping_last_name = models.CharField(max_length=63, null=True, blank=True)
     shipping_address = models.CharField(max_length=63, null=True, blank=True)
     shipping_email = models.EmailField(null=True, blank=True)
     shipping_phone = models.CharField(max_length=15, null=True, blank=True)

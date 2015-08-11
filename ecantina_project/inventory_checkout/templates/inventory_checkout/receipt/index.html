@@ -78,14 +78,14 @@
                                             <em class="fa fa-credit-card fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-10">
-                                            <h4>{{ customer.first_name }} {{ customer.last_name }} &nbsp;<span class="text-sm">(Customer)</span></h4>
-                                            <address class="mb0">
-                                            {% if customer == None %}
+                                            {% if receipt.customer == None %}
                                                 Guest
                                             {% else %}
-                                                {{ customer.street_number }} {{ customer.street_name }}
-                                                <br>{{ customer.city }} {{ customer.postal }}
-                                                <br>{{ customer.province }}, {{ customer.country }}
+                                                <h4>{{ receipt.billing_first_name }} {{ receipt.billing_last_name }} &nbsp;<span class="text-sm">(Customer)</span></h4>
+                                                <address class="mb0">
+                                                    {{ receipt.billing_address }}
+                                                <br>{{ receipt.billing_city }} {{ receipt.billing_postal }}
+                                                <br>{{ receipt.billing_province }}, {{ receipt.billing_country }}
                                             {% endif %}
                                             </address>
                                         </div>

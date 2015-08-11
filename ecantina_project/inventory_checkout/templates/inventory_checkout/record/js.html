@@ -94,13 +94,13 @@
         
         $(result).each(function(iter,val){
             var receipt_id = val['receipt_id'];
-            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + receipt_id +"/customer";
+            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
             html += '<tr>';
             html += '<td>' + receipt_id + '</td>';
             html += '<td>' + val['payer_name'] + '</td>';
             html += '<td>' + val['last_updated'] + '</td>';
             html += '<td>' + val['products'].length; + '</td>';
-            html += '<td>' + '<a href="orders_view_details.html" class="btn btn-success btn-sm">View Details</a>' + '</td>';
+            html += '<td>' + '<a href="' + url + '" class="btn btn-success btn-sm">View Details</a>' + '</td>';
             html += '</tr>';
         });
         html += '</tbody></table></div>';

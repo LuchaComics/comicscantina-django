@@ -11,31 +11,31 @@
             <div class="form-group">
                 <label for="txt-search-first-name" class="col-md-4 control-label">First Name</label>
                 <div class="col-md-8">
-                    <input id="id_first_name2" name="search-first-name" class="form-control" type="text">
+                    <input id="id_first_name2" name="search-first-name" class="form-control" type="text" value="{{ receipt.billing_first_name }}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="txt-search-last-name" class="col-md-4 control-label">Last Name</label>
                 <div class="col-md-8">
-                    <input id="id_last_name2" name="search-last-name " class="form-control" type="text">
+                    <input id="id_last_name2" name="search-last-name " class="form-control" type="text" value="{{ receipt.billing_last_name }}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="txt-search-phoneno" class="col-md-4 control-label">Phone Number</label>
                 <div class="col-md-8">
-                    <input id="id_phone2" name="search-phoneno" class="form-control" type="phone">
+                    <input id="id_phone2" name="search-phoneno" class="form-control" type="phone" value="{{ receipt.billing_phone }}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="txt-search-email" class="col-md-4 control-label">Email Address</label>
                 <div class="col-md-8">
-                    <input id="id_email2" name="search-email" class="form-control" type="email">
+                    <input id="id_email2" name="search-email" class="form-control" type="email" value="{{ receipt.billing_email }}">
                 </div>
             </div>
             <div class="form-group">
                 <label for="txt-search-postal-code" class="col-md-4 control-label">Postal Code</label>
                 <div class="col-md-8">
-                    <input id="id_postal2" name="search-postal-code" class="form-control" type="text">
+                    <input id="id_postal2" name="search-postal-code" class="form-control" type="text" value="{{ receipt.billing_postal }}">
                 </div>
             </div>
         </div>

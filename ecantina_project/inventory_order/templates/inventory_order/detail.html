@@ -43,11 +43,11 @@
                                             <em class="fa fa-truck fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-6">
-                                            <h4>{{ receipt.payer_name }} &nbsp;<span class="text-sm">(Shipping)</span></h4>
+                                            <h4>{{ receipt.shipping_first_name }} {{ receipt.shipping_last_name }} &nbsp;<span class="text-sm">(Shipping)</span></h4>
                                             <address></address>
-                                            {{ receipt.payer_address }}
-                                            <br>{{ receipt.payer_city }}, {{ receipt.payer_postal }}
-                                            <br>{{ receipt.payer_province }}, {{ receipt.payer_country }}
+                                            {{ receipt.shipping_address }}
+                                            <br>{{ receipt.shipping_city }}, {{ shipping.payer_postal }}
+                                            <br>{{ receipt.shipping_province }}, {{ receipt.shipping_country }}
                                         </div>
                                         <div class="col-md-4">
                                             <input onclick="print_customer_card();"
@@ -64,11 +64,11 @@
                                             <em class="fa fa-credit-card fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-10">
-                                            <h4>Lloyd Gonzales &nbsp;<span class="text-sm">(Billing)</span></h4>
+                                            <h4>{{ receipt.billing_first_name }} {{ receipt.billing_last_name }} &nbsp;<span class="text-sm">(Billing)</span></h4>
                                             <address></address>
-                                            Basilisa 2145
-                                            <br>Mate, Cliff., 20145
-                                            <br>Moon
+                                            {{ receipt.billing_address }}
+                                            <br>{{ receipt.billing_city }}, {{ shipping.billing_postal }}
+                                            <br>{{ receipt.billing_province }}, {{ receipt.billing_country }}
                                         </div>
                                     </div>
                                 </div>

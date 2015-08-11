@@ -12,7 +12,7 @@ from api.models.ec.receipt import Receipt
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'phone', 'street_name', 'street_number', 'unit_number', 'province', 'country', 'postal', 'has_consented', 'user', 'profile',)
+        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'phone', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'has_consented', 'user', 'profile',)
 
 
 class StoreSerializer(serializers.ModelSerializer):
@@ -50,4 +50,4 @@ class ComicSerializer(serializers.ModelSerializer):
 class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
-        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method','products','sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'billing_name', 'billing_address', 'billing_email', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_name', 'shipping_address', 'shipping_email', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal',)
+        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method','products','sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_email', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_email', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal',)
