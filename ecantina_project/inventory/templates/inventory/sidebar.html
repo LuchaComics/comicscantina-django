@@ -65,13 +65,32 @@
                 </li>
                 
                 <!-- CHECKOUT -->
-                <li class={% if tab == 'checkout' %}" active" {% else %} {% endif %}>
-                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout" title="Checkout">
+                <!-- point of sale menu item -->
+                <li class=" ">
+                    <!-- inventory menu header -->
+                    <a href="#pointofsale" title="Point of Sale" data-toggle="collapse">
                         <em class="fa fa-shopping-cart"></em>
-                        <span>Checkout</span>
+                        <span>Point of Sale</span>
                     </a>
+                    <!-- inventory menu items -->
+                    <ul id="pointofsale" class="nav sidebar-subnav collapse">
+                        <li class="sidebar-subnav-header">Point of Sale</li>
+                         <li class={% if tab == 'checkout' %}" active" {% else %} {% endif %}>
+                             <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout" title="Checkout">
+                                <span>Checkout</span>
+                            </a>
+                        </li>
+                        <li class={% if tab == 'checkout_record' %}" active" {% else %} {% endif %}>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout_record" title="Checkout Record">
+                                <span>Sales Records</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 
+                
+               
+               
                 <!-- INVENTORY -->
                 <li class=" ">
                     <!-- inventory menu header -->

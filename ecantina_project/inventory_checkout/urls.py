@@ -3,6 +3,7 @@ from inventory_checkout.views import pos_session
 from inventory_checkout.views import pos_customer
 from inventory_checkout.views import pos_item
 from inventory_checkout.views import pos_receipt
+from inventory_checkout.views import pos_record
 
 urlpatterns = patterns('',
     # Session
@@ -23,8 +24,11 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/verify$', pos_item.ajax_verify),
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/process_receipt$', pos_item.ajax_process_receipt),
                        
-                       
     # Receipt
     #-----------
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/receipt$', pos_receipt.checkout_page),
+                       
+    # Record
+    #-----------
+    url(r'^inventory/(\d+)/(\d+)/checkout_record$', pos_record.pos_record_page),
 )

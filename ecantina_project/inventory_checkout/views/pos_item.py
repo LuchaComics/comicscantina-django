@@ -60,6 +60,7 @@ def content_page(request, org_id, store_id, receipt_id):
     })
 
 
+@login_required()
 def ajax_change_discount_type(request, org_id, store_id, receipt_id, product_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -85,6 +86,7 @@ def ajax_change_discount_type(request, org_id, store_id, receipt_id, product_id)
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_change_discount_amount(request, org_id, store_id, receipt_id, product_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -106,6 +108,7 @@ def ajax_change_discount_amount(request, org_id, store_id, receipt_id, product_i
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_change_tax(request, org_id, store_id, receipt_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -120,6 +123,7 @@ def ajax_change_tax(request, org_id, store_id, receipt_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_verify(request, org_id, store_id, receipt_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
@@ -138,6 +142,7 @@ def ajax_verify(request, org_id, store_id, receipt_id):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_process_receipt(request, org_id, store_id, receipt_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
