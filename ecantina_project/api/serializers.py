@@ -1,6 +1,5 @@
 from django.forms import widgets
 from rest_framework import serializers
-from api.models.ec.cart import Cart
 from api.models.ec.customer import Customer
 from api.models.ec.store import Store
 from api.models.ec.organization import Organization
@@ -14,12 +13,6 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'phone', 'street_name', 'street_number', 'unit_number', 'province', 'country', 'postal', 'has_consented', 'user', 'profile',)
-
-
-class CartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cart
-        fields = ('customer', 'employee', 'products', 'cart_id', 'created', 'last_updated', 'is_closed','has_tax','receipt',)
 
 
 class StoreSerializer(serializers.ModelSerializer):

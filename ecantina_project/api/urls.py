@@ -4,7 +4,6 @@ from api.views import comic
 from api.views import customer
 from api.views import organization
 from api.views import store
-from api.views import cart
 from api.views import product
 from api.views import employee
 from api.views import receipt
@@ -17,7 +16,6 @@ router.register(r'comics', comic.ComicViewSet)
 router.register(r'organization', organization.OrganizationViewSet)
 router.register(r'customers', customer.CustomerViewSet)
 router.register(r'stores', store.StoreViewSet)
-router.register(r'carts', cart.CartViewSet)
 router.register(r'products', product.ProductViewSet)
 router.register(r'employees', employee.EmployeeViewSet)
 router.register(r'receipts', receipt.ReceiptViewSet)
