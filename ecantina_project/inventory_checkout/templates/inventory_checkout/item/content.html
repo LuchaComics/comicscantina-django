@@ -39,9 +39,7 @@
                 <td class="text-right pr-xl">
                     {% if product.is_sold == True %}[SOLD OUT]{% else %}$ {{ product.price }}{% endif %}
                 </td>
-            </tr>
-        {% empty %}
-            <p>Cart is empty</p>
+            </tr>    
         {% endfor %}
         </tbody>
     </table>

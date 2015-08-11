@@ -83,6 +83,12 @@
         
         // Scan the products in the cart.
         render_cart_content();
+                      
+        // The following code will poll the server every 10 seconds to see if
+        // we have the latest data.
+        //window.setInterval(function(){
+        //   render_cart_content();
+        //}, 5000);
     });
     
     function render_cart_content()
@@ -112,17 +118,16 @@
      */
     function update_cart_products(products)
     {
-            
         /////////////////
         // UPDATE CART //
         /////////////////
         var data = new FormData();
         data.append('format', 'json');
-        data.append('organization', '{{ receipt.org_id }}');
+        data.append('organization', '{{ receipt.organization_id }}');
         data.append('store', '{{ receipt.store_id }}');
         data.append('employee', '{{ receipt.employee_id }}');
         data.append('receipt_id', '{{ receipt.receipt_id }}');
-        data.append('customer', '{{ receipt.customer }}');
+        data.append('customer', '{{ receipt.customer_id }}');
         data.append('payment_method', '{{ receipt.payment_method }}');
         data.append('has_purchased_online', '{{ receipt.has_purchased_online }}');
         data.append('has_tax', '{{ receipt.has_tax }}');
