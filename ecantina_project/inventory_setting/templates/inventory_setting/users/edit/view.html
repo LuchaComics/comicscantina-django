@@ -1,4 +1,4 @@
-{% extends 'inventory/base.html' %}
+{% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
 
@@ -44,7 +44,7 @@
                                         {% endif %}
                                                 
                                         <label class="form-control btn btn-success mt10 curp" >
-                                            <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Logo...
+                                            <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Profile Image...
                                             <input type="file" class="form-control mb10 hide" name="logo-image"
                                                     id="id_image" onchange="ajax_upload_image();"/>
                                         </label>
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-7 mt-lg">
-                                    {% for field in employee_form %}
+                                    {% for field in form %}
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">
                                             {{ field.label }}
@@ -105,10 +105,11 @@
                                 </div>
                                 <div class="col-sm-7">
                                     <div class="table-responsive">
-                                        <div class="col-sm-7" id="id_store_checkboxes">
-                                            {% for a_store in stores %}
-                                            <input id="{{ a_store.store_id }}" type="checkbox" class="store"> <label class="control-label">{{ a_store.name }}</label><br/>
-                                            {% endfor %}
+                                        <div class="col-sm-7">
+                                        {% for a_store in stores %}
+                                        <input {% if this_employee in a_store.employees.all %}checked="true"{% endif %}
+                                            onclick="ajax_store_selection({{ a_store.store_id }});" type="checkbox" value="1"> <label class="control-label">{{ a_store.name }}</label><br/>
+                                        {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -148,6 +149,6 @@
 
 <!----------------------------------------------------------------------------->
 
-{% include "inventory/setting/users/add/js.html" %}
+{% include "inventory_setting/users/edit/js.html" %}
 
 {% endblock content %}

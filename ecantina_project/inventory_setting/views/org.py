@@ -29,7 +29,7 @@ def org_settings_page(request, org_id, store_id):
     employee = Employee.objects.get(user=request.user)
     form = OrganizationForm(instance=employee.organization)
     logo = employee.organization.logo
-    return render(request, 'inventory/setting/org/view.html',{
+    return render(request, 'inventory_setting/org/view.html',{
         'org': employee.organization,
         'store': Store.objects.get(store_id=store_id),
         'upload_id': 0 if logo is None else logo.upload_id,

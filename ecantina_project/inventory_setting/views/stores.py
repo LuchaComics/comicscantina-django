@@ -28,7 +28,7 @@ from inventory.forms.employeeform import EmployeeForm
 def ajax_refresh_sections(request, org_id, store_id, this_store_id):
     store = Store.objects.get(store_id=store_id)
     sections = Section.objects.filter(store=store)
-    return render(request, 'inventory/setting/store/sections.html',{
+    return render(request, 'inventory_setting/store/sections.html',{
         'sections': sections,
     })
 
@@ -149,7 +149,7 @@ def ajax_save_store_logo(request, org_id, store_id, this_store_id):
 #---------------
 
 
-@login_required(login_url='/inventory/login')
+@login_required(login_url='/inventory_login')
 def edit_store_settings_page(request, org_id, store_id, this_store_id):
     organization = Organization.objects.get(org_id=org_id)
     this_store = Store.objects.get(store_id=this_store_id)
@@ -158,7 +158,7 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
     # the main store we are logged in as.
     stores =  Store.objects.filter(organization=organization)
     stores =  stores.filter(~Q(store_id = this_store_id))
-    return render(request, 'inventory/setting/store/edit/view.html',{
+    return render(request, 'inventory_setting/store/edit/view.html',{
         'org': organization,
         'store': Store.objects.get(store_id=store_id),
         'this_store': this_store,
@@ -178,11 +178,11 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
 #--------------
 
 
-@login_required(login_url='/inventory/login')
+@login_required(login_url='/inventory_login')
 def store_settings_page(request, org_id, store_id):
     organization = Organization.objects.get(org_id=org_id)
     store = Store.objects.get(store_id=store_id)
-    return render(request, 'inventory/setting/store/add/view.html',{
+    return render(request, 'inventory_setting/store/add/view.html',{
         'org': organization,
         'store': store,
         'stores': Store.objects.filter(organization=organization),

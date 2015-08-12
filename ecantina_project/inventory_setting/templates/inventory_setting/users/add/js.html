@@ -1,0 +1,321 @@
+{% load staticfiles %}
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+<script>
+    $(document).ready(function () {
+        /**
+         *  The following section makes the 'sections' automatically load
+         *  when this page is refreshed or loaded.
+         */
+        //ajax_refresh_sections();
+                      
+        /**
+         *  The following section adds auto-complete fields for the following
+         *  textfields.
+         */
+                      
+        $(function() {
+            var availableTags = [
+                "Ontario",
+                "Quebec",
+                "Nova Scotia",
+                "New Brunswick",
+                "Manitoba",
+                "British Columbia",
+                "Prince Edward Island",
+                "Saskatchewan",
+                "Alberta",
+                "Newfoundland and Labrador",
+            ];
+            $( "#id_province" ).autocomplete({
+                source: availableTags
+            });
+        });
+                      
+        $(function() {
+            var availableTags = [
+                "Canada",
+                "United States",
+            ];
+            $( "#id_country" ).autocomplete({
+                source: availableTags
+            });
+        });
+    });
+
+    // this is to upload the cover image
+    function ajax_upload_image() {
+        if ($('#id_image').val() == "") {
+           alert('Please select an image to upload');
+           return false;
+        }
+    
+        // change this to the ajax function call in python
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0/0/save_image';
+    
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('image', document.getElementById('id_image').files[0]);
+        data.append('upload_id', $('#id_hidden_upload_id').val());
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                // If success then update the image, else display error.
+                if (json_result.status == "success")
+                {
+                    //alert(json_result.src); // Debugging Purposes Only.
+                    $('#logo-image').attr('src', json_result.src);
+                    $('#id_hidden_upload_id').val(json_result.id);
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function ajax_save_edit() {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0/0/save_data';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('role', $('#id_role').val());
+        data.append('joined', get_date());
+        data.append('email', $('#id_email').val());
+        data.append('upload_id', $('#id_hidden_upload_id').val());
+        data.append('name', $('#id_name').val());
+        data.append('description', $('#id_description').val());
+        data.append('phone', $('#id_phone').val());
+        data.append('fax', $('#id_fax').val());
+        data.append('website', $('#id_website').val());
+        data.append('twitter_url', $('#id_twitter_url').val());
+        data.append('facebook_url', $('#id_facebook_url').val());
+        data.append('instagram_url', $('#id_instagram_url').val());
+        data.append('linkedin_url', $('#id_linkedin_url').val());
+        data.append('github_url', $('#id_github_url').val());
+        data.append('google_url', $('#id_google_url').val());
+        data.append('youtube_url', $('#id_youtube_url').val());
+        data.append('flickr_url', $('#id_flickr_url').val());
+        data.append('street_number', $('#id_street_number').val());
+        data.append('street_name', $('#id_street_name').val());
+        data.append('unit_number', $('#id_unit_number').val());
+        data.append('city', $('#id_city').val());
+        data.append('country', $('#id_country').val());
+        data.append('province', $('#id_province').val());
+        data.append('postal', $('#id_postal').val());
+        // User
+        data.append('first_name', $('#id_first_name').val());
+        data.append('last_name', $('#id_last_name').val());
+        data.append('old_password', $('#id_old_password').val());
+        data.append('password', $('#id_password').val());
+        data.append('password_repeated', $('#id_password_repeated').val());
+        
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+
+                    // STEP 1:
+                    // Iterate through all the stores an and process the
+                    // checked stores by assigning the returned 'employee_id'
+                    // with the 'store_id'.
+                    $('#id_store_checkboxes').children('input').each(function () {
+                        if (this.checked)
+                        {
+                            store_id = this.id;
+                            employee_id = json_result.employee_id;
+                                                                     
+                            // STEP 2:
+                            // Assign in the database.
+                            ajax_store_selection(store_id, employee_id);
+                        }
+                    });
+                    
+                    // STEP 3: Load up the list page.
+                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0'; 
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function ajax_refresh_sections() {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/refresh_sections';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(result){
+                $('#ajax_sections_placeholder').html(result); // Update UI.
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function ajax_section(section_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/section';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('name', $('#id_section_id_' + section_id ).val());
+        data.append('section_id', section_id);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+                    //window.location = ''; // Reload page.
+                    ajax_refresh_sections();
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+                },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function ajax_delete_section(section_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/delete_section';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('name', $('#id_section_name').val());
+        data.append('section_id', section_id);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+                    //window.location = ''; // Reload page.
+                    ajax_refresh_sections();
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function ajax_store_selection(store_id, employee_id) {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
+    
+        var data = new FormData();
+        // Store
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('this_employee_id', employee_id);
+        data.append('this_store_id', store_id);
+        jQuery.ajax({
+            url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(json_result){
+                if (json_result.status == "success")
+                {
+                //alert("ok saved"); // Debugging Purposes
+                //window.location = ''; // Reload page.
+                }
+                else
+                {
+                alert(json_result.message);
+                }
+                },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+    function get_date()
+    {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+    
+        if(dd<10) {
+            dd='0'+dd
+        }
+    
+        if(mm<10) {
+            mm='0'+mm
+        }
+    
+        today = yyyy+'-'+mm+'-'+dd;
+        return today
+    }
+
+</script>
