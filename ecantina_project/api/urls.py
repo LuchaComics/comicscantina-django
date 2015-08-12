@@ -7,6 +7,7 @@ from api.views import product
 from api.views import employee
 from api.views import receipt
 from api.views import helprequest
+from api.views import imageupload
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
@@ -19,6 +20,7 @@ router.register(r'products', product.ProductViewSet)
 router.register(r'employees', employee.EmployeeViewSet)
 router.register(r'receipts', receipt.ReceiptViewSet)
 router.register(r'helprequests', helprequest.HelpRequestViewSet)
+router.register(r'imageuploads', imageupload.ImageUploadViewSet)
 
 
 # The API URLs are now determined automatically by the router.

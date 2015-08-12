@@ -8,6 +8,7 @@ from api.models.ec.employee import Employee
 from api.models.ec.comic import Comic
 from api.models.ec.receipt import Receipt
 from api.models.ec.helprequest import HelpRequest
+from api.models.ec.imageupload import ImageUpload
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -58,4 +59,10 @@ class HelpRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = HelpRequest
         fields = ('help_id', 'subject', 'subject_url', 'message', 'submission_date', 'screenshot', 'employee', 'store', 'organization',)
+
+
+class ImageUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageUpload
+        fields = ('upload_id', 'upload_date', 'is_assigned', 'image', 'user',)
 
