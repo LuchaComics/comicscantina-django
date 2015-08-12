@@ -1,5 +1,26 @@
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
     $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+
         $('body').on('click', '.list-group.group-header', function () {
             if ($(this).next().is(':visible')) {
                 $(this).next().slideUp();
@@ -20,5 +41,70 @@
     function send_invoice()
     {
         alert("TODO: Function not implemented yet.");
+    }
+
+    function update_receipt_status()
+    {
+        ////////////
+        // UPDATE //
+        ////////////
+        var status = $('#id_status').val();
+        var data = new FormData();
+        data.append('format', 'json');
+        data.append('organization', '{{ receipt.organization_id }}');
+        data.append('store', '{{ receipt.store_id }}');
+        data.append('employee', '{{ receipt.employee_id }}');
+        data.append('receipt_id', '{{ receipt.receipt_id }}');
+        data.append('customer', '{{ receipt.customer_id }}');
+        data.append('payment_method', '{{ receipt.payment_method }}');
+        data.append('has_purchased_online', '{{ receipt.has_purchased_online }}');
+        data.append('has_tax', '{{ receipt.has_tax }}');
+        data.append('tax_rate', '{{ receipt.tax_rate }}');
+        data.append('tax_amount', '{{ receipt.tax_amount }}');
+        data.append('sub_total', '{{ receipt.sub_total }}');
+        data.append('discount_amount', '{{ receipt.discount_amount }}');
+        data.append('total_amount', '{{ receipt.total_amount }}');
+        data.append('has_finished', '{{ receipt.has_finished }}');
+        data.append('has_paid', '{{ receipt.has_paid }}');
+        data.append('status', status);
+        data.append('billing_first_name', '{{ receipt.billing_first_name }}');
+        data.append('billing_last_name', '{{ receipt.billing_last_name }}');
+        data.append('billing_address', '{{ receipt.billing_address }}');
+        data.append('billing_email', '{{ receipt.billing_email }}');
+        data.append('billing_phone', '{{ receipt.billing_phone }}');
+        data.append('billing_city', '{{ receipt.billing_city }}');
+        data.append('billing_province', '{{ receipt.billing_province }}');
+        data.append('billing_country', '{{ receipt.billing_country }}');
+        data.append('billing_postal', '{{ receipt.billing_postal }}');
+        data.append('shipping_first_name', '{{ receipt.shipping_first_name }}');
+        data.append('shipping_last_name', '{{ receipt.shipping_last_name }}');
+        data.append('shipping_address', '{{ receipt.shipping_address }}');
+        data.append('shipping_email', '{{ receipt.shipping_email }}');
+        data.append('shipping_phone', '{{ receipt.shipping_phone }}');
+        data.append('shipping_city', '{{ receipt.shipping_city }}');
+        data.append('shipping_province', '{{ receipt.shipping_province }}');
+        data.append('shipping_country', '{{ receipt.shipping_country }}');
+        data.append('shipping_postal', '{{ receipt.shipping_postal }}');
+        data.append('products', '{{ receipt.products.all }}');
+        
+        var url = "/api/receipts/{{ receipt.receipt_id }}/";
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'PUT',
+            success: function(json_result){
+                // Do nothing.
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        }); // End Receipt jQuery
     }
 </script>

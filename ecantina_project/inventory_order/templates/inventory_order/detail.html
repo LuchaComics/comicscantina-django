@@ -18,15 +18,18 @@
                         <div class="col-xs-6" style="margin-top:15px;"><h3 class="mt0">Receipt # {{ receipt.receipt_id }}</h3></div>
                         <div class="col-xs-6 text-right" style="margin-top:15px;">
                             <span class="mt0 mr-lg">Date: {{ receipt.last_updated }}</span>
-                            <button type="button" class="btn btn-success pull-right" style="margin-top:-7px;">Update
+                            <button onclick="update_receipt_status();" type="button" class="btn btn-success pull-right" style="margin-top:-7px;">Update
                             </button>
-                            <select class="form-control pull-right mr-sm" style="width:150px;margin-top:-7px;">
-                                <option {% if receipt.status == 1 %}selected{% endif %} value="">Order Status</option>
-                                <option {% if receipt.status == 2 %}selected{% endif %} value="New Order">New Order</option>
-                                <option {% if receipt.status == 3 %}selected{% endif %} value="Processing">Picked</option>
-                                <option {% if receipt.status == 4 %}selected{% endif %} value="In Transit">Shipped</option>
-                                <option {% if receipt.status == 5 %}selected{% endif %} value="Received">Received</option>
-                                <option {% if receipt.status == 6 %}selected{% endif %} value="In-store">In-store Sale</option>
+                            <select id="id_status"
+                                 class="form-control pull-right mr-sm"
+                                 style="width:150px;margin-top:-7px;">
+                                <option {% if receipt.status == 0 %}selected{% endif %} value="">Order Status</option>
+                                <option {% if receipt.status == 1 %}selected{% endif %} value="1">New Order</option>
+                                <option {% if receipt.status == 2 %}selected{% endif %} value="2">Picked</option>
+                                <option {% if receipt.status == 3 %}selected{% endif %} value="3">Shipped</option>
+                                <option {% if receipt.status == 4 %}selected{% endif %} value="4">Received</option>
+                                <option {% if receipt.status == 5 %}selected{% endif %} value="5">In-store Sale</option>
+                                <option {% if receipt.status == 6 %}selected{% endif %} value="6">Online Sale</option>
                             </select>
                         </div>
                         <div class="clearfix"></div>
