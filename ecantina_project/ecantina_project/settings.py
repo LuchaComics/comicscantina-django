@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'captcha',
     'inventory', # Deprecated
+    'inventory_base',
     'inventory_add_product',
     'inventory_checkout',
     'inventory_order',
@@ -68,6 +69,7 @@ INSTALLED_APPS = (
     'inventory_dashboard',
     'inventory_setting',
     'etl',
+    'store_base',
     'store_landpage',
     'store_about',
     'store_products',

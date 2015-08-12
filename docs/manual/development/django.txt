@@ -96,7 +96,7 @@ DATABASES = {
 
 
 (10) Create the application(s).
-python manage.py startapp inventory
+python manage.py startapp inventory_base
 python manage.py startapp inventory_add_product
 python manage.py startapp inventory_checkout
 python manage.py startapp inventory_order
@@ -107,6 +107,7 @@ python manage.py startapp inventory_print_label
 python manage.py startapp inventory_dashboard
 python manage.py startapp inventory_setting
 python manage.py startapp etl
+python manage.py startapp store_base
 python manage.py startapp store_landpage
 python manage.py startapp store_about
 python manage.py startapp store_products
@@ -130,7 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'rest_framework',
     'captcha',
-    'inventory', # Deprecated
+    'inventory_base',
     'inventory_add_product',
     'inventory_checkout',
     'inventory_order'
@@ -140,6 +141,7 @@ INSTALLED_APPS = (
     'inventory_dashboard',
     'inventory_setting',
     'etl',
+    'store_base',
     'store_landpage',
     'store_about',
     'store_products',
