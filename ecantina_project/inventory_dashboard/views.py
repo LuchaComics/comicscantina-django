@@ -8,9 +8,17 @@ from django.contrib.auth.decorators import login_required
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
+from api.models.ec.receipt import Receipt
+
 
 @login_required(login_url='/inventory/login')
 def dashboard_page(request, org_id, store_id):
+    # Find Sales
+    # Find Orders
+    # New Customers
+    # Total Inventory
+    # Annual Sales
+    # Annual Orders
     return render(request, 'inventory_dashboard/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),

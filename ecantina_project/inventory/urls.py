@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 from inventory.views import setting_org
 from inventory.views import setting_stores
 from inventory.views import setting_users
-from inventory.views import help
 from inventory.views import customers
 from inventory.views import comic_inventory_list
 from inventory.views import print_label
@@ -37,12 +36,6 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', setting_users.ajax_delete_user),
     url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', setting_users.ajax_assign_employee_to_store),
              
-    # Help
-    #----------------------
-    url(r'^inventory/(\d+)/(\d+)/help$', help.help_page),
-    url(r'^inventory/(\d+)/(\d+)/help/save_image$', help.ajax_save_image),
-    url(r'^inventory/(\d+)/(\d+)/help/save_data$', help.ajax_save_data),
-               
     # Customers
     #----------------------
     url(r'^inventory/(\d+)/(\d+)/customers$', customers.customers_page),
