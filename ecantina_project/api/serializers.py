@@ -7,6 +7,7 @@ from api.models.ec.product import Product
 from api.models.ec.employee import Employee
 from api.models.ec.comic import Comic
 from api.models.ec.receipt import Receipt
+from api.models.ec.helprequest import HelpRequest
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -51,3 +52,10 @@ class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
         fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method','products','sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_email', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_email', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal',)
+
+
+class HelpRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HelpRequest
+        fields = ('help_id', 'subject', 'subject_url', 'message', 'submission_date', 'screenshot', 'employee', 'store', 'organization',)
+

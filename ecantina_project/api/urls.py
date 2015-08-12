@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from api.views import api
 from api.views import comic
 from api.views import customer
 from api.views import organization
@@ -7,8 +6,8 @@ from api.views import store
 from api.views import product
 from api.views import employee
 from api.views import receipt
+from api.views import helprequest
 from rest_framework.routers import DefaultRouter
-from api.views import api
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
@@ -19,6 +18,8 @@ router.register(r'stores', store.StoreViewSet)
 router.register(r'products', product.ProductViewSet)
 router.register(r'employees', employee.EmployeeViewSet)
 router.register(r'receipts', receipt.ReceiptViewSet)
+router.register(r'helprequests', helprequest.HelpRequestViewSet)
+
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.
