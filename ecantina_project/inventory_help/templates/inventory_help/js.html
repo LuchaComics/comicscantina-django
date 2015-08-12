@@ -1,3 +1,6 @@
+<!-- Load API Handlers -->
+{% include 'api/imageupload.html' %}
+
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -22,50 +25,44 @@
         });
     });
                   
-    // this is to upload the cover image
+    /**
+     *  Function will either upload a new image or update the existing
+     *  one with the new image. Afterwards function will upad the UI
+     *  to have a picture of the image that was uploaded and save the
+     *  upload_id.
+     */
     function ajax_upload_image() {
         if ($('#id_image').val() == "") {
             alert('Please select an image to upload');
             return false;
         }
         
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/help/save_image';
+        // Extract the information.
+        var image = document.getElementById('id_image').files[0];
+        var upload_id = $('#id_hidden_upload_id').val();
         
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('image', document.getElementById('id_image').files[0]);
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    //alert(json_result.src); // Debugging Purposes Only.
-                    $('#logo-image').attr('src', json_result.src);
-                    $('#id_hidden_upload_id').val(json_result.id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                    
-            }
-        });
+        // Process results...
+        if (upload_id > 0)
+        {
+            // Upload the new image and render the page with the results.
+            update_imageupload(upload_id, false, image, 0, function(json_result) {
+                $('#logo-image').attr('src', json_result['image']);
+                $('#id_hidden_upload_id').val(json_result['upload_id']);
+            });
+        }
+        else
+        {
+            // Insert the new upload and then render the page with the results.
+            insert_imageupload(false, image, 0, function(json_result) {
+                $('#logo-image').attr('src', json_result['image']);
+                $('#id_hidden_upload_id').val(json_result['upload_id']);
+            });
+        }
     }
 
     function ajax_save() {
+        alert("OK");
+        return;
         var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/help/save_data';
     
         var data = new FormData();
