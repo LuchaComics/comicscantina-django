@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from inventory.views import dashboard
 from inventory.views import setting_org
 from inventory.views import setting_stores
 from inventory.views import setting_users
@@ -14,12 +13,7 @@ urlpatterns = patterns('',
 #                       url(r'^robots\.txt$', txt.robots_txt_page),
 #                       url(r'^humans\.txt$', txt.humans_txt_page),
 #
-                       
-    # Dashboard
-    #----------------------
-    url(r'^inventory/(\d+)/(\d+)$', dashboard.dashboard_page),
-    url(r'^inventory/(\d+)/(\d+)/dashboard$', dashboard.dashboard_page),
-                       
+                                              
     # Settings
     #----------------------
     # Org
