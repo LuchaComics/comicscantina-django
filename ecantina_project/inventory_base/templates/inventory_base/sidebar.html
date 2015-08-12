@@ -179,6 +179,11 @@
                                <span>Users</span>
                            </a>
                        </li>
+                       <li class={% if tab == 'promotion_settings' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/promotions" title="Users">
+                               <span>Promotions</span>
+                           </a>
+                       </li>
                     </ul>
                </li>
                <!-- HELP -->

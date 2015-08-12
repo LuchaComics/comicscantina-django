@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from inventory_setting.views import org
 from inventory_setting.views import stores
 from inventory_setting.views import users
+from inventory_setting.views import promo
 
 
 urlpatterns = patterns('',
@@ -25,4 +26,6 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', users.ajax_save_user_data),
     url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', users.ajax_delete_user),
     url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', users.ajax_assign_employee_to_store),
+    # Promotions
+    url(r'^inventory/(\d+)/(\d+)/settings/promotions$', promo.promo_settings_page),
 )
