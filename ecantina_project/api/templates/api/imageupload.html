@@ -33,7 +33,10 @@
         var data = new FormData();
         data.append('format', 'json');
         data.append('is_assigned', is_assigned);
-        data.append('image', image);
+        if (image != null)
+        {
+            data.append('image', image);
+        }
         if (user_id > 0) {
             data.append('user', user_id);
         }

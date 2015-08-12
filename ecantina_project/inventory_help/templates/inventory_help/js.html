@@ -1,5 +1,6 @@
 <!-- Load API Handlers -->
 {% include 'api/imageupload.html' %}
+{% include 'api/helprequest.html' %}
 
 <script>
     //-------------------------------------//
@@ -49,43 +50,22 @@
     }
 
     function ajax_save() {
-        alert("OK");
-        return;
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/help/save_data';
-    
-        var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        data.append('subject', $('#id_subject').val());
-        data.append('subject_url', $('#id_subject_url').val());
-        data.append('message', $('#id_message').val());
-    
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    alert("Help Request Submitted! Your ticket ID is #" + json_result.id + ". Thank you for your submission.");
-                    window.location = '';
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        var upload_id = $('#id_hidden_upload_id').val();
+        var subject = $('#id_subject').val();
+        var subject_url = $('#id_subject_url').val();
+        var message =  $('#id_message').val();
+        var employee = '{{ employee.employee_id }}';
+        var organization = '{{ org.org_id }}';
+        var store = '{{ store.store_id }}';
+        
+        // Create our ticket!
+        set_helprequest(0, subject, subject_url, message, upload_id, employee, store, organization, function(json_result) {
+            // Let our upload image know it is properly assigned.
+            var user_id = '{{ employee.user_id }}';
+            set_imageupload(upload_id, true, null, user_id, function(json_result) {
+                alert("Help Request Submitted! Your ticket ID is #" + json_result['help_id'] + ". Thank you for your submission.");
+                window.location = '';
+            });            
         });
     }
 
