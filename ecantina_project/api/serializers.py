@@ -9,6 +9,7 @@ from api.models.ec.comic import Comic
 from api.models.ec.receipt import Receipt
 from api.models.ec.helprequest import HelpRequest
 from api.models.ec.imageupload import ImageUpload
+from api.models.ec.promotion import Promotion
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -66,3 +67,8 @@ class ImageUploadSerializer(serializers.ModelSerializer):
         model = ImageUpload
         fields = ('upload_id', 'upload_date', 'is_assigned', 'image', 'user',)
 
+
+class PromotionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Promotion
+        fields = ('promotion_id', 'name', 'discount', 'discount_type', 'organization',)

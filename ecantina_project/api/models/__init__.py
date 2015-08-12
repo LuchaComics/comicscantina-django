@@ -26,3 +26,4 @@ from api.models.ec.comic import Comic
 from api.models.ec.product import Product
 from api.models.ec.helprequest import HelpRequest
 from api.models.ec.receipt import Receipt
+from api.models.ec.promotion import Promotion
