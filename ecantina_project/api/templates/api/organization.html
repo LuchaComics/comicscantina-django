@@ -1,0 +1,42 @@
+<script>
+    
+    /**
+     *  Function will either insert or update depending on whether "org_id"
+     *  parameter was used.
+     */
+    function set_organization(id, data, callback)
+    {
+        // Setup depending on whether we are inserting or updating.
+        var type = "POST";
+        var url = "/api/organizations/";
+        if (id > 0) {
+            type = "PUT"; // Update
+            url += id + "/";
+        }
+    
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: type,
+            success: function(json_result){
+                // Debugging code
+                var json_text = JSON.stringify(json_result, null, 2);
+                console.log(json_text);
+                    
+                // Call back the function with the JSON results.
+                callback(json_result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+</script>

@@ -32,42 +32,14 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-7">
+                                    {% for field in form %}
                                     <div class="form-group">
-                                        <label for="txt-store-name" class="col-md-4 control-label">Organization Name</label>
+                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label }}</label>
                                         <div class="col-md-8">
-                                            {{ form.name }}
+                                            {{ field }}
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="txt-store-about" class="col-md-4 control-label">About</label>
-                                        <div class="col-md-8">
-                                            {{ form.description }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-phone" class="col-md-4 control-label">Phone</label>
-                                        <div class="col-md-8">
-                                            {{ form.phone }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-website" class="col-md-4 control-label">Website</label>
-                                        <div class="col-md-8">
-                                            {{ form.website }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-twitter" class="col-md-4 control-label">Twitter</label>
-                                        <div class="col-md-8">
-                                            {{ form.twitter_url }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-facebook" class="col-md-4 control-label">Facebook</label>
-                                        <div class="col-md-8">
-                                            {{ form.facebook_url }}
-                                        </div>
-                                    </div>
+                                     {% endfor %}
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

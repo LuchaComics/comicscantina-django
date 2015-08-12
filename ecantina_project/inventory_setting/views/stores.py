@@ -12,12 +12,11 @@ from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.section import Section
-from inventory.forms.storeform import StoreForm
-from inventory.forms.organizationform import OrganizationForm
-from inventory.forms.imageuploadform import ImageUploadForm
-from inventory.forms.userform import UserForm
-from inventory.forms.sectionform import SectionForm
-from inventory.forms.employeeform import EmployeeForm
+from inventory_setting.forms.storeform import StoreForm
+from inventory_setting.forms.organizationform import OrganizationForm
+from inventory_setting.forms.userform import UserForm
+from inventory_setting.forms.sectionform import SectionForm
+from inventory_setting.forms.employeeform import EmployeeForm
 
 
 # Stores - Common

@@ -1,7 +1,29 @@
-{% load staticfiles %}
+{% include 'api/imageupload.html' %}
+{% include 'api/organization.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
     $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                  
         $(function() {
             var availableTags = [
                 "Ontario",
@@ -38,48 +60,20 @@
            return false;
         }
     
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/save_org_logo';
+        // Extract the information.
+        var image = document.getElementById('id_image').files[0];
+        var upload_id = $('#id_hidden_upload_id').val();
     
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('image', document.getElementById('id_image').files[0]);
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    //alert(json_result.src); // Debugging Purposes Only.
-                    $('#logo-image').attr('src', json_result.src);
-                    $('#id_hidden_upload_id').val(json_result.id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        // Insert or Update.
+        set_imageupload(upload_id, false, image, 0, function(json_result) {
+            $('#logo-image').attr('src', json_result['image']);
+            $('#id_hidden_upload_id').val(json_result['upload_id']);
         });
     }
 
     function ajax_save() {
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/save_org_data';
-    
+        // Fetch the data from the view and encode it into a "FormData" object.
         var data = new FormData();
-        // Organization
         data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
         data.append('joined', $('#id_joined').val());
         data.append('email', $('#id_email').val());
@@ -91,12 +85,12 @@
         data.append('website', $('#id_website').val());
         data.append('twitter_url', $('#id_twitter_url').val());
         data.append('facebook_url', $('#id_facebook_url').val());
-        data.append('instagram_url', $('#id_instagram_url').val());
-        data.append('linkedin_url', $('#id_linkedin_url').val());
-        data.append('github_url', $('#id_github_url').val());
-        data.append('google_url', $('#id_google_url').val());
-        data.append('youtube_url', $('#id_youtube_url').val());
-        data.append('flickr_url', $('#id_flickr_url').val());
+        data.append('instagram_url', '');
+        data.append('linkedin_url', '');
+        data.append('github_url', '');
+        data.append('google_url', '');
+        data.append('youtube_url', '');
+        data.append('flickr_url', '');
         data.append('street_number', $('#id_street_number').val());
         data.append('street_name', $('#id_street_name').val());
         data.append('unit_number', $('#id_unit_number').val());
@@ -104,36 +98,48 @@
         data.append('country', $('#id_country').val());
         data.append('province', $('#id_province').val());
         data.append('postal', $('#id_postal').val());
-        // User
-        data.append('first_name', $('#id_first_name').val());
-        data.append('last_name', $('#id_last_name').val());
-        data.append('old_password', $('#id_old_password').val());
-        data.append('password', $('#id_password').val());
-        data.append('password_repeated', $('#id_password_repeated').val());
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    window.location = '';
+        data.append('org_id', '{{ org.org_id }}');
+        
+        // Send the "FormData" object to be sent through REST and get updated.
+        set_organization({{ org.org_id }}, data, function(json_result) {
+            // Once the organization has been updated, we will need to manually
+            // update the user account.
+            var data2 = new FormData();
+            data2.append('first_name', $('#id_first_name').val());
+            data2.append('last_name', $('#id_last_name').val());
+            data2.append('email', $('#id_email').val());
+            data2.append('old_password', $('#id_old_password').val());
+            data2.append('password', $('#id_password').val());
+            data2.append('password_repeated', $('#id_password_repeated').val());
+            
+            // Send the AJAX request
+            var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/update_org_administrator';
+            jQuery.ajax({
+                url: url,
+                data: data2,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(json_result){
+                    if (json_result.status == "success")
+                    {
+                        //alert("ok saved"); // Debugging Purposes
+                        window.location = '';
+                    }
+                    else
+                    {
+                        alert(json_result.message);
+                    }
+                },
+                error: function(xhr,status,error) {
+                    console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                },
+                complete: function(xhr,status) {
+                    // Do nothing.
                 }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+            });
+                         
         });
     }
 

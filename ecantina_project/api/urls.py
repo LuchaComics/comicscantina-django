@@ -14,7 +14,7 @@ from rest_framework.routers import DefaultRouter
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
 router.register(r'comics', comic.ComicViewSet)
-router.register(r'organization', organization.OrganizationViewSet)
+router.register(r'organizations', organization.OrganizationViewSet)
 router.register(r'customers', customer.CustomerViewSet)
 router.register(r'stores', store.StoreViewSet)
 router.register(r'products', product.ProductViewSet)

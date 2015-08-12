@@ -12,12 +12,9 @@ from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.section import Section
-from inventory.forms.storeform import StoreForm
-from inventory.forms.organizationform import OrganizationForm
-from inventory.forms.imageuploadform import ImageUploadForm
-from inventory.forms.userform import UserForm
-from inventory.forms.sectionform import SectionForm
-from inventory.forms.employeeform import EmployeeForm
+from inventory_setting.forms.storeform import StoreForm
+from inventory_setting.forms.organizationform import OrganizationForm
+from inventory_setting.forms.userform import UserForm
 
 
 # Organization - Edit
@@ -49,69 +46,10 @@ def org_settings_page(request, org_id, store_id):
 
 
 @login_required()
-def ajax_org_save_logo(request, org_id, store_id):
-    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            # Fetch objects
-            organization = Organization.objects.get(org_id=org_id)
-            
-            # Delete existing image if it exists.
-            try:
-                upload_id = request.POST['upload_id']
-                if upload_id is not '':
-                    logo = ImageUpload.objects.get(upload_id=int(upload_id))
-                    logo.delete()
-            except ImageUpload.DoesNotExist:
-                pass
-
-            # Save the new image.
-            form = ImageUploadForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.instance.user = request.user
-                form.instance.is_assigned = True
-                form.save()
-                
-                # Update organization with new logo image.
-                organization.logo = form.instance
-                organization.save()
-                
-                # Return status.
-                response_data = {
-                    'status' : 'success',
-                    'message' : 'saved',
-                    'src': form.instance.image.url,
-                    'id': form.instance.upload_id,
-                }
-            else:
-                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-@login_required()
-def ajax_save_org_data(request, org_id, store_id):
+def ajax_update_org_administrator(request, org_id, store_id):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
-            organization = Organization.objects.get(org_id=org_id)
-            
-            # Save Organization
-            form = OrganizationForm(request.POST, instance=organization)
-            if form.is_valid():  # Ensure no missing fields are entered.
-                # Include logo with saving.
-                try:
-                    upload_id = request.POST['upload_id']
-                    if upload_id is not '':
-                        organization.logo = ImageUpload.objects.get(upload_id=int(upload_id))
-                except ImageUpload.DoesNotExist:
-                    pass
-                form.save()
-            else:
-                return HttpResponse(json.dumps({
-                    'status' : 'failed',
-                    'message' : json.dumps(form.errors
-                )}), content_type="application/json")
-
             # Save Administrator
             form = UserForm(request.POST, instance=request.user)
             if form.is_valid():

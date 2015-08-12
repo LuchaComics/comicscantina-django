@@ -10,7 +10,6 @@ from django.core.exceptions import ValidationError
 from api.models.ec.helprequest import HelpRequest
 
 
-
 class HelpRequestForm(forms.ModelForm):
     class Meta:
         model = HelpRequest

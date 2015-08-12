@@ -8,8 +8,7 @@ from inventory_setting.views import promo
 urlpatterns = patterns('',
     # Org
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', org.org_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/save_org_logo$',org.ajax_org_save_logo),
-    url(r'^inventory/(\d+)/(\d+)/settings/save_org_data$',org.ajax_save_org_data),
+    url(r'^inventory/(\d+)/(\d+)/settings/update_org_administrator$',org.ajax_update_org_administrator),
     # Store
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', stores.edit_store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_logo$', stores.ajax_save_store_logo),

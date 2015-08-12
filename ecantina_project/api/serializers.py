@@ -27,7 +27,7 @@ class StoreSerializer(serializers.ModelSerializer):
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ('org_id', 'name', 'description', 'joined', 'last_updated', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'website', 'email', 'phone', 'fax', 'twitter_url', 'facebook_url', 'instagram_url', 'linkedin_url', 'github_url', 'google_url', 'youtube_url', 'flickr_url', 'administrator', 'logo','customers',)
+        fields = ('org_id', 'name', 'description', 'joined', 'last_updated', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'twitter_url', 'facebook_url', 'instagram_url', 'linkedin_url', 'github_url', 'google_url', 'youtube_url', 'flickr_url', 'administrator', 'logo','customers',)
 
 
 class ProductSerializer(serializers.ModelSerializer):
