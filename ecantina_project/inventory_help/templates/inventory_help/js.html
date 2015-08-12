@@ -41,23 +41,11 @@
         var image = document.getElementById('id_image').files[0];
         var upload_id = $('#id_hidden_upload_id').val();
         
-        // Process results...
-        if (upload_id > 0)
-        {
-            // Upload the new image and render the page with the results.
-            update_imageupload(upload_id, false, image, 0, function(json_result) {
-                $('#logo-image').attr('src', json_result['image']);
-                $('#id_hidden_upload_id').val(json_result['upload_id']);
-            });
-        }
-        else
-        {
-            // Insert the new upload and then render the page with the results.
-            insert_imageupload(false, image, 0, function(json_result) {
-                $('#logo-image').attr('src', json_result['image']);
-                $('#id_hidden_upload_id').val(json_result['upload_id']);
-            });
-        }
+        // Insert or Update.
+        set_imageupload(upload_id, false, image, 0, function(json_result) {
+            $('#logo-image').attr('src', json_result['image']);
+            $('#id_hidden_upload_id').val(json_result['upload_id']);
+        });
     }
 
     function ajax_save() {

@@ -28,7 +28,7 @@
      *  Function will create a new image upload and return the inserted
      *  results through the callback.
      */
-    function insert_imageupload(is_assigned, image, user_id ,callback)
+    function set_imageupload(upload_id, is_assigned, image, user_id ,callback)
     {
         var data = new FormData();
         data.append('format', 'json');
@@ -39,6 +39,13 @@
         }
         
         var url = "/api/imageuploads/";
+        var type = "POST";
+        if (upload_id > 0)
+        {
+            url += upload_id + "/";
+            type = "PUT";
+            data.append('upload_id', upload_id);
+        }
     
         jQuery.ajax({
             url: url,
@@ -46,7 +53,7 @@
             cache: false,
             contentType: false,
             processData: false,
-            type: 'POST',
+            type: type,
             success: function(json_result){
                 // Debugging code
                 var json_text = JSON.stringify(json_result, null, 2);
@@ -64,47 +71,4 @@
             }
         });
     }
-
-    /**
-     *  Function will create a new image upload and return the inserted
-     *  results through the callback.
-     */
-    function update_imageupload(upload_id, is_assigned, image, user_id ,callback)
-    {
-        var data = new FormData();
-        data.append('format', 'json');
-        data.append('is_assigned', is_assigned);
-        data.append('image', image);
-        data.append('upload_id', upload_id);
-        if (user_id > 0) {
-            data.append('user', user_id);
-        }
-    
-        var url = "/api/imageuploads/"+upload_id+"/";
-    
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'PUT',
-            success: function(json_result){
-                // Debugging code
-                var json_text = JSON.stringify(json_result, null, 2);
-                console.log(json_text);
-                
-                // Call back the function with the JSON results.
-                callback(json_result);
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                // Do nothing.
-            }
-        });
-    }
-
 </script>
