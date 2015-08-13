@@ -1,0 +1,87 @@
+<script>
+    /**
+     *  Makes a JSON call to our API service to fetch all the sections based
+     *  on the search/filter parameters and run the callback function.
+     */
+    function list_sections(org_id, store_id, callback) {
+        var url = "/api/sections/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+    
+    /**
+     *  Function will either insert or update depending on whether "org_id"
+     *  parameter was used.
+     */
+    function set_section(id, data, callback)
+    {
+        // Setup depending on whether we are inserting or updating.
+        var type = "POST";
+        var url = "/api/sections/";
+        if (id > 0) {
+            type = "PUT"; // Update
+            url += id + "/";
+        }
+    
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: type,
+            success: function(json_result){
+                // Debugging code
+                var json_text = JSON.stringify(json_result, null, 2);
+                console.log(json_text);
+                    
+                // Call back the function with the JSON results.
+                callback(json_result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function delete_section(section_id, callback) {
+        var url = "/api/sections/" + section_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(json_results){
+                callback.call(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+</script>

@@ -10,6 +10,7 @@ from api.models.ec.receipt import Receipt
 from api.models.ec.helprequest import HelpRequest
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.promotion import Promotion
+from api.models.ec.section import Section
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -72,3 +73,10 @@ class PromotionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Promotion
         fields = ('promotion_id', 'name', 'discount', 'discount_type', 'organization',)
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = ('section_id', 'name', 'store', 'organization')
+

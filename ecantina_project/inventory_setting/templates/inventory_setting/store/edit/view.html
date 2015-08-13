@@ -314,16 +314,11 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-offset-1 col-sm-6">
-                                            <div class="table-responsive">
-                                                <!-- Ajax results -->
-                                                {% comment %}
-                                                Here is where we load up dynamic
-                                                UI which gets loaded up when AJAX
-                                                calls are made.
-                                                {% endcomment %}
-                                                <div id="ajax_sections_placeholder"
-                                                    name="ajax_sections_placeholder"></div>
-                                                <!-- /.Ajax. Results -->
+                                            
+                                                <!-- Sections Table -->
+                                                <div id="id_sections_table_placeholder">
+                                                </div>
+                                                <!-- /.Sections Table -->
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -348,21 +343,6 @@
         </div>
     </div>
 </section>
-
-
-<!-- Page footer-->
-<footer>
-    <span>&copy; 2015 - Comics Cantina</span>
-</footer>
-
-<!----------------------------------------------------------------------------->
-
-<!-- Modal -->
-<div id="ajax_modal_placeholder"
-   name="ajax_modal_placeholder"></div>
-<!-- end modal -->
-
-<!----------------------------------------------------------------------------->
 
 {% include "inventory_setting/store/edit/js.html" %}
 

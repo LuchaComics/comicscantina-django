@@ -11,11 +11,6 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/update_org_administrator$',org.ajax_update_org_administrator),
     # Store
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', stores.edit_store_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_logo$', stores.ajax_save_store_logo),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/save_data$', stores.ajax_save_store_data),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/section$', stores.ajax_section),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/delete_section$', stores.ajax_delete_section),
-    url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)/refresh_sections$', stores.ajax_refresh_sections),
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', stores.store_settings_page),
     # Users
     url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', users.users_list_settings_page),
