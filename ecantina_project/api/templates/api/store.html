@@ -43,7 +43,7 @@
             processData: false,
             type: 'DELETE',
                 success: function(json_results){
-                callback.call(json_results);
+                callback(json_results);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);

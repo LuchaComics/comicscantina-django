@@ -12,12 +12,13 @@ urlpatterns = patterns('',
     # Store
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', stores.edit_store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', stores.store_settings_page),
-    # Users
+    # Employee
     url(r'^inventory/(\d+)/(\d+)/settings/employee/(\d+)$', employees.users_list_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/employee/new', employees.add_employee_page),
     url(r'^inventory/(\d+)/(\d+)/settings/employee/edit/(\d+)$', employees.edit_user_settings_page),
-    
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_image$', employees.ajax_save_employee_image),
+    url(r'^inventory/(\d+)/(\d+)/settings/employee/save_user', employees.ajax_save_user),
+                       
+                       
     url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', employees.ajax_save_user_data),
     url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', employees.ajax_delete_user),
     url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', employees.ajax_assign_employee_to_store),

@@ -3,6 +3,7 @@
 {% include 'api/organization.html' %}
 {% include 'api/section.html' %}
 {% include 'api/employee.html' %}
+{% include 'api/user.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -73,87 +74,57 @@
         });
     }
 
-    function ajax_save_edit() {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0/0/save_data';
-    
+    function ajax_save_employee() {
         var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('role', $('#id_role').val());
-        data.append('joined', get_date());
-        data.append('email', $('#id_email').val());
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        data.append('name', $('#id_name').val());
-        data.append('description', $('#id_description').val());
-        data.append('phone', $('#id_phone').val());
-        data.append('fax', $('#id_fax').val());
-        data.append('website', $('#id_website').val());
-        data.append('twitter_url', $('#id_twitter_url').val());
-        data.append('facebook_url', $('#id_facebook_url').val());
-        data.append('instagram_url', $('#id_instagram_url').val());
-        data.append('linkedin_url', $('#id_linkedin_url').val());
-        data.append('github_url', $('#id_github_url').val());
-        data.append('google_url', $('#id_google_url').val());
-        data.append('youtube_url', $('#id_youtube_url').val());
-        data.append('flickr_url', $('#id_flickr_url').val());
-        data.append('street_number', $('#id_street_number').val());
-        data.append('street_name', $('#id_street_name').val());
-        data.append('unit_number', $('#id_unit_number').val());
-        data.append('city', $('#id_city').val());
-        data.append('country', $('#id_country').val());
-        data.append('province', $('#id_province').val());
-        data.append('postal', $('#id_postal').val());
-        // User
         data.append('first_name', $('#id_first_name').val());
         data.append('last_name', $('#id_last_name').val());
+        data.append('email', $('#id_email').val());
+        data.append('username', $('#id_email').val());
         data.append('old_password', $('#id_old_password').val());
         data.append('password', $('#id_password').val());
         data.append('password_repeated', $('#id_password_repeated').val());
+        data.append('groups','');
         
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-
-                    // STEP 1:
-                    // Iterate through all the stores an and process the
-                    // checked stores by assigning the returned 'employee_id'
-                    // with the 'store_id'.
-                    $('#id_store_checkboxes').children('input').each(function () {
-                        if (this.checked)
-                        {
-                            store_id = this.id;
-                            employee_id = json_result.employee_id;
-                                                                     
-                            // STEP 2:
-                            // Assign in the database.
-                            ajax_store_selection(store_id, employee_id);
-                        }
-                    });
-                    
-                    // STEP 3: Load up the list page.
-                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0'; 
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        set_user(0, data, function(json_result) {
+            var user = json_result['id'];
+                 
+            // Store
+            var data = new FormData();
+            data.append('user', user);
+            data.append('organization', '{{ org.org_id }}');
+            data.append('role', $('#id_role').val());
+            data.append('joined', get_date());
+            data.append('email', $('#id_email').val());
+            data.append('upload_id', $('#id_hidden_upload_id').val());
+            data.append('name', $('#id_name').val());
+            data.append('description', $('#id_description').val());
+            data.append('phone', $('#id_phone').val());
+            data.append('fax', $('#id_fax').val());
+            data.append('website', $('#id_website').val());
+            data.append('twitter_url', $('#id_twitter_url').val());
+            data.append('facebook_url', $('#id_facebook_url').val());
+            data.append('instagram_url', $('#id_instagram_url').val());
+            data.append('linkedin_url', $('#id_linkedin_url').val());
+            data.append('github_url', $('#id_github_url').val());
+            data.append('google_url', $('#id_google_url').val());
+            data.append('youtube_url', $('#id_youtube_url').val());
+            data.append('flickr_url', $('#id_flickr_url').val());
+            data.append('street_number', $('#id_street_number').val());
+            data.append('street_name', $('#id_street_name').val());
+            data.append('unit_number', $('#id_unit_number').val());
+            data.append('city', $('#id_city').val());
+            data.append('country', $('#id_country').val());
+            data.append('province', $('#id_province').val());
+            data.append('postal', $('#id_postal').val());
+                 
+            set_employee(0, data, function(json_result) {
+                var employee_id = json_result['employee_id'];
+                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+            });
         });
     }
+
+                                                                     
 
     function ajax_refresh_sections() {
         var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/refresh_sections';

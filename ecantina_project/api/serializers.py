@@ -1,4 +1,5 @@
 from django.forms import widgets
+from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from api.models.ec.customer import Customer
 from api.models.ec.store import Store
@@ -80,3 +81,18 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = ('section_id', 'name', 'store', 'organization')
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('name',)

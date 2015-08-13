@@ -77,7 +77,7 @@
     }
 
     function delete_employee(employee_id, callback) {
-        var url = "/api/employees/" + section_id + "/";
+        var url = "/api/employees/" + employee_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,
@@ -85,7 +85,7 @@
             processData: false,
             type: 'DELETE',
             success: function(json_results){
-                callback.call(json_results);
+                callback(json_results);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
