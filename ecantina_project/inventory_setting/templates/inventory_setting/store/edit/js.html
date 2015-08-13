@@ -1,12 +1,35 @@
-{% load staticfiles %}
+{% include 'api/imageupload.html' %}
+{% include 'api/store.html' %}
+{% include 'api/organization.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
     $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+        
         /**
          *  The following section makes the 'sections' automatically load
          *  when this page is refreshed or loaded.
          */
-        ajax_refresh_sections();
+        
                       
         /**
          *  The following section adds auto-complete fields for the following
@@ -49,48 +72,21 @@
            return false;
         }
     
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/save_logo';
-    
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('image', document.getElementById('id_image').files[0]);
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    //alert(json_result.src); // Debugging Purposes Only.
-                    $('#logo-image').attr('src', json_result.src);
-                    $('#id_hidden_upload_id').val(json_result.id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        var image = document.getElementById('id_image').files[0];
+        var upload_id = $('#id_hidden_upload_id').val();
+                      
+        // Insert or Update.
+        set_imageupload(upload_id, false, image, 0, function(json_result) {
+            $('#logo-image').attr('src', json_result['image']);
+            $('#id_hidden_upload_id').val(json_result['upload_id']);
         });
+
     }
 
     function ajax_save_edit() {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/save_data';
-    
         var data = new FormData();
         // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('organization', '{{ org.org_id }}');
         data.append('joined', $('#id_joined').val());
         data.append('email', $('#id_email').val());
         data.append('upload_id', $('#id_hidden_upload_id').val());
@@ -137,128 +133,18 @@
         data.append('is_open_saturday', $('#id_is_open_saturday').is(':checked'));
         data.append('is_open_sunday', $('#id_is_open_sunday').is(':checked'));
         
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    window.location = ''; // Reload page.
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        // Send the "FormData" object to be sent through REST and get updated.
+        set_store({{ store.store_id }}, data, function(json_result) {
+                         
+            // Update the store logo and tell the system
+            var upload_id = $('#id_hidden_upload_id').val();
+            set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
+                            
+                window.location = ""; // Refresh the page.
+                            
+            });
+           
         });
-    }
 
-    function ajax_refresh_sections() {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/refresh_sections';
-    
-        var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(result){
-                $('#ajax_sections_placeholder').html(result); // Update UI.
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
-        });
     }
-
-    function ajax_section(section_id) {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/section';
-    
-        var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('name', $('#id_section_id_' + section_id ).val());
-        data.append('section_id', section_id);
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    //window.location = ''; // Reload page.
-                    ajax_refresh_sections();
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-                },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
-        });
-    }
-
-    function ajax_delete_section(section_id) {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/delete_section';
-    
-        var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('name', $('#id_section_name').val());
-        data.append('section_id', section_id);
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    //window.location = ''; // Reload page.
-                    ajax_refresh_sections();
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
-        });
-    }
-
 </script>
