@@ -5,6 +5,19 @@
      */
     function list_sections(org_id, store_id, callback) {
         var url = "/api/sections/";
+        if (org_id > 0) {
+            url += "?organization=" + org_id;
+        }
+        if (store_id > 0) {
+            var prefix = "";
+            if (org_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            
+            url += prefix + "store=" + store_id;
+        }
         jQuery.ajax({
             url: url,
             cache: false,
