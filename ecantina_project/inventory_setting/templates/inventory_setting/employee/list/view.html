@@ -20,16 +20,16 @@
                             <li class="tab new-location">
                                 <em class="fa fa-plus-square pr">
                                 </em>
-                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ store.store_id }}/new" style="color: #fff;">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/new" style="color: #fff;">
                                     Add User
                                 </a>
                             </li>
                             <li class="tab {% if this_store == None %}selected{% endif %}">
-                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0">All Stores</a>
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/0">All Stores</a>
                             </li>
                             {% for a_store in stores %}
                             <li class="tab {% if a_store == this_store %}selected{% endif %}">
-                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ a_store.store_id }}">{{ a_store.name }}</a>
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/{{ a_store.store_id }}">{{ a_store.name }}</a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -78,7 +78,7 @@
                                     </td>
                                     <td class="text-center">
                                         <!-- Edit -->
-                                        <button onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ store.store_id }}/{{ an_employee.employee_id }}';"
+                                        <button onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/{{ an_employee.employee_id }}';"
                                                    type="button" class="btn btn-sm btn-primary" style="width:37px;">
                                             <em class="fa fa-edit center-block text-center p-sm"></em>
                                         </button>

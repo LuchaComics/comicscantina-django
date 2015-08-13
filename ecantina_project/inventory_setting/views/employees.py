@@ -19,7 +19,7 @@ from inventory_setting.forms.sectionform import SectionForm
 from inventory_setting.forms.employeeform import EmployeeForm
 
 
-# User - Listing
+# Listing
 #----------------
 
 
@@ -49,6 +49,58 @@ def users_list_settings_page(request, org_id, store_id, this_store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+# Add
+#----------------
+
+
+@login_required(login_url='/inventory/login')
+def add_employee_page(request, org_id, store_id):
+    organization = Organization.objects.get(org_id=org_id)
+    return render(request, 'inventory_setting/employee/add/view.html',{
+        'org': organization,
+        'store': Store.objects.get(store_id=store_id),
+        'stores': Store.objects.filter(organization=organization),
+        'employee': Employee.objects.get(user=request.user),
+        'employee_form': EmployeeForm(initial={'joined':datetime.now()}),
+        'user_form': UserForm(),
+        'tab':'users_settings',
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+
+# Edit
+#----------------
+
+
+@login_required(login_url='/inventory/login')
+def edit_user_settings_page(request, org_id, store_id, this_employee_id):
+    # Try to find the user.
+    try:
+        this_employee = Employee.objects.get(employee_id=this_employee_id)
+    except Employee.DoesNotExist:
+        this_employee = None
+    
+    organization = Organization.objects.get(org_id=org_id)
+    return render(request, 'inventory_setting/employee/edit/view.html',{
+                  'org': organization,
+                  'store': Store.objects.get(store_id=store_id),
+                  'stores': Store.objects.filter(organization=organization),
+                  'employee': Employee.objects.get(user=request.user),
+                  'this_employee': this_employee,
+                  'form': EmployeeForm(instance=this_employee),
+                  'user_form': UserForm() if this_employee is None else UserForm(instance=this_employee.user),
+                  'tab':'users_settings',
+                  'locations': Store.objects.filter(organization_id=org_id),
+                  'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+                  'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+                  'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+                  })
 
 
 # User - Common
@@ -224,63 +276,3 @@ def ajax_assign_employee_to_store(request, org_id, store_id):
             else:
                 response_data = {'status': 'failed', 'message': 'missing objects',}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-# User - Edit
-#----------------
-
-
-@login_required(login_url='/inventory/login')
-def edit_user_settings_page(request, org_id, store_id, this_store_id, this_employee_id):
-    # Try to find the user.
-    try:
-        this_employee = Employee.objects.get(employee_id=this_employee_id)
-    except Employee.DoesNotExist:
-        this_employee = None
-    
-    # Try to find the store we will be processing.
-    try:
-        this_store = Store.objects.get(store_id=this_store_id)
-    except Store.DoesNotExist:
-        this_store = None
-
-    organization = Organization.objects.get(org_id=org_id)
-    return render(request, 'inventory_setting/employee/edit/view.html',{
-        'org': organization,
-        'store': Store.objects.get(store_id=store_id),
-        'this_store': this_store,
-        'stores': Store.objects.filter(organization=organization),
-        'employee': Employee.objects.get(user=request.user),
-        'this_employee': this_employee,
-        'form': EmployeeForm(instance=this_employee),
-        'user_form': UserForm() if this_employee is None else UserForm(instance=this_employee.user),
-        'tab':'users_settings',
-        'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
-    })
-
-
-# User - Add
-#----------------
-
-
-@login_required(login_url='/inventory/login')
-def add_user_settings_page(request, org_id, store_id, this_store_id):
-    organization = Organization.objects.get(org_id=org_id)
-    return render(request, 'inventory_setting/employee/add/view.html',{
-        'org': organization,
-        'store': Store.objects.get(store_id=store_id),
-        'this_store': None,
-        'stores': Store.objects.filter(organization=organization),
-        'employee': Employee.objects.get(user=request.user),
-        'this_employee': None,
-        'employee_form': EmployeeForm(initial={'joined':datetime.now()}),
-        'user_form': UserForm(),
-        'tab':'users_settings',
-        'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
-    })

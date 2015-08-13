@@ -33,7 +33,7 @@ class UserForm(forms.ModelForm):
         }
 
     old_password = forms.CharField(
-        label='Password',
+        label='Old Password',
         max_length=100,
         widget=forms.TextInput(attrs={
             'type':'password',
@@ -44,7 +44,7 @@ class UserForm(forms.ModelForm):
     )
 
     password = forms.CharField(
-        label='Password',
+        label='New Password',
         max_length=100,
         widget=forms.TextInput(attrs={
             'type':'password',
