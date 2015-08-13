@@ -27,14 +27,10 @@
                                         Add Store
                                     </a>
                                 </li>
-                                <li class="tab selected">
-                                    <a style=""; href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id  }}">{{ this_store.name }}</a>
-                                </li>
                                 {% for a_store in stores %}
-                                <li class="tab">
+                                <li class="tab {% if a_store.store_id == this_store.store_id %}selected{% endif %}">
                                     <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ a_store.store_id }}">{{ a_store.name }}</a>
                                 </li>
-                                {% empty %}
                                 {% endfor %}
                                 </ul>
                             <div class="clearfix"></div>

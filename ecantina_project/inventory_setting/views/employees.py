@@ -35,7 +35,7 @@ def users_list_settings_page(request, org_id, store_id, this_store_id):
         this_store = None
         employees = Employee.objects.filter(organization=organization)
 
-    return render(request, 'inventory_setting/users/list/view.html',{
+    return render(request, 'inventory_setting/employee/list/view.html',{
         'org': organization,
         'store': Store.objects.get(store_id=store_id),
         'this_store': this_store,
@@ -245,7 +245,7 @@ def edit_user_settings_page(request, org_id, store_id, this_store_id, this_emplo
         this_store = None
 
     organization = Organization.objects.get(org_id=org_id)
-    return render(request, 'inventory_setting/users/edit/view.html',{
+    return render(request, 'inventory_setting/employee/edit/view.html',{
         'org': organization,
         'store': Store.objects.get(store_id=store_id),
         'this_store': this_store,
@@ -269,7 +269,7 @@ def edit_user_settings_page(request, org_id, store_id, this_store_id, this_emplo
 @login_required(login_url='/inventory/login')
 def add_user_settings_page(request, org_id, store_id, this_store_id):
     organization = Organization.objects.get(org_id=org_id)
-    return render(request, 'inventory_setting/users/add/view.html',{
+    return render(request, 'inventory_setting/employee/add/view.html',{
         'org': organization,
         'store': Store.objects.get(store_id=store_id),
         'this_store': None,

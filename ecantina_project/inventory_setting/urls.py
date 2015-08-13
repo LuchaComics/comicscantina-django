@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from inventory_setting.views import org
 from inventory_setting.views import stores
-from inventory_setting.views import users
+from inventory_setting.views import employees
 from inventory_setting.views import promo
 
 
@@ -13,13 +13,13 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', stores.edit_store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', stores.store_settings_page),
     # Users
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', users.users_list_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)$', users.edit_user_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/new', users.add_user_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_image$', users.ajax_save_employee_image),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', users.ajax_save_user_data),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', users.ajax_delete_user),
-    url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', users.ajax_assign_employee_to_store),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)$', employees.users_list_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)$', employees.edit_user_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/new', employees.add_user_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_image$', employees.ajax_save_employee_image),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/(\d+)/(\d+)/save_data$', employees.ajax_save_user_data),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/delete/(\d+)$', employees.ajax_delete_user),
+    url(r'^inventory/(\d+)/(\d+)/settings/users/assign_employee$', employees.ajax_assign_employee_to_store),
     # Promotions
     url(r'^inventory/(\d+)/(\d+)/settings/promotions$', promo.promo_settings_page),
 )

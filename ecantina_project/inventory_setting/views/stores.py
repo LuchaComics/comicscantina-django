@@ -26,13 +26,13 @@ def edit_store_settings_page(request, org_id, store_id, this_store_id):
     
     # Return all the stores belonging to this organization EXCEPT
     # the main store we are logged in as.
-    stores =  Store.objects.filter(organization=organization)
-    stores =  stores.filter(~Q(store_id = this_store_id))
+    #stores =  Store.objects.filter(organization=organization)
+    #stores =  stores.filter(~Q(store_id = this_store_id))
     return render(request, 'inventory_setting/store/edit/view.html',{
         'org': organization,
         'store': Store.objects.get(store_id=store_id),
         'this_store': this_store,
-        'stores': stores,
+        'stores': Store.objects.filter(organization=organization),
         'sections': Section.objects.filter(store=this_store),
         'tab':'store_settings',
         'employee': Employee.objects.get(user=request.user),
