@@ -12,6 +12,7 @@ from api.models.ec.helprequest import HelpRequest
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.promotion import Promotion
 from api.models.ec.section import Section
+from api.models.ec.wishlist import Wishlist
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -96,3 +97,9 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = ('name',)
+
+
+class WishlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = ('wishlist_id', 'customer', 'products')

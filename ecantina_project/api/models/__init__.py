@@ -27,3 +27,4 @@ from api.models.ec.product import Product
 from api.models.ec.helprequest import HelpRequest
 from api.models.ec.receipt import Receipt
 from api.models.ec.promotion import Promotion
+from api.models.ec.wishlist import Wishlist
