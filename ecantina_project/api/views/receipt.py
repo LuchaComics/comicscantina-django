@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
-from api.permissions import IsEmployeeUser, IsOnlyOwnedByEmployee
+from api.permissions import BelongsToOrganizationOrCustomer
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
@@ -16,7 +16,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     """
     queryset = Receipt.objects.all()
     serializer_class = ReceiptSerializer
-    permission_classes = (IsEmployeeUser, IsOnlyOwnedByEmployee, IsAuthenticated)
+    permission_classes = (BelongsToOrganizationOrCustomer, IsAuthenticated)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('organization', 'store', 'has_finished',)
 

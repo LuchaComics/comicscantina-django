@@ -20,11 +20,11 @@ class IsEmployeeUser(permissions.BasePermission):
         except Employee.DoesNotExist:
             return False
 
+
 class IsEmployeeUserOrReadOnly(permissions.BasePermission):
     """
         Custom permission to deny all non-employees from performing writing
-        actions and allow all read-only actions instead. Employees are able
-        to perform write actions.
+        actions and allow all read-only actions instead. 
     """
     message = 'Only employees are allowed to access data.'
     def has_permission(self, request, view):
@@ -45,18 +45,20 @@ class IsEmployeeUserOrReadOnly(permissions.BasePermission):
             return False
 
 
-class IsOnlyOwnedByEmployee(permissions.BasePermission):
+class BelongsToEmployee(permissions.BasePermission):
     """
         Object-level permission to only allow employees who own the object
         are thus given permission to access the employee.
     """
     message = 'Only employees who belong to the same organization are able to access data.'
     def has_object_permission(self, request, view, obj):
-        employee = Employee.objects.get(user=request.user)
+        try:
+            employee = Employee.objects.get(user=request.user)
         
-        # Instance must have an attribute named `organization`.
-        return obj.employee == employee
-
+            # Instance must have an attribute named `organization`.
+            return obj.employee == employee
+        except Employee.DoesNotExist:
+            return False
 
 class BelongsToOrganization(permissions.BasePermission):
     """
@@ -71,6 +73,50 @@ class BelongsToOrganization(permissions.BasePermission):
         
         # Instance must have an attribute named `organization`.
         return obj.organization == employee.organization
+
+
+class BelongsToOrganizationOrCustomer(permissions.BasePermission):
+    """
+        Object-level permission to only allow employees who belong to the
+        organization (of the object) be able to access/modify the object OR
+        customers of the object. If an employee from a different organization 
+        or different custoemr tries to access the object then permission denied 
+        will occure.
+    """
+    message = 'Only employees who belong to the same organization, or the customer of the object are able to access data.'
+    def has_object_permission(self, request, view, obj):
+        try:
+            employee = Employee.objects.get(user=request.user)
+            return obj.organization == employee.organization
+        except Employee.DoesNotExist:
+            pass
+
+        try:
+            customer = Customer.object.get(user=request.user)
+            return obj.customer == customer
+        except Customer.DoesNotExist:
+            return False
+
+
+class BelongsToCustomerOrIsEmployeeUser(permissions.BasePermission):
+    """
+        Object-level permission to only allow customers who own the object
+        be able to access/modify the object OR the logged in user is an
+        employee.
+    """
+    message = 'Only employees or customer who own this object are able to access the data.'
+    def has_object_permission(self, request, view, obj):
+        try:
+            employee = Employee.objects.get(user=request.user)
+            return obj.employee == employee
+        except Employee.DoesNotExist:
+            pass
+
+        try:
+            customer = Customer.object.get(user=request.user)
+            return obj.customer == customer
+        except Customer.DoesNotExist:
+            return False
 
 
 class BelongsToOrganizationOrReadOnly(permissions.BasePermission):
@@ -97,3 +143,4 @@ class BelongsToOrganizationOrReadOnly(permissions.BasePermission):
             return obj.organization == employee.organization
         except Employee.DoesNotExist:
             return False
+
