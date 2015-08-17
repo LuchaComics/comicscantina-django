@@ -134,42 +134,6 @@
     }
 
 
-    function ajax_section(section_id) {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ this_store.store_id }}/section';
-    
-        var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('name', $('#id_section_id_' + section_id ).val());
-        data.append('section_id', section_id);
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    //window.location = ''; // Reload page.
-                    ajax_refresh_sections();
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-                },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
-        });
-    }
-
     function ajax_store_selection(store_id, employee_id) {
         var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
     
@@ -204,24 +168,4 @@
             }
         });
     }
-
-    function get_date()
-    {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-    
-        if(dd<10) {
-            dd='0'+dd
-        }
-    
-        if(mm<10) {
-            mm='0'+mm
-        }
-    
-        today = yyyy+'-'+mm+'-'+dd;
-        return today
-    }
-
 </script>
