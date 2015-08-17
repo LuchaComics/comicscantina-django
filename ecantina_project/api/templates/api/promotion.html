@@ -12,7 +12,7 @@
             processData: false,
             type: 'GET',
             success: function(json_results){
-                callback.call(json_results);
+                callback(json_results);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
@@ -24,30 +24,14 @@
         });
     }
 
-    /**
-     *  Function will create a new image upload and return the inserted
-     *  results through the callback.
-     */
-    function set_promotion(upload_id, is_assigned, image, user_id ,callback)
+    function set_promotion(id, data, callback)
     {
-        var data = new FormData();
-        data.append('format', 'json');
-        data.append('is_assigned', is_assigned);
-        if (image != null)
-        {
-            data.append('image', image);
-        }
-        if (user_id > 0) {
-            data.append('user', user_id);
-        }
-        
-        var url = "/api/imageuploads/";
+        // Setup depending on whether we are inserting or updating.
         var type = "POST";
-        if (upload_id > 0)
-        {
-            url += upload_id + "/";
-            type = "PUT";
-            data.append('upload_id', upload_id);
+        var url = "/api/promotions/";
+        if (id > 0) {
+            type = "PUT"; // Update
+            url += id + "/";
         }
     
         jQuery.ajax({
@@ -61,9 +45,30 @@
                 // Debugging code
                 var json_text = JSON.stringify(json_result, null, 2);
                 console.log(json_text);
-                    
+                
                 // Call back the function with the JSON results.
                 callback(json_result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function delete_promotion(promotion_id, callback) {
+        var url = "/api/promotions/" + promotion_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(json_results){
+                callback(json_results);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);

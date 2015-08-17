@@ -16,13 +16,9 @@ from api.models.ec.section import Section
 
 @login_required(login_url='/inventory/login')
 def promo_settings_page(request, org_id, store_id):
-    organization = Organization.objects.get(org_id=org_id)
-    
     return render(request, 'inventory_setting/promo/view.html',{
-        'org': organization,
+        'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'this_store': None,
-        'stores': Store.objects.filter(organization=organization),
         'employee': Employee.objects.get(user=request.user),
         'tab':'promotion_settings',
         'locations': Store.objects.filter(organization_id=org_id),
