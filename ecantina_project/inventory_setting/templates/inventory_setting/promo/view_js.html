@@ -52,15 +52,23 @@
         // Add
         html += '<tr>';
         html += '<td>';
-        html += '<input id="id_section_id_0" type="text" class="store-section form-control" name="store-section[]" placeholder="Enter section name">';
+        html += '<input id="id_promotion_id_0" type="text" class="store-section ';
+        html += 'form-control" name="store-section[]" placeholder="Enter section name">';
         html += '</td>';
         html += '<td>';
-        html += '<div class="input-group"><input class="tag-discount form-control pull-left" style="width:36px;padding:5px;" name="tag-discount[]" type="text"><select class="tag-discount-type form-control pull-right" style="width:45px;padding:5px;" name="tag-discount-type[]"><option value="percent" selected="">%</option><option value="dollars">$</option></select></div>';
+        html += '<div class="input-group">';
+        html += '<input id="id_discount_id_0" class="tag-discount form-control pull-left" ';
+        html += 'style="width:36px;padding:5px;" name="tag-discount[]" type="text">';
+        html += '<select id="id_discount_type_id_0"class="tag-discount-type ';
+        html += 'form-control pull-right" style="width:45px;padding:5px;" name="tag-discount-type[]">';
+        html += '<option value="1" selected="">%</option>';
+        html += '<option value="2">$</option></select></div>';
         html += '</td>';
         html += '<td>';
         html += '<button onclick="ajax_promotion(0);" id="id_section_name" ';
         html += 'type="button" class="btn btn-labeled btn-success btn-add"> ';
-        html += '<span class="btn-label"><em class="fa fa-plus"></em></span><span style="font-size:12pt;">Add</span>';
+        html += '<span class="btn-label"><em class="fa fa-plus">';
+        html += '</em></span><span style="font-size:12pt;">Add</span>';
         html += '</button>';
         html += '<tbody>';
         html += '</td>';
@@ -78,8 +86,8 @@
             html += '<tr>';
                             
             // Name
-            var input = '<input id="id_section_id_' + promotion_id + '" ';
-            input += 'onfocusout="alert("test");" ';
+            var input = '<input id="id_promotion_id_' + promotion_id + '" ';
+            input += 'onfocusout="ajax_promotion('+promotion_id+');" ';
             input += 'type="text" ';
             input += 'class="store-section form-control" name="store-section[]" placeholder="Enter section name" ';
             input += 'value="' + name +'">';
@@ -87,22 +95,26 @@
                    
             // Discount / Type
             var group = '<div class="input-group">';
-            group += '<input class="tag-discount form-control ';
+            group += '<input id="id_discount_id_'+ promotion_id + '"';
+            group += 'onfocusout="ajax_promotion('+promotion_id+');" ';
+            group += 'class="tag-discount form-control ';
             group += 'pull-left" style="width:36px;padding:5px;" ';
             group += 'name="tag-discount[]" type="text" ';
             group += 'value="' + discount + '">';
-            group += '<select class="tag-discount-type form-control pull-right" ';
+            group += '<select id="id_discount_type_id_' + promotion_id + '"';
+            group += 'onchange="ajax_change_discount_type('+promotion_id+');" ';
+            group += 'class="tag-discount-type form-control pull-right" ';
             group += 'style="width:45px;padding:5px;" ';
             group += 'name="tag-discount-type[]">';
             if (discount_type == 1)
             {
-                group += '<option value="percent" selected="">%</option>';
-                group += '<option value="dollars">$</option>';
+                group += '<option value="1" selected="">%</option>';
+                group += '<option value="2">$</option>';
             }
             else if (discount_type == 2)
             {
-                group += '<option value="percent">%</option>';
-                group += '<option value="dollars" selected="">$</option>';
+                group += '<option value="1">%</option>';
+                group += '<option value="2" selected="">$</option>';
             }
             group += '</select>';
             group += '</div>';
@@ -136,15 +148,21 @@
      */
     function ajax_promotion(promotion_id)
     {
-        var name = $('#id_section_id_' + promotion_id).val();
-    
         // Fetch the data from the view and encode it into a "FormData" object.
         var data = new FormData();
         if (promotion_id > 0) {
             data.append('promotion_id', promotion_id);
         }
+        var name = $('#id_promotion_id_' + promotion_id).val();
+        var discount = $('#id_discount_id_'+promotion_id).val();
+        var discount_type = $('#id_discount_type_id_'+promotion_id).val();
+       
+        data.append('organization', '{{ org.org_id }}');
+        data.append('discount', discount);
+        data.append('discount_type', discount_type);
         data.append('name', name);
         data.append('organization', {{ org.org_id }});
+        //data.append('store', {{ store.store_id }});
     
         // Insert / Update and then refresh table.
         set_promotion(promotion_id, data, function(json_result) {
@@ -158,5 +176,14 @@
         delete_promotion(promotion_id, function(json_result) {
             ajax_refresh_table();  // Reload the table.
         });
+    }
+
+    function ajax_change_discount_type(promotion_id)
+    {
+        // Reset the value before saving.
+        $('#id_discount_id_'+promotion_id).val('0.00');
+        
+        // Save the value.
+        ajax_promotion(promotion_id);
     }
 </script>
