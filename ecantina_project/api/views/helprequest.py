@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
-from api.permissions import IsOnlyOwnedByOrganization
+from api.permissions import BelongsToOrganization
 from api.serializers import HelpRequestSerializer
 from api.models.ec.helprequest import HelpRequest
 from api.models.ec.organization import Organization
@@ -15,4 +15,4 @@ class HelpRequestViewSet(viewsets.ModelViewSet):
     """
     queryset = HelpRequest.objects.all()
     serializer_class = HelpRequestSerializer
-    permission_classes = (IsOnlyOwnedByOrganization, IsAuthenticated)
+    permission_classes = (BelongsToOrganization, IsAuthenticated)

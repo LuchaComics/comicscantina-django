@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import filters
 from api.permissions import IsEmployeeUser
 from api.serializers import ImageUploadSerializer
@@ -17,4 +17,4 @@ class ImageUploadViewSet(viewsets.ModelViewSet):
     """
     queryset = ImageUpload.objects.all()
     serializer_class = ImageUploadSerializer
-    permission_classes = (IsEmployeeUser, IsAuthenticated)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
