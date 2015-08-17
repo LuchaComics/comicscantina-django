@@ -2,14 +2,30 @@
 {% include 'api/store.html' %}
 {% include 'api/organization.html' %}
 {% include 'api/section.html' %}
-<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+{% include 'api/employee.html' %}
+{% include 'api/user.html' %}
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
     $(document).ready(function () {
-        /**
-         *  The following section makes the 'sections' automatically load
-         *  when this page is refreshed or loaded.
-         */
-        //ajax_refresh_sections();
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
                       
         /**
          *  The following section adds auto-complete fields for the following
@@ -48,108 +64,88 @@
     // this is to upload the cover image
     function ajax_upload_image() {
         if ($('#id_image').val() == "") {
-           alert('Please select an image to upload');
-           return false;
+            alert('Please select an image to upload');
+            return false;
         }
     
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ this_store.store_id }}/{{ this_employee.employee_id }}/save_image';
+        var image = document.getElementById('id_image').files[0];
+        var upload_id = $('#id_hidden_upload_id').val();
     
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('image', document.getElementById('id_image').files[0]);
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    //alert(json_result.src); // Debugging Purposes Only.
-                    $('#logo-image').attr('src', json_result.src);
-                    $('#id_hidden_upload_id').val(json_result.id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        // Insert or Update.
+        set_imageupload(upload_id, true, image, {{ this_employee.user_id }}, function(json_result) {
+            $('#logo-image').attr('src', json_result['image']);
+            $('#id_hidden_upload_id').val(json_result['upload_id']);
+            
+            // Update employee.
+            var data = new FormData();
+            data.append('user', {{ this_employee.user_id }});
+            data.append('employee_id', {{ this_employee.employee_id }});
+            data.append('organization', '{{ org.org_id }}');
+            data.append('role', $('#id_role').val());
+            data.append('email', $('#id_email').val());
+            data.append('upload_id', $('#id_hidden_upload_id').val());
+            data.append('first_name', $('#id_first_name').val());
+            data.append('last_name', $('#id_last_name').val());
+            data.append('phone', $('#id_phone').val());
+            data.append('fax', $('#id_fax').val());
+            data.append('street_number', $('#id_street_number').val());
+            data.append('street_name', $('#id_street_name').val());
+            data.append('unit_number', $('#id_unit_number').val());
+            data.append('city', $('#id_city').val());
+            data.append('country', $('#id_country').val());
+            data.append('province', $('#id_province').val());
+            data.append('postal', $('#id_postal').val());
+            data.append('profile', $('#id_hidden_upload_id').val());
+            set_employee({{ this_employee.employee_id }}, data, function(json_result) {
+                // Do nothing.
+            });
         });
     }
 
-    function ajax_save_edit() {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/{{ this_store.store_id }}/{{ this_employee.employee_id }}/save_data';
 
-    
+    function ajax_save_employee() {
+        // STEP 1:
+        // Create our 'auth_users' object.
         var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('role', $('#id_role').val());
-        data.append('joined', $('#id_joined').val());
-        data.append('email', $('#id_email').val());
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        data.append('name', $('#id_name').val());
-        data.append('description', $('#id_description').val());
-        data.append('phone', $('#id_phone').val());
-        data.append('fax', $('#id_fax').val());
-        data.append('website', $('#id_website').val());
-        data.append('twitter_url', $('#id_twitter_url').val());
-        data.append('facebook_url', $('#id_facebook_url').val());
-        data.append('instagram_url', $('#id_instagram_url').val());
-        data.append('linkedin_url', $('#id_linkedin_url').val());
-        data.append('github_url', $('#id_github_url').val());
-        data.append('google_url', $('#id_google_url').val());
-        data.append('youtube_url', $('#id_youtube_url').val());
-        data.append('flickr_url', $('#id_flickr_url').val());
-        data.append('street_number', $('#id_street_number').val());
-        data.append('street_name', $('#id_street_name').val());
-        data.append('unit_number', $('#id_unit_number').val());
-        data.append('city', $('#id_city').val());
-        data.append('country', $('#id_country').val());
-        data.append('province', $('#id_province').val());
-        data.append('postal', $('#id_postal').val());
-        // User
+        data.append('user_id', {{ this_employee.user_id }});
         data.append('first_name', $('#id_first_name').val());
         data.append('last_name', $('#id_last_name').val());
+        data.append('email', $('#id_email').val());
+        data.append('username', $('#id_email').val());
         data.append('old_password', $('#id_old_password').val());
         data.append('password', $('#id_password').val());
         data.append('password_repeated', $('#id_password_repeated').val());
-        
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/0';
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        data.append('groups','');
+        set_user({{ this_employee.user_id }}, data, function(json_result) {
+            var user = json_result['id'];
+             
+            // STEP 2:
+            // Create our 'ec_employees' object.
+            var data = new FormData();
+            data.append('user', user);
+            data.append('employee_id', {{ this_employee.employee_id }});
+            data.append('organization', '{{ org.org_id }}');
+            data.append('role', $('#id_role').val());
+            data.append('email', $('#id_email').val());
+            data.append('upload_id', $('#id_hidden_upload_id').val());
+            data.append('first_name', $('#id_first_name').val());
+            data.append('last_name', $('#id_last_name').val());
+            data.append('phone', $('#id_phone').val());
+            data.append('fax', $('#id_fax').val());
+            data.append('street_number', $('#id_street_number').val());
+            data.append('street_name', $('#id_street_name').val());
+            data.append('unit_number', $('#id_unit_number').val());
+            data.append('city', $('#id_city').val());
+            data.append('country', $('#id_country').val());
+            data.append('province', $('#id_province').val());
+            data.append('postal', $('#id_postal').val());
+            data.append('profile', $('#id_hidden_upload_id').val());
+            set_employee({{ this_employee.employee_id }}, data, function(json_result) {
+                var employee_id = json_result['employee_id'];
+                         
+                // STEP 3:
+                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+            });
         });
     }
 

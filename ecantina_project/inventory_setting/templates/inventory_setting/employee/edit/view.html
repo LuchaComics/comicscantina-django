@@ -7,7 +7,7 @@
     <div class="content-wrapper p0 bg-gray-lighter">
         <div class="header w100 bb m0 p-lg bg-white">
             <h3 class="m0 b0 p0"><em class="fa fa-cog mr"></em>Settings <em class="fa fa-angle-right pl pr"></em>
-                Users</h3>
+                Employees</h3>
         </div>
         <div class="clearfix"></div>
         <!-- START row 1 -->
@@ -33,14 +33,19 @@
                                         <!-- /.Upload ID -->
                                         
                                         {% if this_employee.profile.image == '' %}
-                                        <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                           class="img-thumbnail center-block mb0 add-cover-image"
-                                            name="logo-image" id="logo-image">
-                                        {% else %}
-                                        <img src="{{ this_employee.profile.image.url }}" style="height:140px;width:140px;"
+                                        <img src=""
+                                           style="height:140px;width:140px;"
                                              alt="Store Logo"
                                            class="img-thumbnail center-block mb0 add-cover-image"
-                                            name="logo-image" id="logo-image">
+                                            name="logo-image"
+                                              id="logo-image">
+                                        {% else %}
+                                        <img src="{{ this_employee.profile.image.url }}"
+                                           style="height:140px;width:140px;"
+                                             alt="Store Logo"
+                                           class="img-thumbnail center-block mb0 add-cover-image"
+                                            name="logo-image"
+                                              id="logo-image">
                                         {% endif %}
                                                 
                                         <label class="form-control btn btn-success mt10 curp" >
