@@ -47,64 +47,65 @@
         });
     }
 
-function generate_table(json_result)
-{
-    // Debugging code
-    //var json_text = JSON.stringify(result, null, 2);
-    //var obj = JSON.parse(json_text);
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
     
-    // Initial Code
-    var html = '';
-    html += '<div class="table-responsive">';
-    html += '<table id="table-ext-1" class="table table-hover">';
-    html += '<thead>';
-    html += '<tr>';
-    html += '<th style="width:20%">First Name</th>';
-    html += '<th style="width:20%">Last Name</th>';
-    html += '<th style="width:20%">Email</th>';
-    html += '<th style="width:13%">Phone</th>';
-    html += '<th style="width:13%"></th>';
-    html += '</tr>';
-    html += '</thead>';
-    html += '<tbody>';
-    
-    $(json_result).each(function(iter,val){
-        var customer_id = val['customer_id'];
-        var first_name = val['first_name'];
-        var last_name = val['last_name'];
-        var email = val['email'];
-        var phone = val['phone'];
-                        
-        // Table Row
+        // Initial Code
+        var html = '';
+        html += '<div class="table-responsive">';
+        html += '<table id="table-ext-1" class="table table-hover">';
+        html += '<thead>';
         html += '<tr>';
-                        
-        // Col 1
-        var col1 = first_name;
-        html += '<td>' + col1 + '</td>';
-                        
-        // Col 2
-        var col2 = last_name;
-        html += '<td>' + col2 + '</td>';
-                        
-        // Col 3
-        var col3 = email;
-        html += '<td>' + col3 + '</td>';
-                        
-        // Col 4
-        var col4 = phone;
-        html += '<td>' + col4 + '</td>';
-                        
-        // Col 5
-        var col5 = '<a href="" class="btn btn-success btn-sm">View Details</a>';
-        html += '<td style="text-align:center;">' + col5 + '</td>';
-                    
-        // Close Table Row
+        html += '<th style="width:20%">First Name</th>';
+        html += '<th style="width:20%">Last Name</th>';
+        html += '<th style="width:20%">Email</th>';
+        html += '<th style="width:13%">Phone</th>';
+        html += '<th style="width:13%"></th>';
         html += '</tr>';
-    });
+        html += '</thead>';
+        html += '<tbody>';
+    
+        $(json_result).each(function(iter,val){
+            var customer_id = val['customer_id'];
+            var first_name = val['first_name'];
+            var last_name = val['last_name'];
+            var email = val['email'];
+            var phone = val['phone'];
                         
-    html += '</tbody></table></div>';
-    $('#id_table_placeholder').html(''); // Clear Table
-    $(html).appendTo('#id_table_placeholder'); // Load Table.
-}
+            // Table Row
+            html += '<tr>';
+                        
+            // Col 1
+            var col1 = first_name;
+            html += '<td>' + col1 + '</td>';
+                        
+            // Col 2
+            var col2 = last_name;
+            html += '<td>' + col2 + '</td>';
+                        
+            // Col 3
+            var col3 = email;
+            html += '<td>' + col3 + '</td>';
+                        
+            // Col 4
+            var col4 = phone;
+            html += '<td>' + col4 + '</td>';
+                        
+            // Col 5
+            var href_url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
+            var col5 = '<a href="'+href_url+'" class="btn btn-success btn-sm">View Details</a>';
+            html += '<td style="text-align:center;">' + col5 + '</td>';
+                    
+            // Close Table Row
+            html += '</tr>';
+        });
+                        
+        html += '</tbody></table></div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
 
 </script>

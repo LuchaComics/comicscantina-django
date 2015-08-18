@@ -40,3 +40,48 @@ def add_customer_page(request, org_id, store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+@login_required(login_url='/inventory/login')
+def profile_page(request, org_id, store_id, customer_id):
+    return render(request, 'inventory_customer/profile/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'customer': Customer.objects.get(customer_id=customer_id),
+        'tab':'customers_list',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+@login_required(login_url='/inventory/login')
+def purchases_page(request, org_id, store_id, customer_id):
+    return render(request, 'inventory_customer/receipt/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'customer': Customer.objects.get(customer_id=customer_id),
+        'tab':'customers_list',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+@login_required(login_url='/inventory/login')
+def subscriptions_page(request, org_id, store_id, customer_id):
+    return render(request, 'inventory_customer/subscription/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'customer': Customer.objects.get(customer_id=customer_id),
+        'tab':'customers_list',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })

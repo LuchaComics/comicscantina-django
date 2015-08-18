@@ -1,0 +1,121 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-users mr"></em>Customers <em class="fa fa-angle-right pl pr"></em> Orders </h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="users-panel2" class="clearfix panel panel-default m-lg">
+                    <div class="panel-tabs w100 p m0"
+                        style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
+                        <ul class="tab-list clearfix">
+                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                            <li class="tab product-type dropdown" role="presentation">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" role="button">
+                                    John Doe
+                                </a>
+                            </li>
+                            <li class="tab">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/profile">Profile</a>
+                            </li>
+                            <li class="tab selected">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/purchases">Purchases</a>
+                            </li>
+                            <li class="tab">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/subscriptions">Subscriptions</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body panel-body-main">
+                        <div class="col-sm-12">
+                            <!-- START row 1 -->
+                            <div class="row clearfix" style="margin-left:-20px;margin-right:-20px;height:100% !important;">
+                                <div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%">Order ID</th>
+                                                <th style="width:15%;">Price</th>
+                                                <th style="width:20%;">Payment Method</th>
+                                                <th style="width:10%;"># Items</th>
+                                                <th style="width:20%;">Date</th>
+                                                <th style="width:10%;">Status</th>
+                                                <th style="width:10%;">Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>$100.00</td>
+                                                <td>PayPal</td>
+                                                <td>7</td>
+                                                <td>05/27/2015 @ 17:32</td>
+                                                <td>
+                                                    <div class="label label-danger">New Order</div>
+                                                </td>
+                                                <td>
+                                                    <a href="orders_view_details.html" class="btn btn-success btn-sm">View Details</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>$100.00</td>
+                                                <td>PayPal</td>
+                                                <td>7</td>
+                                                <td>05/27/2015 @ 17:32</td>
+                                                <td>
+                                                    <div class="label label-warning">Picked</div>
+                                                </td>
+                                                <td>
+                                                    <a href="orders_view_details.html" class="btn btn-success btn-sm">View Details</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>$100.00</td>
+                                                <td>PayPal</td>
+                                                <td>7</td>
+                                                <td>05/27/2015 @ 17:32</td>
+                                                <td>
+                                                    <div class="label label-success">Shipped</div>
+                                                </td>
+                                                <td>
+                                                    <a href="orders_view_details.html" class="btn btn-success btn-sm">View Details</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>$100.00</td>
+                                                <td>PayPal</td>
+                                                <td>7</td>
+                                                <td>05/27/2015 @ 17:32</td>
+                                                <td>
+                                                    <div class="label label-info">In-store Sale</div>
+                                                </td>
+                                                <td>
+                                                    <a href="orders_view_details.html" class="btn btn-success btn-sm">View Details</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END panel-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include "inventory_customer/receipt/js.html" %}
+{% endblock content %}

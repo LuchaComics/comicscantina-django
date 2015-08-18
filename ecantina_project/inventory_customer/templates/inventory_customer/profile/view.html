@@ -1,0 +1,171 @@
+{% extends 'inventory/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="fa fa-users mr"></em>Customers <em class="fa fa-angle-right pl pr"></em> Profile </h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- START panel-->
+                <div id="users-panel2" class="clearfix panel panel-default m-lg">
+                    <div class="panel-tabs w100 p m0"
+                        style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
+                        <ul class="tab-list clearfix">
+                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                            <li class="tab product-type dropdown" role="presentation">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" role="button">
+                                    John Doe
+                                </a>
+                            </li>
+                            <li class="tab selected">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/profile">Profile</a>
+                            </li>
+                            <li class="tab">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/purchases">Purchases</a>
+                            </li>
+                            <li class="tab">
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/subscriptions">Subscriptions</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body panel-body-main">
+                        <form class="form-horizontal">
+                            <div class="col-sm-12">
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Account Information</h3>
+                                        <p class="mb0 text-justify">This is the customer's login information to access the store checkout page, as well as their general information.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 mt-lg">
+                                    <div class="form-group">
+                                        <label for="txt-login" class="col-md-4 control-label">User Login</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-login" name="login" class="form-control" required type="text" value="jdoe@email.com" disabled>
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-firstname" class="col-md-4 control-label">First Name</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-firstname" name="firstname" class="form-control" required type="text" value="John" disabled>
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-lastname" class="col-md-4 control-label">Last Name</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-lastname" name="lastname" class="form-control" required type="email" value="Doe" disabled>
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-email" class="col-md-4 control-label">Contact Email Address</label>
+                                        <div class="col-md-8">
+                                            <input id="txt-email" name="email" class="form-control" required type="text" value="johndoe@email.com" disabled>
+                                                </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="txt-email" class="col-md-4 control-label">Registration Date</label>
+                                        <div class="col-md-8">
+                                            <label class="control-label text-bold text-primary">August 1, 2015 @ 16:00</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Allow Email Contact</label>
+                                        <div class="col-md-8">
+                                            <div class="checkbox c-checkbox pull-left mr-xl">
+                                                <label>
+                                                    <a href="#" class="btn btn-xs btn-labeled btn-primary mb mr">
+                                                        Unsubscribe
+                                                    </a>
+                                                    <a href="#" class="btn btn-xs btn-labeled btn-primary mb mr">
+                                                        Subscribe
+                                                    </a>
+                                                    *button changes depending on their status*
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Addresses</h3>
+                                        <p class="mb0 text-justify">These are the addresses that the customer has added to their account for shipping and billing.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 mt-lg">
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"><strong>Address Name</strong></h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul style="list-style-type:none;">
+                                                    <li><span class="address-name"> <strong>John Doe</strong></span></li>
+                                                    <li><span class="address-line1"> 123 Fake St. </span></li>
+                                                    <li><span class="address-line2"> 1A1A1A </span></li>
+                                                    <li><span class="address-line3"> London, Ontario, Canada </span></li>
+                                                    <li><span> <strong>Phone</strong> : 519-555-5555 </span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"><strong>Address Name</strong></h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul style="list-style-type:none;">
+                                                    <li><span class="address-name"> <strong>Jane Doe</strong></span></li>
+                                                    <li><span class="address-line1"> 456 Real Ln. </span></li>
+                                                    <li><span class="address-line2"> 2B2B2B </span></li>
+                                                    <li><span class="address-line3"> London, Ontario, Canada </span></li>
+                                                    <li><span> <strong>Phone</strong> : 519-555-4444 </span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"><strong>Address Name</strong></h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul style="list-style-type:none;">
+                                                    <li><span class="address-name"> <strong>R Doe</strong></span></li>
+                                                    <li><span class="address-line1"> 789 Random Rd. </span></li>
+                                                    <li><span class="address-line2"> 3C3C3C </span></li>
+                                                    <li><span class="address-line3"> London, Ontario, Canada </span></li>
+                                                    <li><span> <strong>Phone</strong> : 519-555-3333 </span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel-footer">
+                        <button class="btn btn-lg btn-labeled btn-danger pull-right mb" style="font-size:14pt;">
+                            <span class="btn-label"><i class="fa fa-remove"></i></span>Remove User
+                        </button>
+                    </div>
+                    <!-- END panel-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include "inventory_customer/profile/js.html" %}
+{% endblock content %}
