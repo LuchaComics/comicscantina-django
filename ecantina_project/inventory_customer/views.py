@@ -1,3 +1,106 @@
+import json
+from datetime import datetime
 from django.shortcuts import render
+from django.core import serializers
+from django.http import HttpResponse
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from api.models.ec.organization import Organization
+from api.models.ec.employee import Employee
+from api.models.ec.store import Store
+from api.models.ec.customer import Customer
+from inventory.forms.customerform import CustomerForm
 
-# Create your views here.
+
+@login_required(login_url='/inventory/login')
+def customers_page(request, org_id, store_id):
+    return render(request, 'inventory_customer/list/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'tab':'customers_list',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+@login_required()
+def ajax_refresh_table(request, org_id, store_id):
+    return render(request, 'inventory_customer/list/table.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'tab':'customers_list',
+        'employee': Employee.objects.get(user=request.user),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+@login_required(login_url='/inventory/login')
+def add_customer_page(request, org_id, store_id):
+    return render(request, 'inventory_customer/add/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'form': CustomerForm(initial={'joined':datetime.now()}),
+        'tab':'add_customer',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+@login_required()
+def ajax_add_customer(request, org_id, store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            form = CustomerForm(request.POST)
+            if form.is_valid() is False:
+                response_data = {
+                    'status': 'failed',
+                    'message' : json.dumps(form.errors),
+                }
+            else:
+                form.save()  # Save our customer object.
+                
+                # Add it to the organization.
+                try:
+                    org = Organization.objects.get(org_id=org_id)
+                    org.customers.add(form.instance)
+                    org.save()
+                except:
+                    pass
+
+                response_data = {
+                    'status': 'success',
+                    'message': 'saved',
+                    'customer_id': form.instance.customer_id,
+                }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+@login_required()
+def ajax_delete_customer(request, org_id, store_id):
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+    if request.is_ajax():
+        if request.method == 'POST':
+            customer_id = request.POST['customer_id']
+            try:
+                customer = Customer.objects.get(customer_id=customer_id)
+                customer.delete()
+                response_data = {
+                    'status': 'success',
+                    'message': 'saved',
+                }
+            except Customer.DoesNotExist:
+                response_data = {
+                    'status': 'failed',
+                    'message' : 'does not exist',
+                }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+

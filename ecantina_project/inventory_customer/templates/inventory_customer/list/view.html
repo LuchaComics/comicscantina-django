@@ -1,7 +1,6 @@
 {% extends 'inventory/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
 <section style="height:100% !important;">
     <!-- Page content-->
     <div class="content-wrapper" style="padding-bottom:0;height:100% !important;">
@@ -50,17 +49,5 @@
         </div>
     </div>
 </section>
-
-
-<!----------------------------------------------------------------------------->
-
-<!-- Modal -->
-<div id="ajax_modal_placeholder"
-   name="ajax_modal_placeholder"></div>
-<!-- end modal -->
-
-<!----------------------------------------------------------------------------->
-
-{% include "inventory/customers/list/js.html" %}
-
+{% include "inventory_customer/list/js.html" %}
 {% endblock content %}
