@@ -1,9 +1,11 @@
 <script>
     function list_receipt(org_id, store_id, customer_id, callback) {
         var url = "/api/receipts/";
+        
         if (org_id > 0) {
             url += "?organization=" + org_id;
         }
+        
         if (store_id > 0) {
             var prefix = "";
             if (org_id > 0) {
@@ -14,7 +16,15 @@
             url += prefix + "store=" + store_id;
         }
         
-        
+        if (customer_id > 0) {
+            var prefix = "";
+            if (org_id > 0 || store_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            url += prefix + "customer=" + customer_id;
+        }
         
         jQuery.ajax({
             url: url,
