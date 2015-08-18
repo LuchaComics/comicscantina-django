@@ -1,7 +1,6 @@
 {% extends 'inventory/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
 <section>
     <div class="content-wrapper p0 bg-gray-lighter">
         <div class="header w100 bb m0 p-lg bg-white">
@@ -63,16 +62,5 @@
         </div>
     </div>
 </section>
-
-<!----------------------------------------------------------------------------->
-
-<!-- Modal -->
-<div id="ajax_modal_placeholder"
-   name="ajax_modal_placeholder"></div>
-<!-- end modal -->
-
-<!----------------------------------------------------------------------------->
-
 {% include "inventory_customer/add/js.html" %}
-
 {% endblock content %}

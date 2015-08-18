@@ -27,19 +27,6 @@ def customers_page(request, org_id, store_id):
     })
 
 
-@login_required()
-def ajax_refresh_table(request, org_id, store_id):
-    return render(request, 'inventory_customer/list/table.html',{
-        'org': Organization.objects.get(org_id=org_id),
-        'store': Store.objects.get(store_id=store_id),
-        'tab':'customers_list',
-        'employee': Employee.objects.get(user=request.user),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
-    })
-
-
 @login_required(login_url='/inventory/login')
 def add_customer_page(request, org_id, store_id):
     return render(request, 'inventory_customer/add/view.html',{
@@ -53,54 +40,3 @@ def add_customer_page(request, org_id, store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
-
-
-@login_required()
-def ajax_add_customer(request, org_id, store_id):
-    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            form = CustomerForm(request.POST)
-            if form.is_valid() is False:
-                response_data = {
-                    'status': 'failed',
-                    'message' : json.dumps(form.errors),
-                }
-            else:
-                form.save()  # Save our customer object.
-                
-                # Add it to the organization.
-                try:
-                    org = Organization.objects.get(org_id=org_id)
-                    org.customers.add(form.instance)
-                    org.save()
-                except:
-                    pass
-
-                response_data = {
-                    'status': 'success',
-                    'message': 'saved',
-                    'customer_id': form.instance.customer_id,
-                }
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-@login_required()
-def ajax_delete_customer(request, org_id, store_id):
-    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            customer_id = request.POST['customer_id']
-            try:
-                customer = Customer.objects.get(customer_id=customer_id)
-                customer.delete()
-                response_data = {
-                    'status': 'success',
-                    'message': 'saved',
-                }
-            except Customer.DoesNotExist:
-                response_data = {
-                    'status': 'failed',
-                    'message' : 'does not exist',
-                }
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
