@@ -20,6 +20,26 @@
         });
     }
 
+    function search_customers(keyword, callback) {
+        var url = "/api/customers/?search="+keyword;
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
     
     function set_customer(id, data, callback)
     {

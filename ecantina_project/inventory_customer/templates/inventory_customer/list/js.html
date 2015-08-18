@@ -39,6 +39,14 @@
         });
     }
 
+    function ajax_search()
+    {
+        var keyword = $('#id_search_keyword').val();
+        search_customers(keyword, function(json_result) {
+            generate_table(json_result);
+        });
+    }
+
 function generate_table(json_result)
 {
     // Debugging code
