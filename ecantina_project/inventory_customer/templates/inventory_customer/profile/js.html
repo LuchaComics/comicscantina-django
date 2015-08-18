@@ -25,5 +25,12 @@
             }
         });
     });
+    
+    function ajax_delete(customer_id)
+    {
+        delete_customer(customer_id, function (json_result) {
+             window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/customers";
+        });
+    }
 
 </script>

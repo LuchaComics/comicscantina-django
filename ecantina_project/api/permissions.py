@@ -107,8 +107,8 @@ class BelongsToCustomerOrIsEmployeeUser(permissions.BasePermission):
     message = 'Only employees or customer who own this object are able to access the data.'
     def has_object_permission(self, request, view, obj):
         try:
-            employee = Employee.objects.get(user=request.user)
-            return obj.employee == employee
+            Employee.objects.get(user=request.user)
+            return True
         except Employee.DoesNotExist:
             pass
 

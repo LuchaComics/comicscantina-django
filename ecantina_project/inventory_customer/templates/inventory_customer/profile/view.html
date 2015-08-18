@@ -75,13 +75,15 @@
                                         <div class="col-md-8">
                                             <div class="checkbox c-checkbox pull-left mr-xl">
                                                 <label>
+                                                {% if customer.has_consented == True %}
                                                     <a href="#" class="btn btn-xs btn-labeled btn-primary mb mr">
                                                         Unsubscribe
                                                     </a>
+                                                {% else %}
                                                     <a href="#" class="btn btn-xs btn-labeled btn-primary mb mr">
                                                         Subscribe
                                                     </a>
-                                                    *button changes depending on their status*
+                                                {% endif %}
                                                 </label>
                                             </div>
                                         </div>
@@ -135,7 +137,8 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="panel-footer">
-                        <button class="btn btn-lg btn-labeled btn-danger pull-right mb" style="font-size:14pt;">
+                        <button onclick="ajax_delete({{ customer.customer_id }});"
+                                  class="btn btn-lg btn-labeled btn-danger pull-right mb" style="font-size:14pt;">
                             <span class="btn-label"><i class="fa fa-remove"></i></span>Remove User
                         </button>
                     </div>
