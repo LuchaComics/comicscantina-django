@@ -12,6 +12,7 @@ from api.views import promotion
 from api.views import section
 from api.views import user
 from api.views import wishlist
+from api.views import pulllist
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
@@ -30,6 +31,7 @@ router.register(r'sections', section.SectionViewSet)
 router.register(r'users', user.UserViewSet)
 router.register(r'groups', user.GroupViewSet)
 router.register(r'wishlists', wishlist.WishlistViewSet)
+router.register(r'pulllists', pulllist.PulllistViewSet)
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.

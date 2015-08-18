@@ -13,6 +13,7 @@ from api.models.ec.imageupload import ImageUpload
 from api.models.ec.promotion import Promotion
 from api.models.ec.section import Section
 from api.models.ec.wishlist import Wishlist
+from api.models.ec.pulllist import Pulllist
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -102,3 +103,9 @@ class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ('wishlist_id', 'customer', 'products')
+
+
+class PulllistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pulllist
+        fields = ('pulllist_id', 'name', 'organization', 'series', 'publisher', 'customers',)
