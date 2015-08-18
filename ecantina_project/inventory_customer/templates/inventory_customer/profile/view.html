@@ -76,11 +76,15 @@
                                             <div class="checkbox c-checkbox pull-left mr-xl">
                                                 <label>
                                                 {% if customer.has_consented == True %}
-                                                    <a href="#" class="btn btn-xs btn-labeled btn-primary mb mr">
+                                                    <a onclick="ajax_subscribe({{ customer.customer_id }});"
+                                                         class="btn btn-xs btn-labeled btn-primary mb mr"
+                                                            id="id_has_consented">
                                                         Unsubscribe
                                                     </a>
                                                 {% else %}
-                                                    <a href="#" class="btn btn-xs btn-labeled btn-primary mb mr">
+                                                    <a onclick="ajax_subscribe({{ customer.customer_id }});"
+                                                         class="btn btn-xs btn-labeled btn-primary mb mr"
+                                                            id="id_has_consented">
                                                         Subscribe
                                                     </a>
                                                 {% endif %}

@@ -33,4 +33,41 @@
         });
     }
 
+    function ajax_subscribe(customer_id)
+    {
+        var has_consented = '{{ customer.has_consented }}';
+        if (has_consented == 'True') {
+            has_consented = 'False';
+        } else {
+            has_consented = 'True';
+        }
+        var data = new FormData();
+        data.append('first_name', '{{ customer.first_name }}');
+        data.append('last_name', '{{ customer.last_name }}');
+        data.append('email', '{{ customer.email }}');
+        data.append('billing_name', '{{ customer.billing_name }}');
+        data.append('billing_phone', '{{ customer.billing_phone }}');
+        data.append('billing_street_number', '{{ customer.billing_street_number }}');
+        data.append('billing_street_name', '{{ customer.billing_street_number }}');
+        data.append('billing_unit_number', '{{ customer.billing_unit_number }}');
+        data.append('billing_city', '{{ customer.billing_city }}');
+        data.append('billing_country', '{{ customer.billing_country }}');
+        data.append('billing_province', '{{ customer.billing_province }}');
+        data.append('billing_postal', '{{ customer.billing_postal }}');
+        data.append('shipping_name', '{{ customer.shipping_name }}');
+        data.append('shipping_phone', '{{ customer.shipping_phone }}');
+        data.append('shipping_street_number', '{{ customer.shipping_street_number }}');
+        data.append('shipping_street_name', '{{ customer.shipping_street_name }}');
+        data.append('shipping_unit_number', '{{ customer.shipping_unit_number }}');
+        data.append('shipping_city', '{{ customer.shipping_city }}');
+        data.append('shipping_country', '{{ customer.shipping_country }}');
+        data.append('shipping_province', '{{ customer.shipping_province }}');
+        data.append('shipping_postal', '{{ customer.shipping_postal }}');
+        data.append('has_consented', has_consented);
+        
+        // Update customer
+        set_customer(customer_id, data, function() {
+            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
+        });
+    }
 </script>
