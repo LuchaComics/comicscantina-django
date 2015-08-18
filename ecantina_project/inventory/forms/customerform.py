@@ -14,7 +14,7 @@ from api.models.ec.customer import Customer
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'email' , 'phone', 'has_consented',
+        fields = ['first_name', 'last_name', 'billing_name', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city' , 'billing_province' , 'billing_country' , 'billing_postal' , 'billing_phone', 'shipping_name', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city' , 'shipping_province' , 'shipping_country' , 'shipping_postal' , 'shipping_phone', 'email' , 'has_consented',
         ]
         labels = {
         
@@ -28,33 +28,77 @@ class CustomerForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Last Name'
             }),
-            'street_number': TextInput(attrs={
+            'billing_name': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Full Name'
+            }),
+            'billing_street_number': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Street #'
             }),
-            'street_name': TextInput(attrs={
+            'billing_street_name': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Street Name'
             }),
-            'unit_number': TextInput(attrs={
+            'billing_unit_number': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Unit #'
             }),
-            'city': TextInput(attrs={
+            'billing_city': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City'
             }),
-            'province': TextInput(attrs={
+            'billing_province': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Province / State'
             }),
-            'country': TextInput(attrs={
+            'billing_country': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Country'
             }),
-            'postal': TextInput(attrs={
+            'billing_postal': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip'
+            }),
+            'billing_phone': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Phone Number'
+            }),
+            'shipping_name': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Full Name'
+            }),
+            'shipping_street_number': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Street #'
+            }),
+            'shipping_street_name': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Street Name'
+            }),
+            'shipping_unit_number': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Unit #'
+            }),
+            'shipping_city': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter City'
+            }),
+            'shipping_province': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Province / State'
+            }),
+            'shipping_country': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Country'
+            }),
+            'shipping_postal': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Postal Code / Zip'
+            }),
+            'shipping_phone': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Phone Number'
             }),
             'website': TextInput(attrs={
                 'class': u'form-control mb-lg',
@@ -63,9 +107,5 @@ class CustomerForm(forms.ModelForm):
             'email': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Email Address'
-            }),
-            'phone': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Phone Number'
             }),
         }

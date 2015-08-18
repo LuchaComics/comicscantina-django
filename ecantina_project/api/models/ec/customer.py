@@ -21,16 +21,28 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
     email = models.EmailField(null=True, blank=True, unique=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
     
-    # Address
-    street_name = models.CharField(max_length=63)
-    street_number = models.CharField(max_length=15)
-    unit_number = models.CharField(max_length=15, null=True, blank=True)
-    city = models.CharField(max_length=63)
-    province = models.CharField(max_length=63)
-    country = models.CharField(max_length=63)
-    postal = models.CharField(max_length=31)
+    # Billing Info
+    billing_name = models.CharField(max_length=126)
+    billing_phone = models.CharField(max_length=15, null=True, blank=True)
+    billing_street_name = models.CharField(max_length=63)
+    billing_street_number = models.CharField(max_length=15)
+    billing_unit_number = models.CharField(max_length=15, null=True, blank=True)
+    billing_city = models.CharField(max_length=63)
+    billing_province = models.CharField(max_length=63)
+    billing_country = models.CharField(max_length=63)
+    billing_postal = models.CharField(max_length=31)
+    
+    # Shipping Info
+    shipping_name = models.CharField(max_length=126)
+    shipping_phone = models.CharField(max_length=15, null=True, blank=True)
+    shipping_street_name = models.CharField(max_length=63)
+    shipping_street_number = models.CharField(max_length=15)
+    shipping_unit_number = models.CharField(max_length=15, null=True, blank=True)
+    shipping_city = models.CharField(max_length=63)
+    shipping_province = models.CharField(max_length=63)
+    shipping_country = models.CharField(max_length=63)
+    shipping_postal = models.CharField(max_length=31)
     
     # Legal
     has_consented = models.BooleanField(default=False)

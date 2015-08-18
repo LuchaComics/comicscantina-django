@@ -18,4 +18,4 @@ class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     search_fields = ('=customer_id', 'first_name', 'last_name', 'email')
-    filter_fields = ('first_name','last_name','email','phone',)
+    filter_fields = ('first_name','last_name','email',)
