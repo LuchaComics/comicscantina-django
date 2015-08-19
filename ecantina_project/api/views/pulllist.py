@@ -15,6 +15,6 @@ class PulllistViewSet(viewsets.ModelViewSet):
     queryset = Pulllist.objects.all()
     serializer_class = PulllistSerializer
     permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     filter_fields = ('series__series_id','organization__org_id')
-
+    search_fields = ('series__series_sort_name',)

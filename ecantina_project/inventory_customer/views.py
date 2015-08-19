@@ -76,12 +76,6 @@ def purchases_page(request, org_id, store_id, customer_id):
 
 @login_required(login_url='/inventory/login')
 def subscriptions_page(request, org_id, store_id, customer_id):
-    # Fetch all the pullists that belong to this organization.
-    try:
-        pulllists = Pulllist.objects.filter(organization_id=org_id)
-    except Pulllist.DoesNotExist:
-        pulllists = None
-
     # Fetch all the pullists belonging to the current client.
     try:
         subscriptions = PulllistSubscription.objects.filter(customer_id=customer_id)
@@ -93,7 +87,6 @@ def subscriptions_page(request, org_id, store_id, customer_id):
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'customer': Customer.objects.get(customer_id=customer_id),
-        'pulllists': pulllists,
         'subscriptions': subscriptions,
         'tab':'customers_list',
         'employee': Employee.objects.get(user=request.user),
