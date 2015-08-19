@@ -122,6 +122,14 @@
                     </ul>
                 </li>
                 
+                <!-- PULL LIST -->
+                <li class={% if tab == 'pulllist' %}" active" {% else %}" "{% endif %}>
+                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist" title="Pull List">
+                        <em class="icon-list"></em>
+                        <span>Pull List</span>
+                    </a>
+                </li>
+                
                 <!-- ORDERS -->
                 <li class={% if tab == 'orders' %}" active" {% else %}" "{% endif %}>
                     <!-- sales menu header -->

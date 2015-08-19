@@ -46,6 +46,7 @@ urlpatterns = [
     url(r'', include('inventory_products.urls')),
     url(r'', include('inventory_setting.urls')),
     url(r'', include('inventory_email.urls')),
+    url(r'', include('inventory_pulllist.urls')),
     url(r'', include('api.urls')),
                
     # Sitemap
