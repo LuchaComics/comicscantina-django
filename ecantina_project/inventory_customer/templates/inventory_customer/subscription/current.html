@@ -4,26 +4,26 @@
             <tr>
                 <th>Series Name</th>
                 <th>Publisher</th>
-                <th>Date Published</th>
+                <th>Date Subscribed</th>
                 <th style="width:10%;">Copies Ordered</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
+            {% for subscription in subscriptions.all %}
             <tr>
-                {% for pull_list in current_pulllists.all %}
-                <td>{{ pull_list.series }}</td>
-                <td>{{ pull_list.series.publisher }}</td>
-                <td>{% if pull_list.series.year_began_uncertain == True %}?{% else %}{{ pull_list.series.year_began }}{% endif %} - {% if pull_list.series.year_ended_uncertain == True %}?{% else %}{{ pull_list.series.year_ended }}{% endif %}</td>
-                <td>1</td>
+                <td>{{subscription.pulllist.series }}</td>
+                <td>{{ subscription.pulllist.series.publisher }}</td>
+                <td>{{ subscription.created }}</td>
+                <td>{{ subscription.copies }}</td>
                 <td>
-                    <button class="btn btn-sm btn-labeled btn-danger pull-left mb mr">
+                    <button onclick="ajax_delete_subscription({{ subscription.subscription_id }});"
+                              class="btn btn-sm btn-labeled btn-danger pull-left mb mr">
                         <span class="btn-label"><i class="fa fa-remove"></i></span>Unsubscribe
                     </button>
                 </td>
-                
-                {% endfor %}
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

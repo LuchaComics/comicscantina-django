@@ -5,48 +5,26 @@
                 <th>Series Name</th>
                 <th>Publisher</th>
                 <th>Date Published</th>
-                <th>Genre</th>
                 <th style="width:10%;">Copies Ordered</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Batman Annual (2006)</td>
-                <td>DC</td>
-                <td>08/01/2015 - 08/01/2015</td>
-                <td>Detective</td>
-                <td><input type="text" class="subscribe-count form-control" value="0" /></td>
+           {% for pulllist in pulllists %}
+           <tr>
+                <td>{{ pulllist.series }}</td>
+                <td>{{ pulllist.series.publisher }}</td>
+                <td>{% if pullist.series.year_began_uncertain == True %}?{% else %}{{ pulllist.series.year_began }}{% endif %} - {% if pulllist.series.year_ended_uncertain == True %}?{% else %}{{ pulllist.series.year_ended }}{% endif %}</td>
+                <td><input id="id_copies_id_{{ pulllist.pulllist_id }}"
+                         type="text" class="subscribe-count form-control" value="0" /></td>
                 <td>
-                    <button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm">
+                    <button onclick="ajax_subscribe({{ pulllist.pulllist_id }});"
+                              class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm">
                         <span class="btn-label"><i class="fa fa-plus"></i></span>Subscribe
                     </button>
                 </td>
             </tr>
-            <tr>
-                <td>Batman (2011)</td>
-                <td>DC</td>
-                <td>08/01/2015 - 08/01/2015</td>
-                <td>Detective</td>
-                <td><input type="text" class="subscribe-count form-control" value="0" /></td>
-                <td>
-                    <button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm">
-                        <span class="btn-label"><i class="fa fa-plus"></i></span>Subscribe
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>Batman (1966)</td>
-                <td>New American Library</td>
-                <td>08/01/2015 - 08/01/2015</td>
-                <td>Detective</td>
-                <td><input type="text" class="subscribe-count form-control" value="0" /></td>
-                <td>
-                    <button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm">
-                        <span class="btn-label"><i class="fa fa-plus"></i></span>Subscribe
-                    </button>
-                </td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

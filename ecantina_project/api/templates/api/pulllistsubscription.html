@@ -1,6 +1,6 @@
 <script>
-    function list_pulllist(org_id, callback) {
-        var url = "/api/pulllists/";
+    function list_subscriptions(org_id, callback) {
+        var url = "/api/pulllistsubscriptions/";
         
         if (org_id > 0) {
             url += "?organization=" + org_id;
@@ -25,11 +25,11 @@
         });
     }
     
-    function set_pulllist(id, data, callback)
+    function set_subscription(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST";
-        var url = "/api/pulllists/";
+        var url = "/api/pulllistsubscriptions/";
         if (id > 0) {
             type = "PUT"; // Update
             url += id + "/";
@@ -60,8 +60,8 @@
         });
     }
 
-    function delete_pulllist(pulllist_id, callback) {
-        var url = "/api/pulllists/" + pulllist_id + "/";
+    function delete_subscription(subscription_id, callback) {
+        var url = "/api/pulllistsubscriptions/" + subscription_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,

@@ -29,3 +29,4 @@ from api.models.ec.receipt import Receipt
 from api.models.ec.promotion import Promotion
 from api.models.ec.wishlist import Wishlist
 from api.models.ec.pulllist import Pulllist
+from api.models.ec.pulllistsubscription import PulllistSubscription
