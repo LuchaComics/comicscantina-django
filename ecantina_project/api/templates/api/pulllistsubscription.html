@@ -1,26 +1,10 @@
 <script>
-    /**
-     *  Makes a JSON call to our API service to fetch all the sections based
-     *  on the search/filter parameters and run the callback function.
-     */
-    function list_employees(org_id, store_id, callback) {
-        var url = "/api/employees/";
+    function list_subscriptions(org_id, callback) {
+        var url = "/api/pulllistsubscriptions/";
         
         org_id = parseInt(org_id);
         if (org_id > 0) {
             url += "?organization=" + org_id;
-        }
-        
-        store_id = parseInt(store_id);
-        if (store_id > 0) {
-            var prefix = "";
-            if (org_id > 0) {
-                prefix = "&";
-            } else {
-                prefix = "?";
-            }
-            
-            url += prefix + "store=" + store_id;
         }
         
         jQuery.ajax({
@@ -42,15 +26,11 @@
         });
     }
     
-    /**
-     *  Function will either insert or update depending on whether "id"
-     *  parameter was used.
-     */
-    function set_employee(id, data, callback)
+    function set_subscription(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST";
-        var url = "/api/employees/";
+        var url = "/api/pulllistsubscriptions/";
         if (id > 0) {
             type = "PUT"; // Update
             url += id + "/";
@@ -67,7 +47,7 @@
                 // Debugging code
                 var json_text = JSON.stringify(json_result, null, 2);
                 console.log(json_text);
-                    
+                
                 // Call back the function with the JSON results.
                 callback(json_result);
             },
@@ -81,8 +61,8 @@
         });
     }
 
-    function delete_employee(employee_id, callback) {
-        var url = "/api/employees/" + employee_id + "/";
+    function delete_subscription(subscription_id, callback) {
+        var url = "/api/pulllistsubscriptions/" + subscription_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,

@@ -1,4 +1,4 @@
-{% extends 'inventory/base.html' %}
+{% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
 
@@ -17,25 +17,14 @@
                 <div id="users-panel" class="clearfix panel panel-default m-lg">
                     <div class="panel-tabs w100 p m0" style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
                         <ul class="tab-list clearfix">
-                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
-                            <li class="tab product-type dropdown" role="presentation">
-                                <a class="dropdown-toggle&quot;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                    All Orders
-                                    <!-- also should get rid of caret if only 1 product type end caret -->
-                                    <span class="caret"></span>
-                                </a>
-                                
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">All Orders</a></li>
-                                    <li><a href="#">In-Store</a></li>
-                                    <li><a href="#">Online</a></li>
-                                </ul>
-                            </li>
-                            <li class="tab selected"><a href="#">All</a></li>
-                            <li class="tab"><a href="#">New</a></li>
-                            <li class="tab"><a href="#">Picked</a></li>
-                            <li class="tab"><a href="#">Shipped</a></li>
-                            <li class="tab"><a href="#">Received</a></li>
+                            
+                            <li id="id_all" class="tab selected"><a href="#all">All</a></li>
+                            <li id="id_new" class="tab"><a href="#new">New</a></li>
+                            <li id="id_pck" class="tab"><a href="#picked">Picked</a></li>
+                            <li id="id_shp" class="tab"><a href="#shipped">Shipped</a></li>
+                            <li id="id_rec" class="tab"><a href="#received">Received</a></li>
+                            <li id="id_iss" class="tab"><a href="#instoresale">In-Store Sale</a></li>
+                            <li id="id_ols" class="tab"><a href="#onlinesale">Online Sale</a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -66,9 +55,9 @@
                                 <div class="pull-right;" style="float:right;">
                                     <div class="input-group input-group-sm pull-right"
                                         style="width:400px;margin-top:3px;margin-right:10px;">
-                                        <input type="text" class="form-control" placeholder="Search for..." />
+                                        <input id="id_search_keyword" type="text" class="form-control" placeholder="Search for..." />
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button" style="margin-top:0px;">Search Cart Items
+                                            <button onclick="ajax_search();" class="btn btn-default" type="button" style="margin-top:0px;">Search Cart Items
                                             </button>
                                         </span>
                                     </div>

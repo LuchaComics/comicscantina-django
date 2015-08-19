@@ -3,7 +3,9 @@
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST";
-        var url = "/api/stores/";
+        var url = "/api/stores/"
+        
+        org_id = parseInt(org_id);;
         if (id > 0) {
             type = "PUT"; // Update
             url += id + "/";

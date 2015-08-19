@@ -1,4 +1,5 @@
-<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+{% include 'api/receipt.html' %}
+<input type="hidden" value="0" id="id_tab_index" />
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -22,59 +23,33 @@
             }
         });
                       
-        ajax_refresh_table(); // Refresh the table for the first time.
-              
-        // The following code will poll the server every 10 seconds to see if
-        // we have the latest data.
-        //window.setInterval(function(){
-        //    ajax_refresh_table();
-        //}, 5000);
+        ajax_refresh_table(0); // Refresh the table for the first time.
                       
-                $('body').on('click', '.list-group.group-header', function () {
-                        if ($(this).next().is(':visible')) {
-                        $(this).next().slideUp();
-                                $(this).find('.fa-caret-up').removeClass('fa-caret-up').addClass('fa-caret-down');
-                        }
-                        else {
-                            $(this).next().slideDown();
-                            $(this).find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-up');
-                        }
-                    });
-                
-                });
+        $('.tab').click(function(){
+            $('.tab.selected').removeClass('selected');
+            $(this).addClass('selected');
+                        
+            var tab_index = $(this).index();
+            $('#id_tab_index').val(tab_index);
+            ajax_refresh_table(tab_index);
+        })
+            
+    });
     
-    /**
-     *  Makes a JSON call to our API service to fetch all the open cart sessions
-     *  we have under this employee.
-     */
-    function ajax_refresh_table() {
-        //////////
-        // LIST //
-        //////////
-        var url = "/api/receipts/?has_finished=True";
-        jQuery.ajax({
-            url: url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'GET',
-            success: function(result){
-                // Take the JSON results and generate a HTML table from it.
-                generate_table(result);
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+    function ajax_refresh_table(status) {
+        list_receipt({{ org.org_id }}, {{ store.store_id }}, 0, status, function(json_result) {
+            generate_table(json_result);
         });
     }
 
-    /**
-     *  Renders a table listing all the open cart sessions in our system.
-     */
+    function ajax_search()
+    {
+        var keyword = $('#id_search_keyword').val();
+        search_receipt(keyword, function(json_result) {
+            generate_table(json_result);
+        });
+    }
+
     function generate_table(result)
     {
         // Debugging code

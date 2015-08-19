@@ -14,6 +14,7 @@ from api.models.ec.promotion import Promotion
 from api.models.ec.section import Section
 from api.models.ec.wishlist import Wishlist
 from api.models.ec.pulllist import Pulllist
+from api.models.ec.pulllistsubscription import PulllistSubscription
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -108,4 +109,10 @@ class WishlistSerializer(serializers.ModelSerializer):
 class PulllistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pulllist
-        fields = ('pulllist_id', 'organization', 'series', 'customers',)
+        fields = ('pulllist_id', 'organization', 'series', )
+
+
+class PulllistSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PulllistSubscription
+        fields = ('subscription_id', 'pulllist', 'organization', 'customer', 'copies', 'created',)

@@ -1,19 +1,10 @@
 <script>
-    function list_pulllist(org_id, customer_id, callback) {
+    function list_pulllist(org_id, callback) {
         var url = "/api/pulllists/";
         
+        org_id = parseInt(org_id);
         if (org_id > 0) {
             url += "?organization=" + org_id;
-        }
-        
-        if (customer_id > 0) {
-            var prefix = "";
-            if (org_id > 0) {
-                prefix = "&";
-            } else {
-                prefix = "?";
-            }
-            url += prefix + "customers__customer_id=" + customer_id;
         }
         
         jQuery.ajax({
