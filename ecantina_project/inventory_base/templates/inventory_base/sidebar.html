@@ -131,7 +131,25 @@
                     </a>
                 </li>
                 
-               <!-- EMAIL LISTS -->
+                <!-- EMAIL LISTS -->
+                <li class=" ">
+                    <!-- sales menu header -->
+                    <a href="#customers" title="Customers" data-toggle="collapse">
+                        <em class="fa fa-envelope"></em>
+                        <span>Emailing List</span>
+                    </a>
+                    <!-- inventory menu items -->
+                    <ul id="customers" class="nav sidebar-subnav collapse">
+                        <li class="sidebar-subnav-header">Mailing List</li>
+                         <li class={% if tab == 'email_add_article' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/email/add_article" title="New Article">
+                                <span>New Article</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+               <!-- CUSTOMER LISTS -->
                <li class=" ">
                    <!-- sales menu header -->
                    <a href="#customers" title="Customers" data-toggle="collapse" class="collapsed" aria-expanded="false">
