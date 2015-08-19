@@ -30,7 +30,6 @@
             $(this).addClass('selected');
                         
             var tab_index = $(this).index();
-            tab_index -= 1;
             $('#id_tab_index').val(tab_index);
             ajax_refresh_table(tab_index);
         })
