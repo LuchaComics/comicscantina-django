@@ -17,7 +17,7 @@
         <link type="{{ local.type }}" rel="{{ local.rel }}" href="{% static local.href %}">
         {% endfor %}
             
-        <!-- Local JS -->
+        <!-- Local JS header -->
         {% for local in local_js_library_header %}
         <script type="{{ local.type }}" src="{% static local.src %}"></script>
         {% endfor %}
@@ -56,7 +56,12 @@
     {% endblock %}
     
     {% include "store_landpage/footer.html" %}
-    
+
+    <!-- Local JS footer -->
+    {% for local in local_js_library_body %}
+    <script type="{{ local.type }}" src="{% static local.src %}"></script>
+    {% endfor %}
+
 <script>
     // this script required for subscribe modal
     $(window).load(function () {

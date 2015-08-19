@@ -231,18 +231,21 @@ INVENTORY_JS_LIBRARY_BODY = [
 STORE_CSS_LIBRARY= [
     {"type":"text/css", "rel":"stylesheet", "href":"store/bootstrap/css/bootstrap.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/style.css", "id":"",},
+    {"type":"text/css", "rel":"stylesheet", "href":"store/css/skin-5.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/story.css", "id":"",},
+    {"type":"text/css", "rel":"stylesheet", "href":"store/css/store.css", "id":"",},
 ]
 
 STORE_JS_LIBRARY_HEADER = [
-    {"type":"text/javascript", "src":"store/inventory/jquery/dist/jquery.js",},
-    {"type":"text/javascript", "src":"store/inventory/bootstrap/dist/js/bootstrap.js",},
+    {"type":"text/javascript", "src":"store/js/jquery/jquery-1.10.1.min.js",},
+    {"type":"text/javascript", "src":"store/bootstrap/js/bootstrap.min.js",},
+    {"type":"text/javascript", "src":"store/js/idangerous.swiper-2.1.min.js",},
     {"type":"text/javascript", "src":"store/js/pace.min.js",},
 ]
 
 STORE_JS_LIBRARY_BODY = [
-    {"type":"text/javascript", "src":"store/js/jquery/jquery-1.10.1.min.js",},
-    {"type":"text/javascript", "src":"store/bootstrap/js/bootstrap.min.js",},
+    {"type":"text/javascript", "src":"store/js/jquery.cycle2.min.js",},
+    {"type":"text/javascript", "src":"store/js/jquery.easing.1.3.js",},
     {"type":"text/javascript", "src":"store/js/jquery.parallax-1.1.js",},
     {"type":"text/javascript", "src":"store/js/helper-plugins/jquery.mousewheel.min.js",},
     {"type":"text/javascript", "src":"store/js/jquery.mCustomScrollbar.js",},
@@ -252,7 +255,6 @@ STORE_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"store/js/jquery.minimalect.min.js",},
     {"type":"text/javascript", "src":"store/js/bootstrap.touchspin.js",},
     {"type":"text/javascript", "src":"store/js/script.js",},
-    {"type":"text/javascript", "src":"store/js/skrollr.min.js",},
 ]
 
 
