@@ -17,13 +17,16 @@
                         <ul class="tab-list clearfix">
                             <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
                             <li class="tab product-type dropdown" role="presentation">
-                                <a class="dropdown-toggle&quot;" data-toggle="dropdown" onclick="window.location='inventory_pull_list_create.html';" aria-haspopup="true" aria-expanded="false" role="button">
+                                <a onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist/add';"
+                                     class="dropdown-toggle&quot;"
+                               data-toggle="dropdown"
+                             aria-haspopup="true"
+                             aria-expanded="false"
+                                      role="button">
                                     <i class="fa fa-plus-square"></i> &nbsp;&nbsp;&nbsp;New Pull List
                                 </a>
                             </li>
-                            <li class="tab selected"><a href="#">Store 1</a></li>
-                            <li class="tab"><a href="#">Store 2</a></li>
-                            <li class="tab"><a href="#">Store 3</a></li>
+                            <li class="tab selected"><a href="#">All Stores</a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -71,7 +74,7 @@
                                 <!-- START row 1 -->
                                 <div class="accordion">
                                     <!-- RESULTS -->
-                                    {% include 'inventory_pulllist/table.html' %}
+                                    {% include 'inventory_pulllist/list/table.html' %}
                                     <!-- /.RESULTS -->
                                 </div>
                             </div>
@@ -83,6 +86,5 @@
         </div>
     </div>
 </section>
-{% include "inventory_pulllist/modal.html" %}
-{% include "inventory_pulllist/js.html" %}
+{% include "inventory_pulllist/list/js.html" %}
 {% endblock content %}

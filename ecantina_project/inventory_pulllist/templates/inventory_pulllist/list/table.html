@@ -30,7 +30,9 @@
             </div>
             <div class="pull-right" style="margin-right:10px;text-align:right;">
                 <div class="pull-right" style="margin-left:10px;padding-top:25px;">
-                    <a onclick="" class="btn btn-success btn-lg subscribe-btn" style="font-size:12pt;" data-toggle="modal" data-target="#add-subscriber-modal"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp; Add Customer</a>
+                    <a onclick="ajax_add_customer({{ pulllist.pulllist_id }});"
+                         class="btn btn-success btn-lg subscribe-btn"
+                         style="font-size:12pt;"><i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp; Add Customer</a>
                 </div>
             </div>
         </div>

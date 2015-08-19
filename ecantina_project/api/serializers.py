@@ -109,7 +109,7 @@ class WishlistSerializer(serializers.ModelSerializer):
 class PulllistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pulllist
-        fields = ('pulllist_id', 'organization', 'series', )
+        fields = ('pulllist_id', 'organization', 'store', 'series', )
 
 
 class PulllistSubscriptionSerializer(serializers.ModelSerializer):
