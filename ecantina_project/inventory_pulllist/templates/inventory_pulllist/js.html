@@ -24,49 +24,53 @@
                 }
             }
         });
+                      
+        $('body').on('click', '.list-group.group-header', function () {
+            if ($(this).next().is(':visible')) {
+                $(this).next().slideUp();
+                $(this).find('.fa-caret-up').removeClass('fa-caret-up').addClass('fa-caret-down');
+            }
+            else {
+                // When user clicks slide-down for the row, we will have to fetch
+                // our view and update it.
+                var pulllist_id = $(this).data('id');
+                ajax_load_subscriptions_view(pulllist_id);
+                     
+                // Perform UI dynamic changing effects.
+                $(this).next().slideDown();
+                $(this).find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-up');
+            }
+        });
+                      
+        $('.subscribe-btn').on('click', function(e){
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            $('#add-subscriber-modal').modal('show');
+            $('#add-subscriber-modal').focus();
+        });
+                      
     });
-                  
-    /**
-     *  Function will either upload a new image or update the existing
-     *  one with the new image. Afterwards function will upad the UI
-     *  to have a picture of the image that was uploaded and save the
-     *  upload_id.
-     */
-    function ajax_upload_image() {
-        if ($('#id_image').val() == "") {
-            alert('Please select an image to upload');
-            return false;
-        }
-        
-        // Extract the information.
-        var image = document.getElementById('id_image').files[0];
-        var upload_id = $('#id_hidden_upload_id').val();
-        
-        // Insert or Update.
-        set_imageupload(upload_id, false, image, 0, function(json_result) {
-            $('#logo-image').attr('src', json_result['image']);
-            $('#id_hidden_upload_id').val(json_result['upload_id']);
+    
+    function ajax_load_subscriptions_view(pulllist_id)
+    {
+        var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist/" + pulllist_id + "/subscriptions";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(html_results){
+                $('#id_placeholder_'+pulllist_id).html(html_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
         });
     }
-
-    function ajax_save() {
-        var upload_id = $('#id_hidden_upload_id').val();
-        var subject = $('#id_subject').val();
-        var subject_url = $('#id_subject_url').val();
-        var message =  $('#id_message').val();
-        var employee = '{{ employee.employee_id }}';
-        var organization = '{{ org.org_id }}';
-        var store = '{{ store.store_id }}';
-        
-        // Create our ticket!
-        set_helprequest(0, subject, subject_url, message, upload_id, employee, store, organization, function(json_result) {
-            // Let our upload image know it is properly assigned.
-            var user_id = '{{ employee.user_id }}';
-            set_imageupload(upload_id, true, null, user_id, function(json_result) {
-                alert("Help Request Submitted! Your ticket ID is #" + json_result['help_id'] + ". Thank you for your submission.");
-                window.location = '';
-            });            
-        });
-    }
-
+    
 </script>
