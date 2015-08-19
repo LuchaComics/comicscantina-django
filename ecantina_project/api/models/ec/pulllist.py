@@ -16,8 +16,7 @@ class Pulllist(models.Model):
     pulllist_id = models.AutoField(primary_key=True)
     organization = models.ForeignKey(Organization)
     series = models.ForeignKey(Series, null=True)
-    publisher = models.ForeignKey(Publisher)
     customers = models.ManyToManyField(Customer)
     
     def __str__(self):
-        return self.name
+        return str(self.series)

@@ -1,0 +1,29 @@
+<div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Series Name</th>
+                <th>Publisher</th>
+                <th>Date Published</th>
+                <th style="width:10%;">Copies Ordered</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for pull_list in current_pulllists.all %}
+                <td>{{ pull_list.series }}</td>
+                <td>{{ pull_list.series.publisher }}</td>
+                <td>{% if pull_list.series.year_began_uncertain == True %}?{% else %}{{ pull_list.series.year_began }}{% endif %} - {% if pull_list.series.year_ended_uncertain == True %}?{% else %}{{ pull_list.series.year_ended }}{% endif %}</td>
+                <td>1</td>
+                <td>
+                    <button class="btn btn-sm btn-labeled btn-danger pull-left mb mr">
+                        <span class="btn-label"><i class="fa fa-remove"></i></span>Unsubscribe
+                    </button>
+                </td>
+                
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+</div>

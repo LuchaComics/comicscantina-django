@@ -10,6 +10,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.customer import Customer
+from api.models.ec.pulllist import Pulllist
 from inventory.forms.customerform import CustomerForm
 
 
@@ -74,10 +75,25 @@ def purchases_page(request, org_id, store_id, customer_id):
 
 @login_required(login_url='/inventory/login')
 def subscriptions_page(request, org_id, store_id, customer_id):
+    # Fetch all the pullists that belong to this organization.
+    try:
+        all_pullists = Pulllist.objects.filter(organization_id=org_id)
+    except Pulllist.DoesNotExist:
+        all_pullists = None
+
+    # Fetch all the pullists belonging to the current client.
+    try:
+        current_pulllists = Pulllist.objects.filter(customers__customer_id=customer_id)
+    except Pulllist.DoesNotExist:
+        current_pulllists = None
+
+    # Render View
     return render(request, 'inventory_customer/subscription/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'customer': Customer.objects.get(customer_id=customer_id),
+        'all_pullists': all_pullists,
+        'current_pulllists': current_pulllists,
         'tab':'customers_list',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
