@@ -45,6 +45,27 @@
         });
     }
 
+    function search_receipt(keyword, callback) {
+        var url = "/api/receipts/?search="+keyword;
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
     function set_receipt(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.

@@ -17,6 +17,6 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     queryset = Receipt.objects.all()
     serializer_class = ReceiptSerializer
     permission_classes = (BelongsToOrganizationOrCustomer, IsAuthenticated)
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     filter_fields = ('organization', 'store', 'customer', 'has_finished',)
-
+    search_fields = ('billing_first_name','billing_last_name','billing_email','billing_phone','billing_postal','shipping_first_name','shipping_last_name','shipping_email','shipping_phone','shipping_postal',)
