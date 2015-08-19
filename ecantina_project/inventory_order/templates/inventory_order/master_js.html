@@ -1,4 +1,5 @@
 {% include 'api/receipt.html' %}
+<input type="hidden" value="0" id="id_tab_index" />
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -23,16 +24,21 @@
         });
                       
         ajax_refresh_table(0); // Refresh the table for the first time.
-              
-        // The following code will poll the server every 10 seconds to see if
-        // we have the latest data.
-        //window.setInterval(function(){
-        //    ajax_refresh_table();
-        //}, 5000);
+                      
+        $('.tab').click(function(){
+            $('.tab.selected').removeClass('selected');
+            $(this).addClass('selected');
+                        
+            var tab_index = $(this).index();
+            tab_index -= 1;
+            $('#id_tab_index').val(tab_index);
+            ajax_refresh_table(tab_index);
+        })
+            
     });
     
     function ajax_refresh_table(status) {
-        list_receipt({{ org.org_id }}, {{ store.store_id }}, 0, function(json_result) {
+        list_receipt({{ org.org_id }}, {{ store.store_id }}, 0, status, function(json_result) {
             generate_table(json_result);
         });
     }

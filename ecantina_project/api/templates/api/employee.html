@@ -5,9 +5,13 @@
      */
     function list_employees(org_id, store_id, callback) {
         var url = "/api/employees/";
+        
+        org_id = parseInt(org_id);
         if (org_id > 0) {
             url += "?organization=" + org_id;
         }
+        
+        store_id = parseInt(store_id);
         if (store_id > 0) {
             var prefix = "";
             if (org_id > 0) {
@@ -18,6 +22,7 @@
             
             url += prefix + "store=" + store_id;
         }
+        
         jQuery.ajax({
             url: url,
             cache: false,

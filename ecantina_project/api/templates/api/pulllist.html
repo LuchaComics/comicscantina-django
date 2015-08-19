@@ -2,6 +2,7 @@
     function list_pulllist(org_id, callback) {
         var url = "/api/pulllists/";
         
+        org_id = parseInt(org_id);
         if (org_id > 0) {
             url += "?organization=" + org_id;
         }
