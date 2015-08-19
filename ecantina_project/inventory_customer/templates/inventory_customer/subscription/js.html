@@ -1,6 +1,5 @@
 {% load staticfiles %}
-{% include 'api/organization.html' %}
-{% include 'api/customer.html' %}
+{% include 'api/pulllist.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -24,6 +23,49 @@
                 }
             }
         });
+                      
+        ajax_refresh_pullist_table();
     });
+
+    function ajax_refresh_pullist_table() {
+        list_pulllist({{ org.org_id }}, {{ customer.customer_id }}, function(json_data) {
+            generate_pulllist_table(json_data);
+        });
+    }
+
+    function generate_pulllist_table(result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
+    
+        var html = '<div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;"><table class="table">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th style="width:10%">Series Name</th>';
+        html += '<th style="width:15%;">Publisher</th>';
+        html += '<th style="width:10%;"></th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+    
+        $(result).each(function(iter,val){
+            var pulllist_id = val['pulllist_id'];
+            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + pulllist_id +"/";
+            html += '<tr>';
+            html += '<td>' + pulllist_id + '</td>';
+            html += '<td>' + '</td>';
+            
+            var button = '<button class="btn btn-sm btn-labeled btn-danger pull-left mb mr">';
+            button += '<span class="btn-label"><i class="fa fa-remove"></i></span>Unsubscribe';
+            button += '</button>';
+            html += '<td>' + button + '</td>';
+            html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
 
 </script>

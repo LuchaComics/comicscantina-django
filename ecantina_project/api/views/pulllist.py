@@ -16,5 +16,5 @@ class PulllistViewSet(viewsets.ModelViewSet):
     serializer_class = PulllistSerializer
     permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('customers',)
+    filter_fields = ('customers__customer_id',)
 

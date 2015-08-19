@@ -10,11 +10,10 @@ from api.models.gcd.series import Series
 class Pulllist(models.Model):
     class Meta:
         app_label = 'inventory'
-        ordering = ('name',)
+        ordering = ('series',)
         db_table = 'ec_pulllists'
     
     pulllist_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=127, db_index=True)
     organization = models.ForeignKey(Organization)
     series = models.ForeignKey(Series, null=True)
     publisher = models.ForeignKey(Publisher)

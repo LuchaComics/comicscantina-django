@@ -1,4 +1,40 @@
 <script>
+    function list_pulllist(org_id, customer_id, callback) {
+        var url = "/api/pulllists/";
+        
+        if (org_id > 0) {
+            url += "?organization=" + org_id;
+        }
+        
+        if (customer_id > 0) {
+            var prefix = "";
+            if (org_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            url += prefix + "customers__customer_id=" + customer_id;
+        }
+        
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+    
     function set_pulllist(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.
