@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'', include('inventory_print_label.urls')),
     url(r'', include('inventory_products.urls')),
     url(r'', include('inventory_setting.urls')),
+    url(r'', include('inventory_email.urls')),
     url(r'', include('api.urls')),
                
     # Sitemap
