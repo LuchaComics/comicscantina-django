@@ -114,6 +114,7 @@ class ImportIssue:
             indicia_publisher = IndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)
         except IndiciaPublisher.DoesNotExist:
             indicia_publisher = None
+        publisher_name = indicia_publisher.name
 
         try:
             series = Series.objects.get(series_id=series_id)
@@ -171,6 +172,7 @@ class ImportIssue:
             entry.on_sale_date_uncertain = on_sale_date_uncertain
             entry.rating = rating
             entry.no_rating = no_rating
+            entry.publisher_name = publisher_name
             entry.save()
         except Issue.DoesNotExist:
             print("ImportIssue: Inserting: " + str(id))
@@ -214,4 +216,5 @@ class ImportIssue:
                 on_sale_date_uncertain = on_sale_date_uncertain,
                 rating = rating,
                 no_rating = no_rating,
+                publisher_name=publisher_name,
             )

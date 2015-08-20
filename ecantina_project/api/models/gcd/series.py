@@ -76,6 +76,9 @@ class Series(models.Model):
     publisher = models.ForeignKey(Publisher)
     images = models.ManyToManyField(Image)
 
+    # Put them in here to simplify REST Framework
+    publisher_name = models.CharField(max_length=255, db_index=True)
+
     def _date_uncertain(self, flag):
         return u' ?' if flag else u''
 

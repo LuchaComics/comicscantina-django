@@ -92,6 +92,7 @@ class ImportSeries:
             publisher = Publisher.objects.get(publisher_id=publisher_id)
         except Publisher.DoesNotExist:
             publisher = None
+        publisher_name = publisher.name
         
         try:
             language = Language.objects.get(language_id=language_id)
@@ -165,6 +166,7 @@ class ImportSeries:
             entry.has_rating=has_rating
             entry.publication_type_id=publication_type_id
             entry.is_singleton=is_singleton
+            entry.publisher_name = publisher_name
             entry.save()
         except Series.DoesNotExist:
             print("ImportSeries: Inserting: " + str(id))
@@ -206,4 +208,5 @@ class ImportSeries:
                 has_rating=has_rating,
                 publication_type_id=publication_type_id,
                 is_singleton=is_singleton,
+                publisher_name=publisher_name,
             )
