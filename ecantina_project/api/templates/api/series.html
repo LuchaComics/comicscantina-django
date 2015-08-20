@@ -1,0 +1,130 @@
+<script>
+    function list_series(org_id, customer_id, pullllist_id, callback) {
+        var url = "/api/series/";
+        
+        org_id = parseInt(org_id);
+        if (org_id > 0) {
+            url += "?organization__org_id=" + org_id;
+        }
+        
+        customer_id = parseInt(customer_id);
+        if (customer_id > 0) {
+            var prefix = "";
+            if (org_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            
+            url += prefix + "customer__customer_id=" + customer_id;
+        }
+        
+        pullllist_id = parseInt(pullllist_id);
+        if (pullllist_id > 0) {
+            var prefix = "";
+            if (org_id > 0 || customer_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            
+            url += prefix + "pulllist__pulllist_id=" + pullllist_id;
+        }
+        
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+    
+    function set_series(id, data, callback)
+    {
+        // Setup depending on whether we are inserting or updating.
+        var type = "POST";
+        var url = "/api/series/";
+        if (id > 0) {
+            type = "PUT"; // Update
+            url += id + "/";
+        }
+    
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: type,
+            success: function(json_result){
+                // Debugging code
+                var json_text = JSON.stringify(json_result, null, 2);
+                console.log(json_text);
+                
+                // Call back the function with the JSON results.
+                callback(json_result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function get_series(subscription_id, success_callback, error_callback) {
+        var url = "/api/series/" + subscription_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                success_callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                error_callback(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function delete_series(subscription_id, callback) {
+        var url = "/api/series/" + subscription_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+</script>

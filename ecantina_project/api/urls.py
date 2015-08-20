@@ -14,6 +14,7 @@ from api.views import user
 from api.views import wishlist
 from api.views import pulllist
 from api.views import pulllistsubscription
+from api.views import series
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
@@ -34,6 +35,7 @@ router.register(r'groups', user.GroupViewSet)
 router.register(r'wishlists', wishlist.WishlistViewSet)
 router.register(r'pulllists', pulllist.PulllistViewSet)
 router.register(r'pulllistsubscriptions', pulllistsubscription.PulllistSubscriptionViewSet)
+router.register(r'series', series.SeriesViewSet)
 
 # The API URLs are now determined automatically by the router.
 # Additionally, we include the login URLs for the browsable API.

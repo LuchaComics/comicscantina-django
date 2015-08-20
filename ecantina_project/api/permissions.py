@@ -3,6 +3,18 @@ from rest_framework import permissions
 from api.models.ec.employee import Employee
 
 
+class IsAdminUserOrReadOnly(permissions.BasePermission):
+    message = 'Only administrators are allowed to write data.'
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else: # Check permissions for write request
+            if request.user.is_anonymous():
+                return False
+            else:
+                return request.user.is_superuser
+
+
 class IsEmployeeUser(permissions.BasePermission):
     """
         Custom permission to deny all non-employees that are logged in.
