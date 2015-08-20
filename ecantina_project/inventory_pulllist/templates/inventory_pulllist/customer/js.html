@@ -27,9 +27,13 @@
     
     
     function ajax_search()
-    {
-        var keyword = $('#id_keyword').val();
-        search_customers(keyword, function(json_result) {
+    {        
+        var first_name = $('#id_first_name').val();
+        var last_name = $('#id_last_name').val();
+        var email = $('#id_email').val();
+        var phone = $('#id_phone').val();
+        var postal = $('#id_postal').val();
+        filter_series(first_name, last_name, email, phone, postal, function(json_result) {
             generate_table(json_result);
         });
     }
@@ -56,42 +60,47 @@
         html += '</tr>';
         html += '</thead>';
         html += '<tbody>';
-    
-        $(json_result).each(function(iter,val){
-            var customer_id = val['customer_id'];
-                        
-            // Table Row
-            html += '<tr>';
-                        
-            // Col 1
-            html += '<td>' + val['first_name'] + '</td>';
-                        
-            // Col 2
-            html += '<td>' + val['last_name'] + '</td>';
-                        
-            // Col 3
-            html += '<td>' + val['billing_postal'] + '</td>';
+        
+        // Process the meta information.
+        $(json_result).each(function(iter,meta){
                             
-            // Col 4
-            html += '<td>' + val['email'] + '</td>';
+            // Process the results search data.
+            $(meta['results']).each(function(iter,val){
+                var customer_id = val['customer_id'];
+                        
+                // Table Row
+                html += '<tr>';
+                        
+                // Col 1
+                html += '<td>' + val['first_name'] + '</td>';
+                        
+                // Col 2
+                html += '<td>' + val['last_name'] + '</td>';
+                        
+                // Col 3
+                html += '<td>' + val['billing_postal'] + '</td>';
+                            
+                // Col 4
+                html += '<td>' + val['email'] + '</td>';
              
-            // Col 5
-            html += '<td>' + val['billing_phone'] + '</td>';
+                // Col 5
+                html += '<td>' + val['billing_phone'] + '</td>';
               
-            // Col 6
-            html += '<td>' + '<input id="id_copies_id_' + customer_id +'" type="text" class="form-control" value="0" placeholder="0" />' + '</td>';
+                // Col 6
+                html += '<td>' + '<input id="id_copies_id_' + customer_id +'" type="text" class="form-control" value="0" placeholder="0" />' + '</td>';
                             
-            // Col 7
-            var onclick = 'ajax_subscribe('+customer_id+');';
-            var col7 = '<button onclick="' + onclick + '" type="button" class="btn btn-sm btn-labeled btn-success mb">';
-            col7 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Subscribe';
-            col7 += '</button>';
-            html += '<td style="text-align:center;">' + col7 + '</td>';
+                // Col 7
+                var onclick = 'ajax_subscribe('+customer_id+');';
+                var col7 = '<button onclick="' + onclick + '" type="button" class="btn btn-sm btn-labeled btn-success mb">';
+                col7 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Subscribe';
+                col7 += '</button>';
+                html += '<td style="text-align:center;">' + col7 + '</td>';
                             
-            // Close Table Row
-            html += '</tr>';
+                // Close Table Row
+                html += '</tr>';
+            });
         });
-                        
+        
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
