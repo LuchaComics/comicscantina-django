@@ -4,10 +4,12 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
+from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
 from api.models.gcd.series import Series
 from api.serializers import SeriesSerializer
 from rest_framework.pagination import PageNumberPagination
+
 
 class SeriesFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(name="name", lookup_type=("icontains"))
@@ -18,10 +20,6 @@ class SeriesFilter(django_filters.FilterSet):
         model = Series
         fields = ['name', 'publisher_name', 'min_year_began', 'max_year_ended', 'language', 'country',]
 
-class LargeResultsSetPagination(PageNumberPagination):
-    page_size = 1000
-    page_size_query_param = 'page_size'
-    max_page_size = 10000
 
 class SeriesViewSet(viewsets.ModelViewSet):
     """
