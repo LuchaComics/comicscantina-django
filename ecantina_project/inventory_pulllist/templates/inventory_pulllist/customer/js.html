@@ -1,7 +1,6 @@
 <!-- Load API Handlers -->
-{% include 'api/imageupload.html' %}
-{% include 'api/helprequest.html' %}
-
+{% include 'api/customer.html' %}
+{% include 'api/pulllistsubscription.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -24,9 +23,120 @@
                 }
             }
         });
-                      
-                      
     });
     
+    
+    function ajax_search()
+    {
+        var keyword = $('#id_keyword').val();
+        search_customers(keyword, function(json_result) {
+            generate_table(json_result);
+        });
+    }
+
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
+    
+        // Initial Code
+        var html = '';
+        html += '<div class="table-responsive">';
+        html += '<table id="table-ext-1" class="table table-hover">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th style="width:15%;">First Name</th>';  // 1
+        html += '<th style="width:15%;">Last Name</th>';   // 2
+        html += '<th style="width:15%;">Postal Code</th>'; // 3
+        html += '<th style="width:15%;">Email</th>';       // 4
+        html += '<th style="width:15%;">Phone #</th>';     // 5
+        html += '<th style="width:15%;">Copies</th>';      // 6
+        html += '<th style="width:15%;">Subscribe</th>';   // 7
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+    
+        $(json_result).each(function(iter,val){
+            var customer_id = val['customer_id'];
+                        
+            // Table Row
+            html += '<tr>';
+                        
+            // Col 1
+            html += '<td>' + val['first_name'] + '</td>';
+                        
+            // Col 2
+            html += '<td>' + val['last_name'] + '</td>';
+                        
+            // Col 3
+            html += '<td>' + val['billing_postal'] + '</td>';
+                            
+            // Col 4
+            html += '<td>' + val['email'] + '</td>';
+             
+            // Col 5
+            html += '<td>' + val['billing_phone'] + '</td>';
+              
+            // Col 6
+            html += '<td>' + '<input id="id_copies_id_' + customer_id +'" type="text" class="form-control" value="0" placeholder="0" />' + '</td>';
+                            
+            // Col 7
+            var onclick = 'ajax_subscribe('+customer_id+');';
+            var col7 = '<button onclick="' + onclick + '" type="button" class="btn btn-sm btn-labeled btn-success mb">';
+            col7 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Subscribe';
+            col7 += '</button>';
+            html += '<td style="text-align:center;">' + col7 + '</td>';
+                            
+            // Close Table Row
+            html += '</tr>';
+        });
+                        
+        html += '</tbody></table></div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
+    function ajax_subscribe(customer_id)
+    {
+        // STEP 1:
+        // Check to see if the customer already has a subscription. If they
+        // already have one then update.
+        list_subscriptions({{ org.org_id }}, customer_id, {{ pulllist.pulllist_id }}, function(json_result) {
+                           
+            // Not found - create new subscription.
+            if (json_result == '') {
+                var data = new FormData();
+                data.append('pulllist', {{ pulllist.pulllist_id }});
+                data.append('organization', {{ org.org_id }});
+                data.append('customer', customer_id);
+                data.append('copies', $('#id_copies_id_'+customer_id).val());
+                set_subscription(0, data, function(json_result) {
+                    window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist";
+                });
+                         
+            // Found - update current subscriptions.
+            } else {
+                $(json_result).each(function(iter,val){
+                    var subscription_id = val['subscription_id'];
+                    var pulllist_id = val['pulllist'];
+                    var organization_id = val['organization'];
+                    var customer_id = val['customer'];
+                    //var copies = val['copies'];
+                    var created = val['created'];
+                    var data = new FormData();
+                    data.append('subscription_id', subscription_id);
+                    data.append('pulllist', pulllist_id);
+                    data.append('organization', organization_id);
+                    data.append('customer', customer_id);
+                    data.append('copies', $('#id_copies_id_'+customer_id).val()); // update copies.
+                    set_subscription(subscription_id, data, function(json_result) {
+                        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist";
+                    });
+                });
+            }
+                           
+        });
+    }
         
 </script>

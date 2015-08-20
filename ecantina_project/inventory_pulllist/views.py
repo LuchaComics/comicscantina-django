@@ -74,7 +74,7 @@ def add_pulllist_customer_page(request, org_id, store_id, pulllist_id):
     return render(request, 'inventory_pulllist/customer/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'pulllist': Pulllist.objects.filter(pulllist_id=pulllist_id),
+        'pulllist': Pulllist.objects.get(pulllist_id=pulllist_id),
         'tab':'pulllist',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
