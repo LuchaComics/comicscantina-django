@@ -2,7 +2,6 @@ import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
@@ -27,7 +26,7 @@ class SeriesViewSet(viewsets.ModelViewSet):
     """
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
-    permission_classes = (IsAdminUserOrReadOnly, IsAuthenticated)
+    permission_classes = (IsAdminUserOrReadOnly,)
     pagination_class = LargeResultsSetPagination
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = SeriesFilter
