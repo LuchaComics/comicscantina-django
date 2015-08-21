@@ -7,7 +7,6 @@ from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
 from api.models.gcd.series import Series
 from api.serializers import SeriesSerializer
-from rest_framework.pagination import PageNumberPagination
 
 
 class SeriesFilter(django_filters.FilterSet):
