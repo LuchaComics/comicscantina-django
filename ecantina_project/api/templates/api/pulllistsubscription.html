@@ -4,7 +4,7 @@
         
         org_id = parseInt(org_id);
         if (org_id > 0) {
-            url += "?organization__org_id=" + org_id;
+            url += "?organization=" + org_id;
         }
         
         customer_id = parseInt(customer_id);
@@ -16,7 +16,7 @@
                 prefix = "?";
             }
             
-            url += prefix + "customer__customer_id=" + customer_id;
+            url += prefix + "customer=" + customer_id;
         }
         
         pullllist_id = parseInt(pullllist_id);
@@ -28,7 +28,7 @@
                 prefix = "?";
             }
             
-            url += prefix + "pulllist__pulllist_id=" + pullllist_id;
+            url += prefix + "pulllist=" + pullllist_id;
         }
         
         jQuery.ajax({
