@@ -196,32 +196,37 @@
         html += '</td>';
         html += '</tr>';
         
-        $(json_result).each(function(iter,val){
-            var section_id = val['section_id'];
-            var name = val['name'];
-            var store_id = val['store'];
-            var org_id = val['organization'];
+        // Process the meta information.
+        $(json_result).each(function(iter,meta){
                             
-            // Table Row
-            html += '<tr>';
+            // Process the results search data.
+            $(meta['results']).each(function(iter,val){
+                var section_id = val['section_id'];
+                var name = val['name'];
+                var store_id = val['store'];
+                var org_id = val['organization'];
+                            
+                // Table Row
+                html += '<tr>';
                     
-            // Input Button
-            var input = '<input id="id_section_id_' + section_id + '" ';
-            input += 'onfocusout="alert("test");" ';
-            input += 'type="text" ';
-            input += 'class="store-section form-control" name="store-section[]" placeholder="Enter section name" ';
-            input += 'value="' + name +'">';
-            html += '<td>' + input + '</td>';
+                // Input Button
+                var input = '<input id="id_section_id_' + section_id + '" ';
+                input += 'onfocusout="alert("test");" ';
+                input += 'type="text" ';
+                input += 'class="store-section form-control" name="store-section[]" placeholder="Enter section name" ';
+                input += 'value="' + name +'">';
+                html += '<td>' + input + '</td>';
                             
-            // Delete Button
-            var del = '<button onclick="ajax_del_section(' + section_id + ');" ';
-            del += 'type="button" role="button" class="btn btn-danger">';
-            del += '<em class="section-button fa fa-remove"></em>';
-            del += '</button>';
-            html += '<td>' + del + '</td>';
+                // Delete Button
+                var del = '<button onclick="ajax_del_section(' + section_id + ');" ';
+                del += 'type="button" role="button" class="btn btn-danger">';
+                del += '<em class="section-button fa fa-remove"></em>';
+                del += '</button>';
+                html += '<td>' + del + '</td>';
                             
-            // Close Table Row
-            html += '</tr>';
+                // Close Table Row
+                html += '</tr>';
+            });
         });
        
         html += '</tbody></table></div>';
