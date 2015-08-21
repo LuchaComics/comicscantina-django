@@ -1,3 +1,4 @@
+{% include 'api/receipt.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -45,9 +46,6 @@
 
     function update_receipt_status()
     {
-        ////////////
-        // UPDATE //
-        ////////////
         var status = $('#id_status').val();
         var data = new FormData();
         data.append('format', 'json');
@@ -85,26 +83,8 @@
         data.append('shipping_province', '{{ receipt.shipping_province }}');
         data.append('shipping_country', '{{ receipt.shipping_country }}');
         data.append('shipping_postal', '{{ receipt.shipping_postal }}');
-        data.append('products', '{{ receipt.products.all }}');
-        
-        var url = "/api/receipts/{{ receipt.receipt_id }}/";
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'PUT',
-            success: function(json_result){
-                // Do nothing.
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                    
-            }
-        }); // End Receipt jQuery
+        set_receipt({{ receipt.receipt_id }}, data, function(json_result) {
+            // No nothing.
+        });
     }
 </script>

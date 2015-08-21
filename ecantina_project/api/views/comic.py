@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
+from api.pagination import LargeResultsSetPagination
 from api.permissions import IsEmployeeUser
 from api.serializers import ComicSerializer
 from api.models.ec.comic import Comic
@@ -15,6 +16,7 @@ class ComicViewSet(viewsets.ModelViewSet):
     """
     queryset = Comic.objects.all()
     serializer_class = ComicSerializer
+    pagination_class = LargeResultsSetPagination
     permission_classes = (IsEmployeeUser, IsAuthenticated)
 
     def list(self, request):

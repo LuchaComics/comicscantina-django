@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
+from api.pagination import LargeResultsSetPagination
 from api.permissions import IsEmployeeUser
 from api.serializers import EmployeeSerializer
 from api.models.ec.organization import Organization
@@ -17,6 +18,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     """
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    pagination_class = LargeResultsSetPagination
     permission_classes = (IsEmployeeUser, IsAuthenticated)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('=user__username', '=email')

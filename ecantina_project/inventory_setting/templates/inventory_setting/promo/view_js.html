@@ -74,7 +74,11 @@
         html += '</td>';
         html += '</tr>';
         
-        $(json_result).each(function(iter,val){
+        // Process the meta information.
+        $(json_result).each(function(iter,meta){
+                            
+            // Process the results search data.
+            $(meta['results']).each(function(iter,val){
             var promotion_id = val['promotion_id'];
             var name = val['name'];
             var store_id = val['store'];
@@ -129,6 +133,7 @@
                             
             // Close Table Row
             html += '</tr>';
+        });
         });
                             
         html += '</tbody></table></div>';

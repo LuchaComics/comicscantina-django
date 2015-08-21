@@ -10,6 +10,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.receipt import Receipt
+from api.models.ec.product import Product
 
 
 @login_required(login_url='/inventory/login')
@@ -32,12 +33,17 @@ def order_details_page(request, org_id, store_id, receipt_id):
         receipt = Receipt.objects.get(receipt_id=receipt_id)
     except Receipt.DoesNotExist:
         receipt = None
+    try:
+        products = Product.objects.filter(receipt_id=receipt_id)
+    except Product.DoesNotExist:
+        products = None
     store = Store.objects.get(store_id=store_id)
     tax_rate = Decimal(store.tax_rate) * Decimal(100)
     return render(request, 'inventory_order/detail.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': store,
         'receipt': receipt,
+        'products': products,
         'tax_rate': tax_rate,
         'tab':'orders',
         'employee': Employee.objects.get(user=request.user),

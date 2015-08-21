@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import filters
+from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToOrganizationOrReadOnly
 from api.serializers import ProductSerializer
 from api.models.ec.product import Product
@@ -15,6 +16,6 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = LargeResultsSetPagination
     permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly)
     filter_backends = (filters.DjangoFilterBackend,)
-#    filter_fields = ('product_id',)

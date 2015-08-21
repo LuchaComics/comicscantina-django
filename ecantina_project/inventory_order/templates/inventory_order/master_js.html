@@ -50,7 +50,7 @@
         });
     }
 
-    function generate_table(result)
+    function generate_table(json_result)
     {
         // Debugging code
         //var json_text = JSON.stringify(result, null, 2);
@@ -70,46 +70,51 @@
         html += '</thead>';
         html += '<tbody>';
         
-        $(result).each(function(iter,val){
-            var receipt_id = val['receipt_id'];
-            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
-            html += '<tr>';
-            html += '<td>' + receipt_id + '</td>';
-            html += '<td>' + val['billing_first_name'] + ' ' + val['billing_last_name'] + '</td>';
-            html += '<td>' + val['billing_email'] + '</td>';
-            html += '<td>' + val['last_updated'] + '</td>';
-            html += '<td>' + val['products'].length; + '</td>';
+        // Process the meta information.
+        $(json_result).each(function(iter,meta){
+                            
+            // Process the results search data.
+            $(meta['results']).each(function(iter,val){
+                var receipt_id = val['receipt_id'];
+                var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
+                html += '<tr>';
+                html += '<td>' + receipt_id + '</td>';
+                html += '<td>' + val['billing_first_name'] + ' ' + val['billing_last_name'] + '</td>';
+                html += '<td>' + val['billing_email'] + '</td>';
+                html += '<td>' + val['last_updated'] + '</td>';
+                html += '<td>' + val['products_count'] + '</td>';
             
-            var status = val['status'];
-            html += '<td>';
-            if (status == 1) // New Order
-            {
-                html += '<div class="label label-danger">New Order</div>';
-            }
-            else if (status == 2) // Picked
-            {
-                html += '<div class="label label-warning">Picked</div>';
-            }
-            else if (status == 3) // Shipped
-            {
-                html += '<div class="label label-primary">Shipped</div>';
-            }
-            else if (status == 4) // Received
-            {
-                html += '<div class="label label-success">Received</div>';
-            }
-            else if (status == 5) // In-Store Sale
-            {
-                html += '<div class="label label-info">In-store Sale</div>';
-            }
-            else if (status == 6) // Online Sale
-            {
-                html += '<div class="label label-info">Online Sale</div>';
-            }
-            html += '</td>';;
-                       
-            html += '<td>' + '<a href="' + url + '" class="btn btn-success btn-sm">View Details</a>' + '</td>';
-            html += '</tr>';
+                var status = val['status'];
+                html += '<td>';
+                if (status == 1) // New Order
+                {
+                    html += '<div class="label label-danger">New Order</div>';
+                }
+                else if (status == 2) // Picked
+                {
+                    html += '<div class="label label-warning">Picked</div>';
+                }
+                else if (status == 3) // Shipped
+                {
+                    html += '<div class="label label-primary">Shipped</div>';
+                }
+                else if (status == 4) // Received
+                {
+                    html += '<div class="label label-success">Received</div>';
+                }
+                else if (status == 5) // In-Store Sale
+                {
+                    html += '<div class="label label-info">In-store Sale</div>';
+                }
+                else if (status == 6) // Online Sale
+                {
+                    html += '<div class="label label-info">Online Sale</div>';
+                }
+                html += '</td>';;
+                
+                html += '<td>' + '<a href="' + url + '" class="btn btn-success btn-sm">View Details</a>' + '</td>';
+                html += '</tr>';
+            });
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table

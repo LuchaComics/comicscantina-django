@@ -11,6 +11,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.section import Section
 from api.models.ec.store import Store
 from api.models.ec.imageupload import ImageUpload
+from api.models.ec.receipt import Receipt
 
 
 PRODUCT_TYPE_OPTIONS = (
@@ -78,6 +79,7 @@ class Product(models.Model):
     organization = models.ForeignKey(Organization)
     store = models.ForeignKey(Store)
     section = models.ForeignKey(Section)
+    receipt = models.ForeignKey(Receipt, null=True, blank=True)
     
     def __str__(self):
         return str(self.name)

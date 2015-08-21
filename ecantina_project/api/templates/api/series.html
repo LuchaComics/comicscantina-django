@@ -1,34 +1,63 @@
 <script>
-    function list_subscriptions(org_id, customer_id, pullllist_id, callback) {
-        var url = "/api/pulllistsubscriptions/";
+    function filter_series(name, publisher_name, min_year_began, max_year_ended, language_id, country_id, callback) {
+        var url = "/api/series/";
         
-        org_id = parseInt(org_id);
-        if (org_id > 0) {
-            url += "?organization=" + org_id;
+        if (name != "") {
+            url += "?name=" + name;
         }
         
-        customer_id = parseInt(customer_id);
-        if (customer_id > 0) {
-            var prefix = "";
-            if (org_id > 0) {
-                prefix = "&";
+        if (publisher_name != "") {
+            if (url.length > 12) { // If we already have the special code.
+                url += "&";
             } else {
-                prefix = "?";
+                url += "?";
             }
             
-            url += prefix + "customer=" + customer_id;
+            url += "publisher_name=" + publisher_name;
         }
         
-        pullllist_id = parseInt(pullllist_id);
-        if (pullllist_id > 0) {
-            var prefix = "";
-            if (org_id > 0 || customer_id > 0) {
-                prefix = "&";
+        min_year_began = parseInt(min_year_began);
+        if (min_year_began > 0) {
+            if (url.length > 12) {
+                url += "&";
             } else {
-                prefix = "?";
+                url += "?";
             }
             
-            url += prefix + "pulllist=" + pullllist_id;
+            url += "min_year_began=" +min_year_began;
+        }
+        
+        max_year_ended = parseInt(max_year_ended);
+        if (max_year_ended > 0) {
+            if (url.length > 12) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "max_year_ended=" +max_year_ended;
+        }
+        
+        language_id = parseInt(language_id);
+        if (language_id > 0) {
+            if (url.length > 12) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "language_id=" +language_id;
+        }
+        
+        country_id = parseInt(country_id);
+        if (country_id > 0) {
+            if (url.length > 12) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "country_id=" +country_id;
         }
         
         jQuery.ajax({
@@ -49,12 +78,12 @@
             }
         });
     }
-    
-    function set_subscription(id, data, callback)
+
+    function set_series(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST";
-        var url = "/api/pulllistsubscriptions/";
+        var url = "/api/series/";
         if (id > 0) {
             type = "PUT"; // Update
             url += id + "/";
@@ -85,8 +114,8 @@
         });
     }
 
-    function get_subscription(subscription_id, success_callback, error_callback) {
-        var url = "/api/pulllistsubscriptions/" + subscription_id + "/";
+    function get_series(subscription_id, success_callback, error_callback) {
+        var url = "/api/series/" + subscription_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,
@@ -106,8 +135,8 @@
         });
     }
 
-    function delete_subscription(subscription_id, callback) {
-        var url = "/api/pulllistsubscriptions/" + subscription_id + "/";
+    function delete_series(subscription_id, callback) {
+        var url = "/api/series/" + subscription_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,

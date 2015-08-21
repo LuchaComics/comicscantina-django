@@ -94,6 +94,9 @@ class Issue(models.Model):
     indicia_publisher = models.ForeignKey(IndiciaPublisher, null=True)
     images = models.ManyToManyField(Image)
 
+    # Put them in here to simplify REST Framework
+    publisher_name = models.CharField(max_length=255, db_index=True)
+
     # Functions
     def issue_descriptor(self):
         if self.number == '[nn]' and self.series.is_singleton:

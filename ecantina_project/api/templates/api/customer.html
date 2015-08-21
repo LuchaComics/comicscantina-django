@@ -1,4 +1,70 @@
 <script>
+    function filter_series(first_name, last_name, email, phone, postal, callback) {
+        var url = "/api/customers/";
+        
+        if (first_name != "") {
+            url += "?first_name=" + first_name;
+        }
+        
+        if (last_name != "") {
+            if (url.length > 15) { // If we already have the special code.
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "last_name=" + last_name;
+        }
+        
+        if (email != "") {
+            if (url.length > 15) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "email=" +email;
+        }
+        
+        if (phone != "") {
+            if (url.length > 15) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "phone=" +phone;
+        }
+        
+        if (postal != "") {
+            if (url.length > 15) {
+                url += "&";
+            } else {
+                url += "?";
+            }
+            
+            url += "postal=" +postal;
+        }
+        
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+                complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
     function list_customers(callback) {
         var url = "/api/customers/";
         jQuery.ajax({
@@ -65,6 +131,27 @@
                     
                 // Call back the function with the JSON results.
                 callback(json_result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function get_customer(customer_id, callback) {
+        var url = "/api/customers/" + customer_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);

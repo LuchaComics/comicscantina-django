@@ -1,13 +1,27 @@
+import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
+from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.serializers import CustomerSerializer
 from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
+
+
+class CustomerFilter(django_filters.FilterSet):
+    first_name = django_filters.CharFilter(name="first_name", lookup_type=("icontains"))
+    last_name = django_filters.CharFilter(name="last_name", lookup_type=("icontains"))
+    email = django_filters.CharFilter(name="email", lookup_type=("icontains"))
+    phone = django_filters.CharFilter(name="billing_phone", lookup_type=("icontains"))
+    postal = django_filters.CharFilter(name="billing_postal", lookup_type=("icontains"))
+    class Meta:
+        model = Customer
+        fields = ['first_name', 'last_name', 'email', 'phone', 'postal',]
+
 
 class CustomerViewSet(viewsets.ModelViewSet):
     """
@@ -16,6 +30,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
+    pagination_class = LargeResultsSetPagination
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     search_fields = ('=customer_id', 'first_name', 'last_name', 'email')
-    filter_fields = ('first_name','last_name','email',)
+    filter_class = CustomerFilter
+
+
+#        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile',)
