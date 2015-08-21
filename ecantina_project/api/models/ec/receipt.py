@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
-from api.models.ec.product import Product
 from api.models.ec.customer import Customer
 from api.models.ec.employee import Employee
 
@@ -59,7 +58,10 @@ class Receipt(models.Model):
     )
     
     # Financial
-    products = models.ManyToManyField(Product)
+    products_count = models.PositiveSmallIntegerField(
+        default=0,
+        validators=[MinValueValidator(0),],
+    )
     sub_total = models.DecimalField(
         max_digits=10,
         decimal_places=2,

@@ -39,7 +39,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section',)
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section', 'receipt',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -59,7 +59,7 @@ class ComicSerializer(serializers.ModelSerializer):
 class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
-        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method','products','sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_email', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_email', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal',)
+        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method', 'sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_email', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_email', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'products_count',)
 
 
 class HelpRequestSerializer(serializers.ModelSerializer):

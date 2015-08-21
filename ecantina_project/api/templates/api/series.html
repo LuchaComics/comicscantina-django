@@ -38,6 +38,7 @@
             url += "max_year_ended=" +max_year_ended;
         }
         
+        language_id = parseInt(language_id);
         if (language_id > 0) {
             if (url.length > 12) {
                 url += "&";
@@ -48,6 +49,7 @@
             url += "language_id=" +language_id;
         }
         
+        country_id = parseInt(country_id);
         if (country_id > 0) {
             if (url.length > 12) {
                 url += "&";

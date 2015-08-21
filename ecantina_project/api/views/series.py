@@ -25,7 +25,7 @@ class SeriesViewSet(viewsets.ModelViewSet):
     """
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
-    permission_classes = (IsAdminUserOrReadOnly,)
     pagination_class = LargeResultsSetPagination
+    permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = SeriesFilter
