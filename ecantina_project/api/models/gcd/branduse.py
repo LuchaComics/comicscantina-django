@@ -1,6 +1,6 @@
 from django.db import models
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.brandgroup import GCDBrandGroup
 from api.models.gcd.brand import GCDBrand
 
@@ -11,7 +11,7 @@ class GCDBrandUse(models.Model):
         db_table = 'gcd_brand_uses'
     
     brand_use_id = models.AutoField(primary_key=True)
-    publisher = models.ForeignKey(Publisher)
+    publisher = models.ForeignKey(GCDPublisher)
     emblem = models.ForeignKey(GCDBrand, related_name='in_use')
     
     year_began = models.IntegerField(db_index=True, null=True)

@@ -2,9 +2,9 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from api.models.gcd.country import Country
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.indiciapublisher import IndiciaPublisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
 
 
 class ImportIndiciaPublisher:
@@ -59,13 +59,13 @@ class ImportIndiciaPublisher:
         # Transform #
         #-----------#
         try:
-            country = Country.objects.get(country_id=country_id)
-        except Country.DoesNotExist:
+            country = GCDCountry.objects.get(country_id=country_id)
+        except GCDCountry.DoesNotExist:
             country = None
 
         try:
-            publisher = Publisher.objects.get(publisher_id=parent_id)
-        except Publisher.DoesNotExist:
+            publisher = GCDPublisher.objects.get(publisher_id=parent_id)
+        except GCDPublisher.DoesNotExist:
             publisher = None
 
         # Fix their weird data
@@ -79,7 +79,7 @@ class ImportIndiciaPublisher:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = IndiciaPublisher.objects.get(indicia_publisher_id=id)
+            entry = GCDIndiciaPublisher.objects.get(indicia_publisher_id=id)
             print("ImportIndiciaPublisher: Updating: " + str(id))
             entry.name = name
             entry.year_began = year_began
@@ -97,9 +97,9 @@ class ImportIndiciaPublisher:
             entry.country = country
             entry.parent = publisher
             entry.save()
-        except IndiciaPublisher.DoesNotExist:
+        except GCDIndiciaPublisher.DoesNotExist:
             print("ImportIndiciaPublisher: Inserting: " + str(id))
-            IndiciaPublisher.objects.create(
+            GCDIndiciaPublisher.objects.create(
                 indicia_publisher_id=id,
                 name=name,
                 year_began=year_began,

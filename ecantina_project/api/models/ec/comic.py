@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 import os
 from api.models.gcd.issue import Issue
-from api.models.gcd.image import Image
+from api.models.gcd.image import GCDImage
 from api.models.ec.organization import Organization
 from api.models.ec.section import Section
 from api.models.ec.store import Store

@@ -1,5 +1,5 @@
 from django.db import models
-from api.models.gcd.image import Image
+from api.models.gcd.image import GCDImage
 from api.models.gcd.brand import GCDBrand
 from api.models.gcd.brandgroup import GCDBrandGroup
 

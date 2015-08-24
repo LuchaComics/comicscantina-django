@@ -1,10 +1,10 @@
 from django.db import models
-from api.models.gcd.country import Country
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
 
 
-class IndiciaPublisher(models.Model):
+class GCDIndiciaPublisher(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ('name',)
@@ -34,9 +34,9 @@ class IndiciaPublisher(models.Model):
     issue_count = models.IntegerField(default=0)
 
     # Referenced
-    country = models.ForeignKey(Country)
-    images = models.ManyToManyField(Image)
-    parent = models.ForeignKey(Publisher, null=True)
+    country = models.ForeignKey(GCDCountry)
+    images = models.ManyToManyField(GCDImage)
+    parent = models.ForeignKey(GCDPublisher, null=True)
 
     def __str__(self):
         return self.name

@@ -2,7 +2,7 @@ import os
 import sys
 import xml.sax
 from django.conf import settings
-from api.models.gcd.country import Country
+from api.models.gcd.country import GCDCountry
 
 TODO_COMMAND = "TODO_ME_NOW"
 
@@ -52,14 +52,14 @@ class ImportCountry(xml.sax.ContentHandler):
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Country.objects.get(country_id=id)
+            entry = GCDCountry.objects.get(country_id=id)
             print("ImportCountry: Updating: " + str(id))
             entry.code = code
             entry.name = name
             entry.save()
-        except Country.DoesNotExist:
+        except GCDCountry.DoesNotExist:
             print("ImportCountry: Inserting: " + str(id))
-            Country.objects.create(
+            GCDCountry.objects.create(
                 country_id=id,
                 code=code,
                 name=name,

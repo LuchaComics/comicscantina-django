@@ -6,7 +6,6 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.customer import Customer
-from api.models.gcd.image import Image
 from api.models.ec.organization import Organization
 from api.models.ec.section import Section
 from api.models.ec.store import Store

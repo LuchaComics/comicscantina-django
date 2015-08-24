@@ -3,10 +3,10 @@ import sys
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 from django.conf import settings
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.indiciapublisher import IndiciaPublisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
 from api.models.gcd.brand import GCDBrand
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue

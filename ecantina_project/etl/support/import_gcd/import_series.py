@@ -2,9 +2,9 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.series import Series
 
 
@@ -84,8 +84,8 @@ class ImportSeries:
         # Transform #
         #-----------#
         try:
-            country = Country.objects.get(country_id=country_id)
-        except Country.DoesNotExist:
+            country = GCDCountry.objects.get(country_id=country_id)
+        except GCDCountry.DoesNotExist:
             country = None
 
         try:
@@ -95,7 +95,7 @@ class ImportSeries:
         publisher_name = publisher.name
         
         try:
-            language = Language.objects.get(language_id=language_id)
+            language = GCDLanguage.objects.get(language_id=language_id)
         except language.DoesNotExist:
             language = None
 

@@ -2,11 +2,11 @@ from django.contrib import admin
 
 # Grand Comics Database Models
 #------------------------------------------------------------------
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.image import Image
-from api.models.gcd.indiciapublisher import IndiciaPublisher
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.image import GCDImage
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
+from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.brandgroup import GCDBrandGroup
 from api.models.gcd.brand import GCDBrand
 from api.models.gcd.series import Series
@@ -31,10 +31,10 @@ from api.models.ec.store import Store
 # Registering Models
 #------------------------------------------------------------------
 # GCD
-admin.site.register(Country)
-admin.site.register(Language)
-admin.site.register(Image)
-admin.site.register(IndiciaPublisher)
+admin.site.register(GCDCountry)
+admin.site.register(GCDLanguage)
+admin.site.register(GCDImage)
+admin.site.register(GCDIndiciaPublisher)
 admin.site.register(GCDBrandGroup)
 admin.site.register(GCDBrand)
 admin.site.register(Series)

@@ -2,7 +2,7 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from api.models.gcd.country import Country
+from api.models.gcd.country import GCDCountry
 from api.models.gcd.publisher import Publisher
 from api.models.gcd.brandgroup import GCDBrandGroup
 from api.models.gcd.brand import GCDBrand

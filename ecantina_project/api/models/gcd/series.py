@@ -1,8 +1,8 @@
 from django.db import models
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
 
 
 class Series(models.Model):
@@ -65,16 +65,16 @@ class Series(models.Model):
     deleted = models.BooleanField(default=False, db_index=True)
 
     # Country and Language info.
-    country = models.ForeignKey(Country)
-    language = models.ForeignKey(Language)
+    country = models.ForeignKey(GCDCountry)
+    language = models.ForeignKey(GCDLanguage)
     
     # Cover
     cover_url = models.URLField(null=True, blank=True, max_length=255)
     
     # Fields related to the publishers table.
     publication_type_id = models.IntegerField(null=True, blank=0)
-    publisher = models.ForeignKey(Publisher)
-    images = models.ManyToManyField(Image)
+    publisher = models.ForeignKey(GCDPublisher)
+    images = models.ManyToManyField(GCDImage)
 
     # Put them in here to simplify REST Framework
     publisher_name = models.CharField(max_length=255, db_index=True)

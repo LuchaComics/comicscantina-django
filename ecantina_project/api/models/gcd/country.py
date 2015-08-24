@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Country(models.Model):
+class GCDCountry(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ('name',)

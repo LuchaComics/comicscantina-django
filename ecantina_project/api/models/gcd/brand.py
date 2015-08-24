@@ -1,7 +1,8 @@
 from django.db import models
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.brandgroup import GCDBrandGroup
+
 
 class GCDBrand(models.Model):
     class Meta:
@@ -11,12 +12,12 @@ class GCDBrand(models.Model):
     
     brand_id = models.AutoField(primary_key=True)
     issue_count = models.IntegerField(default=0)
-    parent = models.ForeignKey(Publisher, null=True)
+    parent = models.ForeignKey(GCDPublisher, null=True)
     group = models.ManyToManyField(
         GCDBrandGroup, blank=True,
         db_table='gcd_brand_emblem_group'
     )
-    images = models.ManyToManyField(Image)
+    images = models.ManyToManyField(GCDImage)
 
     # Core publisher fields.
     name = models.CharField(max_length=255, db_index=True)

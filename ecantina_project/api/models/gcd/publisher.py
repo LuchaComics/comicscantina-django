@@ -1,9 +1,9 @@
 from django.db import models
-from api.models.gcd.country import Country
-from api.models.gcd.image import Image
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.image import GCDImage
 
 
-class Publisher(models.Model):
+class GCDPublisher(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ('name',)
@@ -33,8 +33,8 @@ class Publisher(models.Model):
     issue_count = models.IntegerField(default=0)
 
     # Referenced
-    country = models.ForeignKey(Country)
-    images = models.ManyToManyField(Image)
+    country = models.ForeignKey(GCDCountry)
+    images = models.ManyToManyField(GCDImage)
     parent = models.ForeignKey('self', null=True,
                                 related_name='imprint_set')
 

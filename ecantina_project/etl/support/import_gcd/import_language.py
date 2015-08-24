@@ -2,7 +2,7 @@ import os
 import sys
 import xml.sax
 from django.conf import settings
-from api.models.gcd.language import Language
+from api.models.gcd.language import GCDLanguage
 
 TODO_COMMAND = "TODO_ME_NOW"
 
@@ -51,14 +51,14 @@ class ImportLanguage(xml.sax.ContentHandler):
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Language.objects.get(language_id=id)
+            entry = GCDLanguage.objects.get(language_id=id)
             print("ImportLanguage: Updating: " + str(id))
             entry.code = code
             entry.name = name
             entry.save()
-        except Language.DoesNotExist:
+        except GCDLanguage.DoesNotExist:
             print("ImportLanguage: Inserting: " + str(id))
-            Language.objects.create(
+            GCDLanguage.objects.create(
                 language_id=id,
                 code=code,
                 name=name,

@@ -2,11 +2,11 @@ from django.db import models
 from django.core import urlresolvers
 from django.core.exceptions import ObjectDoesNotExist
 from decimal import Decimal
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.indiciapublisher import IndiciaPublisher
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
 from api.models.gcd.series import Series
 from api.models.gcd.brand import GCDBrand
 
@@ -91,8 +91,8 @@ class Issue(models.Model):
     # Foreign Keys
     brand = models.ForeignKey(GCDBrand, null=True)
     series = models.ForeignKey(Series, null=True)
-    indicia_publisher = models.ForeignKey(IndiciaPublisher, null=True)
-    images = models.ManyToManyField(Image)
+    indicia_publisher = models.ForeignKey(GCDIndiciaPublisher, null=True)
+    images = models.ManyToManyField(GCDImage)
 
     # Put them in here to simplify REST Framework
     publisher_name = models.CharField(max_length=255, db_index=True)

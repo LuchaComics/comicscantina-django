@@ -10,9 +10,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
-from api.models.gcd.country import Country
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.language import Language
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.language import GCDLanguage
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue
 from api.models.gcd.story import GCDStory
@@ -238,7 +238,7 @@ class SamplDataPopulator():
         #-----------
         # Country
         #----------
-        country = Country.objects.create(
+        country = GCDCountry.objects.create(
             country_id=1,
             code='ca',
             name='Canada',
@@ -247,7 +247,7 @@ class SamplDataPopulator():
         #------------
         # Language
         #-----------
-        language = Language.objects.create(
+        language = GCDLanguage.objects.create(
             language_id=1,
             code='En',
             name='English',
