@@ -111,10 +111,11 @@ class ImportIssue:
         is_indexed = False if is_indexed in 'NULL' else int(is_indexed)
 
         try:
-            indicia_publisher = IndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)
-        except IndiciaPublisher.DoesNotExist:
+            indicia_publisher = GCDIndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)
+            publisher_name = indicia_publisher.name
+        except GCDIndiciaPublisher.DoesNotExist:
             indicia_publisher = None
-        publisher_name = indicia_publisher.name
+            publisher_name = ""
 
         try:
             series = GCDSeries.objects.get(series_id=series_id)

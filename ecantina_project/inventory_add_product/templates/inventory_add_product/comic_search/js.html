@@ -1,0 +1,194 @@
+{% load staticfiles %}
+{% include 'api/organization.html' %}
+{% include 'api/customer.html' %}
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                  
+        // DYNAMIC SEARCHING (AKA AJAX SEARCHING)
+        // The following code will provide all the necessary functions
+        // which allow dynamic searching of comic books...
+        //
+        // Whenever user starts typing a textbox, start dynamically
+        // making ajax calls to look up the results.
+        var thread = null;
+                      
+        function lookupComics() {
+            var series =  $('#id_series').val();
+            var publisher =  $('#id_publisher').val();
+            var language =  $('#id_language').val();
+            var country =  $('#id_country').val();
+            var genre =  $('#id_genre').val();
+            var from =  $('#id_from').val();
+            var to =  $('#id_to').val();
+                      
+            // Print to Console
+            console.log('Series: ' + series + ' | Issue #: ' + issue_num +
+                ' | Publisher: ' + publisher + ' | From: ' + from +
+                ' | To: ' + to + ' | Language: ' + language);
+                    
+            // Call our application and return results.
+            ajax_search_comics(series, issue_num, publisher, genre, from, to);
+        }
+                    
+        // SERIES
+        $('#id_series').keyup(function() {
+            clearTimeout(thread);
+            thread = setTimeout(function() { lookupComics(); }, 500);
+        });
+                    
+        // PUBLISHER
+        $('#id_publisher').keyup(function() {
+            clearTimeout(thread);
+            thread = setTimeout(function() { lookupComics(); }, 500);
+        });
+                      
+        // FROM
+        $('#id_from').keyup(function() {
+            clearTimeout(thread);
+            thread = setTimeout(function() { lookupComics(); }, 500);
+        });
+                      
+        // TO
+        $('#id_to').keyup(function() {
+            clearTimeout(thread);
+            thread = setTimeout(function() { lookupComics(); }, 500);
+        });
+                      
+        // LANGUAGE
+        $('#id_language').keyup(function() {
+            clearTimeout(thread);
+            thread = setTimeout(function() { lookupComics(); }, 500);
+        });
+                      
+        // COUNTRY
+        $('#id_country').keyup(function() {
+            clearTimeout(thread);
+            thread = setTimeout(function() { lookupComics(); }, 500);
+        });
+    });
+                      
+    function ajax_search_comics(series, issue_num, publisher, genre, from, to)
+    {
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/search_comics';
+        
+        $.ajax( url, {
+            data: {
+               'series' : series,
+               'issue_num': issue_num,
+               'publisher' : publisher,
+               'genre': genre,
+               'from' : from,
+               'to' : to,
+            },
+            type: 'post',
+            success: function(result) {
+               // success code execution here
+               $('#ajax_search_results_placeholder').html(result); // Update UI.
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
+    }
+
+                  
+    function ajax_refresh_table()
+    {
+        list_customers(function(json_result) {
+            generate_table(json_result);
+        });
+    }
+
+    function ajax_search()
+    {
+        var keyword = $('#id_search_keyword').val();
+        search_customers(keyword, function(json_result) {
+            generate_table(json_result);
+        });
+    }
+
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
+    
+        // Initial Code
+        var html = '';
+        html += '<div class="table-responsive">';
+        html += '<table id="table-ext-1" class="table table-hover">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th style="width:20%">First Name</th>';
+        html += '<th style="width:20%">Last Name</th>';
+        html += '<th style="width:20%">Email</th>';
+        html += '<th style="width:13%"></th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+    
+        // Process the meta information.
+        $(json_result).each(function(iter,meta){
+        
+            // Process the results search data.
+            $(meta['results']).each(function(iter,val){
+                var customer_id = val['customer_id'];
+                var first_name = val['first_name'];
+                var last_name = val['last_name'];
+                var email = val['email'];
+                var phone = val['phone'];
+                                                
+                // Table Row
+                html += '<tr>';
+                
+                // Col 1
+                var col1 = first_name;
+                html += '<td>' + col1 + '</td>';
+                
+                // Col 2
+                var col2 = last_name;
+                html += '<td>' + col2 + '</td>';
+                                                
+                // Col 3
+                var col3 = email;
+                html += '<td>' + col3 + '</td>';
+                                                
+                // Col 4
+                var href_url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
+                var col4 = '<a href="'+href_url+'" class="btn btn-success btn-sm">View Details</a>';
+                html += '<td style="text-align:center;">' + col4 + '</td>';
+                                                
+                // Close Table Row
+                html += '</tr>';
+            });
+        });
+                        
+        html += '</tbody></table></div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+</script>

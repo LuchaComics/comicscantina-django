@@ -11,6 +11,8 @@ from api.models.ec.section import Section
 from api.models.ec.store import Store
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.receipt import Receipt
+from api.models.ec.tag import Tag
+from api.models.ec.brand import Brand
 
 
 PRODUCT_TYPE_OPTIONS = (
@@ -100,6 +102,13 @@ class Product(models.Model):
     
     # Products need to be belong to a receipt once purchased.
     receipt = models.ForeignKey(Receipt, null=True, blank=True)
+    
+    # Every product has a list of tags they can belong to. Tags are used
+    # to track th
+    tags = models.ManyToManyField(Tag, blank=True, related_name='product_tags')
+    
+    # Products should have a brand association with it.
+    brand = models.ForeignKey(Brand, null=True, blank=True)
     
     def __str__(self):
         return str(self.name)

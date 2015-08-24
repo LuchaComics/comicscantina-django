@@ -89,8 +89,8 @@ class ImportSeries:
             country = None
 
         try:
-            publisher = Publisher.objects.get(publisher_id=publisher_id)
-        except Publisher.DoesNotExist:
+            publisher = GCDPublisher.objects.get(publisher_id=publisher_id)
+        except GCDPublisher.DoesNotExist:
             publisher = None
         publisher_name = publisher.name
         

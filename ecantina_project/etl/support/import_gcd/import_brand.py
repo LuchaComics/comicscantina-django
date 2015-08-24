@@ -3,7 +3,7 @@ import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
 from api.models.gcd.country import GCDCountry
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.brandgroup import GCDBrandGroup
 from api.models.gcd.brand import GCDBrand
 
@@ -66,8 +66,8 @@ class ImportBrand:
         parent_id = 0 if parent_id in 'NULL' else int(parent_id)
 
         try:
-            publisher = Publisher.objects.get(publisher_id=parent_id)
-        except Publisher.DoesNotExist:
+            publisher = GCDPublisher.objects.get(publisher_id=parent_id)
+        except GCDPublisher.DoesNotExist:
             publisher = None
 
         #--------#

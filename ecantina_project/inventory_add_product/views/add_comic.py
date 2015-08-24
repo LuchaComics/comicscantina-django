@@ -67,7 +67,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory_add_product/comic/add/view.html',{
+    return render(request, 'inventory_add_product/add/view.html',{
         'org': org,
         'store': store,
         'issue': issue,
@@ -94,7 +94,7 @@ def list_products(request, org_id, store_id, issue_id):
                 comics = Comic.objects.filter(issue_id=issue_id)
             except Comic.DoesNotExist:
                 comics = None
-    return render(request, 'inventory_add_product/comic/add/list.html',{
+    return render(request, 'inventory_add_product/add/list.html',{
         'comics': comics,
         'org_id':org_id,
         'store_id':store_id,
