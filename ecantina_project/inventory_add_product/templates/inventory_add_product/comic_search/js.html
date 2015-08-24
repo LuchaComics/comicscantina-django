@@ -208,7 +208,12 @@
 
                 var el = $(this);
                 for (var i = 0; i < dif; i++) {
-                    el = el.next();
+                    if( $(el).next().length ) {
+                        el = el.next('div.product-item');
+                    }
+                    else{
+                        break;
+                    }
                 }
 
                 var comiclist = '<div class="table-responsive" style="background-color:inherit;">' +
