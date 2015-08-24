@@ -83,6 +83,15 @@
             thread = setTimeout(function() { lookupComics(); }, 500);
         });
 
+        $('body').on('mouseover', '.product-item', function(){
+            $(this).find('.btn-add-cart').css('display','block');
+            $(this).find('.btn-view-details').css('display','block');
+        });
+
+        $('body').on('mouseout', '.product-item', function(){
+            $(this).find('.btn-add-cart').css('display','none');
+            $(this).find('.btn-view-details').css('display','none');
+        });
 
         var type = "xs";
 
