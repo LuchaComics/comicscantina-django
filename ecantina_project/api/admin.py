@@ -9,8 +9,8 @@ from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
 from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.brandgroup import GCDBrandGroup
 from api.models.gcd.brand import GCDBrand
-from api.models.gcd.series import Series
-from api.models.gcd.issue import Issue
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
 from api.models.gcd.storytype import GCDStoryType
 from api.models.gcd.story import GCDStory
 from api.models.gcd.branduse import GCDBrandUse
@@ -37,8 +37,8 @@ admin.site.register(GCDImage)
 admin.site.register(GCDIndiciaPublisher)
 admin.site.register(GCDBrandGroup)
 admin.site.register(GCDBrand)
-admin.site.register(Series)
-admin.site.register(Issue)
+admin.site.register(GCDSeries)
+admin.site.register(GCDIssue)
 admin.site.register(GCDStoryType)
 admin.site.register(GCDStory)
 admin.site.register(GCDBrandUse)

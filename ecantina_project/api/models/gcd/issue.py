@@ -7,7 +7,7 @@ from api.models.gcd.language import GCDLanguage
 from api.models.gcd.image import GCDImage
 from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
-from api.models.gcd.series import Series
+from api.models.gcd.series import GCDSeries
 from api.models.gcd.brand import GCDBrand
 
 
@@ -19,7 +19,7 @@ INDEXED = {
 }
 
 
-class Issue(models.Model):
+class GCDIssue(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ['series', 'sort_code']
@@ -90,7 +90,7 @@ class Issue(models.Model):
     
     # Foreign Keys
     brand = models.ForeignKey(GCDBrand, null=True)
-    series = models.ForeignKey(Series, null=True)
+    series = models.ForeignKey(GCDSeries, null=True)
     indicia_publisher = models.ForeignKey(GCDIndiciaPublisher, null=True)
     images = models.ManyToManyField(GCDImage)
 

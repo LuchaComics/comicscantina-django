@@ -5,7 +5,7 @@ from api.models.gcd.image import GCDImage
 from api.models.gcd.publisher import GCDPublisher
 
 
-class Series(models.Model):
+class GCDSeries(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ['sort_name', 'year_began']

@@ -3,7 +3,7 @@ import sys
 import xml.sax
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 
 
 LARGE_ZOOM = 4
@@ -25,8 +25,8 @@ class GCDIssueCoverCatalogImporter(xml.sax.ContentHandler):
         url = attrs.getValue("url")
         print("GCDIssueCoverCatalogImporter: Updating: " + str(id))
         try:
-            issue = Issue.objects.get(issue_id=id)
-        except Issue.DoesNotExist:
+            issue = GCDIssue.objects.get(issue_id=id)
+        except GCDIssue.DoesNotExist:
             print("Error: Issue "+str(id)+" does not exist.")
             return
 

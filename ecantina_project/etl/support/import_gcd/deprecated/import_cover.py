@@ -6,7 +6,7 @@ from time import sleep
 from bs4 import BeautifulSoup
 import shutil
 from django.conf import settings
-from inventory.models.issue import Issue
+from inventory.models.issue import GCDIssue
 from inventory.models.cover import Cover
 
 LARGE_ZOOM = '4'
@@ -55,8 +55,8 @@ class ImportCover:
         # Fetch the records we'll be using or create them
         issue_id = int(row.findtext('id'))
         try:
-            issue = Issue.objects.get(issue_id=issue_id)
-        except Issue.DoesNotExist:
+            issue = GCDIssue.objects.get(issue_id=issue_id)
+        except GCDIssue.DoesNotExist:
             return
         try:
             cover = Cover.objects.get(issue=issue)

@@ -8,8 +8,8 @@ from api.models.gcd.language import GCDLanguage
 from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
 from api.models.gcd.brand import GCDBrand
-from api.models.gcd.series import Series
-from api.models.gcd.issue import Issue
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
 
 
 class ImportIssue:
@@ -117,8 +117,8 @@ class ImportIssue:
         publisher_name = indicia_publisher.name
 
         try:
-            series = Series.objects.get(series_id=series_id)
-        except Series.DoesNotExist:
+            series = GCDSeries.objects.get(series_id=series_id)
+        except GCDSeries.DoesNotExist:
             series = None
         
         try:
@@ -132,7 +132,7 @@ class ImportIssue:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Issue.objects.get(issue_id=id)
+            entry = GCDIssue.objects.get(issue_id=id)
             print("ImportIssue: Updating: " + str(id))
             entry.number = number
             entry.volume = volume
@@ -174,9 +174,9 @@ class ImportIssue:
             entry.no_rating = no_rating
             entry.publisher_name = publisher_name
             entry.save()
-        except Issue.DoesNotExist:
+        except GCDIssue.DoesNotExist:
             print("ImportIssue: Inserting: " + str(id))
-            Issue.objects.create(
+            GCDIssue.objects.create(
                 issue_id=id,
                 number=number,
                 volume = volume,

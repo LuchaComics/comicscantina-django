@@ -13,8 +13,8 @@ from captcha.models import CaptchaStore
 from api.models.gcd.country import GCDCountry
 from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.language import GCDLanguage
-from api.models.gcd.series import Series
-from api.models.gcd.issue import Issue
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
 from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
@@ -325,7 +325,7 @@ class SamplDataPopulator():
         #-----------------
         # Issue
         #-----------------
-        Issue.objects.create(
+        GCDIssue.objects.create(
             issue_id=1,
                 number='1',
                 volume='1',

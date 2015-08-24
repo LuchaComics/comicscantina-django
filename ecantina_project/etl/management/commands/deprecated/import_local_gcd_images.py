@@ -59,8 +59,8 @@ class Command(BaseCommand):
     
         # Fetch the records we'll be using or create them
         try:
-            issue = Issue.objects.get(issue_id=issue_id)
-        except Issue.DoesNotExist:
+            issue = GCDIssue.objects.get(issue_id=issue_id)
+        except GCDIssue.DoesNotExist:
             return  # Skip processing if issue doesn't exist.
         try:
             cover = Cover.objects.get(issue=issue)

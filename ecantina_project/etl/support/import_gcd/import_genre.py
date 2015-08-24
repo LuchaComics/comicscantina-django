@@ -2,7 +2,7 @@ import os
 import sys
 from django.conf import settings
 from api.models.gcd.story import GCDStory
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 
 class ImportGenre:
     """
@@ -24,9 +24,9 @@ class ImportGenre:
             # Fetch the issue and update the 'genre' and then save
             try:
                 print("ImportGenre: Updating Issue: " + str(issue_id))
-                issue = Issue.objects.get(issue_id=issue_id)
+                issue = GCDIssue.objects.get(issue_id=issue_id)
                 issue.genre = genre
                 issue.save()
-            except Issue.DoesNotExist:
+            except GCDIssue.DoesNotExist:
                 pass
         print("ImportGenre: Finished")

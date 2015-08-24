@@ -5,7 +5,7 @@ from django.conf import settings
 from api.models.gcd.country import GCDCountry
 from api.models.gcd.language import GCDLanguage
 from api.models.gcd.publisher import GCDPublisher
-from api.models.gcd.series import Series
+from api.models.gcd.series import GCDSeries
 
 
 class ImportSeries:
@@ -128,7 +128,7 @@ class ImportSeries:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Series.objects.get(series_id=id)
+            entry = GCDSeries.objects.get(series_id=id)
             print("ImportSeries: Updating: " + str(id))
             entry.name=name
             entry.sort_name=sort_name
@@ -168,9 +168,9 @@ class ImportSeries:
             entry.is_singleton=is_singleton
             entry.publisher_name = publisher_name
             entry.save()
-        except Series.DoesNotExist:
+        except GCDSeries.DoesNotExist:
             print("ImportSeries: Inserting: " + str(id))
-            Series.objects.create(
+            GCDSeries.objects.create(
                 series_id=id,
                 name=name,
                 sort_name=sort_name,

@@ -1,6 +1,6 @@
 from django.db import models
 from decimal import Decimal
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 from api.models.gcd.storytype import GCDStoryType
 
 
@@ -48,7 +48,7 @@ class GCDStory(models.Model):
     keywords = models.TextField(null=True)
         
     # Fields from issue.
-    issue = models.ForeignKey(Issue)
+    issue = models.ForeignKey(GCDIssue)
                                      
     # Fields related to change management.
     reserved = models.BooleanField(default=False, db_index=True)

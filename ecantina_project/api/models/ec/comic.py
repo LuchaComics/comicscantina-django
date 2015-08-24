@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 import os
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 from api.models.gcd.image import GCDImage
 from api.models.ec.organization import Organization
 from api.models.ec.section import Section
@@ -106,7 +106,7 @@ class Comic(models.Model):
     is_newsstand_edition = models.BooleanField(default=False)
     
     product = models.ForeignKey(Product)
-    issue = models.ForeignKey(Issue)
+    issue = models.ForeignKey(GCDIssue)
    
     def __str__(self):
         return str(self.issue)

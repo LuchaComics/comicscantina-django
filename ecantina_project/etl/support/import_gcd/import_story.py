@@ -5,7 +5,7 @@ from decimal import Decimal
 from django.conf import settings
 from api.models.gcd.storytype import GCDStoryType
 from api.models.gcd.story import GCDStory
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 
 class ImportStory:
     """
@@ -83,8 +83,8 @@ class ImportStory:
             story_type = None
 
         try:
-            issue = Issue.objects.get(issue_id = issue_id)
-        except Issue.DoesNotExist:
+            issue = GCDIssue.objects.get(issue_id = issue_id)
+        except GCDIssue.DoesNotExist:
             issue = None
 
         #--------#

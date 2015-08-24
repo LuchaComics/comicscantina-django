@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
@@ -31,8 +31,8 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
     except Section.DoesNotExist:
         sections = None
     try:
-        issue = Issue.objects.get(issue_id=issue_id)
-    except Issue.DoesNotExist:
+        issue = GCDIssue.objects.get(issue_id=issue_id)
+    except GCDIssue.DoesNotExist:
         issue = None
     try:
         story = GCDStory.objects.filter(issue_id=issue_id)[:1]
@@ -165,9 +165,9 @@ def ajax_add_product(request, org_id, store_id, issue_id):
             
             # Step (5): Attach "issue" object.
             try:
-                issue = Issue.objects.get(issue_id=issue_id)
+                issue = GCDIssue.objects.get(issue_id=issue_id)
                 form.instance.issue = issue
-            except Issue.DoesNotExist:
+            except GCDIssue.DoesNotExist:
                 return HttpResponse(json.dumps({
                     'status' : 'failed',
                     'message' : 'could not find issue',
