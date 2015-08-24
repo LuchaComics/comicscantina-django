@@ -117,37 +117,164 @@
                         <!-- Begin Search Results -->
                         <!--                      -->
                         <div class="clearfix"></div>
-                        <div id="id_table_placeholder"
-                            name="id_table_placeholder"></div>
-                    </div>
-                    <!--                      -->
-                    <!--  End Search Results  -->
-                    <!--                      -->
-                </div>
-                <!-- END panel-->
-                <!-- tempalte for cloned filter box -->
-                <div style="display:none;">
-                    <div class="col-sm-8 col-md-5 mb search-filter">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Series <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Series</a></li>
-                                    <li><a href="#">Issue</a></li>
-                                    <li><a href="#">Publisher</a></li>
-                                    <li><a href="#">Genre</a></li>
-                                </ul>
-                            </div>
-                            <!-- /btn-group -->
-                            <input type="text" class="form-control" value="Batman">
-                                <em class="fa fa-2x fa-remove text-gray-light btn-remove-filter"></em>
+                        <!-- begin product listing -->
+                        <div class="product-listing m-lg">
+                            <div class="product-type-listing clearfix">
+                                <div class="products-list">
+                                    <!--------- data-position needs to be set by a counter incrementing over the number of comics ------------>
+                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix" data-position="1">
+                                        <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-1.jpg" />
+                                        <div class="product-item-details">
+                                            <h4 class="comic-issue product-title m-sm center-block text-center">Series Name</h4>
+                                            <span class="center-block comic-date text-muted text-center">Publisher</span>
+                                            <label style=";margin-top:2px;margin-left:auto;margin-right:auto;text-align:center;width:100%;"><input type="checkbox" name="issueidhere" />&nbsp;&nbsp;Select Series</label>
+                                        </div>
+                                    </div>
                                 </div>
-                        <!-- /input-group -->
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <!-- end product listing -->
+                        <div class="product-type-listing clearfix">
+                            <div class="product-listing-header pt-xl pb0 mb0">
+                                <h4 class="p0 m0">
+                                    <a class="product-type-minimize">Batman
+                                        <span class="text-sm">(2011)</span>
+                                        <span class="pl-sm product-type-publisher text-muted text-sm">DC</span>
+                                        <em class="pl-sm fa fa-caret-down"></em>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div class="products-list">
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-5.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #1</h4>
+                                        <span class="center-block comic-date text-muted text-center">November 2011</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-6.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #2</h4>
+                                        <span class="center-block comic-date text-muted text-center">December 2011</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-7.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #3</h4>
+                                        <span class="center-block comic-date text-muted text-center">January 2012</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-8.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #4</h4>
+                                        <span class="center-block comic-date text-muted text-center">February 2012</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-5.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #1</h4>
+                                        <span class="center-block comic-date text-muted text-center">November 2011</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-6.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #2</h4>
+                                        <span class="center-block comic-date text-muted text-center">December 2011</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-7.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #3</h4>
+                                        <span class="center-block comic-date text-muted text-center">January 2012</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-8.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #4</h4>
+                                        <span class="center-block comic-date text-muted text-center">February 2012</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="product-type-listing clearfix">
+                            <div class="product-listing-header pt-xl pb0 mb0">
+                                <h4 class="p0 m0">
+                                    <a class="product-type-minimize">Batman
+                                        <span class="text-sm">(1966)</span>
+                                        <span class="pl-sm product-type-publisher text-muted text-sm">New American Library</span>
+                                        <em class="pl-sm fa fa-caret-down"></em>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div class="products-list">
+                                <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix">
+                                    <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-9.jpg" />
+                                    <div class="product-item-details">
+                                        <h4 class="comic-issue product-title m-sm center-block text-center">Issue #D2939</h4>
+                                        <span class="center-block comic-date text-muted text-center">March 1966</span>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button>
+                                    <button type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
+                    <!-- end product listing -->
                 </div>
-                <!-- end clone template -->
+                <!--                      -->
+                <!--  End Search Results  -->
+                <!--                      -->
             </div>
+            <!-- END panel-->
+            <!-- tempalte for cloned filter box -->
+            <div style="display:none;">
+                <div class="col-sm-8 col-md-5 mb search-filter">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Series <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Series</a></li>
+                                <li><a href="#">Issue</a></li>
+                                <li><a href="#">Publisher</a></li>
+                                <li><a href="#">Genre</a></li>
+                            </ul>
+                        </div>
+                        <!-- /btn-group -->
+                        <input type="text" class="form-control" value="Batman">
+                            <em class="fa fa-2x fa-remove text-gray-light btn-remove-filter"></em>
+                            </div>
+                    <!-- /input-group -->
+                </div>
+            </div>
+            <!-- end clone template -->
         </div>
+    </div>
     </div>
 </section>
 <!-- Page footer-->
