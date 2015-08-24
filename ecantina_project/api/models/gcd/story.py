@@ -1,12 +1,12 @@
 from django.db import models
 from decimal import Decimal
 from api.models.gcd.issue import Issue
-from api.models.gcd.storytype import StoryType
+from api.models.gcd.storytype import GCDStoryType
 
 
-class Story(models.Model):
+class GCDStory(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('sequence_number',)
         db_table = 'gcd_stories'
     
@@ -16,7 +16,7 @@ class Story(models.Model):
     title = models.CharField(max_length=255)
     title_inferred = models.BooleanField(default=False, db_index=True)
     feature = models.CharField(max_length=255)
-    type = models.ForeignKey(StoryType)
+    type = models.ForeignKey(GCDStoryType)
     sequence_number = models.IntegerField()
     
     page_count = models.DecimalField(

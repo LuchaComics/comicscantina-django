@@ -16,6 +16,7 @@ from api.views import pulllist
 from api.views import pulllistsubscription
 from api.views import series
 from api.views import issue
+from api.views import tag
 from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
@@ -30,6 +31,7 @@ router.register(r'receipts', receipt.ReceiptViewSet)
 router.register(r'helprequests', helprequest.HelpRequestViewSet)
 router.register(r'imageuploads', imageupload.ImageUploadViewSet)
 router.register(r'promotions', promotion.PromotionViewSet)
+router.register(r'tags', tag.TagViewSet)
 router.register(r'sections', section.SectionViewSet)
 router.register(r'users', user.UserViewSet)
 router.register(r'groups', user.GroupViewSet)

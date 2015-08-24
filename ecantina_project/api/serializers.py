@@ -15,6 +15,7 @@ from api.models.ec.section import Section
 from api.models.ec.wishlist import Wishlist
 from api.models.ec.pulllist import Pulllist
 from api.models.ec.pulllistsubscription import PulllistSubscription
+from api.models.ec.tag import Tag
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue
 
@@ -130,3 +131,10 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name',)
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('tag_id', 'name', 'discount', 'discount_type', 'organization',)
+

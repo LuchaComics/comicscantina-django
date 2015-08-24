@@ -4,8 +4,8 @@ import xml.etree.ElementTree as ET
 from django.conf import settings
 from api.models.gcd.country import Country
 from api.models.gcd.publisher import Publisher
-from api.models.gcd.brandgroup import BrandGroup
-from api.models.gcd.brand import Brand
+from api.models.gcd.brandgroup import GCDBrandGroup
+from api.models.gcd.brand import GCDBrand
 
 class ImportBrand:
     """
@@ -75,7 +75,7 @@ class ImportBrand:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Brand.objects.get(brand_id=id)
+            entry = GCDBrand.objects.get(brand_id=id)
             print("ImportBrand: Updating: " + str(id))
             entry.name = name
             entry.year_began = year_began
@@ -91,9 +91,9 @@ class ImportBrand:
             entry.year_ended_uncertain = year_ended_uncertain
             entry.parent = publisher
             entry.save()
-        except Brand.DoesNotExist:
+        except GCDBrand.DoesNotExist:
             print("ImportBrand: Inserting: " + str(id))
-            Brand.objects.create(
+            GCDBrand.objects.create(
                 brand_id=id,
                 name=name,
                 year_began=year_began,

@@ -7,14 +7,14 @@ from api.models.gcd.language import Language
 from api.models.gcd.image import Image
 from api.models.gcd.indiciapublisher import IndiciaPublisher
 from api.models.gcd.publisher import Publisher
-from api.models.gcd.brandgroup import BrandGroup
-from api.models.gcd.brand import Brand
+from api.models.gcd.brandgroup import GCDBrandGroup
+from api.models.gcd.brand import GCDBrand
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue
-from api.models.gcd.storytype import StoryType
-from api.models.gcd.story import Story
-from api.models.gcd.branduse import BrandUse
-from api.models.gcd.brandemblemgroup import BrandEmblemGroup
+from api.models.gcd.storytype import GCDStoryType
+from api.models.gcd.story import GCDStory
+from api.models.gcd.branduse import GCDBrandUse
+from api.models.gcd.brandemblemgroup import GCDBrandEmblemGroup
 
 # Comics Cantina Database Models
 #------------------------------------------------------------------
@@ -35,14 +35,14 @@ admin.site.register(Country)
 admin.site.register(Language)
 admin.site.register(Image)
 admin.site.register(IndiciaPublisher)
-admin.site.register(BrandGroup)
-admin.site.register(Brand)
+admin.site.register(GCDBrandGroup)
+admin.site.register(GCDBrand)
 admin.site.register(Series)
 admin.site.register(Issue)
-admin.site.register(StoryType)
-admin.site.register(Story)
-admin.site.register(BrandUse)
-admin.site.register(BrandEmblemGroup)
+admin.site.register(GCDStoryType)
+admin.site.register(GCDStory)
+admin.site.register(GCDBrandUse)
+admin.site.register(GCDBrandEmblemGroup)
 # EC
 admin.site.register(Comic)
 admin.site.register(Customer)

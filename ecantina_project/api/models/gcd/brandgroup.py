@@ -3,9 +3,9 @@ from api.models.gcd.image import Image
 from api.models.gcd.publisher import Publisher
 
 
-class BrandGroup(models.Model):
+class GCDBrandGroup(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'gcd_brand_groups'
     

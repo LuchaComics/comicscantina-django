@@ -11,7 +11,7 @@ IMAGEUPLOAD_TYPE_OPTIONS = (
 
 class ImageUpload(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('upload_date',)
         db_table = 'ec_image_uploads'
     

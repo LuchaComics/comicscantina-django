@@ -7,7 +7,7 @@ from api.models.gcd.publisher import Publisher
 
 class Series(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ['sort_name', 'year_began']
         db_table = 'gcd_series'
     

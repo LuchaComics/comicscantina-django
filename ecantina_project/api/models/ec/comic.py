@@ -70,7 +70,7 @@ AGE_OPTIONS = (
 
 class Comic(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('issue',)
         db_table = 'ec_comics'
     

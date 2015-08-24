@@ -9,13 +9,13 @@ DISCOUNT_TYPE_OPTIONS = (
 )
 
 
-class Promotion(models.Model):
+class Tag(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ('name',)
-        db_table = 'ec_promotions'
+        db_table = 'ec_tags'
     
-    promotion_id = models.AutoField(primary_key=True)
+    tag_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=127)
     discount = models.DecimalField( # Note: Meaured in dollar ($) amount.
         max_digits=10,
@@ -29,4 +29,4 @@ class Promotion(models.Model):
     )
     organization = models.ForeignKey(Organization)
     def __str__(self):
-        return str(self.promotion_id)
+        return str(self.tag_id)

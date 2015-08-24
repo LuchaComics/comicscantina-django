@@ -5,7 +5,7 @@ from api.models.ec.customer import Customer
 
 class Wishlist(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         db_table = 'ec_wishlists'
     
     wishlist_id = models.AutoField(primary_key=True)

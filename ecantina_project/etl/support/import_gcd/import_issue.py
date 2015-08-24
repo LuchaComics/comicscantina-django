@@ -7,7 +7,7 @@ from api.models.gcd.country import Country
 from api.models.gcd.language import Language
 from api.models.gcd.publisher import Publisher
 from api.models.gcd.indiciapublisher import IndiciaPublisher
-from api.models.gcd.brand import Brand
+from api.models.gcd.brand import GCDBrand
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue
 
@@ -122,8 +122,8 @@ class ImportIssue:
             series = None
         
         try:
-            brand = Brand.objects.get(brand_id=brand_id)
-        except Brand.DoesNotExist:
+            brand = GCDBrand.objects.get(brand_id=brand_id)
+        except GCDBrand.DoesNotExist:
             brand = None
 
 

@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from api.models.gcd.issue import Issue
-from api.models.gcd.story import Story
+from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
@@ -35,8 +35,8 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
     except Issue.DoesNotExist:
         issue = None
     try:
-        story = Story.objects.filter(issue_id=issue_id)[:1]
-    except Story.DoesNotExist:
+        story = GCDStory.objects.filter(issue_id=issue_id)[:1]
+    except GCDStory.DoesNotExist:
         story = None
 
     # Generate Forms

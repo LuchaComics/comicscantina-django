@@ -1,18 +1,18 @@
 from django.db import models
 from api.models.gcd.image import Image
 from api.models.gcd.publisher import Publisher
-from api.models.gcd.brandgroup import BrandGroup
-from api.models.gcd.brand import Brand
+from api.models.gcd.brandgroup import GCDBrandGroup
+from api.models.gcd.brand import GCDBrand
 
-class BrandUse(models.Model):
+class GCDBrandUse(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('publisher',)
         db_table = 'gcd_brand_uses'
     
     brand_use_id = models.AutoField(primary_key=True)
     publisher = models.ForeignKey(Publisher)
-    emblem = models.ForeignKey(Brand, related_name='in_use')
+    emblem = models.ForeignKey(GCDBrand, related_name='in_use')
     
     year_began = models.IntegerField(db_index=True, null=True)
     year_ended = models.IntegerField(null=True)

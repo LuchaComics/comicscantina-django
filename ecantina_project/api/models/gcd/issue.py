@@ -8,7 +8,7 @@ from api.models.gcd.image import Image
 from api.models.gcd.publisher import Publisher
 from api.models.gcd.indiciapublisher import IndiciaPublisher
 from api.models.gcd.series import Series
-from api.models.gcd.brand import Brand
+from api.models.gcd.brand import GCDBrand
 
 
 INDEXED = {
@@ -21,7 +21,7 @@ INDEXED = {
 
 class Issue(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ['series', 'sort_code']
         db_table = 'gcd_issues'
     
@@ -89,7 +89,7 @@ class Issue(models.Model):
     has_alternative = models.BooleanField(default=False)
     
     # Foreign Keys
-    brand = models.ForeignKey(Brand, null=True)
+    brand = models.ForeignKey(GCDBrand, null=True)
     series = models.ForeignKey(Series, null=True)
     indicia_publisher = models.ForeignKey(IndiciaPublisher, null=True)
     images = models.ManyToManyField(Image)

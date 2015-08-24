@@ -3,7 +3,7 @@ from django.db import models
 
 class Country(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'gcd_countries'
     

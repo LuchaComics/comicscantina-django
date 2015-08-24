@@ -1,11 +1,11 @@
 from django.db import models
 from api.models.gcd.image import Image
 from api.models.gcd.publisher import Publisher
-from api.models.gcd.brandgroup import BrandGroup
+from api.models.gcd.brandgroup import GCDBrandGroup
 
-class Brand(models.Model):
+class GCDBrand(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'gcd_brands'
     
@@ -13,7 +13,7 @@ class Brand(models.Model):
     issue_count = models.IntegerField(default=0)
     parent = models.ForeignKey(Publisher, null=True)
     group = models.ManyToManyField(
-        BrandGroup, blank=True,
+        GCDBrandGroup, blank=True,
         db_table='gcd_brand_emblem_group'
     )
     images = models.ManyToManyField(Image)

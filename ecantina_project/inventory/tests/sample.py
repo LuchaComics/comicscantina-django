@@ -15,7 +15,7 @@ from api.models.gcd.publisher import Publisher
 from api.models.gcd.language import Language
 from api.models.gcd.series import Series
 from api.models.gcd.issue import Issue
-from api.models.gcd.story import Story
+from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store

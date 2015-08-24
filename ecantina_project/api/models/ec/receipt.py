@@ -33,7 +33,7 @@ STATUS_CHOICES = (
 
 class Receipt(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('last_updated',)
         db_table = 'ec_receipts'
     

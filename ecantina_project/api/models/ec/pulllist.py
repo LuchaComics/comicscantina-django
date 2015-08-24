@@ -10,7 +10,7 @@ from api.models.gcd.series import Series
 
 class Pulllist(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('series',)
         db_table = 'ec_pulllists'
     

@@ -1,7 +1,7 @@
 import os
 import sys
 from django.conf import settings
-from api.models.gcd.story import Story
+from api.models.gcd.story import GCDStory
 from api.models.gcd.issue import Issue
 
 class ImportGenre:
@@ -15,7 +15,7 @@ class ImportGenre:
     def begin_import(self):
         print("ImportGenre: Initializing")
         # Iterate through all the stories and update their issues.
-        stories = Story.objects.all()
+        stories = GCDStory.objects.all()
         print("ImportGenre: Beginning")
         for story in stories:
             issue_id = story.issue_id
