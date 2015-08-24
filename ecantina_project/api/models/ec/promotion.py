@@ -11,7 +11,7 @@ DISCOUNT_TYPE_OPTIONS = (
 
 class Promotion(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'ec_promotions'
     

@@ -2,10 +2,10 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.series import Series
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.series import GCDSeries
 
 
 class ImportSeries:
@@ -84,18 +84,18 @@ class ImportSeries:
         # Transform #
         #-----------#
         try:
-            country = Country.objects.get(country_id=country_id)
-        except Country.DoesNotExist:
+            country = GCDCountry.objects.get(country_id=country_id)
+        except GCDCountry.DoesNotExist:
             country = None
 
         try:
-            publisher = Publisher.objects.get(publisher_id=publisher_id)
-        except Publisher.DoesNotExist:
+            publisher = GCDPublisher.objects.get(publisher_id=publisher_id)
+        except GCDPublisher.DoesNotExist:
             publisher = None
         publisher_name = publisher.name
         
         try:
-            language = Language.objects.get(language_id=language_id)
+            language = GCDLanguage.objects.get(language_id=language_id)
         except language.DoesNotExist:
             language = None
 
@@ -128,7 +128,7 @@ class ImportSeries:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Series.objects.get(series_id=id)
+            entry = GCDSeries.objects.get(series_id=id)
             print("ImportSeries: Updating: " + str(id))
             entry.name=name
             entry.sort_name=sort_name
@@ -168,9 +168,9 @@ class ImportSeries:
             entry.is_singleton=is_singleton
             entry.publisher_name = publisher_name
             entry.save()
-        except Series.DoesNotExist:
+        except GCDSeries.DoesNotExist:
             print("ImportSeries: Inserting: " + str(id))
-            Series.objects.create(
+            GCDSeries.objects.create(
                 series_id=id,
                 name=name,
                 sort_name=sort_name,

@@ -8,7 +8,7 @@ from api.models.ec.pulllist import Pulllist
 
 class PulllistSubscription(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         db_table = 'ec_pulllists_subscriptions'
     
     subscription_id = models.AutoField(primary_key=True)

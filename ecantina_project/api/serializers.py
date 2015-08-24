@@ -15,8 +15,9 @@ from api.models.ec.section import Section
 from api.models.ec.wishlist import Wishlist
 from api.models.ec.pulllist import Pulllist
 from api.models.ec.pulllistsubscription import PulllistSubscription
-from api.models.gcd.series import Series
-from api.models.gcd.issue import Issue
+from api.models.ec.tag import Tag
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -39,7 +40,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section', 'receipt',)
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section', 'receipt', 'brand', 'tags')
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -122,11 +123,18 @@ class PulllistSubscriptionSerializer(serializers.ModelSerializer):
 
 class SeriesSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Series
+        model = GCDSeries
         fields = ('series_id', 'name', 'sort_name', 'format', 'color', 'dimensions', 'paper_stock', 'binding', 'publishing_format', 'tracking_notes', 'notes', 'publication_notes', 'keywords', 'year_began', 'year_ended', 'year_began_uncertain', 'year_ended_uncertain', 'publication_dates', 'has_barcode', 'has_indicia_frequency', 'has_isbn', 'has_issue_title', 'has_volume', 'created', 'has_rating', 'is_current', 'is_comics_publication', 'is_singleton', 'reserved', 'open_reserve', 'modified', 'deleted', 'country', 'language', 'publication_type_id', 'publisher', 'images', 'issue_count', 'has_gallery', 'publisher_name',)
 
 
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Issue
+        model = GCDIssue
         fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name',)
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('tag_id', 'name', 'discount', 'discount_type', 'organization',)
+

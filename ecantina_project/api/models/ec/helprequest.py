@@ -21,7 +21,7 @@ SUBJECT_CHOICES = (
 
 class HelpRequest(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('submission_date',)
         db_table = 'ec_help_requests'
     

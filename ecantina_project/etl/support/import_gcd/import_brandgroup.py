@@ -2,9 +2,9 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from api.models.gcd.country import Country
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.brandgroup import BrandGroup
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.brandgroup import GCDBrandGroup
 
 class ImportBrandGroup:
     """
@@ -65,8 +65,8 @@ class ImportBrandGroup:
         parent_id = 0 if parent_id in 'NULL' else int(parent_id)
 
         try:
-            publisher = Publisher.objects.get(publisher_id=parent_id)
-        except Publisher.DoesNotExist:
+            publisher = GCDPublisher.objects.get(publisher_id=parent_id)
+        except GCDPublisher.DoesNotExist:
             publisher = None
 
         #--------#
@@ -74,7 +74,7 @@ class ImportBrandGroup:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = BrandGroup.objects.get(brand_group_id=id)
+            entry = GCDBrandGroup.objects.get(brand_group_id=id)
             print("ImportBrandGroup: Updating: " + str(id))
             entry.name = name
             entry.year_began = year_began
@@ -90,9 +90,9 @@ class ImportBrandGroup:
             entry.year_ended_uncertain = year_ended_uncertain
             entry.parent = publisher
             entry.save()
-        except BrandGroup.DoesNotExist:
+        except GCDBrandGroup.DoesNotExist:
             print("ImportBrandGroup: Inserting: " + str(id))
-            BrandGroup.objects.create(
+            GCDBrandGroup.objects.create(
                 brand_group_id=id,
                 name=name,
                 year_began=year_began,

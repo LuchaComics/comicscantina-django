@@ -12,6 +12,7 @@ from etl.support.import_gcd.import_brand import *
 from etl.support.import_gcd.import_issue import *
 from etl.support.import_gcd.import_storytype import *
 from etl.support.import_gcd.import_story import *
+from etl.support.import_gcd.import_genre import *
 
 IMPORT_FILE_NAMES = [
     'gcd_country.xml',
@@ -120,3 +121,6 @@ class Command(BaseCommand):
                 if full_file_path.endswith(".xml"):
                     if file_name in full_file_path:
                         self.begin_processing_xml(full_file_path)
+        # Finalize
+        importer = ImportGenre()
+        importer.begin_import()

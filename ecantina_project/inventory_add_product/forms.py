@@ -6,7 +6,7 @@ from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
 
@@ -40,7 +40,7 @@ from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 from api.models.ec.comic import Comic
 
 

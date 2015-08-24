@@ -2,7 +2,7 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 from django.conf import settings
-from api.models.gcd.storytype import StoryType
+from api.models.gcd.storytype import GCDStoryType
 
 
 class ImportStoryType:
@@ -50,14 +50,14 @@ class ImportStoryType:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = StoryType.objects.get(story_type_id=id)
+            entry = GCDStoryType.objects.get(story_type_id=id)
             print("ImportStoryType: Updating: " + str(id))
             entry.name = name
             entry.sort_code = sort_code
             entry.save()
-        except StoryType.DoesNotExist:
+        except GCDStoryType.DoesNotExist:
             print("ImportStoryType: Inserting: " + str(id))
-            StoryType.objects.create(
+            GCDStoryType.objects.create(
                 story_type_id=id,
                 name=name,
                 sort_code=sort_code,

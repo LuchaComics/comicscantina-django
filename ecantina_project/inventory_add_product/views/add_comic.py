@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from api.models.gcd.issue import Issue
-from api.models.gcd.story import Story
+from api.models.gcd.issue import GCDIssue
+from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
@@ -31,12 +31,12 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
     except Section.DoesNotExist:
         sections = None
     try:
-        issue = Issue.objects.get(issue_id=issue_id)
-    except Issue.DoesNotExist:
+        issue = GCDIssue.objects.get(issue_id=issue_id)
+    except GCDIssue.DoesNotExist:
         issue = None
     try:
-        story = Story.objects.filter(issue_id=issue_id)[:1]
-    except Story.DoesNotExist:
+        story = GCDStory.objects.filter(issue_id=issue_id)[:1]
+    except GCDStory.DoesNotExist:
         story = None
 
     # Generate Forms
@@ -67,7 +67,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory_add_product/comic/add/view.html',{
+    return render(request, 'inventory_add_product/add/view.html',{
         'org': org,
         'store': store,
         'issue': issue,
@@ -94,7 +94,7 @@ def list_products(request, org_id, store_id, issue_id):
                 comics = Comic.objects.filter(issue_id=issue_id)
             except Comic.DoesNotExist:
                 comics = None
-    return render(request, 'inventory_add_product/comic/add/list.html',{
+    return render(request, 'inventory_add_product/add/list.html',{
         'comics': comics,
         'org_id':org_id,
         'store_id':store_id,
@@ -165,9 +165,9 @@ def ajax_add_product(request, org_id, store_id, issue_id):
             
             # Step (5): Attach "issue" object.
             try:
-                issue = Issue.objects.get(issue_id=issue_id)
+                issue = GCDIssue.objects.get(issue_id=issue_id)
                 form.instance.issue = issue
-            except Issue.DoesNotExist:
+            except GCDIssue.DoesNotExist:
                 return HttpResponse(json.dumps({
                     'status' : 'failed',
                     'message' : 'could not find issue',

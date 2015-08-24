@@ -3,13 +3,13 @@ import sys
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 from django.conf import settings
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.indiciapublisher import IndiciaPublisher
-from api.models.gcd.brand import Brand
-from api.models.gcd.series import Series
-from api.models.gcd.issue import Issue
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
+from api.models.gcd.brand import GCDBrand
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
 
 
 class ImportIssue:
@@ -111,19 +111,20 @@ class ImportIssue:
         is_indexed = False if is_indexed in 'NULL' else int(is_indexed)
 
         try:
-            indicia_publisher = IndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)
-        except IndiciaPublisher.DoesNotExist:
+            indicia_publisher = GCDIndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)
+            publisher_name = indicia_publisher.name
+        except GCDIndiciaPublisher.DoesNotExist:
             indicia_publisher = None
-        publisher_name = indicia_publisher.name
+            publisher_name = ""
 
         try:
-            series = Series.objects.get(series_id=series_id)
-        except Series.DoesNotExist:
+            series = GCDSeries.objects.get(series_id=series_id)
+        except GCDSeries.DoesNotExist:
             series = None
         
         try:
-            brand = Brand.objects.get(brand_id=brand_id)
-        except Brand.DoesNotExist:
+            brand = GCDBrand.objects.get(brand_id=brand_id)
+        except GCDBrand.DoesNotExist:
             brand = None
 
 
@@ -132,7 +133,7 @@ class ImportIssue:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Issue.objects.get(issue_id=id)
+            entry = GCDIssue.objects.get(issue_id=id)
             print("ImportIssue: Updating: " + str(id))
             entry.number = number
             entry.volume = volume
@@ -174,9 +175,9 @@ class ImportIssue:
             entry.no_rating = no_rating
             entry.publisher_name = publisher_name
             entry.save()
-        except Issue.DoesNotExist:
+        except GCDIssue.DoesNotExist:
             print("ImportIssue: Inserting: " + str(id))
-            Issue.objects.create(
+            GCDIssue.objects.create(
                 issue_id=id,
                 number=number,
                 volume = volume,

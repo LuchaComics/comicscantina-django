@@ -5,9 +5,9 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from api.models.gcd.series import Series
-from api.models.gcd.issue import Issue
-from api.models.gcd.story import Story
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
+from api.models.gcd.story import GCDStory
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
@@ -86,5 +86,5 @@ def find_comics(org_id, store_id, series_text, issue_num_text, publisher_text, g
         #
         # Note: Causing a "slice" action forces the database to run the above script.
         return q[:250]
-    except Issue.DoesNotExist:
+    except GCDIssue.DoesNotExist:
         return None

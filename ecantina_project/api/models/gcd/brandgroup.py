@@ -1,17 +1,17 @@
 from django.db import models
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
 
 
-class BrandGroup(models.Model):
+class GCDBrandGroup(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'gcd_brand_groups'
     
     brand_group_id = models.AutoField(primary_key=True)
     issue_count = models.IntegerField(default=0)
-    parent = models.ForeignKey(Publisher, null=True)
+    parent = models.ForeignKey(GCDPublisher, null=True)
 
     # Core publisher fields.
     name = models.CharField(max_length=255, db_index=True)

@@ -7,7 +7,7 @@ from api.models.ec.customer import Customer
 
 class Organization(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'ec_organizations'
     

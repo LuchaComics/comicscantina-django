@@ -8,7 +8,7 @@ from api.models.ec.imageupload import ImageUpload
 
 class Customer(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('last_name','first_name')
         db_table = 'ec_customers'
     

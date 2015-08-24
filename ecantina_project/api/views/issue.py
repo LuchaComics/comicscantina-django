@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
-from api.models.gcd.issue import Issue
+from api.models.gcd.issue import GCDIssue
 from api.serializers import IssueSerializer
 from rest_framework.pagination import PageNumberPagination
 
@@ -14,7 +14,7 @@ class IssueFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(name="title", lookup_type=("icontains"))
     publisher_name = django_filters.CharFilter(name="publisher__name", lookup_type=("icontains"))
     class Meta:
-        model = Issue
+        model = GCDIssue
         fields = ['publisher_name', 'title',]
 
 
@@ -22,7 +22,7 @@ class IssueViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows Issues to be viewed or edited.
     """
-    queryset = Issue.objects.all()
+    queryset = GCDIssue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     pagination_class = LargeResultsSetPagination

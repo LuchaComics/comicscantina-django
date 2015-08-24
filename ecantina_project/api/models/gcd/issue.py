@@ -2,13 +2,13 @@ from django.db import models
 from django.core import urlresolvers
 from django.core.exceptions import ObjectDoesNotExist
 from decimal import Decimal
-from api.models.gcd.country import Country
-from api.models.gcd.language import Language
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.indiciapublisher import IndiciaPublisher
-from api.models.gcd.series import Series
-from api.models.gcd.brand import Brand
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.brand import GCDBrand
 
 
 INDEXED = {
@@ -19,9 +19,9 @@ INDEXED = {
 }
 
 
-class Issue(models.Model):
+class GCDIssue(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ['series', 'sort_code']
         db_table = 'gcd_issues'
     
@@ -89,13 +89,14 @@ class Issue(models.Model):
     has_alternative = models.BooleanField(default=False)
     
     # Foreign Keys
-    brand = models.ForeignKey(Brand, null=True)
-    series = models.ForeignKey(Series, null=True)
-    indicia_publisher = models.ForeignKey(IndiciaPublisher, null=True)
-    images = models.ManyToManyField(Image)
+    brand = models.ForeignKey(GCDBrand, null=True)
+    series = models.ForeignKey(GCDSeries, null=True)
+    indicia_publisher = models.ForeignKey(GCDIndiciaPublisher, null=True)
+    images = models.ManyToManyField(GCDImage)
 
     # Put them in here to simplify REST Framework
     publisher_name = models.CharField(max_length=255, db_index=True)
+    genre = models.CharField(max_length=255, db_index=True, null=True, blank=True)
 
     # Functions
     def issue_descriptor(self):

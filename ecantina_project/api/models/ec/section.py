@@ -9,7 +9,7 @@ from api.models.ec.store import Store
 
 class Section(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'ec_sections'
     

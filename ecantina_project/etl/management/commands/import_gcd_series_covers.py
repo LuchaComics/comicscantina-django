@@ -3,7 +3,7 @@ import sys
 import xml.sax
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
-from api.models.gcd.series import Series
+from api.models.gcd.series import GCDSeries
 
 
 LARGE_ZOOM = 4

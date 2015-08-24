@@ -1,9 +1,9 @@
 from django.db import models
 
 
-class Image(models.Model):
+class GCDImage(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         db_table = 'gcd_images'
     
     image_id = models.AutoField(primary_key=True)

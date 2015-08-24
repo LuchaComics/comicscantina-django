@@ -3,9 +3,9 @@ import sys
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 from django.conf import settings
-from api.models.gcd.storytype import StoryType
-from api.models.gcd.story import Story
-from api.models.gcd.issue import Issue
+from api.models.gcd.storytype import GCDStoryType
+from api.models.gcd.story import GCDStory
+from api.models.gcd.issue import GCDIssue
 
 class ImportStory:
     """
@@ -78,13 +78,13 @@ class ImportStory:
         page_count = 0 if page_count in 'NULL' else Decimal(page_count)
 
         try:
-            story_type = StoryType.objects.get(story_type_id = type_id)
-        except StoryType.DoesNotExist:
+            story_type = GCDStoryType.objects.get(story_type_id = type_id)
+        except GCDStoryType.DoesNotExist:
             story_type = None
 
         try:
-            issue = Issue.objects.get(issue_id = issue_id)
-        except Issue.DoesNotExist:
+            issue = GCDIssue.objects.get(issue_id = issue_id)
+        except GCDIssue.DoesNotExist:
             issue = None
 
         #--------#
@@ -92,12 +92,12 @@ class ImportStory:
         #--------#
         # Check to see if record already exists for the given identification.
         try:
-            entry = Story.objects.get(story_id=id)
+            entry = GCDStory.objects.get(story_id=id)
             print("ImportStory: Updating: " + str(id))
             entry.save()
-        except Story.DoesNotExist:
+        except GCDStory.DoesNotExist:
             print("ImportStory: Inserting: " + str(id))
-            Story.objects.create(
+            GCDStory.objects.create(
                 story_id=id,
                 title = title,
                 title_inferred = title_inferred,

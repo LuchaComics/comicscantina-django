@@ -8,7 +8,7 @@ from api.models.ec.employee import Employee
 
 class Store(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('store_id',)
         db_table = 'ec_stores'
     

@@ -15,7 +15,7 @@ ROLE_CHOICES = (
 
 class Employee(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('employee_id',)
         db_table = 'ec_employees'
     

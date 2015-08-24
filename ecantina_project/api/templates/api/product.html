@@ -1,0 +1,171 @@
+<script>
+    function ajax_search_comics(series, publisher, genre, from, to, language, country)
+    {
+        alert(series);
+        return;
+        
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/search_comics';
+        
+        $.ajax( url, {
+               data: {
+               'series' : series,
+               'issue_num': issue_num,
+               'publisher' : publisher,
+               'genre': genre,
+               'from' : from,
+               'to' : to,
+               },
+               type: 'post',
+               success: function(result) {
+               // success code execution here
+               $('#ajax_search_results_placeholder').html(result); // Update UI.
+               },
+               error: function(xhr,status,error) {
+               // error code here
+               },
+               complete: function(xhr,status) {
+               // completion code here
+               }
+               });
+    }
+    
+    
+    function list_receipt(org_id, store_id, customer_id, status, callback) {
+        var url = "/api/receipts/";
+        
+        org_id = parseInt(org_id);
+        if (org_id > 0) {
+            url += "?organization=" + org_id;
+        }
+        
+        store_id = parseInt(store_id);
+        if (store_id > 0) {
+            var prefix = "";
+            if (org_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            url += prefix + "store=" + store_id;
+        }
+        
+        customer_id = parseInt(customer_id);
+        if (customer_id > 0) {
+            var prefix = "";
+            if (org_id > 0 || store_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            url += prefix + "customer=" + customer_id;
+        }
+        
+        status = parseInt(status);
+        if (status > 0) {
+            var prefix = "";
+            if (org_id > 0 || store_id > 0 || customer_id > 0) {
+                prefix = "&";
+            } else {
+                prefix = "?";
+            }
+            url += prefix + "status=" + status;
+            
+        }
+    
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function search_receipt(keyword, callback) {
+        var url = "/api/receipts/?search="+keyword;
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function set_receipt(id, data, callback)
+    {
+        // Setup depending on whether we are inserting or updating.
+        var type = "POST";
+        var url = "/api/receipts/";
+        if (id > 0) {
+            type = "PUT"; // Update
+            url += id + "/";
+        }
+    
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: type,
+            success: function(json_result){
+                // Debugging code
+                var json_text = JSON.stringify(json_result, null, 2);
+                console.log(json_text);
+                    
+                // Call back the function with the JSON results.
+                callback(json_result);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function delete_receipt(receipt_id, callback) {
+        var url = "/api/receipts/" + receipt_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+</script>

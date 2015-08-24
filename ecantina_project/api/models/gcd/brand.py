@@ -1,22 +1,23 @@
 from django.db import models
-from api.models.gcd.image import Image
-from api.models.gcd.publisher import Publisher
-from api.models.gcd.brandgroup import BrandGroup
+from api.models.gcd.image import GCDImage
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.brandgroup import GCDBrandGroup
 
-class Brand(models.Model):
+
+class GCDBrand(models.Model):
     class Meta:
-        app_label = 'inventory'
+        app_label = 'api'
         ordering = ('name',)
         db_table = 'gcd_brands'
     
     brand_id = models.AutoField(primary_key=True)
     issue_count = models.IntegerField(default=0)
-    parent = models.ForeignKey(Publisher, null=True)
+    parent = models.ForeignKey(GCDPublisher, null=True)
     group = models.ManyToManyField(
-        BrandGroup, blank=True,
+        GCDBrandGroup, blank=True,
         db_table='gcd_brand_emblem_group'
     )
-    images = models.ManyToManyField(Image)
+    images = models.ManyToManyField(GCDImage)
 
     # Core publisher fields.
     name = models.CharField(max_length=255, db_index=True)
