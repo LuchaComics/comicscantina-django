@@ -1,6 +1,6 @@
 {% load staticfiles %}
 {% include 'api/organization.html' %}
-{% include 'api/customer.html' %}
+{% include 'api/series.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -36,19 +36,15 @@
         function lookupComics() {
             var series =  $('#id_series').val();
             var publisher =  $('#id_publisher').val();
-            var language =  $('#id_language').val();
-            var country =  $('#id_country').val();
-            var genre =  $('#id_genre').val();
+            var language_id = 25;
+            var country_id = 225;
+            //var language =  $('#id_language').val();
+            //var country =  $('#id_country').val();
             var from =  $('#id_from').val();
             var to =  $('#id_to').val();
-                      
-            // Print to Console
-            console.log('Series: ' + series + ' | Issue #: ' + issue_num +
-                ' | Publisher: ' + publisher + ' | From: ' + from +
-                ' | To: ' + to + ' | Language: ' + language);
                     
             // Call our application and return results.
-            ajax_search_comics(series, issue_num, publisher, genre, from, to);
+            ajax_search_comics(series, publisher, from, to, language_id, country_id);
         }
                     
         // SERIES
@@ -88,31 +84,14 @@
         });
     });
                       
-    function ajax_search_comics(series, issue_num, publisher, genre, from, to)
+    function ajax_search_comics(series, publisher, min_year_began, max_year_ended, language, country)
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/search_comics';
-        
-        $.ajax( url, {
-            data: {
-               'series' : series,
-               'issue_num': issue_num,
-               'publisher' : publisher,
-               'genre': genre,
-               'from' : from,
-               'to' : to,
-            },
-            type: 'post',
-            success: function(result) {
-               // success code execution here
-               $('#ajax_search_results_placeholder').html(result); // Update UI.
-            },
-            error: function(xhr,status,error) {
-               // error code here
-            },
-            complete: function(xhr,status) {
-               // completion code here
-            }
+        var language_id = 1;
+        var country_id = 1;
+        filter_series(series, publisher, min_year_began, max_year_ended, language_id, country_id, function (json_result) {
+            generate_table(json_result);
         });
+        
     }
 
                   
@@ -131,64 +110,60 @@
         });
     }
 
-    function generate_table(json_result)
-    {
-        // Debugging code
-        //var json_text = JSON.stringify(result, null, 2);
-        //var obj = JSON.parse(json_text);
+function generate_table(json_result)
+{
+    // Debugging code
+    //var json_text = JSON.stringify(json_result, null, 2);
+    //var obj = JSON.parse(json_text);
+    //console.log(obj)
     
-        // Initial Code
-        var html = '';
-        html += '<div class="table-responsive">';
-        html += '<table id="table-ext-1" class="table table-hover">';
-        html += '<thead>';
-        html += '<tr>';
-        html += '<th style="width:20%">First Name</th>';
-        html += '<th style="width:20%">Last Name</th>';
-        html += '<th style="width:20%">Email</th>';
-        html += '<th style="width:13%"></th>';
-        html += '</tr>';
-        html += '</thead>';
-        html += '<tbody>';
+    // Initial Code
+    var html = '';
+    html += '<div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;">';
+    html += '<table class="table">';
+    html += '<thead>';
+    html += '<tr>';
+    html += '<th>Series Name</th>';    // 1
+    html += '<th>Publisher</th>';      // 2
+    html += '<th>Date Published</th>'; // 3
+    html += '<th></th>';               // 4
+    html += '</tr>';
+    html += '</thead>';
+    html += '<tbody>';
     
-        // Process the meta information.
-        $(json_result).each(function(iter,meta){
-        
-            // Process the results search data.
-            $(meta['results']).each(function(iter,val){
-                var customer_id = val['customer_id'];
-                var first_name = val['first_name'];
-                var last_name = val['last_name'];
-                var email = val['email'];
-                var phone = val['phone'];
+    $(json_result).each(function(iter,val2){
+                        $(val2['results']).each(function(iter2,val){
+                                                var series_id = val['series_id'];
+                                                if (val['name'] != "")
+                                                {
                                                 
-                // Table Row
-                html += '<tr>';
-                
-                // Col 1
-                var col1 = first_name;
-                html += '<td>' + col1 + '</td>';
-                
-                // Col 2
-                var col2 = last_name;
-                html += '<td>' + col2 + '</td>';
+                                                // Table Row
+                                                html += '<tr>';
                                                 
-                // Col 3
-                var col3 = email;
-                html += '<td>' + col3 + '</td>';
+                                                // Col 1
+                                                html += '<td>' + val['name'] + '</td>';
                                                 
-                // Col 4
-                var href_url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
-                var col4 = '<a href="'+href_url+'" class="btn btn-success btn-sm">View Details</a>';
-                html += '<td style="text-align:center;">' + col4 + '</td>';
+                                                // Col 2
+                                                html += '<td>' + val['publisher_name'] + '</td>';
                                                 
-                // Close Table Row
-                html += '</tr>';
-            });
-        });
+                                                // Col 3
+                                                html += '<td>' + val['publication_dates'] + '</td>';
+                                                
+                                                // Col 4
+                                                var onclick = 'ajax_new('+series_id+');';
+                                                var col4 = '<button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm" onclick="'+onclick+'">';
+                                                col4 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Add Pull List';
+                                                col4 += '</button>';
+                                                html += '<td style="text-align:center;">' + col4 + '</td>';
+                                                
+                                                // Close Table Row
+                                                html += '</tr>';
+                                                }
+                                                });
+                        });
                         
-        html += '</tbody></table></div>';
-        $('#id_table_placeholder').html(''); // Clear Table
-        $(html).appendTo('#id_table_placeholder'); // Load Table.
-    }
+                        html += '</tbody></table></div>';
+                        $('#id_table_placeholder').html(''); // Clear Table
+                        $(html).appendTo('#id_table_placeholder'); // Load Table.
+}
 </script>
