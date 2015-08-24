@@ -121,7 +121,7 @@
 }
 
 .login-body {
-    background-image: url('/static/inventory/img/bg1.jpg');
+    background-image: url('../img/inventory/bg3.jpg');
     background-color: #000;
     background-size: auto;
     background-attachment: fixed;
@@ -604,7 +604,26 @@ fieldset{
 }
 
 .product-item.add{
-    height: 230px;
+    height: 240px;
+}
+
+.product-image{
+    -webkit-box-shadow: 1px 1px 18px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 18px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 18px 0px rgba(0,0,0,0.75);
+}
+
+#comic-list .table-responsive table tr th{
+    border-top: 2px solid #555;
+}
+
+#comic-list{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.product-item.addcomic{
+    height: 240px;
 }
 
 .add-message{
@@ -626,9 +645,50 @@ fieldset{
 
 .product-item:hover{
     background-color: #EAEAEA;
-    border: 2px dashed #ddd;
+    border: 1px solid #ddd;
     cursor: pointer;
     box-sizing: border-box;
+}
+
+.product-item:hover .product-image{
+    -webkit-box-shadow: 1px 1px 21px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 21px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 21px 0px rgba(0,0,0,0.75);
+}
+
+.product-item.comic-view{
+    background-color: #EAEAEA;
+    border: 1px solid #666;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    position:relative;
+    bottom: -1px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.products-list #comic-list{
+    background-color:#444;
+    display:none;
+    margin:0;
+    padding:20px;
+}
+
+#comic-list .products-list .product-item{
+    border: none;
+    text-align:center;
+}
+
+.products-list .product-item .btn{
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+    width: 130px;
+}
+
+#comic-list .products-list .product-item:hover{
+    background-color: inherit;
+    border: 2px dashed #555;
 }
 
 .product-item.out-of-stock{
@@ -687,6 +747,10 @@ fieldset{
     cursor: pointer;
 }
 
+.product-item.add{
+    margin-bottom: 0;
+}
+
 @media screen and (max-width:767px){
     .out-of-stock-label{
         display: none;
@@ -742,20 +806,37 @@ fieldset{
 }
 /* ----------- end add product details ---------- */
 
+/* ----------- panel heading -------------------- */
+.panel-default > .panel-heading {
+    border-top: 4px solid #4EC67F;
+}
+.panel-default > .panel-heading {
+    color: #333;
+    background-color: #FAFAFA;
+    border-color: #DDD;
+}
+.panel-heading, .panel-group .panel {
+    border-radius: 0px;
+}
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid #EEE !important;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
 /* ----------- view product details ------------- */
 .btn-add-cart{
     position:relative;
-    top: -150px;
-    display: none;
     margin-left: auto;
     margin-right: auto;
+    width:140px;
 }
 .btn-view-details{
     position:relative;
-    top: -145px;
-    display: none;
     margin-left: auto;
     margin-right: auto;
+    width:140px;
 }
 /* ----------- end view product details --------- */
 

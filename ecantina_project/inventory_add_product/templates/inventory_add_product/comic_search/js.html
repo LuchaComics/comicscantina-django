@@ -110,60 +110,59 @@
         });
     }
 
-function generate_table(json_result)
-{
-    // Debugging code
-    //var json_text = JSON.stringify(json_result, null, 2);
-    //var obj = JSON.parse(json_text);
-    //console.log(obj)
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(json_result, null, 2);
+        //var obj = JSON.parse(json_text);
+        //console.log(obj)
     
-    // Initial Code
-    var html = '';
-    html += '<div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;">';
-    html += '<table class="table">';
-    html += '<thead>';
-    html += '<tr>';
-    html += '<th>Series Name</th>';    // 1
-    html += '<th>Publisher</th>';      // 2
-    html += '<th>Date Published</th>'; // 3
-    html += '<th></th>';               // 4
-    html += '</tr>';
-    html += '</thead>';
-    html += '<tbody>';
+        // Initial Code
+        var html = '';
+        html += '<div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;">';
+        html += '<table class="table">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>Series Name</th>';    // 1
+        html += '<th>Publisher</th>';      // 2
+        html += '<th>Date Published</th>'; // 3
+        html += '<th></th>';               // 4
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
     
-    $(json_result).each(function(iter,val2){
-                        $(val2['results']).each(function(iter2,val){
-                                                var series_id = val['series_id'];
-                                                if (val['name'] != "")
-                                                {
+        $(json_result).each(function(iter,val2){
+            $(val2['results']).each(function(iter2,val){
+            var series_id = val['series_id'];
+            if (val['name'] != "")
+            {
+                // Table Row
+                html += '<tr>';
                                                 
-                                                // Table Row
-                                                html += '<tr>';
+                // Col 1
+                html += '<td>' + val['name'] + '</td>';
                                                 
-                                                // Col 1
-                                                html += '<td>' + val['name'] + '</td>';
+                // Col 2
+                html += '<td>' + val['publisher_name'] + '</td>';
+                
+                // Col 3
+                html += '<td>' + val['publication_dates'] + '</td>';
                                                 
-                                                // Col 2
-                                                html += '<td>' + val['publisher_name'] + '</td>';
+                // Col 4
+                var onclick = 'ajax_new('+series_id+');';
+                var col4 = '<button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm" onclick="'+onclick+'">';
+                col4 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Add Pull List';
+                col4 += '</button>';
+                html += '<td style="text-align:center;">' + col4 + '</td>';
                                                 
-                                                // Col 3
-                                                html += '<td>' + val['publication_dates'] + '</td>';
-                                                
-                                                // Col 4
-                                                var onclick = 'ajax_new('+series_id+');';
-                                                var col4 = '<button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm" onclick="'+onclick+'">';
-                                                col4 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Add Pull List';
-                                                col4 += '</button>';
-                                                html += '<td style="text-align:center;">' + col4 + '</td>';
-                                                
-                                                // Close Table Row
-                                                html += '</tr>';
-                                                }
-                                                });
-                        });
+                // Close Table Row
+                html += '</tr>';
+            }
+        });
+    });
                         
-                        html += '</tbody></table></div>';
-                        $('#id_table_placeholder').html(''); // Clear Table
-                        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    html += '</tbody></table></div>';
+    $('#id_table_placeholder').html(''); // Clear Table
+    $(html).appendTo('#id_table_placeholder'); // Load Table.
 }
 </script>
