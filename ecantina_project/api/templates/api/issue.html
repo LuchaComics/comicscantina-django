@@ -77,6 +77,28 @@
         });
     }
 
+    function filter_issue_by_series_id(series_id, callback) {
+        var url = "/api/issues/?series=" + series_id;
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+
     function set_issue(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.

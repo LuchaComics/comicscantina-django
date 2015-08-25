@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{% include 'api/organization.html' %}
+{% include 'api/issue.html' %}
 {% include 'api/series.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
@@ -134,6 +134,10 @@
         $('body').on('click','.product-item.add',function(){
                      
             var series_id = $(this).data('series-id');
+                     
+            //ajax_load_issues(series_id);
+            //return;
+                     
             var pos = $(this).data('position');
             var rowpos = $(this).data('position');
             var dif = 0;
@@ -330,6 +334,20 @@
 
     function ajax_load_issues(series_id)
     {
-        alert(series_id);
+        console.log("SERIES ID " + series_id);
+        filter_issue_by_series_id(series_id, function(json_result) {
+            $(json_result).each(function(iter,val2){
+                var position_index = 0;
+                $(val2['results']).each(function(iter2,val){
+                    //TODO: Add code to load ui.
+                                        
+                    // Print issue ID.
+                    var issue_id = val['issue_id'];
+                    console.log(issue_id);
+                });
+            });
+
+        });
+        
     }
 </script>

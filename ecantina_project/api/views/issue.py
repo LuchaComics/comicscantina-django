@@ -11,11 +11,12 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class IssueFilter(django_filters.FilterSet):
+    series = django_filters.CharFilter(name="series__series_id")
     name = django_filters.CharFilter(name="title", lookup_type=("icontains"))
-    publisher_name = django_filters.CharFilter(name="publisher__name", lookup_type=("icontains"))
+    publisher_name = django_filters.CharFilter(name="publisher_name", lookup_type=("icontains"))
     class Meta:
         model = GCDIssue
-        fields = ['publisher_name', 'title',]
+        fields = ['publisher_name', 'title', 'series',]
 
 
 class IssueViewSet(viewsets.ModelViewSet):
