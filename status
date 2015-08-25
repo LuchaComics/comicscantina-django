@@ -1,0 +1,1205 @@
+[33mcommit 267b1d9eb9f537a147f842832d0f104716dadaa7[m
+Author: Chad Smith <chad.j.smith@gmail.com>
+Date:   Wed Aug 19 09:37:40 2015 -0400
+
+    removed .idea directory, updated .gitignore
+
+[33mcommit 6becc33423cda9bfe6db2b8afc4192f3b6d51c72[m
+Author: Chad Smith <chad.j.smith@gmail.com>
+Date:   Wed Aug 19 09:26:32 2015 -0400
+
+    merged with dev
+
+[33mcommit 9818d08c4c364a7ed2598a1d07f7dd8a034b69d1[m
+Author: Chad Smith <chad.j.smith@gmail.com>
+Date:   Wed Aug 19 09:23:56 2015 -0400
+
+    merge with dev
+
+[33mcommit c8ea1a6cedcdc65a7347923869bfd80af8657acf[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 21:41:29 2015 -0400
+
+    Latest progress with supporting pullists with customers.
+
+[33mcommit f6d26309a741e3b9542f968f12877548d20f6d25[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 20:23:43 2015 -0400
+
+    Latest progress with pulllists.
+
+[33mcommit c93ea5e8b74772beff708084b2e07a36d114ab23[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 16:37:55 2015 -0400
+
+    Added pullist model + REST code.
+
+[33mcommit c8e153af5c31b9ead580815a10264bddab84b5ed[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 16:22:11 2015 -0400
+
+    BUGFIX: Referencing inventory_base fix.
+
+[33mcommit 7759dbe578825e4c84e64ec3c297532555b4a5e0[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 16:16:47 2015 -0400
+
+    Finished customer receipt beta.
+
+[33mcommit fd41a06f22dabec1d03d24da27e0ffa74fea0830[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 15:45:04 2015 -0400
+
+    Added subscribe and unsubscribe from emails.
+
+[33mcommit 18c8e05a8c67be79f736d7891c16f0526601804d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 15:25:56 2015 -0400
+
+    Added deletion and bugfixed permission for customers.
+
+[33mcommit ca821dfd55eda0aa1662296b29331a510dc7c502[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 15:12:02 2015 -0400
+
+    Added billing and shipping info for customer.
+
+[33mcommit a1546c713e6a5c3dea0879b984b3eec98703cd72[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 13:53:18 2015 -0400
+
+    Latest progress.
+
+[33mcommit 1376c61dc718c5cb6e27eb7bdfbb2c4153e57cea[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 13:16:06 2015 -0400
+
+    Added new model-view-controllers for customer which are placeholders.
+
+[33mcommit 3fb20f2b39bd48f17a503f336d56ead4c1e693de[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 12:49:21 2015 -0400
+
+    Added searching for customers.
+
+[33mcommit ff62a959598903f50ce196dcdefd2917523a4b31[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 12:41:02 2015 -0400
+
+    Modified customers to use REST framework.
+
+[33mcommit 004675993206b059d2cec0f1b5eef72d632df9fa[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 18 10:44:32 2015 -0400
+
+    Migrated customers to seperate app.
+
+[33mcommit 9ae21ae8470c945017c900a05767cdd4e1428c15[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 18:53:51 2015 -0400
+
+    Added wishlist because of ticket #59.
+
+[33mcommit da8638c22b404ea86c2d1a4fe3f473405185d9dc[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 18:25:03 2015 -0400
+
+    More permission upgrades for ticket #59.
+
+[33mcommit 7066cdd9238f00c8335e6ee4d0bdfa6c1a8d916e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 17:58:39 2015 -0400
+
+    Updated permissions to reflect ticket #59
+
+[33mcommit 6758e68fa3ae1669f1b7e8484574d82687c2e87c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 17:18:30 2015 -0400
+
+    Fixed view.
+
+[33mcommit d25a348e456ecda870cc8883d0512e62521e9254[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 16:51:13 2015 -0400
+
+    Finished promotions UI for beta.
+
+[33mcommit 70f2d42803faa0bb560a351aaac9fa111c632748[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 15:35:40 2015 -0400
+
+    Latest progress with discounting promotion system.
+
+[33mcommit 312c8badd9c3e33d412d2fe31f3b41d1192075fb[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 13:52:08 2015 -0400
+
+    Finished employees section.
+
+[33mcommit c70b2463aeebdac697e0864fdc2f2e7ed07dbd0f[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 13:34:27 2015 -0400
+
+    Latest progress getting employees to use REST framework.
+
+[33mcommit e1940e7e2663b25a5f3a753210cd7da1f03cd38f[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 17 12:53:58 2015 -0400
+
+    Finished Employee ADD.
+
+[33mcommit ff0598e6a946a84610732b8a63b3a878e7ba6925[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 19:29:17 2015 -0400
+
+    Latest progress to getting employee/user handling for Django REST Framework.
+
+[33mcommit 5d51c1680027bb4e021faab93bad4fec9cb3def7[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 17:15:32 2015 -0400
+
+    Changed url structure for employees.
+
+[33mcommit aa31f39d09d99193cfd9089d55c52dd65afab4ec[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 16:12:55 2015 -0400
+
+    Updated employee listing.
+
+[33mcommit 724973c16b012a67aa54a1bea725ec380b901268[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 15:38:05 2015 -0400
+
+    Various changes in employee settings.
+
+[33mcommit 2135df381d14f61756d627532123c03b79ee6a6c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 15:19:38 2015 -0400
+
+    Finished Add / Edit of Stores.
+
+[33mcommit 47a771db1021f59aca093e246f1d2f59c553683d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 13:53:09 2015 -0400
+
+    Added store delete.
+
+[33mcommit ae95b91d19d1353b0f63fec121936f2118604a24[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 13:08:43 2015 -0400
+
+    Latest progress with getting sections in store to work.
+
+[33mcommit 901fdb8cc8bd5d06da4223615277bac7974098d5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 13 11:20:53 2015 -0400
+
+    Added REST for store edit.
+
+[33mcommit 8552d751c73a785d4420d3a91daa18bb57a93d7b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 17:31:48 2015 -0400
+
+    Moved towards making REST based for Org editing.
+
+[33mcommit aeaf75537c14aa71fa2c261c93eb4cd81dbd86eb[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 14:49:36 2015 -0400
+
+    Added placeholder code for promotions.
+
+[33mcommit 0fafe9b02c01125fd7cde4d403b06dc9fddae94e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 14:38:35 2015 -0400
+
+    Moved setting from inventory to seperate app.
+
+[33mcommit ca0ae9ffe8f7ceb4a9ef6bfdfebe61b6691b5c4d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 14:20:59 2015 -0400
+
+    Added promotion object and added it to API.
+
+[33mcommit 672ca0ce3404936a42a933b439e9ade62bd008f9[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 13:48:03 2015 -0400
+
+    Added some info to contact us.
+
+[33mcommit 39df429c614b1f3810a35de57ece3ed0cd2d8552[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 13:44:07 2015 -0400
+
+    Added unit tests for help requests.
+
+[33mcommit 6b2e184c4988560756fbf7eaf7d04b84d14f4d8a[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 13:38:38 2015 -0400
+
+    Finished code for help requests using Django REST Framework.
+
+[33mcommit 2e3973ebaf029f39df60092d7b0d8f5e7159f4f6[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 13:04:29 2015 -0400
+
+    Removed upload.
+
+[33mcommit f6453e82c9282f728f9060f77f37ae0b35267ba6[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 13:03:58 2015 -0400
+
+    Fixed issue with complexity.
+
+[33mcommit a3ac32abddc34ba5a080b445abda050fe11eaaee[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 12:51:35 2015 -0400
+
+    Removed accidental upload.
+
+[33mcommit 846b8d851ace7a95d2675dd3f99213f3e8a8ca58[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 12:51:10 2015 -0400
+
+    Updated to offer some javascript functions from api for image upload.
+
+[33mcommit 43d3fddf3cb4cb36727f5b9a9f92af38b727a766[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 11:49:19 2015 -0400
+
+    Added ImageUpload object to API.
+
+[33mcommit eb6f6014bdd0bd09d13e87285873f46c1b665383[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 11:40:06 2015 -0400
+
+    Added HelpRequest object to API.
+
+[33mcommit 7dc7b40e2c9a146345bc60d83bbc9562c0b63d09[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 11:24:47 2015 -0400
+
+    Moved help from outside of inventory to seperate app.
+
+[33mcommit af13cd4c576aea9a763338fbee918cb82281055e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 10:50:28 2015 -0400
+
+    Bugfix.
+
+[33mcommit a9923f3e43b05addf1f4b8ac6ddcc27619456478[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 10:46:42 2015 -0400
+
+    Added base apps for both store and inventory.
+
+[33mcommit b97cacbbe1b51dc5e390dada588bebdc84a4c97e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 10:33:28 2015 -0400
+
+    Moved dashbaord from inventory into seperate app.
+
+[33mcommit 389b2375784cf5da1d6421d5b5dfed8c67076c13[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 12 10:26:07 2015 -0400
+
+    Added dashboard code and some code for the organizer.
+
+[33mcommit 8d098aa8cbe8caa7432e08428f66445a049ca855[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 19:36:54 2015 -0400
+
+    general fixes.
+
+[33mcommit 86ef01c9d64d1cd7d54bdc77d873302a8919c8be[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 19:23:38 2015 -0400
+
+    Bugfix.
+
+[33mcommit 360cd39a1d7b3b277a487c00f353a053184b3441[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 19:13:03 2015 -0400
+
+    Added more fields to receipt.
+
+[33mcommit f93eb618b1cce860aac4df09afce0b395cf29467[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 17:46:57 2015 -0400
+
+    Modified to have shipping address in receipt.
+
+[33mcommit 000a3c0a2dbbe9a48607f97da7c2949004585031[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 17:23:26 2015 -0400
+
+    Latest progress with adding receipt details.
+
+[33mcommit 5ccfd5d4acdca1f2aae92d43abb5a8c223fd8ba5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 12:32:49 2015 -0400
+
+    Latest progress adding Orders.
+
+[33mcommit 1a6cbff008b9c5a29b381a15300ca1feff596c97[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 11:41:21 2015 -0400
+
+    Latest progress with POS record.
+
+[33mcommit d1d718e0ab325afe242d6ccf8280f575c094f8bd[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 10:55:07 2015 -0400
+
+    Removed cart.
+
+[33mcommit c433c016fd725f37114ade57134e16ca74f49f12[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Aug 11 10:39:24 2015 -0400
+
+    Added pos record code placeholder.
+
+[33mcommit 2463b11ef2f6f978501f98cb73c4438ad3b606ad[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 16:21:08 2015 -0400
+
+    Latest change.
+
+[33mcommit 60337d2093b84c275efe148729520f3fc9db28cb[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 16:15:24 2015 -0400
+
+    Latest change.
+
+[33mcommit 093f581c57dd9fcdc90f14965eff9fd605b14ce1[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 16:10:36 2015 -0400
+
+    Latest change.
+
+[33mcommit c34054405503a062430308cd175b4fd7d9b98a8b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 14:56:34 2015 -0400
+
+    Fixed sessions page.
+
+[33mcommit 3bc757b0535039df732e1212abe1e560189149fe[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 13:33:55 2015 -0400
+
+    Added cart receipt.
+
+[33mcommit 187c737fcc8d277a221865beb6bc11233e9799b6[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 12:20:14 2015 -0400
+
+    Bug Fixes.
+
+[33mcommit 088bc531b3d0ee818a999d489189b35d6f9a9e26[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Aug 10 10:14:31 2015 -0400
+
+    Added filtering of stores based on employees. Used for mobile apps.
+
+[33mcommit 20db72b06e2bbc4d06127108c856d3976459905e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 21:54:29 2015 -0400
+
+    Exposed organization to REST service.
+
+[33mcommit b0cd74ffd82956f163c5d0afd9e6edc29dea4751[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 21:27:11 2015 -0400
+
+    Exposed store to REST service.
+
+[33mcommit 5584b7a3c9152b309ee36ad312e2bd9f2a0d0b54[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 20:27:12 2015 -0400
+
+    Bugfix with receipts.
+
+[33mcommit a2d109701d3062dfd32d561ac629f38ca9d489f8[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 20:13:07 2015 -0400
+
+    Simplified the receipt model.
+
+[33mcommit 075e7aa4db0bcb1ec49f727ad9ea9c1d0a10a11f[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 19:19:47 2015 -0400
+
+    Added receipts for customer purcheses.
+
+[33mcommit ae4f70e677a4fd96d5ec1f4816bab18f70e227bb[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 17:56:04 2015 -0400
+
+    Fixed bug with checkout.
+
+[33mcommit 436bea1c91cdf79759adee0348f077dcb4252525[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 17:37:43 2015 -0400
+
+    Finished beta working of checkout.
+
+[33mcommit 5df02a18c282f903fbdda58debcd2717749664b4[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 15:51:52 2015 -0400
+
+    Implemented checkout product deletion.
+
+[33mcommit a709ca4cb6979b7a5cc036a35eea34ffba621d96[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 15:17:42 2015 -0400
+
+    Latest progress with the checkout functionality.
+
+[33mcommit fac73f4cd3579d033a69bb73eebbb85f632c2055[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Sun Aug 9 13:28:40 2015 -0400
+
+    Initial work done to support the checking out services.
+
+[33mcommit 09ca29c849c376e22c0800aeb83f4c7af20ad5fa[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 20:43:27 2015 -0400
+
+    Added placeholder code for POS receipts.
+
+[33mcommit 294f078812c69df8ed05268c057a1eb6cae76f61[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 20:35:17 2015 -0400
+
+    Added placeholder code for pos items.
+
+[33mcommit aa86ce02a01cb9421cbed61f0fb39fa5245cb781[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 20:22:00 2015 -0400
+
+    Implemented customer scanner in POS checkout.
+
+[33mcommit e45b91422c8cf6d9e2a1c52086d8d5758bce921c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 19:51:09 2015 -0400
+
+    Implemented user lookup for returning customers in checkout.
+
+[33mcommit 191457cb3424d88fa2f82520168f4406780bb0ad[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 18:57:52 2015 -0400
+
+    Minor tweeks.
+
+[33mcommit 6935c70571e7f74f6f77b00738dd909e89a76b80[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 18:45:47 2015 -0400
+
+    Fixed bug with consenting.
+
+[33mcommit a745460f584c2c9eb247b78e18cd8d6c4a0a1c49[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 18:36:06 2015 -0400
+
+    New Customer functionality working for customer checkout page.
+
+[33mcommit b1a4b825cc2b9046ae8d849ed967254297ab8a0f[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 17:27:03 2015 -0400
+
+    Latest progress working on the POS checkout functionality.
+
+[33mcommit 53b379199e17ee42f48a7932cdea4ac2bce07104[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 16:37:41 2015 -0400
+
+    Fixed checkout session.
+
+[33mcommit 4eef222c82b124caaf14afb2403551826347acae[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 16:00:51 2015 -0400
+
+    Latest progress with getting the checkout session screen working.
+
+[33mcommit 344f4c13f73ccfedde239ad74fb97e60fe55956d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 14:27:24 2015 -0400
+
+    Added prototype code.
+
+[33mcommit 1f0b5bbbcb7de83a99a31c668823d1c16139c88b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 14:26:11 2015 -0400
+
+    Added code to filter PyCharm config files.
+
+[33mcommit f0c8d4e2f645a20ccb91f546c38ea6d0483cff5c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 14:10:24 2015 -0400
+
+    Added store modules (apps) for Chad to work on.
+
+[33mcommit c97b2b3a66fe293ac34367f3541640ed433bb46c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 12:10:16 2015 -0400
+
+    Updated how cart listing is done.
+
+[33mcommit dc6713c96403874e4f216cbd4c8a76516d9cfd99[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 10:48:14 2015 -0400
+
+    Initial commit for checkout.
+
+[33mcommit 133c356b344950d27ce8681bc660f2e701b9c9bf[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Aug 7 09:42:47 2015 -0400
+
+    Broke up the large Inventory app into many multiple apps.
+
+[33mcommit dbf775b4c6e76628000dddbc95a55c31a720bf91[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 6 18:11:26 2015 -0400
+
+    Fixed bug with comics serializer.
+
+[33mcommit e8be1e0311b92cbfcc10d7c916a6f7c9a3a74507[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Aug 6 16:42:02 2015 -0400
+
+    Added purchasing model and REST handler.
+
+[33mcommit baee050a54f726e9e5a045219eded5657a318a6a[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Aug 5 22:47:27 2015 -0400
+
+    Fixed data structure to better handle POS.
+
+[33mcommit c131124d48c65c696730e951b26c4d2186875751[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 30 23:21:55 2015 -0400
+
+    Fixed the add products.
+
+[33mcommit d0d02fbf944b9cfe2623629b837158ee44e9aa18[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 30 22:03:52 2015 -0400
+
+    Moved stuff from inventory app to seperate inventory app
+
+[33mcommit 84d916a67287d29a88b29aa523d175149b667449[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 30 12:48:48 2015 -0400
+
+    Added comic model for serialization with REST.
+
+[33mcommit 400f631c5da73241cb8591daf65650622965652d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 29 18:36:28 2015 -0400
+
+    Added searching for specific models.
+
+[33mcommit 51fcdc981d9cae3e3f55265c8d0e2e9993cc3ae7[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jul 27 19:15:57 2015 -0400
+
+    Added searching to employees and various fixes.
+
+[33mcommit de21bee0f95e3ade0baf90c5b6425de92101aac8[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 23 15:49:56 2015 -0400
+
+    Latest unit tests for api.
+
+[33mcommit d6d92d2148791f3ff9670784f670e56a2ee58681[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 22 23:16:07 2015 -0400
+
+    Simplified and improved employee deletion.
+
+[33mcommit facc2e9471bd2b6e8d06bb8fb7fc6f9889208246[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 22 20:56:44 2015 -0400
+
+    AdFinished replacing the JSON-RPC calls with Django Rest Framework calls.
+
+[33mcommit 6ddf027c847c7e35b302fed100dd2df4d9e8c098[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 22 20:04:25 2015 -0400
+
+    Finished cart.
+
+[33mcommit a2cecb4d19c1a45b0692351b567fa5c6f554e2c9[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 22 17:53:26 2015 -0400
+
+    Added get/update/delete of Product, Employee, Cart, and Employee for Django Rest Framework.
+
+[33mcommit c14c37c3a81aa5362edc6ba1311c613f267a892a[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 22 16:59:26 2015 -0400
+
+    Bug fixes with API addition.
+
+[33mcommit 3ac37bbcdcb1ae76a91b717ea6d4cb63b222d170[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 22 16:42:36 2015 -0400
+
+    Moved inventory models to api app. Initial dev for using Django Rest Framework.
+
+[33mcommit d887459aa6a66eee56b67dc0c903bda163ae756b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 21 17:09:10 2015 -0400
+
+    Finished POS webservice and unit tests. #56 #57
+
+[33mcommit 200164172d7fdd960b8aef2cce246f2d737670a0[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 21 16:43:38 2015 -0400
+
+    Added more unit tests. #57
+
+[33mcommit 6d3086f7c30bb7fa8b11a80b6d1df90b4ba56c13[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 21 15:12:59 2015 -0400
+
+    Added sitemap.
+
+[33mcommit 151dedf762cb1b5f5fac6818d3e756b8c570db12[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 17 17:28:57 2015 -0400
+
+    Latest unit tests progress with checking in our POS system.
+
+[33mcommit ffdf1445d6303e0dd9a26bddbdc9f2b7a753233b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 17 16:18:31 2015 -0400
+
+    Product table gets created for every comic now.
+
+[33mcommit 585bbd4b4c7e38822cb82186a5b113dd627d8d55[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 17 15:50:37 2015 -0400
+
+    Initial commit for adding a Product table to encompass comics and future stuff.
+
+[33mcommit 808138d493c0166664d88dd4ad06d791064415bb[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 17 15:12:13 2015 -0400
+
+    Segmented JSON-RPC into areas requiering authentication or not.
+
+[33mcommit 95b866c746f4781254a16250dd71fc7ebeb0b235[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 17 15:08:30 2015 -0400
+
+    Segmented JSON-RPC into areas requiering authentication or not.
+
+[33mcommit 9f63f91e1fa61723402ec3076c58f08a2e392142[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 22:09:25 2015 -0400
+
+    Added scripts to call hello_world and add JSON-RPC functions.
+
+[33mcommit 5b91ab2f3b8c317834f693c0ecd16239aa309d06[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 21:55:03 2015 -0400
+
+    Submitting function interface prototyping.
+
+[33mcommit c7655981aa0640c6928d9483af978de0265571f0[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 21:38:29 2015 -0400
+
+    Code works for both iOS native and Python Django.
+
+[33mcommit cc8de6885961a67432cfd4f9a111fbea1bf8ad58[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 20:54:07 2015 -0400
+
+    Code works with native iOS app but Django unit tests fail. TODO fix.
+
+[33mcommit 7afa5822301645335697f648700d79a2410712f9[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 18:36:57 2015 -0400
+
+    Example code works with iOS code and internal unit-test.
+
+[33mcommit 041990482fdd1eeab4e4a58d519693594c7f99f1[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 18:33:55 2015 -0400
+
+    Example code works with iOS code and internal unit-test.
+
+[33mcommit 088992512f5fb304639886707ed32e8470e0a417[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 16 17:11:45 2015 -0400
+
+    Example JSON RPC command accepted. Will build from here.
+
+[33mcommit 8883104328e38ae24e83c96fd9e16b3050cebc36[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 18:27:08 2015 -0400
+
+    Store selection added. #23
+
+[33mcommit fb05becb652aebdb14ac93b915f377fd1c718bc2[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 18:12:13 2015 -0400
+
+    Inital commit for the web-service. #56 #57
+
+[33mcommit efae6da6f2b3ef672f31aaf4f5455f2e33ba55a2[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 16:51:44 2015 -0400
+
+    Unit tests for print_labels. #22
+
+[33mcommit da957424ecddc1c9ae57bb042e0a1a61961be3d5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 11:10:59 2015 -0400
+
+    Beta version of how the print labels are displayed. #21
+
+[33mcommit 65a55bf441f40c12413280931bbaacd59e9aa0c5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 10:57:32 2015 -0400
+
+    Alpha vie of how the print labels are displayed. #21
+
+[33mcommit 3d446ce30bdc1acb2d32c646577e0ad0c75bee34[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 09:41:17 2015 -0400
+
+    BUGFIX: Results now limited to store/org. #16
+
+[33mcommit 1f654f784c2e2f280aefde9f9b991a46da30adb3[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 15 09:35:10 2015 -0400
+
+    Initial commit for print label. #21
+
+[33mcommit 7b22e63245136509703e6634d78de760417691dc[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 21:51:09 2015 -0400
+
+    Added submission date. #53
+
+[33mcommit f295d99fbfd33061e54055e7900556a2c48cc29e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 21:35:22 2015 -0400
+
+    Finished unit tests for comic product searching. #18
+
+[33mcommit 94f8137d18c3595ec3bc869bbf3ec6bd6eeb564e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 21:16:23 2015 -0400
+
+    Inventory searching implemented. #17
+
+[33mcommit 70b96c5f1455ab345eb23aba477080536eae2e31[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 20:41:36 2015 -0400
+
+    BUGFIX: Fixed so empty files can be saved.
+
+[33mcommit eddd074e9d9bdbb5629a674de4cde0d22be3342c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 17:05:48 2015 -0400
+
+    Initial commit for Comic Inventory searching #17
+
+[33mcommit 4b575a00d1993b3eaf94ea7c2680704ef9a7b8e6[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 14:21:47 2015 -0400
+
+    Finished unit tests for Edit Comic Product. #50
+
+[33mcommit 5e69876fd86c22a90e7434264b3b604f5222cd2d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 14 13:57:49 2015 -0400
+
+    Finished implementing edit of comic book products. #49
+
+[33mcommit a9e8d193b8a26e0e679919a1d770503e592631ed[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jul 13 17:50:35 2015 -0400
+
+    Finished unit tests for adding comic products #12
+
+[33mcommit e59d5ca56d43e2e4d777a5ccabc28ddf744be148[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 16:06:07 2015 -0400
+
+    Minor tweaks and latest work supporting editing. More work needed. #11
+
+[33mcommit 167b49e0cc9c5a7d32adf97fcec34e43720b296a[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 15:56:56 2015 -0400
+
+    Improved list. #11
+
+[33mcommit 1bb8733d5271a7f068eb77bb1c4ef694ae3222e0[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 15:42:29 2015 -0400
+
+    Delete and insert finished working. #11
+
+[33mcommit 2d35b4f87652198381fa971c6928e9bcc750d774[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 15:24:45 2015 -0400
+
+    Fixed fetching sections per store. #11
+
+[33mcommit 0591820b184c56e1e33a1747fb1173d90b91ea03[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 14:58:28 2015 -0400
+
+    Fixed a few of the functions based on new hierarchy. #11
+
+[33mcommit 0c2fd95ce93f822a9f913081c19808ed4a33b25c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 12:08:29 2015 -0400
+
+    Changed the folder/naming structure of some files for the add comics functionality. #11
+
+[33mcommit b13574fd12237a2e0c7e2c3b0044648331fe7038[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 12:07:47 2015 -0400
+
+    Changed the folder/naming structure of some files for the add comics functionality. #11
+
+[33mcommit 7ec98073dab9d5bf1804ae816abac9f62d3fde7b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 11:29:09 2015 -0400
+
+    Latest progress with adding comics. #11
+
+[33mcommit 7446e56f51dc97263b8bbf31e8d446230d789072[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Fri Jul 10 10:45:05 2015 -0400
+
+    Finished unit tests for Customers. #44 #46
+
+[33mcommit 4b1c636e87789ad311b7023e2dc18f5e70484483[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 20:12:34 2015 -0400
+
+    Added deletion of customers. #43 #45
+
+[33mcommit ee10bfedbcef16adfa700146396112902602144c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 19:58:44 2015 -0400
+
+    Latest work to support customers. Added privacy consent. #43 #45
+
+[33mcommit 85aa726388da305ace8e6e1241c1bd63752ad5d2[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 19:37:07 2015 -0400
+
+    Latest work to support custoemrs. #43 #45
+
+[33mcommit 0fedcec532dfa69c158b7762e94c0d127352e53d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 17:47:55 2015 -0400
+
+    Updated coloum for ImageUpload table. #47
+
+[33mcommit fdf4291bb8b8eea2eea81af4fcacc4ba422d209e[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 17:25:21 2015 -0400
+
+    Initial commit placeholder code. #23
+
+[33mcommit 0b4b6bb5461ba377e71fd0a6c95b417ddac16c78[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 17:19:41 2015 -0400
+
+    Initial commit placeholder code. #43 #45
+
+[33mcommit 875399a75dc9d6142888cbdd84e4eb04a953a203[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 17:16:09 2015 -0400
+
+    Initial commit placeholder code. #43 #45
+
+[33mcommit 6fb197a5c2d7fdda31f7d0ca050182dce2ce3800[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 16:54:53 2015 -0400
+
+    Finished users settings unit tests. #14
+
+[33mcommit 28925a1866516c40e344841ad0f78176a64b3579[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 16:01:03 2015 -0400
+
+    Finished org and store unit tests. #14
+
+[33mcommit a9f05e423ee1e822e3594f3064a9769a65aa2c53[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 14:26:35 2015 -0400
+
+    Implemented unit tests for Help. #16
+
+[33mcommit 28c13b022464bc6c89eff86fdc0fbec9f84312ef[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 12:48:34 2015 -0400
+
+    Intendation added to JS file. #15
+
+[33mcommit 804e340c9fdcdf330a6c811408130e68a9e7eb47[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 12:43:54 2015 -0400
+
+    Implemented help page. #15
+
+[33mcommit 08e9529171c19caf793e07e68fd581c88bf620d7[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 9 11:38:29 2015 -0400
+
+    Initial commit for help page. #15
+
+[33mcommit 1e4b7afb748311a704af03c55f8cfac455c54fc7[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 20:13:52 2015 -0400
+
+    Fixed issues with uploading images. #13
+
+[33mcommit 6bd3feec12b5853dac6c2c153e3e1711e58c21ee[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 17:45:06 2015 -0400
+
+    Added store assignment for employees. #13
+
+[33mcommit bf57e6cfe3b8f548315372c398c31cab9c0eae22[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 15:47:08 2015 -0400
+
+    Delete functionality added for users. #13
+
+[33mcommit 8b6fba7f1086c074ecdd1c20e367421351d6bca3[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 15:32:28 2015 -0400
+
+    Latest progress. #13
+
+[33mcommit 9a6d09635c979858fb64c017ae3e6fb7e36f8de4[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 14:34:08 2015 -0400
+
+    Latest progress. #13
+
+[33mcommit f9b5231c54b0f2e677a01527a00b79ea38a78588[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 13:03:11 2015 -0400
+
+    Save profile image and partial data included. #13
+
+[33mcommit dd0daaecc5a2a9f1b354524d1a2699ed9a91142a[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 8 11:10:29 2015 -0400
+
+    Initial commit for supporting settings of users. #13
+
+[33mcommit 120d3254cb5f91dec582451d40b3f2591ccb5cab[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 7 21:11:19 2015 -0400
+
+    Latest progress with supporting users. Placeholder code. #13
+
+[33mcommit a556783349fa75e228b1f43ce9e8b37c276733f0[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 7 20:39:00 2015 -0400
+
+    Simplified store edit. #13
+
+[33mcommit 35864c491641d678b169ab386d7c33e9fecf78e5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 7 20:23:09 2015 -0400
+
+    Add/Edit Store working. #13
+
+[33mcommit b79e9cb4f9e2a11cda929d1737d870997adde4bb[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 7 18:17:03 2015 -0400
+
+    Edit works now for sections. #13
+
+[33mcommit c1d84a531b3e501e66c77f47ea7bca9feac0d1ac[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 7 12:58:35 2015 -0400
+
+    Adding/Removing Sections ability added. #13
+
+[33mcommit 27d2485f18312fc67f0814319b002351cb2cd590[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jul 7 10:38:22 2015 -0400
+
+    Latest progress which supports saving store hours and logo and data. #13
+
+[33mcommit 1b20e60784008495dab6dbca56972b557cc741e8[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 2 18:37:40 2015 -0400
+
+    Latest progress. #13
+
+[33mcommit ee2b3b36bd4c75b95533b994f79d9cd605280c17[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 2 18:10:14 2015 -0400
+
+    Bug fixed
+
+[33mcommit 8ee7ead09c44977f72a24d9653d5363a087145f8[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 2 14:36:31 2015 -0400
+
+    Fixed. #38
+
+[33mcommit fa6ebc3bbe1f77dd713b0a4e9cf7a28375ef3677[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jul 2 11:35:22 2015 -0400
+
+    UInitial commit for store settings.#13
+
+[33mcommit a688d76f466ca16216a230c267a055a115b415b8[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jul 1 13:28:32 2015 -0400
+
+    Updated UI for organization settings in. #13
+
+[33mcommit f7792d3566415be88447614f7d96f3f312f7c324[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jun 30 17:28:38 2015 -0400
+
+    Load up the Add Comic view. #7
+
+[33mcommit c9b33fca257cb4f0dcdc725961f82184d35dc61a[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jun 30 17:03:18 2015 -0400
+
+    Extracting issue ids using javascript from grid view. #7
+
+[33mcommit a6fbec54f6e40dc879d2c2d94a860e1e328cfdd5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jun 30 16:37:19 2015 -0400
+
+    Working beta of unit tests. #8
+
+[33mcommit 8687fb083af907b198f93720cbf5cc2d1a02dd15[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jun 30 14:41:17 2015 -0400
+
+    Working beta of comic searching. #7
+
+[33mcommit 0429e334cb35b99f19f37c313dd88f83b3a87ed5[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jun 29 18:39:48 2015 -0400
+
+    Bugfixed some unit tests. #14
+
+[33mcommit 03f2fd1db5a8ee50b4d7521d190122f57b07bea0[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jun 29 18:26:59 2015 -0400
+
+    Unit tests for org settings. #14
+
+[33mcommit 915f37d5d074b207070e0f165275e7998d9a718b[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jun 29 16:30:19 2015 -0400
+
+    Organization data uploader finished. #13
+
+[33mcommit 02c461e98b27ad21f1e8732751979864dea74782[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jun 29 15:59:31 2015 -0400
+
+    Organization logo uploader finished. #13
+
+[33mcommit 2a132834a62b914420caba570480cc726e8301cd[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jun 29 13:51:08 2015 -0400
+
+    Saved latest progress with the settings page. La#13
+
+[33mcommit 43bdbab120ed10cf6786df2069adf3501335d1d7[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Mon Jun 29 12:05:13 2015 -0400
+
+    Updated initialization.
+
+[33mcommit d026d27a02438bd1cfba331f694ebf0274342ae6[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 15:50:13 2015 -0400
+
+    Various improvements throughout.
+
+[33mcommit af6eb6d634234d6286d775a0d69d13fcc342140c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 15:26:44 2015 -0400
+
+    Finished logging in. #2 #4
+
+[33mcommit fcfc5752b01203aa971d567d92b19a70399b6b77[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 15:00:09 2015 -0400
+
+    Latest progress. #2
+
+[33mcommit 247bdbb1cda61617e4773156d5fcddd6dc8b6825[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 14:59:41 2015 -0400
+
+    Latest progress. #2
+
+[33mcommit 7152e7f5d25961f4900ce30a9a4410a3fb503b62[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 14:35:13 2015 -0400
+
+    Moved inventory login into seperate app. #2
+
+[33mcommit 71f62c3d70a948bd5868546cbb9c660c4a314842[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 11:43:20 2015 -0400
+
+    Added a few more use cases. #3
+
+[33mcommit bbdf48cfdbc886e23cf0c7573a3f9149bc8b0c12[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 11:16:58 2015 -0400
+
+    Finished success case unit tests. #3
+
+[33mcommit a43223c3557328420252ee6f00cfb4c749c1852d[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 10:40:01 2015 -0400
+
+    Fixed so proper saving happens. #1
+
+[33mcommit d724de3733875c51b6707758002c35f0cb9163e6[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Thu Jun 25 08:59:17 2015 -0400
+
+    Added placeholder code for logging in. #2
+
+[33mcommit 71180ea6fc362a6135948896e933775e948330ef[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jun 24 16:54:55 2015 -0400
+
+    Registering works. #1
+
+[33mcommit 8878d8e2c0435c883b8dbce9e8bc844ad6e2302c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jun 24 13:37:14 2015 -0400
+
+    Supporting image uploads and latest progress. #1
+
+[33mcommit 8a1ac862e79792008b926b7d705b10502eaccc2c[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Wed Jun 24 11:48:13 2015 -0400
+
+    Latest progress with supporting a store registration page.
+
+[33mcommit e1e57938a13e54e8eaaead2ae410fcbe77373601[m
+Author: Bartlomiej Mika <bmika@icloud.com>
+Date:   Tue Jun 23 16:14:34 2015 -0400
+
+    #1 Iniial commit.
