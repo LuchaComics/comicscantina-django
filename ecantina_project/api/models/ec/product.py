@@ -63,6 +63,12 @@ class Product(models.Model):
     # and just have the "is_sold" varible to be "True".
     is_sold = models.BooleanField(default=False)
     
+    # This variable controls whether we are allowed to display the product
+    # in-store for customers to see or find in the catalog search. Products
+    # with this variable set to false are not allowed to show up in search
+    # results nor are customers allowed to see this product.
+    is_available = models.BooleanField(default=False)
+    
     # The following variables are to save financial information.
     sub_price = models.DecimalField( # Note: Price before discount applied.
         max_digits=10,

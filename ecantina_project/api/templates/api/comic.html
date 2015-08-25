@@ -1,10 +1,10 @@
 <script>
-    function set_product(data, callback)
+    function set_comic(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST"; // Insert.
-        var url = "/api/products/";
-        if (data['id'] > 0) {
+        var url = "/api/comics/";
+        if (data['comic_id'] > 0) {
             type = "PUT"; // Update
             url += data['id'] + "/";
         }
@@ -26,8 +26,8 @@
         });
     }
 
-    function delete_receipt(product_id, callback) {
-        var url = "/api/products/" + product_id + "/";
+    function delete_receipt(comic_id, callback) {
+        var url = "/api/comics/" + comic_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,

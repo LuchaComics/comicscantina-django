@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% include 'api/issue.html' %}
 {% include 'api/series.html' %}
+{% include 'api/product.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -265,10 +266,11 @@
                             comiclist += val['publication_date'] + '</span></th>';
                                 
                             // Buttons
+                            var onclick1 = 'ajax_create_and_load_product('+issue_id+');';
                             comiclist += '<th style="text-align:center;">';
-                            comiclist += '<button style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
+                            comiclist += '<button onclick="'+'" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
                                                 
-                            comiclist += '<button style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>';
+                            comiclist += '<button onclick="'+onclick1+'" style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>';
                             comiclist += '</th>';
                                             
                             comiclist += '</tr>';
@@ -292,21 +294,6 @@
     function ajax_search_comics(series, publisher, min_year_began, max_year_ended, language, country)
     {
         filter_series(series, publisher, min_year_began, max_year_ended, language, country, function (json_result) {
-            generate_table(json_result);
-        });
-    }
-
-    function ajax_refresh_table()
-    {
-        list_customers(function(json_result) {
-            generate_table(json_result);
-        });
-    }
-
-    function ajax_search()
-    {
-        var keyword = $('#id_search_keyword').val();
-        search_customers(keyword, function(json_result) {
             generate_table(json_result);
         });
     }
@@ -360,4 +347,33 @@
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
     }
+
+    function ajax_create_and_load_product(issue_id)
+    {
+        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/"+issue_id+"/product/0";
+        return;
+        
+        // Working.
+        set_product({
+                'name': '',
+                'type': '1',
+                'is_sold': false,
+                'sub_price': 0,
+                'discount': 0,
+                'discount_type': '1',
+                'price': 0,
+                'cost': 0,
+                'image': '',
+                'organization': {{ org.org_id }},
+                'store': {{ store.store_id }},
+                'section': '',
+                'receipt': '',
+                'brand': '',
+                'is_available': false,
+            }, function(json_result) {
+                //TODO: Add loading a new view.
+                console.log(json_result);
+        });
+    }
+
 </script>

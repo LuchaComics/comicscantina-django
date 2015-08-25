@@ -16,5 +16,4 @@ urlpatterns = patterns('',
                        
     # Comics - Search
     url(r'^inventory/(\d+)/(\d+)/add/comic$', search_comic.search_comics_page),
-    url(r'^inventory/(\d+)/(\d+)/add/search_comics$', search_comic.ajax_search_comics),
 )
