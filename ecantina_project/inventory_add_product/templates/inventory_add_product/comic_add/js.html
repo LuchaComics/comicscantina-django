@@ -129,13 +129,6 @@
 {% endif %}
 
     function ajax_add_item(issue_id, upload_id) {
-        var tags = Array()
-        $('input.item-tag').each( function(i,el) {
-            tags.push( $(el).data('tagid') );
-        });
-        console.log(tags);
-        return;
-        
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
             alert("Please select comic age");
@@ -152,6 +145,16 @@
             console.error("Please select section");
             return;
         }
+        if ($('#id_category').val() == '') {
+            alert("Please select Category");
+            console.error("Please select category");
+            return;
+        }
+        
+        var tags = Array()
+        $('input.item-tag').each( function(i,el) {
+            tags.push( parseInt( $(el).data('tagid') ) );
+        });
         
         // Insert/Update "product" model.
         var arr = {
@@ -160,17 +163,20 @@
             'is_sold': false,
             'sub_price': 0,
             'discount': 0,
-            'discount_type': '1',
+            'discount_type': 1,
             'price': 0,
             'cost': 0,
             'image': '',
             'organization': {{ org.org_id }},
-            'store': $('#id_store').val(),
-            'section': $('#id_section').val(),
+            'store': parseInt( $('#id_store').val() ),
+            'section': parseInt( $('#id_section').val() ),
             'receipt': '',
-            'brand': {{ brand.brand_id }},
+            'brand': parseInt( {{ brand.brand_id }} ),
             'is_available': false,
+            'tags': tags,
+            'category': parseInt( $('#id_category').val() ),
         };
+
         set_product(arr, function(json_result) {
             // Extract the 'product_id' and use it to tie it to the
             // 'comic' model.
