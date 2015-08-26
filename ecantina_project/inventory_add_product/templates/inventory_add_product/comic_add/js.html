@@ -106,6 +106,10 @@
             $(this).parentsUntil('tbody').fadeOut(1000).detach().remove();
             $('.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
         });
+                      
+                      
+        // Get the latest table data when this page loads up first.
+        ajax_refresh_table({{ issue.issue_id }});
     });
     
     function ajax_add_items(issue_id)
@@ -246,5 +250,89 @@
             $('#id_section_placeholder').html(dropdown_html);
         });
     }
+
+    function ajax_refresh_table(issue_id)
+    {
+        list_comics_by(issue_id, function(json_result) {
+            generate_table(json_result);
+        });
+    }
+
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(json_result, null, 2);
+        //var obj = JSON.parse(json_text);
+        //console.log(obj)
+    
+        // Initial Code
+        var html = '';
+        html += '<table id="added-items-table" class="table table-condensed table-striped table-hover inventory-details">';
+        html += '<thead>';
+        html += '<tr>';
+        html += '<th>Product #</th>';
+        html += '<th>CGC Rated</th>';
+        html += '<th>Label Colour</th>';
+        html += '<th>Condition</th>';
+        html += '<th></th>';
+        html += '</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+    
+        $(json_result).each(function(iter,val2){
+            var position_index = 0;
+            $(val2['results']).each(function(iter2,val){
+                var series_id = val['issue_id'];
+                position_index += 1;
+                html += '<tr>';
+                html += '<td>' + val['product'] + '</td>';
+                
+                // Is CGC Rated
+                html += '<td class="text-center">';
+                if (val['is_cgc_rated']) {
+                    html += 'Yes';
+                } else {
+                    html += 'No';
+                }
+                html += '</td>';
+                                    
+                // Label Colour
+                html += '<td class="text-center">';
+                if (val['is_cgc_rated']) {
+                    html += val['label_colour'];
+                                    
+                } else {
+                    html += '-';
+                }
+                html += '</td>';
+                                    
+                // Condition
+                html += '<td class="text-center">';
+                if (val['is_cgc_rated']) {
+                    var percent = 10 * val['cgc_rating'];
+                    html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
+                                    
+                } else {
+                    // Convert to 100/100
+                    var percent = 10 * val['condition_rating'];
+                    html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
+                }
+                html += '</td>';
+                                    
+                
+                html += '<td>';
+                html += '<a class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>';
+                html += '<a class="remove-item curp" data-toggle="tooltip" data-original-title="Remove Item" data-placement="top"><em class="fa fa-2x fa-remove"></em></a>';
+                html += '</td>';
+                html += '</tr>';
+            });
+        });
+        
+        html += '</tbody>';
+        html += '</table>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
 
 </script>

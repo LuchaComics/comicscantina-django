@@ -1,4 +1,31 @@
 <script>
+    /**
+     *  Lists all the products that have the inputted "issue_id".
+     */
+    function list_comics_by(issue_id, callback)
+    {
+        var url = "/api/comics/?issue="+issue_id;
+    
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+            callback(json_results);
+        },
+        error: function(xhr,status,error) {
+            console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            alert(xhr.responseText);
+        },
+        complete: function(xhr,status) {
+            // Do nothing.
+            }
+        });
+    }
+
+    
     function set_comic(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
