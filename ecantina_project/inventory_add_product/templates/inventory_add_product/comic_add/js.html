@@ -78,9 +78,12 @@
                 console.error("No duplicates allowed!");
                 return;
             }
-                     
-                     
-            if( $(this).parentsUntil('tbody').find('select.add-item-tag').val() != "" ) {
+
+            if( $('#sel-item-tag').val() == null || $('#sel-item-tag').val() == '' ){
+               console.error("No empty id values allowed");
+            }
+            else{
+
                 var new_tag = '<tr style="display:none;"><td>' +
                 '<input data-tagid="'+tag_id+'" type="text" class="item-tag form-control" name="item-tag[]" readonly value="' + name + '" />' +
                     '</td><td>' +
@@ -88,7 +91,7 @@
                 $(this).parentsUntil('table').find('tr:last').after(new_tag);
                 $(this).parentsUntil('table').find('tr:last').fadeIn(1000);
                 $(this).parentsUntil('tbody').find('select.item-tag option:selected').attr('disabled','true');
-                console.debug( $(this).parentsUntil('tbody').find('tr:last td input.item-tag').data('tagid') );
+                $('input.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
                 $('#sel-item-tag').val('');
             }
         });
