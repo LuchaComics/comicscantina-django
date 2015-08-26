@@ -10,6 +10,7 @@ from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from api.models.ec.category import Category
+from api.models.ec.tag import Tag
 
 class Command(BaseCommand):
     """
@@ -252,11 +253,57 @@ class Command(BaseCommand):
             pass
 
 
-
-
-
-
-
+        #-----------------
+        # Tag
+        #-----------------
+        try:
+            Tag.objects.create(
+                tag_id=1,
+                name = 'Marvel',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=2,
+                name = 'DC',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=3,
+                name = 'Image',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=4,
+                name = 'BOOM!',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=5,
+                name = 'Lucha Comics',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=6,
+                name = 'Dark Horse',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=7,
+                name = 'Dynamite',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=8,
+                name = 'IDW',
+                organization_id = 1,
+            )
+            Tag.objects.create(
+                tag_id=9,
+                name = 'Batman',
+                organization_id = 1,
+            )
+        except Exception as e:
+            pass
 
         #------------
         #TODO: Continue adding here ...
