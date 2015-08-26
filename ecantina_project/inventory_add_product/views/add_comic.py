@@ -39,9 +39,6 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
     except GCDStory.DoesNotExist:
         story = None
 
-    # Generate Forms
-    imageupload_form = ImageUploadForm()
-
     try:
         comic = Comic.objects.get(comic_id=comic_id)
         comic_form = ComicForm(instance=comic)
@@ -49,14 +46,6 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
     except Comic.DoesNotExist:
         comic_form = ComicForm()
         product_form = ProductForm()
-
-    issue_form = IssueForm(initial={
-        'series': issue.series,
-        'number': issue.number,
-        'title': issue.title,
-        'publisher': issue.series.publisher,
-        'genre': issue.genre,
-    })
 
     # Update forms
 #    if story is not None:
@@ -73,10 +62,9 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         'store': store,
         'issue': issue,
         'tab':'add',
-        'imageupload_form': imageupload_form,
         'product_form': product_form,
         'comic_form': comic_form,
-        'issue_form': issue_form,
+        'issue': issue,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

@@ -25,62 +25,48 @@ class ComicForm(forms.ModelForm):
             'is_retail_incentive_variant': 'Is Retail Incentive Variant',
         }
         widgets = {
-            'age': Select(attrs={'class': u'form-control mb10 mt-lg'}),
+            'age': Select(attrs={'class': u'form-control'}),
             'cgc_rating': Select(attrs={'class': u'form-control'}),
             'label_colour': Select(attrs={'class': u'form-control m0 mb10'}),
             'condition_rating': Select(attrs={'class': u'form-control m0 mb10'}),
         }
 
 
-
-
-
-
-class IssueForm(forms.Form):
-    series = forms.CharField(
-                             label='Series',
-                             max_length=100,
-    widget=forms.TextInput(attrs={
-                                                    'class':'form-control mb10 input-disabled mt0 p0',
-                                                    'style':'position:relative;top:-3px;',
-                                                    'placeholder':'Series',
-                                                    'readonly': u'true',
-                                                    }),
-                             )
-        
-    number = forms.CharField(
-                                                    label='Issue #',
-                                                      max_length=100,
-                                                      widget=forms.TextInput(attrs={
-                                                                             'class':'form-control mb10 input-disabled p0',
-                                                                             'placeholder':'Issue #','readonly': u'true',
-                                                                             }),
-                                                      )
-                             
-    title = forms.CharField(
-                                                     label='Comic Title',
-                                                     max_length=100,
-                                                     widget=forms.TextInput(attrs={
-                                                                            'class':'form-control mb10 input-disabled p0',
-                                                                            'placeholder':'Comic Title','readonly': u'true',
-                                                                            }),
-                                                     )
-                             
-    publisher = forms.CharField(
-                                                         label='Publisher Name',
-                                                         max_length=100,
-                                                         widget=forms.TextInput(attrs={
-                                                                                'class':'form-control mb10 input-disabled p0','placeholder':'Publisher Name','readonly': u'true',
-                                                                                }),
-                                                         )
-                             
-    genre = forms.CharField(
-                                                     label='Genre',
-                                                     max_length=100,
-                                                     widget=forms.TextInput(attrs={
-                                                                            'class':'form-control mb10 input-disabled p0','placeholder':'Genre','readonly': u'true',
-                                                                            }),
-                                                     )
+class IssueForm(forms.ModelForm):
+    class Meta:
+        model = GCDIssue
+        fields = ['series','number', 'title', 'publisher_name', 'genre', ]
+        labels = {
+            'series': 'Series',
+            'number': 'Issue #',
+            'title': 'Comic Title',
+            'publisher_name': 'Publisher',
+            'genre': 'Genre',
+        }
+        widgets = {
+            'series': TextInput(attrs={
+                'class': u'form-control mb10 input-disabled mt0 p0',
+                'style':'position:relative;top:-3px;',
+                'placeholder':'Series',
+                'readonly': u'true',
+            }),
+            'number': TextInput(attrs={
+                'class':'form-control mb10 input-disabled p0',
+                'placeholder':'Issue #','readonly': u'true',
+            }),
+            'title': TextInput(attrs={
+                'class':'form-control mb10 input-disabled p0',
+                'placeholder':'Comic Title','readonly': u'true',
+            }),
+            'publisher_name': TextInput(attrs={
+                'class':'form-control mb10 input-disabled p0',
+                'placeholder':'Publisher Name','readonly': u'true',
+            }),
+            'genre': TextInput(attrs={
+                'class':'form-control mb10 input-disabled p0',
+                'placeholder':'Genre','readonly': u'true',
+            }),
+        }
 
 
 from datetime import date
@@ -117,9 +103,9 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'images': Select(attrs={'class': u'form-control mb10 mt-lg'}),
             'type': Select(attrs={'class': u'form-control'}),
-            'price': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Price Amount'}),
-            'cost': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Cost Amount'}),
-            'location': Select(attrs={'class': u'form-control m0 mb10'}),
-            'section': Select(attrs={'class': u'form-control m0 mb10'}),
-            'store': Select(attrs={'class': u'form-control m0 mb10'}),
+            'price': NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount'}),
+            'cost': NumberInput(attrs={'class': u'form-control','placeholder': u'Cost Amount'}),
+            'location': Select(attrs={'class': u'form-control'}),
+            'section': Select(attrs={'class': u'form-control'}),
+            'store': Select(attrs={'class': u'form-control'}),
     }

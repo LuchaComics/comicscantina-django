@@ -1,26 +1,47 @@
 {% load staticfiles %}
+{% include 'api/section.html' %}
+{% include 'api/comic.html' %}
+{% include 'api/product.html' %}
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
-    $(document).ready(function(){
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                      
         // Initialize the UI.
         $('#id_section').prop("disabled", true);
         $('#id_label_colour').prop("disabled", true);
         $('#id_cgc_rating_ui').hide();
-                
-        return
                       
-        // Get the latest table data when this page loads up first.
-        ajax_refresh_table({{ issue.issue_id }});
-        
         // When the user clicks the 'Store', the 'Sections' will get filtered
         // down to the specific location.
         $('#id_store').on('change', function(){
             var store_id = $(this).val();
             if (store_id > 0)
             {
-                ajax_load_section_dropdown({{ issue.issue_id }}, store_id)
+                $('#id_section').prop("disabled", false);
+                ajax_load_section_dropdown(store_id);
             }
         });
-        
+                      
         // this changes the options available in the condition rating dropdown
         $('#id_is_cgc_rated').on('click', function(){
             if( $(this).is(':checked') ){
@@ -40,78 +61,6 @@
         });
     });
     
-    function ajax_load_section_dropdown(issue_id, store_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/section_dropbox/'+store_id+'',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(html_result){
-                // Replace the code
-                $('#id_section_placeholder').html(html_result);
-            },
-            error: function(xhr,status,error) {
-            // error code here
-                },
-            complete: function(xhr,status) {
-            // completion code here
-            }
-        });
-    }
-
-    // this is to upload the cover image
-    function ajax_upload_image(issue_id) {
-        var errors = 0;
-        //alert('ajax_upload_logo_image()'); // Debugging Purposes.
-    
-        if ($('#id_image').val() == "") {
-            alert('Please select an image to upload');
-            errors++;
-        }
-    
-        if (errors > 0) {
-            return false;
-        }
-    
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/upload_cover';
-    
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('image', document.getElementById('id_image').files[0]);
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    $('#logo-image').attr('src', json_result.src);
-                    $('#id_hidden_upload_id').val(json_result.id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
-        });
-    }
-
     function ajax_add_items(issue_id)
     {
         var upload_id = $('#id_hidden_upload_id').val();
@@ -124,136 +73,118 @@
     }
 
 {% if product_form.instance.comic_id > 0 %}
-    function ajax_edit_items(issue_id)
-    {
-        var upload_id = $('#id_hidden_upload_id').val();
-        ajax_add_item(issue_id, upload_id);
-        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/{{ issue.issue_id }}/product/0';
-    }
+   function ajax_edit_items(issue_id)
+   {
+       var upload_id = $('#id_hidden_upload_id').val();
+       ajax_add_item(issue_id, upload_id);
+       window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/{{ issue.issue_id }}/product/0';
+   }
 {% endif %}
 
     function ajax_add_item(issue_id, upload_id) {
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/add_product';
-    
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    {% if product_form.instance.comic_id > 0 %}
-        data.append('comic_id', {{ product_form.instance.comic_id }});
-        data.append('created', "{{ product_form.instance.created }}");
-    {% else %}
-        data.append('comic_id', '');
-        data.append('created', get_date());
-    {% endif %}
-        data.append('age', $('#id_age').val());
-        data.append('type', 1);
-        data.append('upload_id', upload_id);
-        data.append('store', $('#id_store').val());
-        data.append('section', $('#id_section').val());
-        data.append('price', $('#id_price').val());
-        data.append('cost', $('#id_cost').val());
-        data.append('is_cgc_rated', $('#id_is_cgc_rated').val());
-        data.append('label_colour', $('#id_label_colour').val());
-        data.append('cgc_rating', $('#id_cgc_rating').val());
-        data.append('condition_rating', $('#id_condition_rating').val());
-        data.append('is_canadian_priced_variant', $('#id_is_canadian_priced_variant').val());
-        data.append('is_variant_cover', $('#id_is_variant_cover').val());
-        data.append('is_retail_incentive_variant', $('#id_is_retail_incentive_variant').val());
-        data.append('is_newsstand_edition', $('#id_is_newsstand_edition').val());
+        // DEFENSIVE CODE.
+        if ($('#id_age').val() == '') {
+            alert("Please select comic age");
+            console.error("Please select comic age");
+            return;
+        }
+        if ($('#id_store').val() == '') {
+            alert("Please select store");
+            console.error("Please select store");
+            return;
+        }
+        if ($('#id_section').val() == '') {
+            alert("Please select section");
+            console.error("Please select section");
+            return;
+        }
         
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    // alert("ok saved"); // Debugging Purposes
-                    ajax_refresh_table(issue_id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-            
+        // Insert/Update "product" model.
+        var arr = {
+            'name': '{{ issue.series.name }} ' + 'Issue #{{ issue.number }}',
+            'type': '1',
+            'is_sold': false,
+            'sub_price': 0,
+            'discount': 0,
+            'discount_type': '1',
+            'price': 0,
+            'cost': 0,
+            'image': '',
+            'organization': {{ org.org_id }},
+            'store': $('#id_store').val(),
+            'section': $('#id_section').val(),
+            'receipt': '',
+            'brand': '',
+            'is_available': false,
+        };
+        set_product(arr, function(json_result) {
+            // Extract the 'product_id' and use it to tie it to the
+            // 'comic' model.
+            var product_id = json_result['product_id'];
+                    
+            // Insert the comic.
+            var data = {
+                'product': parseInt(product_id),
+                'issue': parseInt(issue_id),
+                'age': $('#id_age').val(),
+                'type': 1,
+                'upload_id': upload_id,
+                'store': $('#id_store').val(),
+                'section': $('#id_section').val(),
+                'price': $('#id_price').val(),
+                'cost': $('#id_cost').val(),
+                'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
+                'label_colour': label_colour,
+                'cgc_rating': cgc_rating,
+                'condition_rating': condition_rating,
+                'is_canadian_priced_variant': $('#id_is_canadian_priced_variant').is(':checked'),
+                'is_variant_cover': $('#id_is_variant_cover').is(':checked'),
+                'is_retail_incentive_variant': $('#id_is_retail_incentive_variant').is(':checked'),
+                'is_newsstand_edition': $('#id_is_newsstand_edition').is(':checked'),
+            };
+                    
+            // Defensive Code: Only add items to the array that are selected
+            //                 and not '-----' selected.
+            var label_colour = $('#id_label_colour').val();
+            if (label_colour != '') {
+                data['label_colour'] = label_colour;
             }
-        });
-    }
-
-
-    function ajax_refresh_table(issue_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/list_products',
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function(html_result){
-                    // Replace the code
-                    $('#id_table_placeholder').html(html_result);
-                },
-                error: function(xhr,status,error) {
-                    // error code here
-                },
-                complete: function(xhr,status) {
-                    // completion code here
-                }
-        });
-    }
-
-    function ajax_delete_comic(issue_id, comic_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/delete/'+comic_id,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(html_result){
-                // Update Table.
-                ajax_refresh_table(issue_id);
-            },
-            error: function(xhr,status,error) {
-                // error code here
-            },
-            complete: function(xhr,status) {
-                // completion code here
+            var cgc_rating = $('#id_cgc_rating').val();
+            if (cgc_rating != '') {
+                data['cgc_rating'] = cgc_rating;
             }
+            var condition_rating = $('#id_condition_rating').val();
+            if (condition_rating != '') {
+                data['condition_rating'] = condition_rating;
+            }
+                    
+            set_comic(data, function(json_result) {
+                // Load up the 'Edit' controller associated with comics.
+                window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/"+issue_id+"/product/"+product_id;
+            });
+                    
         });
     }
 
-    function get_date()
+    function ajax_load_section_dropdown(store_id)
     {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-    
-        if(dd<10) {
-            dd='0'+dd
-        }
-    
-        if(mm<10) {
-            mm='0'+mm
-        }
-    
-        today = yyyy+'-'+mm+'-'+dd;
-        return today
+        list_sections({{ org.org_id }}, store_id, function(json_result) {
+            var dropdown_html = '<select class="form-control" id="id_section" name="section">';
+            $(json_result).each(function(iter,val2){
+                var position_index = 0;
+                $(val2['results']).each(function(iter2,val){
+                    var section_id = val['section_id'];
+                    var name = val['name'];
+                    dropdown_html += '<option value="'+section_id+'">'+name+'</option>'
+                    //<option value="" selected="selected">---------</option>
+                    //<option value="1">Main Store</option>
+                });
+            })
+            dropdown_html += '</select>';
+                      
+            // Save the new dropdown box to the existing UI.
+            $('#id_section_placeholder').html(dropdown_html);
+        });
     }
+
 </script>

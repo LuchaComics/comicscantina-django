@@ -351,29 +351,6 @@
     function ajax_create_and_load_product(issue_id)
     {
         window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/"+issue_id+"/product/0";
-        return;
-        
-        // Working.
-        set_product({
-                'name': '',
-                'type': '1',
-                'is_sold': false,
-                'sub_price': 0,
-                'discount': 0,
-                'discount_type': '1',
-                'price': 0,
-                'cost': 0,
-                'image': '',
-                'organization': {{ org.org_id }},
-                'store': {{ store.store_id }},
-                'section': '',
-                'receipt': '',
-                'brand': '',
-                'is_available': false,
-            }, function(json_result) {
-                //TODO: Add loading a new view.
-                console.log(json_result);
-        });
     }
 
 </script>
