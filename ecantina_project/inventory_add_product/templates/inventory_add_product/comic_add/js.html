@@ -88,7 +88,8 @@
                 $(this).parentsUntil('table').find('tr:last').after(new_tag);
                 $(this).parentsUntil('table').find('tr:last').fadeIn(1000);
                 $(this).parentsUntil('tbody').find('select.item-tag option:selected').attr('disabled','true');
-                $('.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
+                $('input.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
+                $('#sel-item-tag').val('');
             }
         });
                       
