@@ -10,6 +10,7 @@ from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
+from api.models.ec.brand import Brand
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from api.models.ec.comic import Comic
@@ -19,6 +20,20 @@ from inventory_add_product.forms import ComicForm
 from inventory_add_product.forms import ImageUploadForm
 from inventory_add_product.forms import ProductForm
 
+
+def lazy_load_brand(issue):
+    """
+        Find the brand based on the publisher name and return it, else
+        create a new brand based on the publisher name and return it.
+    """
+    # Load or create the brand.
+    try:
+        brand = Brand.objects.get(name=issue.series.publisher.name)
+    except Exception as e:
+        brand = Brand.objects.create(
+            name = issue.series.publisher.name,
+        )
+    return brand
 
 @login_required(login_url='/inventory/login')
 def comic_page(request, org_id, store_id, issue_id, comic_id):
@@ -32,6 +47,8 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         sections = None
     try:
         issue = GCDIssue.objects.get(issue_id=issue_id)
+        issue.publisher_name = issue.series.publisher.name
+        issue.save()
     except GCDIssue.DoesNotExist:
         issue = None
     try:
@@ -65,6 +82,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         'product_form': product_form,
         'comic_form': comic_form,
         'issue': issue,
+        'brand': lazy_load_brand(issue),
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

@@ -16,4 +16,4 @@ class BrandViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly)
+    permission_classes = (IsAuthenticatedOrReadOnly)

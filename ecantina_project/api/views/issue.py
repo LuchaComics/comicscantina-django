@@ -16,7 +16,7 @@ class IssueFilter(django_filters.FilterSet):
     publisher_name = django_filters.CharFilter(name="publisher_name", lookup_type=("icontains"))
     class Meta:
         model = GCDIssue
-        fields = ['publisher_name', 'title', 'series',]
+        fields = ['publisher_name', 'title', 'series', 'issue_id',]
 
 
 class IssueViewSet(viewsets.ModelViewSet):
