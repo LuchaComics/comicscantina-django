@@ -15,6 +15,8 @@ from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
+from api.models.ec.category import Category
+from api.models.ec.tag import Tag
 from inventory_add_product.forms import IssueForm
 from inventory_add_product.forms import ComicForm
 from inventory_add_product.forms import ImageUploadForm
@@ -55,6 +57,10 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         story = GCDStory.objects.filter(issue_id=issue_id)[:1]
     except GCDStory.DoesNotExist:
         story = None
+    try:
+        tags = Tag.objects.filter(organization=org)
+    except Tag.DoesNotExist:
+        tags = None
 
     try:
         comic = Comic.objects.get(comic_id=comic_id)
@@ -83,6 +89,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         'comic_form': comic_form,
         'issue': issue,
         'brand': lazy_load_brand(issue),
+        'tags': tags,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

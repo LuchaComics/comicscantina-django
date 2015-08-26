@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from api.models.gcd.issue import GCDIssue
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
+from api.models.ec.category import Category
 
 
 class ComicForm(forms.ModelForm):
@@ -96,7 +97,7 @@ class ImageUploadForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['image', 'price', 'section','price','cost', 'store','type','images',]
+        fields = ['image', 'price', 'section','price','cost', 'store','type','images', 'category',]
         labels = {
             'image': 'Product Image',
         }
@@ -108,4 +109,5 @@ class ProductForm(forms.ModelForm):
             'location': Select(attrs={'class': u'form-control'}),
             'section': Select(attrs={'class': u'form-control'}),
             'store': Select(attrs={'class': u'form-control'}),
+            'category': Select(attrs={'class': u'form-control'}),
     }

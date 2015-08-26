@@ -59,6 +59,35 @@
                 $('#id_cgc_rating_ui').hide();
             }
         });
+                      
+        // When the 'Add' button was selected for the tag.
+        $('body').on('click', '.item-tag-table button.btn-success.btn-add', function(){
+            // Extract these values from the tag.
+            var tag_id = $('#sel-item-tag').val();
+            var name = $('#sel-item-tag option:selected').text()
+                     
+            if( $(this).parentsUntil('tbody').find('select.add-item-tag').val() != "" ) {
+                var new_tag = '<tr style="display:none;"><td>' +
+                '<input data-tagid="'+tag_id+'" type="text" class="item-tag form-control" name="item-tag[]" readonly value="' + name + '" />' +
+                    '</td><td>' +
+                    '<button type="button" role="button" class="btn btn-danger"><em class="section-button fa fa-remove"></em></button></td></tr>';
+                $(this).parentsUntil('table').find('tr:last').after(new_tag);
+                $(this).parentsUntil('table').find('tr:last').fadeIn(1000);
+                $(this).parentsUntil('tbody').find('select.item-tag option:selected').attr('disabled','true');
+                $('.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
+            }
+        });
+                      
+        // When the 'Remove' button was selected for a tag row.
+        $('body').on('click', '.item-tag-table button.btn-danger', function(){
+            var tag = $(this).parentsUntil('tbody').find('input.item-tag').val();
+            $('select.add-item-tag').find('option').each(function(){
+            if( $(this).text() == tag )
+                $(this).removeAttr('disabled');
+            });
+            $(this).parentsUntil('tbody').fadeOut(1000).detach().remove();
+            $('.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
+        });
     });
     
     function ajax_add_items(issue_id)
@@ -81,7 +110,7 @@
    }
 {% endif %}
 
-    function ajax_add_item(issue_id, upload_id) {
+    function ajax_add_item(issue_id, upload_id) {        
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
             alert("Please select comic age");
