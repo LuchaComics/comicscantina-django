@@ -53,7 +53,7 @@
         });
     }
 
-    function delete_receipt(comic_id, callback) {
+    function delete_comic(comic_id, callback) {
         var url = "/api/comics/" + comic_id + "/";
         jQuery.ajax({
             url: url,
