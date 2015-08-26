@@ -5,15 +5,16 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
-from api.serializers import TagSerializer
+from api.serializers import CategorySerializer
 from api.models.ec.tag import Tag
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.promotion import Promotion
+from api.models.ec.category import Category
 
 
-class BrandViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializer
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
     pagination_class = LargeResultsSetPagination
     permission_classes = (IsAdminUserOrReadOnly, IsAuthenticatedOrReadOnly,)

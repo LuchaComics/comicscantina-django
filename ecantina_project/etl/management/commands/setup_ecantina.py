@@ -9,6 +9,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
+from api.models.ec.category import Category
 
 class Command(BaseCommand):
     """
@@ -207,6 +208,55 @@ class Command(BaseCommand):
                 store=store,
                 organization = organization,
             )
+
+        #-----------------
+        # Category
+        #-----------------
+        try:
+            Category.objects.create(
+                category_id=1,
+                parent_id = 0,
+                name = 'Comic',
+            )
+            Category.objects.create(
+                category_id=2,
+                parent_id = 1,
+                name = 'Comic - Graphic Novel',
+            )
+            Category.objects.create(
+                category_id=3,
+                parent_id = 1,
+                name = 'Comic - Golden Age',
+            )
+            Category.objects.create(
+                category_id=4,
+                parent_id = 1,
+                name = 'Comic - Silver Age',
+            )
+            Category.objects.create(
+                category_id=5,
+                parent_id = 1,
+                name = 'Comic - Bronze Age',
+            )
+            Category.objects.create(
+                category_id=6,
+                parent_id = 1,
+                name = 'Comic - Modern',
+            )
+            Category.objects.create(
+                category_id=7,
+                parent_id = 1,
+                name = 'Comic - Trade Paperbacks',
+            )
+        except Exception as e:
+            pass
+
+
+
+
+
+
+
 
         #------------
         #TODO: Continue adding here ...

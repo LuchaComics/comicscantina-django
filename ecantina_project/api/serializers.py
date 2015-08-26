@@ -18,6 +18,7 @@ from api.models.ec.pulllistsubscription import PulllistSubscription
 from api.models.ec.tag import Tag
 from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
+from api.models.ec.category import Category
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -40,7 +41,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section', 'receipt', 'brand', 'tags', 'is_available', )
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'images', 'organization', 'store', 'section', 'receipt', 'brand', 'tags', 'is_available', 'category',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -138,3 +139,8 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('tag_id', 'name', 'discount', 'discount_type', 'organization',)
 
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('category_id', 'parent_id', 'name',)

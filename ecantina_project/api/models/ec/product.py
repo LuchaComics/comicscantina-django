@@ -13,6 +13,7 @@ from api.models.ec.imageupload import ImageUpload
 from api.models.ec.receipt import Receipt
 from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
+from api.models.ec.category import Category
 
 
 PRODUCT_TYPE_OPTIONS = (
@@ -115,6 +116,9 @@ class Product(models.Model):
     
     # Products should have a brand association with it.
     brand = models.ForeignKey(Brand, null=True, blank=True)
+    
+    # Every product must belongs to a single cateogry.
+    category = models.ForeignKey(Category)
     
     def __str__(self):
         return str(self.name)
