@@ -65,6 +65,20 @@
             // Extract these values from the tag.
             var tag_id = $('#sel-item-tag').val();
             var name = $('#sel-item-tag option:selected').text()
+                   
+            // This code is ment to prevent duplicates from being entered.
+            var should_stop = false;
+            $('input.item-tag').each( function(i,el) {
+                var curr = $(el).data('tagid');
+                if (tag_id === curr) {
+                    should_stop = true;
+                }
+            });
+            if (should_stop) {
+                console.error("No duplicates allowed!");
+                return;
+            }
+                     
                      
             if( $(this).parentsUntil('tbody').find('select.add-item-tag').val() != "" ) {
                 var new_tag = '<tr style="display:none;"><td>' +
@@ -110,7 +124,14 @@
    }
 {% endif %}
 
-    function ajax_add_item(issue_id, upload_id) {        
+    function ajax_add_item(issue_id, upload_id) {
+        var tags = Array()
+        $('input.item-tag').each( function(i,el) {
+            tags.push( $(el).data('tagid') );
+        });
+        console.log(tags);
+        return;
+        
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
             alert("Please select comic age");
