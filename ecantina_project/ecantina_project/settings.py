@@ -61,6 +61,7 @@ INSTALLED_APPS = (
     'inventory', # Deprecated
     'inventory_base',
     'inventory_add_product',
+    'inventory_products',
     'inventory_checkout',
     'inventory_order',
     'inventory_help',
