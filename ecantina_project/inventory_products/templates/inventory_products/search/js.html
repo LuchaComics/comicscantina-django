@@ -118,6 +118,13 @@
         html += '<div class="products-list">';
     
         $(json_result).each(function(iter,val2){
+            // Update results count
+            var count = val2['count'];
+            var txt = count;
+            txt += (count > 1) ? " Results Listed" : " Result Listed";
+            $('#id_results_count').html(txt);
+                          
+            // Generate table.
             var position_index = 0;
             $(val2['results']).each(function(iter2,val){
                 var product_id = val['product_id'];
