@@ -7,7 +7,7 @@ from django.db.models import Q
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 
-def about_page(request, org_id):
+def about_page(request, org_id=0):
     organization = Organization.objects.get(org_id=org_id)
 
     return render(request, 'store_about/main/about.html',{
@@ -16,4 +16,5 @@ def about_page(request, org_id):
         'local_css_library' : settings.STORE_CSS_LIBRARY,
         'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
         'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'about',
     })

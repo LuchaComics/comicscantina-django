@@ -40,6 +40,7 @@
         <option value="$MODULE_DIR$/ecantina_project/store_about/templates" />
         <option value="$MODULE_DIR$/ecantina_project/store_landpage/templates" />
         <option value="$MODULE_DIR$/ecantina_project/store_products/templates" />
+        <option value="$MODULE_DIR$/ecantina_project/store_base/templates" />
       </list>
     </option>
   </component>

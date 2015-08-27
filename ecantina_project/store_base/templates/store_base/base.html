@@ -44,9 +44,9 @@
     </div>
     <div class="pace-activity"></div></div>
     
-    {% include "store_about/login.html" %}
-    {% include "store_about/signin.html" %}
-    {% include "store_about/header.html" %}
+    {% include "store_base/login.html" %}
+    {% include "store_base/signin.html" %}
+    {% include "store_base/header.html" %}
     
     <!-- CSRF Token -->
     {% csrf_token %}
@@ -55,7 +55,7 @@
     {% block content %}
     {% endblock %}
     
-    {% include "store_about/footer.html" %}
+    {% include "store_base/footer.html" %}
 
     <!-- Local JS footer -->
     {% for local in local_js_library_body %}

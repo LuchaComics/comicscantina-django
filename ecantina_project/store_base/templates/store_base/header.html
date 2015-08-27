@@ -8,7 +8,7 @@
                     <div class="pull-left ">
                         <ul class="userMenu ">
                             <li><a href="#"> <span class="hidden-xs">HELP</span><i class="glyphicon glyphicon-info-sign hide visible-xs "></i> </a></li>
-                            <li class="phone-number"><a href="callto:+88016000000"> <span> <i class="glyphicon glyphicon-phone-alt "></i></span> <span class="hidden-xs" style="margin-left:5px"> 88 01680 53 1352 </span>
+                            <li class="phone-number"><a href="callto:+88016000000"> <span> <i class="glyphicon glyphicon-phone-alt "></i></span> <span class="hidden-xs" style="margin-left:5px"> 1 (519) 555-5555 </span>
                             </a></li>
                         </ul>
                     </div>
@@ -167,11 +167,12 @@
             <!--/.cartMenu-->
         </div>
         <!--/.navbar-cart-->
+        
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/store"> Home </a></li>
-                <li><a href="/store/0/about"> About Us </a></li>
-                <li><a href="/store/0/products/list"> Browse Products </a></li>
+                <li {% if page == 'home' %}class="active"{% endif %}><a href="/1/"> Home </a></li>
+                <li {% if page == 'about' %}class="active"{% endif %}><a href="/1/about"> About Us </a></li>
+                <li {% if page == 'products' %}class="active"{% endif %}><a href="/1/products/list"> Browse Products </a></li>
 
                 <!-- change width of megamenu = use class > megamenu-fullwidth, megamenu-60width, megamenu-40width -->
                 <li class="dropdown megamenu-80width "><a data-toggle="dropdown" class="dropdown-toggle" href="#"> SHOP
