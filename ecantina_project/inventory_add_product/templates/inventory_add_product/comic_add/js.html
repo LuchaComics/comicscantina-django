@@ -114,7 +114,7 @@
 
         {% verbatim %}
         $('#input_file').filer({
-            limit: null,
+            limit: 1,
             maxSize: null,
             extensions: null,
             changeInput: true,
@@ -175,8 +175,13 @@
                     remove: '.jFiler-item-trash-action',
                 }
             },
+            // ----------------------------------------
+            // ----------------------------------------
+            //    THIS IS WHERE YOU UPLOAD THE IMAGE
+            // ----------------------------------------
+            // ----------------------------------------
             uploadFile: {
-                url: "./php/upload.php",
+                url: "",
                 data: {},
                 type: 'POST',
                 enctype: 'multipart/form-data',

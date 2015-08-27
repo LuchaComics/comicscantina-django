@@ -35,17 +35,30 @@
                             </div>
                             <div class="col-sm-7"><!-- Cover Uploader -->
 
-                            <form action="" onsubmit="ajax_upload_image();" method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <!-- Upload ID -->
-                                <input type="hidden" id="id_hidden_upload_id" value="0"/>
-                                <input type="hidden" id="id_hidden_url" value=""/>
-                                <!-- /.Upload ID -->
+                                <div class="col-sm-6">
+                                    {% if form.cover.image == '' %}
+                                    <img src="" style="height:140px;width:140px;" alt="Store Logo"
+                                        class="img-thumbnail center-block mb0 add-cover-image"
+                                        name="logo-image" id="logo-image">
+                                    {% else %}
+                                    <img src="{{ form.cover.image.url }}" style="height:200px;width:140px;" alt="Store Logo"
+                                            class="img-thumbnail center-block mb0 add-cover-image"
+                                            name="logo-image" id="logo-image">
+                                    {% endif %}
+                                </div>
+                                <div class="col-sm-6">
+                                    <form action="" onsubmit="ajax_upload_image();" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <!-- Upload ID -->
+                                        <input type="hidden" id="id_hidden_upload_id" value="0"/>
+                                        <input type="hidden" id="id_hidden_url" value=""/>
+                                        <!-- /.Upload ID -->
 
-                                <input type="file" name="files[]" id="input_file" multiple="multiple">
-                                <input type="submit">
-                            </form>
-        
+                                        <input type="file" name="files[]" id="input_file">
+                                        <input type="submit">
+                                    </form>
+                                </div>
+
                             </div><!-- /.Cover Uploader -->
                             <div class="clearfix"></div>
                         </div>
