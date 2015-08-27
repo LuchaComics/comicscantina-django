@@ -2,10 +2,27 @@
     /**
      *  Lists all the products that have the inputted "issue_id".
      */
-    function list_products_by(issue_id, callback)
+    function filter_products(criteria, callback)
     {
-        var url = "/api/products/?issue="+issue_id;
-        
+        var url = "/api/products/";
+        for (var i = 0; i < criteria.length; i++) {
+            // Check to see whether we are appending or creating
+            // the starting location for the URL.
+            if (url.length == 14)
+            {
+                url += "?";
+            }
+            else
+            {
+               url += "&";
+            }
+            
+            // Build our search criteria in the URL based on the results.
+            for(var index in criteria[i]) {
+                url += index + "=" + criteria[i][index];
+            }
+        }
+        console.log(url);
         jQuery.ajax({
             url: url,
             cache: false,

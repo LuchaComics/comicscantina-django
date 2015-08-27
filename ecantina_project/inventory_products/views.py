@@ -11,17 +11,27 @@ from api.models.gcd.story import GCDStory
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
-from api.models.ec.section import Section
-from api.models.ec.comic import Comic
-from inventory.forms.issueform import IssueForm
-
+from api.models.ec.brand import Brand
+from api.models.ec.category import Category
 
 @login_required(login_url='/inventory/login')
-def list_comics_page(request, org_id, store_id):
+def product_search_page(request, org_id, store_id):
+    try:
+        categories = Category.objects.all()
+    except Category.DoesNotExist:
+        categories = None
+
+    try:
+        brands = Brand.objects.all()
+    except Brand.DoesNotExist:
+        brands = None
+
     return render(request, 'inventory_products/search/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'tab':'comic_list',
+        'categories': categories,
+        'brands': brands,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
