@@ -10,15 +10,32 @@ from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
+from api.models.ec.brand import Brand
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
+from api.models.ec.category import Category
+from api.models.ec.tag import Tag
 from inventory_add_product.forms import IssueForm
 from inventory_add_product.forms import ComicForm
 from inventory_add_product.forms import ImageUploadForm
 from inventory_add_product.forms import ProductForm
 
+
+def lazy_load_brand(issue):
+    """
+        Find the brand based on the publisher name and return it, else
+        create a new brand based on the publisher name and return it.
+    """
+    # Load or create the brand.
+    try:
+        brand = Brand.objects.get(name=issue.series.publisher.name)
+    except Exception as e:
+        brand = Brand.objects.create(
+            name = issue.series.publisher.name,
+        )
+    return brand
 
 @login_required(login_url='/inventory/login')
 def comic_page(request, org_id, store_id, issue_id, comic_id):
@@ -32,15 +49,18 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         sections = None
     try:
         issue = GCDIssue.objects.get(issue_id=issue_id)
+        issue.publisher_name = issue.series.publisher.name
+        issue.save()
     except GCDIssue.DoesNotExist:
         issue = None
     try:
         story = GCDStory.objects.filter(issue_id=issue_id)[:1]
     except GCDStory.DoesNotExist:
         story = None
-
-    # Generate Forms
-    imageupload_form = ImageUploadForm()
+    try:
+        tags = Tag.objects.filter(organization=org)
+    except Tag.DoesNotExist:
+        tags = None
 
     try:
         comic = Comic.objects.get(comic_id=comic_id)
@@ -49,13 +69,6 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
     except Comic.DoesNotExist:
         comic_form = ComicForm()
         product_form = ProductForm()
-
-    issue_form = IssueForm(initial={
-        'series': issue.series,
-        'number': issue.number,
-        'title': issue.title,
-        'publisher': issue.series.publisher,
-    })
 
     # Update forms
 #    if story is not None:
@@ -67,155 +80,19 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory_add_product/add/view.html',{
+    return render(request, 'inventory_add_product/comic_add/view.html',{
         'org': org,
         'store': store,
         'issue': issue,
         'tab':'add',
-        'imageupload_form': imageupload_form,
         'product_form': product_form,
         'comic_form': comic_form,
-        'issue_form': issue_form,
+        'issue': issue,
+        'brand': lazy_load_brand(issue),
+        'tags': tags,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
-
-
-@login_required()
-def list_products(request, org_id, store_id, issue_id):
-    comics = {'status' : 'failed', 'message' : 'unknown error detected.'}
-    products = None
-    if request.is_ajax():
-        if request.method == 'POST':
-            try:
-                comics = Comic.objects.filter(issue_id=issue_id)
-            except Comic.DoesNotExist:
-                comics = None
-    return render(request, 'inventory_add_product/add/list.html',{
-        'comics': comics,
-        'org_id':org_id,
-        'store_id':store_id,
-        'issue_id':issue_id,
-    })
-
-
-@login_required()
-def ajax_save_uploaded_cover(request, org_id, store_id, issue_id):
-    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            form = ImageUploadForm(request.POST, request.FILES)
-            form.instance.user = request.user
-            if form.is_valid():
-                form.save()
-                response_data = {
-                    'status' : 'success',
-                    'message' : 'saved',
-                    'src': form.instance.image.url,
-                    'id': form.instance.upload_id,
-                }
-            else:
-                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-@login_required()
-def ajax_add_product(request, org_id, store_id, issue_id):
-    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            # Step (1): Find the comic
-            try:
-                comic_id = request.POST['comic_id']
-                comic = None
-                if comic_id is not '':
-                    comic = Comic.objects.get(comic_id=int(comic_id))
-            except Comic.DoesNotExist:
-                comic = None
-            
-            # Step (2): Find/Make a product
-            if comic is None:
-                product_form = ProductForm(request.POST, request.FILES)
-            else:
-                product_form = ProductForm(request.POST, request.FILES, instance=comic.product)
-            product_form.instance.organization_id = org_id
-            if product_form.is_valid():
-                product_form.save()
-            else:
-                response_data = {'status' : 'failed', 'message' : json.dumps(product_form.errors)}
-                return HttpResponse(json.dumps(response_data), content_type="application/json")
-            
-            # Step (3): Find the product to edit, else load new model into database.
-            form = ComicForm(request.POST, request.FILES, instance=comic)
-        
-            # Step (4): Attach "cover" image if one was uploaded previously.
-            upload_id = request.POST['upload_id']
-            cover = None
-            if upload_id is not '':
-                try:
-                    cover = ImageUpload.objects.get(upload_id=int(upload_id))
-                    cover.is_assigned = True
-                    cover.save()
-                    form.instance.cover = cover
-                except ImageUpload.DoesNotExist:
-                    pass
-            
-            # Step (5): Attach "issue" object.
-            try:
-                issue = GCDIssue.objects.get(issue_id=issue_id)
-                form.instance.issue = issue
-            except GCDIssue.DoesNotExist:
-                return HttpResponse(json.dumps({
-                    'status' : 'failed',
-                    'message' : 'could not find issue',
-                }), content_type="application/json")
-
-            # Step (6): Validate the form.
-            form.instance.product = product_form.instance
-            if form.is_valid():
-                # Step (7): Save & return OK status.
-                form.save()
-                
-                # Step (8) Return success status.
-                response_data = {
-                    'status' : 'success',
-                    'message' : 'saved',
-                }
-            else:
-                response_data = {'status' : 'failed', 'message' : json.dumps(form.errors)}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-@login_required()
-def ajax_sections_per_store(request, org_id, store_id, issue_id, this_store_id):
-    response_data = {'status' : 'failed', 'message' : 'unknown error detected.'}
-    sections = None
-    if request.is_ajax():
-        if request.method == 'POST':
-            try:
-                sections = Section.objects.filter(store_id=this_store_id)
-            except Section.DoesNotExist:
-                sections = None
-    return render(request, 'inventory_add_product/comic/add/section_dropdown.html',{
-        'sections': sections,
-    })
-
-
-@login_required()
-def ajax_delete_comic(request, org_id, store_id, issue_id, comic_id):
-    response_data = {'status' : 'failed', 'message' : 'unknown error with saving'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            try:
-                comic = Comic.objects.get(comic_id=comic_id)
-                comic.delete()
-                response_data = {
-                    'status' : 'success',
-                    'message' : 'deleted',
-                }
-            except Comic.DoesNotExist:
-                response_data = {'status' : 'failed', 'message' : 'does not exist'}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")

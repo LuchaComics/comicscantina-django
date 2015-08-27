@@ -36,7 +36,8 @@
                             <div class="col-sm-7"><!-- Cover Uploader -->
                                 
                                 <!-- Upload ID -->
-                                <input type="hidden" id="id_hidden_upload_id" value="{{ upload_id }}"/>
+                                <input type="hidden" id="id_hidden_upload_id" value="0"/>
+                                <input type="hidden" id="id_hidden_url" value=""/>
                                 <!-- /.Upload ID -->
                                 
                                 {% if form.cover.image == '' %}
@@ -44,14 +45,14 @@
                                     class="img-thumbnail center-block mb0 add-cover-image"
                                     name="logo-image" id="logo-image">
                                 {% else %}
-                                <img src="{{ form.cover.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
+                                <img src="{{ form.cover.image.url }}" style="height:200px;width:140px;" alt="Store Logo"
                                         class="img-thumbnail center-block mb0 add-cover-image"
                                         name="logo-image" id="logo-image">
                                 {% endif %}
                                         
                                 <label class="form-control btn btn-success mt10 curp" >
                                     <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Product Image...
-                                    <input onchange="ajax_upload_image({{ issue.issue_id }});"
+                                    <input onchange="ajax_upload_image();"
                                                type="file"
                                               class="form-control mb10 hide"
                                                name="logo-image"
@@ -62,7 +63,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <form class="form-horizontal">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12"><!-- Comic Information -->
                                 <hr class="pb" />
                                 <div class="col-sm-5">
                                     <div class="jumbotron bg-gray-lighter">
@@ -74,31 +75,56 @@
                                     <div class="form-group">
                                         <label for="txt-series" class="col-md-4 control-label">Series</label>
                                         <div class="col-md-8">
-                                            {{ issue_form.series }}
+                                            <input type="text"
+                                                     id="id_series"
+                                                   name="series"
+                                                  class="form-control"
+                                                  value="{{ issue.series }}"
+                                               disabled="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-issue" class="col-md-4 control-label">Issue #</label>
                                         <div class="col-md-8">
-                                            {{ issue_form.number }}
+                                            <input type="text"
+                                                     id="id_number"
+                                                   name="issue number"
+                                                  class="form-control"
+                                                  value="{{ issue.number }}"
+                                               disabled="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-title" class="col-md-4 control-label">Title</label>
                                         <div class="col-md-8">
-                                            {{ issue_form.title }}
+                                            <input type="text"
+                                                     id="id_title"
+                                                   name="title"
+                                                  class="form-control"
+                                                  value="{{ issue.title }}"
+                                               disabled="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-publisher" class="col-md-4 control-label">Publisher</label>
                                         <div class="col-md-8">
-                                            {{ issue_form.publisher }}
+                                            <input type="text"
+                                                     id="id_publisher_name"
+                                                   name="publisher"
+                                                  class="form-control"
+                                                  value="{{ issue.publisher_name }}"
+                                               disabled="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="txt-genre" class="col-md-4 control-label">Genre</label>
                                         <div class="col-md-8">
-                                            {{ issue_form.genre }}
+                                            <input type="text"
+                                                     id="id_publisher_name"
+                                                   name="publisher"
+                                                  class="form-control"
+                                                  value="{{ issue.genre }}"
+                                               disabled="true" />
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -161,7 +187,66 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="clearfix"></div>
+                            </div><!-- /.Comic Information -->
+                            
+                            <div class="col-sm-12"><!-- Tags + Categories -->
+                                <hr class="pb" />
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Category &amp; Tags</h3>
+                                        <p class="mb0 text-justify">This is to help your customers find what they are looking for in the online store. Select a category that this item fits into, and add tags to set a discount for the item, or to have it be shown on the front page as a featured or new item.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group mb-xl">
+                                        <label for="sel-category" class="col-md-4 control-label">Category</label>
+                                        <div class="col-md-8">
+                                            {{ product_form.category }}
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="item-tag-table table">
+                                            <tr>
+                                                <th>Tag</th>
+                                                <th>Add/Remove</th>
+                                            </tr>
+                                            <!-- new section -->
+                                            <tr>
+                                                <td>
+                                                    <select id="sel-item-tag" name="tag" class="item-tag form-control" required>
+                                                    {% for tag in tags.all %}
+                                                        <option value="{{ tag.tag_id }}">{{ tag.name }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-labeled btn-success btn-add">
+                                                        <span class="btn-label"><em class="fa fa-plus"></em></span><span style="font-size:12pt;">Add</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <!-- filled out section -->
+                                            <!-- <tr> -->
+                                            <!--     <td> -->
+                                            <!--         <input data-tagid="2" type="text" class="item-tag form-control" name="item-tag[]" value="Tag 3" readonly /> -->
+                                            <!--     </td> -->
+                                            <!--     <td> -->
+                                            <!--         <button type="button" role="button" class="btn btn-danger"> -->
+                                            <!--             <em class="section-button fa fa-remove"></em> -->
+                                            <!--         </button> -->
+                                            <!--     </td> -->
+                                            <!-- </tr> -->
+                                            <!-- /.filled out section -->
+                                        </table>
+                                    </div>
+                                </div><!-- /.Tags + Categories -->
+                                
+                                <div class="clearfix"></div>
+                                <hr class="pb" />
+                                
+                                <!-- Quantity + Submit -->
+                                <div class="col-sm-12">
                                     <div class="col-xs-3">
                                         {% if product_form.instance.product_id > 0%}
                                         {% else %}
@@ -172,35 +257,44 @@
                                         {% if product_form.instance.product_id > 0 %}
                                         {% else %}
                                         <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
-                                        {% endif %}
-                                    </div>
+                                            {% endif %}
+                                            </div>
                                     <div class="col-xs-6">
                                         {% if product_form.instance.product_id > 0 %}
                                         <button onclick="ajax_edit_items({{ issue.issue_id }});"
-                                            type="button" class="btn btn-labeled btn-lg btn-warning pull-right mb mr" style="font-size:14pt;">
+                                            type="button" class="btn btn-labeled btn-lg btn-warning pull-right mb mr"
+                                            style="font-size:14pt;">
                                             <span class="btn-label"><i class="fa fa-plus-square"></i></span>Save
                                         </button>
                                         {% else %}
                                         <button onclick="ajax_add_items({{ issue.issue_id }});"
-                                                   type="button" class="btn btn-labeled btn-lg btn-success pull-right mb mr" style="font-size:14pt;">
+                                            type="button" class="btn btn-labeled btn-lg btn-success pull-right mb mr"
+                                            style="font-size:14pt;">
                                             <span class="btn-label"><i class="fa fa-plus-square"></i></span>Add Items
                                         </button>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-                            </div>
-                            <div class="col-sm-12">
+                            </div><!-- /.Quantity + Submit -->
+                            
+                            <div class="col-sm-12"><!-- Inventory Table -->
                                 <hr class="pb" />
                                 <div class="col-sm-12">
-                                    <!-- TABLE -->
-                                    <div id="id_table_placeholder"
-                                        name="id_table_placeholder">
+                                    <div class="table-responsive">
+                                        <div class="jumbotron bg-gray-lighter">
+                                            <h3 class="p0 mt0 mb-lg">Inventory Items</h3>
+                                            <p class="mb0 text-justify">This is a list of items of this product in the store's inventory.  These may be product variants or condition variants, or may be copies of the same product.</p>
+                                        </div>
+                                        <!-- TABLE -->
+                                        <div id="id_table_placeholder"
+                                           name="id_table_placeholder">
+                                        </div>
+                                        <!-- /.TABLE -->
                                     </div>
-                                    <!-- /.TABLE -->
                                 </div>
                                 <div class="clearfix"></div>
-                            </div>
+                            </div><!-- /.Inventory Table -->
                         </form>
                     </div>
                 </div>
@@ -209,261 +303,5 @@
         </div>
     </div>
 </section>
-<!-- this is mainly for data that needs to be loaded when the page is loaded -->
-<script>
-    $(document).ready(function(){
-        // Initialize the UI.
-        $('#id_section').prop("disabled", true);
-        $('#id_label_colour').prop("disabled", true);
-        $('#id_cgc_rating_ui').hide();
-                      
-        // Get the latest table data when this page loads up first.
-        ajax_refresh_table({{ issue.issue_id }});
-        
-        // When the user clicks the 'Store', the 'Sections' will get filtered
-        // down to the specific location.
-        $('#id_store').on('change', function(){
-            var store_id = $(this).val();
-            if (store_id > 0)
-            {
-                ajax_load_section_dropdown({{ issue.issue_id }}, store_id)
-            }
-        });
-        
-        // this changes the options available in the condition rating dropdown
-        $('#id_is_cgc_rated').on('click', function(){
-            if( $(this).is(':checked') ){
-                //alert("Checked"); // Debugging Purposes Only
-                $('#id_label_colour').prop("disabled", false);
-                $('#id_cgc_rating_ui').show();
-                $('#id_condition_rating_ui').hide();
-            }
-            else {
-                //alert("unchecked"); // Debugging Purposes Only
-                $('#id_label_colour').prop("disabled", true);
-                $("#id_label_colour").val($("#target option:first").val());
-                $("#id_condition_rating").val($("#target option:first").val());
-                $('#id_condition_rating_ui').show();
-                $('#id_cgc_rating_ui').hide();
-            }
-        });
-    });
-    
-    function ajax_load_section_dropdown(issue_id, store_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/section_dropbox/'+store_id+'',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(html_result){
-                // Replace the code
-                $('#id_section_placeholder').html(html_result);
-            },
-            error: function(xhr,status,error) {
-            // error code here
-                },
-            complete: function(xhr,status) {
-            // completion code here
-            }
-        });
-    }
-
-    // this is to upload the cover image
-    function ajax_upload_image(issue_id) {
-        var errors = 0;
-        //alert('ajax_upload_logo_image()'); // Debugging Purposes.
-    
-        if ($('#id_image').val() == "") {
-            alert('Please select an image to upload');
-            errors++;
-        }
-    
-        if (errors > 0) {
-            return false;
-        }
-    
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/upload_cover';
-    
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('image', document.getElementById('id_image').files[0]);
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    $('#logo-image').attr('src', json_result.src);
-                    $('#id_hidden_upload_id').val(json_result.id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
-        });
-    }
-
-    function ajax_add_items(issue_id)
-    {
-        var upload_id = $('#id_hidden_upload_id').val();
-        var quantity = $('#txt-quantity').val();
-        for (var i = 0; i < quantity; i++)
-        {
-            ajax_add_item(issue_id, upload_id);
-        }
-        
-    }
-
-{% if product_form.instance.comic_id > 0 %}
-    function ajax_edit_items(issue_id)
-    {
-        var upload_id = $('#id_hidden_upload_id').val();
-        ajax_add_item(issue_id, upload_id);
-        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/{{ issue.issue_id }}/product/0';
-    }
-{% endif %}
-
-    function ajax_add_item(issue_id, upload_id) {
-        // change this to the ajax function call in python
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/add_product';
-    
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    {% if product_form.instance.comic_id > 0 %}
-        data.append('comic_id', {{ product_form.instance.comic_id }});
-        data.append('created', "{{ product_form.instance.created }}");
-    {% else %}
-        data.append('comic_id', '');
-        data.append('created', get_date());
-    {% endif %}
-        data.append('age', $('#id_age').val());
-        data.append('type', 1);
-        data.append('upload_id', upload_id);
-        data.append('store', $('#id_store').val());
-        data.append('section', $('#id_section').val());
-        data.append('price', $('#id_price').val());
-        data.append('cost', $('#id_cost').val());
-        data.append('is_cgc_rated', $('#id_is_cgc_rated').val());
-        data.append('label_colour', $('#id_label_colour').val());
-        data.append('cgc_rating', $('#id_cgc_rating').val());
-        data.append('condition_rating', $('#id_condition_rating').val());
-        data.append('is_canadian_priced_variant', $('#id_is_canadian_priced_variant').val());
-        data.append('is_variant_cover', $('#id_is_variant_cover').val());
-        data.append('is_retail_incentive_variant', $('#id_is_retail_incentive_variant').val());
-        data.append('is_newsstand_edition', $('#id_is_newsstand_edition').val());
-        
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                // If success then update the image, else display error.
-                if (json_result.status == "success")
-                {
-                    // alert("ok saved"); // Debugging Purposes
-                    ajax_refresh_table(issue_id);
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-            
-            }
-        });
-    }
-
-
-    function ajax_refresh_table(issue_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/list_products',
-                data: data,
-                cache: false,
-                contentType: false,
-                processData: false,
-                type: 'POST',
-                success: function(html_result){
-                    // Replace the code
-                    $('#id_table_placeholder').html(html_result);
-                },
-                error: function(xhr,status,error) {
-                    // error code here
-                },
-                complete: function(xhr,status) {
-                    // completion code here
-                }
-        });
-    }
-
-    function ajax_delete_comic(issue_id, comic_id)
-    {
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        jQuery.ajax({
-            url: '/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/delete/'+comic_id,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(html_result){
-                // Update Table.
-                ajax_refresh_table(issue_id);
-            },
-            error: function(xhr,status,error) {
-                // error code here
-            },
-            complete: function(xhr,status) {
-                // completion code here
-            }
-        });
-    }
-
-    function get_date()
-    {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-    
-        if(dd<10) {
-            dd='0'+dd
-        }
-    
-        if(mm<10) {
-            mm='0'+mm
-        }
-    
-        today = yyyy+'-'+mm+'-'+dd;
-        return today
-    }
-</script>
+{% include 'inventory_add_product/comic_add/js.html' %}
 {% endblock content %}

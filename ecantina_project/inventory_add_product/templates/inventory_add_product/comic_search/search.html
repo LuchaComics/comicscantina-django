@@ -117,26 +117,18 @@
                         <!-- Begin Search Results -->
                         <!--                      -->
                         <div class="clearfix"></div>
+                        
+                        
                         <!-- begin product listing -->
-                        <div class="product-listing m-lg">
-                            <div class="product-type-listing clearfix">
-                                <div class="products-list">
-                                    <!--------- data-position needs to be set by a counter incrementing over the number of comics ------------>
-                                    <div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix" data-position="1">
-                                        <img class="product-image center-block" width="100" alt="product-title" src="img/inventory/test-images/batman-1.jpg" />
-                                        <div class="product-item-details">
-                                            <h4 class="comic-issue product-title m-sm center-block text-center">Series Name</h4>
-                                            <span class="center-block comic-date text-muted text-center">Publisher</span>
-                                            <label style=";margin-top:2px;margin-left:auto;margin-right:auto;text-align:center;width:100%;"><input type="checkbox" name="issueidhere" />&nbsp;&nbsp;Select Series</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
+                        <div id="id_table_placeholder">
+                            <!-- CONTENT -->
                         </div>
                         <!-- end product listing -->
+                        
+                        
                     </div>
                     <!-- end product listing -->
+                    
                 </div>
                 <!--                      -->
                 <!--  End Search Results  -->
@@ -166,11 +158,6 @@
             <!-- end clone template -->
         </div>
     </div>
-    </div>
 </section>
-<!-- Page footer-->
-<footer>
-    <span>&copy; 2015 - Comics Cantina</span>
-</footer>
 {% include "inventory_add_product/comic_search/js.html" %}
 {% endblock content %}

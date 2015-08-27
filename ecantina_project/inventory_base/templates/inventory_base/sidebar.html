@@ -201,13 +201,18 @@
                            </a>
                        </li>
                        <li class={% if tab == 'users_settings' %}" active" {% else %}" "{% endif %}>
-                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/0" title="Users">
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/0" title="Employee">
                                <span>Employees</span>
                            </a>
                        </li>
                        <li class={% if tab == 'promotion_settings' %}" active" {% else %}" "{% endif %}>
-                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/promotions" title="Users">
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/promotions" title="Promotion">
                                <span>Promotions</span>
+                           </a>
+                       </li>
+                       <li class={% if tab == 'tags_settings' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/tags" title="Tag">
+                               <span>Tags</span>
                            </a>
                        </li>
                     </ul>

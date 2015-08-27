@@ -1,6 +1,7 @@
 {% load staticfiles %}
-{% include 'api/organization.html' %}
+{% include 'api/issue.html' %}
 {% include 'api/series.html' %}
+{% include 'api/product.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -132,7 +133,6 @@
         refreshDeviceInfo();
 
         $('body').on('click','.product-item.add',function(){
-
             var pos = $(this).data('position');
             var rowpos = $(this).data('position');
             var dif = 0;
@@ -208,7 +208,12 @@
 
                 var el = $(this);
                 for (var i = 0; i < dif; i++) {
-                    el = el.next();
+                    if( $(el).next().length ) {
+                        el = el.next('div.product-item');
+                    }
+                    else{
+                        break;
+                    }
                 }
 
                 var comiclist = '<div class="table-responsive" style="background-color:inherit;">' +
@@ -219,26 +224,62 @@
                         '<th style="color:#fff;width:20%;text-align:center;">Issue</th>' +
                         '<th style="color:#fff;width:20%;text-align:center;">Date</th>' +
                         '<th style="color:#fff;width:25%;text-align:center;"></th>' +
-                        '<th style="color:#fff;width:25%;text-align:center;">Select</th>' +
                         '</tr>' +
                         '</thead>' +
                         '<tbody>';
 
-                for( var i = 0; i < 10; i++ ) {
-                    comiclist += '<tr>' +
-                            '<th><img class="product-image center-block" width="50" alt="product-title" src="img/inventory/test-images/batman-5.jpg" /></th>' +
-                            '<th><h4 style="vertical-align: middle;" class="comic-issue product-title m-sm center-block text-center">Issue #1</h4></th>' +
-                            '<th><span style="vertical-align: middle;" class="center-block comic-date text-muted text-center">November 2011</span></th>' +
-                            '<th style="text-align:center;"><button style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>' +
-                            '<button style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button></th>' +
-                            '<th syle="text-align:center;"><div style="margin-left:auto;margin-right:auto;" class="checkbox c-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span></label></div></th>' +
-                            '</tr>';
-                }
-
-                 comiclist += '</tbody></table></div>';
-
-                $(el).after('<div id="comic-list" class="col-sm-12 clearfix">' + comiclist + '</div>');
-                $('#comic-list').slideDown();
+                // Every row has a 'data-series-id' field so lets extract it.
+                var series_id = $(this).data('series-id');
+                     
+                // Lookup the issues belonging to the 'series_id' and
+                // generate the data.
+                filter_issue_by_series_id(series_id, function(json_result) {
+                    // Process meta data
+                    $(json_result).each(function(iter,val2){
+                        var position_index = 0;
+                                        
+                        // Process 'results' data
+                        $(val2['results']).each(function(iter2,val){
+                            // Extract some useful values.
+                            var issue_id = val['issue_id'];
+                                            
+                            // Generate a row.
+                            comiclist += '<tr>';
+                                                
+                            // Image
+                            if (val['small_url'] == "" || val['small_url'] == null) {
+                                var url = '{% static "inventory/img/missing_cover.png" %}';
+                                comiclist += '<th><img class="product-image center-block" width="50" alt="product-title" src="'+url+'" /></th>';
+                            } else {
+                                comiclist += '<th><img class="product-image center-block" width="50" alt="product-title" src="'+val['small_url']+'" /></th>';
+                            }
+                                    
+                            // Issue #
+                            comiclist += '<th>';
+                            comiclist += '<h4 style="vertical-align: middle;" class="comic-issue product-title m-sm center-block text-center">';
+                            comiclist += 'Issue #' + val['number'] +'</h4>';
+                            comiclist += '</th>';
+                                     
+                            // Publication Date
+                            comiclist += '<th>';
+                            comiclist += '<span style="vertical-align: middle;" class="center-block comic-date text-muted text-center">';
+                            comiclist += val['publication_date'] + '</span></th>';
+                                
+                            // Buttons
+                            var onclick1 = 'ajax_create_and_load_product('+issue_id+');';
+                            comiclist += '<th style="text-align:center;">';
+                            comiclist += '<button onclick="'+'" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
+                                                
+                            comiclist += '<button onclick="'+onclick1+'" style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>';
+                            comiclist += '</th>';
+                                            
+                            comiclist += '</tr>';
+                        });
+                    });
+                    comiclist += '</tbody></table></div>';
+                    $(el).after('<div id="comic-list" class="col-sm-12 clearfix">' + comiclist + '</div>');
+                    $('#comic-list').slideDown();
+                });
             }
         });
 
@@ -247,29 +288,12 @@
 
         });
     });
+
+    var lastclick = 0;
                       
     function ajax_search_comics(series, publisher, min_year_began, max_year_ended, language, country)
     {
-        var language_id = 1;
-        var country_id = 1;
-        filter_series(series, publisher, min_year_began, max_year_ended, language_id, country_id, function (json_result) {
-            generate_table(json_result);
-        });
-        
-    }
-
-                  
-    function ajax_refresh_table()
-    {
-        list_customers(function(json_result) {
-            generate_table(json_result);
-        });
-    }
-
-    function ajax_search()
-    {
-        var keyword = $('#id_search_keyword').val();
-        search_customers(keyword, function(json_result) {
+        filter_series(series, publisher, min_year_began, max_year_ended, language, country, function (json_result) {
             generate_table(json_result);
         });
     }
@@ -280,53 +304,53 @@
         //var json_text = JSON.stringify(json_result, null, 2);
         //var obj = JSON.parse(json_text);
         //console.log(obj)
-    
+        
         // Initial Code
         var html = '';
-        html += '<div class="table-responsive" style="background-color:#fafafa;padding-left:20px;padding-right:20px;">';
-        html += '<table class="table">';
-        html += '<thead>';
-        html += '<tr>';
-        html += '<th>Series Name</th>';    // 1
-        html += '<th>Publisher</th>';      // 2
-        html += '<th>Date Published</th>'; // 3
-        html += '<th></th>';               // 4
-        html += '</tr>';
-        html += '</thead>';
-        html += '<tbody>';
+        html += '<div class="product-listing m-lg">';
+        html += '<div class="product-type-listing clearfix">';
+        html += '<div class="products-list">';
     
         $(json_result).each(function(iter,val2){
+            var position_index = 0;
             $(val2['results']).each(function(iter2,val){
-            var series_id = val['series_id'];
-            if (val['name'] != "")
-            {
-                // Table Row
-                html += '<tr>';
-                                                
-                // Col 1
-                html += '<td>' + val['name'] + '</td>';
-                                                
-                // Col 2
-                html += '<td>' + val['publisher_name'] + '</td>';
-                
-                // Col 3
-                html += '<td>' + val['publication_dates'] + '</td>';
-                                                
-                // Col 4
-                var onclick = 'ajax_new('+series_id+');';
-                var col4 = '<button class="btn btn-sm btn-labeled btn-success pull-left mb mr mt-sm" onclick="'+onclick+'">';
-                col4 += '<span class="btn-label"><i class="fa fa-plus"></i></span>Add Pull List';
-                col4 += '</button>';
-                html += '<td style="text-align:center;">' + col4 + '</td>';
-                                                
-                // Close Table Row
-                html += '</tr>';
-            }
+                var series_id = val['series_id'];
+                position_index += 1;
+                html += '<div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix" ';
+                html += 'data-position="'+position_index+'" data-series-id="'+series_id+'">';
+                                    
+                // Load "Missing Cover" image if there is no cover image,
+                // else display the cover.
+                var cover_url = val['cover_url'];
+                if (cover_url == null || cover_url == "")
+                {
+                    var url = '{% static "inventory/img/missing_cover.png" %}';
+                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+url+'" />';
+                }
+                else
+                {
+                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+cover_url+'" />';
+                }
+                                    
+                html += '<div class="product-item-details">';
+                html += '<h4 class="comic-issue product-title m-sm center-block text-center">'+val['name']+'</h4>';
+                html += '<span class="center-block comic-date text-muted text-center">'+val['publisher_name']+'</span>';
+                html += '<label style=";margin-top:2px;margin-left:auto;margin-right:auto;text-align:center;width:100%;">&nbsp;&nbsp;</label>';
+                html += '</div>';
+                html += '</div>';
+            });
         });
-    });
-                        
-    html += '</tbody></table></div>';
-    $('#id_table_placeholder').html(''); // Clear Table
-    $(html).appendTo('#id_table_placeholder'); // Load Table.
-}
+        html += '</div>';
+        html += '</div>';
+        html += ' <div class="clearfix"></div>';
+        html += '</div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
+    function ajax_create_and_load_product(issue_id)
+    {
+        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/"+issue_id+"/product/0";
+    }
+
 </script>

@@ -7,18 +7,17 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0001_initial'),
+        ('api', '0006_auto_20150827_1256'),
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.RemoveField(
             model_name='product',
-            name='brand',
-            field=models.ForeignKey(to='api.Brand', blank=True, null=True),
+            name='image',
         ),
         migrations.AddField(
             model_name='product',
-            name='tags',
-            field=models.ManyToManyField(to='api.Tag', blank=True, related_name='product_tags'),
+            name='image_url',
+            field=models.URLField(null=True, blank=True),
         ),
     ]

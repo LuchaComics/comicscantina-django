@@ -1,28 +1,10 @@
 <script>
     /**
-     *  Lists all the products that have the inputted "issue_id".
+     *  Makes a JSON call to our API service to fetch all the image uploads
+     *  and run the callback function.
      */
-    function filter_products(criteria, callback)
-    {
-        var url = "/api/products/";
-        for (var i = 0; i < criteria.length; i++) {
-            // Check to see whether we are appending or creating
-            // the starting location for the URL.
-            if (url.length == 14)
-            {
-                url += "?";
-            }
-            else
-            {
-               url += "&";
-            }
-            
-            // Build our search criteria in the URL based on the results.
-            for(var index in criteria[i]) {
-                url += index + "=" + criteria[i][index];
-            }
-        }
-
+    function list_tags(org_id, callback) {
+        var url = "/api/tags/?organization="+org_id;
         jQuery.ajax({
             url: url,
             cache: false,
@@ -41,24 +23,31 @@
             }
         });
     }
-    
-    function set_product(data, callback)
+
+    function set_tag(id, data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST"; // Insert.
-        var url = "/api/products/";
-        if (data['id'] > 0) {
+        var type = "POST";
+        var url = "/api/tags/";
+        if (id > 0) {
             type = "PUT"; // Update
-            url += data['id'] + "/";
+            url += id + "/";
         }
-        console.log(url);
+    
         jQuery.ajax({
             url: url,
             data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
             type: type,
-            traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
             success: function(json_result){
-                callback(json_result); // Call back the function with the JSON results.
+                // Debugging code
+                var json_text = JSON.stringify(json_result, null, 2);
+                console.log(json_text);
+                
+                // Call back the function with the JSON results.
+                callback(json_result);
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
@@ -70,8 +59,8 @@
         });
     }
 
-    function delete_product(product_id, callback) {
-        var url = "/api/products/" + product_id + "/";
+    function delete_tag(tag_id, callback) {
+        var url = "/api/tags/" + tag_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,

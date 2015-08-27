@@ -32,3 +32,4 @@ from api.models.ec.pulllist import Pulllist
 from api.models.ec.pulllistsubscription import PulllistSubscription
 from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
+from api.models.ec.category import Category

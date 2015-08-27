@@ -1,3 +1,4 @@
+import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -10,6 +11,19 @@ from api.models.ec.comic import Comic
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 
+
+class ComicFilter(django_filters.FilterSet):
+    product = django_filters.CharFilter(name="product__product_id")
+    issue = django_filters.CharFilter(name="issue__issue_id")
+    is_newsstand_edition = django_filters.BooleanFilter(name="is_newsstand_edition")
+    is_retail_incentive_variant = django_filters.BooleanFilter(name="is_retail_incentive_variant")
+    is_variant_cover = django_filters.BooleanFilter(name="is_variant_cover")
+    is_canadian_priced_variant = django_filters.BooleanFilter(name="is_canadian_priced_variant")
+    class Meta:
+        model = Comic
+        fields = ['comic_id', 'is_cgc_rated', 'age', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'product',]
+
+
 class ComicViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows customers to be viewed or edited.
@@ -18,9 +32,4 @@ class ComicViewSet(viewsets.ModelViewSet):
     serializer_class = ComicSerializer
     pagination_class = LargeResultsSetPagination
     permission_classes = (IsEmployeeUser, IsAuthenticated)
-
-    def list(self, request):
-        employee = Employee.objects.get(user=self.request.user)
-        comics = Comic.objects.filter(product__organization=employee.organization)
-        serializer = ComicSerializer(comics, many=True)
-        return Response(serializer.data)
+    filter_class = ComicFilter

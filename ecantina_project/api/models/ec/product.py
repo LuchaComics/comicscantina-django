@@ -13,6 +13,7 @@ from api.models.ec.imageupload import ImageUpload
 from api.models.ec.receipt import Receipt
 from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
+from api.models.ec.category import Category
 
 
 PRODUCT_TYPE_OPTIONS = (
@@ -63,6 +64,12 @@ class Product(models.Model):
     # and just have the "is_sold" varible to be "True".
     is_sold = models.BooleanField(default=False)
     
+    # This variable controls whether we are allowed to display the product
+    # in-store for customers to see or find in the catalog search. Products
+    # with this variable set to false are not allowed to show up in search
+    # results nor are customers allowed to see this product.
+    is_available = models.BooleanField(default=False)
+    
     # The following variables are to save financial information.
     sub_price = models.DecimalField( # Note: Price before discount applied.
         max_digits=10,
@@ -92,6 +99,7 @@ class Product(models.Model):
                               
     # Every product has images.
     image = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
+    image_url = models.URLField(null=True, blank=True)
     images = models.ManyToManyField(ImageUpload, blank=True, related_name='product_images')
     
     # Products need to belong to a specific organization and where it is located
@@ -109,6 +117,9 @@ class Product(models.Model):
     
     # Products should have a brand association with it.
     brand = models.ForeignKey(Brand, null=True, blank=True)
+    
+    # Every product must belongs to a single cateogry.
+    category = models.ForeignKey(Category)
     
     def __str__(self):
         return str(self.name)
