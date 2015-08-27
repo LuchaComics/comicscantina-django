@@ -34,31 +34,31 @@
                                 </div>
                             </div>
                             <div class="col-sm-7"><!-- Cover Uploader -->
-
-                                <div class="col-sm-6">
-                                    {% if form.cover.image == '' %}
-                                    <img src="" style="height:140px;width:140px;" alt="Store Logo"
+                                
+                                <!-- Upload ID -->
+                                <input type="hidden" id="id_hidden_upload_id" value="0"/>
+                                <input type="hidden" id="id_hidden_url" value=""/>
+                                <!-- /.Upload ID -->
+                                
+                                {% if form.cover.image == '' %}
+                                <img src="" style="height:140px;width:140px;" alt="Store Logo"
+                                    class="img-thumbnail center-block mb0 add-cover-image"
+                                    name="logo-image" id="logo-image">
+                                {% else %}
+                                <img src="{{ form.cover.image.url }}" style="height:200px;width:140px;" alt="Store Logo"
                                         class="img-thumbnail center-block mb0 add-cover-image"
                                         name="logo-image" id="logo-image">
-                                    {% else %}
-                                    <img src="{{ form.cover.image.url }}" style="height:200px;width:140px;" alt="Store Logo"
-                                            class="img-thumbnail center-block mb0 add-cover-image"
-                                            name="logo-image" id="logo-image">
-                                    {% endif %}
-                                </div>
-                                <div class="col-sm-6">
-                                    <form action="" onsubmit="ajax_upload_image();" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <!-- Upload ID -->
-                                        <input type="hidden" id="id_hidden_upload_id" value="0"/>
-                                        <input type="hidden" id="id_hidden_url" value=""/>
-                                        <!-- /.Upload ID -->
-
-                                        <input type="file" name="files[]" id="input_file">
-                                        <input type="submit">
-                                    </form>
-                                </div>
-
+                                {% endif %}
+                                        
+                                <label class="form-control btn btn-success mt10 curp" >
+                                    <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Product Image...
+                                    <input onchange="ajax_upload_image();"
+                                               type="file"
+                                              class="form-control mb10 hide"
+                                               name="logo-image"
+                                                 id="id_image"/>
+                                </label>
+        
                             </div><!-- /.Cover Uploader -->
                             <div class="clearfix"></div>
                         </div>
