@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% include 'api/imageupload.html' %}
 {% include 'api/section.html' %}
 {% include 'api/comic.html' %}
 {% include 'api/product.html' %}
@@ -112,6 +113,25 @@
         ajax_refresh_table({{ issue.issue_id }});
     });
     
+    // this is to upload the cover image
+    function ajax_upload_image() {
+        if ($('#id_image').val() == "") {
+            alert('Please select an image to upload');
+            return false;
+        }
+        
+        // Extract the information.
+        var image = document.getElementById('id_image').files[0];
+        var upload_id = $('#id_hidden_upload_id').val();
+        
+        // Insert or Update.
+        set_imageupload(upload_id, false, image, 0, function(json_result) {
+            $('#logo-image').attr('src', json_result['image']);
+            $('#id_hidden_url').val(json_result['image']);
+            $('#id_hidden_upload_id').val(json_result['upload_id']);
+        });
+    }
+    
     function ajax_add_items(issue_id)
     {
         var upload_id = $('#id_hidden_upload_id').val();
@@ -170,7 +190,8 @@
             'discount_type': 1,
             'price': 0,
             'cost': 0,
-            'image': '',
+            'image': parseInt( $('#id_hidden_upload_id').val() ),
+            'image_url': $('#id_hidden_url').val(),
             'organization': {{ org.org_id }},
             'store': parseInt( $('#id_store').val() ),
             'section': parseInt( $('#id_section').val() ),

@@ -97,9 +97,9 @@ class ImageUploadForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['image', 'price', 'section','price','cost', 'store','type','images', 'category',]
+        fields = ['image_url', 'price', 'section','price','cost', 'store','type','images', 'category',]
         labels = {
-            'image': 'Product Image',
+            
         }
         widgets = {
             'images': Select(attrs={'class': u'form-control mb10 mt-lg'}),

@@ -127,15 +127,15 @@
                                                 
                 // Load "Missing Cover" image if there is no cover image,
                 // else display the cover.
-                var image = val['image'];
-                if (image == null || image == "")
+                var image_url = val['image_url'];
+                if (image_url == null || image_url == "")
                 {
                     var url = '{% static "inventory/img/missing_cover.png" %}';
                     html += '<img class="product-image center-block" width="100" alt="product-title" src="'+url+'" />';
                 }
                 else
                 {
-                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+image+'" />';
+                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+image_url+'" />';
                 }
                                                 
                 html += '<div class="product-item-details">';
