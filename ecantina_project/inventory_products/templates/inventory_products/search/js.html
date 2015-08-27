@@ -99,8 +99,59 @@
         }
         
         filter_products(arr, function(json_objects) {
-            console.log(arr);
+            generate_table(json_objects);
         });
         
     }
+
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(json_result, null, 2);
+        //var obj = JSON.parse(json_text);
+        //console.log(obj)
+    
+        // Initial Code
+        var html = '';
+        html += '<div class="product-listing m-lg">';
+        html += '<div class="product-type-listing clearfix">';
+        html += '<div class="products-list">';
+    
+        $(json_result).each(function(iter,val2){
+            var position_index = 0;
+            $(val2['results']).each(function(iter2,val){
+                var product_id = val['product_id'];
+                position_index += 1;
+                html += '<div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix" ';
+                html += 'data-position="'+position_index+'" data-product-id="'+product_id+'">';
+                                                
+                // Load "Missing Cover" image if there is no cover image,
+                // else display the cover.
+                var image = val['image'];
+                if (image == null || image == "")
+                {
+                    var url = '{% static "inventory/img/missing_cover.png" %}';
+                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+url+'" />';
+                }
+                else
+                {
+                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+image+'" />';
+                }
+                                                
+                html += '<div class="product-item-details">';
+                html += '<h4 class="comic-issue product-title m-sm center-block text-center">'+val['name']+'</h4>';
+                html += '<span class="center-block comic-date text-muted text-center">$'+val['price']+'</span>';
+                html += '<label style=";margin-top:2px;margin-left:auto;margin-right:auto;text-align:center;width:100%;">&nbsp;&nbsp;</label>';
+                html += '</div>';
+                html += '</div>';
+            });
+        });
+        html += '</div>';
+        html += '</div>';
+        html += ' <div class="clearfix"></div>';
+        html += '</div>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
 </script>
