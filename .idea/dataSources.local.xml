@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - ecantina_db@127.0.0.1" uuid="8c50b779-33cb-4318-ac90-5eb09895610a">
+      <secret-storage>master_key</secret-storage>
+      <user-name>django</user-name>
+      <schema-pattern>ecantina_db.pg_catalog ecantina_db.public</schema-pattern>
+      <default-schemas>ecantina_db.pg_catalog ecantina_db.public</default-schemas>
+    </data-source>
+  </component>
+</project>
