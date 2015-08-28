@@ -38,7 +38,7 @@ def lazy_load_brand(issue):
     return brand
 
 @login_required(login_url='/inventory/login')
-def comic_page(request, org_id, store_id, issue_id, comic_id):
+def comic_page(request, org_id, store_id, issue_id, product_id):
     org = Organization.objects.get(org_id=org_id)
     employee = Employee.objects.get(user=request.user)
     store = Store.objects.get(store_id=store_id)
@@ -63,7 +63,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         tags = None
 
     try:
-        comic = Comic.objects.get(comic_id=comic_id)
+        comic = Comic.objects.get(product_id=product_id)
         comic_form = ComicForm(instance=comic)
         product_form = ProductForm(instance=comic.product)
     except Comic.DoesNotExist:

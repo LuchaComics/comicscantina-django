@@ -26,6 +26,11 @@
                 }
             }
         });
+    {% if product_form.instance.product_id > 0 %}
+        // If we are to edit the product, make sure we load all the tags
+        // associated with this product.
+        ajax_populate_tags();
+    {% endif %}
                       
         // Initialize the UI.
         $('#id_section').prop("disabled", true);
@@ -113,7 +118,23 @@
         ajax_refresh_table({{ issue.issue_id }});
     });
     
-    // this is to upload the cover image
+    
+    /**
+     *  Function will take all the tags in Product and populate the tags table.
+     */
+    function ajax_populate_tags() {
+    {% for tag in product_form.instance.tags.all %}
+        var tag_id = {{ tag.tag_id }};
+        var tag_name = '{{ tag.name }}';
+        console.log(tag_id + " "+ tag_name);
+        //TODO: Add code for populating the tags.
+    {% endfor %}
+    }
+
+
+    /**
+     *  Function will asynchronously upload the cover image.
+     */
     function ajax_upload_image() {
         if ($('#id_image').val() == "") {
             alert('Please select an image to upload');
@@ -131,28 +152,28 @@
             $('#id_hidden_upload_id').val(json_result['upload_id']);
         });
     }
-    
-    function ajax_add_items(issue_id)
+
+
+    /**
+     *  Function will run the inserter function multiple times depending on
+     *  the 'quantity' selected.
+     */
+    function ajax_add_items()
     {
-        var upload_id = $('#id_hidden_upload_id').val();
         var quantity = $('#txt-quantity').val();
         for (var i = 0; i < quantity; i++)
         {
-            ajax_add_item(issue_id, upload_id);
+            ajax_set_data();
         }
-        
     }
 
-{% if product_form.instance.comic_id > 0 %}
-   function ajax_edit_items(issue_id)
-   {
-       var upload_id = $('#id_hidden_upload_id').val();
-       ajax_add_item(issue_id, upload_id);
-       window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/{{ issue.issue_id }}/product/0';
-   }
-{% endif %}
-
-    function ajax_add_item(issue_id, upload_id) {
+    /**
+     *  Function will either insert / update the Product, Comic, and ImageUpload
+     *  tables.
+     */
+    function ajax_set_data() {
+        var issue_id = {{ issue.issue_id }}
+        
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
             alert("Please select comic age");
@@ -190,8 +211,6 @@
             'discount_type': 1,
             'price': 0,
             'cost': 0,
-            'image': parseInt( $('#id_hidden_upload_id').val() ),
-            'image_url': $('#id_hidden_url').val(),
             'organization': {{ org.org_id }},
             'store': parseInt( $('#id_store').val() ),
             'section': parseInt( $('#id_section').val() ),
@@ -201,19 +220,30 @@
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
         };
+        
+        var upload_id = $('#id_hidden_upload_id').val();
+        if (upload_id > 0) { // Add in Image seperately if one was uploaded.
+            arr['image'] = parseInt( upload_id );
+            arr['image_url'] =  $('#id_hidden_url').val();
+        }        
+        
+    {% if product_form.instance.product_id > 0 %}
+        // If we are editing a product, then we need to add in the product_id
+        // so the javascript function will know to make an 'update' call and
+        // not a 'insert' call.
+        arr['product_id'] = {{ product_form.instance.product_id }}
+    {% endif %}
 
         set_product(arr, function(json_result) {
             // Extract the 'product_id' and use it to tie it to the
             // 'comic' model.
             var product_id = json_result['product_id'];
                     
-            // Insert the comic.
             var data = {
                 'product': parseInt(product_id),
                 'issue': parseInt(issue_id),
                 'age': $('#id_age').val(),
                 'type': 1,
-                'upload_id': upload_id,
                 'store': $('#id_store').val(),
                 'section': $('#id_section').val(),
                 'price': $('#id_price').val(),
@@ -227,9 +257,11 @@
                 'is_retail_incentive_variant': $('#id_is_retail_incentive_variant').is(':checked'),
                 'is_newsstand_edition': $('#id_is_newsstand_edition').is(':checked'),
             };
+                 
+            if (upload_id > 0) { // Add in Image seperately if one was uploaded.
+                    data['upload_id'] = upload_id;
+            }
                     
-            // Defensive Code: Only add items to the array that are selected
-            //                 and not '-----' selected.
             var label_colour = $('#id_label_colour').val();
             if (label_colour != '') {
                 data['label_colour'] = label_colour;
@@ -243,13 +275,30 @@
                 data['condition_rating'] = condition_rating;
             }
                     
-            set_comic(data, function(json_result) {
-                // Load up the 'Edit' controller associated with comics.
-                window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
-            });
+        {% if comic_form.instance.comic_id > 0 %}
+            // If we are editing a comic, then we need to add in the comic_id
+            // so the javascript function will know to make an 'update' call and
+            // not a 'insert' call.
+            arr['comic_id'] = {{ comic_form.instance.comic_id }}
+        {% endif %}
                     
-        });
+            set_comic(data, function(json_result) {
+                // If we've uploaded an image then we need to attach it and then
+                // launch the edit page, else if we did not upload anything then
+                // just launch the edit page immediately.
+                if (upload_id > 0) {
+                    // Let our upload image know it is properly assigned.
+                    set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                        // Load up the 'Edit' controller associated with comics.
+                        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                    }); // end imageupload
+                } else {
+                    window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                }
+            }); // end comic
+        }); // end product
     }
+
 
     function ajax_load_section_dropdown(store_id)
     {
@@ -272,12 +321,14 @@
         });
     }
 
+
     function ajax_refresh_table(issue_id)
     {
         list_comics_by(issue_id, function(json_result) {
             generate_table(json_result);
         });
     }
+
 
     function generate_table(json_result)
     {
@@ -363,6 +414,7 @@
         $(html).appendTo('#id_table_placeholder'); // Load Table.
     }
 
+
     function ajax_delete(comic_id, product_id)
     {
         delete_comic(comic_id, function(json_result) {
@@ -372,5 +424,6 @@
             ajax_refresh_table({{ issue.issue_id }}); // Refresh table.
         });
     }
+
 
 </script>
