@@ -103,12 +103,12 @@
                     <ul id="inventory" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
                         <li class="sidebar-subnav-header">Inventory</li>
                         <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic" title="Add Inventory">
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/comics" title="Add Inventory">
                                 <span>Add Inventory Item</span>
                             </a>
                         </li>
                         <li class={% if tab == 'comic_list' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/list/comics" title="View Inventory">
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/products" title="View Inventory">
                                 <div class="label label-danger pull-right">2</div>
                                 <span>View Inventory</span>
                             </a>

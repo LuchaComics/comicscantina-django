@@ -148,7 +148,7 @@
    {
        var upload_id = $('#id_hidden_upload_id').val();
        ajax_add_item(issue_id, upload_id);
-       window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/{{ issue.issue_id }}/product/0';
+       window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/{{ issue.issue_id }}/product/0';
    }
 {% endif %}
 
@@ -245,7 +245,7 @@
                     
             set_comic(data, function(json_result) {
                 // Load up the 'Edit' controller associated with comics.
-                window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/"+issue_id+"/product/"+product_id;
+                window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
             });
                     
         });
@@ -346,7 +346,7 @@
                 // Edit / Delete
                 html += '<td>';
                                     
-                var onclick1 = 'onclick="window.location=\'/inventory/{{ org.org_id }}/{{ store.store_id }}/add/comic/'+issue_id+'/product/'+product_id+'\';"';
+                var onclick1 = 'onclick="window.location=\'/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+product_id+'\';"';
                 html += '<a '+onclick1+' class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>';
                                     
                 var onclick2 = 'ajax_delete('+comic_id+','+product_id+');';

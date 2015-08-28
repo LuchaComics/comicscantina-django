@@ -50,7 +50,7 @@ class ComicsInventoryListTestCase(TestCase):
         populator.populate()
     
     def test_url_resolves_to_search_comics_page(self):
-        found = resolve('/inventory/1/1/list/comics')
+        found = resolve('/inventory/1/1/products')
         self.assertEqual(found.func, comic_inventory_list.list_comics_page)
 
     def test_url_resolves_to_ajax_search_comics(self):
@@ -63,7 +63,7 @@ class ComicsInventoryListTestCase(TestCase):
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        response = client.post('/inventory/1/1/list/comics')
+        response = client.post('/inventory/1/1/products')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'ajax_search_results_placeholder',response.content)
         self.assertIn(b'id_issue',response.content)
@@ -77,7 +77,7 @@ class ComicsInventoryListTestCase(TestCase):
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        response = client.post('/inventory/1/1/add/comic/1/add_product',{
+        response = client.post('/inventory/1/1/comic/1/add_product',{
             'comic_id': '0',
             'upload_id': '1',
             'age':'1',
@@ -114,5 +114,5 @@ class ComicsInventoryListTestCase(TestCase):
         self.assertIn(b'1 Results Listed',response.content)
 
 
-#    url(r'^inventory/(\d+)/(\d+)/list/comics$', comic_inventory_list.list_comics_page),
+#    url(r'^inventory/(\d+)/(\d+)/products$', comic_inventory_list.list_comics_page),
 #    url(r'^inventory/(\d+)/(\d+)/list/search_comics$', comic_inventory_list.ajax_search_comics),
