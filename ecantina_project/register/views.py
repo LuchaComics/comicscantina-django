@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from register.forms import StoreRegistrationForm
-from inventory.forms.imageuploadform import ImageUploadForm
+from inventory_base.forms.imageuploadform import ImageUploadForm
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store

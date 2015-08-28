@@ -25,7 +25,6 @@ sitemaps = {
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('inventory.urls')),
 #    url(r'', include('store_base.urls')), # uncomment if plan on using.
     url(r'', include('store_landpage.urls')),
     url(r'', include('store_about.urls')),
