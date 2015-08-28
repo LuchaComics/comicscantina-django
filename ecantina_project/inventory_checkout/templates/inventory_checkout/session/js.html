@@ -1,4 +1,5 @@
-<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+{% include 'api/receipt.html' %}
+<!-- LOCAL JAVASCRIPT FILE STARTS HERE -->
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -36,37 +37,22 @@
      *  we have under this employee.
      */
     function ajax_refresh_table() {
-        //////////
-        // LIST //
-        //////////
-        var url = "/api/receipts/?has_finished=False&employee={{ employee.employee_id }}";
-        jQuery.ajax({
-            url: url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'GET',
-            success: function(result){
-                // Take the JSON results and generate a HTML table from it.
-                generate_table(result);
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
-            }
+        var criteria = {
+            'has_finished': false,
+            'employee': {{ employee.employee_id }},
+        };
+        filter_receipts(criteria, function(json_result) {
+            generate_table(json_result); // Take the JSON results and generate a HTML table from it.
         });
     }
 
     /**
      *  Renders a table listing all the open cart sessions in our system.
      */
-    function generate_table(result)
+    function generate_table(json_result)
     {
         // Debugging code
-        //var json_text = JSON.stringify(result, null, 2);
+        //var json_text = JSON.stringify(json_result, null, 2);
         //var obj = JSON.parse(json_text);
     
         var html = '<div class="table-responsive">';
@@ -80,13 +66,15 @@
         html += '</thead>';
         html += '<tbody>';
         
-        $(result).each(function(iter,val){
-            var receipt_id = val['receipt_id'];
-            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + receipt_id +"/customer";
-            html += '<tr>';
-            html += '<td>' + receipt_id + '</td>';
-            html += '<td>' + '<button type="button" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick="window.location=\'' + url +'\'"><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
-            html += '</tr>';
+        $(json_result).each(function(iter,meta){ // Process the meta information.
+            $(meta['results']).each(function(iter,val){ // Process the results search data.
+                var receipt_id = val['receipt_id'];
+                var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + receipt_id +"/customer";
+                html += '<tr>';
+                html += '<td>' + receipt_id + '</td>';
+                html += '<td>' + '<button type="button" class="btn btn-labeled btn-success" style="font-size: 23pt;margin-left: auto;margin-right: auto;" onclick="window.location=\'' + url +'\'"><span class="btn-label"><i class="fa fa-shopping-cart"></i></span>Continue Existing Checkout</button>' + '</td>';
+                html += '</tr>';
+            });
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table

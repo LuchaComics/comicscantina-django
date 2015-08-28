@@ -1,4 +1,48 @@
 <script>
+    /**
+     *  Lists all the products based on teh filtering criteria.
+     */
+    function filter_receipts(criteria, callback)
+    {
+        var url = "/api/receipts/";
+        for (var i = 0; i < criteria.length; i++) {
+            // Check to see whether we are appending or creating
+            // the starting location for the URL.
+            if (url.length == 14)
+            {
+                url += "?";
+            }
+            else
+            {
+                url += "&";
+            }
+        
+            // Build our search criteria in the URL based on the results.
+            for(var index in criteria[i]) {
+                url += index + "=" + criteria[i][index];
+            }
+        }
+    
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+
     function list_receipt(org_id, store_id, customer_id, status, callback) {
         var url = "/api/receipts/";
         
