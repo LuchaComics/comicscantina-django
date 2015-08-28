@@ -29,6 +29,7 @@
             contentType: false,
             processData: false,
             type: 'GET',
+            traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
             success: function(json_results){
                 callback(json_results);
             },
@@ -125,30 +126,25 @@
         });
     }
 
-    function set_receipt(id, data, callback)
+    function set_receipt(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
+        var type = "POST"; // Insert.
         var url = "/api/receipts/";
-        if (id > 0) {
+        if (data['receipt_id'] > 0) {
             type = "PUT"; // Update
-            url += id + "/";
+            url += data['receipt_id'] + "/";
         }
-    
         jQuery.ajax({
             url: url,
             data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
             type: type,
-            success: function(json_result){
+            traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
+            success: function(json_result) {
                 // Debugging code
-                var json_text = JSON.stringify(json_result, null, 2);
-                console.log(json_text);
-                    
-                // Call back the function with the JSON results.
-                callback(json_result);
+                //var json_text = JSON.stringify(json_result, null, 2);
+                //console.log(json_text);
+                callback(json_result); // Call back the function with the JSON results.
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
