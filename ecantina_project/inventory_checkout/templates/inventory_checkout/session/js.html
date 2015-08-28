@@ -93,7 +93,7 @@
             'organization': {{ org.org_id }},
             'store': {{ store.store_id }},
             'employee': {{ employee.employee_id }},
-            //'receipt_id': {{ .receipt_id }},
+            //'receipt_id': {{ .receipt_id }}, // Do not include b/c we are inserting.
             'customer': '',
             'payment_method': 1,
             'has_purchased_online': false,
@@ -125,17 +125,8 @@
             'shipping_country': '',
             'shipping_postal': '',
         }, function(json_result) {
-                    // Process the meta information.
-      //              $(json_result).each(function(iter,meta){
-    //
-                                        // Process the results search data.
-  //                                      $(meta['results']).each(function(iter,val){
-//                                                                var receipt_id = val['receipt_id'];
             var receipt_id = json_result['receipt_id'];
             window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/customer";
         });
-        
-        
-            
     }
 </script>
