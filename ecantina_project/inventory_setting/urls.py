@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from inventory_setting.views import admin
 from inventory_setting.views import org
 from inventory_setting.views import stores
 from inventory_setting.views import employees
@@ -7,6 +8,9 @@ from inventory_setting.views import tag
 
 
 urlpatterns = patterns('',
+                       
+    # Admin
+    url(r'^inventory/(\d+)/(\d+)/settings/administrator$', admin.admin_settings_page),
     # Org
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', org.org_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/update_org_administrator$',org.ajax_update_org_administrator),

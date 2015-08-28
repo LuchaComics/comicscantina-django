@@ -1,0 +1,67 @@
+{% include 'api/imageupload.html' %}
+{% include 'api/organization.html' %}
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+                  
+    function ajax_save() {
+        // Once the organization has been updated, we will need to manually
+        // update the user account.
+        var data2 = new FormData();
+        data2.append('first_name', $('#id_first_name').val());
+        data2.append('last_name', $('#id_last_name').val());
+        data2.append('email', $('#id_email').val());
+        data2.append('old_password', $('#id_old_password').val());
+        data2.append('password', $('#id_password').val());
+        data2.append('password_repeated', $('#id_password_repeated').val());
+                      
+        // Send the AJAX request
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/update_org_administrator';
+        jQuery.ajax({
+            url: url,
+            data: data2,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+                    window.location = '';
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+</script>

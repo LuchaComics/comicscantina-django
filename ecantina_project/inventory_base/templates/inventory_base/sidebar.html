@@ -190,6 +190,11 @@
                    <!-- inventory menu items -->
                    <ul id="settings" class="nav sidebar-subnav collapse">
                        <li class="sidebar-subnav-header">Settings</li>
+                       <li class={% if tab == 'admin_settings' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/administrator" title="Administration">
+                               <span>Administrator</span>
+                           </a>
+                       </li>
                        <li class={% if tab == 'org_settings' %}" active" {% else %}" "{% endif %}>
                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/organization" title="Organization">
                                <span>Organization</span>
