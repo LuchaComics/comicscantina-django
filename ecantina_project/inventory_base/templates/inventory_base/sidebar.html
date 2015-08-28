@@ -96,7 +96,7 @@
                     <!-- inventory menu header -->
                     <a href="#inventory" title="Inventory" data-toggle="collapse" class="collapsed" aria-expanded="false">
                         <em class="icon-book-open"></em>
-                        <div class="label label-warning pull-right">5</div>
+                        <!--<div class="label label-warning pull-right">5</div>-->
                         <span data-localize="sidebar.nav.INVENTORY">Inventory</span>
                     </a>
                     <!-- inventory menu items -->
@@ -109,13 +109,13 @@
                         </li>
                         <li class={% if tab == 'comic_list' %}" active" {% else %}" "{% endif %}>
                             <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/products" title="View Inventory">
-                                <div class="label label-danger pull-right">2</div>
+                                <!--<div class="label label-danger pull-right">2</div>-->
                                 <span>View Inventory</span>
                             </a>
                         </li>
                         <li class={% if tab == 'print' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_label/comics" title="Print Labels">
-                                <div class="label label-primary pull-right">2</div>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics" title="Print Labels">
+                                <!--<div class="label label-primary pull-right">2</div>-->
                                 <span>Print Labels</span>
                             </a>
                         </li>
