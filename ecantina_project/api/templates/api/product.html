@@ -47,7 +47,7 @@
         // Setup depending on whether we are inserting or updating.
         var type = "POST"; // Insert.
         var url = "/api/products/";
-        if (data['id'] > 0) {
+        if (data['product_id'] > 0) {
             type = "PUT"; // Update
             url += data['product_id'] + "/";
         }

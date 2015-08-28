@@ -26,11 +26,11 @@
                 }
             }
         });
-    {% if product_form.instance.product_id > 0 %}
+                      
         // If we are to edit the product, make sure we load all the tags
         // associated with this product.
         ajax_populate_tags();
-    {% endif %}
+   
                       
         // Initialize the UI.
         $('#id_section').prop("disabled", true);
@@ -123,12 +123,14 @@
      *  Function will take all the tags in Product and populate the tags table.
      */
     function ajax_populate_tags() {
+    {% if product_form.instance.product_id > 0 %}
     {% for tag in product_form.instance.tags.all %}
         var tag_id = {{ tag.tag_id }};
         var tag_name = '{{ tag.name }}';
         console.log(tag_id + " "+ tag_name);
         //TODO: Add code for populating the tags.
     {% endfor %}
+    {% endif %}
     }
 
 
