@@ -10,7 +10,6 @@ from api.models.ec.organization import Organization
 from api.models.ec.section import Section
 from api.models.ec.store import Store
 from api.models.ec.imageupload import ImageUpload
-from api.models.ec.receipt import Receipt
 from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
@@ -111,9 +110,6 @@ class Product(models.Model):
     organization = models.ForeignKey(Organization)
     store = models.ForeignKey(Store)
     section = models.ForeignKey(Section)
-    
-    # Products need to be belong to a receipt once purchased.
-    receipt = models.ForeignKey(Receipt, null=True, blank=True)
     
     # Every product has a list of tags they can belong to. Tags are used
     # to track th

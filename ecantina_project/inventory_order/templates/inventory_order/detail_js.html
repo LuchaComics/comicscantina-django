@@ -47,6 +47,14 @@
     function update_receipt_status()
     {
         var status = $('#id_status').val();
+        
+        // Create our array of product ID's to include in the Receipt update.
+        var products = [];
+    {% for product in receipt.products.all %}
+        products.push({{ product.product_id }});
+    {% endfor %}
+    
+        // Update the receipt and then do nothing.
         set_receipt({
             'organization': {{ receipt.organization_id }},
             'store': {{ receipt.store_id }},
@@ -82,6 +90,7 @@
             'shipping_province': {{ receipt.shipping_province }},
             'shipping_country': {{ receipt.shipping_country }},
             'shipping_postal': {{ receipt.shipping_postal }},
+            'products': products,
         }, function(json_result) {
             // No nothing.
         });

@@ -6,6 +6,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.customer import Customer
 from api.models.ec.employee import Employee
+from api.models.ec.product import Product
 
 
 PAYMENT_METHOD_CHOICES = (
@@ -58,10 +59,6 @@ class Receipt(models.Model):
     )
     
     # Financial
-    products_count = models.PositiveSmallIntegerField(
-        default=0,
-        validators=[MinValueValidator(0),],
-    )
     sub_total = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -110,6 +107,10 @@ class Receipt(models.Model):
     shipping_province = models.CharField(max_length=63, null=True, blank=True)
     shipping_country = models.CharField(max_length=63, null=True, blank=True)
     shipping_postal = models.CharField(max_length=31, null=True, blank=True)
+
+    # This variable is used to track all the "Products" that are either
+    # checked out or are to be purchased (in cart).
+    products = models.ManyToManyField(Product, blank=True, related_name='receipt_products')
 
     def __str__(self):
         return str(self.receipt_id)
