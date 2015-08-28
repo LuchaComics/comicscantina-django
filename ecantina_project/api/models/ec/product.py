@@ -70,6 +70,10 @@ class Product(models.Model):
     # results nor are customers allowed to see this product.
     is_available = models.BooleanField(default=False)
     
+    # These two variables are used in the store.
+    is_new = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
+    
     # The following variables are to save financial information.
     sub_price = models.DecimalField( # Note: Price before discount applied.
         max_digits=10,

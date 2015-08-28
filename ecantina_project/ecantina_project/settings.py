@@ -200,6 +200,8 @@ INVENTORY_CSS_LIBRARY= [
     {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/app.css", "id":"maincss",},
     {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/theme-e.css", "id":"themecss",},
     {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/comicscantina.css", "id":"comicscantinacss",},
+    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/jquery.filer.css", "id":"jqfiler",},
+    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/themes/jquery.filer-dragdropbox-theme.css", "id":"jqfilertheme",},
                         ]
 
 INVENTORY_JS_LIBRARY_HEADER = [
@@ -229,6 +231,7 @@ INVENTORY_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"inventory/js/flot-annual_sales_chart.js",},
     {"type":"text/javascript", "src":"inventory/js/dropzone/dropzone.js",},
     {"type":"text/javascript", "src":"inventory/js/app.js",},
+    {"type":"text/javascript", "src":"inventory/js/jquery.filer.min.js",},
 ]
 
 STORE_CSS_LIBRARY= [
