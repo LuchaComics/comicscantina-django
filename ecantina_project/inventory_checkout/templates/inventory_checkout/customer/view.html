@@ -1,8 +1,6 @@
 {% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
-<!-- Main section-->
 <section>
     <!-- Page content-->
     <div class="content-wrapper p0 bg-gray-lighter">
@@ -58,8 +56,7 @@
                         </div>
                     </div>
                     <!-- /.New Customer -->
-                    
-                    
+
                     <!-- Returning Customer -->
                     <div class="panel-body pt0" id="return-customer-info-panel" {% if receipt.customer == None %}style="display:none;"{% endif %}>
                         <div class="col-sm-12">
@@ -123,7 +120,5 @@
         </div>
     </div>
 </section>
-
 {% include "inventory_checkout/customer/js.html" %}
-
 {% endblock content %}

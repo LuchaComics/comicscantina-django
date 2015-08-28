@@ -1,4 +1,6 @@
-<!-- this is mainly for data that needs to be loaded when the page is loaded -->
+{% include 'api/receipt.html' %}
+{% include 'api/customer.html' %}
+<!-- INVENTORY CHECKOUT JAVASCRIPT FILE STARTS HERE -->
 <input type="hidden" id="nav_tracker" value="{% if receipt.customer_id == None %}2{% else %}3{% endif %}" />
 <script>
     //-------------------------------------//
@@ -24,7 +26,8 @@
         });
            
         // Check to see if this receipt has already been processed.
-        // If it already has then leave UI.
+        // If it already has then leave UI. This is a defensive code to prevent
+        // any tampering once a receipt has been transacted.
         if ('{{ receipt.has_finished }}' == 'True') {
             window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout';
         }
