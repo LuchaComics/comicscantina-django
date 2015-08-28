@@ -97,7 +97,6 @@ DATABASES = {
 
 (10) Create the application(s).
 python manage.py startapp inventory_base
-python manage.py startapp inventory_add_product
 python manage.py startapp inventory_checkout
 python manage.py startapp inventory_order
 python manage.py startapp inventory_help
@@ -134,7 +133,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'captcha',
     'inventory_base',
-    'inventory_add_product',
     'inventory_checkout',
     'inventory_order'
     'inventory_help',

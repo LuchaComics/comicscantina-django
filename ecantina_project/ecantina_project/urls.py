@@ -36,7 +36,6 @@ urlpatterns = [
     url(r'', include('register.urls')),
     url(r'', include('login.urls')),
     url(r'', include('inventory_base.urls')),
-    url(r'', include('inventory_add_product.urls')),
     url(r'', include('inventory_checkout.urls')),
     url(r'', include('inventory_order.urls')),
     url(r'', include('inventory_customer.urls')),

@@ -13,12 +13,12 @@ from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
 from api.models.ec.comic import Comic
-from inventory_add_product.forms import IssueForm
+from inventory_products.forms import IssueForm
 
 
 @login_required(login_url='/inventory/login')
 def search_comics_page(request, org_id, store_id):
-    return render(request, 'inventory_add_product/comic_search/search.html',{
+    return render(request, 'inventory_products/comic/search/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'tab':'add',

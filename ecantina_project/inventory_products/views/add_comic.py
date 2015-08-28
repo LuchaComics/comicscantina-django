@@ -17,10 +17,10 @@ from api.models.ec.comic import Comic
 from api.models.ec.product import Product
 from api.models.ec.category import Category
 from api.models.ec.tag import Tag
-from inventory_add_product.forms import IssueForm
-from inventory_add_product.forms import ComicForm
-from inventory_add_product.forms import ImageUploadForm
-from inventory_add_product.forms import ProductForm
+from inventory_products.forms import IssueForm
+from inventory_products.forms import ComicForm
+from inventory_products.forms import ImageUploadForm
+from inventory_products.forms import ProductForm
 
 
 def lazy_load_brand(issue):
@@ -80,7 +80,7 @@ def comic_page(request, org_id, store_id, issue_id, comic_id):
         product_form.fields["section"].queryset = sections
 
     # Render page
-    return render(request, 'inventory_add_product/comic_add/view.html',{
+    return render(request, 'inventory_products/comic/modify/view.html',{
         'org': org,
         'store': store,
         'issue': issue,
