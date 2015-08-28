@@ -4,32 +4,26 @@
      *  Function will either insert or update depending on whether "org_id"
      *  parameter was used.
      */
-    function set_organization(id, data, callback)
+    function set_organization(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
+        var type = "POST"; // Insert.
         var url = "/api/organizations/";
-        
-        id = parseInt(id);
-        if (id > 0) {
+        if (data['id'] > 0) {
             type = "PUT"; // Update
-            url += id + "/";
+            url += data['org_id'] + "/";
         }
-    
         jQuery.ajax({
             url: url,
             data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
             type: type,
+            traditional: true,
             success: function(json_result){
                 // Debugging code
-                var json_text = JSON.stringify(json_result, null, 2);
-                console.log(json_text);
-                    
-                // Call back the function with the JSON results.
-                callback(json_result);
+                //var json_text = JSON.stringify(json_result, null, 2);
+                //console.log(json_text);
+                
+                callback(json_result); // Call back the function with the JSON results.
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);

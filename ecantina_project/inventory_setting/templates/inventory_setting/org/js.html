@@ -72,36 +72,37 @@
     }
 
     function ajax_save() {
-        // Fetch the data from the view and encode it into a "FormData" object.
-        var data = new FormData();
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('joined', $('#id_joined').val());
-        data.append('email', $('#id_email').val());
-        data.append('upload_id', $('#id_hidden_upload_id').val());
-        data.append('name', $('#id_name').val());
-        data.append('description', $('#id_description').val());
-        data.append('phone', $('#id_phone').val());
-        data.append('fax', $('#id_fax').val());
-        data.append('website', $('#id_website').val());
-        data.append('twitter_url', $('#id_twitter_url').val());
-        data.append('facebook_url', $('#id_facebook_url').val());
-        data.append('instagram_url', '');
-        data.append('linkedin_url', '');
-        data.append('github_url', '');
-        data.append('google_url', '');
-        data.append('youtube_url', '');
-        data.append('flickr_url', '');
-        data.append('street_number', $('#id_street_number').val());
-        data.append('street_name', $('#id_street_name').val());
-        data.append('unit_number', $('#id_unit_number').val());
-        data.append('city', $('#id_city').val());
-        data.append('country', $('#id_country').val());
-        data.append('province', $('#id_province').val());
-        data.append('postal', $('#id_postal').val());
-        data.append('org_id', '{{ org.org_id }}');
         
+        parseInt( $('#id_hidden_upload_id').val() )
+        
+        var arr = {
+            'org_id': {{ org.org_id }},
+            'email': $('#id_email').val(),
+            'upload_id': $('#id_hidden_upload_id').val(),
+            'name': $('#id_name').val(),
+            'description': $('#id_description').val(),
+            'phone': $('#id_phone').val(),
+            'fax': $('#id_fax').val(),
+            'website': $('#id_website').val(),
+            'twitter_url': $('#id_twitter_url').val(),
+            'facebook_url': $('#id_facebook_url').val(),
+            'instagram_url': '',
+            'linkedin_url': '',
+            'github_url': '',
+            'google_url': '',
+            'youtube_url': '',
+            'flickr_url': '',
+            'street_number': $('#id_street_number').val(),
+            'street_name': $('#id_street_name').val(),
+            'unit_number': $('#id_unit_number').val(),
+            'city': $('#id_city').val(),
+            'country': $('#id_country').val(),
+            'province': $('#id_province').val(),
+            'postal': $('#id_postal').val(),
+        };
+                
         // Send the "FormData" object to be sent through REST and get updated.
-        set_organization({{ org.org_id }}, data, function(json_result) {
+        set_organization(arr, function(json_result) {
             window.location = '';                         
         });
     }

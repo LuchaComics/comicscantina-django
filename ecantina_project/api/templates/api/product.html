@@ -49,7 +49,7 @@
         var url = "/api/products/";
         if (data['id'] > 0) {
             type = "PUT"; // Update
-            url += data['id'] + "/";
+            url += data['product_id'] + "/";
         }
         console.log(url);
         jQuery.ajax({
