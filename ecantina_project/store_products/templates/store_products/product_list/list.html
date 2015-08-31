@@ -30,25 +30,23 @@
                     </div>
                     <div id="collapseCategory" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            <ul class="nav nav-pills nav-stacked tree">
-                                <li class="active dropdown-tree open-tree"><a class="dropdown-tree-a"> <span
-                                        class="badge pull-right">42</span> Comics </a>
-                                    <ul class="category-level-2 dropdown-menu-tree">
-                                        <li class="dropdown-tree">
-                                            <a class="dropdown-tree-a" href="sub-category.html">Tshirt</a>
-                                        </li>
-                                        <li><a> Shoes</a></li>
-                                        <li><a> Shirt</a></li>
-                                        <li><a>T shirt</a></li>
-                                        <li><a href="sub-category.html"> Shirt</a></li>
-                                        <li><a href="sub-category.html">Fragrances</a></li>
-                                        <li><a href="sub-category.html">Scarf</a></li>
-                                        <li><a href="sub-category.html">Sandal</a></li>
-                                        <li><a href="sub-category.html">Underwear</a></li>
-                                        <li><a href="sub-category.html">Winter Collection</a></li>
-                                        <li><a href="sub-category.html">Men Accessories</a></li>
-                                    </ul>
-                                </li>
+                            <ul class="nav nav-pills nav-stacked tree" id="category-list">
+
+                                {% for category in categories %}
+                                    {% if category.parent_id == 0 %}
+                                        <li class='active dropdown-tree open-tree'>
+                                            <a class='dropdown-tree-a'> {{ category.name }} </a>
+                                            <ul class='category-level-2 dropdown-menu-tree' id='cat-tree-{{ category.category_id }}'>
+                                                {% for subcategory in categories %}
+                                                    {% if subcategory.parent_id == category.category_id %}
+                                                        <li><a>{{ subcategory.name }}</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                            </li>
+                                    {% endif %}
+                                {% endfor %}
+
                             </ul>
                         </div>
                     </div>
@@ -62,101 +60,11 @@
                     </div>
                     <div id="collapseBrand" class="panel-collapse collapse in">
                         <div class="panel-body smoothscroll maxheight300">
+                            {% for brand in brands %}
                             <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="0"/>
-                                    Armani </label>
+                                <label><input type="checkbox" name="tour" value="0"/> {{ brand.name }}</label>
                             </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="1"/>
-                                    Gucci </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="2"/>
-                                    Louis Vuitton </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Chanel </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Roberto Cavalli </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Valentino </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Ralph Lauren </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Miu Miu </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    McQueen </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    adidas </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Nike </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Jimmy Choo </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Bottega Veneta </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Donna Karan </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Oscar de la Renta </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Tods </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Burberry </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Michael Kors </label>
-                            </div>
-                            <div class="block-element">
-                                <label>
-                                    <input type="checkbox" name="tour" value="3"/>
-                                    Mulberry </label>
-                            </div>
+                            {% endfor %}
                             <div class="block-element">
                                 <label> &nbsp; </label>
                                 <!-- keep it blank // -->

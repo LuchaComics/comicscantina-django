@@ -16,6 +16,7 @@ from api.models.ec.wishlist import Wishlist
 from api.models.ec.pulllist import Pulllist
 from api.models.ec.pulllistsubscription import PulllistSubscription
 from api.models.ec.tag import Tag
+from api.models.ec.brand import Brand
 from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
 from api.models.ec.category import Category
@@ -139,6 +140,10 @@ class TagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ('tag_id', 'name', 'discount', 'discount_type', 'organization',)
 
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = ('brand_id', 'name',)
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
