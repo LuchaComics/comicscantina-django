@@ -22,7 +22,7 @@ class OrganizationForm(forms.ModelForm):
         }
         widgets = {
            'name': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Organization Name'
            }),
            'description': Textarea(attrs={
@@ -31,79 +31,79 @@ class OrganizationForm(forms.ModelForm):
                 'style':'height:100px;',
             }),
             'street_number': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Street #'
             }),
             'street_name': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Street Name'
             }),
             'unit_number': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Unit #'
             }),
             'city': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter City'
             }),
             'province': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Province / State'
             }),
             'country': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Country'
             }),
             'postal': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Postal Code / Zip'
             }),
             'website': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Website URL'
             }),
             'email': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Email Address'
             }),
             'phone': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Phone Number'
             }),
             'fax': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Fax Number'
             }),
             'facebook_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Facebook URL'
             }),
             'twitter_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Twitter URL'
             }),
             'instagram_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Instagram URL'
             }),
             'linkedin_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter LinkedIn URL'
             }),
             'github_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter GitHub URL'
             }),
             'google_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Google+ URL'
             }),
             'youtube_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter YouTube URL'
             }),
             'flickr_url': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Flicker URL'
             }),
         }

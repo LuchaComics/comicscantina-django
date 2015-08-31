@@ -19,15 +19,15 @@ class UserForm(forms.ModelForm):
         }
         widgets = {
             'first_name': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter First Name'
             }),
             'last_name': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Last Name'
             }),
             'email': TextInput(attrs={
-                'class': u'form-control mb-lg',
+                'class': u'form-control',
                 'placeholder': u'Enter Email Address'
             }),
         }

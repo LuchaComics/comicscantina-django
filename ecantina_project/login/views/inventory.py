@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from inventory.forms.loginform import LoginForm
+from inventory_base.forms.loginform import LoginForm
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 

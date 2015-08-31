@@ -1,13 +1,11 @@
 {% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
-<!-- Main section-->
 <section>
     <!-- Page content-->
     <div class="content-wrapper p0 bg-gray-lighter">
         <div class="header w100 bb m0 p-lg bg-white">
-            <h3 class="m0 b0 p0"><em class="fa fa-cog mr"></em>Settings <em class="fa fa-angle-right pl pr"></em>  Organization</h3>
+            <h3 class="m0 b0 p0"><em class="fa fa-cog mr"></em>Settings <em class="fa fa-angle-right pl pr"></em>  General</h3>
         </div>
         <div class="clearfix"></div>
         <!-- START row 1 -->
@@ -15,16 +13,50 @@
             <div class="col-sm-12">
                 <!-- START panel-->
                 <div id="locations-panel" class="clearfix panel panel-default m-lg">
-                    <form class="form-horizontal">
-                        <div class="panel-tabs w100 p m0">
-                            <ul class="tab-list clearfix center-block">
-                                <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
-                                <li class="tab"></li></ul>
-                            <div class="clearfix"></div>
-                        </div>
+                    <div class="panel-tabs w100 p m0">
+                        <ul class="tab-list clearfix center-block">
+                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                            <li class="tab"></li>
+                        </ul>
                         <div class="clearfix"></div>
-                        <div class="panel-body panel-body-main">
-                            <div class="col-sm-12 mt-lg">
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="panel-body panel-body-main">
+                        <div class="col-sm-12 mt-lg">
+                            <div class="col-sm-5">
+                                <div class="jumbotron bg-gray-lighter">
+                                    <h3 class="p0 mt0 mb-lg">Organization Logo</h3>
+                                    <p class="mb0 text-justify">This is where you can upload your organization or store's logo.  If your stores have a different logo, you can set a logo for them as well in the <a href="settings_locations.html">Location Settings</a> section Your logos will appear on your store page, on emails to customers, and on receipt and order printouts for customers.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <div class="col-md-8">
+                                        <!-- Upload ID -->
+                                        <input type="hidden" id="id_hidden_upload_id" value="{{ upload_id }}" />
+                                        <!-- /.Upload ID -->
+                                        {% if employee.organization.logo.image == '' %}
+                                        <img src="" style="height:140px;width:140px;" alt="Store Logo"
+                                        class="img-thumbnail center-block mb0 add-cover-image"
+                                        name="logo-image" id="logo-image" />
+                                        {% else %}
+                                        <img src="{{ employee.organization.logo.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
+                                        class="img-thumbnail center-block mb0 add-cover-image"
+                                        name="logo-image" id="logo-image" />
+                                        {% endif %}
+                                        <label class="form-control btn btn-success mt10 curp" >
+                                            <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Logo...
+                                            <input type="file" class="form-control mb10 hide" name="logo-image"
+                                            id="id_image" onchange="ajax_upload_image();" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <form class="form-horizontal">
+                            <div class="col-sm-12">
+                                <hr class="pb" />
                                 <div class="col-sm-5">
                                     <div class="jumbotron bg-gray-lighter">
                                         <h3 class="p0 mt0 mb-lg">Organization Details</h3>
@@ -39,124 +71,22 @@
                                             {{ field }}
                                         </div>
                                     </div>
-                                     {% endfor %}
+                                    {% endfor %}
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                            <div class="col-sm-12">
-                                <hr class="pb" />
-                                <div class="col-sm-5">
-                                    <div class="jumbotron bg-gray-lighter">
-                                        <h3 class="p0 mt0 mb-lg">Logo</h3>
-                                        <p class="mb0 text-justify">You may enter a logo. Your logo will appear on your store page, on emails to customers, and on receipt and order printouts.</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <label for="file-logo-square" class="col-md-4 control-label">Logo</label>
-                                        <div class="col-md-8">
-                                            <!-- Upload ID -->
-                                            <input type="hidden" id="id_hidden_upload_id" value="{{ upload_id }}"/>
-                                            <!-- /.Upload ID -->
-                                            
-                                            {% if employee.organization.logo.image == '' %}
-                                            <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                                class="img-thumbnail center-block mb0 add-cover-image"
-                                                name="logo-image" id="logo-image">
-                                            {% else %}
-                                            <img src="{{ employee.organization.logo.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
-                                                    class="img-thumbnail center-block mb0 add-cover-image"
-                                                    name="logo-image" id="logo-image">
-                                            {% endif %}
-                                                    
-                                            <label class="form-control btn btn-success mt10 curp" >
-                                                <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Logo...
-                                                <input type="file" class="form-control mb10 hide" name="logo-image"
-                                                        id="id_image" onchange="ajax_upload_image();"/>
-                                            </label>
-                                        </div>
-                                    </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="col-sm-12">
-                                <hr class="pb" />
-                                <div class="col-sm-5">
-                                    <div class="jumbotron bg-gray-lighter">
-                                        <h3 class="p0 mt0 mb-lg">Admin Information</h3>
-                                        <p class="mb0 text-justify">This is your account's contact and location information.  This is only for the account owner and will not be displayed to customers.</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <label for="txt-owner-joindate" class="col-md-4 control-label">User Since</label>
-                                        <div class="col-md-8">
-                                            {{ form.joined }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-owner-fname" class="col-md-4 control-label">Name</label>
-                                        <div class="col-md-4 mb-sm">
-                                            {{ user_form.first_name }}
-                                        </div>
-                                        <div class="col-md-4">
-                                            {{ user_form.last_name }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-owner-email" class="col-md-4 control-label">Email Address</label>
-                                        <div class="col-md-8">
-                                            {{ user_form.email }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-owner-oldpass" class="col-md-4 control-label">Old Password</label>
-                                        <div class="col-md-8">
-                                            {{ user_form.old_password }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-owner-newpass" class="col-md-4 control-label">New Password</label>
-                                        <div class="col-md-8">
-                                            {{ user_form.password }}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-owner-newpass" class="col-md-4 control-label">Retype New Password</label>
-                                        <div class="col-md-8">
-                                            {{ user_form.password_repeated }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                        <div class="panel-footer">
-                            <button onclick="ajax_save();" type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
-                                <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <button onclick="ajax_save();" type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                            <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
+                        </button>
+                    </div>
                 </div>
                 <!-- END panel-->
             </div>
         </div>
     </div>
 </section>
-
-<!-- Page footer-->
-<footer>
-    <span>&copy; 2015 - Comics Cantina</span>
-</footer>
-
-<!----------------------------------------------------------------------------->
-
-<!-- Modal -->
-<div id="ajax_modal_placeholder"
-   name="ajax_modal_placeholder"></div>
-<!-- end modal -->
-
-<!----------------------------------------------------------------------------->
-
 {% include "inventory_setting/org/js.html" %}
-
 {% endblock content %}

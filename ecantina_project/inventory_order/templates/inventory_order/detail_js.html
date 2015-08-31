@@ -47,43 +47,51 @@
     function update_receipt_status()
     {
         var status = $('#id_status').val();
-        var data = new FormData();
-        data.append('format', 'json');
-        data.append('organization', '{{ receipt.organization_id }}');
-        data.append('store', '{{ receipt.store_id }}');
-        data.append('employee', '{{ receipt.employee_id }}');
-        data.append('receipt_id', '{{ receipt.receipt_id }}');
-        data.append('customer', '{{ receipt.customer_id }}');
-        data.append('payment_method', '{{ receipt.payment_method }}');
-        data.append('has_purchased_online', '{{ receipt.has_purchased_online }}');
-        data.append('has_tax', '{{ receipt.has_tax }}');
-        data.append('tax_rate', '{{ receipt.tax_rate }}');
-        data.append('tax_amount', '{{ receipt.tax_amount }}');
-        data.append('sub_total', '{{ receipt.sub_total }}');
-        data.append('discount_amount', '{{ receipt.discount_amount }}');
-        data.append('total_amount', '{{ receipt.total_amount }}');
-        data.append('has_finished', '{{ receipt.has_finished }}');
-        data.append('has_paid', '{{ receipt.has_paid }}');
-        data.append('status', status);
-        data.append('billing_first_name', '{{ receipt.billing_first_name }}');
-        data.append('billing_last_name', '{{ receipt.billing_last_name }}');
-        data.append('billing_address', '{{ receipt.billing_address }}');
-        data.append('billing_email', '{{ receipt.billing_email }}');
-        data.append('billing_phone', '{{ receipt.billing_phone }}');
-        data.append('billing_city', '{{ receipt.billing_city }}');
-        data.append('billing_province', '{{ receipt.billing_province }}');
-        data.append('billing_country', '{{ receipt.billing_country }}');
-        data.append('billing_postal', '{{ receipt.billing_postal }}');
-        data.append('shipping_first_name', '{{ receipt.shipping_first_name }}');
-        data.append('shipping_last_name', '{{ receipt.shipping_last_name }}');
-        data.append('shipping_address', '{{ receipt.shipping_address }}');
-        data.append('shipping_email', '{{ receipt.shipping_email }}');
-        data.append('shipping_phone', '{{ receipt.shipping_phone }}');
-        data.append('shipping_city', '{{ receipt.shipping_city }}');
-        data.append('shipping_province', '{{ receipt.shipping_province }}');
-        data.append('shipping_country', '{{ receipt.shipping_country }}');
-        data.append('shipping_postal', '{{ receipt.shipping_postal }}');
-        set_receipt({{ receipt.receipt_id }}, data, function(json_result) {
+        
+        // Create our array of product ID's to include in the Receipt update.
+        var products = [];
+    {% for product in receipt.products.all %}
+        products.push({{ product.product_id }});
+    {% endfor %}
+    
+        // Update the receipt and then do nothing.
+        set_receipt({
+            'organization': {{ receipt.organization_id }},
+            'store': {{ receipt.store_id }},
+            'employee': {{ receipt.employee_id }},
+            'receipt_id': {{ receipt.receipt_id }},
+            'customer': {{ receipt.customer_id }},
+            'payment_method': {{ receipt.payment_method }},
+            'has_purchased_online': {{ receipt.has_purchased_online }},
+            'has_tax': {{ receipt.has_tax }},
+            'tax_rate': {{ receipt.tax_rate }},
+            'tax_amount': {{ receipt.tax_amount }},
+            'sub_total': {{ receipt.sub_total }},
+            'discount_amount': {{ receipt.discount_amount }},
+            'total_amount': {{ receipt.total_amount }},
+            'has_finished': {{ receipt.has_finished }},
+            'has_paid': {{ receipt.has_paid }},
+            'status': status,
+            'billing_first_name': {{ receipt.billing_first_name }},
+            'billing_last_name': {{ receipt.billing_last_name }},
+            'billing_address': {{ receipt.billing_address }},
+            'billing_email': {{ receipt.billing_email }},
+            'billing_phone': {{ receipt.billing_phone }},
+            'billing_city': {{ receipt.billing_city }},
+            'billing_province': {{ receipt.billing_province }},
+            'billing_country': {{ receipt.billing_country }},
+            'billing_postal': {{ receipt.billing_postal }},
+            'shipping_first_name': {{ receipt.shipping_first_name }},
+            'shipping_last_name': {{ receipt.shipping_last_name }},
+            'shipping_address': {{ receipt.shipping_address }},
+            'shipping_email': {{ receipt.shipping_email }},
+            'shipping_phone': {{ receipt.shipping_phone }},
+            'shipping_city': {{ receipt.shipping_city }},
+            'shipping_province': {{ receipt.shipping_province }},
+            'shipping_country': {{ receipt.shipping_country }},
+            'shipping_postal': {{ receipt.shipping_postal }},
+            'products': products,
+        }, function(json_result) {
             // No nothing.
         });
     }

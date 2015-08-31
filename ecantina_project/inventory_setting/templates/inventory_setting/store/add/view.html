@@ -1,7 +1,6 @@
 {% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
 <!-- Main section-->
 <section>
     <!-- Page content-->
@@ -23,7 +22,7 @@
                                     <em class="fa fa-plus-square pr">
                                     </em>
                                     <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/new"
-                                      style="color: #fff;">
+                                        style="color: #fff;">
                                         Add Store
                                     </a>
                                 </li>
@@ -36,142 +35,137 @@
                                 </li>
                                 {% empty %}
                                 {% endfor %}
-                                </ul>
+                            </ul>
                             <div class="clearfix"></div>
                         </div>
                         <div class="clearfix"></div>
-                            <div class="panel-body panel-body-main">
-                                <!-- Logo -->
-                                <div class="col-sm-12 mt-lg">
-                                    <div class="col-sm-5">
-                                        <div class="jumbotron bg-gray-lighter">
-                                            <h3 class="p0 mt0 mb-lg">Store Logo</h3>
-                                            <p class="mb0 text-justify">This is where you can upload this store's logo.  This logo will appear with this store on your about store page, and also will be on receipt and order printouts that were made at this store.</p>
-                                        </div>
+                        <div class="panel-body panel-body-main">
+                            <!-- Logo -->
+                            <div class="col-sm-12 mt-lg">
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Store Logo</h3>
+                                        <p class="mb0 text-justify">This is where you can upload this store's logo.  This logo will appear with this store on your about store page, and also will be on receipt and order printouts that were made at this store.</p>
                                     </div>
-                                    <div class="col-sm-7">
-                                        <!-- Upload ID -->
-                                        <input type="hidden" id="id_hidden_upload_id" value=""/>
-                                        <!-- /.Upload ID -->
-                                        
-                                        <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                           class="img-thumbnail center-block mb0 add-cover-image"
-                                            name="logo-image" id="logo-image">
-                                    
+                                </div>
+                                <div class="col-sm-7">
+                                    <!-- Upload ID -->
+                                    <input type="hidden" id="id_hidden_upload_id" value=""/>
+                                    <!-- /.Upload ID -->
+                                    <img src="" style="height:140px;width:140px;" alt="Store Logo"
+                                        class="img-thumbnail center-block mb0 add-cover-image"
+                                        name="logo-image" id="logo-image">
                                         <label class="form-control btn btn-success mt10 curp" >
                                             <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Store Logo...
                                             <input type="file" class="form-control mb10 hide" name="logo-image"
-                                                     id="id_image" onchange="ajax_upload_image();"/>
+                                            id="id_image" onchange="ajax_upload_image();"/>
                                         </label>
+                                        </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <!-- /.Logo -->
+                            <form class="form-horizontal">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-5">
+                                        <div class="jumbotron bg-gray-lighter">
+                                            <h3 class="p0 mt0 mb-lg">Essential Information</h3>
+                                            <p class="mb0 text-justify">This is the system settings information.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="form-group">
+                                            <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
+                                            <div class="col-md-8">
+                                                {{ form.name }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txt-store-about" class="col-md-4 control-label">About</label>
+                                            <div class="col-md-8">
+                                                {{ form.description }}
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="id_email" value="" />
+                                        <input type="hidden" id="id_wednesday_to" value="" />
+                                        <input type="hidden" id="id_wednesday_from" value="" />
+                                        <input type="hidden" id="id_friday_to" value="" />
+                                        <input type="hidden" id="id_website" value="" />
+                                        <input type="hidden" id="id_tuesday_from" value="" />
+                                        <input type="hidden" id="id_friday_from" value="" />
+                                        <input type="hidden" id="id_sunday_from" value="" />
+                                        <input type="hidden" id="id_monday_from" value="" />
+                                        <input type="hidden" id="id_sunday_to" value="" />
+                                        <input type="hidden" id="id_monday_to" value="" />
+                                        <input type="hidden" id="id_saturday_from" value="" />
+                                        <input type="hidden" id="id_tuesday_to" value="" />
+                                        <input type="hidden" id="id_thursday_to" value="" />
+                                        <input type="hidden" id="id_saturday_to" value="" />
+                                        <input type="hidden" id="id_thursday_from" value="" />
+                                        <input type="hidden" id="id_phone" value="" />
+                                        <input type="hidden" id="id_fax" value="" />
+                                        <div class="form-group">
+                                            <label for="txt-store-street" class="col-md-4 control-label">Street Number</label>
+                                            <div class="col-md-8">
+                                                {{ form.street_number }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txt-store-street" class="col-md-4 control-label">Street Name</label>
+                                            <div class="col-md-8">
+                                                {{ form.street_name }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txt-store-street" class="col-md-4 control-label">Unit Number</label>
+                                            <div class="col-md-8">
+                                                {{ form.unit_number }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txt-store-city" class="col-md-4 control-label">City</label>
+                                            <div class="col-md-8">
+                                                {{ form.city }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="txt-store-postcode" class="col-md-4 control-label">Zip/Postal Code</label>
+                                            <div class="col-md-8">
+                                                {{ form.postal }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel-store-country" class="col-md-4 control-label">Country</label>
+                                            <div class="col-md-8">
+                                                {{ form.country }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="sel-store-province" class="col-md-4 control-label">State/Province</label>
+                                            <div class="col-md-8">
+                                                {{ form.province }}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                </div><!-- /.Logo -->
-                                <form class="form-horizontal">
-                                    <div class="col-sm-12">
-                                        <div class="col-sm-5">
-                                            <div class="jumbotron bg-gray-lighter">
-                                                <h3 class="p0 mt0 mb-lg">Essential Information</h3>
-                                                <p class="mb0 text-justify">This is the system settings information.</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <div class="form-group">
-                                                <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
-                                                <div class="col-md-8">
-                                                    {{ form.name }}
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="txt-store-about" class="col-md-4 control-label">About</label>
-                                                <div class="col-md-8">
-                                                    {{ form.description }}
-                                                </div>
-                                            </div>
-                                            <input type="hidden" id="id_email" value="" />
-                                            <input type="hidden" id="id_wednesday_to" value="" />
-                                            <input type="hidden" id="id_wednesday_from" value="" />
-                                            <input type="hidden" id="id_friday_to" value="" />
-                                            <input type="hidden" id="id_website" value="" />
-                                            <input type="hidden" id="id_tuesday_from" value="" />
-                                            <input type="hidden" id="id_friday_from" value="" />
-                                            <input type="hidden" id="id_sunday_from" value="" />
-                                            <input type="hidden" id="id_monday_from" value="" />
-                                            <input type="hidden" id="id_sunday_to" value="" />
-                                            <input type="hidden" id="id_monday_to" value="" />
-                                            <input type="hidden" id="id_saturday_from" value="" />
-                                            <input type="hidden" id="id_tuesday_to" value="" />
-                                            <input type="hidden" id="id_thursday_to" value="" />
-                                            <input type="hidden" id="id_saturday_to" value="" />
-                                            <input type="hidden" id="id_thursday_from" value="" />
-                                            <input type="hidden" id="id_phone" value="" />
-                                            <input type="hidden" id="id_fax" value="" />
-                           
-                           
-                            <div class="form-group">
-                               <label for="txt-store-street" class="col-md-4 control-label">Street Number</label>
-                               <div class="col-md-8">
-                                   {{ form.street_number }}
-                               </div>
-                           </div>
-                           <div class="form-group">
-                               <label for="txt-store-street" class="col-md-4 control-label">Street Name</label>
-                               <div class="col-md-8">
-                                   {{ form.street_name }}
-                               </div>
-                           </div>
-                           <div class="form-group">
-                               <label for="txt-store-street" class="col-md-4 control-label">Unit Number</label>
-                               <div class="col-md-8">
-                                   {{ form.unit_number }}
-                               </div>
-                           </div>
-                           <div class="form-group">
-                               <label for="txt-store-city" class="col-md-4 control-label">City</label>
-                               <div class="col-md-8">
-                                   {{ form.city }}
-                               </div>
-                           </div>
-                           <div class="form-group">
-                               <label for="txt-store-postcode" class="col-md-4 control-label">Zip/Postal Code</label>
-                               <div class="col-md-8">
-                                   {{ form.postal }}
-                               </div>
-                           </div>
-                           <div class="form-group">
-                               <label for="sel-store-country" class="col-md-4 control-label">Country</label>
-                               <div class="col-md-8">
-                                   {{ form.country }}
-                               </div>
-                           </div>
-                           <div class="form-group">
-                               <label for="sel-store-province" class="col-md-4 control-label">State/Province</label>
-                               <div class="col-md-8">
-                                   {{ form.province }}
-                               </div>
-                           </div>
-                           
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="clearfix"></div>
+                                </div>
+                                
+                                <!-- ADD -->
+                                <div class="panel-footer">
+                                    <button onclick="ajax_save_add();"
+                                        type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                                        <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
+                                    </button>
+                                </div>
+                                <!-- /.ADD -->
+                            </form>
                         </div>
-                        <div class="panel-footer">
-                            
-                            <button onclick="ajax_save_add();"
-                                       type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
-                                <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <!-- END panel-->
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
             </div>
+            <!-- END panel-->
         </div>
     </div>
 </section>
-
 {% include "inventory_setting/store/add/js.html" %}
-
 {% endblock content %}

@@ -28,37 +28,21 @@
      *  Function will either insert or update depending on whether "help_id"
      *  parameter was used.
      */
-    function set_helprequest(help_id, subject, subject_url, message, screenshot, employee, store, organization, callback)
+    function set_helprequest(data, callback)
     {
-        var data = new FormData();
-        data.append('format', 'json');
-        data.append('subject', subject);
-        data.append('subject_url', subject_url);
-        data.append('message', message);
-        if (screenshot > 0)
-        {
-            data.append('screenshot', screenshot);
-        }
-        data.append('employee', employee);
-        data.append('store', store);
-        data.append('organization', organization);
-        
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
-         var url = "/api/helprequests/";
-        if (help_id > 0) {
+        var type = "POST"; // Insert.
+        var url = "/api/helprequests/";
+        if (data['id'] > 0) {
             type = "PUT"; // Update
-            url += help_id + "/";
-            data.append('help_id', help_id);
+            url += data['id'] + "/";
         }
-            
+        console.log(url);
         jQuery.ajax({
             url: url,
             data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
             type: type,
+            traditional: true,
             success: function(json_result){
                 // Debugging code
                 var json_text = JSON.stringify(json_result, null, 2);

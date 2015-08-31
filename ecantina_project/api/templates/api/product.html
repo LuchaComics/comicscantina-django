@@ -1,6 +1,6 @@
 <script>
     /**
-     *  Lists all the products that have the inputted "issue_id".
+     *  Lists all the products based on teh filtering criteria.
      */
     function filter_products(criteria, callback)
     {
@@ -47,11 +47,11 @@
         // Setup depending on whether we are inserting or updating.
         var type = "POST"; // Insert.
         var url = "/api/products/";
-        if (data['id'] > 0) {
+        if (data['product_id'] > 0) {
             type = "PUT"; // Update
-            url += data['id'] + "/";
+            url += data['product_id'] + "/";
         }
-        console.log(url);
+        
         jQuery.ajax({
             url: url,
             data: data,

@@ -12,7 +12,7 @@ from api.models.ec.store import Store
 from api.models.ec.customer import Customer
 from api.models.ec.pulllist import Pulllist
 from api.models.ec.pulllistsubscription import PulllistSubscription
-from inventory.forms.customerform import CustomerForm
+from inventory_base.forms.customerform import CustomerForm
 
 
 @login_required(login_url='/inventory/login')

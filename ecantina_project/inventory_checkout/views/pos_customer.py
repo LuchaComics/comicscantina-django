@@ -1,7 +1,4 @@
-import json
 from django.shortcuts import render
-from django.core import serializers
-from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -13,7 +10,7 @@ from api.models.ec.receipt import Receipt
 
 @login_required(login_url='/inventory/login')
 def checkout_page(request, org_id, store_id, receipt_id):
-    return render(request, 'inventory_checkout/customer/index.html',{
+    return render(request, 'inventory_checkout/customer/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'receipt': Receipt.objects.get(receipt_id=receipt_id),
