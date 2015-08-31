@@ -123,12 +123,23 @@
      *  Function will take all the tags in Product and populate the tags table.
      */
     function ajax_populate_tags() {
+    var new_tag = '';
+
     {% if product_form.instance.product_id > 0 %}
     {% for tag in product_form.instance.tags.all %}
         var tag_id = {{ tag.tag_id }};
         var tag_name = '{{ tag.name }}';
         console.log(tag_id + " "+ tag_name);
-        //TODO: Add code for populating the tags.
+
+        new_tag = '<tr style="display:none;"><td>' +
+                  '<input data-tagid=" ' + tag_id + '" type="text" class="item-tag form-control" name="item-tag[]" readonly value="' + tag_name + '" />' +
+                   '</td><td>' +
+                   '<button type="button" role="button" class="btn btn-danger"><em class="section-button fa fa-remove"></em></button></td></tr>';
+
+        $('#item-tag-table').find('tr:last').after(new_tag);
+        $('#item-tag-table').find('tr:last').fadeIn(1000);
+        $('#item-tag-table tbody').find('select.item-tag option:selected').attr('disabled','true');
+
     {% endfor %}
     {% endif %}
     }
