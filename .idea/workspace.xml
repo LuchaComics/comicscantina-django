@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b95e8f74-60b1-4032-9842-f84ba0d349fd" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ecantina_project/store_about/templates/store_about/main/about.html" afterPath="$PROJECT_DIR$/ecantina_project/store_about/templates/store_about/about.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ecantina_project/store_about/templates/store_about/main/js.html" afterPath="$PROJECT_DIR$/ecantina_project/store_about/templates/store_about/js.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ecantina_project/store_landpage/templates/store_landpage/main/index.html" afterPath="$PROJECT_DIR$/ecantina_project/store_landpage/templates/store_landpage/index.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/ecantina_project/store_landpage/templates/store_landpage/main/js.html" afterPath="$PROJECT_DIR$/ecantina_project/store_landpage/templates/store_landpage/js.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ecantina_project/store_about/views/about.py" afterPath="$PROJECT_DIR$/ecantina_project/store_about/views/about.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ecantina_project/store_landpage/views/landpage.py" afterPath="$PROJECT_DIR$/ecantina_project/store_landpage/views/landpage.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ecantina_project/media/readme.txt" afterPath="$PROJECT_DIR$/ecantina_project/media/readme.txt" />
+    <list default="true" id="b95e8f74-60b1-4032-9842-f84ba0d349fd" name="Default" comment="merge with dev">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="py-ecantina.iws" />
@@ -683,16 +676,16 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18510638" sideWeight="0.6002554" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27930683" sideWeight="0.49787235" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21721311" sideWeight="0.5085197" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19712526" sideWeight="0.4871795" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16207951" sideWeight="0.5170213" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.235474" sideWeight="0.5170213" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16614583" sideWeight="0.39974457" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16207951" sideWeight="0.48297873" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.235474" sideWeight="0.48297873" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2553305" sideWeight="0.5041408" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
