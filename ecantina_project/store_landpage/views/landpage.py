@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 def front_page(request, org_id=0):
-    return render(request, 'store_landpage/main/index.html',{
+    return render(request, 'store_landpage/index.html',{
         'local_css_library' : settings.STORE_CSS_LIBRARY,
         'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
         'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,

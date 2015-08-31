@@ -10,7 +10,7 @@ from api.models.ec.store import Store
 def about_page(request, org_id=0):
     organization = Organization.objects.get(org_id=org_id)
 
-    return render(request, 'store_about/main/about.html',{
+    return render(request, 'store_about/about.html',{
         'org' : organization,
         'stores' : Store.objects.filter(organization=organization),
         'local_css_library' : settings.STORE_CSS_LIBRARY,
