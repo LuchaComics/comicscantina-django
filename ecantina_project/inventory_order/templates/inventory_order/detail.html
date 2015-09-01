@@ -88,7 +88,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for product in products.all %}
+                                        {% for product in receipt.products.all %}
                                         <tr>
                                             <td>{{ product.product_id }}</td>
                                             <td>{{ product.name }}</td>
