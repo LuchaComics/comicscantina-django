@@ -2,6 +2,7 @@
 {% include 'api/issue.html' %}
 {% include 'api/series.html' %}
 {% include 'api/product.html' %}
+{% include 'api/comic.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -217,16 +218,16 @@
                 }
 
                 var comiclist = '<div class="table-responsive" style="background-color:inherit;">' +
-                        '<table class="table table-hover" style="color:#fff !important;">' +
-                        '<thead>' +
-                        '<tr>' +
-                        '<th style="color:#fff;width:15%;text-align:center;">Cover Image</th>' +
-                        '<th style="color:#fff;width:20%;text-align:center;">Issue</th>' +
-                        '<th style="color:#fff;width:20%;text-align:center;">Date</th>' +
-                        '<th style="color:#fff;width:25%;text-align:center;"></th>' +
-                        '</tr>' +
-                        '</thead>' +
-                        '<tbody>';
+                    '<table class="table table-hover" style="color:#fff !important;">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th style="color:#fff;width:15%;text-align:center;">Cover Image</th>' +
+                    '<th style="color:#fff;width:20%;text-align:center;">Issue</th>' +
+                    '<th style="color:#fff;width:20%;text-align:center;">Date</th>' +
+                    '<th style="color:#fff;width:25%;text-align:center;"></th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>';
 
                 // Every row has a 'data-series-id' field so lets extract it.
                 var series_id = $(this).data('series-id');

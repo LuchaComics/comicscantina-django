@@ -185,7 +185,8 @@
      *  tables.
      */
     function ajax_set_data() {
-        var issue_id = {{ issue.issue_id }}
+        var series_id = {{ issue.series_id }};
+        var issue_id = {{ issue.issue_id }};
         
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
@@ -251,10 +252,11 @@
             // Extract the 'product_id' and use it to tie it to the
             // 'comic' model.
             var product_id = json_result['product_id'];
-                    
+            
             var data = {
                 'product': parseInt(product_id),
                 'issue': parseInt(issue_id),
+                'series': parseInt(series_id),
                 'age': $('#id_age').val(),
                 'type': 1,
                 'store': $('#id_store').val(),
@@ -337,7 +339,7 @@
 
     function ajax_refresh_table(issue_id)
     {
-        list_comics_by(issue_id, function(json_result) {
+        filter_comics_by(issue_id, 0, function(json_result) {
             generate_table(json_result);
         });
     }
