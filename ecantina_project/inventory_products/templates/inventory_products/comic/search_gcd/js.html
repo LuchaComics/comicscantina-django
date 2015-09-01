@@ -25,6 +25,11 @@
                 }
             }
         });
+                      
+        // Load up Modal.
+        $('body').on('click', '.btn-add-cart', function(){
+            $('#quick-add-modal').modal('show');
+        });
                   
         // DYNAMIC SEARCHING (AKA AJAX SEARCHING)
         // The following code will provide all the necessary functions

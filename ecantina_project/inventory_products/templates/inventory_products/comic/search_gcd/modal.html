@@ -1,0 +1,163 @@
+{% load staticfiles %}
+<!-- Modal -->
+<div class="modal fade" id="quick-add-modal" tabindex="-1" role="dialog" aria-labelledby="quick-add-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Quick-Add Item To Inventory</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="col-sm-12 clearfix">
+                        <div class="col-sm-5">
+                            <div class="jumbotron bg-gray-lighter">
+                                <h3 class="p0 mt0 mb-lg">Comic Information</h3>
+                                <p class="mb0 text-justify">This is the information about the comic you are adding.  Quick-adding a comic from the search page will fill in a number of fields and default values for you.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-7 mt-lg">
+                            <div class="form-group">
+                                <label for="txt-price" class="col-md-4 control-label">Price</label>
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="dollar-addon">$</span>
+                                        <input id="txt-price" name="price" class="form-control" required type="text" value="5.00">
+                                            </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sel-location" class="col-md-4 control-label">Location / Section</label>
+                                <div class="col-md-4 mb">
+                                    <select id="sel-location" name="location" class="form-control" required>
+                                        <option value="">Location</option>
+                                        <option value="store">Store</option>
+                                        <option value="warehouse1">Warehouse 1</option>
+                                        <option value="warehouse2">Warehouse 2</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 pl-sm">
+                                    <select id="sel-section" name="section" class="form-control" required>
+                                        <option value="">Section</option>
+                                        <option value="boxa">Box A</option>
+                                        <option value="binb">Bin B</option>
+                                        <option value="Wall 1">Wall Rack 1</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- cgc rating -->
+                            <div class="col-sm-4 text-right" style="">
+                                <input type="checkbox" name="cgc-rated" id="cb-cgc-rated" style="position:relative;top:3px;" />
+                                <label for="cb-cgc-rated" class="control-label">&nbsp;&nbsp;CGC Rated</label>
+                            </div>
+                            <div class="col-sm-4 p10 pt0">
+                                <select class="form-control" name="label-color" id="sel-label-color" disabled>
+                                    <option value="">Label Colour</option>
+                                    <option value="Purple">Purple</option>
+                                    <option value="Red">Red</option>
+                                    <option value="Blue">Blue</option>
+                                    <option value="Yellow">Yellow</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4 p10 pt0">
+                                <select class="form-control" name="cgc-rating" id="sel-cgc-rating">
+                                    <option value="">Condition</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-12">
+                        <hr class="pb" />
+                        <div class="col-sm-5">
+                            <div class="jumbotron bg-gray-lighter">
+                                <h3 class="p0 mt0 mb-lg">Category, Promotions &amp; Tags</h3>
+                                <p class="mb0 text-justify">This is to help your customers find what they are looking for in the online store. Select a category that this item fits into, and add tags to set a discount for the item, or to have it be shown on the front page as a featured or new item.</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group mb-xl">
+                                <label for="sel-category" class="col-md-4 control-label">Category</label>
+                                <div class="col-md-8">
+                                    <select id="sel-category" name="age" class="form-control" required>
+                                        <option value="">Category 1 > Subcategory 1</option>
+                                        <option value="">Category 1 > Subcategory 2</option>
+                                        <option value="">Category 2 > Subcategory 1</option>
+                                        <option value="">Category 2 > Subcategory 2 > Subcategory 1</option>
+                                        <option value="">Category 2 > Subcategory 3</option>
+                                        <option value="">Category 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="item-tag-table table">
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Add/Remove</th>
+                                    </tr>
+                                    <!-- new section -->
+                                    <tr>
+                                        <td>
+                                            <select id="sel-item-tag" name="tag" class="item-tag form-control" required>
+                                                <option value="">Tags</option>
+                                                <option value="tag1" disabled>Tag 1</option>
+                                                <option value="tag2">Tag2</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-labeled btn-success btn-add">
+                                                <span class="btn-label"><em class="fa fa-plus"></em></span><span style="font-size:12pt;">Add</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- filled out section -->
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="item-tag form-control" name="item-tag[]" value="Tag 3" readonly />
+                                        </td>
+                                        <td>
+                                            <button type="button" role="button" class="btn btn-danger">
+                                                <em class="section-button fa fa-remove"></em>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- filled out section -->
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="item-tag form-control" name="item-tag[]" value="Tag 4" readonly />
+                                        </td>
+                                        <td>
+                                            <button type="button" role="button" class="btn btn-danger">
+                                                <em class="section-button fa fa-remove"></em>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
+                    <span class="btn-label"><i class="fa fa-remove"></i></span>Cancel
+                </button>
+                <div class="col-sm-6 pull-right">
+                    <div class="col-xs-3">
+                        <label class="control-label lbl-qty" style="position:relative;top:-2px;font-size:14pt;">Quantity</label>
+                    </div>
+                    <div class="col-xs-3">
+                        <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
+                            </div>
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-labeled btn-lg btn-success pull-right mb mr" style="font-size:14pt;">
+                            <span class="btn-label"><i class="fa fa-plus-square"></i></span>Add Items
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.Modal -->
