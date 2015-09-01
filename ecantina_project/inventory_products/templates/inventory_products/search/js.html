@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% include 'api/issue.html' %}
 {% include 'api/series.html' %}
+{% include 'api/comic.html' %}
 {% include 'api/product.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
@@ -119,9 +120,7 @@
         html += '<tr>';
         html += '<th style="width:10%;text-align:center;">Image</th>';
         html += '<th style="width:17%;">Name</th>';
-        html += '<th style="width:17%;">Brand</th>';
         html += '<th style="width:17%;">Type</th>';
-        html += '<th style="width:8%;">Stock</th>';
         html += '<th style="width:10%;">Price</th>';
         html += '<th style="width:8%;text-align:center;">View Details</th>';
         html += '<th data-check-all="">';
@@ -149,25 +148,48 @@
             $(val2['results']).each(function(iter2,val){
                 var product_id = val['product_id'];
                 position_index += 1;
-                html += '<div class="col-sm-6 col-md-3 col-lg-2 product-item add clearfix" ';
-                html += 'data-position="'+position_index+'" data-product-id="'+product_id+'">';
-                            
                 html += '<tr>';
                 html += '<td style="text-align:center;">';
-                html += '<img class="product-image center-block" alt="product-title" src="img/inventory/test-images/batman-5.jpg" width="50">';
+                                    
+                // Load "Missing Cover" image if there is no cover image,
+                // else display the cover.
+                var image_url = val['image_url'];
+                if (image_url == null || image_url == "")
+                {
+                    var url = '{% static "inventory/img/missing_cover.png" %}';
+                    html += '<img class="product-image center-block" width="50" alt="product-title" src="'+url+'" />';
+                }
+                else
+                {
+                    html += '<img class="product-image center-block" width="50" alt="product-title" src="'+image_url+'" />';
+                }
+               
                 html += '</td>';
-                html += '<td>Product Name</td>';
-                html += '<td>Brand</td>';
-                html += '<td>Type</td>';
-                html += '<td>50</td>';
-                html += '<td>$100.00</td>';
+                                    
+                                    
+                html += '<td>' + val['name'] + '</td>';
+                if (val['type'] == 1) {
+                    html += '<td>' + 'Comic' + '</td>';
+                } else if (val['type'] == 2) {
+                    html += '<td>' + 'Furniture' + '</td>';
+                } else if (val['type'] == 3) {
+                    html += '<td>' + 'Coins' + '</td>';
+                } else {
+                    html += '<td>' + '</td>';
+                }
+                
+                html += '<td>$' + val['price'] + '</td>';
                 html += '<td style="text-align:center;">';
-                html += '<button style="margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled">';
-                html += '<span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart';
-                html += '</button>';
-                html += '<button style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled">';
+                                    
+                //html += '<button style="margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled">';
+                //html += '<span class="btn-label"><i class="fa fa-plus-square"></i></span>Add To Cart';
+                //html += '</button>';
+                                    
+                html += '<button onclick="ajax_load_product('+product_id+','+val['type'] +');"';
+                html += 'style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled">';
                 html += '<span class="btn-label"><i class="fa fa-edit"></i></span>View Details';
                 html += '</button>';
+                                    
                 html += '</td>';
                 html += '<td style="text-align:center;">';
                 html += '<div style="margin-left:auto;margin-right:auto;" class="checkbox c-checkbox">';
@@ -176,20 +198,9 @@
                 html += '</td>';
                 html += '</tr>';
                                     
-                /*
-                // Load "Missing Cover" image if there is no cover image,
-                // else display the cover.
-                var image_url = val['image_url'];
-                if (image_url == null || image_url == "")
-                {
-                    var url = '{% static "inventory/img/missing_cover.png" %}';
-                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+url+'" />';
-                }
-                else
-                {
-                    html += '<img class="product-image center-block" width="100" alt="product-title" src="'+image_url+'" />';
-                }
-                                                
+                
+                
+                    /*
                 html += '<div class="product-item-details">';
                 html += '<h4 class="comic-issue product-title m-sm center-block text-center">'+val['name']+'</h4>';
                 html += '<span class="center-block comic-date text-muted text-center">$'+val['price']+'</span>';
@@ -202,6 +213,28 @@
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
+    function ajax_load_product(product_id, product_type)
+    {
+        var link_url = "";
+        if (product_type == 1) {
+            get_comic_by_product_id(product_id, function(json_result) {
+                $(json_result).each(function(iter,val2){
+                    $(val2['results']).each(function(iter2,val){
+                        var issue_id = val['issue'];
+                        link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                        window.location=link_url;
+                    });
+                });
+            });
+        } else if (product_type == 2) {
+            //TODO: Implement.
+        } else if (product_type == 3) {
+            //TODO: Implement.
+        } else {
+            //TODO: Implement.
+        }
     }
 
 </script>

@@ -93,42 +93,53 @@
                
                 <!-- INVENTORY -->
                 <li class=" ">
-                    <!-- inventory menu header -->
-                    <a href="#inventory" title="Inventory" data-toggle="collapse" class="collapsed" aria-expanded="false">
-                        <em class="icon-book-open"></em>
-                        <!--<div class="label label-warning pull-right">5</div>-->
-                        <span data-localize="sidebar.nav.INVENTORY">Inventory</span>
+                    <a href="#products" title="Inventory" data-toggle="collapse">
+                        <em class="fa fa-tags"></em>
+                        <span>Products</span>
                     </a>
-                    <!-- inventory menu items -->
-                    <ul id="inventory" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
-                        <li class="sidebar-subnav-header">Inventory</li>
-                        <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/comics" title="Add Inventory">
-                                <span>Add Inventory Item</span>
-                            </a>
-                        </li>
-                        <li class={% if tab == 'comic_list' %}" active" {% else %}" "{% endif %}>
+                    <ul id="products" class="nav sidebar-subnav collapse">
+                        <li class="sidebar-subnav-header">Products</li>
+                        <li class={% if tab == 'search_products' %}" active" {% else %}" "{% endif %}>
                             <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/products" title="View Inventory">
-                                <!--<div class="label label-danger pull-right">2</div>-->
-                                <span>View Inventory</span>
+                                <span>View All</span>
                             </a>
                         </li>
-                        <li class={% if tab == 'print' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics" title="Print Labels">
-                                <!--<div class="label label-primary pull-right">2</div>-->
-                                <span>Print Labels</span>
+                        <li class=" ">
+                            <!-- inventory menu header -->
+                            <a href="#comics" title="Comics" data-toggle="collapse">
+                                <em class="fa fa-book"></em>
+                                <span>Comics</span>
                             </a>
+                            <!-- comics menu items -->
+                            <ul id="comics" class="nav sidebar-subnav collapse">
+                                <li class="sidebar-subnav-header">Comics</li>
+                                 <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/comics" title="Add Inventory">
+                                        <span>Add Comics</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="inventory_comics_view.html" title="View Comics">
+                                        <span>View Comics</span>
+                                    </a>
+                                </li>
+                                <li class={% if tab == 'pulllist' %}" active" {% else %}" "{% endif %}>
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist" title="Pull List">
+                                        <span>Pull List</span>
+                                    </a>
+                                </li>
+                                
+                                <li class={% if tab == 'print' %}" active" {% else %}" "{% endif %}>
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics" title="Print Labels">
+                                        <span>Print Labels</span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
                         </li>
                     </ul>
                 </li>
                 
-                <!-- PULL LIST -->
-                <li class={% if tab == 'pulllist' %}" active" {% else %}" "{% endif %}>
-                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist" title="Pull List">
-                        <em class="icon-list"></em>
-                        <span>Pull List</span>
-                    </a>
-                </li>
                 
                 <!-- ORDERS -->
                 <li class={% if tab == 'orders' %}" active" {% else %}" "{% endif %}>
