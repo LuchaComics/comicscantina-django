@@ -18,10 +18,24 @@ from inventory_products.forms import IssueForm
 
 @login_required(login_url='/inventory/login')
 def search_comics_page(request, org_id, store_id):
-    return render(request, 'inventory_products/comic/search/view.html',{
+    return render(request, 'inventory_products/comic/search_gcd/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'tab':'add',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+@login_required(login_url='/inventory/login')
+def search_products_page(request, org_id, store_id):
+    return render(request, 'inventory_products/comic/search_ec/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'tab':'prduct_comics',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

@@ -114,12 +114,12 @@
                             <ul id="comics" class="nav sidebar-subnav collapse">
                                 <li class="sidebar-subnav-header">Comics</li>
                                  <li class={% if tab == 'add' %}" active" {% else %}" "{% endif %}>
-                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/comics" title="Add Inventory">
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/comics" title="Add Comics">
                                         <span>Add Comics</span>
                                     </a>
                                 </li>
-                                <li class=" ">
-                                    <a href="inventory_comics_view.html" title="View Comics">
+                                <li class={% if tab == 'prduct_comics' %}" active" {% else %}" "{% endif %}>
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/products/comics" title="View Comics">
                                         <span>View Comics</span>
                                     </a>
                                 </li>
