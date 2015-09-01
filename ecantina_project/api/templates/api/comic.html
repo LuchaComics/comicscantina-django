@@ -26,9 +26,9 @@
     }
 
     /**
-     *  Lists all the products that have the inputted "issue_id".
+     *  Lists all the comics by inputted "product_id" parameter.
      */
-    function get_comic_by_product_id(product_id, callback)
+    function filter_comics_by_product_id(product_id, callback)
     {
         var url = "/api/comics/?format=json&product="+product_id;
     

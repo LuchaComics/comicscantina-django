@@ -123,14 +123,14 @@
         html += '<th style="width:17%;">Type</th>';
         html += '<th style="width:10%;">Price</th>';
         html += '<th style="width:8%;text-align:center;">View Details</th>';
-        html += '<th data-check-all="">';
-        html += '<div title="" data-original-title="" data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">';
-        html += '<label>';
-        html += '<input type="checkbox">';
-        html += '<span class="fa fa-check"></span>';
-        html += '</label>';
-        html += '</div>';
-        html += '</th>';
+        //html += '<th data-check-all="">';
+        //html += '<div title="" data-original-title="" data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">';
+        //html += '<label>';
+        //html += '<input type="checkbox">';
+        //html += '<span class="fa fa-check"></span>';
+        //html += '</label>';
+        //html += '</div>';
+        //html += '</th>';
         html += '</tr>';
         html += '</thead>';
         html += '<tbody>';
@@ -191,23 +191,12 @@
                 html += '</button>';
                                     
                 html += '</td>';
-                html += '<td style="text-align:center;">';
-                html += '<div style="margin-left:auto;margin-right:auto;" class="checkbox c-checkbox">';
-                html += '<label><input type="checkbox"><span class="fa fa-check"></span></label>';
-                html += '</div>';
-                html += '</td>';
+                //html += '<td style="text-align:center;">';
+                //html += '<div style="margin-left:auto;margin-right:auto;" class="checkbox c-checkbox">';
+                //html += '<label><input type="checkbox"><span class="fa fa-check"></span></label>';
+                //html += '</div>';
+                //html += '</td>';
                 html += '</tr>';
-                                    
-                
-                
-                    /*
-                html += '<div class="product-item-details">';
-                html += '<h4 class="comic-issue product-title m-sm center-block text-center">'+val['name']+'</h4>';
-                html += '<span class="center-block comic-date text-muted text-center">$'+val['price']+'</span>';
-                html += '<label style=";margin-top:2px;margin-left:auto;margin-right:auto;text-align:center;width:100%;">&nbsp;&nbsp;</label>';
-                html += '</div>';
-                html += '</div>';
-                 */
             });
         });
         html += '</tbody></table></div>';
@@ -219,7 +208,8 @@
     {
         var link_url = "";
         if (product_type == 1) {
-            get_comic_by_product_id(product_id, function(json_result) {
+            // Get a single comic (Note: product-comic are 1-to-1.
+            filter_comics_by_product_id(product_id, function(json_result) {
                 $(json_result).each(function(iter,val2){
                     $(val2['results']).each(function(iter2,val){
                         var issue_id = val['issue'];
