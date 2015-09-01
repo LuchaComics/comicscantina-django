@@ -254,6 +254,8 @@
             var product_id = json_result['product_id'];
             
             var data = {
+                'organization': {{ org.org_id }},
+                'store': parseInt( $('#id_store').val() ),
                 'product': parseInt(product_id),
                 'issue': parseInt(issue_id),
                 'series': parseInt(series_id),

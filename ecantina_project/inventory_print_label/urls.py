@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
-from . import views
+from inventory_print_label.views import comic
 
 
 urlpatterns = patterns('',
-    url(r'^inventory/(\d+)/(\d+)/print_labels/comics$', views.print_labels_page),
+    url(r'^inventory/(\d+)/(\d+)/print_labels/comics$', comic.comics_print_labels_page),
 )

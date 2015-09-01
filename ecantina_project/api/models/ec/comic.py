@@ -106,10 +106,12 @@ class Comic(models.Model):
     is_retail_incentive_variant = models.BooleanField(default=False)
     is_newsstand_edition = models.BooleanField(default=False)
     
+    organization = models.ForeignKey(Organization)
+    store = models.ForeignKey(Store)
     product = models.ForeignKey(Product)
     series = models.ForeignKey(GCDSeries)
     issue = models.ForeignKey(GCDIssue)
-   
+    
     def __str__(self):
         return str(self.issue)
 
