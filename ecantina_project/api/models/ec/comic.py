@@ -76,6 +76,7 @@ class Comic(models.Model):
         db_table = 'ec_comics'
     
     comic_id = models.AutoField(primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
     is_cgc_rated = models.BooleanField(default=False)
     age = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(4)],

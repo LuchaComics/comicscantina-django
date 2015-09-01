@@ -22,7 +22,7 @@ class ComicFilter(django_filters.FilterSet):
     is_canadian_priced_variant = django_filters.BooleanFilter(name="is_canadian_priced_variant")
     class Meta:
         model = Comic
-        fields = ['comic_id', 'is_cgc_rated', 'age', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'series', 'product',]
+        fields = ['comic_id', 'is_cgc_rated', 'age', 'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'series', 'product', 'created',]
 
 
 class ComicViewSet(viewsets.ModelViewSet):
