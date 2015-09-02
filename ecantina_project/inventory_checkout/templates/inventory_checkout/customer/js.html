@@ -136,80 +136,89 @@
      */
     function handle_new_customer()
     {
-        /////////////////////
-        // INSERT CUSTOMER //
-        /////////////////////
-        var data = new FormData();
-        data.append('format', 'json');
-        data.append('email', $('#id_email').val());
-        data.append('name', $('#id_name').val());
-        data.append('phone', $('#id_phone').val());
-        data.append('street_number', $('#id_street_number').val());
-        data.append('street_name', $('#id_street_name').val());
-        data.append('unit_number', $('#id_unit_number').val());
-        data.append('city', $('#id_city').val());
-        data.append('country', $('#id_country').val());
-        data.append('province', $('#id_province').val());
-        data.append('postal', $('#id_postal').val());
-        data.append('first_name', $('#id_first_name').val());
-        data.append('last_name', $('#id_last_name').val());
-        data.append('has_consented', $('#id_has_consented').is(':checked'));
-
-        var url = "/api/customers/";
+        var name = $('#id_first_name').val() + ' ' + $('#id_last_name').val();
+        var arr = {
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'email': $('#id_email').val(),
+            'billing_name': name,
+            'billing_phone': $('#id_phone').val(),
+            'billing_email': $('#id_email').val(),
+            'billing_street_number': $('#id_street_number').val(),
+            'billing_street_name': $('#id_street_name').val(),
+            'billing_unit_number': $('#id_unit_number').val(),
+            'billing_city': $('#id_city').val(),
+            'billing_country': $('#id_country').val(),
+            'billing_province': $('#id_province').val(),
+            'billing_postal': $('#id_postal').val(),
+            'shipping_name': name,
+            'shipping_phone': $('#id_phone').val(),
+            'shipping_email': $('#id_email').val(),
+            'shipping_street_number': $('#id_street_number').val(),
+            'shipping_street_name': $('#id_street_name').val(),
+            'shipping_unit_number': $('#id_unit_number').val(),
+            'shipping_city': $('#id_city').val(),
+            'shipping_country': $('#id_country').val(),
+            'shipping_province': $('#id_province').val(),
+            'shipping_postal': $('#id_postal').val(),
+            'has_consented': $('#id_has_consented').is(':checked'),
+        };
         
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                ////////////////////
-                // UPDATE Receipt //
-                ////////////////////
-                // Extract the "customer_id" value.
-                var customer_id = json_result['customer_id'];
-                    
-                // Create the cart object.
-                var data2 = new FormData();
-                data2.append('format', 'json');
-                data2.append('employee', '{{ receipt.employee_id }}');
-                data2.append('receipt_id', '{{ receipt.receipt_id }}');
-                data2.append('is_closed', 'false');
-                data2.append('customer', customer_id);
-                    
-                var url2 = "/api/receipts/{{ receipt.receipt_id }}/";
-                    
-                jQuery.ajax({
-                    url: url2,
-                    data: data2,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    type: 'PUT',
-                    success: function(json_result){
-                        // Extract "receipt_id" and load up the next page.
-                        var receipt_id = json_result['receipt_id'];
-                        window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
-                        },
-                    error: function(xhr,status,error) {
-                        console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                        alert(xhr.responseText);
-                    },
-                    complete: function(xhr,status) {
-                            
-                    }
-                }); // End Cart jQuery
-                
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-                complete: function(xhr,status) {
-            
+        // Create a new customer
+        set_customer(arr, function(json_result) {
+                     
+            // Create our array of product ID's to include in the Receipt update.
+            var products = [];
+        {% for product in receipt.products.all %}
+            products.push({{ product.product_id }});
+        {% endfor %}
+                     
+            var address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
+            if (json_result['billing_unit_number']) {
+                address = json_result['billing_unit_number'] + "-" + address;
             }
+                     
+            // Update the receipt and then do nothing.
+            set_receipt({
+                'customer': json_result['customer_id'],
+                'organization': {{ receipt.organization_id }},
+                'store': {{ receipt.store_id }},
+                'employee': {{ receipt.employee_id }},
+                'receipt_id': {{ receipt.receipt_id }},
+                'payment_method': {{ receipt.payment_method }},
+                'has_purchased_online': '{{ receipt.has_purchased_online }}',
+                'has_tax': '{{ receipt.has_tax }}',
+                'tax_rate': {{ receipt.tax_rate }},
+                'tax_amount': {{ receipt.tax_amount }},
+                'sub_total': {{ receipt.sub_total }},
+                'discount_amount': {{ receipt.discount_amount }},
+                'total_amount': {{ receipt.total_amount }},
+                'has_finished': '{{ receipt.has_finished }}',
+                'has_paid': '{{ receipt.has_paid }}',
+                'status': {{ receipt.status }},
+                'billing_first_name': json_result['first_name'],
+                'billing_last_name': json_result['last_name'],
+                'billing_address': address,
+                'billing_email': json_result['email'],
+                'billing_phone': json_result['phone'],
+                'billing_city': json_result['city'],
+                'billing_province': json_result['province'],
+                'billing_country': json_result['country'],
+                'billing_postal': json_result['postal'],
+                'shipping_first_name': json_result['first_name'],
+                'shipping_last_name': json_result['last_name'],
+                'shipping_address': address,
+                'shipping_email': json_result['email'],
+                'shipping_phone': json_result['phone'],
+                'shipping_city': json_result['city'],
+                'shipping_province': json_result['province'],
+                'shipping_country': json_result['country'],
+                'shipping_postal': json_result['postal'],
+                'products': products,
+            }, function(json_result) {
+                var receipt_id = json_result['receipt_id'];
+                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
+            }); // End Receipt jQuery.
         }); // End Customer jQuery.
     }
 
