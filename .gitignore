@@ -79,6 +79,7 @@ $RECYCLE.BIN/
 .directory
 .idea  # PyCharm
 .idea/
+.idea/*
 */.idea
 */.idea/
 
