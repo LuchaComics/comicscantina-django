@@ -59,9 +59,8 @@
         var url = "/api/comics/";
         if (data['comic_id'] > 0) {
             type = "PUT"; // Update
-            url += data['id'] + "/";
+            url += data['comic_id'] + "/";
         }
-        console.log(url);
         jQuery.ajax({
             url: url,
             data: data,

@@ -252,19 +252,13 @@
             // Extract the 'product_id' and use it to tie it to the
             // 'comic' model.
             var product_id = json_result['product_id'];
-            
+            var organization_id = json_result['organization'];
+                    
             var data = {
-                'organization': {{ org.org_id }},
-                'store': parseInt( $('#id_store').val() ),
+                'organization': parseInt( organization_id ),
                 'product': parseInt(product_id),
                 'issue': parseInt(issue_id),
-                'series': parseInt(series_id),
                 'age': $('#id_age').val(),
-                'type': 1,
-                'store': $('#id_store').val(),
-                'section': $('#id_section').val(),
-                'price': $('#id_price').val(),
-                'cost': $('#id_cost').val(),
                 'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
                 'label_colour': label_colour,
                 'cgc_rating': cgc_rating,
@@ -296,7 +290,7 @@
             // If we are editing a comic, then we need to add in the comic_id
             // so the javascript function will know to make an 'update' call and
             // not a 'insert' call.
-            arr['comic_id'] = {{ comic_form.instance.comic_id }}
+            data['comic_id'] =  parseInt( {{ comic_form.instance.comic_id }} );
         {% endif %}
                     
             set_comic(data, function(json_result) {
