@@ -107,22 +107,18 @@
         });
     }
     
-    function set_customer(id, data, callback)
+    function set_customer(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
+        var type = "POST"; // Insert.
         var url = "/api/customers/";
-        if (id > 0) {
+        if (data['customer_id'] > 0) {
             type = "PUT"; // Update
-            url += id + "/";
+            url += data['customer_id'] + "/";
         }
-    
         jQuery.ajax({
             url: url,
             data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
             type: type,
             success: function(json_result){
                 // Debugging code
