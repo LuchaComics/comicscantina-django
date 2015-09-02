@@ -74,7 +74,7 @@
     /**
      *  Renders a table listing all the open cart sessions in our system.
      */
-    function generate_table(result)
+    function generate_table(json_result)
     {
         // Debugging code
         //var json_text = JSON.stringify(result, null, 2);
@@ -92,16 +92,26 @@
         html += '</thead>';
         html += '<tbody>';
         
-        $(result).each(function(iter,val){
-            var receipt_id = val['receipt_id'];
-            var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
-            html += '<tr>';
-            html += '<td>' + receipt_id + '</td>';
-            html += '<td>' + val['payer_name'] + '</td>';
-            html += '<td>' + val['last_updated'] + '</td>';
-            html += '<td>' + val['products'].length; + '</td>';
-            html += '<td>' + '<a href="' + url + '" class="btn btn-success btn-sm">View Details</a>' + '</td>';
-            html += '</tr>';
+        $(json_result).each(function(iter,val2){
+            // Update results count
+            var count = val2['count'];
+            var txt = count;
+            txt += (count > 1) ? " Results Listed" : " Result Listed";
+            $('#id_results_count').html(txt);
+                            
+            // Generate table.
+            var position_index = 0;
+            $(val2['results']).each(function(iter2,val){
+                var receipt_id = val['receipt_id'];
+                var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
+                html += '<tr>';
+                html += '<td>' + receipt_id + '</td>';
+                html += '<td>' + val['payer_name'] + '</td>';
+                html += '<td>' + val['last_updated'] + '</td>';
+                html += '<td>' + val['products'].length; + '</td>';
+                html += '<td>' + '<a href="' + url + '" class="btn btn-success btn-sm">View Details</a>' + '</td>';
+                html += '</tr>';
+            });
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
