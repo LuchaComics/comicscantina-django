@@ -358,60 +358,34 @@
         var last_name = $('#id_last_name2').val();
         var postal = $('#id_postal2').val();
         
-        // Generate the search URL.
-        var url = "/api/customers/";
-        url += "?postal=";
+        // Generate search criteria
+        var criteria = {};
         if (postal != '') {
-            url += postal;
+            criteria['postal'] = postal;
         }
-        
-        url += "&email=";
         if (email != '') {
-            url += email;
+            criteria['email'] = email;
         }
-        
-        url += "&phone=";
         if (phone != '') {
-            url += phone;
+            criteria['phone'] = phone;
         }
-        
-        url += "&first_name=";
         if (first_name != '') {
-            url += first_name;
+            criteria['first_name'] = first_name;
         }
-        
-        url += "&last_name=";
         if (last_name != '') {
-            url += last_name;
+            criteria['last_name'] = last_name;
         }
         
-        //////////
-        // LIST //
-        //////////
-        jQuery.ajax({
-            url: url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'GET',
-            success: function(result){
-                // Take the JSON results and generate a HTML table from it.
-                generate_search_results_table(result);
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                    
-            }
+        filter_customers(criteria, function(json_result) {
+            // Take the JSON results and generate a HTML table from it.
+            generate_search_results_table(json_result);
         });
     }
 
     /**
      *  Renders a table listing all the open cart sessions in our system.
      */
-    function generate_search_results_table(result)
+    function generate_search_results_table(json_result)
     {
         // Debugging code
         //var json_text = JSON.stringify(result, null, 2);
@@ -430,20 +404,30 @@
         html += '</thead>';
         html += '<tbody>';
     
-        $(result).each(function(iter,val){
-            html += '<tr>';
-            html += '<td>' + val['first_name'] + '</td>';
-            html += '<td>' + val['last_name'] + '</td>';
-            html += '<td>' + val['email'] + '</td>';
-            html += '<td>' + val['phone'] + '</td>';
-            html += '<td style="text-align:center;">';
-            html += '<div class="radio c-radio">';
-            html += '<label>';
-            html += '<input name="selected-customer" value="custid-1" type="radio" onclick="update_cart_by_set_customer_id(' + val['customer_id'] +');">';
-            html += '<span class="fa fa-circle"></span></label>';
-            html += '</div>';
-            html += '</td>';
-            html += '</tr>';
+        $(json_result).each(function(iter,val2){
+            // Update results count
+            //var count = val2['count'];
+            //var txt = count;
+            //txt += (count > 1) ? " Results Listed" : " Result Listed";
+            //$('#id_results_count').html(txt);
+                        
+            // Generate table.
+            var position_index = 0;
+            $(val2['results']).each(function(iter2,val){
+                html += '<tr>';
+                html += '<td>' + val['first_name'] + '</td>';
+                html += '<td>' + val['last_name'] + '</td>';
+                html += '<td>' + val['email'] + '</td>';
+                html += '<td>' + val['billing_phone'] + '</td>';
+                html += '<td style="text-align:center;">';
+                html += '<div class="radio c-radio">';
+                html += '<label>';
+                html += '<input name="selected-customer" value="custid-1" type="radio" onclick="update_cart_by_set_customer_id(' + val['customer_id'] +');">';
+                html += '<span class="fa fa-circle"></span></label>';
+                html += '</div>';
+                html += '</td>';
+                html += '</tr>';
+            });
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
@@ -457,34 +441,16 @@
      */
     function background_card_scanner()
     {
-        /////////
-        // GET //
-        /////////
-        var url = "/api/receipts/{{ receipt.receipt_id }}/";
-        jQuery.ajax({
-            url: url,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'GET',
-            success: function(result){
-                // Detect non-empty "customer_id".
-                if (result['customer_id'] != '')
-                {
-                    // To give the appearance of new card scanned. Only display
-                    // the message if the current customer_id of the cart is
-                    // different then what was scanned.
-                    if ( result['customer_id'] == $('#current_customer_id').val() ) {
-                        $('#id_scanner_response').html('<p><i>Customer Successfully Assigned</i></p>');
-                    }
+        get_receipt({{ receipt.receipt_id }}, function(json_result) {
+            // Detect non-empty "customer_id".
+            if (json_result['customer_id'] != '')
+            {
+                // To give the appearance of new card scanned. Only display
+                // the message if the current customer_id of the cart is
+                // different then what was scanned.
+                if ( json_result['customer_id'] == $('#current_customer_id').val() ) {
+                    $('#id_scanner_response').html('<p><i>Customer Successfully Assigned</i></p>');
                 }
-            },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
             }
         });
     }
