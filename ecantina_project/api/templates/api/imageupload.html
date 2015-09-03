@@ -4,7 +4,7 @@
      *  and run the callback function.
      */
     function list_all_imageuploads(callback) {
-        var url = "/api/imageuploads/";
+        var url = "/api/imageuploads/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,

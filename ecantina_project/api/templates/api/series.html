@@ -1,63 +1,33 @@
 <script>
     function filter_series(name, publisher_name, min_year_began, max_year_ended, language_id, country_id, callback) {
-        var url = "/api/series/";
+        var url = "/api/series/?format=json";
         
         if (name != "") {
-            url += "?name=" + name;
+            url += "&name=" + name;
         }
         
         if (publisher_name != "") {
-            if (url.length > 12) { // If we already have the special code.
-                url += "&";
-            } else {
-                url += "?";
-            }
-            
-            url += "publisher_name=" + publisher_name;
+            url += "&publisher_name=" + publisher_name;
         }
         
         min_year_began = parseInt(min_year_began);
         if (min_year_began > 0) {
-            if (url.length > 12) {
-                url += "&";
-            } else {
-                url += "?";
-            }
-            
-            url += "min_year_began=" +min_year_began;
+            url += "&min_year_began=" +min_year_began;
         }
         
         max_year_ended = parseInt(max_year_ended);
         if (max_year_ended > 0) {
-            if (url.length > 12) {
-                url += "&";
-            } else {
-                url += "?";
-            }
-            
-            url += "max_year_ended=" +max_year_ended;
+            url += "&max_year_ended=" +max_year_ended;
         }
         
         language_id = parseInt(language_id);
         if (language_id > 0) {
-            if (url.length > 12) {
-                url += "&";
-            } else {
-                url += "?";
-            }
-            
-            url += "language_id=" +language_id;
+            url += "&language_id=" +language_id;
         }
         
         country_id = parseInt(country_id);
         if (country_id > 0) {
-            if (url.length > 12) {
-                url += "&";
-            } else {
-                url += "?";
-            }
-            
-            url += "country_id=" +country_id;
+            url += "&country_id=" +country_id;
         }
         
         jQuery.ajax({
@@ -115,7 +85,7 @@
     }
 
     function get_series(subscription_id, success_callback, error_callback) {
-        var url = "/api/series/" + subscription_id + "/";
+        var url = "/api/series/" + subscription_id + "/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,

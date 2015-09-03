@@ -4,23 +4,16 @@
      *  on the search/filter parameters and run the callback function.
      */
     function list_sections(org_id, store_id, callback) {
-        var url = "/api/sections/";
+        var url = "/api/sections/?format=json";
         
         org_id = parseInt(org_id);
         if (org_id > 0) {
-            url += "?organization=" + org_id;
+            url += "&organization=" + org_id;
         }
         
         store_id = parseInt(store_id);
         if (store_id > 0) {
-            var prefix = "";
-            if (org_id > 0) {
-                prefix = "&";
-            } else {
-                prefix = "?";
-            }
-            
-            url += prefix + "store=" + store_id;
+            url += "&store=" + store_id;
         }
         
         jQuery.ajax({

@@ -4,7 +4,7 @@
      *  and run the callback function.
      */
     function list_helprequests(org_id, callback) {
-        var url = "/api/helprequests/";
+        var url = "/api/helprequests/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,

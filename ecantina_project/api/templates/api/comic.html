@@ -4,7 +4,7 @@
      */
     function filter_comics_by(issue_id, series_id, callback)
     {
-        var url = "/api/comics/?issue="+issue_id;
+        var url = "/api/comics/?format=json&issue="+issue_id;
     
         jQuery.ajax({
             url: url,

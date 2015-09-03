@@ -66,7 +66,7 @@
     }
 
     function list_customers(callback) {
-        var url = "/api/customers/";
+        var url = "/api/customers/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,
@@ -87,7 +87,7 @@
     }
 
     function search_customers(keyword, callback) {
-        var url = "/api/customers/?search="+keyword;
+        var url = "/api/customers/?format=json&search="+keyword;
         jQuery.ajax({
             url: url,
             cache: false,
@@ -139,7 +139,7 @@
     }
 
     function get_customer(customer_id, callback) {
-        var url = "/api/customers/" + customer_id + "/";
+        var url = "/api/customers/" + customer_id + "/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,
