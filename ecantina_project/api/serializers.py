@@ -25,7 +25,7 @@ from api.models.ec.category import Category
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile',)
+        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_email', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_email', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile',)
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
