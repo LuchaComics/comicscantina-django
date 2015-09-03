@@ -37,7 +37,12 @@
     });
     
     function ajax_refresh_table(status) {
-        list_receipt({{ org.org_id }}, {{ store.store_id }}, 0, status, function(json_result) {
+        var criteria = {
+            "organization": {{ org.org_id }},
+            "store": {{ store.store_id }},
+            "status": status,
+        }
+        filter_receipts(criteria, function(json_result) {
             generate_table(json_result);
         });
     }

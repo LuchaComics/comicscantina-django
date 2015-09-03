@@ -37,7 +37,11 @@
      *  we have under this employee.
      */
     function ajax_refresh_table() {
-        list_receipt({{ org.org_id }}, 0, {{ customer.customer_id }}, 0, function(json_data) {
+        var criteria = {
+            "organization": {{ org.org_id }},
+            "customer": {{ customer.customer_id }},
+        }
+        filter_receipts(criteria, function(json_data) {
             generate_table(json_data);
         });
     }
