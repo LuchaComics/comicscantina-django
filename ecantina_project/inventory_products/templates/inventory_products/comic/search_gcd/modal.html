@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% include 'api/brand.html' %}
 {% include 'api/section.html' %}
 {% include 'api/comic.html' %}
 {% include 'api/product.html' %}
@@ -257,6 +258,7 @@
     function ajax_set_data() {
         var series_id = $('#id_selected_series_id').val();
         var issue_id = $('#id_selected_issue_id').val();
+        var brand_id = $('#id_selected_brand_id').val();
     
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
@@ -299,7 +301,7 @@
             'store': parseInt( $('#id_store').val() ),
             'section': parseInt( $('#id_section').val() ),
             'receipt': '',
-            'brand': parseInt( {{ brand.brand_id }} ),
+            'brand': parseInt( brand_id ),
             'is_available': false,
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
