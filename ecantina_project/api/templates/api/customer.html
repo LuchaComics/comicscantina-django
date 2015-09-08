@@ -8,10 +8,10 @@
                 
                 // Generate our parameters
                 var param = "";
-                if (criteria[prop] == true) { // Handle "True" cases.
+                if (criteria[prop] === true) { // Handle "True" cases.
                     param = prop + "=True";
                 }
-                else if (criteria[prop] == false) { // Handle "False" cases.
+                else if (criteria[prop] === false) { // Handle "False" cases.
                     param = prop + "=False";
                 }
                 else {
