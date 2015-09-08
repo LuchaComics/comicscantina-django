@@ -2,6 +2,8 @@
 {% include 'api/issue.html' %}
 {% include 'api/series.html' %}
 {% include 'api/product.html' %}
+<input id="id_selected_issue_id" type="hidden" value="0" />
+<input id="id_selected_series_id" type="hidden" value="0" />
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -247,7 +249,8 @@
                         $(val2['results']).each(function(iter2,val){
                             // Extract some useful values.
                             var issue_id = val['issue_id'];
-                                            
+                            var series_id = val['series'];
+                                                
                             // Generate a row.
                             comiclist += '<tr>';
                                                 
@@ -273,7 +276,7 @@
                             // Buttons
                             var onclick1 = 'ajax_create_and_load_product('+issue_id+');';
                             comiclist += '<th style="text-align:center;">';
-                            comiclist += '<button onclick="'+'" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
+                            comiclist += '<button onclick="ajax_load_modal('+series_id+','+issue_id+');" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
                                                 
                             comiclist += '<button onclick="'+onclick1+'" style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>';
                             comiclist += '</th>';
@@ -365,4 +368,9 @@
         window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/0";
     }
 
+    function ajax_load_modal(series_id, issue_id)
+    {
+        $('#id_selected_issue_id').val(issue_id);
+        $('#id_selected_series_id').val(series_id);
+    }
 </script>

@@ -21,6 +21,13 @@
         
     </head>
     <body class="">
+        {% comment %}
+            This block of code is used to load any external modal
+            assets to load up, simply fill the source URL in this
+            array in the view and load it in there. 
+        {% endcomment %}
+        {% for src_url in src_urls %}{% include src_url %}{% endfor %}
+        
         <div class="wrapper">
             <!-- Navigation -->
             {% include "inventory_base/header.html" %}

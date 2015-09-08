@@ -1,4 +1,7 @@
 {% load staticfiles %}
+{% include 'api/section.html' %}
+{% include 'api/comic.html' %}
+{% include 'api/product.html' %}
 <!-- Modal -->
 <div class="modal fade" id="quick-add-modal" tabindex="-1" role="dialog" aria-labelledby="quick-add-modal">
     <div class="modal-dialog" role="document">
@@ -22,47 +25,32 @@
                                 <div class="col-md-8">
                                     <div class="input-group">
                                         <span class="input-group-addon" id="dollar-addon">$</span>
-                                        <input id="txt-price" name="price" class="form-control" required type="text" value="5.00">
-                                            </div>
+                                        {{ product_form.price }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="sel-location" class="col-md-4 control-label">Location / Section</label>
+                                <label for="sel-location" class="col-md-4 control-label">Store / Section</label>
                                 <div class="col-md-4 mb">
-                                    <select id="sel-location" name="location" class="form-control" required>
-                                        <option value="">Location</option>
-                                        <option value="store">Store</option>
-                                        <option value="warehouse1">Warehouse 1</option>
-                                        <option value="warehouse2">Warehouse 2</option>
-                                    </select>
+                                    {{ product_form.store }}
                                 </div>
                                 <div class="col-md-4 pl-sm">
-                                    <select id="sel-section" name="section" class="form-control" required>
-                                        <option value="">Section</option>
-                                        <option value="boxa">Box A</option>
-                                        <option value="binb">Bin B</option>
-                                        <option value="Wall 1">Wall Rack 1</option>
-                                    </select>
+                                    {{ product_form.section }}
                                 </div>
                             </div>
                             <!-- cgc rating -->
                             <div class="col-sm-4 text-right" style="">
-                                <input type="checkbox" name="cgc-rated" id="cb-cgc-rated" style="position:relative;top:3px;" />
+                                {{ comic_form.is_cgc_rated }}
                                 <label for="cb-cgc-rated" class="control-label">&nbsp;&nbsp;CGC Rated</label>
                             </div>
                             <div class="col-sm-4 p10 pt0">
-                                <select class="form-control" name="label-color" id="sel-label-color" disabled>
-                                    <option value="">Label Colour</option>
-                                    <option value="Purple">Purple</option>
-                                    <option value="Red">Red</option>
-                                    <option value="Blue">Blue</option>
-                                    <option value="Yellow">Yellow</option>
-                                </select>
+                                {{ comic_form.label_colour }}
                             </div>
-                            <div class="col-sm-4 p10 pt0">
-                                <select class="form-control" name="cgc-rating" id="sel-cgc-rating">
-                                    <option value="">Condition</option>
-                                </select>
+                            <div class="col-sm-4 p10 pt0" id="id_condition_rating_ui">
+                                {{ comic_form.condition_rating }}
+                            </div>
+                            <div class="col-sm-4 p10 pt0" id="id_cgc_rating_ui">
+                                {{ comic_form.cgc_rating }}
                             </div>
                         </div>
                     </div>
@@ -79,18 +67,11 @@
                             <div class="form-group mb-xl">
                                 <label for="sel-category" class="col-md-4 control-label">Category</label>
                                 <div class="col-md-8">
-                                    <select id="sel-category" name="age" class="form-control" required>
-                                        <option value="">Category 1 > Subcategory 1</option>
-                                        <option value="">Category 1 > Subcategory 2</option>
-                                        <option value="">Category 2 > Subcategory 1</option>
-                                        <option value="">Category 2 > Subcategory 2 > Subcategory 1</option>
-                                        <option value="">Category 2 > Subcategory 3</option>
-                                        <option value="">Category 3</option>
-                                    </select>
+                                    {{ product_form.category }}
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="item-tag-table table">
+                                <table id="item-tag-table" class="item-tag-table table">
                                     <tr>
                                         <th>Tag</th>
                                         <th>Add/Remove</th>
@@ -99,9 +80,9 @@
                                     <tr>
                                         <td>
                                             <select id="sel-item-tag" name="tag" class="item-tag form-control" required>
-                                                <option value="">Tags</option>
-                                                <option value="tag1" disabled>Tag 1</option>
-                                                <option value="tag2">Tag2</option>
+                                                {% for tag in tags.all %}
+                                                <option value="{{ tag.tag_id }}">{{ tag.name }}</option>
+                                                {% endfor %}
                                             </select>
                                         </td>
                                         <td>
@@ -111,30 +92,20 @@
                                         </td>
                                     </tr>
                                     <!-- filled out section -->
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="item-tag form-control" name="item-tag[]" value="Tag 3" readonly />
-                                        </td>
-                                        <td>
-                                            <button type="button" role="button" class="btn btn-danger">
-                                                <em class="section-button fa fa-remove"></em>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <!-- filled out section -->
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="item-tag form-control" name="item-tag[]" value="Tag 4" readonly />
-                                        </td>
-                                        <td>
-                                            <button type="button" role="button" class="btn btn-danger">
-                                                <em class="section-button fa fa-remove"></em>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <!-- <tr> -->
+                                    <!--     <td> -->
+                                    <!--         <input data-tagid="2" type="text" class="item-tag form-control" name="item-tag[]" value="Tag 3" readonly /> -->
+                                    <!--     </td> -->
+                                    <!--     <td> -->
+                                    <!--         <button type="button" role="button" class="btn btn-danger"> -->
+                                    <!--             <em class="section-button fa fa-remove"></em> -->
+                                    <!--         </button> -->
+                                    <!--     </td> -->
+                                    <!-- </tr> -->
+                                    <!-- /.filled out section -->
                                 </table>
                             </div>
-                        </div>
+                        </div><!-- /.Tags + Categories -->
                         <div class="clearfix"></div>
                     </div>
                 </form>
@@ -152,7 +123,7 @@
                         <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
                             </div>
                     <div class="col-xs-6">
-                        <button type="submit" class="btn btn-labeled btn-lg btn-success pull-right mb mr" style="font-size:14pt;">
+                        <button onclick="ajax_add_items();" type="button" class="btn btn-labeled btn-lg btn-success pull-right mb mr" style="font-size:14pt;">
                             <span class="btn-label"><i class="fa fa-plus-square"></i></span>Add Items
                         </button>
                     </div>
@@ -161,3 +132,249 @@
         </div>
     </div>
 </div><!-- /.Modal -->
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                  
+        // Initialize the UI.
+        $('#id_section').prop("disabled", true);
+        $('#id_label_colour').prop("disabled", true);
+        $('#id_cgc_rating_ui').hide();
+                  
+        // When the user clicks the 'Store', the 'Sections' will get filtered
+        // down to the specific location.
+        $('#id_store').on('change', function(){
+            var store_id = $(this).val();
+                if (store_id > 0)
+                {
+                    $('#id_section').prop("disabled", false);
+                    ajax_load_section_dropdown(store_id);
+                }
+            });
+                  
+            // this changes the options available in the condition rating dropdown
+            $('#id_is_cgc_rated').on('click', function(){
+                if( $(this).is(':checked') ){
+                    //alert("Checked"); // Debugging Purposes Only
+                    $('#id_label_colour').prop("disabled", false);
+                    $('#id_cgc_rating_ui').show();
+                    $('#id_condition_rating_ui').hide();
+                }
+                else {
+                    //alert("unchecked"); // Debugging Purposes Only
+                    $('#id_label_colour').prop("disabled", true);
+                    $("#id_label_colour").val($("#target option:first").val());
+                    $("#id_condition_rating").val($("#target option:first").val());
+                    $('#id_condition_rating_ui').show();
+                    $('#id_cgc_rating_ui').hide();
+                }
+            });
+                  
+            // When the 'Add' button was selected for the tag.
+            $('body').on('click', '.item-tag-table button.btn-success.btn-add', function(){
+                // Extract these values from the tag.
+                var tag_id = $('#sel-item-tag').val();
+                var name = $('#sel-item-tag option:selected').text()
+                               
+                // This code is ment to prevent duplicates from being entered.
+                var should_stop = false;
+                $('input.item-tag').each( function(i,el) {
+                    var curr = $(el).data('tagid');
+                    if (tag_id === curr) {
+                        should_stop = true;
+                    }
+                });
+                if (should_stop) {
+                    console.error("No duplicates allowed!");
+                    return;
+                }
+                    
+                if( $('#sel-item-tag').val() == null || $('#sel-item-tag').val() == '' ){
+                    console.error("No empty id values allowed");
+                }
+                else{
+                    var new_tag = '<tr style="display:none;"><td>' +
+                        '<input data-tagid="'+tag_id+'" type="text" class="item-tag form-control" name="item-tag[]" readonly value="' + name + '" />' +
+                        '</td><td>' +
+                        '<button type="button" role="button" class="btn btn-danger"><em class="section-button fa fa-remove"></em></button></td></tr>';
+                    $(this).parentsUntil('table').find('tr:last').after(new_tag);
+                    $(this).parentsUntil('table').find('tr:last').fadeIn(1000);
+                    $(this).parentsUntil('tbody').find('select.item-tag option:selected').attr('disabled','true');
+                    $('input.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
+                    $('#sel-item-tag').val('');
+                }
+            });
+                  
+            // When the 'Remove' button was selected for a tag row.
+            $('body').on('click', '.item-tag-table button.btn-danger', function(){
+                var tag = $(this).parentsUntil('tbody').find('input.item-tag').val();
+                $('select.add-item-tag').find('option').each(function(){
+                if( $(this).text() == tag )
+                    $(this).removeAttr('disabled');
+            });
+            $(this).parentsUntil('tbody').fadeOut(1000).detach().remove();
+            $('.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
+        });
+    });
+    
+    
+    /**
+     *  Function will run the inserter function multiple times depending on
+     *  the 'quantity' selected.
+     */
+    function ajax_add_items()
+    {
+        var quantity = $('#txt-quantity').val();
+        for (var i = 0; i < quantity; i++)
+        {
+            ajax_set_data();
+        }
+    }
+
+    /**
+     *  Function will either insert / update the Product, Comic, and ImageUpload
+     *  tables.
+     */
+    function ajax_set_data() {
+        var series_id = $('#id_selected_series_id').val();
+        var issue_id = $('#id_selected_issue_id').val();
+    
+        // DEFENSIVE CODE.
+        if ($('#id_age').val() == '') {
+            alert("Please select comic age");
+            console.error("Please select comic age");
+            return;
+        }
+        if ($('#id_store').val() == '') {
+            alert("Please select store");
+            console.error("Please select store");
+            return;
+        }
+        if ($('#id_section').val() == '') {
+            alert("Please select section");
+            console.error("Please select section");
+            return;
+        }
+        if ($('#id_category').val() == '') {
+            alert("Please select Category");
+            console.error("Please select category");
+            return;
+        }
+    
+        var tags = Array()
+            $('input.item-tag').each( function(i,el) {
+            tags.push( parseInt( $(el).data('tagid') ) );
+        });
+                             
+        // Insert/Update "product" model.
+        var arr = {
+            'name': '{{ issue.series.name }} ' + 'Issue #{{ issue.number }}',
+            'type': '1',
+            'is_sold': false,
+            'sub_price': 0,
+            'discount': 0,
+            'discount_type': 1,
+            'price': 0,
+            'cost': 0,
+            'organization': {{ org.org_id }},
+            'store': parseInt( $('#id_store').val() ),
+            'section': parseInt( $('#id_section').val() ),
+            'receipt': '',
+            'brand': parseInt( {{ brand.brand_id }} ),
+            'is_available': false,
+            'tags': tags,
+            'category': parseInt( $('#id_category').val() ),
+        };
+                             
+        var upload_id = $('#id_hidden_upload_id').val();
+        if (upload_id > 0) { // Add in Image seperately if one was uploaded.
+            arr['image'] = parseInt( upload_id );
+            arr['image_url'] =  $('#id_hidden_url').val();
+        }
+        
+        set_product(arr, function(json_result) {
+            // Extract the 'product_id' and use it to tie it to the
+            // 'comic' model.
+            var product_id = json_result['product_id'];
+            var organization_id = json_result['organization'];
+                                         
+            var data = {
+                'organization': parseInt( organization_id ),
+                'product': parseInt(product_id),
+                'issue': parseInt(issue_id),
+                'age': $('#id_age').val(),
+                'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
+                'label_colour': label_colour,
+                'cgc_rating': cgc_rating,
+                'condition_rating': condition_rating,
+                'is_canadian_priced_variant': $('#id_is_canadian_priced_variant').is(':checked'),
+                'is_variant_cover': $('#id_is_variant_cover').is(':checked'),
+                'is_retail_incentive_variant': $('#id_is_retail_incentive_variant').is(':checked'),
+                'is_newsstand_edition': $('#id_is_newsstand_edition').is(':checked'),
+            };
+                                         
+            if (upload_id > 0) { // Add in Image seperately if one was uploaded.
+                data['upload_id'] = upload_id;
+            }
+                                         
+            var label_colour = $('#id_label_colour').val();
+            if (label_colour != '') {
+                data['label_colour'] = label_colour;
+            }
+            var cgc_rating = $('#id_cgc_rating').val();
+            if (cgc_rating != '') {
+                data['cgc_rating'] = cgc_rating;
+            }
+            var condition_rating = $('#id_condition_rating').val();
+            if (condition_rating != '') {
+                data['condition_rating'] = condition_rating;
+            }
+        
+            set_comic(data, function(json_result) {
+                $('#quick-add-modal').modal('hide'); // HIDE the model.
+            }); // end comic
+        }); // end product
+    }
+
+
+    function ajax_load_section_dropdown(store_id)
+    {
+        list_sections({{ org.org_id }}, store_id, function(json_result) {
+        var dropdown_html = '<select class="form-control" id="id_section" name="section">';
+        $(json_result).each(function(iter,val2){
+            var position_index = 0;
+            $(val2['results']).each(function(iter2,val){
+                var section_id = val['section_id'];
+                var name = val['name'];
+                dropdown_html += '<option value="'+section_id+'">'+name+'</option>'
+                //<option value="" selected="selected">---------</option>
+                //<option value="1">Main Store</option>
+            });
+                                      })
+            dropdown_html += '</select>';
+                
+            // Save the new dropdown box to the existing UI.
+            $('#id_section_placeholder').html(dropdown_html);
+        });
+    }
+
+</script>
