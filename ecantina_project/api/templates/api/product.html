@@ -32,7 +32,28 @@
             }
         });
     }
-    
+
+    function get_product(product_id, success_callback, error_callback) {
+        var url = "/api/products/" + product_id + "/?format=json";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                success_callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                error_callback(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
     function set_product(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
