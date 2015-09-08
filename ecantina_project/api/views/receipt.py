@@ -13,9 +13,6 @@ from api.serializers import ReceiptSerializer
 
 
 class ReceiptFilter(django_filters.FilterSet):
-    organization = django_filters.CharFilter(name="organization__organization_id")
-    store = django_filters.CharFilter(name="store__store_id")
-    customer = django_filters.CharFilter(name="customer__customer_id")
     has_finished = django_filters.BooleanFilter(name="has_finished")
     class Meta:
         model = Receipt

@@ -6,19 +6,7 @@
         for(var prop in criteria) {
             if(criteria.hasOwnProperty(prop)) {
                 url += "&";
-                
-                // Generate our parameters
-                var param = "";
-                if (criteria[prop] == true) { // Handle "True" cases.
-                    param = prop + "=True";
-                }
-                else if (criteria[prop] == false) { // Handle "False" cases.
-                    param = prop + "=False";
-                }
-                else {
-                    param = prop + "=" + criteria[prop];
-                }
-                
+                var param = prop + "=" + criteria[prop]; // Generate our parameters
                 url += param; // Add the parameters to the URL.
             }
         }

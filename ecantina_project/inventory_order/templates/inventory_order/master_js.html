@@ -40,8 +40,13 @@
         var criteria = {
             "organization": {{ org.org_id }},
             "store": {{ store.store_id }},
-            "status": status,
         }
+        
+        if (status > 0)
+        {
+            criteria['status'] = status;
+        }
+        
         filter_receipts(criteria, function(json_result) {
             generate_table(json_result);
         });
