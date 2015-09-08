@@ -42,7 +42,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_available', 'category', 'is_new', 'is_featured', )
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_available', 'category', 'is_new', 'is_featured',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -132,7 +132,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = GCDIssue
-        fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name',)
+        fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name', 'product_name',)
 
 
 class TagSerializer(serializers.ModelSerializer):

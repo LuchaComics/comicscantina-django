@@ -113,7 +113,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">
-                <button class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
+                <button onclick="ajax_close_modal();" class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
                     <span class="btn-label"><i class="fa fa-remove"></i></span>Cancel
                 </button>
                 <div class="col-sm-6 pull-right">
@@ -259,6 +259,7 @@
         var series_id = $('#id_selected_series_id').val();
         var issue_id = $('#id_selected_issue_id').val();
         var brand_id = $('#id_selected_brand_id').val();
+        var product_name = $('#id_selected_issue_name').val();
     
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
@@ -289,7 +290,7 @@
                              
         // Insert/Update "product" model.
         var arr = {
-            'name': '{{ issue.series.name }} ' + 'Issue #{{ issue.number }}',
+            'name': product_name,
             'type': '1',
             'is_sold': false,
             'sub_price': 0,
@@ -352,7 +353,7 @@
             }
         
             set_comic(data, function(json_result) {
-                $('#quick-add-modal').modal('hide'); // HIDE the model.
+                ajax_close_modal(); // HIDE the model.
             }); // end comic
         }); // end product
     }
@@ -377,6 +378,11 @@
             // Save the new dropdown box to the existing UI.
             $('#id_section_placeholder').html(dropdown_html);
         });
+    }
+
+    function ajax_close_modal()
+    {
+        $('#quick-add-modal').modal('hide');
     }
 
 </script>

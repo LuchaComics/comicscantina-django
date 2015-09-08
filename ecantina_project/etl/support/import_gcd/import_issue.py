@@ -177,7 +177,7 @@ class ImportIssue:
             entry.save()
         except GCDIssue.DoesNotExist:
             print("ImportIssue: Inserting: " + str(id))
-            GCDIssue.objects.create(
+            entry = GCDIssue.objects.create(
                 issue_id=id,
                 number=number,
                 volume = volume,
@@ -219,3 +219,7 @@ class ImportIssue:
                 no_rating = no_rating,
                 publisher_name=publisher_name,
             )
+
+        # Update the product name of the issue.
+        entry.product_name = str(entry)
+        entry.save()
