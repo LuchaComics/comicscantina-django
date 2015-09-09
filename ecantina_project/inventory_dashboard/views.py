@@ -41,6 +41,14 @@ def dashboard_page(request, org_id, store_id):
     monthly_orders = monthly_orders.order_by('created')
     monthly_orders_count = monthly_orders.aggregate(Count('pk'))
     
+    # This Months New Customers
+    organization = Organization.objects.get(org_id=org_id)
+    monthly_customers = organization.customers.filter(
+        Q(joined__year=today.year) &
+        Q(joined__month=today.month)
+    )
+    monthly_customers = monthly_customers.order_by('joined')
+    monthly_customers_count = monthly_customers.aggregate(Count('pk'))
     
     # Find Sales
     # Find Orders
@@ -49,13 +57,15 @@ def dashboard_page(request, org_id, store_id):
     # Annual Sales
     # Annual Orders
     return render(request, 'inventory_dashboard/view.html',{
-        'org': Organization.objects.get(org_id=org_id),
+        'org': organization,
         'store': Store.objects.get(store_id=store_id),
         'tab':'dashboard',
         'monthly_sales': monthly_sales,
         'monthly_sales_amount': monthly_sales_amount,
         'monthly_orders': monthly_orders,
         'monthly_orders_count': monthly_orders_count,
+        'monthly_customers': monthly_customers,
+        'monthly_customers_count': monthly_customers_count,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
