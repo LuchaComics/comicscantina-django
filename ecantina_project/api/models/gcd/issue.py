@@ -97,7 +97,7 @@ class GCDIssue(models.Model):
     # Put them in here to simplify REST Framework
     publisher_name = models.CharField(max_length=255, db_index=True)
     genre = models.CharField(max_length=255, db_index=True, null=True, blank=True)
-    product_name = models.CharField(max_length=255, db_index=True, null=True, blank=True)
+    product_name = models.CharField(max_length=511, db_index=True, null=True, blank=True)
 
     # Functions
     def issue_descriptor(self):

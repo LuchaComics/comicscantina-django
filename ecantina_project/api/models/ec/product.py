@@ -45,7 +45,7 @@ class Product(models.Model):
     # when customers lookup the product and staff look through the
     # inventory database; furthermore, a product type needs to be
     # specified to tell what sort of product this is.
-    name = models.CharField(max_length=127, null=True, blank=True)
+    name = models.CharField(max_length=511, null=True, blank=True)
     type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         choices=PRODUCT_TYPE_OPTIONS,
