@@ -1,7 +1,6 @@
 {% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
 <section>
     <!-- Page content-->
     <div class="content-wrapper p0 bg-gray-lighter">
@@ -18,15 +17,15 @@
                         <div class="ph">
                             <em class="icon-calculator fa-lg pull-right"></em>
                             
-                            <div class="h2 mt0">$5,000</div>
+                            <div class="h2 mt0">${{ monthly_sales_amount.total_amount__sum }}</div>
                             <div class="text-uppercase">Sales (May)</div>
                         </div>
                         <!-- graph inside the sales box for monthly sales (values attribute is the important field here)  -->
-                        <div data-sparkline="" data-type="line" data-width="100%" data-height="75px"
+                        <div id="id_monthly_sales" data-sparkline="" data-type="line" data-width="100%" data-height="75px"
                             data-line-color="#23b7e5" data-chart-range-min="0" data-fill-color="#23b7e5"
                             data-spot-color="#23b7e5" data-min-spot-color="#23b7e5" data-max-spot-color="#23b7e5"
                             data-highlight-spot-color="#23b7e5" data-highlight-line-color="#23b7e5"
-                            values="2,5,3,7,4,5" style="margin-bottom: -2px" data-resize="true"></div>
+                            values="" style="margin-bottom: -2px" data-resize="true"></div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
@@ -35,16 +34,16 @@
                         <div class="ph">
                             <em class="icon-basket-loaded fa-lg pull-right"></em>
                             
-                            <div class="h2 mt0">700
+                            <div class="h2 mt0">{{ monthly_orders_count.pk__count }}
                             </div>
                             <div class="text-uppercase">Orders (May)</div>
                         </div>
                         <!-- graph inside the orders box for monthly orders (values attribute is the important field here)  -->
-                        <div data-sparkline="" data-type="line" data-width="100%" data-height="75px"
+                        <div  id="id_monthly_orders" data-sparkline="" data-type="line" data-width="100%" data-height="75px"
                             data-line-color="#7266ba" data-chart-range-min="0" data-fill-color="#7266ba"
                             data-spot-color="#7266ba" data-min-spot-color="#7266ba" data-max-spot-color="#7266ba"
                             data-highlight-spot-color="#7266ba" data-highlight-line-color="#7266ba"
-                            values="1,4,5,4,8,7,10" style="margin-bottom: -2px" data-resize="true"></div>
+                            values="" style="margin-bottom: -2px" data-resize="true"></div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">

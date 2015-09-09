@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from django.db.models import Q
+from django.db.models import Sum, Count
 from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
@@ -21,11 +22,24 @@ def dashboard_page(request, org_id, store_id):
     monthly_sales = Receipt.objects.filter(
         Q(store_id=store_id) &
         Q(has_paid=True) &
+        Q(has_finished=True) &
         Q(created__year=today.year) &
         Q(created__month=today.month)
     )
     monthly_sales = monthly_sales.order_by('created')
-    monthly_sales.query.group_by = ['created']
+    monthly_sales_amount = monthly_sales.aggregate(Sum('total_amount'))
+    
+    # This Months Orders
+    monthly_orders = Receipt.objects.filter(
+        Q(store_id=store_id) &
+        Q(has_paid=True) &
+        Q(has_finished=True) &
+        Q(status=1) & # Note: "New Order"
+        Q(created__year=today.year) &
+        Q(created__month=today.month)
+    )
+    monthly_orders = monthly_orders.order_by('created')
+    monthly_orders_count = monthly_orders.aggregate(Count('pk'))
     
     
     # Find Sales
@@ -39,6 +53,9 @@ def dashboard_page(request, org_id, store_id):
         'store': Store.objects.get(store_id=store_id),
         'tab':'dashboard',
         'monthly_sales': monthly_sales,
+        'monthly_sales_amount': monthly_sales_amount,
+        'monthly_orders': monthly_orders,
+        'monthly_orders_count': monthly_orders_count,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

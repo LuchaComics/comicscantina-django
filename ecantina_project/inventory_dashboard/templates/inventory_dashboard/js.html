@@ -1,69 +1,101 @@
 <script>
     $(document).ready(function () {
-                      // this creates the annual sales chart
-                      var annual_sales_chart = $('.annual_sales');
-                      if (annual_sales_chart.length)
-                      $.plot(annual_sales_chart, annual_sales, options);
+        // Monthly Sales
+        //-------------------
+        var values = "";
+    {% regroup monthly_sales by created.day as monthly_sales_by_day_list %}
+    {% for sales in monthly_sales_by_day_list %}
+        values += "{{ sales.list|length }},";
+    {% endfor %}
+        values = values.substring(0, values.length - 1); // Remove comma at the very end.
                       
-                      // this creates the order location map
-                      var element = $('[data-vector-map]');
-                      new VectorMap(element, seriesData, markersData);
-                      });
+        // Note: To have the graph render, the javascript library requires
+        // that the 'values' attribute is set with values. Therefore lets do
+        // that here.
+        $("#id_monthly_sales").attr("values", values);
+        
                       
-                      // this is our annual sales data for the chart
-                      var annual_sales = [{
-                                          "label": "Sales",
-                                          "color": "#9cd159",
-                                          "data": [
-                                                   ["Jan", 27],
-                                                   ["Feb", 82],
-                                                   ["Mar", 56],
-                                                   ["Apr", 14],
-                                                   ["May", 28],
-                                                   ["Jun", 77],
-                                                   ["Jul", 23],
-                                                   ["Aug", 49],
-                                                   ["Sep", 81],
-                                                   ["Oct", 20]
-                                                   ]
-                                          }];
+        // Monthly Orders
+        //-------------------
+        values = "";
+    {% regroup monthly_orders by created.day as monthly_orders_by_day_list %}
+    {% for orders in monthly_orders_by_day_list %}
+        values += "{{ orders.list|length }},";
+    {% endfor %}
+        values = values.substring(0, values.length - 1); // Remove comma at the very end.
+                      
+        // Note: To have the graph render, the javascript library requires
+        // that the 'values' attribute is set with values. Therefore lets do
+        // that here.
+        $("#id_monthly_orders").attr("values", values);
+                
+                      
+        // Annual Sales
+        //-------------------
+        // this creates the annual sales chart
+        var annual_sales_chart = $('.annual_sales');
+        if (annual_sales_chart.length)
+            $.plot(annual_sales_chart, annual_sales, options);
+                      
+            // this creates the order location map
+            var element = $('[data-vector-map]');
+            new VectorMap(element, seriesData, markersData);
+        });
+                      
+        // this is our annual sales data for the chart
+        var annual_sales = [{
+            "label": "Sales",
+            "color": "#9cd159",
+            "data": [
+                ["Jan", 27],
+                ["Feb", 82],
+                ["Mar", 56],
+                ["Apr", 14],
+                ["May", 28],
+                ["Jun", 77],
+                ["Jul", 23],
+                ["Aug", 49],
+                ["Sep", 81],
+                ["Oct", 20]
+            ]
+        }];
                                           
-                                          // this is our latest order location data
-                                          // seriesData will show ALL SALES by country
-                                          // this darkens the country on the map depending on the number
-                                          var seriesData = {
-                                              'CA': 11100,   // Canada
-                                              'DE': 2510,    // Germany
-                                              'FR': 3710,    // France
-                                              'AU': 5710,    // Australia
-                                              'GB': 8310,    // Great Britain
-                                              'RU': 9310,    // Russia
-                                              'BR': 6610,    // Brazil
-                                              'IN': 7810,    // India
-                                              'CN': 4310,    // China
-                                              'US': 839,     // USA
-                                              'SA': 410      // Saudi Arabia
-                                          };
+        // this is our latest order location data
+        // seriesData will show ALL SALES by country
+        // this darkens the country on the map depending on the number
+        var seriesData = {
+            'CA': 11100,   // Canada
+            'DE': 2510,    // Germany
+            'FR': 3710,    // France
+            'AU': 5710,    // Australia
+            'GB': 8310,    // Great Britain
+            'RU': 9310,    // Russia
+            'BR': 6610,    // Brazil
+            'IN': 7810,    // India
+            'CN': 4310,    // China
+            'US': 839,     // USA
+            'SA': 410      // Saudi Arabia
+        };
 
-// markersData will show where the LATEST ORDERS are
-// made from (or shipping to), let's say 15 latest orders...
-// you can probably get lat / lon from the name of the city
-// the order will be going to
-var markersData = [
-                   {latLng: [41.90, 12.45], name: 'Vatican City'},
-                   {latLng: [43.73, 7.41], name: 'Monaco'},
-                   {latLng: [-0.52, 166.93], name: 'Nauru'},
-                   {latLng: [-8.51, 179.21], name: 'Tuvalu'},
-                   {latLng: [7.11, 171.06], name: 'Marshall Islands'},
-                   {latLng: [17.3, -62.73], name: 'Saint Kitts and Nevis'},
-                   {latLng: [3.2, 73.22], name: 'Maldives'},
-                   {latLng: [35.88, 14.5], name: 'Malta'},
-                   {latLng: [41.0, -71.06], name: 'New England'},
-                   {latLng: [12.05, -61.75], name: 'Grenada'},
-                   {latLng: [13.16, -59.55], name: 'Barbados'},
-                   {latLng: [17.11, -61.85], name: 'Antigua and Barbuda'},
-                   {latLng: [-4.61, 55.45], name: 'Seychelles'},
-                   {latLng: [7.35, 134.46], name: 'Palau'},
-                   {latLng: [42.5, 1.51], name: 'Andorra'}
-                   ];
+        // markersData will show where the LATEST ORDERS are
+        // made from (or shipping to), let's say 15 latest orders...
+        // you can probably get lat / lon from the name of the city
+        // the order will be going to
+        var markersData = [
+            {latLng: [41.90, 12.45], name: 'Vatican City'},
+            {latLng: [43.73, 7.41], name: 'Monaco'},
+            {latLng: [-0.52, 166.93], name: 'Nauru'},
+            {latLng: [-8.51, 179.21], name: 'Tuvalu'},
+            {latLng: [7.11, 171.06], name: 'Marshall Islands'},
+            {latLng: [17.3, -62.73], name: 'Saint Kitts and Nevis'},
+            {latLng: [3.2, 73.22], name: 'Maldives'},
+            {latLng: [35.88, 14.5], name: 'Malta'},
+            {latLng: [41.0, -71.06], name: 'New England'},
+            {latLng: [12.05, -61.75], name: 'Grenada'},
+            {latLng: [13.16, -59.55], name: 'Barbados'},
+            {latLng: [17.11, -61.85], name: 'Antigua and Barbuda'},
+            {latLng: [-4.61, 55.45], name: 'Seychelles'},
+            {latLng: [7.35, 134.46], name: 'Palau'},
+            {latLng: [42.5, 1.51], name: 'Andorra'}
+        ];
     </script>
