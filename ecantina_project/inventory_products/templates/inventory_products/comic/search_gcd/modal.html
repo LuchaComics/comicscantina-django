@@ -260,6 +260,7 @@
         var issue_id = $('#id_selected_issue_id').val();
         var brand_id = $('#id_selected_brand_id').val();
         var product_name = $('#id_selected_issue_name').val();
+        var price = $('#id_price').val();
     
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
@@ -293,10 +294,10 @@
             'name': product_name,
             'type': '1',
             'is_sold': false,
-            'sub_price': 0,
+            'sub_price': parseInt( price ),
             'discount': 0,
             'discount_type': 1,
-            'price': 0,
+            'price': parseInt( price ),
             'cost': 0,
             'organization': {{ org.org_id }},
             'store': parseInt( $('#id_store').val() ),
