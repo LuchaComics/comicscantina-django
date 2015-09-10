@@ -23,12 +23,19 @@
         values += "{{ orders.list|length }},";
     {% endfor %}
         values = values.substring(0, values.length - 1); // Remove comma at the very end.
-                      
-        // Note: To have the graph render, the javascript library requires
-        // that the 'values' attribute is set with values. Therefore lets do
-        // that here.
         $("#id_monthly_orders").attr("values", values);
-                
+         
+                      
+        // Monthly Customers
+        //-------------------
+        values = "";
+    {% regroup monthly_customers by joined.day as joindates_by_day_list %}
+    {% for customers in joindates_by_day_list %}
+        values += "{{ customers.list|length }},";
+    {% endfor %}
+        values = values.substring(0, values.length - 1); // Remove comma at the very end.
+        $("#id_monthly_customers").attr("values", values);
+                      
                       
         // Annual Sales
         //-------------------

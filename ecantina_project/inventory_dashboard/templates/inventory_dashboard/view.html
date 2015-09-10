@@ -39,7 +39,7 @@
                             <div class="text-uppercase">Orders (May)</div>
                         </div>
                         <!-- graph inside the orders box for monthly orders (values attribute is the important field here)  -->
-                        <div  id="id_monthly_orders" data-sparkline="" data-type="line" data-width="100%" data-height="75px"
+                        <div id="id_monthly_orders" data-sparkline="" data-type="line" data-width="100%" data-height="75px"
                             data-line-color="#7266ba" data-chart-range-min="0" data-fill-color="#7266ba"
                             data-spot-color="#7266ba" data-min-spot-color="#7266ba" data-max-spot-color="#7266ba"
                             data-highlight-spot-color="#7266ba" data-highlight-line-color="#7266ba"
@@ -52,15 +52,15 @@
                         <div class="ph">
                             <em class="icon-users fa-lg pull-right"></em>
                             
-                            <div class="h2 mt0">50</div>
+                            <div class="h2 mt0">{{ monthly_customers_count.pk__count }}</div>
                             <div class="text-uppercase">New Customers (May)</div>
                         </div>
                         <!-- graph inside the customers box for monthly new customers (values attribute is the important field here)  -->
-                        <div data-sparkline="" data-type="line" data-width="100%" data-height="75px"
+                        <div id="id_monthly_customers" data-sparkline="" data-type="line" data-width="100%" data-height="75px"
                             data-line-color="#23b7e5" data-chart-range-min="0" data-fill-color="#23b7e5"
                             data-spot-color="#23b7e5" data-min-spot-color="#23b7e5" data-max-spot-color="#23b7e5"
                             data-highlight-spot-color="#23b7e5" data-highlight-line-color="#23b7e5"
-                            values="4,5,3,10,7,15" style="margin-bottom: -2px" data-resize="true"></div>
+                            values="" style="margin-bottom: -2px" data-resize="true"></div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-12">
@@ -108,39 +108,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- !!!! each of these will show the latest order info for any
-                                 orders that are in the pending status !!!! -->
+                                {% for pending_order in pending_orders %}
                                 <tr>
-                                    <td><a href="orders_view.html?order_id=3326">3326</a></td>
-                                    <!-- !!!! this links to the orders page with the given order id as
-                                     an argument, this will open a modal showing the given order info !!!! -->
-                                    <td>10/21/2013</td>
-                                    <td>3:29 PM</td>
-                                    <td>$321.33</td>
+                                    <td><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + {{ pending_order.receipt_id }} +"/">{{ pending_order.receipt_id }}</a></td>
+                                    <td>{{ pending_order.created.month }}/{{ pending_order.created.day }}/{{ pending_order.created.year }}</td>
+                                    <td>{{ pending_order.created.time }}</td>
+                                    <td>${{ pending_order.total_amount }}</td>
                                 </tr>
-                                <tr>
-                                    <td><a href="orders_view.html?order_id=3325">3325</a></td>
-                                    <td>10/21/2013</td>
-                                    <td>3:20 PM</td>
-                                    <td>$234.34</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="orders_view.html?order_id=3324">3324</a></td>
-                                    <td>10/21/2013</td>
-                                    <td>3:03 PM</td>
-                                    <td>$724.17</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="orders_view.html?order_id=3323">3323</a></td>
-                                    <td>10/21/2013</td>
-                                    <td>3:00 PM</td>
-                                    <td>$23.71</td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
                     <!-- END table responsive-->
-                    <div class="panel-footer text-right"><a href="orders_view.html" class="btn btn-default btn-sm">View
+                    <div class="panel-footer text-right">
+                        <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/orders" class="btn btn-default btn-sm">View
                         All Orders</a>
                     </div>
                 </div>

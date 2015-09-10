@@ -50,12 +50,13 @@ def dashboard_page(request, org_id, store_id):
     monthly_customers = monthly_customers.order_by('joined')
     monthly_customers_count = monthly_customers.aggregate(Count('pk'))
     
-    # Find Sales
-    # Find Orders
-    # New Customers
-    # Total Inventory
-    # Annual Sales
-    # Annual Orders
+    # This Months Pending Orders
+    pending_orders = Receipt.objects.filter(
+        Q(store_id=store_id) &
+        Q(status=1) # Note: "New Order"
+    )
+    pending_orders = pending_orders.order_by('created')
+    
     return render(request, 'inventory_dashboard/view.html',{
         'org': organization,
         'store': Store.objects.get(store_id=store_id),
@@ -66,6 +67,7 @@ def dashboard_page(request, org_id, store_id):
         'monthly_orders_count': monthly_orders_count,
         'monthly_customers': monthly_customers,
         'monthly_customers_count': monthly_customers_count,
+        'pending_orders': pending_orders,
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
