@@ -75,6 +75,7 @@ def dashboard_page(request, org_id, store_id):
     available_products_count = available_products.aggregate(Count('pk'))
     
     return render(request, 'inventory_dashboard/view.html',{
+        'today': today,
         'monthly_sales': monthly_sales,
         'monthly_sales_amount': monthly_sales_amount,
         'monthly_orders': monthly_orders,
