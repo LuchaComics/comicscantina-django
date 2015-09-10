@@ -12,6 +12,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.receipt import Receipt
+from api.models.ec.product import Product
 
 
 @login_required(login_url='/inventory/login')
@@ -65,12 +66,15 @@ def dashboard_page(request, org_id, store_id):
         Q(created__year=today.year)
     )
     annual_sales = annual_sales.order_by('created')
-                                           
+    
+    # Total (On-sale) Inventory
+    available_products = Product.objects.filter(
+        Q(store_id=store_id) &
+        Q(is_sold=False)
+    )
+    available_products_count = available_products.aggregate(Count('pk'))
     
     return render(request, 'inventory_dashboard/view.html',{
-        'org': organization,
-        'store': Store.objects.get(store_id=store_id),
-        'tab':'dashboard',
         'monthly_sales': monthly_sales,
         'monthly_sales_amount': monthly_sales_amount,
         'monthly_orders': monthly_orders,
@@ -79,6 +83,10 @@ def dashboard_page(request, org_id, store_id):
         'monthly_customers_count': monthly_customers_count,
         'pending_orders': pending_orders,
         'annual_sales': annual_sales,
+        'available_products_count': available_products_count,
+        'org': organization,
+        'store': Store.objects.get(store_id=store_id),
+        'tab':'dashboard',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
