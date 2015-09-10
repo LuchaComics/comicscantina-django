@@ -72,13 +72,20 @@
     }
 
     function ajax_save() {
+        // Create our existing customers list.
+        var customers = [];
+    {% for customer in org.customers.all %}
+        customers.push(parseInt( {{ customer.customer_id }} ));
+    {% endfor %}
         
         parseInt( $('#id_hidden_upload_id').val() )
         
         var arr = {
+            'customers': customers,
+            'administrator': parseInt( {{ org.administrator_id }} ),
             'org_id': {{ org.org_id }},
             'email': $('#id_email').val(),
-            'upload_id': $('#id_hidden_upload_id').val(),
+            'logo': $('#id_hidden_upload_id').val(),
             'name': $('#id_name').val(),
             'description': $('#id_description').val(),
             'phone': $('#id_phone').val(),

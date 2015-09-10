@@ -53,12 +53,48 @@
             'shipping_postal': $('#id_shipping_postal').val(),
             'has_consented': $('#id_has_consented').is(':checked'),
         };
-        
-        // Create a new customer
-        set_customer(arr, function() {
-            // Load up the new location.
-            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customers';
-        });
+        set_customer(arr, function(json_result) { // Create a new customer
+            // Create our existing customers list.
+            var customers = [];
+        {% for customer in org.customers.all %}
+            customers.push(parseInt( {{ customer.customer_id }} ));
+        {% endfor %}
+            customers.push(parseInt( json_result['customer_id'] )); // Add our new customer
+                    
+            // Attach the 'Customer' to the 'Organization'
+           var arr = {
+                'administrator': parseInt( {{ org.administrator_id }} ),
+                'org_id': parseInt( {{ org.org_id }} ),
+                'email': '{{ org.email }}',
+                'logo': parseInt( {{ org.logo_id }} ),
+                'name': '{{ org.name }}',
+                'description': '{{ org.description }}',
+                'phone': '{{ org.phone }}',
+                'fax': '{{ org.fax }}',
+                'website': '{{ org.website }}',
+                'twitter_url': '{{ org.twitter_url }}',
+                'facebook_url': '{{ org.facebook_url }}',
+                'instagram_url': '{{ org.instagram_url }}',
+                'linkedin_url': '{{ org.linkedin_url }}',
+                'github_url': '{{ org.github_url }}',
+                'google_url': '{{ org.google_url }}',
+                'youtube_url': '{{ org.youtube_url }}',
+                'flickr_url': '{{ org.flickr_url }}',
+                'street_number': '{{ org.street_number }}',
+                'street_name': '{{ org.street_name }}',
+                'unit_number': '{{ org.unit_number }}',
+                'city': '{{ org.city }}',
+                'country': '{{ org.country }}',
+                'province': '{{ org.province }}',
+                'postal': '{{ org.postal }}',
+                'customers': customers,
+            };
+            
+            set_organization(arr, function(json_result) { // Update Organization
+                // Load up the new location.
+                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customers';
+            }); // End Org
+        }); // End Customer
     }
                      
 </script>
