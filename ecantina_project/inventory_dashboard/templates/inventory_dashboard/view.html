@@ -84,7 +84,23 @@
             
             
             <!-- ANNUAL SALES FUTURE PLACEHOLDER CODE HERE -->
-            <!-- Be sure to include it here -->
+            <div class="clearfix"></div>
+            <!-- START annual sales chart-->
+            <div class="col-lg-12">
+                <!-- START widget flot chart - annual sales -->
+                <!-- the data for this chart is loaded in the bottom script -->
+                <div id="annual_sales_chart" ng-controller="FlotChartController" class="panel panel-default m-lg">
+                    <div class="panel-heading">
+                        <div class="panel-title">Annual Sales</div>
+                    </div>
+                    <div collapse="annual_sales_chart" class="panel-wrapper">
+                        <div class="panel-body">
+                            <div class="annual_sales flot-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END widget-->
+            </div>
             
             
             <!-- START row 3 (2 panels) -->
@@ -130,16 +146,5 @@
         </div>
     </div>
 </section>
-
-<!----------------------------------------------------------------------------->
-
-<!-- Modal -->
-<div id="ajax_modal_placeholder"
-   name="ajax_modal_placeholder"></div>
-<!-- end modal -->
-
-<!----------------------------------------------------------------------------->
-
 {% include "inventory_dashboard/js.html" %}
-
 {% endblock content %}
