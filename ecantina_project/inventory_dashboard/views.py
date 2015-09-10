@@ -51,7 +51,7 @@ def dashboard_page(request, org_id, store_id):
     # This Months New Customers
     #-------------------------------
     organization = Organization.objects.get(org_id=org_id)
-    monthly_customers = Customer.objects.filter(
+    monthly_customers = organization.customers.filter(
         Q(joined__year=today.year) &
         Q(joined__month=today.month)
     )
