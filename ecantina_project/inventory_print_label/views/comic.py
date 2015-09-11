@@ -19,9 +19,9 @@ from api.models.ec.comic import Comic
 def comics_print_labels_page(request, org_id, store_id):
     # Fetch all the comics starting with the most recent submission
     # grouped by comic series.
-    q = Comic.objects.filter(store_id=store_id)
+    q = Comic.objects.filter(product__store_id=store_id)
     q = q.order_by('created')
-    q.query.group_by = ['series']
+    q.query.group_by = ['issue__series']
 
     paginator = Paginator(q, 100) # Show 100 comics per page
     page = request.GET.get('page')

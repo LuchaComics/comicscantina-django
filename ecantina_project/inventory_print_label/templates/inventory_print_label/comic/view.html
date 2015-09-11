@@ -29,7 +29,7 @@
                         <div class="clearfix"></div>
                         <div class="panel-body panel-body-main">
                             <div class="product-type-listing clearfix">
-                                {% regroup comics by series as series_list %}
+                                {% regroup comics by issue.series as series_list %}
                                 {% for newest_comics in series_list %}
                                 <div class="pb-lg"></div>
                                 <div class="product-type-listing clearfix mt-xl">
