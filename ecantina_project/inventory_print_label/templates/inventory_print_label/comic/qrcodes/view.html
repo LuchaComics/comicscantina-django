@@ -1,8 +1,33 @@
 {% extends 'inventory_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
-TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
-
+<section>
+    <!-- Page content-->
+    <div class="content-wrapper p0 bg-gray-lighter">
+        <div class="header w100 bb m0 p-lg bg-white">
+            <h3 class="m0 b0 p0"><em class="icon-printer mr" style="position:relative;top:2px;"></em>Label Print Batches <em class="fa fa-angle-right pl pr"></em>
+                Print Batch</h3>
+        </div>
+        <div class="clearfix"></div>
+        <!-- START row 1 -->
+        <div class="row">
+            {% for comic in comics %}
+            <div class="col-lg-3">
+                <div id="users-panel" class="clearfix panel panel-default m-lg">
+                    <div class="panel-tabs w100 p m0" style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
+                        <p>{{ comic.product.name }}</p>
+                        <img src="{{ comic.product.qrcode.url }}" style="height:140px;width:140px;" alt="Store Logo"
+                        class="img-thumbnail center-block mb0 add-cover-image"
+                        name="logo-image" id="logo-image" />
+                        <p>ProductID:{{ comic.product_id }}</p>
+                        <p>SeriesID:{{ comic.issue.series_id }}</p>
+                        <p>IssueID:{{ comic.issue_id }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% include "inventory_print_label/comic/qrcodes/js.html" %}
 {% endblock content %}
