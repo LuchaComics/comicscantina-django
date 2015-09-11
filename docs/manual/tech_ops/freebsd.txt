@@ -1,7 +1,0 @@
-———————————————————————————————————————————————————————————
-HOWTO: Setup comicscantina.com on vultr using FreeBSD
-———————————————————————————————————————————————————————————
-By: Bartlomiej Mika
-Date: April, 28th, 2015
-
-TODO
