@@ -241,11 +241,12 @@ In summary, run the following codes and eCantina Database will be setup.
   service nginx start
   ```
   
-4) In your browser, verify this brings up a page. Go to:
+4. In your browser, verify this brings up a page. Go to:
 http://http://45.55.221.217
 
 
 ### Depyloment
+#### Source Code
 1. Load up CyberDuck and copy the project into freebsd home directory
 
 2. Go into the directory
@@ -276,15 +277,17 @@ http://http://45.55.221.217
   python manage.py runserver  # Verify server can run. Close once verified.
   ```
 
-7. Nginx needs updating, make the following adjustments to:
+#### Nginx
+
+1. Nginx needs updating, make the following adjustments to:
   ```
   sudo vi /usr/local/etc/nginx/nginx.conf
   ```
 
-Adn then scroll to the ***server*** line and replace the code with the following.
+2. And then scroll to the ***server*** line and replace the code with the following.
   ```
   server {
-        server_name ecantina.ca;
+        server_name comicscantina.com;
 
         access_log off;
 
@@ -305,22 +308,34 @@ Adn then scroll to the ***server*** line and replace the code with the following
   }
   ```
 
-8. We need to restart NGINX though so that it knows to look for our changes. To do this run the following:
+3. We need to restart NGINX though so that it knows to look for our changes. To do this run the following:
   ```
   sudo service nginx restart
   ```
+  
+#### Grand Comic Database
+##### Import XML Files
+1. Load up CyberDuck and copy the gcd folder into the ~/py-ecantina folder.
 
-9. Now lets initial the web-application database to default values.
+2. Run the script to import
   ```
-  python manage.py update_db
+  python manage.py import_gcd /usr/home/freebsd/xml
+  ```
+##### Import Cover Images
+See file **gcd.txt**
+
+#### eCantina Database
+1. Now lets initial the web-application database to default values.
+  ```
+  python manage.py setup_ecantina
   ```
 
-10. Lets add eCantina user
+2. Lets add eCantina user
   ```
   python manage.py createsuperuser
   ```
   
-And create something like this.
+3. Fill in the following:
   ```
   username: bart
   email: bart@mikasoftware.com
@@ -328,59 +343,45 @@ And create something like this.
   password: ***REDACTED***
   ```
 
-11. FreeBSD Bug Fix: This fixes the issue with missing CSS/JS for admin.
+#### Run
+
+1. FreeBSD Bug Fix: This fixes the issue with missing CSS/JS for admin.
   ```
   ln -s /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/django/contrib/admin/static/admin     /usr/home/freebsd/py-ecantina/ecantina_project/static/admin
   ```
 
-12. Now lets verify if we run gunicorn, the website will work.
+2. Now lets verify if we run gunicorn, the website will work.
   ```
   gunicorn -c gunicorn_config.py ecantina_project.wsgi
   ```
+  
+3. Then in your browser checkout: http://45.55.221.217
 
-Then in your browser checkout: http://45.55.221.217
+
+4. Now go to http://45.55.221.217admin and log in.
 
 
-13. Note:
+5. Go to the 'Sites' model and change 'example.com' to 'comicscantina.com'
+
+### Maintenance
+1. Load up CyberDuck and copy the project into freebsd home directory
+
+2. Run:
   ```
-  python manage.py runserver 45.55.221.217
+  ssh 45.55.221.217 -l freebsd
+  cd ~/py-ecantina
+  source env/bin/activate.csh
+  cd ecantina_project/
+  python manage.py migrate
+  python manage.py syncdb
+  ln -s /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/django/contrib/admin/static/admin /usr/home/freebsd/py-ecantina/ecantina_project/static/admin
+  gunicorn -c gunicorn_config.py ecantina_project.wsgi
   ```
 
-14. Now go to www.ecantina.ca/admin and log in.
-
-
-15. Go to the 'Sites' model and change 'example.com' to 'ecantina.com'
-
-
-16. Reboot
-
-
-
-********************
-*   Maintenance    *
-********************
-
-1) Load up CyberDuck and copy the project into freebsd home directory
-
-
-2) run:
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-ssh 45.55.175.33 -l freebsd
-cd ~/py-actfastbookkeeping
-source env/bin/activate.csh
-cd actfastbookkeeping_project/
-python manage.py migrate
-python manage.py syncdb
-ln -s /usr/home/freebsd/py-actfastbookkeeping/env/lib/python3.4/site-packages/django/contrib/admin/static/admin /usr/home/freebsd/py-actfastbookkeeping/actfastbookkeeping_project/static/admin
-gunicorn -c gunicorn_config.py actfastbookkeeping_project.wsgi
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-Help:
-http://blog.richardknop.com/2012/01/install-postgresql-on-freebsd-8-2-and-make-it-work-with-django/
-http://tenderlovingcode.com/blog/uncategorized/ec2-freebsd-nginx-uwsgi-django/
-https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-django-with-postgres-nginx-and-gunicorn
-http://stackoverflow.com/questions/15742383/django-with-gunicron-and-nginx
-http://www.michielovertoom.com/freebsd/flask-gunicorn-nginx-supervisord/
-http://stackoverflow.com/questions/19669376/django-rest-framework-absolute-urls-with-nginx-always-return-127-0-0-1
+### Help:
+* http://blog.richardknop.com/2012/01/install-postgresql-on-freebsd-8-2-and-make-it-work-with-django/
+* http://tenderlovingcode.com/blog/uncategorized/ec2-freebsd-nginx-uwsgi-django/
+* https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-django-with-postgres-nginx-and-gunicorn
+* http://stackoverflow.com/questions/15742383/django-with-gunicron-and-nginx
+* http://www.michielovertoom.com/freebsd/flask-gunicorn-nginx-supervisord/
+* http://stackoverflow.com/questions/19669376/django-rest-framework-absolute-urls-with-nginx-always-return-127-0-0-1
