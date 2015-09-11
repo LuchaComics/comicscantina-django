@@ -152,4 +152,8 @@ env/
 #—————————————————————————————
 ecantina_project/ecantina_project/secret_settings.py
 ecantina_project/media/cover/*
+ecantina_project/media/qrcode/*.jpeg
+ecantina_project/media/qrcode/*.jpg
+ecantina_project/media/qrcode/*.JPEG
+ecantina_project/media/qrcode/*.JPG
 scripts/cover/*

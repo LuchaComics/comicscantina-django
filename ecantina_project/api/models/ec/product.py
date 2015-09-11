@@ -121,5 +121,21 @@ class Product(models.Model):
     # Every product must belongs to a single cateogry.
     category = models.ForeignKey(Category)
     
+    # The QRCode image with the encoded "product_id" number in it.
+    qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
+    
     def __str__(self):
         return str(self.name)
+
+    def delete(self, *args, **kwargs):
+        """
+            Overrided delete functionality to include deleting the local file
+            that we have stored on the system. Currently the deletion funciton
+            is missing this functionality as it's our responsibility to handle
+            the local files.
+        """
+        if self.qrcode:
+            if os.path.isfile(self.qrcode.path):
+                os.remove(self.qrcode.path)
+                super(Product, self).delete(*args, **kwargs) # Call the "real" delete() method
+

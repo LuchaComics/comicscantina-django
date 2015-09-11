@@ -1,4 +1,7 @@
+import os
 import json
+import qrcode
+from PIL import Image
 from decimal import *
 from django.shortcuts import render
 from django.core import serializers
@@ -33,7 +36,7 @@ def comics_print_labels_page(request, org_id, store_id):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         comics = paginator.page(paginator.num_pages)
-    return render(request, 'inventory_print_label/comic/view.html',{
+    return render(request, 'inventory_print_label/comic/list/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'comics': comics,
@@ -44,3 +47,45 @@ def comics_print_labels_page(request, org_id, store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
+
+
+@login_required(login_url='/inventory/login')
+def series_qrcodes_page(request, org_id, store_id, series_id):
+    q = Comic.objects.filter(issue__series_id=series_id)
+    q = q.order_by('created')
+    
+    for comic in q:
+        process_comic(comic)
+    
+    return render(request, 'inventory_print_label/comic/qrcodes/view.html',{
+        'comics': q,
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'tab':'print',
+        'employee': Employee.objects.get(user=request.user),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+    })
+
+
+def process_comic(comic):
+    # Helpful Links.
+    # See: https://github.com/mozillazg/python-qrcode
+    # see: http://stackoverflow.com/questions/19126305/pil-image-importerror
+    
+    # If we don't have any QRCodes set for this comic, then we need to
+    # generate them, save them and attach them to the product.
+    if len(str(comic.product.qrcode)) is 0:
+        # Variables
+        product_id = comic.product_id
+        filepath = 'qrcode/'+str(product_id)+'.jpeg'
+        
+        # Generate QRCode Image and save it locally.
+        img = qrcode.make(product_id)
+        img.save(os.path.join(settings.MEDIA_ROOT,filepath), 'JPEG')
+        
+        # Save the QRCode image to the model.
+        comic.product.qrcode = filepath
+        comic.product.save()

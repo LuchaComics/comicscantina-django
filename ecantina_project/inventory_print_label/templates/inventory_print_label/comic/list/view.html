@@ -41,7 +41,7 @@
                                             </a>
                                         </h4>
                                         <div class="pull-right" style="margin-top:-25px;">
-                                            <button type="button" class="btn btn-success btn-labeled"><span class="btn-label"><i class="fa fa-print"></i></span>Print Batch</button>
+                                            <button onclick="load_series_qrcodes('{{ newest_comics.grouper.series_id }}');" type="button" class="btn btn-success btn-labeled"><span class="btn-label"><i class="fa fa-print"></i></span>Print Batch</button>
                                         </div>
                                     </div>
                                     <div class="clearfix pb bb"></div>
@@ -129,5 +129,5 @@
         </div>
     </div>
 </section>
-{% include "inventory_print_label/comic/js.html" %}
+{% include "inventory_print_label/comic/list/js.html" %}
 {% endblock content %}
