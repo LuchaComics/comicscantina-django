@@ -325,12 +325,14 @@ http://http://45.55.221.217
 See file **gcd.txt**
 
 #### eCantina Database
-1. Now lets initial the web-application database to default values.
+##### Initial Values
+Now lets initial the web-application database to default values.
   ```
   python manage.py setup_ecantina
   ```
 
-2. Lets add eCantina user
+##### Staff User
+Lets add eCantina user
   ```
   python manage.py createsuperuser
   ```
