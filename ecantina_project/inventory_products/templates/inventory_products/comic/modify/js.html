@@ -246,6 +246,7 @@
         // so the javascript function will know to make an 'update' call and
         // not a 'insert' call.
         arr['product_id'] = {{ product_form.instance.product_id }}
+        arr['qrcode'] = '{{ product_form.instance.qrcode }}';
     {% endif %}
 
         set_product(arr, function(json_result) {
@@ -270,7 +271,7 @@
             };
                  
             if (upload_id > 0) { // Add in Image seperately if one was uploaded.
-                    data['upload_id'] = upload_id;
+                data['upload_id'] = upload_id;
             }
                     
             var label_colour = $('#id_label_colour').val();
