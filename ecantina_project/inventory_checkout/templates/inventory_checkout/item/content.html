@@ -13,7 +13,7 @@
         {% for product in receipt.products.all %}
         <tr {% if product.is_sold == True %}class="danger"{% endif %}>
                 <td class="text-center text-danger">
-                    <button onclick="update_cart_products_except_product_id({{ product.product_id }});"
+                    <button onclick="remove_product({{ product.product_id }});"
                         type="button" class="btn btn-sm btn-danger" style="width:37px;">
                     <em class="fa fa-remove center-block text-center p-sm"></em>
                     </button>
@@ -68,22 +68,3 @@
         </div>
     </div>
 </div>
-<script>
-   function update_cart_products_except_product_id(product_id)
-   {
-       // Add all the products that exist for the cart.
-       var products = new Array();
-       {% for product in receipt.products.all %}products.push({{ product.product_id }});{% endfor %}
-       
-       // Remove the specific product_id from the cart and update.
-       for(var i = products.length-1; i >= 0; i--){  // STEP 1
-           if(products[i] == product_id){            // STEP 2
-               products.splice(i,1);                 // STEP 3
-           }
-       }
-       
-       // Update the cart with all the products except the product_id
-       // we filtered out.
-       update_cart_products(products);
-   }
-</script>

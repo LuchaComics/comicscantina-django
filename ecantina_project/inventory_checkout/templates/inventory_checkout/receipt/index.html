@@ -107,7 +107,7 @@
                                         {% for product in receipt.products.all %}
                                         <tr>
                                             <td>{{ product.product_id }}</td>
-                                            <td>{{ product.nane }}</td>
+                                            <td>{{ product.name }}</td>
                                             <td>$ {{ product.sub_price }}</td>
                                             {% if product.discount_type == 1 %}
                                             <td>{{ product.discount }} %</td>

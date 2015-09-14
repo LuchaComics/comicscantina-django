@@ -185,7 +185,8 @@
      *  tables.
      */
     function ajax_set_data() {
-        var issue_id = {{ issue.issue_id }}
+        var series_id = {{ issue.series_id }};
+        var issue_id = {{ issue.issue_id }};
         
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
@@ -245,22 +246,20 @@
         // so the javascript function will know to make an 'update' call and
         // not a 'insert' call.
         arr['product_id'] = {{ product_form.instance.product_id }}
+        arr['qrcode'] = '{{ product_form.instance.qrcode }}';
     {% endif %}
 
         set_product(arr, function(json_result) {
             // Extract the 'product_id' and use it to tie it to the
             // 'comic' model.
             var product_id = json_result['product_id'];
+            var organization_id = json_result['organization'];
                     
             var data = {
+                'organization': parseInt( organization_id ),
                 'product': parseInt(product_id),
                 'issue': parseInt(issue_id),
                 'age': $('#id_age').val(),
-                'type': 1,
-                'store': $('#id_store').val(),
-                'section': $('#id_section').val(),
-                'price': $('#id_price').val(),
-                'cost': $('#id_cost').val(),
                 'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
                 'label_colour': label_colour,
                 'cgc_rating': cgc_rating,
@@ -272,7 +271,7 @@
             };
                  
             if (upload_id > 0) { // Add in Image seperately if one was uploaded.
-                    data['upload_id'] = upload_id;
+                data['upload_id'] = upload_id;
             }
                     
             var label_colour = $('#id_label_colour').val();
@@ -292,7 +291,7 @@
             // If we are editing a comic, then we need to add in the comic_id
             // so the javascript function will know to make an 'update' call and
             // not a 'insert' call.
-            arr['comic_id'] = {{ comic_form.instance.comic_id }}
+            data['comic_id'] =  parseInt( {{ comic_form.instance.comic_id }} );
         {% endif %}
                     
             set_comic(data, function(json_result) {
@@ -337,7 +336,7 @@
 
     function ajax_refresh_table(issue_id)
     {
-        list_comics_by(issue_id, function(json_result) {
+        filter_comics_by(issue_id, 0, function(json_result) {
             generate_table(json_result);
         });
     }

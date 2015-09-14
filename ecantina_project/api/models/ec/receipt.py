@@ -113,4 +113,4 @@ class Receipt(models.Model):
     products = models.ManyToManyField(Product, blank=True, related_name='receipt_products')
 
     def __str__(self):
-        return str(self.receipt_id)
+        return "Receipt #" + str(self.receipt_id) + " - " + self.billing_first_name + " " + self.billing_last_name

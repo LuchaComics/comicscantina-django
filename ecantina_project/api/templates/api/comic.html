@@ -2,9 +2,9 @@
     /**
      *  Lists all the products that have the inputted "issue_id".
      */
-    function list_comics_by(issue_id, callback)
+    function filter_comics_by(issue_id, series_id, callback)
     {
-        var url = "/api/comics/?issue="+issue_id;
+        var url = "/api/comics/?format=json&issue="+issue_id;
     
         jQuery.ajax({
             url: url,
@@ -25,6 +25,32 @@
         });
     }
 
+    /**
+     *  Lists all the comics by inputted "product_id" parameter.
+     */
+    function filter_comics_by_product_id(product_id, callback)
+    {
+        var url = "/api/comics/?format=json&product="+product_id;
+    
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
     
     function set_comic(data, callback)
     {
@@ -33,9 +59,8 @@
         var url = "/api/comics/";
         if (data['comic_id'] > 0) {
             type = "PUT"; // Update
-            url += data['id'] + "/";
+            url += data['comic_id'] + "/";
         }
-        console.log(url);
         jQuery.ajax({
             url: url,
             data: data,

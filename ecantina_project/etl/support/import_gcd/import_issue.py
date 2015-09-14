@@ -112,15 +112,15 @@ class ImportIssue:
 
         try:
             indicia_publisher = GCDIndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)
-            publisher_name = indicia_publisher.name
         except GCDIndiciaPublisher.DoesNotExist:
             indicia_publisher = None
-            publisher_name = ""
 
         try:
             series = GCDSeries.objects.get(series_id=series_id)
+            publisher_name = series.publisher_name # (Assumption: Series ETL ran before Issues ETL)
         except GCDSeries.DoesNotExist:
             series = None
+            publisher_name = ""
         
         try:
             brand = GCDBrand.objects.get(brand_id=brand_id)
@@ -177,7 +177,7 @@ class ImportIssue:
             entry.save()
         except GCDIssue.DoesNotExist:
             print("ImportIssue: Inserting: " + str(id))
-            GCDIssue.objects.create(
+            entry = GCDIssue.objects.create(
                 issue_id=id,
                 number=number,
                 volume = volume,
@@ -219,3 +219,7 @@ class ImportIssue:
                 no_rating = no_rating,
                 publisher_name=publisher_name,
             )
+
+        # Update the product name of the issue.
+        entry.product_name = str(entry)
+        entry.save()

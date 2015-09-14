@@ -37,7 +37,11 @@
      *  we have under this employee.
      */
     function ajax_refresh_table() {
-        list_receipt({{ org.org_id }}, 0, {{ customer.customer_id }}, 0, function(json_data) {
+        var criteria = {
+            "organization": {{ org.org_id }},
+            "customer": {{ customer.customer_id }},
+        }
+        filter_receipts(criteria, function(json_data) {
             generate_table(json_data);
         });
     }
@@ -45,7 +49,7 @@
     /**
      *  Renders a table listing all the open cart sessions in our system.
      */
-    function generate_table(result)
+    function generate_table(json_result)
     {
         // Debugging code
         //var json_text = JSON.stringify(result, null, 2);
@@ -65,7 +69,12 @@
         html += '</thead>';
         html += '<tbody>';
         
-        $(result).each(function(iter,val){
+        // Process the meta information.
+        $(json_result).each(function(iter,meta){
+                            
+            // Process the results search data.
+            $(meta['results']).each(function(iter,val){
+                                    
             var receipt_id = val['receipt_id'];
             var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
             html += '<tr>';
@@ -148,6 +157,7 @@
                        
             html += '<td>' + '<a href="' + url + '" class="btn btn-success btn-sm">View Details</a>' + '</td>';
             html += '</tr>';
+        });
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table

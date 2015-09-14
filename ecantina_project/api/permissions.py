@@ -87,6 +87,27 @@ class BelongsToOrganization(permissions.BasePermission):
         return obj.organization == employee.organization
 
 
+class BelongsToOrganizationOwnerOrReadOnly(permissions.BasePermission):
+    """
+        Object-level permission to only allow owners of the organization
+        to be able to write to it, else it's readable to everyone else.
+    """
+    message = 'Only employees who are owners of the organization are able to write data.'
+    def has_object_permission(self, request, view, obj):
+        # Check permissions for read-only request
+        if request.method in permissions.SAFE_METHODS:
+            return True # Anyone can ead object.
+        else: # Check permissions for write request
+            # Do not allow write for users who have not logged on.
+            if request.user.is_anonymous():
+                return False
+        try:
+            employee = Employee.objects.get(user=request.user)
+            return obj.org_id == employee.organization_id and obj.administrator == employee.user
+        except Employee.DoesNotExist:
+            return False
+
+
 class BelongsToOrganizationOrCustomer(permissions.BasePermission):
     """
         Object-level permission to only allow employees who belong to the

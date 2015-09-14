@@ -45,7 +45,7 @@ class Product(models.Model):
     # when customers lookup the product and staff look through the
     # inventory database; furthermore, a product type needs to be
     # specified to tell what sort of product this is.
-    name = models.CharField(max_length=127, null=True, blank=True)
+    name = models.CharField(max_length=511, null=True, blank=True)
     type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         choices=PRODUCT_TYPE_OPTIONS,
@@ -121,5 +121,21 @@ class Product(models.Model):
     # Every product must belongs to a single cateogry.
     category = models.ForeignKey(Category)
     
+    # The QRCode image with the encoded "product_id" number in it.
+    qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
+    
     def __str__(self):
         return str(self.name)
+
+    def delete(self, *args, **kwargs):
+        """
+            Overrided delete functionality to include deleting the local file
+            that we have stored on the system. Currently the deletion funciton
+            is missing this functionality as it's our responsibility to handle
+            the local files.
+        """
+        if self.qrcode:
+            if os.path.isfile(self.qrcode.path):
+                os.remove(self.qrcode.path)
+                super(Product, self).delete(*args, **kwargs) # Call the "real" delete() method
+

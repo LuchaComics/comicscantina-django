@@ -100,7 +100,7 @@
                                                      id="id_title"
                                                    name="title"
                                                   class="form-control"
-                                                  value="{{ issue.title }}"
+                                                  value="{% if issue.title == "" %}None{% else %}{{ issue.title }}{% endif %}"
                                                disabled="true" />
                                         </div>
                                     </div>

@@ -40,29 +40,33 @@
         } else {
             has_consented = 'True';
         }
-        var data = new FormData();
-        data.append('first_name', '{{ customer.first_name }}');
-        data.append('last_name', '{{ customer.last_name }}');
-        data.append('email', '{{ customer.email }}');
-        data.append('billing_name', '{{ customer.billing_name }}');
-        data.append('billing_phone', '{{ customer.billing_phone }}');
-        data.append('billing_street_number', '{{ customer.billing_street_number }}');
-        data.append('billing_street_name', '{{ customer.billing_street_number }}');
-        data.append('billing_unit_number', '{{ customer.billing_unit_number }}');
-        data.append('billing_city', '{{ customer.billing_city }}');
-        data.append('billing_country', '{{ customer.billing_country }}');
-        data.append('billing_province', '{{ customer.billing_province }}');
-        data.append('billing_postal', '{{ customer.billing_postal }}');
-        data.append('shipping_name', '{{ customer.shipping_name }}');
-        data.append('shipping_phone', '{{ customer.shipping_phone }}');
-        data.append('shipping_street_number', '{{ customer.shipping_street_number }}');
-        data.append('shipping_street_name', '{{ customer.shipping_street_name }}');
-        data.append('shipping_unit_number', '{{ customer.shipping_unit_number }}');
-        data.append('shipping_city', '{{ customer.shipping_city }}');
-        data.append('shipping_country', '{{ customer.shipping_country }}');
-        data.append('shipping_province', '{{ customer.shipping_province }}');
-        data.append('shipping_postal', '{{ customer.shipping_postal }}');
-        data.append('has_consented', has_consented);
+        var arr = {
+            'customer_id': customer_id,
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'email': $('#id_email').val(),
+            'billing_name': $('#id_billing_name').val(),
+            'billing_phone': $('#id_billing_phone').val(),
+            'billing_email': $('#id_billing_email').val(),
+            'billing_street_number': $('#id_billing_street_number').val(),
+            'billing_street_name': $('#id_billing_street_name').val(),
+            'billing_unit_number': $('#id_billing_unit_number').val(),
+            'billing_city': $('#id_billing_city').val(),
+            'billing_country': $('#id_billing_country').val(),
+            'billing_province': $('#id_billing_province').val(),
+            'billing_postal': $('#id_billing_postal').val(),
+            'shipping_name': $('#id_shipping_name').val(),
+            'shipping_phone': $('#id_shipping_phone').val(),
+            'shipping_email': $('#id_shipping_email').val(),
+            'shipping_street_number': $('#id_shipping_street_number').val(),
+            'shipping_street_name': $('#id_shipping_street_name').val(),
+            'shipping_unit_number': $('#id_shipping_unit_number').val(),
+            'shipping_city': $('#id_shipping_city').val(),
+            'shipping_country': $('#id_shipping_country').val(),
+            'shipping_province': $('#id_shipping_province').val(),
+            'shipping_postal': $('#id_shipping_postal').val(),
+            'has_consented': has_consented
+        };
         
         // Update customer
         set_customer(customer_id, data, function() {

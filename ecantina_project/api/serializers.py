@@ -25,7 +25,7 @@ from api.models.ec.category import Category
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile',)
+        fields = ('customer_id', 'joined', 'last_updated', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_email', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_email', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile',)
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,7 +42,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_available', 'category', 'is_new', 'is_featured', )
+        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_available', 'category', 'is_new', 'is_featured', 'qrcode',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -55,7 +55,7 @@ class ComicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comic
         fields = ('comic_id', 'is_cgc_rated', 'age',
-                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'product',
+                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'product', 'created', 'organization',
                   )
 
 
@@ -132,7 +132,7 @@ class SeriesSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = GCDIssue
-        fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name',)
+        fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name', 'product_name',)
 
 
 class TagSerializer(serializers.ModelSerializer):

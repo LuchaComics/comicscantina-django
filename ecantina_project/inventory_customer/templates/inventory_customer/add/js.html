@@ -27,35 +27,74 @@
     
     function ajax_submit()
     {
-        var data = new FormData();
-        data.append('first_name', $('#id_first_name').val());
-        data.append('last_name', $('#id_last_name').val());
-        data.append('email', $('#id_email').val());
-        data.append('billing_name', $('#id_billing_name').val());
-        data.append('billing_phone', $('#id_billing_phone').val());
-        data.append('billing_street_number', $('#id_billing_street_number').val());
-        data.append('billing_street_name', $('#id_billing_street_name').val());
-        data.append('billing_unit_number', $('#id_billing_unit_number').val());
-        data.append('billing_city', $('#id_billing_city').val());
-        data.append('billing_country', $('#id_billing_country').val());
-        data.append('billing_province', $('#id_billing_province').val());
-        data.append('billing_postal', $('#id_billing_postal').val());
-        data.append('shipping_name', $('#id_shipping_name').val());
-        data.append('shipping_phone', $('#id_shipping_phone').val());
-        data.append('shipping_street_number', $('#id_shipping_street_number').val());
-        data.append('shipping_street_name', $('#id_shipping_street_name').val());
-        data.append('shipping_unit_number', $('#id_shipping_unit_number').val());
-        data.append('shipping_city', $('#id_shipping_city').val());
-        data.append('shipping_country', $('#id_shipping_country').val());
-        data.append('shipping_province', $('#id_shipping_province').val());
-        data.append('shipping_postal', $('#id_shipping_postal').val());
-        data.append('has_consented', $('#id_has_consented').is(':checked'));
-        
-        // Create a new customer
-        set_customer(0, data, function() {
-            // Load up the new location.
-            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customers';
-        });
+        var arr = {
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'email': $('#id_email').val(),
+            'billing_name': $('#id_billing_name').val(),
+            'billing_phone': $('#id_billing_phone').val(),
+            'billing_email': $('#id_billing_email').val(),
+            'billing_street_number': $('#id_billing_street_number').val(),
+            'billing_street_name': $('#id_billing_street_name').val(),
+            'billing_unit_number': $('#id_billing_unit_number').val(),
+            'billing_city': $('#id_billing_city').val(),
+            'billing_country': $('#id_billing_country').val(),
+            'billing_province': $('#id_billing_province').val(),
+            'billing_postal': $('#id_billing_postal').val(),
+            'shipping_name': $('#id_shipping_name').val(),
+            'shipping_phone': $('#id_shipping_phone').val(),
+            'shipping_email': $('#id_shipping_email').val(),
+            'shipping_street_number': $('#id_shipping_street_number').val(),
+            'shipping_street_name': $('#id_shipping_street_name').val(),
+            'shipping_unit_number': $('#id_shipping_unit_number').val(),
+            'shipping_city': $('#id_shipping_city').val(),
+            'shipping_country': $('#id_shipping_country').val(),
+            'shipping_province': $('#id_shipping_province').val(),
+            'shipping_postal': $('#id_shipping_postal').val(),
+            'has_consented': $('#id_has_consented').is(':checked'),
+        };
+        set_customer(arr, function(json_result) { // Create a new customer
+            // Create our existing customers list.
+            var customers = [];
+        {% for customer in org.customers.all %}
+            customers.push(parseInt( {{ customer.customer_id }} ));
+        {% endfor %}
+            customers.push(parseInt( json_result['customer_id'] )); // Add our new customer
+                    
+            // Attach the 'Customer' to the 'Organization'
+           var arr = {
+                'administrator': parseInt( {{ org.administrator_id }} ),
+                'org_id': parseInt( {{ org.org_id }} ),
+                'email': '{{ org.email }}',
+                'logo': parseInt( {{ org.logo_id }} ),
+                'name': '{{ org.name }}',
+                'description': '{{ org.description }}',
+                'phone': '{{ org.phone }}',
+                'fax': '{{ org.fax }}',
+                'website': '{{ org.website }}',
+                'twitter_url': '{{ org.twitter_url }}',
+                'facebook_url': '{{ org.facebook_url }}',
+                'instagram_url': '{{ org.instagram_url }}',
+                'linkedin_url': '{{ org.linkedin_url }}',
+                'github_url': '{{ org.github_url }}',
+                'google_url': '{{ org.google_url }}',
+                'youtube_url': '{{ org.youtube_url }}',
+                'flickr_url': '{{ org.flickr_url }}',
+                'street_number': '{{ org.street_number }}',
+                'street_name': '{{ org.street_name }}',
+                'unit_number': '{{ org.unit_number }}',
+                'city': '{{ org.city }}',
+                'country': '{{ org.country }}',
+                'province': '{{ org.province }}',
+                'postal': '{{ org.postal }}',
+                'customers': customers,
+            };
+            
+            set_organization(arr, function(json_result) { // Update Organization
+                // Load up the new location.
+                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customers';
+            }); // End Org
+        }); // End Customer
     }
                      
 </script>

@@ -124,3 +124,6 @@ class Command(BaseCommand):
         # Finalize
         importer = ImportGenre()
         importer.begin_import()
+
+        # Print Finish Message
+        self.stdout.write('Importer Successfully Finished')

@@ -1,34 +1,20 @@
 <script>
     function list_subscriptions(org_id, customer_id, pullllist_id, callback) {
-        var url = "/api/pulllistsubscriptions/";
+        var url = "/api/pulllistsubscriptions/?format=json";
         
         org_id = parseInt(org_id);
         if (org_id > 0) {
-            url += "?organization=" + org_id;
+            url += "&organization=" + org_id;
         }
         
         customer_id = parseInt(customer_id);
         if (customer_id > 0) {
-            var prefix = "";
-            if (org_id > 0) {
-                prefix = "&";
-            } else {
-                prefix = "?";
-            }
-            
-            url += prefix + "customer=" + customer_id;
+            url += "&customer=" + customer_id;
         }
         
         pullllist_id = parseInt(pullllist_id);
         if (pullllist_id > 0) {
-            var prefix = "";
-            if (org_id > 0 || customer_id > 0) {
-                prefix = "&";
-            } else {
-                prefix = "?";
-            }
-            
-            url += prefix + "pulllist=" + pullllist_id;
+            url += "&pulllist=" + pullllist_id;
         }
         
         jQuery.ajax({
@@ -86,7 +72,7 @@
     }
 
     function get_subscription(subscription_id, success_callback, error_callback) {
-        var url = "/api/pulllistsubscriptions/" + subscription_id + "/";
+        var url = "/api/pulllistsubscriptions/" + subscription_id + "/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,

@@ -68,13 +68,19 @@
         var upload_id = $('#id_hidden_upload_id').val();
     
         // Insert or Update.
-        set_imageupload(upload_id, false, image, 0, function(json_result) {
+        set_imageupload(upload_id, false, image, {{ employee.user_id }}, function(json_result) {
             $('#logo-image').attr('src', json_result['image']);
             $('#id_hidden_upload_id').val(json_result['upload_id']);
         });
     }
 
     function ajax_save_employee() {
+        // Defensive Code: We need to have a profile pic before continuing.
+        if ($('#id_image').val() == "") {
+            alert('Please select an image to upload');
+            return false;
+        }
+        
         // STEP 1:
         // Create our 'auth_users' object.
         var data = new FormData();
@@ -91,12 +97,13 @@
                 
             // STEP 2:
             // Create our 'ec_employees' object.
+            var upload_id = $('#id_hidden_upload_id').val();
             var data = new FormData();
             data.append('user', user);
             data.append('organization', '{{ org.org_id }}');
             data.append('role', $('#id_role').val());
             data.append('email', $('#id_email').val());
-            data.append('upload_id', $('#id_hidden_upload_id').val());
+            data.append('profile', upload_id);
             data.append('first_name', $('#id_first_name').val());
             data.append('last_name', $('#id_last_name').val());
             data.append('phone', $('#id_phone').val());
@@ -128,7 +135,11 @@
                 });
                    
                 // STEP 5:
-                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+                // Let our upload image know it is properly assigned.
+                set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                    // STEP 6;
+                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+                });
             });
         });
     }
@@ -152,19 +163,20 @@
                 success: function(json_result){
                 if (json_result.status == "success")
                 {
-                //alert("ok saved"); // Debugging Purposes
-                //window.location = ''; // Reload page.
+                    // Do nothing...
+                    //alert("ok saved"); // Debugging Purposes
+                    //window.location = ''; // Reload page.
                 }
                 else
                 {
-                alert(json_result.message);
+                    alert(json_result.message);
                 }
-                },
+            },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
             },
             complete: function(xhr,status) {
-                
+                // Do nothing.
             }
         });
     }

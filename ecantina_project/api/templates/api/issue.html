@@ -78,7 +78,7 @@
     }
 
     function filter_issue_by_series_id(series_id, callback) {
-        var url = "/api/issues/?series=" + series_id;
+        var url = "/api/issues/?format=json&series=" + series_id;
         jQuery.ajax({
             url: url,
             cache: false,

@@ -29,7 +29,7 @@ def product_search_page(request, org_id, store_id):
     return render(request, 'inventory_products/search/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'tab':'comic_list',
+        'tab':'search_products',
         'categories': categories,
         'brands': brands,
         'employee': Employee.objects.get(user=request.user),

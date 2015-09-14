@@ -1,10 +1,10 @@
 <script>
     function list_pulllist(org_id, callback) {
-        var url = "/api/pulllists/";
+        var url = "/api/pulllists/?format=json";
         
         org_id = parseInt(org_id);
         if (org_id > 0) {
-            url += "?organization=" + org_id;
+            url += "&organization=" + org_id;
         }
         
         jQuery.ajax({

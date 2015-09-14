@@ -57,6 +57,7 @@ pip3 install simplejson             # JSON Reader
 pip3 install djangorestframework    # Web browsable API Framework
 pip3 install markdown               # Markdown support for the browsable API.
 pip3 install django-filter          # Filtering support
+pip3 install qrcode                 # QR Code Generator
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 

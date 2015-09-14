@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
-from api.permissions import BelongsToOrganizationOrReadOnly
+from api.permissions import BelongsToOrganizationOwnerOrReadOnly
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.serializers import OrganizationSerializer
@@ -17,7 +17,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly)
+    permission_classes = (BelongsToOrganizationOwnerOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('org_id',)
 
