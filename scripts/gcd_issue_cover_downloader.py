@@ -6,14 +6,17 @@ from time import sleep
 from bs4 import BeautifulSoup
 import shutil
 
-
 LARGE_ZOOM = '4'
 MEDIUM_ZOOM = '2'
 SMALL_ZOOM = '1'
 PRIMARY_IMAGE = 1
 ALTERNATIVE_IMAGE = 2
-START_IMPORT_ARTIFICAL_DELAY = 2  # 2 Second delay
-DOWNLOAD_IMAGE_ARTIFICAL_DELAY = 1
+START_IMPORT_ARTIFICAL_DELAY = 8  # 2 Second delay
+DOWNLOAD_IMAGE_ARTIFICAL_DELAY = 8
+HTTP_PROXY = "http://localhost:8118"
+proxyDict = {
+    "http": HTTP_PROXY,
+}
 
 
 class GCDIssueCoverDownloader(xml.sax.ContentHandler):
@@ -53,59 +56,88 @@ class GCDIssueCoverDownloader(xml.sax.ContentHandler):
         if 'gif' in url.lower():
             return 'gif'
         return 'unknown'
-    
+
     def download_row(self, issue_id):
         # In order to prevent GCD for banning us for hammering their
         # system with our requests, we must add an artifical delay to
         # not raise any red flags.
         sleep(START_IMPORT_ARTIFICAL_DELAY)
-        
-        #-----------#
+
+        # -----------#
         #  Extract  #
-        #-----------#
+        # -----------#
         # Handle making URL calls.
-        http = urllib3.PoolManager()
-        
+        proxy = urllib3.ProxyManager('http://localhost:8118/')
+
         # GCD stores a copy of each image in three zoom levels. 4 is largest, 2
         # is medium and 1 is small.
-        zoom_levels = [SMALL_ZOOM, MEDIUM_ZOOM , LARGE_ZOOM]
-        
+        zoom_levels = [SMALL_ZOOM, MEDIUM_ZOOM, LARGE_ZOOM]
+
         for zoom in zoom_levels:
-            r = http.request('GET', 'http://www.comics.org/issue/'+str(issue_id)+'/cover/'+zoom+'/')
-            
+            r = proxy.request('GET', 'http://www.comics.org/issue/' + str(issue_id) + '/cover/' + zoom + '/')
+
             # Only process if a successful result was returned.
             if r.status == 200:
                 # Scrap all the image files found on this page.
                 soup = BeautifulSoup(r.data)
-                images = soup.find_all('img',{'class':'cover_img'})
-                
+                images = soup.find_all('img', {'class': 'cover_img'})
+
                 # Variable controls whether image is primary or alternative.
                 # Where 1 = Primary, 2 = Alternative
                 file_index = PRIMARY_IMAGE
-                
+
                 # Iterate through all the scrapped image elements and save them locally.
                 for image in images:
-                    url = (image.get("src"))
-                    print("Importing: " + url)
-                    
-                    file_type = self.detect_imagetype(url)
-                    file_name = str(issue_id) + '_' + str(file_index) + '_' + zoom
-                    file_path = os.path.dirname(os.path.realpath(__file__)) + '/cover/'  + file_name + '.' + file_type
-                    
-                    #-----------#
-                    # Transform #
-                    #-----------#
-                    # Save the image locally.
-                    with http.request('GET', url, preload_content=False) as r, open(file_path, 'wb') as out_file:
-                        shutil.copyfileobj(r, out_file)
-                    
-                    #--------#
+                    if (image.get("src") != "http://files1.comics.org/img/nocover_small.png") and (
+                        image.get("src") != "http://files1.comics.org/img/nocover_medium.png") and (
+                        image.get("src") != "http://files1.comics.org/img/nocover_large.png"):
+                        url = (image.get("src"))
+                        print("Importing: " + url)
+
+                        file_type = self.detect_imagetype(url)
+                        file_name = str(issue_id) + '_' + str(file_index) + '_' + zoom
+                        file_path = os.path.dirname(
+                            os.path.realpath(__file__)) + '/cover/' + file_name + '.' + file_type
+
+                        # -----------#
+                        # Transform #
+                        # -----------#
+                        # Save the image locally.
+                        with proxy.request('GET', url, preload_content=False) as r, open(file_path, 'wb') as out_file:
+                            shutil.copyfileobj(r, out_file)
+                    else:
+                        if image.get("src") == "http://files1.comics.org/img/nocover_small.png":
+                            print("No Cover Image - small")
+
+                            furl = os.path.dirname(os.path.realpath(__file__)) + '/nocover_small.png'
+                            file_type = self.detect_imagetype(furl)
+                            file_name = str(issue_id) + '_' + str(file_index) + '_' + zoom
+                            file_path = os.path.dirname(
+                                os.path.realpath(__file__)) + '/cover/' + file_name + '.' + file_type
+                        elif image.get("src") == "http://files1.comics.org/img/nocover_medium.png":
+                            print("No Cover Image - medium")
+
+                            furl = os.path.dirname(os.path.realpath(__file__)) + '/nocover_medium.png'
+                            file_type = self.detect_imagetype(furl)
+                            file_name = str(issue_id) + '_' + str(file_index) + '_' + zoom
+                            file_path = os.path.dirname(
+                                os.path.realpath(__file__)) + '/cover/' + file_name + '.' + file_type
+                        elif image.get("src") == "http://files1.comics.org/img/nocover_large.png":
+                            print("No Cover Image - large")
+
+                            furl = os.path.dirname(os.path.realpath(__file__)) + '/nocover_large.png'
+                            file_type = self.detect_imagetype(furl)
+                            file_name = str(issue_id) + '_' + str(file_index) + '_' + zoom
+                            file_path = os.path.dirname(
+                                os.path.realpath(__file__)) + '/cover/' + file_name + '.' + file_type
+
+                    # --------#
                     #  Load  #
-                    #--------#
+                    # --------#
                     # Indicate we are now processing the alternative image
                     # on the next loop.
                     file_index = ALTERNATIVE_IMAGE
-            
+
                     # Add an artifical delay in between downloads to prevent
                     # setting off any red-flags from GCD.
                     sleep(DOWNLOAD_IMAGE_ARTIFICAL_DELAY)
@@ -115,7 +147,7 @@ class GCDIssueCoverDownloader(xml.sax.ContentHandler):
 # $ python gcd_issue_cover_downloader.py /Users/bartlomiejmika/Developer/comicscantina/gcd/xml/gcd_issue.xml 0
 if __name__ == "__main__":
     os.system('clear;')  # Clear the console text.
-    
+
     # Check to see if the 'cover' directory has been created, if not
     # then lets create it in the current directoty that this script is
     # running in.

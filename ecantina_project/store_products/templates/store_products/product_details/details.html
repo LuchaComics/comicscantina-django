@@ -1,4 +1,4 @@
-{% extends 'store_products/base.html' %}
+{% extends 'store_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
 
@@ -30,7 +30,7 @@
         <div class="col-lg-6 col-md-6 col-sm-5">
             <h1 class="product-title"> Lorem ipsum dolor sit amet</h1>
 
-            <h3 class="product-code">Product Code : DEN1098</h3>
+            <h3 class="product-code">Product Code : {{ product.product_id }}</h3>
 
             <div class="rating">
                 <p><span><i class="fa fa-star"></i></span> <span><i class="fa fa-star"></i></span> <span><i
@@ -38,19 +38,11 @@
                         class="fa fa-star-o "></i></span> <span class="ratingInfo"> <span> / </span> <a
                         data-toggle="modal" data-target="#modal-review"> Write a review</a> </span></p>
             </div>
-            <div class="product-price"><span class="price-sales"> $70</span> <span class="price-standard">$95</span>
+            <div class="product-price"><span class="price-sales"> {{ product.price }}</span>
             </div>
             <div class="details-description">
                 <p>In scelerisque libero ut elit porttitor commodo Suspendisse laoreet magna. </p>
             </div>
-            <div class="color-details"><span class="selected-color"><strong>COLOR</strong></span>
-                <ul class="swatches Color">
-                    <li class="selected"><a style="background-color:#f1f40e"> </a></li>
-                    <li><a style="background-color:#adadad"> </a></li>
-                    <li><a style="background-color:#4EC67F"> </a></li>
-                </ul>
-            </div>
-            <!--/.color-details-->
 
             <div class="productThumb"></div>
             <!--/.productThumb-->
@@ -58,15 +50,12 @@
             <div class="productFilter productFilterLook2">
                 <div class="filterBox">
                     <select>
-                        <option value="strawberries" selected>Quantity</option>
-                        <option value="mango">1</option>
-                        <option value="bananas">2</option>
-                        <option value="watermelon">3</option>
-                        <option value="grapes">4</option>
-                        <option value="oranges">5</option>
-                        <option value="pineapple">6</option>
-                        <option value="peaches">7</option>
-                        <option value="cherries">8</option>
+                        <option value="" selected>Quantity</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
                 <div class="filterBox">
@@ -295,6 +284,6 @@
 
 <!----------------------------------------------------------------------------->
 
-{% include "store_about/main/js.html" %}
+{% include "store_products/product_details/js.html" %}
 
 {% endblock content %}
