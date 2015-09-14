@@ -163,7 +163,7 @@ class Command(BaseCommand):
         # Employees
         #-----------------
         try:
-            Employee.objects.create(
+            owner = Employee.objects.create(
                 employee_id=1,
                 joined = datetime.now(),
                 street_name = 'Centre Street',
@@ -180,8 +180,11 @@ class Command(BaseCommand):
                 organization = organization,
                 profile=profile,
             )
+            # Make "Owner" an employee of that store.
+            store.employees.add(owner)
+            store.save()
         except Exception as e:
-            pass
+            owner = Employee.objects.get(employee_id=1)
         
         # Create Sections
         sections = Section.objects.filter(store=store)
