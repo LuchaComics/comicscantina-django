@@ -74,4 +74,25 @@
             }
         });
     }
+
+    function delete_imageupload(upload_id, callback) {
+        var url = "/api/imageuploads/" + upload_id + "/";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'DELETE',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
 </script>
