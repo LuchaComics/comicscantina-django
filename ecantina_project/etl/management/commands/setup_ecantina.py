@@ -1,6 +1,7 @@
 import os
 import sys
 from datetime import datetime
+from django.db import connection, transaction
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -308,5 +309,49 @@ class Command(BaseCommand):
         #------------
         #TODO: Continue adding here ...
         
+        #-----------------
+        # BUGFIX: We need to make sure our keys are synchronized.
+        #-----------------
+        # Link: http://jesiah.net/post/23173834683/postgresql-primary-key-syncing-issues
+        cursor = connection.cursor()
         
+        tables_info = [
+            # eCantina Tables
+            {"tablename": "ec_brands", "primarykey": "brand_id",},
+            {"tablename": "ec_categories", "primarykey": "category_id",},
+            {"tablename": "ec_customers", "primarykey": "customer_id",},
+            {"tablename": "ec_employees", "primarykey": "employee_id",},
+            {"tablename": "ec_help_requests", "primarykey": "help_id",},
+            {"tablename": "ec_image_uploads", "primarykey": "upload_id",},
+            {"tablename": "ec_organizations", "primarykey": "org_id",},
+            {"tablename": "ec_products", "primarykey": "product_id",},
+            {"tablename": "ec_promotions", "primarykey": "promotion_id",},
+            {"tablename": "ec_pulllists", "primarykey": "pulllist_id",},
+            {"tablename": "ec_pulllists_subscriptions", "primarykey": "subscription_id",},
+            {"tablename": "ec_receipts", "primarykey": "receipt_id",},
+            {"tablename": "ec_sections", "primarykey": "section_id",},
+            {"tablename": "ec_tags", "primarykey": "tag_id",},
+            {"tablename": "ec_wishlists", "primarykey": "wishlist_id",},
+            # Grand Comics Database Tables
+            {"tablename": "gcd_brands", "primarykey": "brand_id",},
+            {"tablename": "gcd_brand_emblem_groups", "primarykey": "brand_emblem_group_id",},
+            {"tablename": "gcd_brand_groups", "primarykey": "brand_group_id",},
+            {"tablename": "gcd_brand_uses", "primarykey": "brand_use_id",},
+            {"tablename": "gcd_countries", "primarykey": "country_id",},
+            {"tablename": "gcd_images", "primarykey": "image_id",},
+            {"tablename": "gcd_indicia_publishers", "primarykey": "indicia_publisher_id",},
+            {"tablename": "gcd_issues", "primarykey": "issue_id",},
+            {"tablename": "gcd_languages", "primarykey": "language_id",},
+            {"tablename": "gcd_publishers", "primarykey": "publisher_id",},
+            {"tablename": "gcd_series", "primarykey": "series_id",},
+            {"tablename": "gcd_stories", "primarykey": "story_id",},
+            {"tablename": "gcd_story_types", "primarykey": "story_type_id",},
+        ]
+        for table in tables_info:
+            sql = table['tablename'] + '_' + table['primarykey'] + '_seq'
+            sql = 'SELECT setval(\'' + sql + '\', '
+            sql += '(SELECT MAX(' + table['primarykey'] + ') FROM ' + table['tablename'] + ')+1)'
+            cursor.execute(sql)
+        
+        # Finish Message!
         self.stdout.write('Comics Cantina is now setup!')
