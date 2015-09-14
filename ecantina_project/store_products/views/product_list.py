@@ -15,15 +15,16 @@ from api.models.ec.product import Product
 def list_page(request, org_id=0, cat_id=0):
     organization = Organization.objects.get(org_id=org_id)
     categories = Category.objects.all().order_by('category_id')
-    current_category = Category.objects.get(category_id=cat_id)
     brands = Brand.objects.all()
     tags = Tag.objects.all()
     promotions = Promotion.objects.all()
 
-    if current_category == 'All Products':
-        products = Product.objects.filter(organization=org_id)
-        prod_count = Product.objects.filter(organization=org_id)
-    elif current_category.parent_id == 0:
+    if cat_id == 0:
+        cat_id = 1
+
+
+    current_category = Category.objects.get(category_id=cat_id)
+    if current_category.parent_id == 0:
         products = Product.objects.filter(organization=org_id, type=cat_id)
         prod_count = Product.objects.filter(organization=org_id, type=cat_id)
     else:
