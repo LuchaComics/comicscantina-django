@@ -29,6 +29,9 @@ class HelpTestCase(TestCase):
         # Clear Sample Data
         populator = SampleDataPopulator()
         populator.dealloc()
+        helprequests = HelpRequest.objects.all()
+        for helprequest in helprequests:
+            helprequest.delete()
     
     def setUp(self):
         # Create Sample Data
@@ -62,3 +65,91 @@ class HelpTestCase(TestCase):
         # Verify our database has been modified.
         self.assertEqual(HelpRequest.objects.count(), 1)
         self.assertEqual(HelpRequest.objects.get().message, 'This is a test')
+
+    def test_get_with_success(self):
+        user = User.objects.get(username=TEST_USER_USERNAME)
+        client = APIClient()
+        client.force_authenticate(user=user)
+
+        response = client.post('/api/helprequests/', {
+            'subject': 2,
+            'subject_url': "http://www.comicscantina.com",
+            'message': "This is a test",
+            'employee': 1,
+            'store': 1,
+            'organization': 1,
+        }, format='json')
+
+        # Test Get
+        response = client.get('/api/helprequests/'+str(response.data['help_id'])+'/')
+        
+        # Verify that our object was returned.
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Verify the correct data was inputted
+        self.assertEqual(response.data['subject'], 2)
+        self.assertEqual(response.data['organization'], 1)
+        self.assertEqual(response.data['employee'], 1)
+
+    def test_delete_with_success(self):
+        user = User.objects.get(username=TEST_USER_USERNAME)
+        client = APIClient()
+        client.force_authenticate(user=user)
+        
+        response = client.post('/api/helprequests/', {
+            'subject': 2,
+            'subject_url': "http://www.comicscantina.com",
+            'message': "This is a test",
+            'employee': 1,
+            'store': 1,
+            'organization': 1,
+        }, format='json')
+        self.assertEqual(HelpRequest.objects.count(), 1)
+        
+        # Test Delete
+        response = client.delete('/api/helprequests/'+str(response.data['help_id'])+'/')
+                               
+        # Verify that our object was deleted.
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Verify our database has been modified.
+        self.assertEqual(HelpRequest.objects.count(), 0)
+
+    def test_put_with_success(self):
+        user = User.objects.get(username=TEST_USER_USERNAME)
+        client = APIClient()
+        client.force_authenticate(user=user)
+        
+        response = client.post('/api/helprequests/', {
+            'subject': 2,
+            'subject_url': "http://www.comicscantina.com",
+            'message': "This is a test",
+            'employee': 1,
+            'store': 1,
+            'organization': 1,
+        }, format='json')
+        self.assertEqual(HelpRequest.objects.count(), 1)
+                               
+        # Test Put
+        response = client.put('/api/helprequests/'+str(response.data['help_id'])+'/', {
+            'subject': 2,
+            'subject_url': "http://www.comicscantina.com",
+            'message': "Glory to the Galactic Alliance of Humankind",
+            'employee': 1,
+            'store': 1,
+            'organization': 1,
+        }, format='json')
+                               
+        # Verify that our object was deleted.
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
+        # Verify the correct data was inputted
+        self.assertEqual(response.data['subject'], 2)
+        self.assertEqual(response.data['organization'], 1)
+        self.assertEqual(response.data['employee'], 1)
+        self.assertEqual(response.data['message'], 'Glory to the Galactic Alliance of Humankind')
+        
+        # Verify our database has been modified.
+        self.assertEqual(HelpRequest.objects.count(), 1)
+
+

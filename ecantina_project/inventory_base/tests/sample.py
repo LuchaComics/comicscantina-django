@@ -82,6 +82,8 @@ class SampleDataPopulator():
                 TEST_USER_PASSWORD,
             )
             user.is_active = True
+            user.is_staff = True
+            user.is_superuser = True
             user.save()
         except Exception as e:
             user = User.objects.get(email=TEST_USER_EMAIL)
