@@ -35,15 +35,21 @@
                                         <!-- Upload ID -->
                                         <input type="hidden" id="id_hidden_upload_id" value="{{ upload_id }}" />
                                         <!-- /.Upload ID -->
-                                        {% if employee.organization.logo.image == '' %}
-                                        <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                        class="img-thumbnail center-block mb0 add-cover-image"
-                                        name="logo-image" id="logo-image" />
-                                        {% else %}
-                                        <img src="{{ employee.organization.logo.image.url }}" style="height:140px;width:140px;" alt="Store Logo"
-                                        class="img-thumbnail center-block mb0 add-cover-image"
-                                        name="logo-image" id="logo-image" />
-                                        {% endif %}
+                                    {% if employee.organization.logo.image == '' %}
+                                        <img src=""
+                                           style="height:140px;width:140px;"
+                                             alt="Organization Logo"
+                                           class="img-thumbnail center-block mb0 add-cover-image"
+                                            name="logo-image"
+                                              id="logo-image" />
+                                    {% else %}
+                                        <img src="{{ employee.organization.logo.image.url }}"
+                                           style="height:140px;width:140px;"
+                                             alt="Organization Logo"
+                                           class="img-thumbnail center-block mb0 add-cover-image"
+                                            name="logo-image"
+                                              id="logo-image" />
+                                    {% endif %}
                                         <label class="form-control btn btn-success mt10 curp" >
                                             <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Logo...
                                             <input type="file" class="form-control mb10 hide" name="logo-image"

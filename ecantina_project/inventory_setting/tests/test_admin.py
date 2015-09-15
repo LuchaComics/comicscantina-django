@@ -4,7 +4,7 @@ from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.conf.urls.static import static, settings
-from . import views
+from inventory_setting.views import admin
 from inventory_base.tests.sample import SampleDataPopulator
 
 
@@ -17,10 +17,10 @@ TEST_USER_PASSWORD = "password"
 KWARGS = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
 
 
-class HelpTestCase(TestCase):
+class AdminTestCase(TestCase):
     """
         Run in Console:
-        python manage.py test inventory_help.tests
+        python manage.py test inventory_setting.tests.test_admin
     """
     def tearDown(self):
         pass
@@ -34,16 +34,15 @@ class HelpTestCase(TestCase):
         populator.populate()
     
     def test_url_resolves_to_help_page(self):
-        found = resolve('/inventory/1/1/help')
-        self.assertEqual(found.func, views.help_page)
+        found = resolve('/inventory/1/1/settings/administrator')
+        self.assertEqual(found.func, admin.admin_settings_page)
 
-    def test_help_page_returns_correct_html(self):
+    def test_admin_settings_page_returns_correct_html(self):
         client = Client()
         client.login(
             username=TEST_USER_USERNAME,
             password=TEST_USER_PASSWORD
         )
-        response = client.post('/inventory/1/1/help')
+        response = client.post('/inventory/1/1/settings/administrator')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b' Contact Us',response.content)
-        self.assertIn(b'id_hidden_upload_id',response.content)
+        self.assertIn(b'Admin',response.content)
