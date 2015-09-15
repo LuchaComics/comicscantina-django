@@ -105,25 +105,49 @@ class SampleDataPopulator():
         #-----------------
         # Customer
         #-----------------
-#        try:
-#            customer1 = Customer.objects.create(
-#                user=user2,
-#                customer_id=1,
-#                first_name='Rei',
-#                last_name='Ayanami',
-#                street_name='Hamilton Rd',
-#                street_number='426',
-#                unit_number='1',
-#                city='London',
-#                province='Ontario',
-#                country='Canada',
-#                postal='N5Z 1R9',
-#                email='test@testing.com',
-#                phone='519-439-9636',
-#            )
-#        except Exception as e:
-#            print("Failed creating customer 1")
-#            customer1 = Customer.objects.get(user=user2)
+        try:
+            customer1 = Customer.objects.create(
+                customer_id = 1,
+                                                
+                # Name & Contact
+                first_name = 'Rei',
+                last_name = ' Ayanami',
+                email = 'rayanami@nerv.worldgov',
+                                                
+                # Billing Info
+                billing_name = 'Rei Ayanami',
+                billing_phone = '111-111-1111',
+                billing_email = 'rayanami@nerv.worldgov',
+                billing_street_name = 'Nerv HQ Street',
+                billing_street_number = '1000',
+                billing_unit_number = '666',
+                billing_city = 'Neo Tokyo',
+                billing_province = 'Shinjuku',
+                billing_country = 'Japan',
+                billing_postal = 'N6J4X4',
+                
+                # Shipping Info
+                shipping_name = 'Rei Ayanami',
+                shipping_phone = '111-111-1111',
+                shipping_email = 'rayanami@nerv.worldgov',
+                shipping_street_name = 'Nerv HQ Street',
+                shipping_street_number = '1000',
+                shipping_unit_number = '666',
+                shipping_city = 'Neo Tokyo',
+                shipping_province = 'Shinjuku',
+                shipping_country = 'Japan',
+                shipping_postal = 'N6J4X4',
+                                                
+                # Legal
+                has_consented = True,
+                
+                # References.
+                user = user2,
+                profile = profile,
+            )
+        except Exception as e:
+            print("Failed creating customer 1")
+            customer1 = Customer.objects.get(user=user2)
 
         #-----------------
         # Organization
