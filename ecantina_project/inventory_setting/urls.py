@@ -11,9 +11,9 @@ urlpatterns = patterns('',
                        
     # Admin
     url(r'^inventory/(\d+)/(\d+)/settings/administrator$', admin.admin_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/update_org_administrator$',admin.ajax_update_org_administrator),
     # Org
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', org.org_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/update_org_administrator$',org.ajax_update_org_administrator),
     # Store
     url(r'^inventory/(\d+)/(\d+)/settings/store/(\d+)$', stores.edit_store_settings_page),
     url(r'^inventory/(\d+)/(\d+)/settings/store/new$', stores.store_settings_page),

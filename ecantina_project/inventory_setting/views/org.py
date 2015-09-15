@@ -17,10 +17,6 @@ from inventory_setting.forms.organizationform import OrganizationForm
 from inventory_setting.forms.userform import UserForm
 
 
-# Organization - Edit
-#---------------------
-
-
 @login_required(login_url='/inventory/login')
 def org_settings_page(request, org_id, store_id):
     employee = Employee.objects.get(user=request.user)
@@ -39,27 +35,3 @@ def org_settings_page(request, org_id, store_id):
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
-
-
-# Organization - Common
-#-----------------------
-
-
-@login_required()
-def ajax_update_org_administrator(request, org_id, store_id):
-    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
-    if request.is_ajax():
-        if request.method == 'POST':
-            # Save Administrator
-            form = UserForm(request.POST, instance=request.user)
-            if form.is_valid():
-                form.save()
-            else:
-                return HttpResponse(json.dumps({
-                    'status' : 'failed',
-                    'message' : json.dumps(form.errors
-                )}), content_type="application/json")
-
-            # Success
-            response_data = {'status' : 'success', 'message' : 'saved',}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")

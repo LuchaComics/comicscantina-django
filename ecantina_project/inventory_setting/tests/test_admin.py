@@ -37,6 +37,10 @@ class AdminTestCase(TestCase):
         found = resolve('/inventory/1/1/settings/administrator')
         self.assertEqual(found.func, admin.admin_settings_page)
 
+def test_url_resolves_to_update_page(self):
+    found = resolve('/inventory/1/1/settings/update_org_administrator')
+        self.assertEqual(found.func, admin.ajax_update_org_administrator)
+
     def test_admin_settings_page_returns_correct_html(self):
         client = Client()
         client.login(
