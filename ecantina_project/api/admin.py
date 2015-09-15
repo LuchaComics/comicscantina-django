@@ -18,14 +18,23 @@ from api.models.gcd.brandemblemgroup import GCDBrandEmblemGroup
 
 # Comics Cantina Database Models
 #------------------------------------------------------------------
+from api.models.ec.brand import Brand
+from api.models.ec.category import Category
 from api.models.ec.comic import Comic
 from api.models.ec.customer import Customer
 from api.models.ec.employee import Employee
 from api.models.ec.helprequest import HelpRequest
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
+from api.models.ec.product import Product
+from api.models.ec.promotion import Promotion
+from api.models.ec.pulllist import Pulllist
+from api.models.ec.pulllistsubscription import PulllistSubscription
+from api.models.ec.receipt import Receipt
 from api.models.ec.section import Section
 from api.models.ec.store import Store
+from api.models.ec.tag import Tag
+from api.models.ec.wishlist import Wishlist
 
 
 # Registering Models
@@ -44,11 +53,20 @@ admin.site.register(GCDStory)
 admin.site.register(GCDBrandUse)
 admin.site.register(GCDBrandEmblemGroup)
 # EC
+admin.site.register(Brand)
+admin.site.register(Category)
 admin.site.register(Comic)
 admin.site.register(Customer)
 admin.site.register(Employee)
 admin.site.register(HelpRequest)
 admin.site.register(ImageUpload)
 admin.site.register(Organization)
+admin.site.register(Product)
+admin.site.register(Promotion)
+admin.site.register(Pulllist)
+admin.site.register(PulllistSubscription)
+admin.site.register(Receipt)
 admin.site.register(Section)
 admin.site.register(Store)
+admin.site.register(Tag)
+admin.site.register(Wishlist)
