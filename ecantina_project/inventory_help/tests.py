@@ -16,7 +16,10 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
-from inventory.tests.sample import SamplDataPopulator
+from api.models.ec.helprequest import HelpRequest
+from inventory_base.tests.sample import SampleDataPopulator
+from rest_framework.test import APIClient, force_authenticate
+from rest_framework import status
 
 
 # Contants
@@ -34,8 +37,9 @@ class HelpTestCase(TestCase):
         python manage.py test inventory_help.tests
     """
     def tearDown(self):
+        pass
         # Clear Sample Data
-        populator = SamplDataPopulator()
+        populator = SampleDataPopulator()
         populator.dealloc()
     
     def setUp(self):
@@ -44,7 +48,7 @@ class HelpTestCase(TestCase):
         now = datetime.now()
         
         # Create Sample Data
-        populator = SamplDataPopulator()
+        populator = SampleDataPopulator()
         populator.populate()
     
     def test_url_resolves_to_help_page(self):
@@ -62,3 +66,30 @@ class HelpTestCase(TestCase):
         self.assertIn(b' Contact Us',response.content)
         self.assertIn(b'id_hidden_upload_id',response.content)
 
+    def test_post_with_success(self):
+        user = User.objects.get(username=TEST_USER_USERNAME)
+        client = APIClient()
+        client.force_authenticate(user=user)
+        
+        response = client.post('/api/helprequests/', {
+            'subject': 2,
+            'subject_url': "http://www.comicscantina.com",
+            'message': "This is a test",
+            'employee': 1,
+            'store': 1,
+            'organization': 1,
+        }, format='json')
+        
+        #print("", response.data)  # Used for debugging purposes only.
+        
+        # Verify that our object was created.
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Verify the correct data was inputted
+        self.assertEqual(response.data['subject'], 2)
+        self.assertEqual(response.data['organization'], 1)
+        self.assertEqual(response.data['employee'], 1)
+
+        # Verify our database has been modified.
+        self.assertEqual(HelpRequest.objects.count(), 1)
+        self.assertEqual(HelpRequest.objects.get().message, 'This is a test')
