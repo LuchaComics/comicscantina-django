@@ -1,21 +1,10 @@
-import json
-from datetime import datetime
 from django.core.urlresolvers import resolve
-from django.http import HttpRequest
-from django.http import QueryDict
 from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
-from captcha.models import CaptchaStore
 from . import views
-from api.models.ec.imageupload import ImageUpload
-from api.models.ec.organization import Organization
-from api.models.ec.store import Store
-from api.models.ec.employee import Employee
-from api.models.ec.section import Section
 from api.models.ec.helprequest import HelpRequest
 from inventory_base.tests.sample import SampleDataPopulator
 from rest_framework.test import APIClient, force_authenticate
@@ -43,10 +32,6 @@ class HelpTestCase(TestCase):
         populator.dealloc()
     
     def setUp(self):
-        captcha_count = CaptchaStore.objects.count()
-        self.failUnlessEqual(captcha_count, 0)
-        now = datetime.now()
-        
         # Create Sample Data
         populator = SampleDataPopulator()
         populator.populate()
