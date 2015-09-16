@@ -249,16 +249,15 @@
         var name = $('#id_section_id_' + section_id).val();
         
         // Fetch the data from the view and encode it into a "FormData" object.
-        var data = new FormData();
-        if (section_id > 0) {
-            data.append('section_id', section_id);
+        var data = {
+            'name': name,
+            'store': {{ this_store.store_id }},
+            'organization': {{ org.org_id }},
         }
-        data.append('name', name);
-        data.append('store', {{ this_store.store_id }});
-        data.append('organization', {{ org.org_id }});
-        
-        // Insert / Update and then refresh table.
-        set_section(section_id, data, function(json_result) {
+        if (section_id > 0) {
+            data['section_id'] = section_id;
+        }
+        set_section(data, function(json_result) {
             ajax_refresh_sections_table();
         });
     }

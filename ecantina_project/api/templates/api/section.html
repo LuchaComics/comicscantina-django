@@ -1,8 +1,4 @@
 <script>
-    /**
-     *  Makes a JSON call to our API service to fetch all the sections based
-     *  on the search/filter parameters and run the callback function.
-     */
     function list_sections(org_id, store_id, callback) {
         var url = "/api/sections/?format=json";
         
@@ -34,32 +30,26 @@
             }
         });
     }
-    
-    /**
-     *  Function will either insert or update depending on whether "org_id"
-     *  parameter was used.
-     */
-    function set_section(id, data, callback)
+
+    function set_section(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
+        var type = "POST"; // Insert.
         var url = "/api/sections/";
-        if (id > 0) {
+        if (data['section_id'] > 0) {
             type = "PUT"; // Update
-            url += id + "/";
+            url += data['section_id'] + "/";
         }
-    
+        
         jQuery.ajax({
             url: url,
             data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
             type: type,
+            traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
             success: function(json_result){
                 // Debugging code
-                var json_text = JSON.stringify(json_result, null, 2);
-                console.log(json_text);
+                //var json_text = JSON.stringify(json_result, null, 2);
+                //console.log(json_text);
                     
                 // Call back the function with the JSON results.
                 callback(json_result);
