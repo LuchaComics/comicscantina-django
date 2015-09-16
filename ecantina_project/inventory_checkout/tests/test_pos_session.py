@@ -20,7 +20,7 @@ KWARGS = {'HTTP_X_REQUESTED_WITH':'XMLHttpRequest'}
 class CheckoutCustomerTestCase(TestCase):
     """
         Run in Console:
-        python manage.py test inventory_checkout.tests.test_pos_customer
+        python manage.py test inventory_checkout.tests.test_pos_session
     """
     def tearDown(self):
         pass
@@ -37,13 +37,14 @@ class CheckoutCustomerTestCase(TestCase):
         found = resolve('/inventory/1/1/checkout')
         self.assertEqual(found.func, pos_session.checkout_page)
 
-#    def test_help_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/help')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_checkout_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/checkout')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Checkout',response.content)
+        self.assertIn(b'Point of Sale',response.content)
+        self.assertIn(b'id_table_placeholder',response.content)
