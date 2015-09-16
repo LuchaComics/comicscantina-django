@@ -33,17 +33,17 @@ class CheckoutCustomerTestCase(TestCase):
         populator = SampleDataPopulator()
         populator.populate()
     
-    def test_url_resolves_to_help_page(self):
+    def test_url_resolves_to_receipt_page(self):
         found = resolve('/inventory/1/1/checkout/1/receipt')
         self.assertEqual(found.func, pos_receipt.checkout_page)
 
-#    def test_help_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/help')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_receipt_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/checkout/1/receipt')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Point of Sale',response.content)
+        self.assertIn(b'Checkout',response.content)
