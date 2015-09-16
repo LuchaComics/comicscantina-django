@@ -33,17 +33,28 @@ class ProductComicTestCase(TestCase):
         populator = SampleDataPopulator()
         populator.populate()
     
-    def test_url_resolves_to_help_page(self):
+    def test_url_resolves_to_comic_page(self):
         found = resolve('/inventory/1/1/comic/1/product/1')
         self.assertEqual(found.func, comic.comic_page)
 
-#    def test_help_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/help')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_edit_comic_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/comic/1/product/1')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Comic',response.content)
+        self.assertIn(b'Winterworld',response.content)
+
+    def test_add_comic_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/comic/1/product/0')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Comic',response.content)
+        self.assertIn(b'Winterworld',response.content)
