@@ -41,24 +41,24 @@ class ProductSearchComicTestCase(TestCase):
         found = resolve('/inventory/1/1/products/comics')
         self.assertEqual(found.func, search_comic.search_products_page)
 
-#    def test_search_comics_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/comics')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
-#
-#    def test_search_products_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/products/comics')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_search_comics_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/comics')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b' Add',response.content)
+        self.assertIn(b'<!-- Modal -->',response.content)
+
+    def test_search_products_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/products/comics')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'View',response.content)
+        self.assertIn(b'Comics',response.content)
