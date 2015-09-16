@@ -52,6 +52,7 @@ class Customer(models.Model):
     # References.
     user = models.ForeignKey(User, null=True, blank=True)
     profile = models.ForeignKey(ImageUpload, null=True, blank=True)
+    qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
     
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (ID: ' + str(self.customer_id) + ')'

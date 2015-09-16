@@ -40,36 +40,37 @@
         } else {
             has_consented = 'True';
         }
-        var arr = {
+        var data = {
             'customer_id': customer_id,
-            'first_name': $('#id_first_name').val(),
-            'last_name': $('#id_last_name').val(),
-            'email': $('#id_email').val(),
-            'billing_name': $('#id_billing_name').val(),
-            'billing_phone': $('#id_billing_phone').val(),
-            'billing_email': $('#id_billing_email').val(),
-            'billing_street_number': $('#id_billing_street_number').val(),
-            'billing_street_name': $('#id_billing_street_name').val(),
-            'billing_unit_number': $('#id_billing_unit_number').val(),
-            'billing_city': $('#id_billing_city').val(),
-            'billing_country': $('#id_billing_country').val(),
-            'billing_province': $('#id_billing_province').val(),
-            'billing_postal': $('#id_billing_postal').val(),
-            'shipping_name': $('#id_shipping_name').val(),
-            'shipping_phone': $('#id_shipping_phone').val(),
-            'shipping_email': $('#id_shipping_email').val(),
-            'shipping_street_number': $('#id_shipping_street_number').val(),
-            'shipping_street_name': $('#id_shipping_street_name').val(),
-            'shipping_unit_number': $('#id_shipping_unit_number').val(),
-            'shipping_city': $('#id_shipping_city').val(),
-            'shipping_country': $('#id_shipping_country').val(),
-            'shipping_province': $('#id_shipping_province').val(),
-            'shipping_postal': $('#id_shipping_postal').val(),
+            'first_name': '{{ customer.first_name }}',
+            'last_name': '{{ customer.last_name }}',
+            'email': '{{ customer.email }}',
+            'billing_name': '{{ customer.billing_name }}',
+            'billing_phone': '{{ customer.billing_phone }}',
+            'billing_email': '{{ customer.billing_email }}',
+            'billing_street_number': '{{ customer.billing_street_number }}',
+            'billing_street_name': '{{ customer.billing_street_name }}',
+            'billing_unit_number': '{{ customer.billing_unit_number }}',
+            'billing_city': '{{ customer.billing_city }}',
+            'billing_country': '{{ customer.billing_country }}',
+            'billing_province': '{{ customer.billing_province }}',
+            'billing_postal': '{{ customer.billing_postal }}',
+            'shipping_name': '{{ customer.shipping_name }}',
+            'shipping_phone': '{{ customer.shipping_phone }}',
+            'shipping_email': '{{ customer.shipping_email }}',
+            'shipping_street_number': '{{ customer.shipping_street_number }}',
+            'shipping_street_name': '{{ customer.shipping_street_name }}',
+            'shipping_unit_number': '{{ customer.shipping_unit_number }}',
+            'shipping_city': '{{ customer.shipping_city }}',
+            'shipping_country': '{{ customer.shipping_country }}',
+            'shipping_province': '{{ customer.shipping_province }}',
+            'shipping_postal': '{{ customer.shipping_postal }}',
+            'qrcode': '{{ customer.qrcode }}',
             'has_consented': has_consented
         };
         
         // Update customer
-        set_customer(customer_id, data, function() {
+        set_customer(data, function() {
             window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
         });
     }
