@@ -37,13 +37,16 @@ class CheckoutCustomerTestCase(TestCase):
         found = resolve('/inventory/1/1/checkout/1/customer')
         self.assertEqual(found.func, pos_customer.checkout_page)
 
-#    def test_help_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/help')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_checkout_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/checkout/1/customer')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Point of Sale ',response.content)
+        self.assertIn(b'Checkout',response.content)
+        self.assertIn(b'<!-- New Customer -->',response.content)
+        self.assertIn(b'<!-- Returning Customer -->',response.content)
+        self.assertIn(b'<!-- Scan Customer -->',response.content)

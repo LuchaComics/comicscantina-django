@@ -10,23 +10,44 @@ from django.contrib.auth.models import User
 #from django.contrib.auth.decorators import login_required
 from django.conf.urls.static import static, settings
 from captcha.models import CaptchaStore
+from django.db import IntegrityError, transaction
+
+# Grand Comics Database Models
+#------------------------------------------------------------------
 from api.models.gcd.country import GCDCountry
-from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.language import GCDLanguage
+from api.models.gcd.image import GCDImage
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.brandgroup import GCDBrandGroup
+from api.models.gcd.brand import GCDBrand
 from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
+from api.models.gcd.storytype import GCDStoryType
 from api.models.gcd.story import GCDStory
+from api.models.gcd.branduse import GCDBrandUse
+from api.models.gcd.brandemblemgroup import GCDBrandEmblemGroup
+
+# Comics Cantina Database Models
+#------------------------------------------------------------------
+from api.models.ec.brand import Brand
+from api.models.ec.category import Category
+from api.models.ec.comic import Comic
+from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
+from api.models.ec.helprequest import HelpRequest
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
-from api.models.ec.store import Store
-from api.models.ec.employee import Employee
-from api.models.ec.section import Section
-from api.models.ec.customer import Customer
-from api.models.ec.comic import Comic
 from api.models.ec.product import Product
+from api.models.ec.promotion import Promotion
 from api.models.ec.pulllist import Pulllist
 from api.models.ec.pulllistsubscription import PulllistSubscription
-from django.db import IntegrityError, transaction
+from api.models.ec.receipt import Receipt
+from api.models.ec.section import Section
+from api.models.ec.store import Store
+from api.models.ec.tag import Tag
+from api.models.ec.wishlist import Wishlist
+
 
 # Contants
 TEST_USER_EMAIL = "ledo@gah.com"
@@ -437,3 +458,48 @@ class SampleDataPopulator():
             )
         except Exception as e:
             pullistsubscription = PulllistSubscription.objects.get(subscription_id=1)
+
+        #------------------------
+        # Receipt
+        #------------------------
+        try:
+            receipt = Receipt.objects.create(
+                organization = organization,
+                store = store,
+                employee = employee,
+                customer = customer1,
+                receipt_id = 1,
+                #created =
+                #last_updated =
+                has_purchased_online = False,
+                payment_method = 1,
+                status = 1,
+                sub_total = 10.0,
+                discount_amount = 1,
+                has_tax = True,
+                tax_rate = 0.13,
+                tax_amount = 1,
+                total_amount = 10,
+                has_finished = False,
+                has_paid = False,
+                billing_first_name = 'Rei',
+                billing_last_name = 'Ayanami',
+                billing_address = '102-120 Centre Street',
+                billing_email = 'rayanami@nerv.worldgov',
+                billing_phone = '111-111-1111',
+                billing_city = 'London',
+                billing_province = 'Ontario',
+                billing_country = 'Canada',
+                billing_postal = 'N6J4X4',
+                shipping_first_name = 'Rei',
+                shipping_last_name = 'Ayanami',
+                shipping_address = '102-120 Centre Street',
+                shipping_email = 'rayanami@nerv.worldgov',
+                shipping_phone = '111-111-1111',
+                shipping_city = 'London',
+                shipping_province = 'Ontario',
+                shipping_country = 'Canada',
+                shipping_postal = 'N6J4X4',
+            )
+        except Exception as e:
+            receipt = Receipt.objects.get(recepit_id=1)
