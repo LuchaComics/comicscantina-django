@@ -1,5 +1,6 @@
 {% include 'api/employee.html' %}
 {% include 'api/user.html' %}
+{% include 'api/imageupload.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -25,12 +26,18 @@
         });
     });
     
-    function ajax_delete_employee(employee_id, user_id)
+    function ajax_delete_employee(employee_id, user_id, profile_id)
     {
         // Call function to delete the user.
         delete_employee(employee_id, function(json_result) {
             delete_user(user_id, function(json_result) {
-                  window.location='';
+                if (profile_id > 0) {
+                    delete_imageupload(upload_id, function(json_result) {
+                        window.location='';
+                    });
+                } else {
+                    window.location='';
+                }
             });
         });
     }

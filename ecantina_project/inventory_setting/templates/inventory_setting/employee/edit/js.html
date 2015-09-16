@@ -77,26 +77,26 @@
             $('#id_hidden_upload_id').val(json_result['upload_id']);
             
             // Update employee.
-            var data = new FormData();
-            data.append('user', {{ this_employee.user_id }});
-            data.append('employee_id', {{ this_employee.employee_id }});
-            data.append('organization', '{{ org.org_id }}');
-            data.append('role', $('#id_role').val());
-            data.append('email', $('#id_email').val());
-            data.append('upload_id', $('#id_hidden_upload_id').val());
-            data.append('first_name', $('#id_first_name').val());
-            data.append('last_name', $('#id_last_name').val());
-            data.append('phone', $('#id_phone').val());
-            data.append('fax', $('#id_fax').val());
-            data.append('street_number', $('#id_street_number').val());
-            data.append('street_name', $('#id_street_name').val());
-            data.append('unit_number', $('#id_unit_number').val());
-            data.append('city', $('#id_city').val());
-            data.append('country', $('#id_country').val());
-            data.append('province', $('#id_province').val());
-            data.append('postal', $('#id_postal').val());
-            data.append('profile', $('#id_hidden_upload_id').val());
-            set_employee({{ this_employee.employee_id }}, data, function(json_result) {
+            var data = {
+                'user':  {{ this_employee.user_id }},
+                'employee_id': {{ this_employee.employee_id }},
+                'organization': '{{ org.org_id }}',
+                'role': $('#id_role').val(),
+                'email': $('#id_email').val(),
+                'profile': upload_id,
+                'first_name': $('#id_first_name').val(),
+                'last_name': $('#id_last_name').val(),
+                'phone': $('#id_phone').val(),
+                'fax': $('#id_fax').val(),
+                'street_number': $('#id_street_number').val(),
+                'street_name': $('#id_street_name').val(),
+                'unit_number': $('#id_unit_number').val(),
+                'city': $('#id_city').val(),
+                'country': $('#id_country').val(),
+                'province': $('#id_province').val(),
+                'postal': $('#id_postal').val(),
+            }
+            set_employee(data, function(json_result) {
                 // Do nothing.
             });
         });
@@ -106,41 +106,42 @@
     function ajax_save_employee() {
         // STEP 1:
         // Create our 'auth_users' object.
-        var data = new FormData();
-        data.append('user_id', {{ this_employee.user_id }});
-        data.append('first_name', $('#id_first_name').val());
-        data.append('last_name', $('#id_last_name').val());
-        data.append('email', $('#id_email').val());
-        data.append('username', $('#id_email').val());
-        data.append('old_password', $('#id_old_password').val());
-        data.append('password', $('#id_password').val());
-        data.append('password_repeated', $('#id_password_repeated').val());
-        data.append('groups','');
-        set_user({{ this_employee.user_id }}, data, function(json_result) {
+        var data = new {
+            'user_id': {{ this_employee.user_id }},
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'email': $('#id_email').val(),
+            'username': $('#id_email').val(),
+            'old_password': $('#id_old_password').val(),
+            'password': $('#id_password').val(),
+            'password_repeated': $('#id_password_repeated').val(),
+            'groups': ''
+        };
+        set_user(data, function(json_result) {
             var user = json_result['id'];
              
             // STEP 2:
             // Create our 'ec_employees' object.
-            var data = new FormData();
-            data.append('user', user);
-            data.append('employee_id', {{ this_employee.employee_id }});
-            data.append('organization', '{{ org.org_id }}');
-            data.append('role', $('#id_role').val());
-            data.append('email', $('#id_email').val());
-            data.append('upload_id', $('#id_hidden_upload_id').val());
-            data.append('first_name', $('#id_first_name').val());
-            data.append('last_name', $('#id_last_name').val());
-            data.append('phone', $('#id_phone').val());
-            data.append('fax', $('#id_fax').val());
-            data.append('street_number', $('#id_street_number').val());
-            data.append('street_name', $('#id_street_name').val());
-            data.append('unit_number', $('#id_unit_number').val());
-            data.append('city', $('#id_city').val());
-            data.append('country', $('#id_country').val());
-            data.append('province', $('#id_province').val());
-            data.append('postal', $('#id_postal').val());
-            data.append('profile', $('#id_hidden_upload_id').val());
-            set_employee({{ this_employee.employee_id }}, data, function(json_result) {
+            var data = {
+                 'user':  {{ this_employee.user_id }},
+                 'employee_id': {{ this_employee.employee_id }},
+                 'organization': '{{ org.org_id }}',
+                 'role': $('#id_role').val(),
+                 'email': $('#id_email').val(),
+                 'profile': upload_id,
+                 'first_name': $('#id_first_name').val(),
+                 'last_name': $('#id_last_name').val(),
+                 'phone': $('#id_phone').val(),
+                 'fax': $('#id_fax').val(),
+                 'street_number': $('#id_street_number').val(),
+                 'street_name': $('#id_street_name').val(),
+                 'unit_number': $('#id_unit_number').val(),
+                 'city': $('#id_city').val(),
+                 'country': $('#id_country').val(),
+                 'province': $('#id_province').val(),
+                 'postal': $('#id_postal').val(),
+            }
+            set_employee(data, function(json_result) {
                 var employee_id = json_result['employee_id'];
                          
                 // STEP 3:

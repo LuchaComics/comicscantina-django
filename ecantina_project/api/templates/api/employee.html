@@ -39,23 +39,21 @@
      *  Function will either insert or update depending on whether "id"
      *  parameter was used.
      */
-    function set_employee(id, data, callback)
+    function set_employee(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
+        var type = "POST"; // Insert.
         var url = "/api/employees/";
-        if (id > 0) {
+        if (data['employee_id'] > 0) {
             type = "PUT"; // Update
-            url += id + "/";
+            url += data['employee_id'] + "/";
         }
-    
+        
         jQuery.ajax({
             url: url,
             data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
             type: type,
+            traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
             success: function(json_result){
                 // Debugging code
                 var json_text = JSON.stringify(json_result, null, 2);
