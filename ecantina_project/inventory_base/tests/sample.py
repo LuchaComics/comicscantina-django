@@ -24,6 +24,8 @@ from api.models.ec.section import Section
 from api.models.ec.customer import Customer
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
+from api.models.ec.pulllist import Pulllist
+from api.models.ec.pulllistsubscription import PulllistSubscription
 from django.db import IntegrityError, transaction
 
 # Contants
@@ -265,131 +267,159 @@ class SampleDataPopulator():
         #-----------
         # Country
         #----------
-        country = GCDCountry.objects.create(
-             country_id=1,
-             code='ca',
-             name='Canada',
-         )
+        try:
+            country = GCDCountry.objects.create(
+                 country_id=1,
+                 code='ca',
+                 name='Canada',
+            )
+        except Exception as e:
+            country = GCDCountry.objects.get(country_id=1)
 
         #------------
         # Language
         #-----------
-        language = GCDLanguage.objects.create(
-            language_id=1,
-            code='En',
-            name='English',
-        )
+        try:
+            language = GCDLanguage.objects.create(
+                language_id=1,
+                code='En',
+                name='English',
+            )
+        except Exception as e:
+            language = GCDLanguage.objects.get(language_id=1)
 
-#-        #-----------------
-#-        # Publisher
-#-        #-----------------
-#-        publisher = Publisher.objects.create(
-#                                              -            publisher_id=1,
-#                                              -            name='Lucha Comics',
-#                                              -            year_began='2015',
-#                                              -#            year_ended=year_ended,
-#                                              -#            notes=notes,
-#                                              -#            url=url,
-#                                              -#            is_master=is_master,
-#                                              -#            # parent_id
-#                                              -#            imprint_count=imprint_count,
-#                                              -#            brand_count=brand_count,
-#                                              -#            indicia_publisher_count=indicia_publisher_count,
-#                                              -#            series_count=series_count,
-#                                              -#            created=created,
-#                                              -#            modified=modified,
-#                                              -#            issue_count=issue_count,
-#                                              -#            reserved=reserved,
-#                                              -#            deleted=deleted,
-#                                              -#            year_began_uncertain=year_began_uncertain,
-#                                              -#            year_ended_uncertain=year_ended_uncertain,
-#                                              -            country=country,
-#                                              -        )
-#-
-#-        #-----------------
-#-        # Series
-#-        #-----------------
-#-        series = Series.objects.create(
-#                                        -            series_id=1,
-#                                        -            name='Winter World',
-#                                        -            sort_name='Winter World',
-#                                        -#            format=format,
-#                                        -            year_began='2015',
-#                                        -            year_ended='3000',
-#                                        -#            year_began_uncertain=year_began_uncertain,
-#                                        -#            year_ended_uncertain=year_ended_uncertain,
-#                                        -#            publication_dates=publication_dates,
-#                                        -#            is_current=is_current,
-#                                        -            publisher=publisher,
-#                                        -            country=country,
-#                                        -            language=language,
-#                                        -#            tracking_notes=tracking_notes,
-#                                        -#            notes=notes,
-#                                        -#            publication_notes=publication_notes,
-#                                        -#            has_gallery=has_gallery,
-#                                        -#            open_reserve=open_reserve,
-#                                        -#            issue_count=issue_count,
-#                                        -#            created=created,
-#                                        -#            modified=modified,
-#                                        -#            reserved=reserved,
-#                                        -#            deleted=deleted,
-#                                        -#            has_indicia_frequency=has_indicia_frequency,
-#                                        -#            has_isbn=has_isbn,
-#                                        -#            has_barcode=has_barcode,
-#                                        -#            has_issue_title=has_issue_title,
-#                                        -#            has_volume=has_volume,
-#                                        -#            is_comics_publication=is_comics_publication,
-#                                        -#            color=color,
-#                                        -#            dimensions=dimensions,
-#                                        -#            paper_stock=paper_stock,
-#                                        -#            binding=binding,
-#                                        -#            publishing_format=publishing_format,
-#                                        -#            has_rating=has_rating,
-#                                        -#            publication_type_id=publication_type_id,
-#                                        -#            is_singleton=is_singleton,
-#                                        -        )
-#-
-#-        #-----------------
-#-        # Issue
-#-        #-----------------
-#-        GCDIssue.objects.create(
-#                                 -            issue_id=1,
-#                                 -                number='1',
-#                                 -                volume='1',
-#                                 -#                no_volume=False,
-#                                 -#                display_volume_with_number=True,
-#                                 -            series = series,
-#                                 -#                indicia_publisher = None,
-#                                 -#                indicia_pub_not_printed = True,
-#                                 -#                brand = None,
-#                                 -#                no_brand = True,
-#                                 -#                publication_date = 'December 9',
-#                                 -#                                 key_date = key_date,
-#                                 -            sort_code = '0',
-#                                 -#                                 price = price,
-#                                 -#                                 page_count = page_count,
-#                                 -#                                 page_count_uncertain = page_count_uncertain,
-#                                 -#                                 indicia_frequency = indicia_frequency,
-#                                 -#                                 no_indicia_frequency = no_indicia_frequency,
-#                                 -#                                 editing = editing,
-#                                 -#                                 no_editing = no_editing,
-#                                 -#                                 notes = notes,
-#                                 -#                                 created = created,
-#                                 -#                                 modified = modified,
-#                                 -#                                 reserved = reserved,
-#                                 -#                                 deleted = deleted,
-#                                 -#                                 is_indexed = is_indexed,
-#                                 -#                                 isbn = isbn,
-#                                 -#                                 valid_isbn = valid_isbn,
-#                                 -#                                 no_isbn = no_isbn,
-#                                 -#                                 variant_of_id = variant_of_id,
-#                                 -#                                 variant_name = variant_name,
-#                                 -#                                 barcode = barcode,
-#                                 -#                                 no_barcode = no_barcode,
-#                                 -                                 title = 'Winter World',
-#                                 -#                                 no_title = no_title,
-#                                 -#                                 on_sale_date = on_sale_date,
-#                                 -#                                 on_sale_date_uncertain = on_sale_date_uncertain,
-#                                 -#                                 rating = rating,
-#                                 -#                                 no_rating = no_rating,
-#                                 -        )
+        #-----------------
+        # Pull List
+        #-----------------
+#        try:
+#            pullist = Pulllist.objects.create(
+#                pulllist_id = 1,
+#                organization = organization,
+#                store = store,
+#                series = 9,
+#            )
+#        except Exception as e:
+#            pullist = Pulllist.objects.get(pulllist_id=1)
+
+        #-----------------
+        # Publisher
+        #-----------------
+        try:
+            publisher = GCDPublisher.objects.create(
+                publisher_id=1,
+                name='Lucha Comics',
+                year_began='2015',
+            #year_ended=year_ended,
+            #notes=notes,
+            #url=url,
+            #is_master=is_master,
+            ## parent_id
+            #imprint_count=imprint_count,
+            #brand_count=brand_count,
+            #indicia_publisher_count=indicia_publisher_count,
+            #series_count=series_count,
+            #created=created,
+            #modified=modified,
+            #issue_count=issue_count,
+            #reserved=reserved,
+            #deleted=deleted,
+            #year_began_uncertain=year_began_uncertain,
+            #year_ended_uncertain=year_ended_uncertain,
+                country=country,
+            )
+        except Exception as e:
+            publisher = GCDPublisher.objects.get(publisher_id=1)
+
+        #-----------------
+        # Series
+        #-----------------
+        try:
+            series = GCDSeries.objects.create(
+                series_id=1,
+                name='Winterworld',
+                sort_name='Winterworld',
+                #format=format,
+                year_began='2015',
+                year_ended='3000',
+                #year_began_uncertain=year_began_uncertain,
+                #year_ended_uncertain=year_ended_uncertain,
+                #publication_dates=publication_dates,
+                #is_current=is_current,
+                publisher=publisher,
+                country=country,
+                language=language,
+                #tracking_notes=tracking_notes,
+                #notes=notes,
+                #publication_notes=publication_notes,
+                #has_gallery=has_gallery,
+                #open_reserve=open_reserve,
+                #issue_count=issue_count,
+                #created=created,
+                #modified=modified,
+                #reserved=reserved,
+                #deleted=deleted,
+                #has_indicia_frequency=has_indicia_frequency,
+                #has_isbn=has_isbn,
+                #has_barcode=has_barcode,
+                #has_issue_title=has_issue_title,
+                #has_volume=has_volume,
+                #is_comics_publication=is_comics_publication,
+                #color=color,
+                #dimensions=dimensions,
+                #paper_stock=paper_stock,
+                #binding=binding,
+                #publishing_format=publishing_format,
+                #has_rating=has_rating,
+                #publication_type_id=publication_type_id,
+                #is_singleton=is_singleton,
+            )
+        except Exception as e:
+            series = GCDSeries.objects.get(series_id=1)
+
+        #-----------------
+        # Issue
+        #-----------------
+        try:
+            issue = GCDIssue.objects.create(
+                issue_id=1,
+                number='1',
+                volume='1',
+                #no_volume=False,
+                #display_volume_with_number=True,
+                series = series,
+                #indicia_publisher = None,
+                #indicia_pub_not_printed = True,
+                #brand = None,
+                #no_brand = True,
+                #publication_date = 'December 9',
+                #key_date = key_date,
+                sort_code = '0',
+                #price = price,
+                #page_count = page_count,
+                #page_count_uncertain = page_count_uncertain,
+                #indicia_frequency = indicia_frequency,
+                #no_indicia_frequency = no_indicia_frequency,
+                #editing = editing,
+                #no_editing = no_editing,
+                #notes = notes,
+                #created = created,
+                #modified = modified,
+                #reserved = reserved,
+                #deleted = deleted,
+                #is_indexed = is_indexed,
+                #isbn = isbn,
+                #valid_isbn = valid_isbn,
+                #no_isbn = no_isbn,
+                #variant_of_id = variant_of_id,
+                #variant_name = variant_name,
+                #barcode = barcode,
+                #no_barcode = no_barcode,
+                title = 'Winter World',
+                #no_title = no_title,
+                #on_sale_date = on_sale_date,
+                #on_sale_date_uncertain = on_sale_date_uncertain,
+                #rating = rating,
+                #no_rating = no_rating,
+            )
+        except Exception as e:
+            issue = Issue.objects.get(issue_id=1)

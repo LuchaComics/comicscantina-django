@@ -49,13 +49,13 @@ class PullListTestCase(TestCase):
         found = resolve('/inventory/1/1/pulllist/1/add_customer')
         self.assertEqual(found.func, views.add_pulllist_customer_page)
 
-#    def test_help_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/help')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_pulllist_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/pulllist')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Pull List',response.content)
+        self.assertIn(b'All Stores',response.content)
