@@ -61,13 +61,35 @@ class CheckoutItemTestCase(TestCase):
         found = resolve('/inventory/1/1/checkout/1/items/process_receipt')
         self.assertEqual(found.func, pos_item.ajax_process_receipt)
 
-#    def test_help_page_returns_correct_html(self):
-#        client = Client()
-#        client.login(
-#            username=TEST_USER_USERNAME,
-#            password=TEST_USER_PASSWORD
-#        )
-#        response = client.post('/inventory/1/1/help')
-#        self.assertEqual(response.status_code, 200)
-#        self.assertIn(b' Contact Us',response.content)
-#        self.assertIn(b'id_hidden_upload_id',response.content)
+    def test_checkout_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/checkout/1/items')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Point of Sale',response.content)
+        self.assertIn(b'Checkout',response.content)
+        self.assertIn(b'id_content_placeholder',response.content)
+
+    def test_content_page_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/checkout/1/items/content')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'<table',response.content)
+        self.assertIn(b'Total',response.content)
+        self.assertIn(b'GRAND TOTAL',response.content)
+
+#-------
+# TODO:
+#-------
+#url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/(\d+)/change_discount_type$', pos_item.ajax_change_discount_type),
+#url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/(\d+)/change_discount_amount$', pos_item.ajax_change_discount_amount),
+#url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/change_tax$', pos_item.ajax_change_tax),
+#url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/verify$', pos_item.ajax_verify),
+#url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/process_receipt$', pos_item.ajax_process_receipt),
