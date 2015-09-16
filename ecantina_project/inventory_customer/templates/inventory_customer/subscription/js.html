@@ -42,12 +42,13 @@
             alert("Copies ordered must be greater then zero.");
             return;
         }
-        var data = new FormData();
-        data.append('pulllist', pulllist_id);
-        data.append('copies', copies);
-        data.append('customer', '{{ customer.customer_id }}');
-        data.append('organization', '{{ org.org_id }}');
-        set_subscription(0, data, function(json_result) {
+        var data = {
+            'pulllist': pulllist_id,
+            'organization': {{ org.org_id }},
+            'customer': {{ customer.customer_id }},
+            'copies': copies
+        };
+        set_subscription(data, function(json_result) {
             window.location = "";
         });
     }
