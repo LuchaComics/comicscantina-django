@@ -289,19 +289,6 @@ class SampleDataPopulator():
             language = GCDLanguage.objects.get(language_id=1)
 
         #-----------------
-        # Pull List
-        #-----------------
-#        try:
-#            pullist = Pulllist.objects.create(
-#                pulllist_id = 1,
-#                organization = organization,
-#                store = store,
-#                series = 9,
-#            )
-#        except Exception as e:
-#            pullist = Pulllist.objects.get(pulllist_id=1)
-
-        #-----------------
         # Publisher
         #-----------------
         try:
@@ -414,7 +401,7 @@ class SampleDataPopulator():
                 #variant_name = variant_name,
                 #barcode = barcode,
                 #no_barcode = no_barcode,
-                title = 'Winter World',
+                title = 'Winterworld',
                 #no_title = no_title,
                 #on_sale_date = on_sale_date,
                 #on_sale_date_uncertain = on_sale_date_uncertain,
@@ -423,3 +410,30 @@ class SampleDataPopulator():
             )
         except Exception as e:
             issue = Issue.objects.get(issue_id=1)
+
+        #-----------------
+        # Pull List
+        #-----------------
+        try:
+            pulllist = Pulllist.objects.create(
+                pulllist_id = 1,
+                organization = organization,
+                store = store,
+                series = series,
+            )
+        except Exception as e:
+            pulllist = Pulllist.objects.get(pulllist_id=1)
+
+        #------------------------
+        # Pull List Subscription
+        #------------------------
+        try:
+            pullistsubscription = PulllistSubscription.objects.create(
+                subscription_id = 1,
+                organization = organization,
+                pulllist = pulllist,
+                customer = customer1,
+                copies = 2,
+            )
+        except Exception as e:
+            pullistsubscription = PulllistSubscription.objects.get(subscription_id=1)

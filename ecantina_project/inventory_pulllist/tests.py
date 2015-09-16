@@ -58,4 +58,37 @@ class PullListTestCase(TestCase):
         response = client.post('/inventory/1/1/pulllist')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Pull List',response.content)
-        self.assertIn(b'All Stores',response.content)
+        self.assertIn(b'Winterworld',response.content)
+
+    def test_pulllist_subscriptions_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/pulllist/1/subscriptions')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'rayanami@nerv.worldgov',response.content)
+        self.assertIn(b'Rei',response.content)
+
+    def test_add_pulllist_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/pulllist/add_pulllist')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Add New Pull List',response.content)
+        self.assertIn(b'id_table_placeholder',response.content)
+
+    def test_add_pulllist_customer_returns_correct_html(self):
+        client = Client()
+        client.login(
+            username=TEST_USER_USERNAME,
+            password=TEST_USER_PASSWORD
+        )
+        response = client.post('/inventory/1/1/pulllist/1/add_customer')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Add Customer',response.content)
+        self.assertIn(b'Customer Details',response.content)
