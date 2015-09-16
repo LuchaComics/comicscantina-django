@@ -142,12 +142,12 @@
 
     function ajax_new(series_id)
     {
-        var data = new FormData();
-        data.append('organization', {{ org.org_id }});
-        data.append('store', {{ store.store_id }});
-        data.append('series', series_id);
-
-        set_pulllist(0, data, function (json_result) {
+        var data = {
+            'organization': {{ org.org_id }},
+            'store': {{ store.store_id }},
+            'series': series_id
+        }
+        set_pulllist(data, function (json_result) {
              window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist";
         });
     }

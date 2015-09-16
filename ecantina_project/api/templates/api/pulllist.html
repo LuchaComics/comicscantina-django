@@ -26,23 +26,21 @@
         });
     }
     
-    function set_pulllist(id, data, callback)
+    function set_pulllist(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
-        var type = "POST";
+        var type = "POST"; // Insert.
         var url = "/api/pulllists/";
-        if (id > 0) {
+        if (data['pulllist_id'] > 0) {
             type = "PUT"; // Update
-            url += id + "/";
+            url += data['pulllist_id'] + "/";
         }
-    
+        
         jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: type,
+                    url: url,
+                    data: data,
+                    type: type,
+                    traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
             success: function(json_result){
                 // Debugging code
                 var json_text = JSON.stringify(json_result, null, 2);
