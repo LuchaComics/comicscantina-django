@@ -81,57 +81,58 @@
     }
 
     function ajax_save_add() {
-        var data = new FormData();
-        // Store
-        data.append('organization', '{{ org.org_id }}');
-        data.append('joined', $('#id_joined').val());
-        data.append('email', $('#id_email').val());
-        data.append('logo', $('#id_hidden_upload_id').val());
-        data.append('name', $('#id_name').val());
-        data.append('description', $('#id_description').val());
-        data.append('phone', $('#id_phone').val());
-        data.append('fax', $('#id_fax').val());
-        data.append('website', $('#id_website').val());
-        data.append('twitter_url', $('#id_twitter_url').val());
-        data.append('facebook_url', $('#id_facebook_url').val());
-        data.append('instagram_url', $('#id_instagram_url').val());
-        data.append('linkedin_url', $('#id_linkedin_url').val());
-        data.append('github_url', $('#id_github_url').val());
-        data.append('google_url', $('#id_google_url').val());
-        data.append('youtube_url', $('#id_youtube_url').val());
-        data.append('flickr_url', $('#id_flickr_url').val());
-        data.append('street_number', $('#id_street_number').val());
-        data.append('street_name', $('#id_street_name').val());
-        data.append('unit_number', $('#id_unit_number').val());
-        data.append('city', $('#id_city').val());
-        data.append('country', $('#id_country').val());
-        data.append('province', $('#id_province').val());
-        data.append('postal', $('#id_postal').val());
-        // Store Hours
-        data.append('monday_to', $('#id_monday_to').val());
-        data.append('monday_from', $('#id_monday_from').val());
-        data.append('tuesday_to', $('#id_tuesday_to').val());
-        data.append('tuesday_from', $('#id_tuesday_from').val());
-        data.append('wednesday_to', $('#id_wednesday_to').val());
-        data.append('wednesday_from', $('#id_wednesday_from').val());
-        data.append('thursday_to', $('#id_thursday_to').val());
-        data.append('thursday_from', $('#id_thursday_from').val());
-        data.append('friday_to', $('#id_friday_to').val());
-        data.append('friday_from', $('#id_friday_from').val());
-        data.append('saturday_to', $('#id_saturday_to').val());
-        data.append('saturday_from', $('#id_saturday_from').val());
-        data.append('sunday_to', $('#id_sunday_to').val());
-        data.append('sunday_from', $('#id_sunday_from').val());
-        data.append('is_open_monday', $('#id_is_open_monday').is(':checked'));
-        data.append('is_open_tuesday', $('#id_is_open_tuesday').is(':checked'));
-        data.append('is_open_wednesday', $('#id_is_open_wednesday').is(':checked'));
-        data.append('is_open_thursday', $('#id_is_open_thursday').is(':checked'));
-        data.append('is_open_friday', $('#id_is_open_friday').is(':checked'));
-        data.append('is_open_saturday', $('#id_is_open_saturday').is(':checked'));
-        data.append('is_open_sunday', $('#id_is_open_sunday').is(':checked'));
+        var data = {
+            // Store
+            'organization': '{{ org.org_id }}',
+            'joined': $('#id_joined').val(),
+            'email': $('#id_email').val(),
+            'logo': $('#id_hidden_upload_id').val(),
+            'name': $('#id_name').val(),
+            'description': $('#id_description').val(),
+            'phone': $('#id_phone').val(),
+            'fax': $('#id_fax').val(),
+            'website': $('#id_website').val(),
+            'twitter_url': $('#id_twitter_url').val(),
+            'facebook_url': $('#id_facebook_url').val(),
+            'instagram_url': $('#id_instagram_url').val(),
+            'linkedin_url': $('#id_linkedin_url').val(),
+            'github_url': $('#id_github_url').val(),
+            'google_url': $('#id_google_url').val(),
+            'youtube_url': $('#id_youtube_url').val(),
+            'flickr_url': $('#id_flickr_url').val(),
+            'street_number': $('#id_street_number').val(),
+            'street_name': $('#id_street_name').val(),
+            'unit_number': $('#id_unit_number').val(),
+            'city': $('#id_city').val(),
+            'country': $('#id_country').val(),
+            'province': $('#id_province').val(),
+            'postal': $('#id_postal').val(),
+            // Store Hours
+            'monday_to': $('#id_monday_to').val(),
+            'monday_from': $('#id_monday_from').val(),
+            'tuesday_to': $('#id_tuesday_to').val(),
+            'tuesday_from': $('#id_tuesday_from').val(),
+            'wednesday_to': $('#id_wednesday_to').val(),
+            'wednesday_from': $('#id_wednesday_from').val(),
+            'thursday_to': $('#id_thursday_to').val(),
+            'thursday_from': $('#id_thursday_from').val(),
+            'friday_to': $('#id_friday_to').val(),
+            'friday_from': $('#id_friday_from').val(),
+            'saturday_to': $('#id_saturday_to').val(),
+            'saturday_from': $('#id_saturday_from').val(),
+            'sunday_to': $('#id_sunday_to').val(),
+            'sunday_from': $('#id_sunday_from').val(),
+            'is_open_monday': $('#id_is_open_monday').is(':checked'),
+            'is_open_tuesday': $('#id_is_open_tuesday').is(':checked'),
+            'is_open_wednesday': $('#id_is_open_wednesday').is(':checked'),
+            'is_open_thursday': $('#id_is_open_thursday').is(':checked'),
+            'is_open_friday': $('#id_is_open_friday').is(':checked'),
+            'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
+            'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
+        }
         
         // Send the "FormData" object to be sent through REST and get updated.
-        set_store(0, data, function(json_result) {
+        set_store(data, function(json_result) {
             var store_id = json_result['store_id'];
                   
             // Update the store logo and tell the system
@@ -139,9 +140,6 @@
             set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
                 window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/" + store_id;
             });
-                  
-            
         });
-
     }
 </script>
