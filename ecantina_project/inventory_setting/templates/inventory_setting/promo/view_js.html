@@ -153,24 +153,16 @@
      */
     function ajax_promotion(promotion_id)
     {
-        // Fetch the data from the view and encode it into a "FormData" object.
-        var data = new FormData();
-        if (promotion_id > 0) {
-            data.append('promotion_id', promotion_id);
+        var data = {
+            'name': $('#id_promotion_id_' + promotion_id).val(),
+            'discount': $('#id_discount_id_'+promotion_id).val(),
+            'discount_type': $('#id_discount_type_id_'+promotion_id).val(),
+            'organization': '{{ org.org_id }}',
         }
-        var name = $('#id_promotion_id_' + promotion_id).val();
-        var discount = $('#id_discount_id_'+promotion_id).val();
-        var discount_type = $('#id_discount_type_id_'+promotion_id).val();
-       
-        data.append('organization', '{{ org.org_id }}');
-        data.append('discount', discount);
-        data.append('discount_type', discount_type);
-        data.append('name', name);
-        data.append('organization', {{ org.org_id }});
-        //data.append('store', {{ store.store_id }});
-    
-        // Insert / Update and then refresh table.
-        set_promotion(promotion_id, data, function(json_result) {
+        if (promotion_id > 0) {
+            data['promotion_id'] = promotion_id;
+        }
+        set_promotion(data, function(json_result) {
             ajax_refresh_table();
         });
     }

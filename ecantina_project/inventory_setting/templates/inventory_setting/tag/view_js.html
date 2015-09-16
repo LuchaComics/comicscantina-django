@@ -153,24 +153,16 @@
      */
     function ajax_tag(tag_id)
     {
-        // Fetch the data from the view and encode it into a "FormData" object.
-        var data = new FormData();
-        if (tag_id > 0) {
-            data.append('tag_id', tag_id);
+        var data = {
+            'name': $('#id_tag_id_' + tag_id).val(),
+            'discount': $('#id_discount_id_'+tag_id).val(),
+            'discount_type': $('#id_discount_type_id_'+tag_id).val(),
+            'organization': '{{ org.org_id }}',
         }
-        var name = $('#id_tag_id_' + tag_id).val();
-        var discount = $('#id_discount_id_'+tag_id).val();
-        var discount_type = $('#id_discount_type_id_'+tag_id).val();
-       
-        data.append('organization', '{{ org.org_id }}');
-        data.append('discount', discount);
-        data.append('discount_type', discount_type);
-        data.append('name', name);
-        data.append('organization', {{ org.org_id }});
-        //data.append('store', {{ store.store_id }});
-    
-        // Insert / Update and then refresh table.
-        set_tag(tag_id, data, function(json_result) {
+        if (tag_id > 0) {
+            data['tag_id'] = tag_id;
+        }
+        set_tag(data, function(json_result) {
             ajax_refresh_table();
         });
     }
