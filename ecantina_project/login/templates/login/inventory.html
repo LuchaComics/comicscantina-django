@@ -1,30 +1,24 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-    
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="description" content="Bootstrap Admin App + jQuery">
         <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
         <title>Comics Cantina - Login Page</title>
-                        
         <!-- Local CSS -->
-        {% for local in local_css_library %}
+    {% for local in local_css_library %}
         <link type="{{ local.type }}" rel="{{ local.rel }}" href="{% static local.href %}">
-        {% endfor %}
-                            
+    {% endfor %}
         <!-- Local JS -->
-        {% for local in local_js_library_header %}
+    {% for local in local_js_library_header %}
         <script type="{{ local.type }}" src="{% static local.src %}"></script>
-        {% endfor %}
-
+    {% endfor %}
     </head>
-    
     <body>
         <!-- CSRF Token -->
         {% csrf_token %}
-        
         <div class="wrapper login-body">
             <div class="block-center mt-xl wd-xl">
                 <!-- START panel-->
@@ -32,10 +26,8 @@
                     <a href="login.html">
                         <img src="{% static "inventory/img/logo-rect.png" %}" alt="Image" class="block-center cc-logo-rect">
                     </a>
-                    
                     <div class="panel-body">
                         <p class="text-center pv">SIGN IN TO CONTINUE.</p>
-                        
                         <form role="form" data-parsley-validate="" novalidate="" class="mb-lg">
                             <div class="form-group has-feedback">
                                 {{ form.email }}
@@ -48,16 +40,17 @@
                             <div class="clearfix">
                                 <div class="checkbox c-checkbox pull-left mt0">
                                     <label>
-                                        <input type="checkbox" value="" name="remember">
-                                            <span class="fa fa-check"></span>Remember Me
+                                        <input type="checkbox" value="" name="remember" />
+                                        <span class="fa fa-check"></span>Remember Me
                                     </label>
                                 </div>
                                 <div class="pull-right"><a href="recover.html" class="text-muted">Forgot your password?</a>
                                 </div>
                             </div>
-                             <button onclick="ajax_inventory_authenticate();" type="button" class="btn btn-block btn-primary mt-lg">Login</button>
+                            <button onclick="ajax_inventory_authenticate();" type="button" class="btn btn-block btn-primary mt-lg">Login</button>
                         </form>
-                        <p class="pt-lg text-center">Need to Signup?</p><a href="/inventory/register"
+                        <p class="pt-lg text-center">Need to Signup?</p>
+                        <a href="/inventory/register"
                             class="btn btn-block btn-default">Register Now</a>
                     </div>
                 </div>

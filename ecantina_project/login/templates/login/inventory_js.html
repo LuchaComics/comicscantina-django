@@ -11,14 +11,32 @@
         }
     });
     
+    /**
+     * Source: http://stackoverflow.com/a/2507043
+     */
+    function is_email(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+    
     function ajax_inventory_authenticate()
     {
+        var email = $("#id_email").val();
+        var password = $("#id_password").val();
+        
+        // Defensive Code: Verify that the email/username is a valid email
+        //                 address before proceeding.
+        if (!is_email(email)) {
+            alert("Not valid email - please enter a valid email.");
+            return;
+        }
+        
         var url = 'login_authentication';
     
         $.ajax( url, {
             data: {
-                'username': $("#id_email").val(),
-                'password': $("#id_password").val(),
+                'username': email,
+                'password': password,
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             type: 'post',
