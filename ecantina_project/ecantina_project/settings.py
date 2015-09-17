@@ -230,6 +230,7 @@ INVENTORY_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"inventory/js/dropzone/dropzone.js",},
     {"type":"text/javascript", "src":"inventory/js/app.js",},
     {"type":"text/javascript", "src":"inventory/js/jquery.filer.min.js",},
+    {"type":"text/javascript", "src":"inventory/js/jquery.alerts.min.js",},
 ]
 
 STORE_CSS_LIBRARY= [
