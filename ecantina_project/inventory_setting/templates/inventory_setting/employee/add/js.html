@@ -116,32 +116,46 @@
                  'province': $('#id_province').val(),
                  'postal': $('#id_postal').val(),
             }
-            set_employee(data, function(json_result) {
-                var employee_id = json_result['employee_id'];
+            set_employee(
+                data,
+                function(success_json) {
+                    var employee_id = success_json['employee_id'];
                          
-                // STEP 3:
-                // Iterate through all the stores an and process the
-                // checked stores by assigning the returned 'employee_id'
-                // with the 'store_id'.
-                $('#id_store_checkboxes').children('input').each(function () {
-                    if (this.checked)
-                    {
-                        store_id = this.id;
-                        employee_id = json_result.employee_id;
+                    // STEP 3:
+                    // Iterate through all the stores an and process the
+                    // checked stores by assigning the returned 'employee_id'
+                    // with the 'store_id'.
+                    $('#id_store_checkboxes').children('input').each(function () {
+                        if (this.checked)
+                        {
+                            store_id = this.id;
+                            employee_id = success_json.employee_id;
                                                                           
-                        // STEP 4:
-                        // Assign in the database.
-                        ajax_store_selection(store_id, employee_id);
-                    }
-                });
+                            // STEP 4:
+                            // Assign in the database.
+                            ajax_store_selection(store_id, employee_id);
+                        }
+                    });
                    
-                // STEP 5:
-                // Let our upload image know it is properly assigned.
-                set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                    // STEP 6;
-                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
-                });
-            });
+                    // STEP 5:
+                    // Let our upload image know it is properly assigned.
+                    set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                        // STEP 6;
+                        window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+                    });
+                },
+                function(error_json) {
+                    for (var key in error_json) {
+                        if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                             // Display the error here.
+                            $(document).trigger("add-alerts",[{
+                                'message': (key+': '+error_json[key]),
+                                'priority': 'error'
+                            }]);
+                        }
+                    }
+                }
+            );
         });
     }
 
