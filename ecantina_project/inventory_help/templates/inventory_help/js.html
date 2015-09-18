@@ -24,6 +24,15 @@
                 }
             }
         });
+        
+        // When the user closes the modal...
+        $('#id_close_model_btn').on('click', function(){
+            // Allow some time to go by for the modal to close and then
+            // refresh the page.
+            setTimeout(function(){
+                window.location = '';
+            }, 250);
+        });
     });
                   
     /**
@@ -75,8 +84,8 @@
         set_helprequest(arr, function(json_result) {
             // Let our upload image know it is properly assigned.
             set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                alert("Help Request Submitted! Thank you for your submission.");
-                window.location = '';
+                $('#success-modal').modal(); // Load the modal telling user the action was
+                                             // completed successfully.
             });            
         });
     }
