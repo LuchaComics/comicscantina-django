@@ -32,7 +32,7 @@
         delete_employee(employee_id, function(json_result) {
             delete_user(user_id, function(json_result) {
                 if (profile_id > 0) {
-                    delete_imageupload(upload_id, function(json_result) {
+                    delete_imageupload(profile_id, function(json_result) {
                         window.location='';
                     });
                 } else {
