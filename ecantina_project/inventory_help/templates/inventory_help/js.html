@@ -59,9 +59,12 @@
             'message': $('#id_message').val(),
             'employee': {{ employee.employee_id }},
             'store': {{ store.store_id }},
-            'organization': {{ org.org_id }},
-            'screenshot': upload_id
+            'organization': {{ org.org_id }}
         };
+        
+        if (parseInt(upload_id) > 0) {
+            arr['screenshot'] = upload_id;
+        }
         
         // Create our ticket!
         set_helprequest(arr, function(json_result) {
