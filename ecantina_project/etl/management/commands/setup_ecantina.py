@@ -321,6 +321,7 @@ class Command(BaseCommand):
         tables_info = [
             # eCantina Tables
             {"tablename": "ec_brands", "primarykey": "brand_id",},
+            {"tablename": "ec_comics", "primarykey": "comic_id",},
             {"tablename": "ec_categories", "primarykey": "category_id",},
             {"tablename": "ec_customers", "primarykey": "customer_id",},
             {"tablename": "ec_employees", "primarykey": "employee_id",},
@@ -333,6 +334,7 @@ class Command(BaseCommand):
             {"tablename": "ec_pulllists_subscriptions", "primarykey": "subscription_id",},
             {"tablename": "ec_receipts", "primarykey": "receipt_id",},
             {"tablename": "ec_sections", "primarykey": "section_id",},
+            {"tablename": "ec_stores", "primarykey": "store_id",},
             {"tablename": "ec_tags", "primarykey": "tag_id",},
             {"tablename": "ec_wishlists", "primarykey": "wishlist_id",},
             # Grand Comics Database Tables
