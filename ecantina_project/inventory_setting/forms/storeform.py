@@ -104,65 +104,20 @@ class StoreForm(forms.ModelForm):
             'flickr_url': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Flicker URL'
-            }),    
-            'monday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
             }),
-            'tuesday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'wednesday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'thursday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'friday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'saturday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'sunday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'monday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'tuesday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'monday_to': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'wednesday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'thursday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'friday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-            'saturday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-                }),
-            'sunday_from': TextInput(attrs={
-                'class': u'form-control',
-                'placeholder': u''
-            }),
-        }
+            'monday_to': Select(attrs={'class': u'form-control'}),
+            'tuesday_to': Select(attrs={'class': u'form-control'}),
+            'wednesday_to':Select(attrs={'class': u'form-control'}),
+            'thursday_to': Select(attrs={'class': u'form-control'}),
+            'friday_to': Select(attrs={'class': u'form-control'}),
+            'saturday_to': Select(attrs={'class': u'form-control'}),
+            'sunday_to': Select(attrs={'class': u'form-control'}),
+            'monday_from': Select(attrs={'class': u'form-control'}),
+            'tuesday_from': Select(attrs={'class': u'form-control'}),
+            'monday_to': Select(attrs={'class': u'form-control'}),
+            'wednesday_from':Select(attrs={'class': u'form-control'}),
+            'thursday_from': Select(attrs={'class': u'form-control'}),
+            'friday_from': Select(attrs={'class': u'form-control'}),
+            'saturday_from': Select(attrs={'class': u'form-control'}),
+            'sunday_from': Select(attrs={'class': u'form-control'}),
+    }
