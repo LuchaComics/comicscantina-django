@@ -74,10 +74,86 @@
         });
     }
 
+    function save_employee(json_result)
+    {
+        // STEP 2:
+        // Create our 'ec_employees' object.
+        var user = json_result['id'];
+        var upload_id = $('#id_hidden_upload_id').val();
+        var data = {
+            'user': user,
+            'organization': '{{ org.org_id }}',
+            'role': $('#id_role').val(),
+            'email': $('#id_email').val(),
+            'profile': upload_id,
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'phone': $('#id_phone').val(),
+            'fax': $('#id_fax').val(),
+            'street_number': $('#id_street_number').val(),
+            'street_name': $('#id_street_name').val(),
+            'unit_number': $('#id_unit_number').val(),
+            'city': $('#id_city').val(),
+            'country': $('#id_country').val(),
+            'province': $('#id_province').val(),
+            'postal': $('#id_postal').val(),
+        };
+        set_employee(
+            data,
+            function(success_json) {
+                var employee_id = success_json['employee_id'];
+                     
+                // STEP 3:
+                // Iterate through all the stores an and process the
+                // checked stores by assigning the returned 'employee_id'
+                // with the 'store_id'.
+                $('#id_store_checkboxes').children('input').each(function () {
+                    if (this.checked)
+                    {
+                        store_id = this.id;
+                        employee_id = success_json.employee_id;
+                            
+                        // STEP 4:
+                        // Assign in the database.
+                        ajax_store_selection(store_id, employee_id);
+                    }
+                });
+                     
+                // STEP 5:
+                // Let our upload image know it is properly assigned.
+                set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                    // STEP 6;
+                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+                });
+            },
+            function(error_json) {
+                // DELETE THE PREVIOUSLY SUBMITTED USER ON ERROR.
+                // We do this because if we are submitting employees then
+                // it is assumed it was created.
+                delete_user(json_result['id'], function(json_result) {
+                    // Do nothing.
+                });
+                     
+                for (var key in error_json) { // Print the error message.
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            }
+        );
+    }
+
     function ajax_save_employee() {
         // Defensive Code: We need to have a profile pic before continuing.
         if ($('#id_image').val() == "") {
-            alert('Please select an image to upload');
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select an image to upload',
+                'priority': 'error'
+            }]);
             return false;
         }
         
@@ -93,72 +169,25 @@
             'password_repeated': $('#id_password_repeated').val(),
             'groups': ''
         };
-        set_user(data, function(json_result) {
-            // STEP 2:
-            // Create our 'ec_employees' object.
-            var user = json_result['id'];
-            var upload_id = $('#id_hidden_upload_id').val();
-            var data = {
-                 'user': user,
-                 'organization': '{{ org.org_id }}',
-                 'role': $('#id_role').val(),
-                 'email': $('#id_email').val(),
-                 'profile': upload_id,
-                 'first_name': $('#id_first_name').val(),
-                 'last_name': $('#id_last_name').val(),
-                 'phone': $('#id_phone').val(),
-                 'fax': $('#id_fax').val(),
-                 'street_number': $('#id_street_number').val(),
-                 'street_name': $('#id_street_name').val(),
-                 'unit_number': $('#id_unit_number').val(),
-                 'city': $('#id_city').val(),
-                 'country': $('#id_country').val(),
-                 'province': $('#id_province').val(),
-                 'postal': $('#id_postal').val(),
-            }
-            set_employee(
-                data,
-                function(success_json) {
-                    var employee_id = success_json['employee_id'];
-                         
-                    // STEP 3:
-                    // Iterate through all the stores an and process the
-                    // checked stores by assigning the returned 'employee_id'
-                    // with the 'store_id'.
-                    $('#id_store_checkboxes').children('input').each(function () {
-                        if (this.checked)
-                        {
-                            store_id = this.id;
-                            employee_id = success_json.employee_id;
-                                                                          
-                            // STEP 4:
-                            // Assign in the database.
-                            ajax_store_selection(store_id, employee_id);
-                        }
-                    });
-                   
-                    // STEP 5:
-                    // Let our upload image know it is properly assigned.
-                    set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                        // STEP 6;
-                        window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
-                    });
-                },
-                function(error_json) {
-                    for (var key in error_json) {
-                        if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                             // Display the error here.
-                            $(document).trigger("add-alerts",[{
-                                'message': (key+': '+error_json[key]),
-                                'priority': 'error'
-                            }]);
-                        }
+        set_user(
+            data,
+            function(success_result) {
+                save_employee(success_result); // SAVE EMPLOYEE
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                 
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
                     }
                 }
-            );
-        });
+            }
+        );
     }
-
 
     function ajax_store_selection(store_id, employee_id) {
         var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
