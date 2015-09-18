@@ -1,7 +1,6 @@
 <!-- Load API Handlers -->
 {% include 'api/imageupload.html' %}
 {% include 'api/helprequest.html' %}
-
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -88,13 +87,30 @@
         }
         
         // Create our ticket!
-        set_helprequest(arr, function(json_result) {
-            // Let our upload image know it is properly assigned.
-            set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                $('#success-modal').modal(); // Load the modal telling user the action was
+        set_helprequest(arr,
+            function(success_json) {
+                // Let our upload image know it is properly assigned.
+                set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                    $('#success-modal').modal(); // Load the modal telling user the action was
                                              // completed successfully.
-            });            
-        });
+                });
+            }, // success
+            function(error_json_string) {
+                // Convert JSON string into javascript associative array.
+                var json = jQuery.parseJSON(error_json_string);
+                        
+                for (var key in json) {
+                    if (json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                        
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            } // error
+        );// set_helper
     }
 
 </script>

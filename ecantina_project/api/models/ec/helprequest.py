@@ -31,8 +31,8 @@ class HelpRequest(models.Model):
         choices=SUBJECT_CHOICES,
         validators=[MinValueValidator(0), MaxValueValidator(10)],
     )
-    subject_url = models.URLField(null=True, blank=True)
-    message = models.TextField(null=True)
+    subject_url = models.URLField()
+    message = models.TextField()
     submission_date = models.DateTimeField(auto_now_add=True)
     
     # References

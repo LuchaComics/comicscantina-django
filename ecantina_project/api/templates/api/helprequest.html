@@ -28,7 +28,7 @@
      *  Function will either insert or update depending on whether "help_id"
      *  parameter was used.
      */
-    function set_helprequest(data, callback)
+    function set_helprequest(data, success_callback, error_callback)
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST"; // Insert.
@@ -44,15 +44,16 @@
             traditional: true,
             success: function(json_result){
                 // Debugging code
-                var json_text = JSON.stringify(json_result, null, 2);
-                console.log(json_text);
+                //var json_text = JSON.stringify(json_result, null, 2);
+                //console.log(json_text);
                     
                 // Call back the function with the JSON results.
-                callback(json_result);
+                success_callback(json_result);
             },
             error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
+                error_callback(xhr.responseText);
+//                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+  //              alert(xhr.responseText);
             },
             complete: function(xhr,status) {
                 // Do nothing.
