@@ -26,42 +26,34 @@
     });
                   
     function ajax_save() {
-        // Once the organization has been updated, we will need to manually
-        // update the user account.
-        var data2 = new FormData();
-        data2.append('first_name', $('#id_first_name').val());
-        data2.append('last_name', $('#id_last_name').val());
-        data2.append('email', $('#id_email').val());
-        data2.append('old_password', $('#id_old_password').val());
-        data2.append('password', $('#id_password').val());
-        data2.append('password_repeated', $('#id_password_repeated').val());
-                      
-        // Send the AJAX request
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/update_org_administrator';
-        jQuery.ajax({
-            url: url,
-            data: data2,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    window.location = '';
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
+        // Create our 'auth_users' object.
+        var data = {
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'email': $('#id_email').val(),
+            'username': $('#id_email').val(),
+            'old_password': $('#id_old_password').val(),
+            'password': $('#id_password').val(),
+            'password_repeated': $('#id_password_repeated').val(),
+            'groups': ''
+        };
+        set_user(
+            data,
+            function(success_result) {
+                 window.location = '';
             },
-            error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                // Do nothing.
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                 
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                 }
             }
-        });
+        );
     }
 </script>
