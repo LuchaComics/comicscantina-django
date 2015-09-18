@@ -1,15 +1,22 @@
 {% load staticfiles %}
 <script>
-    /**
-     * When the 'Enter' key is pressed, lets try login in.
-     */
-    $(document).bind("keypress.13", function(event) {
-        if ($('#login_modal').is(':visible')) {
-            if (event.which == 13) {
+    $(document).ready(function(){
+        $('#login-btn').on('click', function(){
+            $(document).trigger("clear-alerts");
+                           
+            $('#login-email-error, #login-password-error').val('');
+            if( $('#id_email').val() == "" || $('#id_password').val() == "" ){
+                // Add error notification.
+                $(document).trigger("add-alerts",[{
+                    'message':'Error! Username and password required.',
+                    'priority':'error'
+                }]);
+            } else {
                 ajax_inventory_authenticate();
             }
-        }
+        });
     });
+
     
     /**
      * Source: http://stackoverflow.com/a/2507043
@@ -27,7 +34,12 @@
         // Defensive Code: Verify that the email/username is a valid email
         //                 address before proceeding.
         if (!is_email(email)) {
-            alert("Not valid email - please enter a valid email.");
+            // Add error notification.
+            $('#login-email-error, #login-password-error').val('');
+            $(document).trigger("add-alerts",[{
+                'message':'Not valid email - please enter a valid email.',
+                'priority':'error'
+            }]);
             return;
         }
         
@@ -49,7 +61,11 @@
                 }
                 else
                 {
-                    alert(json_result.message);
+                   $('#login-email-error, #login-password-error').val('');
+                   $(document).trigger("add-alerts",[{
+                        'message':'Error - Wrong email or password.',
+                        'priority':'error'
+                   }]);
                 }
             },
             error: function(xhr,status,error) {
