@@ -149,13 +149,28 @@
             'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
             'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
         }
-        set_store(data, function(json_result) {
-            // Update the store logo and tell the system
-            var upload_id = $('#id_hidden_upload_id').val();
-            set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
-                window.location = ""; // Refresh the page.
-            });
-        });
+        set_store(
+            data,
+            function(success_json) {
+                // Update the store logo and tell the system
+                var upload_id = $('#id_hidden_upload_id').val();
+                set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
+                    window.location = ""; // Refresh the page.
+                });
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                  
+                         // Display the error here.
+                         $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            }
+        );
     }
 
 

@@ -304,20 +304,21 @@
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
+                                <div class="panel-footer">
+                                    <div data-alerts="alerts"></div>
+                                    <button onclick="ajax_delete_store({{ this_store.store_id }});"
+                                        class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
+                                        <span class="btn-label"><i class="fa fa-remove"></i></span>Remove Store
+                                    </button>
+                                    <button onclick="ajax_save_edit();"
+                                        type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                                        <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
                     <div class="clearfix"></div>
-                </div>
-                <div class="panel-footer">
-                    <button onclick="ajax_delete_store({{ this_store.store_id }});"
-                        class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
-                        <span class="btn-label"><i class="fa fa-remove"></i></span>Remove Store
-                    </button>
-                    <button onclick="ajax_save_edit();"
-                        type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
-                        <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
-                    </button>
                 </div>
             </form>
         </div>
