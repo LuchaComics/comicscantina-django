@@ -43,8 +43,7 @@
             type: type,
             traditional: true,
             success: function(json_result){
-                // Call back the function with the JSON results.
-                success_callback(json_result);
+                success_callback(json_result); // Call back the function with the JSON results.
             },
             error: function(xhr,status,error) {
                 // Print the error log to console.

@@ -109,8 +109,22 @@
         };
                 
         // Send the "FormData" object to be sent through REST and get updated.
-        set_organization(arr, function(json_result) {
-            window.location = '';                         
-        });
+        set_organization(arr,
+            function(json_result) {
+                window.location = '';
+            }, // success
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                         
+                         // Display the error here.
+                         $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            }
+        );
     }
 </script>
