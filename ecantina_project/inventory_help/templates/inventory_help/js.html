@@ -95,22 +95,19 @@
                                              // completed successfully.
                 });
             }, // success
-            function(error_json_string) {
-                // Convert JSON string into javascript associative array.
-                var json = jQuery.parseJSON(error_json_string);
-                        
-                for (var key in json) {
-                    if (json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                         
                         // Display the error here.
                         $(document).trigger("add-alerts",[{
-                            'message': (key+': '+json[key]),
+                            'message': (key+': '+error_json[key]),
                             'priority': 'error'
                         }]);
                     }
                 }
-            } // error
-        );// set_helper
+            } 
+        );
     }
 
 </script>

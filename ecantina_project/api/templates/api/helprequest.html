@@ -43,17 +43,13 @@
             type: type,
             traditional: true,
             success: function(json_result){
-                // Debugging code
-                //var json_text = JSON.stringify(json_result, null, 2);
-                //console.log(json_text);
-                    
                 // Call back the function with the JSON results.
                 success_callback(json_result);
             },
             error: function(xhr,status,error) {
-                error_callback(xhr.responseText);
-//                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-  //              alert(xhr.responseText);
+                // Convert JSON string into javascript associative array.
+                var json = jQuery.parseJSON(xhr.responseText);
+                error_callback(json); // Return JSON
             },
             complete: function(xhr,status) {
                 // Do nothing.
