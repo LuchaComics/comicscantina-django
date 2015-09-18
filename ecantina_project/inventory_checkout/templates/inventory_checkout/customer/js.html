@@ -165,61 +165,75 @@
         };
         
         // Create a new customer
-        set_customer(arr, function(json_result) {
+        set_customer(
+            arr,
+            function(json_result) {
+                // Create our array of product ID's to include in the Receipt update.
+                var products = [];
+            {% for product in receipt.products.all %}
+                products.push({{ product.product_id }});
+            {% endfor %}
+            
+                var address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
+                if (json_result['billing_unit_number']) {
+                    address = json_result['billing_unit_number'] + "-" + address;
+                }
                      
-            // Create our array of product ID's to include in the Receipt update.
-            var products = [];
-        {% for product in receipt.products.all %}
-            products.push({{ product.product_id }});
-        {% endfor %}
-                     
-            var address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
-            if (json_result['billing_unit_number']) {
-                address = json_result['billing_unit_number'] + "-" + address;
+                // Update the receipt and then do nothing.
+                set_receipt({
+                    'customer': json_result['customer_id'],
+                    'organization': {{ receipt.organization_id }},
+                    'store': {{ receipt.store_id }},
+                    'employee': {{ receipt.employee_id }},
+                    'receipt_id': {{ receipt.receipt_id }},
+                    'payment_method': {{ receipt.payment_method }},
+                    'has_purchased_online': '{{ receipt.has_purchased_online }}',
+                    'has_tax': '{{ receipt.has_tax }}',
+                    'tax_rate': {{ receipt.tax_rate }},
+                    'tax_amount': {{ receipt.tax_amount }},
+                    'sub_total': {{ receipt.sub_total }},
+                    'discount_amount': {{ receipt.discount_amount }},
+                    'total_amount': {{ receipt.total_amount }},
+                    'has_finished': '{{ receipt.has_finished }}',
+                    'has_paid': '{{ receipt.has_paid }}',
+                    'status': {{ receipt.status }},
+                    'billing_first_name': json_result['first_name'],
+                    'billing_last_name': json_result['last_name'],
+                    'billing_address': address,
+                    'billing_email': json_result['email'],
+                    'billing_phone': json_result['phone'],
+                    'billing_city': json_result['city'],
+                    'billing_province': json_result['province'],
+                    'billing_country': json_result['country'],
+                    'billing_postal': json_result['postal'],
+                    'shipping_first_name': json_result['first_name'],
+                    'shipping_last_name': json_result['last_name'],
+                    'shipping_address': address,
+                    'shipping_email': json_result['email'],
+                    'shipping_phone': json_result['phone'],
+                    'shipping_city': json_result['city'],
+                    'shipping_province': json_result['province'],
+                    'shipping_country': json_result['country'],
+                    'shipping_postal': json_result['postal'],
+                    'products': products,
+                }, function(json_result) {
+                    var receipt_id = json_result['receipt_id'];
+                    window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
+                }); // End Receipt jQuery.
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    // this will check if key is owned by data object and not by any of it's ancestors
+                    if (error_json.hasOwnProperty(key)) {
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
             }
-                     
-            // Update the receipt and then do nothing.
-            set_receipt({
-                'customer': json_result['customer_id'],
-                'organization': {{ receipt.organization_id }},
-                'store': {{ receipt.store_id }},
-                'employee': {{ receipt.employee_id }},
-                'receipt_id': {{ receipt.receipt_id }},
-                'payment_method': {{ receipt.payment_method }},
-                'has_purchased_online': '{{ receipt.has_purchased_online }}',
-                'has_tax': '{{ receipt.has_tax }}',
-                'tax_rate': {{ receipt.tax_rate }},
-                'tax_amount': {{ receipt.tax_amount }},
-                'sub_total': {{ receipt.sub_total }},
-                'discount_amount': {{ receipt.discount_amount }},
-                'total_amount': {{ receipt.total_amount }},
-                'has_finished': '{{ receipt.has_finished }}',
-                'has_paid': '{{ receipt.has_paid }}',
-                'status': {{ receipt.status }},
-                'billing_first_name': json_result['first_name'],
-                'billing_last_name': json_result['last_name'],
-                'billing_address': address,
-                'billing_email': json_result['email'],
-                'billing_phone': json_result['phone'],
-                'billing_city': json_result['city'],
-                'billing_province': json_result['province'],
-                'billing_country': json_result['country'],
-                'billing_postal': json_result['postal'],
-                'shipping_first_name': json_result['first_name'],
-                'shipping_last_name': json_result['last_name'],
-                'shipping_address': address,
-                'shipping_email': json_result['email'],
-                'shipping_phone': json_result['phone'],
-                'shipping_city': json_result['city'],
-                'shipping_province': json_result['province'],
-                'shipping_country': json_result['country'],
-                'shipping_postal': json_result['postal'],
-                'products': products,
-            }, function(json_result) {
-                var receipt_id = json_result['receipt_id'];
-                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
-            }); // End Receipt jQuery.
-        }); // End Customer jQuery.
+        ); // End Customer jQuery.
     }
 
     /**

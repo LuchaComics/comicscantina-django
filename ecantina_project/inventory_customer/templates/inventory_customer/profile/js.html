@@ -70,8 +70,23 @@
         };
         
         // Update customer
-        set_customer(data, function() {
-            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
-        });
+        set_customer(
+            data,
+            function() {
+                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    // this will check if key is owned by data object and not by any of it's ancestors
+                    if (error_json.hasOwnProperty(key)) {
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            }
+        );
     }
 </script>
