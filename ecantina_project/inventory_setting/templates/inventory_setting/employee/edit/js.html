@@ -109,6 +109,54 @@
     }
 
 
+    function save_employee(json_result)
+    {
+        var user = json_result['id'];
+        var upload_id = $('#id_hidden_upload_id').val();
+        
+        // STEP 2:
+        // Create our 'ec_employees' object.
+        var data = {
+            'user':  {{ this_employee.user_id }},
+            'employee_id': {{ this_employee.employee_id }},
+            'organization': '{{ org.org_id }}',
+            'role': $('#id_role').val(),
+            'email': $('#id_email').val(),
+            'profile': upload_id,
+            'first_name': $('#id_first_name').val(),
+            'last_name': $('#id_last_name').val(),
+            'phone': $('#id_phone').val(),
+            'fax': $('#id_fax').val(),
+            'street_number': $('#id_street_number').val(),
+            'street_name': $('#id_street_name').val(),
+            'unit_number': $('#id_unit_number').val(),
+            'city': $('#id_city').val(),
+            'country': $('#id_country').val(),
+            'province': $('#id_province').val(),
+            'postal': $('#id_postal').val()
+        }
+        set_employee(
+            data,
+            function(success_json) {
+                var employee_id = success_json['employee_id'];
+                     
+                // STEP 3:
+                window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            }
+        );
+    }
+
     function ajax_save_employee() {
         // STEP 1:
         // Create our 'auth_users' object.
@@ -123,52 +171,24 @@
             'password_repeated': $('#id_password_repeated').val(),
             'groups': ''
         };
-        set_user(data, function(json_result) {
-            var user = json_result['id'];
-            var upload_id = $('#id_hidden_upload_id').val();
+        set_user(
+            data,
+            function(success_result) {
+                save_employee(success_result); // SAVE EMPLOYEE
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                  
-            // STEP 2:
-            // Create our 'ec_employees' object.
-            var data = {
-                 'user':  {{ this_employee.user_id }},
-                 'employee_id': {{ this_employee.employee_id }},
-                 'organization': '{{ org.org_id }}',
-                 'role': $('#id_role').val(),
-                 'email': $('#id_email').val(),
-                 'profile': upload_id,
-                 'first_name': $('#id_first_name').val(),
-                 'last_name': $('#id_last_name').val(),
-                 'phone': $('#id_phone').val(),
-                 'fax': $('#id_fax').val(),
-                 'street_number': $('#id_street_number').val(),
-                 'street_name': $('#id_street_name').val(),
-                 'unit_number': $('#id_unit_number').val(),
-                 'city': $('#id_city').val(),
-                 'country': $('#id_country').val(),
-                 'province': $('#id_province').val(),
-                 'postal': $('#id_postal').val()
-            }
-            set_employee(
-                data,
-                function(success_json) {
-                    var employee_id = success_json['employee_id'];
-                         
-                    // STEP 3:
-                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
-                },
-                function(error_json) {
-                    for (var key in error_json) {
-                        if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                            // Display the error here.
-                            $(document).trigger("add-alerts",[{
-                                'message': (key+': '+error_json[key]),
-                                'priority': 'error'
-                            }]);
-                        }
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
                     }
                 }
-            );
-        });
+            }
+        );
     }
 
     function ajax_store_selection(store_id) {
