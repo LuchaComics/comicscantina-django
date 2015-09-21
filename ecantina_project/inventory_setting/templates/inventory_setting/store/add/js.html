@@ -135,7 +135,7 @@
         set_store(
             data,
             function(success_json) {
-                var store_id = json_result['store_id'];
+                var store_id = success_json['store_id'];
                   
                 // Update the store logo and tell the system
                 var upload_id = $('#id_hidden_upload_id').val();
