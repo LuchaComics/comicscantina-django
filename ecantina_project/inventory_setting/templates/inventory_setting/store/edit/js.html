@@ -86,19 +86,19 @@
 
     }
 
-    function ajax_delete_store(store_id) {
-        if (store_id == {{ store.store_id }})
-        {
-            alert("Cannot delete this store as we are currently in it!");
-            return;
-        }
-        delete_store(store_id, function(json_result){
-            // When this current store has been deleted then return to the main store.
-            window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ store.store_id }}";
-        });
+    function ajax_suspend_store(store_id) {
+        //if (store_id == {{ store.store_id }})
+        //{
+        //    alert("Cannot delete this store as we are currently in it!");
+        //    return;
+        //}
+        //delete_store(store_id, function(json_result){
+        //    // When this current store has been deleted then return to the main store.
+        //    window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ store.store_id }}";
+        //});
     }
 
-    function ajax_save_edit() {
+    function ajax_save_edit(is_suspended) {
         var data = {
             // Store
             'store_id': {{ this_store.store_id }},
@@ -148,6 +148,7 @@
             'is_open_friday': $('#id_is_open_friday').is(':checked'),
             'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
             'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
+            'is_suspended': is_suspended
         }
         set_store(
             data,
