@@ -18,17 +18,28 @@ from inventory_products.forms import ProductForm
 
 @login_required(login_url='/inventory/login')
 def search_comics_page(request, org_id, store_id):
+    store = Store.objects.get(store_id=store_id)
+    
     try:
         tags = Tag.objects.filter(organization__org_id=org_id)
     except Tag.DoesNotExist:
         tags = None
+    try:
+        sections = Section.objects.filter(store=store)
+    except Section.DoesNotExist:
+        sections = None
     
+    stores = Store.objects.filter(organization_id=org_id, is_suspended=False)
+    product_form = ProductForm()
+    product_form.fields["store"].queryset = stores
+    product_form.fields["section"].queryset = sections
+
     return render(request, 'inventory_products/comic/search_gcd/view.html',{
         'org': Organization.objects.get(org_id=org_id),
-        'store': Store.objects.get(store_id=store_id),
+        'store': store,
         'tags': tags,
         'comic_form': ComicForm(),
-        'product_form': ProductForm(),
+        'product_form': product_form,
         'tab':'add',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),

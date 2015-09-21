@@ -373,21 +373,19 @@
     function ajax_load_section_dropdown(store_id)
     {
         list_sections({{ org.org_id }}, store_id, function(json_result) {
-        var dropdown_html = '<select class="form-control" id="id_section" name="section">';
-        $(json_result).each(function(iter,val2){
-            var position_index = 0;
-            $(val2['results']).each(function(iter2,val){
-                var section_id = val['section_id'];
-                var name = val['name'];
-                dropdown_html += '<option value="'+section_id+'">'+name+'</option>'
-                //<option value="" selected="selected">---------</option>
-                //<option value="1">Main Store</option>
-            });
-                                      })
+            var dropdown_html = '<select class="form-control" id="id_section" name="section">';
+            $(json_result).each(function(iter,val2){
+                var position_index = 0;
+                $(val2['results']).each(function(iter2,val){
+                    var section_id = val['section_id'];
+                    var name = val['name'];
+                    dropdown_html += '<option value="'+section_id+'">'+name+'</option>'
+                });
+            })
             dropdown_html += '</select>';
                 
             // Save the new dropdown box to the existing UI.
-            $('#id_section_placeholder').html(dropdown_html);
+            $('#id_section').html(dropdown_html);
         });
     }
 
