@@ -28,7 +28,11 @@
                     <div class="clearfix"></div>
                     <div class="panel-body pt0">
                         <div class="col-sm-12">
+                            {% if form.instance.customer_id > 0 %}
+                            <h2>Edit Customer</h2>
+                            {% else %}
                             <h2>Add Customer</h2>
+                            {% endif %}
                             <div class="table-responsive table-bordered mb-lg">
                                 <br/>
                                 <div class="col-lg-12">

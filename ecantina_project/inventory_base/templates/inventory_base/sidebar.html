@@ -180,8 +180,8 @@
                    <ul id="customers" class="nav sidebar-subnav collapse" aria-expanded="false" style="height: 0px;">
                        <li class="sidebar-subnav-header">Customers</li>
                        <li class={% if tab == 'add_customer' %}" active" {% else %}" "{% endif %}>
-                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/add_customer" title="Add Customer">
-                               <span>Add Customer</span>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/0" title="Add Customer">
+                               <span>Add/Edit Customer</span>
                            </a>
                        </li>
                        <li class={% if tab == 'customers_list' %}" active" {% else %}" "{% endif %}>

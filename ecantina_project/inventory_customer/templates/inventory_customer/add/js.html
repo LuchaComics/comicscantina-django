@@ -53,6 +53,12 @@
             'shipping_postal': $('#id_shipping_postal').val(),
             'has_consented': $('#id_has_consented').is(':checked'),
         };
+        
+        // If we are editing the customer field.
+    {% if form.instance.customer_id > 0 %}
+        arr['customer_id'] = {{ form.instance.customer_id }};
+    {% endif %}
+        
         set_customer(
             arr,
             function(success_json) { // Create a new customer

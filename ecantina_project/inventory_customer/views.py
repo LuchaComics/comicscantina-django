@@ -30,11 +30,18 @@ def customers_page(request, org_id, store_id):
 
 
 @login_required(login_url='/inventory/login')
-def add_customer_page(request, org_id, store_id):
+def customer_page(request, org_id, store_id, customer_id):
+    try:
+        customer = Customer.objects.get(customer_id=customer_id)
+        form = CustomerForm(instance=customer)
+    except Customer.DoesNotExist:
+        customer = None
+        form = CustomerForm(initial={'joined':datetime.now()})
     return render(request, 'inventory_customer/add/view.html',{
+        'customer': customer,
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'form': CustomerForm(initial={'joined':datetime.now()}),
+        'form': form,
         'tab':'add_customer',
         'employee': Employee.objects.get(user=request.user),
         'locations': Store.objects.filter(organization_id=org_id),

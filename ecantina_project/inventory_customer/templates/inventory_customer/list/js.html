@@ -99,10 +99,14 @@
                 html += '<td>' + col3 + '</td>';
                         
                 // Col 4
-                var href_url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
-                var col4 = '<a href="'+href_url+'" class="btn btn-success btn-sm">View Details</a>';
-                html += '<td style="text-align:center;">' + col4 + '</td>';
-                    
+                var href_url_1 = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id+'/profile';
+                var col4_1 = '<a href="'+href_url_1+'" class="btn btn-success btn-sm">View Details</a>';
+                                    
+                var href_url_2 = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/'+customer_id;
+                var col4_2 = '<a href="'+href_url_2+'" class="btn btn-warning btn-sm">Edit</a>';
+
+                html += '<td style="text-align:center;">' + col4_2 + col4_1 + '</td>';
+                                    
                 // Close Table Row
                 html += '</tr>';
             });
