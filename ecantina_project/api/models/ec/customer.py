@@ -16,6 +16,7 @@ class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    is_suspended = models.BooleanField(default=False)
     
     # Name & Contact
     first_name = models.CharField(max_length=63)

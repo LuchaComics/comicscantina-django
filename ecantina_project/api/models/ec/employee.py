@@ -28,6 +28,7 @@ class Employee(models.Model):
     )
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    is_suspended = models.BooleanField(default=False)
     
     # Address
     street_name = models.CharField(max_length=63)

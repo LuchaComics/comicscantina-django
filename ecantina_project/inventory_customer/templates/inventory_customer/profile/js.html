@@ -23,14 +23,26 @@
                 }
             }
         });
+                      
+        // Load up Remove caution modal on 'delete user' clicked.
+        $('body').on('click', '#id_remove_user_btn', function(){
+            $('#remove_user_modal').modal('show');
+        });
     });
     
-    function ajax_delete(customer_id)
+    
+    function ajax_suspdend(customer_id)
     {
-        delete_customer(customer_id, function (json_result) {
-             window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/customers";
-        });
+        ajax_update_customer(customer_id, '{{ customer.has_consented }}', 'True');
+        $('#remove_user_modal').modal('hide');
     }
+
+
+    function ajax_close_modal()
+    {
+        $('#remove_user_modal').modal('hide');
+    }
+
 
     function ajax_subscribe(customer_id)
     {
@@ -40,6 +52,13 @@
         } else {
             has_consented = 'True';
         }
+        ajax_update_customer(customer_id, has_consented, 'False');
+    }
+
+
+    function ajax_update_customer(customer_id, has_consented, is_suspended)
+    {
+        
         var data = {
             'customer_id': customer_id,
             'first_name': '{{ customer.first_name }}',
@@ -66,7 +85,8 @@
             'shipping_province': '{{ customer.shipping_province }}',
             'shipping_postal': '{{ customer.shipping_postal }}',
             'qrcode': '{{ customer.qrcode }}',
-            'has_consented': has_consented
+            'has_consented': has_consented,
+            'is_suspended': is_suspended
         };
         
         // Update customer

@@ -56,6 +56,7 @@ def profile_page(request, org_id, store_id, customer_id):
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+        'src_urls': ['inventory_customer/profile/modal.html'],
     })
 
 

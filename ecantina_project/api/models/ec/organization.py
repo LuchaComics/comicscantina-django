@@ -17,6 +17,7 @@ class Organization(models.Model):
     description = models.TextField(null=True, blank=True)
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    is_suspended = models.BooleanField(default=False)
     
     # Location
     street_name = models.CharField(max_length=63)

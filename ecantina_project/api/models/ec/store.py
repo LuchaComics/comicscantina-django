@@ -50,6 +50,7 @@ class Store(models.Model):
     description = models.TextField(null=True, blank=True)
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    is_suspended = models.BooleanField(default=False)
     tax_rate = models.DecimalField(
         max_digits=10,
         decimal_places=2,
