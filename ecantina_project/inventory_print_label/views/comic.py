@@ -22,7 +22,7 @@ from api.models.ec.comic import Comic
 def comics_print_labels_page(request, org_id, store_id):
     # Fetch all the comics starting with the most recent submission
     # grouped by comic series.
-    q = Comic.objects.filter(product__store_id=store_id)
+    q = Comic.objects.filter(product__store_id=store_id,product__is_qrcode_printed=False)
     q = q.order_by('issue__series')
     q.query.group_by = ['issue__series']
 

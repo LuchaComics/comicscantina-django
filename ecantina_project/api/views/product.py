@@ -25,7 +25,7 @@ class ProductFilter(django_filters.FilterSet):
     max_price = django_filters.CharFilter(name="price", lookup_type=("lte"))
     class Meta:
         model = Product
-        fields = ['product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'organization', 'store', 'section', 'brand', 'brand_name', 'tag', 'is_available', 'category', 'category_name', 'min_price', 'max_price', 'is_new', 'is_featured',]
+        fields = ['product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'organization', 'store', 'section', 'brand', 'brand_name', 'tag', 'is_available', 'category', 'category_name', 'min_price', 'max_price', 'is_new', 'is_featured', 'is_qrcode_printed',]
 
 
 class ProductViewSet(viewsets.ModelViewSet):

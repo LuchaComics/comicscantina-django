@@ -242,6 +242,7 @@
             'is_available': false,
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
+            'is_qrcode_printed': false
         };
         
         var upload_id = $('#id_hidden_upload_id').val();
@@ -256,6 +257,7 @@
         // not a 'insert' call.
         arr['product_id'] = {{ product_form.instance.product_id }}
         arr['qrcode'] = '{{ product_form.instance.qrcode }}';
+        arr['is_qrcode_printed'] = '{{ product_form.instance.is_qrcode_printed }}';
     {% endif %}
 
         set_product(arr, function(json_result) {

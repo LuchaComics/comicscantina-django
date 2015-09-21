@@ -121,9 +121,11 @@ class Product(models.Model):
     # Every product must belongs to a single cateogry.
     category = models.ForeignKey(Category)
     
-    # The QRCode image with the encoded "product_id" number in it.
+    # The QRCode image with the encoded "product_id" number in it and the boolean
+    # to indicate whether the user printed the QR Code to a label or not.
     qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
-    
+    is_qrcode_printed = models.BooleanField(default=False)
+
     def __str__(self):
         return str(self.name)
 
