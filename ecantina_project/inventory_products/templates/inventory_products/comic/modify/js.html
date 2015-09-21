@@ -190,23 +190,32 @@
         
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
-            alert("Please select comic age");
-            console.error("Please select comic age");
+            // Display the error here.
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select comic age',
+                'priority': 'error'
+            }]);
             return;
         }
         if ($('#id_store').val() == '') {
-            alert("Please select store");
-            console.error("Please select store");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select store',
+                'priority': 'error'
+            }]);
             return;
         }
         if ($('#id_section').val() == '') {
-            alert("Please select section");
-            console.error("Please select section");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select section',
+                'priority': 'error'
+            }]);
             return;
         }
         if ($('#id_category').val() == '') {
-            alert("Please select Category");
-            console.error("Please select category");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select categorye',
+                'priority': 'error'
+            }]);
             return;
         }
         

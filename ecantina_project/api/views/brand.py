@@ -25,5 +25,5 @@ class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (IsAdminUserOrReadOnly, IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_class = BrandFilter

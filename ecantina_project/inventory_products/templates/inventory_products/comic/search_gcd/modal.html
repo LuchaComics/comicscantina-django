@@ -113,6 +113,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">
+                <div data-alerts="alerts"></div>
                 <button onclick="ajax_close_modal();" class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
                     <span class="btn-label"><i class="fa fa-remove"></i></span>Cancel
                 </button>
@@ -264,23 +265,31 @@
     
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
-            alert("Please select comic age");
-            console.error("Please select comic age");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select comic age',
+                'priority': 'error'
+            }]);
             return;
         }
         if ($('#id_store').val() == '') {
-            alert("Please select store");
-            console.error("Please select store");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select store',
+                'priority': 'error'
+            }]);
             return;
         }
         if ($('#id_section').val() == '') {
-            alert("Please select section");
-            console.error("Please select section");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select section',
+                'priority': 'error'
+            }]);
             return;
         }
         if ($('#id_category').val() == '') {
-            alert("Please select Category");
-            console.error("Please select category");
+            $(document).trigger("add-alerts",[{
+                'message': 'Please select categorye',
+                'priority': 'error'
+            }]);
             return;
         }
     
