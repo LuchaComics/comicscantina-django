@@ -42,7 +42,7 @@ def comic_page(request, org_id, store_id, issue_id, product_id):
     org = Organization.objects.get(org_id=org_id)
     employee = Employee.objects.get(user=request.user)
     store = Store.objects.get(store_id=store_id)
-    stores = Store.objects.filter(organization=org)
+    stores = Store.objects.filter(organization=org, is_suspended=False)
     try:
         sections = Section.objects.filter(store=store)
     except Section.DoesNotExist:
