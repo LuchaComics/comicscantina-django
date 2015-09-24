@@ -89,10 +89,10 @@ class Receipt(models.Model):
     has_paid = models.BooleanField(default=False)
     
     # Payer Information
+    email = models.EmailField(null=True, blank=True)
     billing_first_name = models.CharField(max_length=63, null=True, blank=True)
     billing_last_name = models.CharField(max_length=63, null=True, blank=True)
     billing_address = models.CharField(max_length=63, null=True, blank=True)
-    billing_email = models.EmailField(null=True, blank=True)
     billing_phone = models.CharField(max_length=15, null=True, blank=True)
     billing_city = models.CharField(max_length=63, null=True, blank=True)
     billing_province = models.CharField(max_length=63, null=True, blank=True)
@@ -101,7 +101,6 @@ class Receipt(models.Model):
     shipping_first_name = models.CharField(max_length=63, null=True, blank=True)
     shipping_last_name = models.CharField(max_length=63, null=True, blank=True)
     shipping_address = models.CharField(max_length=63, null=True, blank=True)
-    shipping_email = models.EmailField(null=True, blank=True)
     shipping_phone = models.CharField(max_length=15, null=True, blank=True)
     shipping_city = models.CharField(max_length=63, null=True, blank=True)
     shipping_province = models.CharField(max_length=63, null=True, blank=True)

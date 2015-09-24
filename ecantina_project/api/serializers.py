@@ -25,7 +25,7 @@ from api.models.ec.category import Category
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customer_id', 'joined', 'last_updated', 'is_suspended', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_email', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_email', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile', 'qrcode',)
+        fields = ('customer_id', 'joined', 'last_updated', 'is_suspended', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile', 'qrcode',)
 
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,7 +62,7 @@ class ComicSerializer(serializers.ModelSerializer):
 class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
-        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method', 'sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_email', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_email', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'products',)
+        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','has_purchased_online','payment_method', 'sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'email', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'products',)
 
 
 class HelpRequestSerializer(serializers.ModelSerializer):

@@ -14,7 +14,7 @@ from api.models.ec.customer import Customer
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'billing_name', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city' , 'billing_province' , 'billing_country' , 'billing_postal' , 'billing_phone', 'billing_email', 'shipping_name', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city' , 'shipping_province' , 'shipping_country' , 'shipping_postal' , 'shipping_phone', 'shipping_email', 'email' , 'has_consented',
+        fields = ['first_name', 'last_name', 'billing_name', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city' , 'billing_province' , 'billing_country' , 'billing_postal' , 'billing_phone', 'shipping_name', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city' , 'shipping_province' , 'shipping_country' , 'shipping_postal' , 'shipping_phone', 'email' , 'has_consented',
         ]
         labels = {
         
@@ -64,10 +64,6 @@ class CustomerForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Phone Number'
             }),
-            'billing_email': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Valid Email'
-            }),
             'shipping_name': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Full Name'
@@ -103,10 +99,6 @@ class CustomerForm(forms.ModelForm):
             'shipping_phone': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Phone Number'
-            }),
-            'shipping_email': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Valid Email'
             }),
             'website': TextInput(attrs={
                 'class': u'form-control mb-lg',

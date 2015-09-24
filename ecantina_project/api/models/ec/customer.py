@@ -26,7 +26,6 @@ class Customer(models.Model):
     # Billing Info
     billing_name = models.CharField(max_length=126)
     billing_phone = models.CharField(max_length=15, null=True, blank=True)
-    billing_email = models.EmailField(null=True, blank=True)
     billing_street_name = models.CharField(max_length=63)
     billing_street_number = models.CharField(max_length=15)
     billing_unit_number = models.CharField(max_length=15, null=True, blank=True)
@@ -38,7 +37,6 @@ class Customer(models.Model):
     # Shipping Info
     shipping_name = models.CharField(max_length=126)
     shipping_phone = models.CharField(max_length=15, null=True, blank=True)
-    shipping_email = models.EmailField(null=True, blank=True)
     shipping_street_name = models.CharField(max_length=63)
     shipping_street_number = models.CharField(max_length=15)
     shipping_unit_number = models.CharField(max_length=15, null=True, blank=True)
