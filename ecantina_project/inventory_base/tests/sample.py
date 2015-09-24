@@ -8,9 +8,10 @@ from datetime import datetime
 from django.contrib.auth.models import User
 #from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.decorators import login_required
-from django.conf.urls.static import static, settings
+from django.conf.urls.static import static
 from captcha.models import CaptchaStore
 from django.db import IntegrityError, transaction
+from ecantina_project import constants
 
 # Grand Comics Database Models
 #------------------------------------------------------------------
@@ -276,7 +277,7 @@ class SampleDataPopulator():
                 postal = 'N6J4X4',
                 email = 'bmika@icloud.com',
                 phone = '519-432-7898',
-                role = settings.EMPLOYEE_OWNER_ROLE,
+                role = constants.EMPLOYEE_OWNER_ROLE,
                 user = user,
                 organization = organization,
                 profile=profile,

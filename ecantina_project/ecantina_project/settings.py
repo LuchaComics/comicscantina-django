@@ -263,18 +263,8 @@ STORE_JS_LIBRARY_BODY = [
 ]
 
 
-# Custom Constants
+#  Django REST Framework Configuration
 #
-EMPLOYEE_OWNER_ROLE = 0
-EMPLOYEE_MANAGER_ROLE = 1
-EMPLOYEE_WORKER_ROLE = 2
-
-# Product Types
-COMIC_PRODUCT_TYPE = 1
-FURNITURE_PRODUCT_TYPE = 2
-COIN_PRODUCT_TYPE = 3
-GENERAL_PRODUCT_TYPE = 4
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',

@@ -7,7 +7,7 @@ from django.test import TestCase
 from django.test import Client
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.conf import settings
+from ecantina_project import constants
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
@@ -97,7 +97,7 @@ class InventoryLoginTest(TestCase):
             postal = 'N6J4X4',
             email = 'bmika@icloud.com',
             phone = '519-432-7898',
-            role=settings.EMPLOYEE_OWNER_ROLE,
+            role=constants.EMPLOYEE_OWNER_ROLE,
             user=user,
         )
     

@@ -3,8 +3,8 @@ import sys
 from datetime import datetime
 from django.db import connection, transaction
 from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
 from django.contrib.auth.models import User
+from ecantina_project import constants
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
@@ -175,7 +175,7 @@ class Command(BaseCommand):
                 postal = 'N6J4X4',
                 email = 'bmika@icloud.com',
                 phone = '519-432-7898',
-                role = settings.EMPLOYEE_OWNER_ROLE,
+                role = constants.EMPLOYEE_OWNER_ROLE,
                 user = user,
                 organization = organization,
                 profile=profile,
