@@ -4,6 +4,7 @@
 {% include 'api/section.html' %}
 {% include 'api/employee.html' %}
 {% include 'api/user.html' %}
+{% include 'api/common_js.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -25,39 +26,6 @@
                     xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
                 }
             }
-        });
-                      
-        /**
-         *  The following section adds auto-complete fields for the following
-         *  textfields.
-         */
-                      
-        $(function() {
-            var availableTags = [
-                "Ontario",
-                "Quebec",
-                "Nova Scotia",
-                "New Brunswick",
-                "Manitoba",
-                "British Columbia",
-                "Prince Edward Island",
-                "Saskatchewan",
-                "Alberta",
-                "Newfoundland and Labrador",
-            ];
-            $( "#id_province" ).autocomplete({
-                source: availableTags
-            });
-        });
-                      
-        $(function() {
-            var availableTags = [
-                "Canada",
-                "United States",
-            ];
-            $( "#id_country" ).autocomplete({
-                source: availableTags
-            });
         });
     });
 
@@ -86,7 +54,7 @@
                 'profile': upload_id,
                 'first_name': $('#id_first_name').val(),
                 'last_name': $('#id_last_name').val(),
-                'phone': $('#id_phone').val(),
+                'phone': get_phone('#id_phone'),
                 'fax': $('#id_fax').val(),
                 'street_number': $('#id_street_number').val(),
                 'street_name': $('#id_street_name').val(),

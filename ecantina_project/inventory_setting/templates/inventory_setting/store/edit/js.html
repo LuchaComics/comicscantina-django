@@ -70,6 +70,12 @@
     }
 
     function ajax_save_edit(is_suspended) {
+        // Create our existing employees list.
+        var employees = [];
+    {% for an_employee in this_store.employees.all %}
+        employees.push(parseInt( {{ an_employee.employee_id }} ));
+    {% endfor %}
+        
         var data = {
             // Store
             'store_id': {{ this_store.store_id }},
@@ -119,6 +125,8 @@
             'is_open_friday': $('#id_is_open_friday').is(':checked'),
             'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
             'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
+            // Other
+            'employees': employees,
             'is_suspended': is_suspended,
             'currency': $('#id_currency').val(),
             'language': $('#id_language').val(),
