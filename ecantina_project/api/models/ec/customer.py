@@ -29,8 +29,14 @@ class Customer(models.Model):
     billing_street_number = models.CharField(max_length=15)
     billing_unit_number = models.CharField(max_length=15, null=True, blank=True)
     billing_city = models.CharField(max_length=63)
-    billing_province = models.CharField(max_length=63)
-    billing_country = models.CharField(max_length=63)
+    billing_province = models.CharField(
+        max_length=63,
+        choices=constants.PROVINCE_CHOICES,
+    )
+    billing_country = models.CharField(
+        max_length=63,
+        choices=constants.COUNTRY_CHOICES,
+    )
     billing_postal = models.CharField(max_length=31)
     
     # Shipping Info
@@ -40,8 +46,14 @@ class Customer(models.Model):
     shipping_street_number = models.CharField(max_length=15)
     shipping_unit_number = models.CharField(max_length=15, null=True, blank=True)
     shipping_city = models.CharField(max_length=63)
-    shipping_province = models.CharField(max_length=63)
-    shipping_country = models.CharField(max_length=63)
+    shipping_province = models.CharField(
+        max_length=63,
+        choices=constants.PROVINCE_CHOICES,
+    )
+    shipping_country = models.CharField(
+        max_length=63,
+        choices=constants.COUNTRY_CHOICES,
+    )
     shipping_postal = models.CharField(max_length=31)
     
     # Legal

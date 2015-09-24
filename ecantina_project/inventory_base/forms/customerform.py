@@ -48,14 +48,8 @@ class CustomerForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City'
             }),
-            'billing_province': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Province / State'
-            }),
-            'billing_country': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Country'
-            }),
+            'billing_province': Select(attrs={'class': u'form-control'}),
+            'billing_country': Select(attrs={'class': u'form-control'}),
             'billing_postal': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip'
@@ -84,14 +78,8 @@ class CustomerForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City'
             }),
-            'shipping_province': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Province / State'
-            }),
-            'shipping_country': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Country'
-            }),
+            'shipping_province': Select(attrs={'class': u'form-control'}),
+            'shipping_country': Select(attrs={'class': u'form-control'}),
             'shipping_postal': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip'
