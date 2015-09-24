@@ -40,7 +40,7 @@ class Employee(models.Model):
     
     # Contact
     email = models.EmailField(null=True, blank=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
+    phone = models.CharField(max_length=10, null=True, blank=True)
     
     # References.
     user = models.ForeignKey(User)

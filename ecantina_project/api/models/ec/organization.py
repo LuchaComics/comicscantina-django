@@ -46,8 +46,8 @@ class Organization(models.Model):
     # Contact
     website = models.URLField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
-    phone = models.CharField(max_length=31, null=True, blank=True)
-    fax = models.CharField(max_length=31, null=True, blank=True)
+    phone = models.CharField(max_length=10, null=True, blank=True)
+    fax = models.CharField(max_length=10, null=True, blank=True)
     
     # Social Media
     twitter_url = models.URLField(null=True, blank=True)

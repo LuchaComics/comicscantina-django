@@ -22,7 +22,6 @@ class Store(models.Model):
         max_digits=10,
         decimal_places=2,
         default=0.13, # Ontario HST
-        choices=constants.TAX_PERCENT_OPTIONS,
     )
     
     # Location
@@ -52,8 +51,8 @@ class Store(models.Model):
     # Contact
     website = models.URLField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
-    phone = models.CharField(max_length=31, null=True, blank=True)
-    fax = models.CharField(max_length=31, null=True, blank=True)
+    phone = models.CharField(max_length=10, null=True, blank=True)
+    fax = models.CharField(max_length=10, null=True, blank=True)
     
     # Hours
     is_open_monday = models.BooleanField(default=False)

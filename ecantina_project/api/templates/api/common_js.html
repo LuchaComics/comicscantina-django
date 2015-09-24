@@ -1,0 +1,18 @@
+<script>
+    function phonenumber_to_integer(phone_string){
+        if (typeof phone_string === "undefined") {
+            return 0;
+        }
+        
+        var phone = phone_string;
+        phone = phone.replace(/\D/g,''); // Remove non-numeric characters
+        phone = parseInt(phone);
+        console.log(phone);
+        return phone;
+    }
+
+    function get_phone(text_id)
+    {
+        return phonenumber_to_integer( $(text_id).val() );
+    }
+</script>

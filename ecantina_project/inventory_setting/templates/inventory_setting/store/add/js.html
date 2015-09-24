@@ -2,6 +2,7 @@
 {% include 'api/store.html' %}
 {% include 'api/organization.html' %}
 {% include 'api/section.html' %}
+{% include 'api/common_js.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -25,41 +26,6 @@
                 }
             }
         });
-                      
-        /**
-         *  The following section adds auto-complete fields for the following
-         *  textfields.
-         */
-                      
-        $(function() {
-            var availableTags = [
-                "Ontario",
-                "Quebec",
-                "Nova Scotia",
-                "New Brunswick",
-                "Manitoba",
-                "British Columbia",
-                "Prince Edward Island",
-                "Saskatchewan",
-                "Alberta",
-                "Newfoundland and Labrador",
-            ];
-            $( "#id_province" ).autocomplete({
-                source: availableTags
-            });
-        });
-                      
-        $(function() {
-            var availableTags = [
-                "Canada",
-                "United States",
-            ];
-            $( "#id_country" ).autocomplete({
-                source: availableTags
-            });
-        });
-                      
-        
     });
 
     // this is to upload the cover image
@@ -89,8 +55,8 @@
             'logo': $('#id_hidden_upload_id').val(),
             'name': $('#id_name').val(),
             'description': $('#id_description').val(),
-            'phone': $('#id_phone').val(),
-            'fax': $('#id_fax').val(),
+            'phone': get_phone('#id_phone'),
+            'fax': get_phone('#id_fax'),
             'website': $('#id_website').val(),
             'twitter_url': $('#id_twitter_url').val(),
             'facebook_url': $('#id_facebook_url').val(),

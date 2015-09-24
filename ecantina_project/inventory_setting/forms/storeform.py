@@ -116,5 +116,8 @@ class StoreForm(forms.ModelForm):
             'sunday_from': Select(attrs={'class': u'form-control'}),
             'currency': Select(attrs={'class': u'form-control'}),
             'language': Select(attrs={'class': u'form-control'}),
-            'tax_rate': Select(attrs={'class': u'form-control'}),
+            'tax_rate': TextInput(attrs={
+                'class': u'form-control mb-lg',
+                'placeholder': u'Enter Tax Rate'
+            }),
     }
