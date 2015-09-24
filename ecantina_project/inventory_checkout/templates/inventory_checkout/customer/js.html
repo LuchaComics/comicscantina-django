@@ -442,4 +442,11 @@
             }
         });
     }
+
+    function ajax_cancel_cart()
+    {
+        delete_receipt({{ receipt.receipt_id }}, function(json_result) {
+            window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout';
+        });
+    }
 </script>
