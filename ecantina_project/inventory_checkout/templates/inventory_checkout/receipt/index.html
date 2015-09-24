@@ -62,7 +62,7 @@
                                             <em class="fa fa-home fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-6">
-                                            <h4>{{ org.name }} &nbsp;<span class="text-sm">({{ store.name }})</span></h4>
+                                            <h4>{{ org.name | escape | safe }} &nbsp;<span class="text-sm">({{ store.name }})</span></h4>
                                             <address class="mb0">
                                                 {{ store.street_number }} {{ store.street_name }} {% if store.unit_number != None %}#{{ store.unit_number }}{% endif %}
                                                 <br>{{ city }} {{ store.postal }}

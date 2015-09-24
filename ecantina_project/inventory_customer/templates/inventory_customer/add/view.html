@@ -18,7 +18,7 @@
                             <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
                             <li class="tab product-type dropdown" role="presentation">
                                 <a class="dropdown-toggle&quot;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                    {{ org.name }}
+                                    {{ org.name | escape | safe }}
                                 </a>
                             </li>
                             

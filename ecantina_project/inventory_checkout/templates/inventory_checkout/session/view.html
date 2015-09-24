@@ -31,7 +31,7 @@
                         <div class="store-info-text col-sm-4 mb-lg">
                             <!-- store address info -->
                             <div class="row clearfix">
-                                <h3 class="pl-lg mt mb-sm">{{ org.name }}</h3>
+                                <h3 class="pl-lg mt mb-sm">{{ org.name | escape | safe }}</h3>
                                 <h4 class="pl-lg mt-sm mb-sm">{{ store.name }}</h4>
                                 <p class="pl-lg">
                                 <span>{{ store.street_number }} {{ store.street_name }}{% if store.unit_number != None %} #{{ store.unit_number }}{% endif %}</span><br/>
