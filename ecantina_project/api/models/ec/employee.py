@@ -28,8 +28,14 @@ class Employee(models.Model):
     street_number = models.CharField(max_length=15)
     unit_number = models.CharField(max_length=15, null=True, blank=True)
     city = models.CharField(max_length=63)
-    province = models.CharField(max_length=63)
-    country = models.CharField(max_length=63)
+    province = models.CharField(
+        max_length=63,
+        choices=constants.PROVINCE_CHOICES,
+    )
+    country = models.CharField(
+        max_length=63,
+        choices=constants.COUNTRY_CHOICES,
+    )
     postal = models.CharField(max_length=31)
     
     # Contact
