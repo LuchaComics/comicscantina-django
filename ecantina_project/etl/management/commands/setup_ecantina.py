@@ -43,6 +43,7 @@ class Command(BaseCommand):
             user.last_name = 'Mika'
             user.is_active = True
             user.save()
+            user = User.objects.get(email='bmika@icloud.com')
         except Exception as e:
             user = User.objects.get(email='bmika@icloud.com')
 
