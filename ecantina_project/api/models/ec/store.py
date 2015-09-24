@@ -1,53 +1,9 @@
-import os
 from django.db import models
-from django.contrib.auth.models import User
+from ecantina_project import constants
 from api.models.ec.organization import Organization
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.employee import Employee
 
-# Note: https://en.wikipedia.org/wiki/ISO_4217
-ISO_4217_CURRENCY_OPTIONS = (
-    (124, 'CAD'),
-    (840, 'USD'),
-)
-
-# Note: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-ISO_639_1_LANGUAGE_OPTIONS = (
-    ('EN', 'English'),
-)
-
-STORE_HOUR_OPTIONS = (
-    ('08:00', '08:00'),
-    ('08:30', '08:30'),
-    ('09:00', '09:00'),
-    ('09:30', '09:30'),
-    ('10:00', '10:00'),
-    ('10:30', '10:30'),
-    ('11:00', '11:00'),
-    ('11:30', '11:30'),
-    ('12:00', '12:00'),
-    ('12:30', '12:30'),
-    ('13:00', '13:00'),
-    ('13:30', '13:30'),
-    ('14:00', '14:00'),
-    ('14:30', '14:30'),
-    ('15:00', '15:00'),
-    ('15:30', '15:30'),
-    ('16:00', '16:00'),
-    ('16:30', '16:30'),
-    ('17:00', '17:00'),
-    ('17:30', '17:30'),
-    ('18:00', '18:00'),
-    ('18:30', '18:30'),
-    ('19:00', '19:00'),
-    ('19:30', '19:30'),
-    ('20:00', '20:00'),
-    ('20:30', '20:30'),
-    ('21:00', '21:00'),
-    ('21:30', '21:30'),
-    ('22:00', '22:00'),
-    ('22:30', '22:30'),
-)
 
 class Store(models.Model):
     class Meta:
@@ -78,11 +34,11 @@ class Store(models.Model):
     postal = models.CharField(max_length=31)
     currency = models.PositiveSmallIntegerField(
         default=124,
-        choices=ISO_4217_CURRENCY_OPTIONS,
+        choices=constants.ISO_4217_CURRENCY_OPTIONS,
     )
     language = models.CharField(
         max_length=2,
-        choices=ISO_639_1_LANGUAGE_OPTIONS,
+        choices=constants.ISO_639_1_LANGUAGE_OPTIONS,
         default='EN',
     )
     
@@ -101,21 +57,21 @@ class Store(models.Model):
     is_open_saturday = models.BooleanField(default=False)
     is_open_sunday = models.BooleanField(default=False)
     
-    monday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    tuesday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    wednesday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    thursday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    friday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    saturday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    sunday_to = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    monday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    tuesday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    wednesday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    thursday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    friday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    saturday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    sunday_to = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
     
-    monday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    tuesday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    wednesday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    thursday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    friday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    saturday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
-    sunday_from = models.CharField(choices=STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    monday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    tuesday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    wednesday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    thursday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    friday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    saturday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
+    sunday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
     
     # Reference
     organization = models.ForeignKey(Organization)

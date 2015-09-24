@@ -1,12 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ecantina_project import constants
 from api.models.ec.organization import Organization
-
-
-DISCOUNT_TYPE_OPTIONS = (
-    (1, '%'),
-    (2, '$'),
-)
 
 
 class Tag(models.Model):
@@ -24,7 +19,7 @@ class Tag(models.Model):
     )
     discount_type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(2)],
-        choices=DISCOUNT_TYPE_OPTIONS,
+        choices=constants.PRODUCT_DISCOUNT_TYPE_OPTIONS,
         default=1,
     )
     organization = models.ForeignKey(Organization)

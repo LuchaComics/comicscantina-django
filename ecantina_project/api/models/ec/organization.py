@@ -1,19 +1,9 @@
-import os
 from django.db import models
 from django.contrib.auth.models import User
+from ecantina_project import constants
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.customer import Customer
 
-# Note: https://en.wikipedia.org/wiki/ISO_4217
-ISO_4217_CURRENCY_OPTIONS = (
-    (124, 'CAD'),
-    (840, 'USD'),
-)
-
-# Note: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-ISO_639_1_LANGUAGE_OPTIONS = (
-    ('EN', 'English'),
-)
 
 class Organization(models.Model):
     class Meta:
@@ -39,11 +29,11 @@ class Organization(models.Model):
     postal = models.CharField(max_length=31)
     currency = models.PositiveSmallIntegerField(
         default=124,
-        choices=ISO_4217_CURRENCY_OPTIONS,
+        choices=constants.ISO_4217_CURRENCY_OPTIONS,
     )
     language = models.CharField(
         max_length=2,
-        choices=ISO_639_1_LANGUAGE_OPTIONS,
+        choices=constants.ISO_639_1_LANGUAGE_OPTIONS,
         default='EN',
     )
     

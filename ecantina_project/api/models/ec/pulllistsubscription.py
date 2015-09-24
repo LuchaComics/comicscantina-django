@@ -1,10 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.pulllist import Pulllist
+
 
 class PulllistSubscription(models.Model):
     class Meta:

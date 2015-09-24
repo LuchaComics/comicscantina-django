@@ -1,17 +1,10 @@
-import os
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ecantina_project import constants
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 
-
-ROLE_CHOICES = (
-    (settings.EMPLOYEE_OWNER_ROLE, 'Owner'),
-    (settings.EMPLOYEE_MANAGER_ROLE, 'Manager'),
-    (settings.EMPLOYEE_WORKER_ROLE, 'Worker'),
-)
 
 class Employee(models.Model):
     class Meta:
@@ -23,7 +16,7 @@ class Employee(models.Model):
     employee_id = models.AutoField(primary_key=True)
     role = models.PositiveSmallIntegerField(
         default=0,
-        choices=ROLE_CHOICES,
+        choices=constants.ROLE_CHOICES,
         validators=[MinValueValidator(0), MaxValueValidator(3)],
     )
     joined = models.DateTimeField(auto_now_add=True)

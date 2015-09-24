@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ecantina_project import constants
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
@@ -14,29 +14,6 @@ from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
 
-
-PRODUCT_TYPE_OPTIONS = (
-    (settings.COMIC_PRODUCT_TYPE, 'Comic'),
-    (settings.FURNITURE_PRODUCT_TYPE, 'Furniture'),
-    (settings.COIN_PRODUCT_TYPE, 'Coin'),
-    #(settings.GENERAL_PRODUCT_TYPE, 'General'),
-)
-
-PRODUCT_DISCOUNT_TYPE_OPTIONS = (
-    (1, '%'),
-    (2, '$'),
-)
-
-# Note: https://en.wikipedia.org/wiki/ISO_4217
-ISO_4217_CURRENCY_OPTIONS = (
-    (124, 'CAD'),
-    (840, 'USD'),
-)
-
-# Note: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-ISO_639_1_LANGUAGE_OPTIONS = (
-    ('EN', 'English'),
-)
 
 class Product(models.Model):
     """
@@ -59,7 +36,7 @@ class Product(models.Model):
     name = models.CharField(max_length=511, null=True, blank=True)
     type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
-        choices=PRODUCT_TYPE_OPTIONS,
+        choices=constants.PRODUCT_TYPE_OPTIONS,
         default=1,
     )
     
@@ -97,7 +74,7 @@ class Product(models.Model):
     )
     discount_type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(2)],
-        choices=PRODUCT_DISCOUNT_TYPE_OPTIONS,
+        choices=constants.PRODUCT_DISCOUNT_TYPE_OPTIONS,
         default=1,
     )
     price = models.DecimalField( # Note: Price after discount applied.
@@ -112,11 +89,11 @@ class Product(models.Model):
     )
     currency = models.PositiveSmallIntegerField(
         default=124,
-        choices=ISO_4217_CURRENCY_OPTIONS,
+        choices=constants.ISO_4217_CURRENCY_OPTIONS,
     )
     language = models.CharField(
         max_length=2,
-        choices=ISO_639_1_LANGUAGE_OPTIONS,
+        choices=constants.ISO_639_1_LANGUAGE_OPTIONS,
         default='EN',
     )
                               

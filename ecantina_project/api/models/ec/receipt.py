@@ -1,35 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ecantina_project import constants
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.customer import Customer
 from api.models.ec.employee import Employee
 from api.models.ec.product import Product
-
-
-PAYMENT_METHOD_CHOICES = (
-    (1, 'Cash'),
-    (2, 'Debit Card'),
-    (3, 'Credit Card'),
-    (4, 'Gift Card'),
-    (5, 'Store Points'),
-    (6, 'Cheque'),
-    (7, 'PayPal'),
-    (8, 'Invoice'),
-    (9, 'Other'),
-)
-
-
-STATUS_CHOICES = (
-    (1, 'New Order'),
-    (2, 'Picked'),
-    (3, 'Shipped'),
-    (4, 'Received'),
-    (5, 'In-Store Sale'),
-    (6, 'Online Sale'),
-)
 
 
 class Receipt(models.Model):
@@ -49,12 +25,12 @@ class Receipt(models.Model):
     has_purchased_online = models.BooleanField(default=False)
     payment_method = models.PositiveSmallIntegerField(
         default=1,
-        choices=PAYMENT_METHOD_CHOICES,
+        choices=constants.PAYMENT_METHOD_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(9)],
     )
     status = models.PositiveSmallIntegerField(
         default=1,
-        choices=STATUS_CHOICES,
+        choices=constants.STATUS_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(6)],
     )
     
