@@ -45,14 +45,8 @@ class StoreForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City'
             }),
-            'province': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Province / State'
-            }),
-            'country': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Country'
-            }),
+            'province': Select(attrs={'class': u'form-control'}),
+            'country': Select(attrs={'class': u'form-control'}),
             'postal': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip'
