@@ -376,44 +376,50 @@
         // Debugging code
         //var json_text = JSON.stringify(result, null, 2);
         //var obj = JSON.parse(json_text);
-    
-        var html = '<div class="table-responsive">';
-        html += '<table class="table table-striped">';
-        html += '<thead>';
-        html += '<tr>';
-        html += '<th>First Name</th>';
-        html += '<th>Last Name</th>';
-        html += '<th>Email</th>';
-        html += '<th>Phone</th>';
-        html += '<th>Select</th>';
-        html += '</tr>';
-        html += '</thead>';
-        html += '<tbody>';
-    
+        
+        var html = '';
         $(json_result).each(function(iter,val2){
             // Update results count
-            //var count = val2['count'];
-            //var txt = count;
-            //txt += (count > 1) ? " Results Listed" : " Result Listed";
-            //$('#id_results_count').html(txt);
-                        
-            // Generate table.
-            var position_index = 0;
-            $(val2['results']).each(function(iter2,val){
-                html += '<tr>';
-                html += '<td>' + val['first_name'] + '</td>';
-                html += '<td>' + val['last_name'] + '</td>';
-                html += '<td>' + val['email'] + '</td>';
-                html += '<td>' + val['billing_phone'] + '</td>';
-                html += '<td style="text-align:center;">';
-                html += '<div class="radio c-radio">';
-                html += '<label>';
-                html += '<input name="selected-customer" value="custid-1" type="radio" onclick="update_cart_by_set_customer_id(' + val['customer_id'] +');">';
-                html += '<span class="fa fa-circle"></span></label>';
+            var count = parseInt( val2['count'] );
+            
+            if (count < 1) { // FAILURE
+                html = '<br/>';
+                html += '<div class="jumbotron bg-gray-lighter">';
+                html += '<h3 class="p0 mt0 mb-lg">No Results</h3>';
+                html += '<p class="mb0 text-justify">It appears the customer you where looking for was not found. Please try again using different search criteria or create a new customer.</p>';
                 html += '</div>';
-                html += '</td>';
+            } else { // SUCCESS
+                // Generate table.
+                html = '<div class="table-responsive">';
+                html += '<table class="table table-striped">';
+                html += '<thead>';
+                html += '<tr>';
+                html += '<th>First Name</th>';
+                html += '<th>Last Name</th>';
+                html += '<th>Email</th>';
+                html += '<th>Phone</th>';
+                html += '<th>Select</th>';
                 html += '</tr>';
-            });
+                html += '</thead>';
+                html += '<tbody>';
+                            
+                var position_index = 0;
+                    $(val2['results']).each(function(iter2,val){
+                    html += '<tr>';
+                    html += '<td>' + val['first_name'] + '</td>';
+                    html += '<td>' + val['last_name'] + '</td>';
+                    html += '<td>' + val['email'] + '</td>';
+                    html += '<td>' + val['billing_phone'] + '</td>';
+                    html += '<td style="text-align:center;">';
+                    html += '<div class="radio c-radio">';
+                    html += '<label>';
+                    html += '<input name="selected-customer" value="custid-1" type="radio" onclick="update_cart_by_set_customer_id(' + val['customer_id'] +');">';
+                    html += '<span class="fa fa-circle"></span></label>';
+                    html += '</div>';
+                    html += '</td>';
+                    html += '</tr>';
+                });
+            }
         });
         html += '</tbody></table></div>';
         $('#id_table_placeholder').html(''); // Clear Table
