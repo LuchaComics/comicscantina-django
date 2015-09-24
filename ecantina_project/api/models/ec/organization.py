@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.customer import Customer
 
+# Note: https://en.wikipedia.org/wiki/ISO_4217
+ISO_4217_CURRENCY_OPTIONS = (
+    (124, 'CAD'),
+    (840, 'USD'),
+)
+
+# Note: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+ISO_639_1_LANGUAGE_OPTIONS = (
+    ('EN', 'English'),
+)
 
 class Organization(models.Model):
     class Meta:
@@ -27,6 +37,15 @@ class Organization(models.Model):
     province = models.CharField(max_length=63)
     country = models.CharField(max_length=63)
     postal = models.CharField(max_length=31)
+    currency = models.PositiveSmallIntegerField(
+        default=124,
+        choices=ISO_4217_CURRENCY_OPTIONS,
+    )
+    language = models.CharField(
+        max_length=2,
+        choices=ISO_639_1_LANGUAGE_OPTIONS,
+        default='EN',
+    )
     
     # Contact
     website = models.URLField(null=True, blank=True)

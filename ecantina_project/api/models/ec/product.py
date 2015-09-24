@@ -27,6 +27,17 @@ PRODUCT_DISCOUNT_TYPE_OPTIONS = (
     (2, '$'),
 )
 
+# Note: https://en.wikipedia.org/wiki/ISO_4217
+ISO_4217_CURRENCY_OPTIONS = (
+    (124, 'CAD'),
+    (840, 'USD'),
+)
+
+# Note: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+ISO_639_1_LANGUAGE_OPTIONS = (
+    ('EN', 'English'),
+)
+
 class Product(models.Model):
     """
         Model acts as an encompasing object to hold all the different
@@ -98,6 +109,15 @@ class Product(models.Model):
         max_digits=10,
         decimal_places=2,
         default=0.00,
+    )
+    currency = models.PositiveSmallIntegerField(
+        default=124,
+        choices=ISO_4217_CURRENCY_OPTIONS,
+    )
+    language = models.CharField(
+        max_length=2,
+        choices=ISO_639_1_LANGUAGE_OPTIONS,
+        default='EN',
     )
                               
     # Every product has images.

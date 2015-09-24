@@ -19,5 +19,5 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     pagination_class = LargeResultsSetPagination
     permission_classes = (BelongsToOrganizationOwnerOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('org_id', 'is_suspended',)
+    filter_fields = ('org_id', 'is_suspended', 'language', 'currency',)
 
