@@ -17,7 +17,7 @@ class CustomerForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'billing_name', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city' , 'billing_province' , 'billing_country' , 'billing_postal' , 'billing_phone', 'shipping_name', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city' , 'shipping_province' , 'shipping_country' , 'shipping_postal' , 'shipping_phone', 'email' , 'has_consented',
         ]
         labels = {
-        
+            'has_consented': 'E-Mail Privacy Consent',
         }
         widgets = {
             'first_name': TextInput(attrs={
