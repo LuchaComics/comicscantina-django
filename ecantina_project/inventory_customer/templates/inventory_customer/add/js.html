@@ -1,5 +1,6 @@
 {% include 'api/organization.html' %}
 {% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -32,7 +33,7 @@
             'last_name': $('#id_last_name').val(),
             'email': $('#id_email').val(),
             'billing_name': $('#id_billing_name').val(),
-            'billing_phone': $('#id_billing_phone').val(),
+            'billing_phone': get_phone('#id_billing_phone'),
             'billing_street_number': $('#id_billing_street_number').val(),
             'billing_street_name': $('#id_billing_street_name').val(),
             'billing_unit_number': $('#id_billing_unit_number').val(),
@@ -41,7 +42,7 @@
             'billing_province': $('#id_billing_province').val(),
             'billing_postal': $('#id_billing_postal').val(),
             'shipping_name': $('#id_shipping_name').val(),
-            'shipping_phone': $('#id_shipping_phone').val(),
+            'shipping_phone': get_phone('#id_shipping_phone'),
             'shipping_street_number': $('#id_shipping_street_number').val(),
             'shipping_street_name': $('#id_shipping_street_name').val(),
             'shipping_unit_number': $('#id_shipping_unit_number').val(),
