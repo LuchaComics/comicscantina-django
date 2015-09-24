@@ -316,6 +316,8 @@
             'is_available': false,
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
+            'currency': parseInt( {{ store.currency }} ),
+            'language': {{ store.language }},
         };
                              
         var upload_id = $('#id_hidden_upload_id').val();

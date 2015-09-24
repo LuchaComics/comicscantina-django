@@ -242,7 +242,9 @@
             'is_available': false,
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
-            'is_qrcode_printed': false
+            'is_qrcode_printed': false,
+            'currency': parseInt( {{ store.currency }} ),
+            'language': {{ store.language }},
         };
         
         var upload_id = $('#id_hidden_upload_id').val();
