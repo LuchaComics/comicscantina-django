@@ -109,11 +109,14 @@
                 var series_id = val['series_id'];
                 if (val['name'] != "")
                 {
-                                    
                     // Table Row
                     html += '<tr>';
                                           
                     // Col 1
+                    // Uncomment to have a hand cursor.
+                    //var css = "cursor: pointer;";
+                    //var js = "";
+                    //html += '<td><a style="'+css+'" onclick="'+js+'">' + val['name'] + '</a></td>';
                     html += '<td>' + val['name'] + '</td>';
                             
                     // Col 2
