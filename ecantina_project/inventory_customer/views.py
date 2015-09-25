@@ -86,7 +86,7 @@ def purchases_page(request, org_id, store_id, customer_id):
 def subscriptions_page(request, org_id, store_id, customer_id):
     # Fetch all the pullists belonging to the current client.
     try:
-        subscriptions = PulllistSubscription.objects.filter(customer_id=customer_id)
+        subscriptions = PulllistSubscription.objects.filter(customer_id=customer_id, organization_id=org_id)
     except PulllistSubscription.DoesNotExist:
         subscriptions = None
 
