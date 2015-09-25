@@ -20,7 +20,7 @@
                             <li class="tab product-type dropdown" role="presentation">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false" role="button">
-                                    {{ customer.first_name }} {{ customer.last_name }}
+                                    {{ customer.first_name | escape | safe }} {{ customer.last_name | escape | safe }}
                                 </a>
                             </li>
                             <li class="tab">

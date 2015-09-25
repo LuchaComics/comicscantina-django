@@ -12,8 +12,8 @@
         <tbody>
             {% for subscription in subscriptions.all %}
             <tr>
-                <td>{{subscription.pulllist.series }}</td>
-                <td>{{ subscription.pulllist.series.publisher }}</td>
+                <td>{{subscription.pulllist.series | escape | safe }}</td>
+                <td>{{ subscription.pulllist.series.publisher | escape | safe }}</td>
                 <td>{{ subscription.created }}</td>
                 <td>{{ subscription.copies }}</td>
                 <td>
