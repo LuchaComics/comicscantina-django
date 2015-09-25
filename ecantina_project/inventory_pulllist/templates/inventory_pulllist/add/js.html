@@ -1,4 +1,5 @@
 <!-- Load API Handlers -->
+{% load staticfiles %}
 {% include 'api/series.html' %}
 {% include 'api/pulllist.html' %}
 
@@ -78,7 +79,13 @@
     
     function ajax_search(series, publisher, from, to, language, country)
     {
+        // Load the 'Busy' indicator.
+        var src = "{% static "inventory/img/busy.gif" %}";
+        var html = '<img src="'+src+'" alt="Busy" class="displayed" style="display: block;margin-left: auto;margin-right: auto;">';
+        $('#id_table_placeholder').html(''); // Previous data.
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
         
+        // Apply our criteria and start searching.
         var criteria = {}; // Generate search criteria
         if (series != '') {
             criteria['name'] = series;
