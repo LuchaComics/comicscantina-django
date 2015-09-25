@@ -29,7 +29,7 @@
                             </li>
                             {% for a_store in stores %}
                             <li class="tab {% if a_store == this_store %}selected{% endif %}">
-                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/{{ a_store.store_id }}">{{ a_store.name }}</a>
+                                <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/{{ a_store.store_id }}">{{ a_store.name | escape | safe }}</a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -41,7 +41,7 @@
                             {% if this_store == None %}
                             <legend>Users - All Stores</legend>
                             {% else %}
-                            <legend>Users - {{ this_store.name }}</legend>
+                            <legend>Users - {{ this_store.name | escape | safe }}</legend>
                             {% endif %}
                             <table class="table table-hover">
                                 <tbody><tr>

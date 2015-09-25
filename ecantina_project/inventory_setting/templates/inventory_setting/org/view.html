@@ -72,9 +72,9 @@
                                 <div class="col-sm-7">
                                     {% for field in form %}
                                     <div class="form-group">
-                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label }}</label>
+                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
                                         <div class="col-md-8">
-                                            {{ field }}
+                                            {{ field | escape | safe }}
                                         </div>
                                     </div>
                                     {% endfor %}

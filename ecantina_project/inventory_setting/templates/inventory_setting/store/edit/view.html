@@ -28,7 +28,7 @@
                                 </li>
                                 {% for a_store in stores %}
                                 <li class="tab {% if a_store.store_id == this_store.store_id %}selected{% endif %}">
-                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ a_store.store_id }}">{{ a_store.name }}</a>
+                                    <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ a_store.store_id }}">{{ a_store.name | escape | safe }}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -78,13 +78,13 @@
                                         <div class="form-group">
                                             <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
                                             <div class="col-md-8">
-                                                {{ form.name }}
+                                                {{ form.name | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="txt-store-about" class="col-md-4 control-label">About</label>
                                             <div class="col-md-8">
-                                                {{ form.description }}
+                                                {{ form.description | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -114,7 +114,7 @@
                                         <div class="form-group">
                                             <label for="txt-store-street" class="col-md-4 control-label">Street Name</label>
                                             <div class="col-md-8">
-                                                {{ form.street_name }}
+                                                {{ form.street_name | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -126,7 +126,7 @@
                                         <div class="form-group">
                                             <label for="txt-store-city" class="col-md-4 control-label">City</label>
                                             <div class="col-md-8">
-                                                {{ form.city }}
+                                                {{ form.city | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -138,25 +138,25 @@
                                         <div class="form-group">
                                             <label for="sel-store-country" class="col-md-4 control-label">Country</label>
                                             <div class="col-md-8">
-                                                {{ form.country }}
+                                                {{ form.country | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="sel-store-province" class="col-md-4 control-label">State/Province</label>
                                             <div class="col-md-8">
-                                                {{ form.province }}
+                                                {{ form.province | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="sel-store-province" class="col-md-4 control-label">Currency</label>
                                             <div class="col-md-8">
-                                                {{ form.currency }}
+                                                {{ form.currency | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="sel-store-province" class="col-md-4 control-label">Language</label>
                                             <div class="col-md-8">
-                                                {{ form.language }}
+                                                {{ form.language | escape | safe }}
                                             </div>
                                         </div>
                                         <div class="form-group">

@@ -65,10 +65,10 @@
                                     {% for field in user_form %}
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">
-                                            {{ field.label }}
+                                            {{ field.label | escape | safe }}
                                         </label>
                                         <div class="col-md-9">
-                                            {{ field }}
+                                            {{ field | escape | safe }}
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -86,10 +86,10 @@
                                     {% for field in employee_form %}
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">
-                                            {{ field.label }}
+                                            {{ field.label | escape | safe }}
                                         </label>
                                         <div class="col-md-9">
-                                            {{ field }}
+                                            {{ field | escape | safe }}
                                         </div>
                                     </div>
                                     {% endfor %}
@@ -107,7 +107,7 @@
                                     <div class="table-responsive">
                                         <div class="col-sm-7" id="id_store_checkboxes">
                                             {% for a_store in stores %}
-                                            <input id="{{ a_store.store_id }}" type="checkbox" class="store"> <label class="control-label">{{ a_store.name }}</label><br/>
+                                            <input id="{{ a_store.store_id }}" type="checkbox" class="store"> <label class="control-label">{{ a_store.name | escape | safe }}</label><br/>
                                             {% endfor %}
                                         </div>
                                     </div>
