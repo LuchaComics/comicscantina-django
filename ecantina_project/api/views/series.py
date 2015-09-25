@@ -16,7 +16,7 @@ class SeriesFilter(django_filters.FilterSet):
     max_year_ended = django_filters.NumberFilter(name="year_ended", lookup_type='lte')
     class Meta:
         model = GCDSeries
-        fields = ['name', 'publisher_name', 'min_year_began', 'max_year_ended', 'language', 'country',]
+        fields = ['name', 'publisher_name', 'min_year_began', 'max_year_ended', 'language', 'country', 'year_ended_uncertain', 'year_ended',]
 
 
 class SeriesViewSet(viewsets.ModelViewSet):

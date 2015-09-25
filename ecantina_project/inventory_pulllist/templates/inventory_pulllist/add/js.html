@@ -99,6 +99,10 @@
             criteria['country'] = country;
         }
         
+        // Add fix to prevent finding series that have finished.
+        criteria['year_ended_uncertain'] = false;
+        criteria['year_ended'] = 0;
+        
         filter_series(criteria, function(json_result) {
             generate_table(json_result);
         });
