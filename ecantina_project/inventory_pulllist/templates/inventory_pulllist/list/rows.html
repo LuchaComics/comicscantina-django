@@ -13,8 +13,8 @@
         <tbody>
             {% for subscription in subscriptions.all %}
             <tr>
-                <td>{{ subscription.customer.first_name }}</td>
-                <td>{{ subscription.customer.last_name }}</td>
+                <td>{{ subscription.customer.first_name | escape | safe }}</td>
+                <td>{{ subscription.customer.last_name | escape | safe }}</td>
                 <td>{{ subscription.customer.email }}</td>
                 <td>{{ subscription.copies }}</td>
                 <td>
