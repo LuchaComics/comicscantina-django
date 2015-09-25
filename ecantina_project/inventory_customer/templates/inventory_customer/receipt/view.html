@@ -29,9 +29,11 @@
                             <li class="tab selected">
                                 <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/purchases">Purchases</a>
                             </li>
+                            {% if store.is_comics_vendor %}
                             <li class="tab">
                                 <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/subscriptions">Subscriptions</a>
                             </li>
+                            {% endif %}
                         </ul>
                         <div class="clearfix"></div>
                     </div>

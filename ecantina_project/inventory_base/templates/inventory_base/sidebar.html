@@ -104,6 +104,8 @@
                                 <span>View All</span>
                             </a>
                         </li>
+                        
+                        {% if store.is_comics_vendor %}
                         <li class=" ">
                             <!-- inventory menu header -->
                             <a href="#comics" title="Comics" data-toggle="collapse">
@@ -138,6 +140,7 @@
                                 
                             </ul>
                         </li>
+                        {% endif %}
                     </ul>
                 </li>
                 
