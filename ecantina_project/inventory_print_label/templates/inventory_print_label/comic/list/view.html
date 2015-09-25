@@ -35,7 +35,7 @@
                                 <div class="product-type-listing clearfix mt-xl">
                                     <div class="product-listing-header pb0 mb0">
                                         <h4 class="p0 m0">
-                                            <a class="product-type-minimize">{{ newest_comics.grouper }}
+                                            <a class="product-type-minimize">{{ newest_comics.grouper | escape | safe }}
                                                 <span class="pl-sm product-type-publisher text-muted text-sm">{{ newest_comics.list.count }} labels</span>
                                                 <em class="pl-sm fa fa-caret-down"></em>
                                             </a>
@@ -62,7 +62,7 @@
                                                     {% for comic in newest_comics.list %}
                                                     <tr>
                                                         <td>{{ comic.comic_id }}</td>
-                                                        <td>{{ comic.issue.series }}</td>
+                                                        <td>{{ comic.issue.series | escape | safe }}</td>
                                                         <td>#{{ comic.issue.number }}</td>
                                                         <td>
                                                             {% if comic.product.price > 0 %}
@@ -71,7 +71,7 @@
                                                             Free
                                                             {% endif %}
                                                         </td>
-                                                        <td>{{ comic.product.store }} / {{ comic.product.section }}</td>
+                                                        <td>{{ comic.product.store | escape | safe }} / {{ comic.product.section | escape | safe }}</td>
                                                         <td class="text-center">
                                                             <button onclick="load_comic({{ comic.issue.issue_id}},{{ comic.comic_id }});"
                                                                 type="button"
