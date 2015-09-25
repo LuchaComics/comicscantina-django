@@ -1,35 +1,28 @@
 <script>
-    function filter_series(name, publisher_name, min_year_began, max_year_ended, language_id, country_id, callback) {
-        var url = "/api/series/?format=json";
+    function filter_series(criteria, callback) {
+        var url = "/api/series/?format=json"; // Always return JSON data.
         
-        if (name != "") {
-            url += "&name=" + name;
+        for(var prop in criteria) {
+            if(criteria.hasOwnProperty(prop)) {
+                url += "&";
+                
+                // Generate our parameters
+                var param = "";
+                if (criteria[prop] === true) { // Handle "True" cases.
+                    param = prop + "=True";
+                }
+                else if (criteria[prop] === false) { // Handle "False" cases.
+                    param = prop + "=False";
+                }
+                else {
+                    param = prop + "=" + criteria[prop];
+                }
+                
+                url += param; // Add the parameters to the URL.
+            }
         }
-        
-        if (publisher_name != "") {
-            url += "&publisher_name=" + publisher_name;
-        }
-        
-        min_year_began = parseInt(min_year_began);
-        if (min_year_began > 0) {
-            url += "&min_year_began=" +min_year_began;
-        }
-        
-        max_year_ended = parseInt(max_year_ended);
-        if (max_year_ended > 0) {
-            url += "&max_year_ended=" +max_year_ended;
-        }
-        
-        language_id = parseInt(language_id);
-        if (language_id > 0) {
-            url += "&language_id=" +language_id;
-        }
-        
-        country_id = parseInt(country_id);
-        if (country_id > 0) {
-            url += "&country_id=" +country_id;
-        }
-        
+        console.log(criteria);
+        console.log(url);
         jQuery.ajax({
             url: url,
             cache: false,

@@ -78,7 +78,28 @@
     
     function ajax_search(series, publisher, from, to, language, country)
     {
-        filter_series(series, publisher, from, to, language, country, function(json_result) {
+        
+        var criteria = {}; // Generate search criteria
+        if (series != '') {
+            criteria['name'] = series;
+        }
+        if (publisher != '') {
+            criteria['publisher_name'] = publisher;
+        }
+        if (from != '') {
+            criteria['min_year_began'] = from;
+        }
+        if (to != '') {
+            criteria['max_year_ended'] = to;
+        }
+        if (language != '') {
+            criteria['language'] = language;
+        }
+        if (country != '') {
+            criteria['country'] = country;
+        }
+        
+        filter_series(criteria, function(json_result) {
             generate_table(json_result);
         });
     }
