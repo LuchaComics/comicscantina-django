@@ -78,7 +78,7 @@
                                                      id="id_series"
                                                    name="series"
                                                   class="form-control"
-                                                  value="{{ issue.series }}"
+                                                  value="{{ issue.series | escape | safe }}"
                                                disabled="true" />
                                         </div>
                                     </div>
@@ -100,7 +100,7 @@
                                                      id="id_title"
                                                    name="title"
                                                   class="form-control"
-                                                  value="{% if issue.title == "" %}None{% else %}{{ issue.title }}{% endif %}"
+                                                  value="{% if issue.title == "" %}None{% else %}{{ issue.title | escape | safe }}{% endif %}"
                                                disabled="true" />
                                         </div>
                                     </div>
@@ -111,7 +111,7 @@
                                                      id="id_publisher_name"
                                                    name="publisher"
                                                   class="form-control"
-                                                  value="{{ issue.publisher_name }}"
+                                                  value="{{ issue.publisher_name | escape | safe }}"
                                                disabled="true" />
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@
                                                      id="id_publisher_name"
                                                    name="publisher"
                                                   class="form-control"
-                                                  value="{{ issue.genre }}"
+                                                  value="{{ issue.genre | escape | safe }}"
                                                disabled="true" />
                                         </div>
                                     </div>
@@ -135,10 +135,10 @@
                                     <div class="form-group">
                                         <label for="sel-location" class="col-md-4 control-label">Store / Section</label>
                                         <div class="col-md-4 mb">
-                                            {{ product_form.store }}
+                                            {{ product_form.store | escape | safe }}
                                         </div>
                                         <div class="col-md-4" id="id_section_placeholder">
-                                            {{ product_form.section }}
+                                            {{ product_form.section | escape | safe }}
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -201,7 +201,7 @@
                                     <div class="form-group mb-xl">
                                         <label for="sel-category" class="col-md-4 control-label">Category</label>
                                         <div class="col-md-8">
-                                            {{ product_form.category }}
+                                            {{ product_form.category | escape | safe }}
                                         </div>
                                     </div>
                                     <div class="table-responsive">
@@ -215,7 +215,7 @@
                                                 <td>
                                                     <select id="sel-item-tag" name="tag" class="item-tag form-control" required>
                                                     {% for tag in tags.all %}
-                                                        <option value="{{ tag.tag_id }}">{{ tag.name }}</option>
+                                                        <option value="{{ tag.tag_id }}">{{ tag.name | escape | safe }}</option>
                                                     {% endfor %}
                                                     </select>
                                                 </td>

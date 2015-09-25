@@ -243,8 +243,8 @@
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
             'is_qrcode_printed': false,
-            'currency': parseInt( {{ store.currency }} ),
-            'language': {{ store.language }},
+            'currency': parseInt( {{ store.currency | escape | safe }} ),
+            'language': "{{ store.language | escape | safe }}",
         };
         
         var upload_id = $('#id_hidden_upload_id').val();

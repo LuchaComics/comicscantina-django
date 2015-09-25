@@ -33,10 +33,10 @@
                             <div class="form-group">
                                 <label for="sel-location" class="col-md-4 control-label">Store / Section</label>
                                 <div class="col-md-4 mb">
-                                    {{ product_form.store }}
+                                    {{ product_form.store | escape | safe }}
                                 </div>
                                 <div class="col-md-4 pl-sm">
-                                    {{ product_form.section }}
+                                    {{ product_form.section | escape | safe }}
                                 </div>
                             </div>
                             <!-- cgc rating -->
@@ -68,7 +68,7 @@
                             <div class="form-group mb-xl">
                                 <label for="sel-category" class="col-md-4 control-label">Category</label>
                                 <div class="col-md-8">
-                                    {{ product_form.category }}
+                                    {{ product_form.category | escape | safe }}
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -81,9 +81,9 @@
                                     <tr>
                                         <td>
                                             <select id="sel-item-tag" name="tag" class="item-tag form-control" required>
-                                                {% for tag in tags.all %}
-                                                <option value="{{ tag.tag_id }}">{{ tag.name }}</option>
-                                                {% endfor %}
+                                            {% for tag in tags.all %}
+                                                <option value="{{ tag.tag_id }}">{{ tag.name | escape | safe }}</option>
+                                            {% endfor %}
                                             </select>
                                         </td>
                                         <td>
@@ -316,8 +316,8 @@
             'is_available': false,
             'tags': tags,
             'category': parseInt( $('#id_category').val() ),
-            'currency': parseInt( {{ store.currency }} ),
-            'language': {{ store.language }},
+            'currency': parseInt( {{ store.currency | escape | safe }} ),
+            'language': "{{ store.language | escape | safe }}",
         };
                              
         var upload_id = $('#id_hidden_upload_id').val();
