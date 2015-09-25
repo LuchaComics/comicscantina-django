@@ -148,8 +148,9 @@
                     // Uncomment to have a hand cursor.
                     //var css = "cursor: pointer;";
                     //var js = "";
-                    //html += '<td><a style="'+css+'" onclick="'+js+'">' + val['name'] + '</a></td>';
-                    html += '<td>' + val['name'] + '</td>';
+                    //html += '<td><a style="'+css+'" onclick="'+js+'">' + val['name'] + '</a></td>'
+                    var date = '('+val['year_began']+'-Present)';
+                    html += '<td>' + val['name'] + ' ' + date + '</td>';
                             
                     // Col 2
                     html += '<td>' + val['publisher_name'] + '</td>';
