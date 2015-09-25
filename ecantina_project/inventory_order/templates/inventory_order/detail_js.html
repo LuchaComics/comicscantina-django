@@ -32,6 +32,12 @@
                 $(this).find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-up');
             }
         });
+                      
+        // Iterate through all the 'phone' classes and format them accordingly.
+        $(".phone").text(function(i, text) {
+            text = text.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+            return text;
+        });
     });
     
     function print_customer_card()

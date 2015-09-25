@@ -55,6 +55,7 @@
                                             {{ receipt.store.street_name | escape | safe }}
                                             <br>{{ receipt.store.city | escape | safe }}, {{ shipping.store.postal | escape | safe }}
                                             <br>{{ receipt.store.province | escape | safe }}, {{ receipt.store.country | escape | safe }}
+                                            <br><p class="phone">{{ receipt.store.phone }}</p>
                                         </div>
                                         <div class="col-md-4">
                                             <input onclick="print_customer_card();"
@@ -76,6 +77,7 @@
                                             {{ receipt.shipping_address | escape | safe }}
                                             <br>{{ receipt.shipping_city | escape | safe }}, {{ shipping.payer_postal | escape | safe }}
                                             <br>{{ receipt.shipping_province | escape | safe }}, {{ receipt.shipping_country | escape | safe }}
+                                            <br><p class="phone">{{ receipt.shipping_phone }}</p>
                                         </div>
                                     </div>
                                 </div>
