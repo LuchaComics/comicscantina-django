@@ -43,14 +43,18 @@
                                 <div class="col-lg-6 col-xs-6 br pv">
                                     <div class="row">
                                         <div class="col-md-2 text-center visible-md visible-lg">
-                                            <em class="fa fa-truck fa-4x text-muted"></em>
+                                            <em class="fa fa-home fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-6">
-                                            <h4>{{ receipt.shipping_first_name | escape | safe }} {{ receipt.shipping_last_name | escape | safe }} &nbsp;<span class="text-sm">(Shipping)</span></h4>
+                                            <h4>{{ receipt.store | escape | safe }}&nbsp;<span class="text-sm">(Sold By)</span></h4>
                                             <address></address>
-                                            {{ receipt.shipping_address | escape | safe }}
-                                            <br>{{ receipt.shipping_city | escape | safe }}, {{ shipping.payer_postal | escape | safe }}
-                                            <br>{{ receipt.shipping_province | escape | safe }}, {{ receipt.shipping_country | escape | safe }}
+                                            {% if receipt.store.unit_number > 0 %}
+                                            {{ receipt.store.unit_number | escape | safe }}-
+                                            {% endif %}
+                                            {{ receipt.store.street_number | escape | safe }}
+                                            {{ receipt.store.street_name | escape | safe }}
+                                            <br>{{ receipt.store.city | escape | safe }}, {{ shipping.store.postal | escape | safe }}
+                                            <br>{{ receipt.store.province | escape | safe }}, {{ receipt.store.country | escape | safe }}
                                         </div>
                                         <div class="col-md-4">
                                             <input onclick="print_customer_card();"
@@ -64,14 +68,14 @@
                                 <div class="col-lg-6 col-xs-6 pv">
                                     <div class="row">
                                         <div class="col-md-2 text-center visible-md visible-lg">
-                                            <em class="fa fa-credit-card fa-4x text-muted"></em>
+                                            <em class="fa fa-truck fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-10">
-                                            <h4>{{ receipt.billing_first_name | escape | safe }} {{ receipt.billing_last_name | escape | safe }} &nbsp;<span class="text-sm">(Billing)</span></h4>
+                                            <h4>{{ receipt.shipping_first_name | escape | safe }} {{ receipt.shipping_last_name | escape | safe }} &nbsp;<span class="text-sm">(Shipping)</span></h4>
                                             <address></address>
-                                            {{ receipt.billing_address | escape | safe }}
-                                            <br>{{ receipt.billing_city | escape | safe }}, {{ shipping.billing_postal }}
-                                            <br>{{ receipt.billing_province | escape | safe }}, {{ receipt.billing_country | escape | safe }}
+                                            {{ receipt.shipping_address | escape | safe }}
+                                            <br>{{ receipt.shipping_city | escape | safe }}, {{ shipping.payer_postal | escape | safe }}
+                                            <br>{{ receipt.shipping_province | escape | safe }}, {{ receipt.shipping_country | escape | safe }}
                                         </div>
                                     </div>
                                 </div>
