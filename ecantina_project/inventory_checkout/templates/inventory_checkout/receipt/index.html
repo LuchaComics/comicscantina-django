@@ -67,7 +67,7 @@
                                                 {{ store.street_number }} {{ store.street_name }} {% if store.unit_number != None %}#{{ store.unit_number }}{% endif %}
                                                 <br>{{ city }} {{ store.postal }}
                                                 <br>{{ store.province }}, {{ store.country }}
-                                                <br>{{ store.phone }}
+                                                <br><p class="phone">{{ store.phone }}</p>
                                             </address>
                                         </div>
                                     </div>
@@ -86,6 +86,7 @@
                                                     {{ receipt.billing_address }}
                                                 <br>{{ receipt.billing_city }} {{ receipt.billing_postal }}
                                                 <br>{{ receipt.billing_province }}, {{ receipt.billing_country }}
+                                                <br><p class="phone">{{ receipt.billing_phone }}</p>
                                             {% endif %}
                                             </address>
                                         </div>
