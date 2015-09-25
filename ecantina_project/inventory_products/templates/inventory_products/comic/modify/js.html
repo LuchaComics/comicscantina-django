@@ -227,13 +227,13 @@
         // Insert/Update "product" model.
         var arr = {
             'name': '{{ issue.series.name }} ' + 'Issue #{{ issue.number }}',
-            'type': '1',
+            'type': '1', // Comic book
             'is_sold': false,
-            'sub_price': 0,
+            'sub_price': $('#id_price').val(),
             'discount': 0,
             'discount_type': 1,
-            'price': 0,
-            'cost': 0,
+            'price': $('#id_price').val(),
+            'cost': $('#id_cost').val(),
             'organization': {{ org.org_id }},
             'store': parseInt( $('#id_store').val() ),
             'section': parseInt( $('#id_section').val() ),
