@@ -13,6 +13,7 @@ from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
+from api.models.ec.product import Product
 
 @login_required(login_url='/inventory/login')
 def product_search_page(request, org_id, store_id):
@@ -26,7 +27,13 @@ def product_search_page(request, org_id, store_id):
     except Brand.DoesNotExist:
         brands = None
 
+    try:
+        products = Product.objects.filter(store_id=store_id,is_sold=False)
+    except Product.DoesNotExist:
+        products = None
+
     return render(request, 'inventory_products/search/view.html',{
+        'products': products,
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'tab':'search_products',
