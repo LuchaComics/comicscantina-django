@@ -79,6 +79,12 @@ class Store(models.Model):
     saturday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
     sunday_from = models.CharField(choices=constants.STORE_HOUR_OPTIONS, max_length=5, null=True, blank=True)
     
+    # The following columns determine if the particular store supports selling
+    # the following products and thus granting access to unique user interface.
+    is_comics_vendor = models.BooleanField(default=True)
+    is_furniture_vendor = models.BooleanField(default=False)
+    is_coins_vendor = models.BooleanField(default=False)
+    
     # Reference
     organization = models.ForeignKey(Organization)
     employees = models.ManyToManyField(Employee)
