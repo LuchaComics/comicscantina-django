@@ -91,6 +91,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',    # caching
+    'django.middleware.common.CommonMiddleware',        # caching
+    'django.middleware.cache.FetchFromCacheMiddleware', # caching
 )
 
 ROOT_URLCONF = 'ecantina_project.urls'
@@ -144,7 +147,7 @@ DEFAULT_TO_EMAIL = EMAIL_HOST_USER
 
 
 
-# Captcha App
+# Captcha App (Third Party)
 # http://django-simple-captcha.readthedocs.org/en/latest/advanced.html
 
 if 'test' in sys.argv:
@@ -183,6 +186,22 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Django Caching
+# https://docs.djangoproject.com/en/1.8/topics/cache/
+#
+CACHES = { # (PROD/QA)
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '127.0.0.1:11211',
+  }
+}
+#CACHES = {
+#    'default': { # (DEV)
+#        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+#    }
+#}
 
 
 # JavaScript Libraries
@@ -263,7 +282,7 @@ STORE_JS_LIBRARY_BODY = [
 ]
 
 
-#  Django REST Framework Configuration
+#  Django REST Framework Configuration (Third Party)
 #
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

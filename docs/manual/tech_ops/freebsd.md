@@ -130,6 +130,20 @@ To support "django-simple-captcha" rendering, we will have to install these
   sudo make install clean
   ```
   
+4. Lets install memcached.
+  ```
+  cd /usr/ports/databases/pecl-memcache
+  make install clean
+  cd /usr/ports/databases/memcached
+  make install clean
+  ```
+
+5. Edit /etc/rc.conf and add the following.  
+  ```
+  memcached_enable="YES"
+  ```
+
+
 ### pip
 1. Lets install pip:
   ```
@@ -252,7 +266,7 @@ http://http://45.55.221.217
 2. Go into the directory
   ```
   exit
-  cd ~/py-actfastbookkeeping
+  cd ~/py-ecantina
   ```
 
 3. Setup our virtual environment

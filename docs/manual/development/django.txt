@@ -6,6 +6,29 @@ Date: April, 28th, 2015
 
 
 
+************************
+* Installing memcached *
+************************
+The following instructions are for Apple Mac OSX: Yosemite.
+1. Install **brew**.
+
+
+2. Run the following command:
+$ brew install memcached
+$ brew install libmemcached
+$ brew install zlib
+$ brew install libsas12
+
+3. To startup the cache, run the following.
+$ /usr/local/bin/memcached -d -u nobody
+
+
+4. To view, run these. (Or find 'memchach' in Activity Monitor)
+$ netstat -an
+$ /usr/local/bin/php -i | grep -i 'memcache'
+
+
+
 **************************
 * PROJECT INITIALIZATION *
 **************************
@@ -58,6 +81,7 @@ pip3 install djangorestframework    # Web browsable API Framework
 pip3 install markdown               # Markdown support for the browsable API.
 pip3 install django-filter          # Filtering support
 pip3 install qrcode                 # QR Code Generator
+pip3 install pylibmc                # memcached connector
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
@@ -226,6 +250,7 @@ $ python manage.py setup_ecantina
 
 (b) Import comic book data.
 (See gcd.txt)
+
 
 
 **********
