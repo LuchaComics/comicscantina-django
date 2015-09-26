@@ -136,6 +136,8 @@ To support "django-simple-captcha" rendering, we will have to install these
   make install clean
   cd /usr/ports/databases/memcached
   make install clean
+  cd /usr/ports/databases/libmemcached
+  make install clean
   ```
 
 5. Edit /etc/rc.conf and add the following.  
