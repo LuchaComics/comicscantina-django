@@ -20,7 +20,7 @@ class HelpRequest(models.Model):
         choices=constants.HELP_REQUEST_SUBJECT_CHOICES,
         validators=[MinValueValidator(0), MaxValueValidator(10)],
     )
-    subject_url = models.URLField()
+    subject_url = models.URLField(null=True, blank=True)
     message = models.TextField()
     submission_date = models.DateTimeField(auto_now_add=True)
     
