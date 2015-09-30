@@ -25,21 +25,12 @@
             }
         });
                       
-        // When the user closes the modal...
-        $('#id_close_model_btn').on('click', function(){
-            // Allow some time to go by for the modal to close and then
-            // refresh the page.
+        // Wait for the modal to close before reloading the page.
+        $('#success-modal').on('hidden.bs.modal', function () {
             setTimeout(function(){
                 location.reload(true); // Reload page with cache cleared.
-            }, 250);
-        });
-        $('#id_close_btn').on('click', function(){
-            // Allow some time to go by for the modal to close and then
-            // refresh the page.
-            setTimeout(function(){
-                location.reload(true); // Reload page with cache cleared.
-            }, 250);
-        });
+            }, 50)
+        })
     });
 
     // this is to upload the cover image
