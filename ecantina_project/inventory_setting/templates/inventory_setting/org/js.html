@@ -24,13 +24,6 @@
                 }
             }
         });
-                      
-        // Wait for the modal to close before reloading the page.
-        $('#success-modal').on('hidden.bs.modal', function () {
-            setTimeout(function(){
-                location.reload(true); // Reload page with cache cleared.
-            }, 50)
-        })
     });
 
     // this is to upload the cover image
@@ -95,10 +88,17 @@
         // Send the "FormData" object to be sent through REST and get updated.
         set_organization(arr,
             function(success_json) {
+                // (1) Add notification message of success.
                 $(document).trigger("add-alerts",[{
                     'message': 'Organization was Successfully Updated',
                     'priority': 'success'
                 }]);
+                        
+                // (2) Add count-down timer to reloading page/cache.
+                setTimeout(function(){
+                    location.reload(true); // Reload page with cache cleared.
+                }, 1000)
+                         
             }, // success
             function(error_json) {
                 for (var key in error_json) {

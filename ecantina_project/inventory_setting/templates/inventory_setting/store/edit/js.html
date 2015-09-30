@@ -141,10 +141,16 @@
                 // Update the store logo and tell the system
                 var upload_id = $('#id_hidden_upload_id').val();
                 set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
+                    // (1) Add notification message of success.
                     $(document).trigger("add-alerts",[{
                         'message': 'Store was Successfully Updated',
                         'priority': 'success'
                     }]);
+                                
+                    // (2) Add count-down timer to reloading page/cache.
+                    setTimeout(function(){
+                        location.reload(true); // Reload page with cache cleared.
+                    }, 1000)
                 });
             },
             function(error_json) {

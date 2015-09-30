@@ -106,10 +106,16 @@
         set_employee(
             data,
             function(success_json) {
+                // (1) Add notification message of success.
                 $(document).trigger("add-alerts",[{
                     'message': 'Employee was Successfully Updated',
                     'priority': 'success'
                 }]);
+                     
+                // (2) Add count-down timer to reloading page/cache.
+                setTimeout(function(){
+                    location.reload(true); // Reload page with cache cleared.
+                }, 1000)
             },
             function(error_json) {
                 for (var key in error_json) {
