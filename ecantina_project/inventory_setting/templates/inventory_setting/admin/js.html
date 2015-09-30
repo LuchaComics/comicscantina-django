@@ -40,7 +40,7 @@
         set_user(
             data,
             function(success_result) {
-                 window.location = '';
+                 location.reload(true); // Reload page with cache cleared.
             },
             function(error_json) {
                 for (var key in error_json) {

@@ -141,7 +141,7 @@
                 // Update the store logo and tell the system
                 var upload_id = $('#id_hidden_upload_id').val();
                 set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
-                    window.location = ""; // Refresh the page.
+                    location.reload(true); // Reload page with cache cleared.
                 });
             },
             function(error_json) {

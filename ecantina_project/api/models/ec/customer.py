@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from ecantina_project import constants
 from api.models.ec.imageupload import ImageUpload
+from django.core.cache import caches
 
 
 class Customer(models.Model):
@@ -66,3 +67,12 @@ class Customer(models.Model):
     
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (ID: ' + str(self.customer_id) + ')'
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Customer, self).save(*args, **kwargs)

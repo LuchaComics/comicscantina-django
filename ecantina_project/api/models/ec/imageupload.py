@@ -1,6 +1,8 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.cache import caches
+
 
 UNASSIGNED_IMAGE_TYPE = 0
 ASSIGNED_IMAGE_TYPE = 1
@@ -8,6 +10,7 @@ ASSIGNED_IMAGE_TYPE = 1
 IMAGEUPLOAD_TYPE_OPTIONS = (
     UNASSIGNED_IMAGE_TYPE, 'Unassigned Image Type',
 )
+
 
 class ImageUpload(models.Model):
     class Meta:
@@ -35,3 +38,12 @@ class ImageUpload(models.Model):
     
     def __str__(self):
         return str(self.upload_id)
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(ImageUpload, self).save(*args, **kwargs)

@@ -29,14 +29,14 @@
             // Allow some time to go by for the modal to close and then
             // refresh the page.
             setTimeout(function(){
-                window.location = '';
+                location.reload(true); // Reload page with cache cleared.
             }, 250);
         });
         $('#id_close_btn').on('click', function(){
             // Allow some time to go by for the modal to close and then
             // refresh the page.
             setTimeout(function(){
-                window.location = '';
+                location.reload(true); // Reload page with cache cleared.
             }, 250);
         });
     });

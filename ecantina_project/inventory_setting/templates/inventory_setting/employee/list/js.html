@@ -33,10 +33,10 @@
             delete_user(user_id, function(json_result) {
                 if (profile_id > 0) {
                     delete_imageupload(profile_id, function(json_result) {
-                        window.location='';
+                        location.reload(true); // Reload page with cache cleared.
                     });
                 } else {
-                    window.location='';
+                    location.reload(true); // Reload page with cache cleared.
                 }
             });
         });

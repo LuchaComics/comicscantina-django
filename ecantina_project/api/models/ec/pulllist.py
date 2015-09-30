@@ -3,6 +3,8 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.gcd.publisher import GCDPublisher
 from api.models.gcd.series import GCDSeries
+from django.core.cache import caches
+
 
 class Pulllist(models.Model):
     class Meta:
@@ -17,3 +19,12 @@ class Pulllist(models.Model):
     
     def __str__(self):
         return str(self.series)
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Pulllist, self).save(*args, **kwargs)

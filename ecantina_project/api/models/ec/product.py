@@ -12,6 +12,7 @@ from api.models.ec.imageupload import ImageUpload
 from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
+from django.core.cache import caches
 
 
 class Product(models.Model):
@@ -136,4 +137,13 @@ class Product(models.Model):
             if os.path.isfile(self.qrcode.path):
                 os.remove(self.qrcode.path)
                 super(Product, self).delete(*args, **kwargs) # Call the "real" delete() method
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Product, self).save(*args, **kwargs)
 

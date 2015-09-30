@@ -9,6 +9,7 @@ from api.models.ec.section import Section
 from api.models.ec.store import Store
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.product import Product
+from django.core.cache import caches
 
 
 class Comic(models.Model):
@@ -63,3 +64,12 @@ class Comic(models.Model):
         if self.product:
             self.product.delete()
         super(Comic, self).delete(*args, **kwargs) # Call the "real" delete() method
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Comic, self).save(*args, **kwargs)

@@ -15,8 +15,14 @@ from api.models.ec.section import Section
 from inventory_setting.forms.storeform import StoreForm
 from inventory_setting.forms.organizationform import OrganizationForm
 from inventory_setting.forms.userform import UserForm
+from django.views.decorators.http import last_modified
 
 
+def last_updated(request, org_id, store_id):
+    return Organization.objects.get(org_id=org_id).last_updated
+
+
+@last_modified(last_updated)
 @login_required(login_url='/inventory/login')
 def org_settings_page(request, org_id, store_id):
     employee = Employee.objects.get(user=request.user)

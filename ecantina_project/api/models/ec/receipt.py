@@ -6,6 +6,7 @@ from api.models.ec.store import Store
 from api.models.ec.customer import Customer
 from api.models.ec.employee import Employee
 from api.models.ec.product import Product
+from django.core.cache import caches
 
 
 class Receipt(models.Model):
@@ -89,3 +90,12 @@ class Receipt(models.Model):
 
     def __str__(self):
         return "Receipt #" + str(self.receipt_id) + " - " + self.billing_first_name + " " + self.billing_last_name
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Receipt, self).save(*args, **kwargs)

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ecantina_project import constants
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.customer import Customer
+from django.core.cache import caches
 
 
 class Organization(models.Model):
@@ -66,3 +67,12 @@ class Organization(models.Model):
     
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+        super(Organization, self).save(*args, **kwargs)

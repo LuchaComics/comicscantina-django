@@ -31,7 +31,7 @@
     function ajax_delete_subscription(subscription_id)
     {
         delete_subscription(subscription_id, function(json_result) {
-            window.location = "";
+            location.reload(true); // Reload page with cache cleared.
         });
     }
 
@@ -49,7 +49,7 @@
             'copies': copies
         };
         set_subscription(data, function(json_result) {
-            window.location = "";
+            location.reload(true); // Reload page with cache cleared.
         });
     }
 

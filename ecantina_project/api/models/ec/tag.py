@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from ecantina_project import constants
 from api.models.ec.organization import Organization
+from django.core.cache import caches
 
 
 class Tag(models.Model):
@@ -23,5 +24,15 @@ class Tag(models.Model):
         default=1,
     )
     organization = models.ForeignKey(Organization)
+    
     def __str__(self):
         return str(self.tag_id)
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Tag, self).save(*args, **kwargs)

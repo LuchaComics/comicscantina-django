@@ -50,8 +50,16 @@
     {% for customer in org.customers.all %}
         customers.push(parseInt( {{ customer.customer_id }} ));
     {% endfor %}
-        
-        parseInt( $('#id_hidden_upload_id').val() )
+    
+        // Get the URL and format it so no errors will be returned by Python.
+        var website = $('#id_website').val();
+        if (website.indexOf("http") < 0) {
+            website = 'http://' + website;
+        }
+        // However if nothing was enterd then don't add the URL.
+        if (website.length < 8) {
+            website = "";
+        }
         
         var arr = {
             'customers': customers,
@@ -63,7 +71,7 @@
             'description': $('#id_description').val(),
             'phone': get_phone('#id_phone'),
              //'fax': get_phone('#id_fax'),
-            'website': $('#id_website').val(),
+            'website': website,
             'twitter_url': $('#id_twitter_url').val(),
             'facebook_url': $('#id_facebook_url').val(),
             'instagram_url': '',
@@ -86,7 +94,7 @@
         // Send the "FormData" object to be sent through REST and get updated.
         set_organization(arr,
             function(success_json) {
-                window.location = '';
+                location.reload(true); // Reload page with cache cleared.
             }, // success
             function(error_json) {
                 for (var key in error_json) {

@@ -1,6 +1,7 @@
 from django.db import models
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
+from django.core.cache import caches
 
 
 class Section(models.Model):
@@ -16,3 +17,12 @@ class Section(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        """
+            Override the save function to reset the cache when a save was made.
+        """
+        cache = caches['default']
+        if cache is not None:
+            cache.clear()
+            super(Section, self).save(*args, **kwargs)

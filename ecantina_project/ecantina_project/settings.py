@@ -91,9 +91,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',    # caching
-    'django.middleware.common.CommonMiddleware',        # caching
-    'django.middleware.cache.FetchFromCacheMiddleware', # caching
+    'django.middleware.cache.UpdateCacheMiddleware',    # per-site cache
+    'django.middleware.common.CommonMiddleware',        # per-site cache
+    'django.middleware.cache.FetchFromCacheMiddleware', # per-site cache
 )
 
 ROOT_URLCONF = 'ecantina_project.urls'
@@ -117,6 +117,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ecantina_project.wsgi.application'
 
 
+# Django Caching
+# https://docs.djangoproject.com/en/1.8/topics/cache/
+#
+CACHES = {
+    'default': { # (PROD/QA)
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+#    'default': { # (DEV)
+#        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+#    }
+}
+
+
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -129,7 +143,7 @@ DATABASES = {
         "PASSWORD": "123password",
         "HOST": "localhost",
         "PORT": "5432",
-}
+    }
 }
 
 
@@ -186,22 +200,6 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-
-# Django Caching
-# https://docs.djangoproject.com/en/1.8/topics/cache/
-#
-CACHES = { # (PROD/QA)
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-        'LOCATION': '127.0.0.1:11211',
-  }
-}
-#CACHES = {
-#    'default': { # (DEV)
-#        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-#    }
-#}
 
 
 # JavaScript Libraries
