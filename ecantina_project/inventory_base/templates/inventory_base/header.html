@@ -32,20 +32,20 @@
             <!-- END Left navbar-->
             <!-- START Right Navbar-->
             <ul class="nav navbar-nav navbar-right">
-                <!-- Search icon-->
-                <li>
-                    <a href="#" data-search-open="">
-                        <em class="icon-magnifier"></em>
+                <!-- NEW -->
+                <li class=" ">
+                    <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                    <a href="#user_btn" title="User" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                        <em class="icon-user"></em>
                     </a>
+                    <ul id="user_btn" class="dropdown-menu animated slideInRight" role="menu">
+                        <li role="presentation"><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/administrator">Profile</a></li>
+                        <!--<li role="presentation"><a href="#">Preferences</a></li>-->
+                        <li role="presentation"><a href="login.html">Logout</a></li>
+                    </ul>
                 </li>
-                <!-- START Offsidebar button-->
-                <li>
-                    <a href="#" data-toggle-state="offsidebar-open" data-no-persist="true">
-                        <em class="icon-notebook"></em>
-                    </a>
-                </li>
-                <!-- END Offsidebar menu-->
-            </ul>
+                <!-- /.NEW -->
+            </ul><!-- END Offsidebar menu-->
             <!-- END Right Navbar-->
         </div>
         <!-- END Nav wrapper-->
