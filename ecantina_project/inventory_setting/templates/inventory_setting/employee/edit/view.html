@@ -89,14 +89,31 @@
                                 </div>
                                 <div class="col-sm-7 mt-lg">
                                     {% for field in form %}
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">
-                                            {{ field.label | escape | safe }}
-                                        </label>
-                                        <div class="col-md-9">
-                                            {{ field | escape | safe }}
+                                    {% comment %}
+                                        We don't want Store owners losing their privillage and giving us developers
+                                        a headace, so right off the bat restrict store owners to be forver owners.
+                                    {% endcomment %}
+                                        {% if 'Role' in field.label and this_employee.role == 0 %}
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Role
+                                            </label>
+                                            <div class="col-md-9">
+                                                <select  disabled="true" class="form-control" id="id_role" name="role">
+                                                    <option value="0" selected="selected">Owner</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+                                        {% else %}
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                {{ field.label | escape | safe }}
+                                            </label>
+                                            <div class="col-md-9">
+                                                {{ field | escape | safe }}
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div><!-- /.Employee Info -->
