@@ -97,7 +97,7 @@
                 // Let our upload image know it is properly assigned.
                 set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
                     $('#success-modal').modal(); // Load the modal telling user the action was
-                                             // completed successfully.
+                                                 // completed successfully.
                 });
             }, // success
             function(error_json) {
