@@ -24,6 +24,22 @@
                 }
             }
         });
+                      
+        // When the user closes the modal...
+        $('#id_close_model_btn').on('click', function(){
+            // Allow some time to go by for the modal to close and then
+            // refresh the page.
+            setTimeout(function(){
+                location.reload(true); // Reload page with cache cleared.
+            }, 250);
+        });
+        $('#id_close_btn').on('click', function(){
+            // Allow some time to go by for the modal to close and then
+            // refresh the page.
+            setTimeout(function(){
+                location.reload(true); // Reload page with cache cleared.
+            }, 250);
+        });
     });
 
     // this is to upload the cover image
@@ -94,7 +110,8 @@
         // Send the "FormData" object to be sent through REST and get updated.
         set_organization(arr,
             function(success_json) {
-                location.reload(true); // Reload page with cache cleared.
+                $('#success-modal').modal(); // Load the modal telling user the action was
+                                             // completed successfully.
             }, // success
             function(error_json) {
                 for (var key in error_json) {
