@@ -50,5 +50,31 @@
         {% for local in local_js_library_body %}
         <script type="{{ local.type }}" src="{% static local.src %}"></script>
         {% endfor %}
+        <script>
+            /**
+             *  Function will log out the user and reload the page.
+             */
+            function ajax_logout()
+            {
+                var url = '/inventory/logout_authentication';
+                
+                $.ajax( url, {
+                    data: {
+                       'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    type: 'post',
+                    success: function(result) {
+                       // success code execution here
+                       location.reload(true); // Reload page with cache cleared.
+                    },
+                    error: function(xhr,status,error) {
+                       // error code here
+                    },
+                    complete: function(xhr,status) {
+                       // completion code here
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
