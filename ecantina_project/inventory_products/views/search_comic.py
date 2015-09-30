@@ -30,7 +30,7 @@ def search_comics_page(request, org_id, store_id):
         sections = None
     
     stores = Store.objects.filter(organization_id=org_id, is_suspended=False)
-    product_form = ProductForm()
+    product_form = ProductForm(initial={'price': 5.00})
     product_form.fields["store"].queryset = stores
     product_form.fields["section"].queryset = sections
 

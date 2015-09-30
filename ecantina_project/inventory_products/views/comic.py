@@ -68,7 +68,7 @@ def comic_page(request, org_id, store_id, issue_id, product_id):
         product_form = ProductForm(instance=comic.product)
     except Comic.DoesNotExist:
         comic_form = ComicForm()
-        product_form = ProductForm()
+        product_form = ProductForm(initial={'price': 5.00})
 
     # Update forms
 #    if story is not None:

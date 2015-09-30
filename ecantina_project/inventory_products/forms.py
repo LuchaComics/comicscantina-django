@@ -104,8 +104,8 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'images': Select(attrs={'class': u'form-control mb10 mt-lg'}),
             'type': Select(attrs={'class': u'form-control'}),
-            'price': NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount'}),
-            'cost': NumberInput(attrs={'class': u'form-control','placeholder': u'Cost Amount'}),
+            'price': NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount', 'step': 1.00}),
+            'cost': NumberInput(attrs={'class': u'form-control','placeholder': u'Cost Amount', 'step': 1.00}),
             'location': Select(attrs={'class': u'form-control'}),
             'section': Select(attrs={'class': u'form-control'}),
             'store': Select(attrs={'class': u'form-control'}),
