@@ -31,4 +31,4 @@ class HelpRequest(models.Model):
     organization = models.ForeignKey(Organization)
 
     def __str__(self):
-        return str(self.help_id)
+        return "Ticket #" + str(self.help_id)
