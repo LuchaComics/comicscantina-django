@@ -32,20 +32,28 @@ def admin_settings_page(request, org_id, store_id):
 
 
 @login_required()
-def ajax_update_org_administrator(request, org_id, store_id):
-    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
+def ajax_update_password(request):
+    response_data = {'status' : 'failed', 'message' : 'unknown deletion error'}
     if request.is_ajax():
         if request.method == 'POST':
-            # Save Administrator
-            form = UserForm(request.POST, instance=request.user)
-            if form.is_valid():
-                form.save()
-            else:
-                return HttpResponse(json.dumps({
-                    'status' : 'failed',
-                    'message' : json.dumps(form.errors
-                )}), content_type="application/json")
+            old_password = request.POST['old_password']
+            password = request.POST['password']
+            repeat_password = request.POST['password_repeated']
             
-            # Success
-            response_data = {'status' : 'success', 'message' : 'saved',}
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+            # Validate password.
+            if request.user.check_password(old_password) == False:
+                response_data = {'status' : 'failure', 'message' : 'invalid old password' }
+                return HttpResponse(json.dumps(response_data), content_type="application/json")
+            if password is '' or request is '':
+                response_data = {'status' : 'failure', 'message' : 'blank passwords are not acceptable' }
+                return HttpResponse(json.dumps(response_data), content_type="application/json")
+            if password != repeat_password:
+                response_data = {'status' : 'failure', 'message' : 'passwords do not match' }
+                return HttpResponse(json.dumps(response_data), content_type="application/json")
+        
+            # Update model
+            request.user.set_password(password)
+            request.user.save()
+    
+        response_data = {'status' : 'success', 'message' : 'updated password'}
+        return HttpResponse(json.dumps(response_data), content_type="application/json")

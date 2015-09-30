@@ -11,7 +11,7 @@ urlpatterns = patterns('',
                        
     # Admin
     url(r'^inventory/(\d+)/(\d+)/settings/administrator$', admin.admin_settings_page),
-    url(r'^inventory/(\d+)/(\d+)/settings/update_org_administrator$',admin.ajax_update_org_administrator),
+    url(r'^user/settings/update_password$',admin.ajax_update_password),
     # Org
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', org.org_settings_page),
     # Store

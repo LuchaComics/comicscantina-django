@@ -1,5 +1,6 @@
 {% include 'api/imageupload.html' %}
 {% include 'api/organization.html' %}
+{% include 'api/user.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -35,12 +36,24 @@
             'old_password': $('#id_old_password').val(),
             'password': $('#id_password').val(),
             'password_repeated': $('#id_password_repeated').val(),
-            'groups': ''
+            'groups': '',
+            'user_id': {{ employee.user_id }}
         };
         set_user(
             data,
             function(success_result) {
-                 location.reload(true); // Reload page with cache cleared.
+                ajax_update_password(function () {
+                    // (1) Add notification message of success.
+                    $(document).trigger("add-alerts",[{
+                        'message': 'Admin was Successfully Updated',
+                        'priority': 'success'
+                    }]);
+                                               
+                    // (2) Add count-down timer to reloading page/cache.
+                    setTimeout(function(){
+                        location.reload(true); // Reload page with cache cleared.
+                    }, 1000)
+                });
             },
             function(error_json) {
                 for (var key in error_json) {
@@ -55,5 +68,37 @@
                  }
             }
         );
+    }
+
+    function ajax_update_password(callback)
+    {
+        $.ajax( '/user/settings/update_password', {
+            data: {
+               'password': $('#id_password').val(),
+               'password_repeated': $('#id_password_repeated').val(),
+               'old_password': $('#id_old_password').val(),
+            },
+            type: 'post',
+            success: function(result) { // success code execution here
+               // Did not succeed.
+               if (result.status != 'success')
+               {
+                    $(document).trigger("add-alerts",[{
+                        'message': result.message,
+                        'priority': 'error'
+                    }]);
+               }
+               else
+               {
+                    callback();
+               }
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
     }
 </script>
