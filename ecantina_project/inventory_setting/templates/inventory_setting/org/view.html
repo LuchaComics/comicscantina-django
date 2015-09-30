@@ -71,12 +71,16 @@
                                 </div>
                                 <div class="col-sm-7">
                                     {% for field in form %}
-                                    <div class="form-group">
-                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
-                                        <div class="col-md-8">
-                                            {{ field | escape | safe }}
+                                        {% if 'Fax' in field.label %}
+                                        <input type="hidden" id="id_fax" value="" />
+                                        {% else %}
+                                        <div class="form-group">
+                                            <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
+                                            <div class="col-md-8">
+                                                {{ field | escape | safe }}
+                                            </div>
                                         </div>
-                                    </div>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                                 <div class="clearfix"></div>
