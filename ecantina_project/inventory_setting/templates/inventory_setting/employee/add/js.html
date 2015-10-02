@@ -47,14 +47,13 @@
         });
     }
 
-    function save_employee(json_result)
+    function save_employee_with_user_id(user_id)
     {
         // STEP 2:
         // Create our 'ec_employees' object.
-        var user = json_result['id'];
         var upload_id = $('#id_hidden_upload_id').val();
         var data = {
-            'user': user,
+            'user': user_id,
             'organization': '{{ org.org_id }}',
             'role': $('#id_role').val(),
             'email': $('#id_email').val(),
@@ -132,34 +131,41 @@
         
         // STEP 1:
         // Create our 'auth_users' object.
-        var data = {
-            'first_name': $('#id_first_name').val(),
-            'last_name': $('#id_last_name').val(),
-            'email': $('#id_email').val(),
-            'username': $('#id_email').val(),
-            'old_password': $('#id_old_password').val(),
-            'password': $('#id_password').val(),
-            'password_repeated': $('#id_password_repeated').val(),
-            'groups': ''
-        };
-        set_user(
-            data,
-            function(success_result) {
-                save_employee(success_result); // SAVE EMPLOYEE
+        $.ajax( '/user/settings/register', {
+            data: {
+               'first_name': $('#id_first_name').val(),
+               'last_name': $('#id_last_name').val(),
+               'email': $('#id_email').val(),
+               'username': $('#id_email').val(),
+               'old_password': $('#id_old_password').val(),
+               'password': $('#id_password').val(),
+               'password_repeated': $('#id_password_repeated').val(),
+               'groups': ''
             },
-            function(error_json) {
-                for (var key in error_json) {
-                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                 
-                        // Display the error here.
-                        $(document).trigger("add-alerts",[{
-                            'message': (key+': '+error_json[key]),
-                            'priority': 'error'
-                        }]);
-                    }
+            type: 'post',
+            success: function(result) { // success code execution here
+                // Did not succeed.
+                if (result.status != 'success')
+                {
+                    $(document).trigger("add-alerts",[{
+                        'message': result.message,
+                        'priority': 'error'
+                    }]);
                 }
+                else
+                {
+                    // Save the employee and associate the employee record
+                    // with our newly created user account.
+                    save_employee_with_user_id(result.user_id);
+                }
+            },
+            error: function(xhr,status,error) {
+                // error code here
+            },
+            complete: function(xhr,status) {
+                // completion code here
             }
-        );
+        });
     }
 
     function ajax_store_selection(store_id, employee_id) {

@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from inventory_setting.views import generic
 from inventory_setting.views import admin
 from inventory_setting.views import org
 from inventory_setting.views import stores
@@ -8,10 +9,11 @@ from inventory_setting.views import tag
 
 
 urlpatterns = patterns('',
-                       
+    # Generic
+    url(r'^user/settings/register$', generic.ajax_register),
+    url(r'^user/settings/update_password$',generic.ajax_update_password),
     # Admin
     url(r'^inventory/(\d+)/(\d+)/settings/administrator$', admin.admin_settings_page),
-    url(r'^user/settings/update_password$',admin.ajax_update_password),
     # Org
     url(r'^inventory/(\d+)/(\d+)/settings/organization$', org.org_settings_page),
     # Store

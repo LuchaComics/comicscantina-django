@@ -63,14 +63,18 @@
                                 </div>
                                 <div class="col-sm-7 mt-lg">
                                     {% for field in user_form %}
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label">
-                                            {{ field.label | escape | safe }}
-                                        </label>
-                                        <div class="col-md-9">
-                                            {{ field | escape | safe }}
+                                        {% if 'Old Password' in field.label %}
+                                            <input type="hidden" id="id_old_password" value="" />
+                                        {% else %}
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                {{ field.label | escape | safe }}
+                                            </label>
+                                            <div class="col-md-9">
+                                                {{ field | escape | safe }}
+                                            </div>
                                         </div>
-                                    </div>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div><!-- /.Account Info -->
