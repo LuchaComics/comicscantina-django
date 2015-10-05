@@ -42,8 +42,8 @@
         });
     }
 
-    function get_series(subscription_id, success_callback, error_callback) {
-        var url = "/api/series/" + subscription_id + "/?format=json";
+    function get_series(series_id, success_callback, error_callback) {
+        var url = "/api/series/" + series_id + "/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,
