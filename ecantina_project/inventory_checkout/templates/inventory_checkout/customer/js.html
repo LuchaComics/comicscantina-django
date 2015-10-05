@@ -143,7 +143,6 @@
             'last_name': $('#id_last_name').val(),
             'email': $('#id_email').val(),
             'billing_name': name,
-            'billing_phone': get_phone('#id_phone'),
             'billing_street_number': $('#id_street_number').val(),
             'billing_street_name': $('#id_street_name').val(),
             'billing_unit_number': $('#id_unit_number').val(),
@@ -152,7 +151,6 @@
             'billing_province': $('#id_province').val(),
             'billing_postal': $('#id_postal').val(),
             'shipping_name': name,
-            'shipping_phone': get_phone('#id_phone'),
             'shipping_street_number': $('#id_street_number').val(),
             'shipping_street_name': $('#id_street_name').val(),
             'shipping_unit_number': $('#id_unit_number').val(),
@@ -162,6 +160,18 @@
             'shipping_postal': $('#id_postal').val(),
             'has_consented': $('#id_has_consented').is(':checked'),
         };
+        
+        if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
+            data['billing_phone'] = get_phone('#id_billing_phone');
+        } else {
+            data['billing_phone'] = "";
+        }
+        
+        if ($('#id_shipping_phone').val().length > 0) { // Add telephone if added.
+            data['shipping_phone'] = get_phone('#id_shipping_phone');
+        } else {
+            data['shipping_phone'] = "";
+        }
         
         // Create a new customer
         set_customer(

@@ -63,7 +63,6 @@
             'logo': $('#id_hidden_upload_id').val(),
             'name': $('#id_name').val(),
             'description': $('#id_description').val(),
-            'phone': get_phone('#id_phone'),
              //'fax': get_phone('#id_fax'),
             'website': website,
             'twitter_url': $('#id_twitter_url').val(),
@@ -84,7 +83,13 @@
             'currency': $('#id_currency').val(),
             'language': $('#id_language').val(),
         };
-                
+        
+        if ($('#id_phone').val().length > 0) { // Add telephone if added.
+            data['phone'] = get_phone('#id_phone');
+        } else {
+            data['phone'] = "";
+        }
+        
         // Send the "FormData" object to be sent through REST and get updated.
         set_organization(arr,
             function(success_json) {
