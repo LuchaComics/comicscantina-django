@@ -60,7 +60,6 @@
             'profile': upload_id,
             'first_name': $('#id_first_name').val(),
             'last_name': $('#id_last_name').val(),
-            'phone': get_phone('#id_phone'),
             'fax': $('#id_fax').val(),
             'street_number': $('#id_street_number').val(),
             'street_name': $('#id_street_name').val(),
@@ -70,6 +69,13 @@
             'province': $('#id_province').val(),
             'postal': $('#id_postal').val(),
         };
+        
+        if ($('#id_phone').val().length > 0) { // Add telephone if added.
+            data['phone'] = get_phone('#id_phone');
+        } else {
+            data['phone'] = '';
+        }
+        
         set_employee(
             data,
             function(success_json) {

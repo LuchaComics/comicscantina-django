@@ -54,7 +54,6 @@
                 'profile': upload_id,
                 'first_name': $('#id_first_name').val(),
                 'last_name': $('#id_last_name').val(),
-                'phone': get_phone('#id_phone'),
                 'fax': $('#id_fax').val(),
                 'street_number': $('#id_street_number').val(),
                 'street_name': $('#id_street_name').val(),
@@ -64,6 +63,11 @@
                 'province': $('#id_province').val(),
                 'postal': $('#id_postal').val(),
             }
+                        
+            if ($('#id_phone').val().length > 0) { // Add telephone if added.
+                data['phone'] = get_phone('#id_phone');
+            }
+                        
             set_employee(
                 data,
                 function(success_json) {
@@ -93,7 +97,6 @@
             'profile': upload_id,
             'first_name': $('#id_first_name').val(),
             'last_name': $('#id_last_name').val(),
-            'phone': $('#id_phone').val(),
             'fax': $('#id_fax').val(),
             'street_number': $('#id_street_number').val(),
             'street_name': $('#id_street_name').val(),
@@ -103,6 +106,13 @@
             'province': $('#id_province').val(),
             'postal': $('#id_postal').val()
         }
+        
+        if ($('#id_phone').val().length > 0) { // Add telephone if added.
+            data['phone'] = get_phone('#id_phone');
+        } else {
+            data['phone'] = "";
+        }
+        
         set_employee(
             data,
             function(success_json) {
@@ -166,38 +176,39 @@
     }
 
     function ajax_store_selection(store_id) {
-    var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
+        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/users/assign_employee';
     
-    var data = new FormData();
-        // Store
-        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        data.append('this_employee_id', {{ this_employee.employee_id }});
-        data.append('this_store_id', store_id);
-        jQuery.ajax({
-            url: url,
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(json_result){
-                if (json_result.status == "success")
-                {
-                    //alert("ok saved"); // Debugging Purposes
-                    //window.location = ''; // Reload page.
-                }
-                else
-                {
-                    alert(json_result.message);
-                }
+        var data = new FormData();
+            // Store
+            data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            data.append('this_employee_id', {{ this_employee.employee_id }});
+            data.append('this_store_id', store_id);
+            jQuery.ajax({
+                url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(json_result){
+                    if (json_result.status == "success")
+                    {
+                        //alert("ok saved"); // Debugging Purposes
+                        //window.location = ''; // Reload page.
+                    }
+                    else
+                    {
+                        alert(json_result.message);
+                    }
                 },
-            error: function(xhr,status,error) {
+                error: function(xhr,status,error) {
                     console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-            },
-            complete: function(xhr,status) {
-                
+                },
+                complete: function(xhr,status) {
+                    // Do nothing.
+                }
             }
-        });
+        );
     }
 
 
