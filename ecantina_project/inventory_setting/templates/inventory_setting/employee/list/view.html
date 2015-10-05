@@ -48,7 +48,7 @@
                                     <th style="border:0;width:15%;"></th>
                                     <th style="border:0;width:27%;">Name</th>
                                     <th style="border:0;width:27%;">Email</th>
-                                    <th class="text-center" style="border:0;width:27%;">Edit/Remove</th>
+                                    <th class="text-center" style="border:0;width:27%;">Edit/Suspend</th>
                                 </tr>
                                 {% for an_employee in employees %}
                                 <tr>
@@ -83,7 +83,7 @@
                                             <em class="fa fa-edit center-block text-center p-sm"></em>
                                         </button>
                                         <!-- Remove -->
-                                        <button onclick="ajax_delete_employee({{ an_employee.employee_id }}, {{ an_employee.user_id }}, {{ an_employee.profile_id }});"
+                                        <button onclick="ajax_suspend_employee_popup({{ an_employee.employee_id }}, {{ an_employee.user_id }}, {{ an_employee.profile_id }});"
                                             {% if an_employee.role == 0 %}disabled="true"{% endif %} type="button" class="btn btn-sm btn-danger" style="width:37px;">
                                             <em class="fa fa-remove center-block text-center p-sm"></em>
                                         </button>

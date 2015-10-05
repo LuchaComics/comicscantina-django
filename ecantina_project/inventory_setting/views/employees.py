@@ -48,6 +48,7 @@ def users_list_settings_page(request, org_id, store_id, this_store_id):
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
         'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
+        'src_urls': ['inventory_setting/employee/list/suspend_modal.html'],
     })
 
 
