@@ -30,6 +30,28 @@
     });
     
     
+    function ajax_activate_employee(employee_id)
+    {
+        get_employee(employee_id,
+            function(success_json) {
+                // Indicate the user is suspended from our system.
+                success_json['is_suspended'] = false;
+                     
+                // Update the user.
+                set_employee(success_json,
+                    function(success_json2) {
+                        location.reload(true); // Reload page with cache cleared.
+                    }, function(error_json2) {
+                        console.log(error_json2); // Print errors to console.
+                    }
+                );
+            },
+            function(error_json) {
+                console.log(error_json); // Print errors to console.
+            }
+        );
+    }
+    
     function ajax_suspend_employee()
     {
         var employee_id = $('#id_clicked_employee_id').val();
