@@ -29,6 +29,11 @@
         $('body').on('click', '#id_remove_user_btn', function(){
             $('#remove_user_modal').modal('show');
         });
+                      
+        // Load up Edit page
+        $('body').on('click', '#id_edit_user_btn', function(){
+            window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}';
+        });
     });
     
     
