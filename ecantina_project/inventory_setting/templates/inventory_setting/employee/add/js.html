@@ -100,8 +100,18 @@
                 // STEP 5:
                 // Let our upload image know it is properly assigned.
                 set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                    // STEP 6;
-                    window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+                                
+                    // STEP 6: Add notification message of success.
+                    $(document).trigger("add-alerts",[{
+                        'message': 'Employee was Successfully Added',
+                        'priority': 'success'
+                    }]);
+                                
+                    // STEP 7: Add count-down timer to reloading page/cache.
+                    setTimeout(function(){
+                        window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/employee/edit/' + employee_id;
+                    }, 1000)
+                                
                 });
             },
             function(error_json) {
