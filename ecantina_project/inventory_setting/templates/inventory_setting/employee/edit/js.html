@@ -50,18 +50,7 @@
                 'employee_id': {{ this_employee.employee_id }},
                 'organization': '{{ org.org_id }}',
                 'role': $('#id_role').val(),
-                'email': $('#id_email').val(),
                 'profile': upload_id,
-                'first_name': $('#id_first_name').val(),
-                'last_name': $('#id_last_name').val(),
-                'fax': $('#id_fax').val(),
-                'street_number': $('#id_street_number').val(),
-                'street_name': $('#id_street_name').val(),
-                'unit_number': $('#id_unit_number').val(),
-                'city': $('#id_city').val(),
-                'country': $('#id_country').val(),
-                'province': $('#id_province').val(),
-                'postal': $('#id_postal').val(),
             }
                         
             if ($('#id_phone').val().length > 0) { // Add telephone if added.
@@ -93,24 +82,7 @@
             'employee_id': {{ this_employee.employee_id }},
             'organization': '{{ org.org_id }}',
             'role': $('#id_role').val(),
-            'email': $('#id_email').val(),
             'profile': upload_id,
-            'first_name': $('#id_first_name').val(),
-            'last_name': $('#id_last_name').val(),
-            'fax': $('#id_fax').val(),
-            'street_number': $('#id_street_number').val(),
-            'street_name': $('#id_street_name').val(),
-            'unit_number': $('#id_unit_number').val(),
-            'city': $('#id_city').val(),
-            'country': $('#id_country').val(),
-            'province': $('#id_province').val(),
-            'postal': $('#id_postal').val()
-        }
-        
-        if ($('#id_phone').val().length > 0) { // Add telephone if added.
-            data['phone'] = get_phone('#id_phone');
-        } else {
-            data['phone'] = "";
         }
         
         set_employee(

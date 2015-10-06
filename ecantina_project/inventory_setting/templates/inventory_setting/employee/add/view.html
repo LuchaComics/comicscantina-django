@@ -76,17 +76,7 @@
                                         </div>
                                         {% endif %}
                                     {% endfor %}
-                                </div>
-                            </div><!-- /.Account Info -->
-                            <div class="col-sm-12"><!-- Employee Info -->
-                                <hr class="pb">
-                                <div class="col-sm-5">
-                                    <div class="jumbotron bg-gray-lighter">
-                                        <h3 class="p0 mt0 mb-lg">Employee Information</h3>
-                                        <p class="mb0 text-justify">This is the employee's login information to access the point of sale checkout page, as well as the inventory.</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7 mt-lg">
+                                    
                                     {% for field in employee_form %}
                                     <div class="form-group">
                                         <label class="col-md-3 control-label">
@@ -97,8 +87,9 @@
                                         </div>
                                     </div>
                                     {% endfor %}
+
                                 </div>
-                            </div><!-- /.Employee Info -->
+                            </div><!-- /.Account Info -->
                             <div class="col-sm-12"><!-- Store Assignment -->
                                 <hr class="pb">
                                 <div class="col-sm-5">

@@ -48,7 +48,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ('employee_id', 'role',  'joined', 'last_updated', 'is_suspended', 'email', 'phone', 'street_name', 'street_number', 'unit_number', 'province', 'country', 'postal', 'user', 'organization', 'profile',)
+        fields = ('employee_id', 'role',  'joined', 'last_updated', 'is_suspended', 'user', 'organization', 'profile',)
 
 
 class ComicSerializer(serializers.ModelSerializer):

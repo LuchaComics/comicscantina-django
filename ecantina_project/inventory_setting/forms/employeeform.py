@@ -14,45 +14,10 @@ from api.models.ec.employee import Employee
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
-        fields = ['role', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'email' , 'phone' ,
-        ]
+        fields = ['role', ]
         labels = {
         
         }
         widgets = {
             'role': Select(attrs={'class': u'form-control'}),
-            'street_number': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Street #'
-            }),
-            'street_name': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Street Name'
-            }),
-            'unit_number': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Unit #'
-            }),
-            'city': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter City'
-            }),
-            'province': Select(attrs={'class': u'form-control'}),
-            'country': Select(attrs={'class': u'form-control'}),
-            'postal': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Postal Code / Zip'
-            }),
-            'website': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Website URL'
-            }),
-            'email': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Email Address'
-            }),
-            'phone': TextInput(attrs={
-                'class': u'form-control mb-lg',
-                'placeholder': u'Enter Phone Number'
-            }),
         }

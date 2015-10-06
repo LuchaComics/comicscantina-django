@@ -24,25 +24,6 @@ class Employee(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     is_suspended = models.BooleanField(default=False)
     
-    # Address
-    street_name = models.CharField(max_length=63)
-    street_number = models.CharField(max_length=15)
-    unit_number = models.CharField(max_length=15, null=True, blank=True)
-    city = models.CharField(max_length=63)
-    province = models.CharField(
-        max_length=63,
-        choices=constants.PROVINCE_CHOICES,
-    )
-    country = models.CharField(
-        max_length=63,
-        choices=constants.COUNTRY_CHOICES,
-    )
-    postal = models.CharField(max_length=31)
-    
-    # Contact
-    email = models.EmailField(null=True, blank=True)
-    phone = models.CharField(max_length=10, null=True, blank=True)
-    
     # References.
     user = models.ForeignKey(User)
     organization = models.ForeignKey(Organization)
