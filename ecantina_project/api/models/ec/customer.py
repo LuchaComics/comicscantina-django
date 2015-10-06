@@ -14,18 +14,18 @@ class Customer(models.Model):
     
     # System
     customer_id = models.AutoField(primary_key=True)
-    joined = models.DateTimeField(auto_now_add=True)
+    joined = models.DateTimeField(auto_now_add=True, db_index=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_suspended = models.BooleanField(default=False)
     
     # Name & Contact
-    first_name = models.CharField(max_length=63)
-    last_name = models.CharField(max_length=63)
-    email = models.EmailField(null=True, blank=True, unique=True)
+    first_name = models.CharField(max_length=63, db_index=True)
+    last_name = models.CharField(max_length=63, db_index=True)
+    email = models.EmailField(null=True, blank=True, unique=True, db_index=True)
     
     # Billing Info
     billing_name = models.CharField(max_length=126)
-    billing_phone = models.CharField(max_length=10, null=True, blank=True)
+    billing_phone = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     billing_street_name = models.CharField(max_length=63)
     billing_street_number = models.CharField(max_length=15)
     billing_unit_number = models.CharField(max_length=15, null=True, blank=True)
@@ -38,11 +38,11 @@ class Customer(models.Model):
         max_length=63,
         choices=constants.COUNTRY_CHOICES,
     )
-    billing_postal = models.CharField(max_length=31)
+    billing_postal = models.CharField(max_length=31, db_index=True)
     
     # Shipping Info
     shipping_name = models.CharField(max_length=126)
-    shipping_phone = models.CharField(max_length=10, null=True, blank=True)
+    shipping_phone = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     shipping_street_name = models.CharField(max_length=63)
     shipping_street_number = models.CharField(max_length=15)
     shipping_unit_number = models.CharField(max_length=15, null=True, blank=True)
@@ -55,7 +55,7 @@ class Customer(models.Model):
         max_length=63,
         choices=constants.COUNTRY_CHOICES,
     )
-    shipping_postal = models.CharField(max_length=31)
+    shipping_postal = models.CharField(max_length=31, db_index=True)
     
     # Legal
     has_consented = models.BooleanField(default=False)

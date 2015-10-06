@@ -28,7 +28,7 @@ class Promotion(models.Model):
         choices=DISCOUNT_TYPE_OPTIONS,
         default=1,
     )
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, db_index=True)
     
     def __str__(self):
         return str(self.promotion_id)

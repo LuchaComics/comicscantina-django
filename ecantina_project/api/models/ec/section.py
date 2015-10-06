@@ -12,7 +12,7 @@ class Section(models.Model):
     
     section_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=127, db_index=True)
-    store = models.ForeignKey(Store)
+    store = models.ForeignKey(Store, db_index=True)
     organization = models.ForeignKey(Organization)
 
     def __str__(self):

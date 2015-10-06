@@ -12,9 +12,9 @@ class PulllistSubscription(models.Model):
         db_table = 'ec_pulllists_subscriptions'
     
     subscription_id = models.AutoField(primary_key=True)
-    organization = models.ForeignKey(Organization)
-    pulllist = models.ForeignKey(Pulllist)
-    customer = models.ForeignKey(Customer)
+    organization = models.ForeignKey(Organization, db_index=True)
+    pulllist = models.ForeignKey(Pulllist, db_index=True)
+    customer = models.ForeignKey(Customer, db_index=True)
     copies = models.PositiveSmallIntegerField(
         default=1,
         validators=[MinValueValidator(1)],

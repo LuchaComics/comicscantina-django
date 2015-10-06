@@ -33,7 +33,7 @@ class Product(models.Model):
     # when customers lookup the product and staff look through the
     # inventory database; furthermore, a product type needs to be
     # specified to tell what sort of product this is.
-    name = models.CharField(max_length=511, null=True, blank=True)
+    name = models.CharField(max_length=511, null=True, blank=True, db_index=True)
     type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         choices=constants.PRODUCT_TYPE_OPTIONS,
@@ -81,6 +81,7 @@ class Product(models.Model):
         max_digits=10,
         decimal_places=2,
         default=0.00,
+        db_index=True
     )
     cost = models.DecimalField(
         max_digits=10,
@@ -105,18 +106,18 @@ class Product(models.Model):
     # Products need to belong to a specific organization and where it is located
     # in the organization (store/section).
     organization = models.ForeignKey(Organization)
-    store = models.ForeignKey(Store)
+    store = models.ForeignKey(Store, db_index=True)
     section = models.ForeignKey(Section)
     
     # Every product has a list of tags they can belong to. Tags are used
     # to track th
-    tags = models.ManyToManyField(Tag, blank=True, related_name='product_tags')
+    tags = models.ManyToManyField(Tag, blank=True, related_name='product_tags', db_index=True)
     
     # Products should have a brand association with it.
-    brand = models.ForeignKey(Brand, null=True, blank=True)
+    brand = models.ForeignKey(Brand, null=True, blank=True, db_index=True)
     
     # Every product must belongs to a single cateogry.
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, db_index=True)
     
     # The QRCode image with the encoded "product_id" number in it and the boolean
     # to indicate whether the user printed the QR Code to a label or not.

@@ -52,7 +52,7 @@ class Comic(models.Model):
     
     organization = models.ForeignKey(Organization)
     product = models.ForeignKey(Product)
-    issue = models.ForeignKey(GCDIssue)
+    issue = models.ForeignKey(GCDIssue, db_index=True)
     
     def __str__(self):
         return str(self.issue)

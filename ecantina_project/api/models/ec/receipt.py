@@ -16,12 +16,12 @@ class Receipt(models.Model):
         db_table = 'ec_receipts'
     
     # Meta & Data-Mining
-    organization = models.ForeignKey(Organization)
-    store = models.ForeignKey(Store)
-    employee = models.ForeignKey(Employee, null=True, blank=True)
-    customer = models.ForeignKey(Customer, null=True, blank=True,)
+    organization = models.ForeignKey(Organization, db_index=True)
+    store = models.ForeignKey(Store, db_index=True)
+    employee = models.ForeignKey(Employee, null=True, blank=True, db_index=True)
+    customer = models.ForeignKey(Customer, null=True, blank=True, db_index=True)
     receipt_id = models.AutoField(primary_key=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
     last_updated = models.DateTimeField(auto_now=True)
     has_purchased_online = models.BooleanField(default=False)
     payment_method = models.PositiveSmallIntegerField(
@@ -33,6 +33,7 @@ class Receipt(models.Model):
         default=1,
         choices=constants.STATUS_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(6)],
+        db_index=True
     )
     
     # Financial
@@ -62,7 +63,7 @@ class Receipt(models.Model):
         decimal_places=2,
         default=0.00,
     )
-    has_finished = models.BooleanField(default=False)
+    has_finished = models.BooleanField(default=False, db_index=True)
     has_paid = models.BooleanField(default=False)
     
     # Payer Information

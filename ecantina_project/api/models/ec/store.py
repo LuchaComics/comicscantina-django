@@ -87,7 +87,7 @@ class Store(models.Model):
     is_coins_vendor = models.BooleanField(default=False)
     
     # Reference
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, db_index=True)
     employees = models.ManyToManyField(Employee)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
 

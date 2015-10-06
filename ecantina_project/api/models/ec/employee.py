@@ -26,7 +26,7 @@ class Employee(models.Model):
     
     # References.
     user = models.ForeignKey(User)
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, db_index=True)
     profile = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
     
     def __str__(self):

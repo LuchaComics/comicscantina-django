@@ -13,7 +13,7 @@ class Pulllist(models.Model):
         db_table = 'ec_pulllists'
     
     pulllist_id = models.AutoField(primary_key=True)
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, db_index=True)
     store = models.ForeignKey(Store)
     series = models.ForeignKey(GCDSeries, null=True)
     
