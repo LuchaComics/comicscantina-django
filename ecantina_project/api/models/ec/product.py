@@ -105,9 +105,9 @@ class Product(models.Model):
     
     # Products need to belong to a specific organization and where it is located
     # in the organization (store/section).
-    organization = models.ForeignKey(Organization)
+    organization = models.ForeignKey(Organization, db_index=True)
     store = models.ForeignKey(Store, db_index=True)
-    section = models.ForeignKey(Section)
+    section = models.ForeignKey(Section, db_index=True)
     
     # Every product has a list of tags they can belong to. Tags are used
     # to track th
