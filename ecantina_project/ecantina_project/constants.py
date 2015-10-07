@@ -10,6 +10,11 @@ FURNITURE_PRODUCT_TYPE = 2
 COIN_PRODUCT_TYPE = 3
 GENERAL_PRODUCT_TYPE = 4
 
+# Receipt Error Codes
+NO_ERROR_TYPE = 0
+CANCELLED_ONLINE_ORDER_ERROR_TYPE = 1
+
+
 #-----------#
 # DROPDOWNS #
 #-----------#
@@ -27,6 +32,12 @@ PRODUCT_TYPE_OPTIONS = (
     (FURNITURE_PRODUCT_TYPE, 'Furniture'),
     (COIN_PRODUCT_TYPE, 'Coin'),
     #(settings.GENERAL_PRODUCT_TYPE, 'General'),
+)
+
+
+RECEIPT_ERROR_CHOICES = (
+    (NO_ERROR_TYPE, 'No Error'),
+    (CANCELLED_ONLINE_ORDER_ERROR_TYPE, 'Cancelled Online Order'),
 )
 
 

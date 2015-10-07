@@ -89,6 +89,14 @@ class Receipt(models.Model):
     # checked out or are to be purchased (in cart).
     products = models.ManyToManyField(Product, blank=True, related_name='receipt_products')
 
+    # Error handling
+    has_error = models.BooleanField(default=False, db_index=True)
+    error = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        choices=constants.RECEIPT_ERROR_CHOICES,
+        default=0,
+    )
+
     def __str__(self):
         return "Receipt #" + str(self.receipt_id) + " - " + self.billing_first_name + " " + self.billing_last_name
 
