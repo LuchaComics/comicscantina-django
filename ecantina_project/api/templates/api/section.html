@@ -64,6 +64,27 @@
         });
     }
 
+    function get_section(section_id, success_callback, error_callback) {
+        var url = "/api/sections/" + section_id + "/?format=json";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                success_callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                error_callback(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
     function delete_section(section_id, callback) {
         var url = "/api/sections/" + section_id + "/";
         jQuery.ajax({

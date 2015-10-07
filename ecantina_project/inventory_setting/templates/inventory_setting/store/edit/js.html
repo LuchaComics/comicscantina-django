@@ -2,6 +2,7 @@
 {% include 'api/store.html' %}
 {% include 'api/organization.html' %}
 {% include 'api/section.html' %}
+{% include 'api/product.html' %}
 {% include 'api/common_js.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
@@ -321,12 +322,32 @@
 
     function ajax_del_section(section_id)
     {
-        
-        return;
-        
-        // Call function to delete the section.
-        delete_section(section_id, function(json_result) {
-            ajax_refresh_sections_table();  // Reload the table.
+        // Defensive Code: Check to see if there already are products which
+        // use this location and if there are then don't delete the location.
+        var arr = Array();
+        arr.push({ 'section': section_id });
+        filter_products(arr, function(json_result) {
+            $(json_result).each(function(iter,val2){
+                var count = val2['count'];
+                if (count > 0) {
+                    $(document).trigger("add-alerts",[{
+                        'message': 'Cannot delete section as present or sold products belong to this section..',
+                        'priority': 'error'
+                    }]);
+                } else {
+                    // Call function to delete the section.
+                    delete_section(section_id, function(json_result) {
+                        // (1) Reload table.
+                        ajax_refresh_sections_table();  // Reload the table.
+                                   
+                        // (2) Communicate success message.
+                        $(document).trigger("add-alerts",[{
+                            'message': 'Section was successfully deleted.',
+                            'priority': 'success'
+                        }]);
+                    });
+                }
+            });
         });
     }
 </script>
