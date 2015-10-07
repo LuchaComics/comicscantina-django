@@ -57,19 +57,65 @@
 
     }
 
-    function ajax_suspend_store(store_id) {
-        //if (store_id == {{ store.store_id }})
-        //{
-        //    alert("Cannot delete this store as we are currently in it!");
-        //    return;
-        //}
-        //delete_store(store_id, function(json_result){
-        //    // When this current store has been deleted then return to the main store.
-        //    window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/store/{{ store.store_id }}";
-        //});
+    function ajax_suspend_store(is_suspended) {
+        var store_id = {{ this_store.store_id }};
+        
+        if (store_id == {{ store.store_id }})
+        {
+            $(document).trigger("add-alerts",[{
+                'message': 'Cannot suspend this store as we are currently in it!',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        
+        get_store(
+            store_id,
+            function(success_json) {
+                  // Change the suspention status.
+                  success_json['is_suspended'] = is_suspended;
+                  
+                  // Update the store with the new status.
+                  set_store(
+                    success_json,
+                    function(success_json2) {
+                        // (1) Add notification message of success.
+                        if (is_suspended) {
+                            $(document).trigger("add-alerts",[{
+                                'message': 'Store was Successfully Suspended.',
+                                'priority': 'success'
+                            }]);
+                        } else {
+                            $(document).trigger("add-alerts",[{
+                                'message': 'Store was Successfully Activated.',
+                                'priority': 'success'
+                            }]);
+                        }
+                            
+                        // (2) Add count-down timer to reloading page/cache.
+                        setTimeout(function(){
+                            location.reload(true); // Reload page with cache cleared.
+                        }, 1000)
+
+                    },
+                    function(error_json2) {
+                        $(document).trigger("add-alerts",[{
+                            'message': error_json2,
+                            'priority': 'success'
+                        }]);
+                    }
+                );
+            },
+            function(error_json) {
+                $(document).trigger("add-alerts",[{
+                    'message': error_json,
+                    'priority': 'success'
+                }]);
+            }
+        );
     }
 
-    function ajax_save_edit(is_suspended) {
+    function ajax_save_edit() {
         // Create our existing employees list.
         var employees = [];
     {% for an_employee in this_store.employees.all %}
@@ -82,7 +128,6 @@
             'organization': '{{ org.org_id }}',
             'joined': $('#id_joined').val(),
             'email': $('#id_email').val(),
-            'logo': $('#id_hidden_upload_id').val(),
             'name': $('#id_name').val(),
             'description': $('#id_description').val(),
             'phone': get_phone('#id_phone'),
@@ -127,7 +172,7 @@
             'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
             // Other
             'employees': employees,
-            'is_suspended': is_suspended,
+            'is_suspended': '{{ form.instance.is_suspended }}',
             'currency': $('#id_currency').val(),
             'language': $('#id_language').val(),
             'tax_rate': parseFloat( $('#id_tax_rate').val() ),
@@ -135,6 +180,13 @@
             'is_furniture_vendor': $('#id_is_furniture_vendor').is(':checked'),
             'is_coins_vendor': $('#id_is_coins_vendor').is(':checked'),
         }
+        
+        // Add logo id if there exists one.
+        var logo = parseInt( $('#id_hidden_upload_id').val() );
+        if (logo > 0) {
+            data['logo'] = logo;
+        }
+        
         set_store(
             data,
             function(success_json) {
@@ -154,7 +206,6 @@
                 });
             },
             function(error_json) {
-                console.error("ERROR");
                 for (var key in error_json) {
                     if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                   
@@ -270,6 +321,9 @@
 
     function ajax_del_section(section_id)
     {
+        
+        return;
+        
         // Call function to delete the section.
         delete_section(section_id, function(json_result) {
             ajax_refresh_sections_table();  // Reload the table.

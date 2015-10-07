@@ -343,22 +343,25 @@
                                 <div class="panel-footer">
                                     <div data-alerts="alerts"></div>
                                 {% if form.instance.is_suspended %}
-                                    <button onclick="ajax_save_edit('False');"
+                                    <button onclick="ajax_suspend_store(false);"
                                               class="btn btn-lg btn-labeled btn-success pull-left mb mr"
-                                              style="font-size:14pt;">
+                                              style="font-size:14pt;"
+                                               type="button">
                                         <span class="btn-label"><i class="fa fa-check"></i></span>Activate Store
                                     </button>
                                 {% else %}
-                                    <button onclick="ajax_save_edit('True');"
+                                    <button onclick="ajax_suspend_store(true);"
                                               class="btn btn-lg btn-labeled btn-warning pull-left mb mr"
-                                              style="font-size:14pt;">
+                                              style="font-size:14pt;"
+                                               type="button">
                                         <span class="btn-label"><i class="fa fa-remove"></i></span>Suspend Store
                                     </button>
                                 {% endif %}
-                                    <button onclick="ajax_save_edit('{{ form.instance.is_suspended }}');"
+                                    <button onclick="ajax_save_edit();"
                                                type="button"
                                               class="btn btn-lg btn-labeled btn-success pull-right mb mr"
-                                              style="font-size:14pt;">
+                                              style="font-size:14pt;"
+                                               type="button">
                                         <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
                                     </button>
                                 </div>
