@@ -1,6 +1,5 @@
 import os
 import sys
-#import xml.sax
 import xml.etree.ElementTree as ET
 from django.conf import settings
 from api.models.gcd.country import GCDCountry
@@ -16,7 +15,6 @@ class ImportCountry:
                 self.import_row(elem)
                 elem.clear()
 
-
     def import_row(self, row):
         #-----------#
         #  Extract  #
@@ -28,7 +26,7 @@ class ImportCountry:
         #-----------#
         # Transform #
         #-----------#
-        print(id, name, code)
+        # Do nothing...
 
         #--------#
         #  Load  #
