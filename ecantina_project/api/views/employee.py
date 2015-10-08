@@ -21,4 +21,4 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     pagination_class = LargeResultsSetPagination
     permission_classes = (IsEmployeeUser, IsAuthenticated)
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('=user__username', '=email')
+    search_fields = ('=user__username', '=user__email')
