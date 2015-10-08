@@ -349,7 +349,11 @@
 
     function ajax_refresh_table(issue_id)
     {
-        filter_comics_by(issue_id, 0, function(json_result) {
+        // Apply search criteria and start searching.
+        var criteria = Array();
+        criteria.push({ 'issue': issue_id });
+        criteria.push({ 'is_sold': 'False' });
+        filter_comics_by(criteria, function(json_result) { // fix.
             generate_table(json_result);
         });
     }
@@ -379,57 +383,66 @@
         $(json_result).each(function(iter,val2){
             var position_index = 0;
             $(val2['results']).each(function(iter2,val){
+            {% if comic_form.instance %}
+                var this_product_id = {{ comic_form.instance.product_id }};
+            {% else %}
+                var this_product_id = 0;
+            {% endif %}
+                                    
                 var issue_id = val['issue'];
                 var product_id = val['product'];
                 var comic_id = val['comic_id'];
-                position_index += 1;
-                html += '<tr>';
-                html += '<td>' + product_id + '</td>';
+                                    
+                if (this_product_id != product_id) {
+                    position_index += 1;
+                    html += '<tr>';
+                    html += '<td>' + product_id + '</td>';
                 
-                // Is CGC Rated
-                html += '<td class="text-center">';
-                if (val['is_cgc_rated']) {
-                    html += 'Yes';
-                } else {
-                    html += 'No';
-                }
-                html += '</td>';
+                    // Is CGC Rated
+                    html += '<td class="text-center">';
+                    if (val['is_cgc_rated']) {
+                        html += 'Yes';
+                    } else {
+                        html += 'No';
+                    }
+                    html += '</td>';
                                     
-                // Label Colour
-                html += '<td class="text-center">';
-                if (val['is_cgc_rated']) {
-                    html += val['label_colour'];
+                    // Label Colour
+                    html += '<td class="text-center">';
+                    if (val['is_cgc_rated']) {
+                        html += val['label_colour'];
                                     
-                } else {
-                    html += '-';
-                }
-                html += '</td>';
+                    } else {
+                        html += '-';
+                    }
+                    html += '</td>';
                                     
                 // Condition
                 html += '<td class="text-center">';
-                if (val['is_cgc_rated']) {
-                    var percent = 10 * val['cgc_rating'];
-                    html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
+                    if (val['is_cgc_rated']) {
+                        var percent = 10 * val['cgc_rating'];
+                        html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
                                     
-                } else {
-                    // Convert to 100/100
-                    var percent = 10 * val['condition_rating'];
-                    html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
-                }
-                html += '</td>';
+                    } else {
+                        // Convert to 100/100
+                        var percent = 10 * val['condition_rating'];
+                         html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
+                    }
+                    html += '</td>';
                                     
                 
-                // Edit / Delete
-                html += '<td>';
+                    // Edit / Delete
+                    html += '<td>';
                                     
-                var onclick1 = 'onclick="window.location=\'/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+product_id+'\';"';
-                html += '<a '+onclick1+' class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>';
+                    var onclick1 = 'onclick="window.location=\'/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+product_id+'\';"';
+                    html += '<a '+onclick1+' class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>';
                                     
-                var onclick2 = 'ajax_delete('+comic_id+','+product_id+');';
-                html += '<a onclick="'+onclick2+'" class="remove-item curp" data-toggle="tooltip" data-original-title="Remove Item" data-placement="top"><em class="fa fa-2x fa-remove"></em></a>';
-                html += '</td>';
+                    var onclick2 = 'ajax_delete('+comic_id+','+product_id+');';
+                    html += '<a onclick="'+onclick2+'" class="remove-item curp" data-toggle="tooltip" data-original-title="Remove Item" data-placement="top"><em class="fa fa-2x fa-remove"></em></a>';
+                    html += '</td>';
                                     
-                html += '</tr>';
+                    html += '</tr>';
+                }
             });
         });
         
