@@ -1,52 +1,35 @@
 import os
 import sys
-import xml.sax
+#import xml.sax
+import xml.etree.ElementTree as ET
 from django.conf import settings
 from api.models.gcd.country import GCDCountry
 
-TODO_COMMAND = "TODO_ME_NOW"
 
-class ImportCountry(xml.sax.ContentHandler):
-    def __init__(self):
-        xml.sax.ContentHandler.__init__(self)
-        self.country_id = None
-        self.name = None
-        self.code = None
+class ImportCountry:
+    def __init__(self, file_path):
+        self.file_path = file_path
     
-    def startElement(self, name, attrs):
-        if name == 'id':
-            self.country_id = TODO_COMMAND
-        if name == 'name':
-            self.name = TODO_COMMAND
-        if name == 'code':
-            self.code = TODO_COMMAND
+    def begin_import(self):
+        for event, elem in ET.iterparse(self.file_path):
+            if elem.tag == "row":
+                self.import_row(elem)
+                elem.clear()
 
-    def characters(self, content):
-        if self.country_id is TODO_COMMAND:
-            self.country_id = content
-        if self.name is TODO_COMMAND:
-            self.name = content
-        if self.code is TODO_COMMAND:
-            self.code = content
 
-    def endElement(self, name):
-        if self.code is not None:
-            #print(self.country_id + " " + str(self.name) + " " + str(self.code))
-            self.import_row(self.country_id, str(self.name), str(self.code))
-            self.country_id = None
-            self.name = None
-            self.code = None
-
-    def import_row(self, id, name, code):
+    def import_row(self, row):
         #-----------#
         #  Extract  #
         #-----------#
-        
+        id = int(row.findtext('id'))
+        name = row.findtext('name')
+        code = row.findtext('code')
+
         #-----------#
         # Transform #
         #-----------#
-        # (Nothing)
-        
+        print(id, name, code)
+
         #--------#
         #  Load  #
         #--------#
