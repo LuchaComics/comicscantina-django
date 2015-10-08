@@ -121,6 +121,10 @@ class GCDIssue(models.Model):
 
     def __str__(self):
         if self.variant_name:
-            return u'%s %s [%s]' % (self.series, self._display_number(), self.variant_name)
+            return u'%s %s [%s]' % (
+                self.series,
+                self._display_number(),
+                self.variant_name
+            )
         else:
             return u'%s %s' % (self.series, self._display_number())
