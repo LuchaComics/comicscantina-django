@@ -1,6 +1,6 @@
 import os
 import sys
-import xml.sax
+import xml.etree.ElementTree as ET
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from api.models.gcd.issue import GCDIssue
@@ -13,16 +13,22 @@ PRIMARY_IMAGE = 1
 ALTERNATIVE_IMAGE = 2
 
 
-class GCDIssueCoverCatalogImporter(xml.sax.ContentHandler):
-    def __init__(self):
-        xml.sax.ContentHandler.__init__(self)
-        self.found_issue = False
+class GCDIssueCoverCatalogImporter:
+    def __init__(self, file_path):
+        self.file_path = file_path
+    
+    def begin_import(self):
+        for event, elem in ET.iterparse(self.file_path):
+            if elem.tag == "row":
+                self.import_row(elem)
+                elem.clear()
 
-    def import_from_attrs(self, attrs):
-        id = int(attrs.getValue("id"))
-        image_type = int(attrs.getValue("type"))
-        zoom = int(attrs.getValue("zoom"))
-        url = attrs.getValue("url")
+    def import_row(self, row):
+        id = int(row.findtext('id'))
+        image_type = int(row.findtext('type'))
+        zoom = int(row.findtext('zoom'))
+        url = row.findtext('url')
+
         print("GCDIssueCoverCatalogImporter: Updating: " + str(id))
         try:
             issue = GCDIssue.objects.get(issue_id=id)
@@ -50,16 +56,6 @@ class GCDIssueCoverCatalogImporter(xml.sax.ContentHandler):
             return
         issue.save()
 
-    def startElement(self, name, attrs):
-        if name == 'issue':
-            self.import_from_attrs(attrs)
-
-    def characters(self, content):
-        pass
-
-    def endElement(self, name):
-        pass
-
 class Command(BaseCommand):
     """
         ----------------------
@@ -82,6 +78,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         os.system('clear;')  # Clear the console text.
         for file_path in options['file_path']:
+            importer = GCDIssueCoverCatalogImporter(full_file_path)
+            importer.begin_import()
             print(file_path)
-            source = open(file_path)
-            xml.sax.parse(source, GCDIssueCoverCatalogImporter())
