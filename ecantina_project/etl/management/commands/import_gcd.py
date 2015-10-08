@@ -75,11 +75,11 @@ class Command(BaseCommand):
     def begin_processing_xml(self, full_file_path):
         # Match the file names with the specific database imports
         if 'gcd_country.xml' in full_file_path:
-            source = open(full_file_path)
-            xml.sax.parse(source, ImportCountry())
+            importer = ImportCountry(full_file_path)
+            importer.begin_import()
         if 'gcd_language.xml' in full_file_path:
-            source = open(full_file_path)
-            xml.sax.parse(source, ImportLanguage())
+            importer = ImportLanguage(full_file_path)
+            importer.begin_import()
         if 'gcd_publisher.xml' in full_file_path:
             importer = ImportPublisher(full_file_path)
             importer.begin_import()
