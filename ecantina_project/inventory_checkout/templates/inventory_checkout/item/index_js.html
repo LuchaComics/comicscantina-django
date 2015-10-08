@@ -146,6 +146,7 @@
         // Update Receipt to the latest products list.
         // Update the receipt and then do nothing.
         set_receipt({
+            'purchased': '{{ receipt.purchased }}',
             'organization': {{ receipt.organization_id }},
             'store': {{ receipt.store_id }},
             'employee': {{ receipt.employee_id }},

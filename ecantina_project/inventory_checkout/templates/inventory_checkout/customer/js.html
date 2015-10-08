@@ -191,6 +191,7 @@
                 // Update the receipt and then do nothing.
                 set_receipt({
                     'customer': json_result['customer_id'],
+                    'purchased': '{{ receipt.purchased }}',
                     'organization': {{ receipt.organization_id }},
                     'store': {{ receipt.store_id }},
                     'employee': {{ receipt.employee_id }},
@@ -277,6 +278,7 @@
 
             set_receipt({
                 'customer': json_result['customer_id'],
+                'purchased': '{{ receipt.purchased }}',
                 'organization': {{ receipt.organization_id }},
                 'store': {{ receipt.store_id }},
                 'employee': {{ receipt.employee_id }},

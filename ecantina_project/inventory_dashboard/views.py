@@ -27,10 +27,10 @@ def dashboard_page(request, org_id, store_id):
         Q(store_id=store_id) &
         Q(has_paid=True) &
         Q(has_finished=True) &
-        Q(created__year=today.year) &
-        Q(created__month=today.month)
+        Q(purchased__year=today.year) &
+        Q(purchased__month=today.month)
     )
-    monthly_sales = monthly_sales.order_by('created')
+    monthly_sales = monthly_sales.order_by('purchased')
     monthly_sales_amount = monthly_sales.aggregate(Sum('total_amount'))
     
     #-------------------------------
@@ -41,10 +41,10 @@ def dashboard_page(request, org_id, store_id):
         Q(has_paid=True) &
         Q(has_finished=True) &
         Q(status=1) & # Note: "New Order"
-        Q(created__year=today.year) &
-        Q(created__month=today.month)
+        Q(purchased__year=today.year) &
+        Q(purchased__month=today.month)
     )
-    monthly_orders = monthly_orders.order_by('created')
+    monthly_orders = monthly_orders.order_by('purchased')
     monthly_orders_count = monthly_orders.aggregate(Count('pk'))
     
     #-------------------------------
@@ -65,7 +65,7 @@ def dashboard_page(request, org_id, store_id):
         Q(store_id=store_id) &
         Q(status=1) # Note: "New Order"
     )
-    pending_orders = pending_orders.order_by('created')
+    pending_orders = pending_orders.order_by('purchased')
     
     #-------------------------------
     # This years Annual Sales
@@ -74,9 +74,9 @@ def dashboard_page(request, org_id, store_id):
         Q(store_id=store_id) &
         Q(has_paid=True) &
         Q(has_finished=True) &
-        Q(created__year=today.year)
+        Q(purchased__year=today.year)
     )
-    annual_sales = annual_sales.order_by('created')
+    annual_sales = annual_sales.order_by('purchased')
     
     #-------------------------------
     # Total (On-sale) Inventory

@@ -23,6 +23,7 @@ class Receipt(models.Model):
     receipt_id = models.AutoField(primary_key=True)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     last_updated = models.DateTimeField(auto_now=True)
+    purchased = models.DateTimeField(null=True, blank=True, db_index=True)
     has_purchased_online = models.BooleanField(default=False)
     payment_method = models.PositiveSmallIntegerField(
         default=1,
