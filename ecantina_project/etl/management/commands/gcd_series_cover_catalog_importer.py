@@ -18,20 +18,21 @@ class GCDSeriesCoverCatalogImporter:
         self.file_path = file_path
     
     def begin_import(self):
+        print("Beginning importer")
         for event, elem in ET.iterparse(self.file_path):
-            if elem.tag == "row":
-                self.import_row(elem)
+            if elem.tag == "series":
+                self.import_row(elem.attrib)
                 elem.clear()
 
-    def import_row(self, row):
-        id = int(row.findtext('id'))
-        url = row.findtext('url')
-
-        print("GCDSeriesCoverCatalogImporter: Updating: " + str(id))
+    def import_row(self, attrib):
+        series_id = int(attrib['series_id'])
+        url = attrib['url']
+        
+        print("GCDSeriesCoverCatalogImporter: Updating: " + str(series_id))
         try:
-            series = Series.objects.get(series_id=id)
-        except Series.DoesNotExist:
-            print("Error: Series "+str(id)+" does not exist.")
+            series = GCDSeries.objects.get(series_id=series_id)
+        except GCDSeries.DoesNotExist:
+            print("Error: Series "+str(series_id)+" does not exist.")
             return
         series.cover_url = url
         series.save()
@@ -43,7 +44,7 @@ class Command(BaseCommand):
         --------------------------------
         
         Run in your console:
-        $ python manage.py gcd_series_cover_catalog_importer /Users/bartlomiejmika/Developer/comicscantina/py-comicscantina/scripts/cover/series_catalog.xml
+        $ python manage.py gcd_series_cover_catalog_importer /Users/bartlomiejmika/Developer/ecantina/gcd/xml/series_catalog.xml
         
         (Where that file path is the path to where the GCD XML files are located)
     """
@@ -54,6 +55,8 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         os.system('clear;')  # Clear the console text.
-        for file_path in options['file_path']:
+        for full_file_path in options['file_path']:
+            print("Opening:",full_file_path)
             importer = GCDSeriesCoverCatalogImporter(full_file_path)
             importer.begin_import()
+        print("Successfully Imported")
