@@ -18,17 +18,18 @@ class GCDIssueCoverCatalogImporter:
         self.file_path = file_path
     
     def begin_import(self):
+        print("Beginning importer")
         for event, elem in ET.iterparse(self.file_path):
-            if elem.tag == "row":
-                self.import_row(elem)
+            if elem.tag == "issue":
+                self.import_row(elem.attrib)
                 elem.clear()
 
-    def import_row(self, row):
-        id = int(row.findtext('id'))
-        image_type = int(row.findtext('type'))
-        zoom = int(row.findtext('zoom'))
-        url = row.findtext('url')
-
+    def import_row(self, attrib):
+        series_id = int(attrib['series_id'])
+        image_type = int(attrib['type'])
+        zoom = int(attrib['zoom'])
+        url = attrib['url']
+    
         print("GCDIssueCoverCatalogImporter: Updating: " + str(id))
         try:
             issue = GCDIssue.objects.get(issue_id=id)
