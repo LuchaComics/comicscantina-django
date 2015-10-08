@@ -78,6 +78,8 @@
             'has_finished': '{{ receipt.has_finished }}',
             'has_paid': '{{ receipt.has_paid }}',
             'status': status,
+            'has_error': {{ receipt.has_error }},
+            'error': {{ receipt.error }},
             'billing_first_name': "{{ receipt.billing_first_name | escape | safe }}",
             'billing_last_name': "{{ receipt.billing_last_name | escape | safe }}",
             'billing_address': "{{ receipt.billing_address | escape | safe }}",
