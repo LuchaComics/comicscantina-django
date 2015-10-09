@@ -7,7 +7,7 @@ from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
 from api.serializers import OrgShippingPreferenceSerializer
-from api.models.ec.org_shipping_preference import OrgShippingPreference
+from api.models.ec.orgshippingpreference import OrgShippingPreference
 
 
 class OrgShippingPreferenceFilter(django_filters.FilterSet):

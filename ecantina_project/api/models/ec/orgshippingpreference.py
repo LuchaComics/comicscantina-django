@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from api.models.ec.organization import Organization
-from api.models.ec.org_shipping_rates import OrgShippingRate
+from api.models.ec.orgshippingrate import OrgShippingRate
 from django.core.cache import caches
 
 class OrgShippingPreference(models.Model):

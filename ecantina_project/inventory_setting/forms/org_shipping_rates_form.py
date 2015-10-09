@@ -7,7 +7,7 @@ from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from api.models.ec.org_shipping_rates import OrgShippingRate
+from api.models.ec.orgshippingrate import OrgShippingRate
 
 
 class OrgShippingRateForm(forms.ModelForm):

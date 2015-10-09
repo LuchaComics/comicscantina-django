@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from api.models.ec.section import Section
-from api.models.ec.org_shipping_preference import OrgShippingPreference
+from api.models.ec.orgshippingpreference import OrgShippingPreference
 
 
 class OrgShippingPreferenceForm(forms.ModelForm):

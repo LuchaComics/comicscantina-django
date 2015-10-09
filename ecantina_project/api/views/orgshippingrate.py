@@ -7,7 +7,7 @@ from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
 from api.serializers import OrgShippingRateSerializer
-from api.models.ec.org_shipping_rates import OrgShippingRate
+from api.models.ec.orgshippingrate import OrgShippingRate
 
 
 class OrgShippingRateFilter(django_filters.FilterSet):
