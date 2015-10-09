@@ -20,6 +20,7 @@ from api.views import tag
 from api.views import category
 from api.views import brand
 from api.views import orgshippingpreference
+from api.views import orgshippingrate
 from rest_framework.routers import DefaultRouter
 
 
@@ -47,6 +48,7 @@ router.register(r'issues', issue.IssueViewSet)
 router.register(r'categories', category.CategoryViewSet)
 router.register(r'brands', brand.BrandViewSet)
 router.register(r'orgshippingpreference', orgshippingpreference.OrgShippingPreferenceViewSet)
+router.register(r'orgshippingrate', orgshippingrate.OrgShippingRateViewSet)
 
 
 # The API URLs are now determined automatically by the router.
