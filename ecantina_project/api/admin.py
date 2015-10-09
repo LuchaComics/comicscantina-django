@@ -35,6 +35,10 @@ from api.models.ec.section import Section
 from api.models.ec.store import Store
 from api.models.ec.tag import Tag
 from api.models.ec.wishlist import Wishlist
+from api.models.ec.org_shipping_preference import OrgShippingPreference
+from api.models.ec.org_shipping_rates import OrgShippingRate
+from api.models.ec.store_shipping_preference import StoreShippingPreference
+from api.models.ec.store_shipping_rates import StoreShippingRate
 
 
 # Registering Models
@@ -70,3 +74,7 @@ admin.site.register(Section)
 admin.site.register(Store)
 admin.site.register(Tag)
 admin.site.register(Wishlist)
+admin.site.register(OrgShippingPreference)
+admin.site.register(OrgShippingRate)
+admin.site.register(StoreShippingPreference)
+admin.site.register(StoreShippingRate)

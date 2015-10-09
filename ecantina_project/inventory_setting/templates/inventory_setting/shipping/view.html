@@ -28,13 +28,13 @@
                                 <p class="mb0 text-justify">This is where you set your shipping rates. If you do not wish to ship, then check the first box on this page that says "Allow in-store pickup only".</p>
                             </div>
                         </div>
-                        <div class="col-sm-offset-1 col-sm-6">
-                            <!-- Table -->
-                            <div id="id_table_placeholder">
-                                <!-- Content / -->
-                            </div>
-                            <!-- /. Table -->
-                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
+                                <div class="col-md-8">
+                                    {{ form.name | escape | safe }}
+                                </div>
+                            </div>                        </div>
                         <div class="clearfix"></div>
                     </div>
                     </form>

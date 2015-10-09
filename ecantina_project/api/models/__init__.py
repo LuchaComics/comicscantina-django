@@ -33,3 +33,7 @@ from api.models.ec.pulllistsubscription import PulllistSubscription
 from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
+from api.models.ec.org_shipping_preference import OrgShippingPreference
+from api.models.ec.org_shipping_rates import OrgShippingRate
+from api.models.ec.store_shipping_preference import StoreShippingPreference
+from api.models.ec.store_shipping_rates import StoreShippingRate

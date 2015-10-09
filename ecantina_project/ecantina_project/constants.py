@@ -464,7 +464,12 @@ COUNTRY_CHOICES = (
     ('Other', 'Other'),
 )
 
-
+# https://en.wikipedia.org/wiki/ISO_3166-1_numeric#Officially_assigned_code_elements
+ISO_3166_1_NUMERIC_COUNTRY_CHOICES = (
+    (124, 'Canada'),
+    (840, 'United States'),
+    (484, 'Mexico'),
+)
 
 
 
