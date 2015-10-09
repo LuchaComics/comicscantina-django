@@ -47,8 +47,8 @@ router.register(r'series', series.SeriesViewSet)
 router.register(r'issues', issue.IssueViewSet)
 router.register(r'categories', category.CategoryViewSet)
 router.register(r'brands', brand.BrandViewSet)
-router.register(r'orgshippingpreference', orgshippingpreference.OrgShippingPreferenceViewSet)
-router.register(r'orgshippingrate', orgshippingrate.OrgShippingRateViewSet)
+router.register(r'orgshippingpreferences', orgshippingpreference.OrgShippingPreferenceViewSet)
+router.register(r'orgshippingrates', orgshippingrate.OrgShippingRateViewSet)
 
 
 # The API URLs are now determined automatically by the router.
