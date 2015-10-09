@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from decimal import *
 from django.shortcuts import render
 from django.core import serializers
@@ -17,6 +18,7 @@ from api.models.ec.receipt import Receipt
 @login_required(login_url='/inventory/login')
 def checkout_page(request, org_id, store_id, receipt_id):
     return render(request, 'inventory_checkout/item/index.html',{
+        'today': str(datetime.now()),
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'receipt': Receipt.objects.get(receipt_id=receipt_id),
@@ -195,6 +197,7 @@ def ajax_process_receipt(request, org_id, store_id, receipt_id):
                 # accessing of this receipt and then save.
                 receipt.has_finished = True
                 receipt.has_paid = True
+                receipt.purchased = datetime.now()
                 receipt.save()
                 response_data = {'status': 'success', 'message': 'processed',}
             except Product.DoesNotExist:
