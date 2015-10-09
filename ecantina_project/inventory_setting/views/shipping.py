@@ -14,6 +14,8 @@ from api.models.ec.org_shipping_preference import OrgShippingPreference
 from api.models.ec.org_shipping_rates import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
+from inventory_setting.forms.org_shipping_preference_form import OrgShippingPreferenceForm
+from inventory_setting.forms.org_shipping_rates_form import OrgShippingRateForm
 
 
 @login_required(login_url='/inventory/login')
@@ -45,43 +47,24 @@ def shipping_settings_page(request, org_id, store_id):
         )
         org_preference.rates.add(mexico)
 
-    # Get our store preferences.
-    try:
-        store_preference = StoreShippingPreference.objects.get(
-            organization_id=org_id,
-            store_id=store_id,
-        )
-    except StoreShippingPreference.DoesNotExist:
-        store_preference = StoreShippingPreference.objects.create(
-            organization_id = org_id,
-            store_id=store_id,
-        )
-    
-    # If we don't have the shipping rates set then add them in now.
-    if len(store_preference.rates.all()) is 0:
-        # Create for Canda, United States and Mexico
-        canada = StoreShippingRate.objects.create(
-            organization_id = org_id,
-            store_id=store_id,
-            country = 124,
-        )
-        store_preference.rates.add(canada)
-        united_states = StoreShippingRate.objects.create(
-            organization_id = org_id,
-            store_id=store_id,
-            country = 840,
-        )
-        store_preference.rates.add(united_states)
-        mexico = StoreShippingRate.objects.create(
-            store_id=store_id,
-            organization_id = org_id,
-            country = 484,
-        )
-        store_preference.rates.add(mexico)
+    ca_rate = OrgShippingRate.objects.get(
+        organization_id=org_id,
+        country = 124,
+    )
+    us_rate = OrgShippingRate.objects.get(
+        organization_id=org_id,
+        country = 840,
+    )
+    mx_rate = OrgShippingRate.objects.get(
+        organization_id=org_id,
+        country = 484,
+    )
 
     return render(request, 'inventory_setting/shipping/view.html',{
-        'org_preference': org_preference,
-        'store_preference': store_preference,
+        'org_form': OrgShippingPreferenceForm(instance=org_preference),
+        'ca_form': OrgShippingRateForm(instance=ca_rate),
+        'us_form': OrgShippingRateForm(instance=us_rate),
+        'mx_form': OrgShippingRateForm(instance=mx_rate),
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'employee': Employee.objects.get(user=request.user),
