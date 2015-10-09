@@ -62,7 +62,7 @@
     
         // Update the receipt and then do nothing.
         set_receipt({
-            'purchased': '{{ receipt.purchased }}',
+            'purchased': '{{ receipt.purchased|date:"c" }}',
             'organization': {{ receipt.organization_id }},
             'store': {{ receipt.store_id }},
             'employee': {{ receipt.employee_id }},
@@ -79,7 +79,7 @@
             'has_finished': '{{ receipt.has_finished }}',
             'has_paid': '{{ receipt.has_paid }}',
             'status': status,
-            'has_error': {{ receipt.has_error }},
+            'has_error': '{{ receipt.has_error }}',
             'error': {{ receipt.error }},
             'billing_first_name': "{{ receipt.billing_first_name | escape | safe }}",
             'billing_last_name': "{{ receipt.billing_last_name | escape | safe }}",

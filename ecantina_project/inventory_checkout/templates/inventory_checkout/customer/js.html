@@ -191,7 +191,7 @@
                 // Update the receipt and then do nothing.
                 set_receipt({
                     'customer': json_result['customer_id'],
-                    'purchased': '{{ receipt.purchased }}',
+                    'purchased': '{{ receipt.purchased|date:"c" }}',
                     'organization': {{ receipt.organization_id }},
                     'store': {{ receipt.store_id }},
                     'employee': {{ receipt.employee_id }},
@@ -207,7 +207,7 @@
                     'has_finished': '{{ receipt.has_finished }}',
                     'has_paid': '{{ receipt.has_paid }}',
                     'status': {{ receipt.status }},
-                    'has_error': {{ receipt.has_error }},
+                    'has_error': '{{ receipt.has_error }}',
                     'error': {{ receipt.error }},
                     'billing_first_name': json_result['first_name'],
                     'billing_last_name': json_result['last_name'],
@@ -278,7 +278,7 @@
 
             set_receipt({
                 'customer': json_result['customer_id'],
-                'purchased': '{{ receipt.purchased }}',
+                'purchased': '{{ receipt.purchased|date:"c" }}',
                 'organization': {{ receipt.organization_id }},
                 'store': {{ receipt.store_id }},
                 'employee': {{ receipt.employee_id }},
@@ -294,7 +294,7 @@
                 'has_finished': '{{ receipt.has_finished }}',
                 'has_paid': '{{ receipt.has_paid }}',
                 'status': {{ receipt.status }},
-                'has_error': {{ receipt.has_error }},
+                'has_error': '{{ receipt.has_error }}',
                 'error': {{ receipt.error }},
                 'billing_first_name': json_result['first_name'],
                 'billing_last_name': json_result['last_name'],

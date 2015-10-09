@@ -90,7 +90,7 @@
     function open_new_cart()
     {
         set_receipt({
-            'purchased': '{{ receipt.purchased }}',
+            'purchased': '{{ receipt.purchased|date:"c" }}',
             'organization': {{ org.org_id }},
             'store': {{ store.store_id }},
             'employee': {{ employee.employee_id }},
