@@ -31,4 +31,5 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/tags$', tag.tags_settings_page),
     # Shipping
     url(r'^inventory/(\d+)/(\d+)/settings/shipping$', shipping.shipping_settings_page),
+    url(r'^inventory/(\d+)/(\d+)/settings/shipping/(\d+)$', shipping.shipping_details_settings_page),
 )

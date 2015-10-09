@@ -24,7 +24,7 @@ class OrgShippingRateForm(forms.ModelForm):
             'comics_rate7':'75-100 Comics Rate:',
             'comics_rate8':'100-150 Comics Rate:',
             'comics_rate9':'151-200 Comics Rate:',
-            'comics_rate10':'201+ Comics Rate:',
+            'comics_rate10':'201-300 Comics Rate:',
         }
         widgets = {
             'country': Select(attrs={'class': u'form-control', 'disabled': u'true',}),
