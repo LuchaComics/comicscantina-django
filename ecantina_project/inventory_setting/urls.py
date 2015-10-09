@@ -6,6 +6,7 @@ from inventory_setting.views import stores
 from inventory_setting.views import employees
 from inventory_setting.views import promo
 from inventory_setting.views import tag
+from inventory_setting.views import shipping
 
 
 urlpatterns = patterns('',
@@ -28,4 +29,6 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/settings/promotions$', promo.promo_settings_page),
     # Tags
     url(r'^inventory/(\d+)/(\d+)/settings/tags$', tag.tags_settings_page),
+    # Shipping
+    url(r'^inventory/(\d+)/(\d+)/settings/shipping$', shipping.shipping_settings_page),
 )

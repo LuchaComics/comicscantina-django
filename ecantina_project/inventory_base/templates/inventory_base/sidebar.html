@@ -238,6 +238,11 @@
                                <span>Tags</span>
                            </a>
                        </li>
+                       <li class={% if tab == 'shipping_settings' %}" active" {% else %}" "{% endif %}>
+                           <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping" title="Shipping">
+                               <span>Shipping</span>
+                           </a>
+                       </li>
                     </ul>
                </li>
                <!-- HELP -->
