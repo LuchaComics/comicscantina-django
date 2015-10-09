@@ -20,6 +20,10 @@ from api.models.ec.brand import Brand
 from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
 from api.models.ec.category import Category
+from api.models.ec.org_shipping_preference import OrgShippingPreference
+from api.models.ec.org_shipping_rates import OrgShippingRate
+from api.models.ec.store_shipping_preference import StoreShippingPreference
+from api.models.ec.store_shipping_rates import StoreShippingRate
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -149,3 +153,23 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('category_id', 'parent_id', 'name',)
+
+class OrgShippingPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrgShippingPreference
+        fields = ('shipping_pref_id','organization','is_pickup_only','rates')
+
+class OrgShippingRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrgShippingRate
+        fields = ('shipping_rate_id','organization','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
+
+class StoreShippingPreferenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreShippingPreference
+        fields = ('shipping_pref_id','organization','store','is_pickup_only','rates')
+
+class StoreShippingRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoreShippingRate
+        fields = ('shipping_rate_id','organization','store','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
