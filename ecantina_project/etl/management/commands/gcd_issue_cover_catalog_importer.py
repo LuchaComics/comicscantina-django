@@ -25,26 +25,26 @@ class GCDIssueCoverCatalogImporter:
                 elem.clear()
 
     def import_row(self, attrib):
-        series_id = int(attrib['series_id'])
-        image_type = int(attrib['type'])
-        zoom = int(attrib['zoom'])
+        issue_id = int(attrib['issue_id'])
+        category = int(attrib['category'])
+        zoom = int(attrib['zoom_level'])
         url = attrib['url']
     
-        print("GCDIssueCoverCatalogImporter: Updating: " + str(id))
+        print("GCDIssueCoverCatalogImporter: Updating: " + str(issue_id))
         try:
-            issue = GCDIssue.objects.get(issue_id=id)
+            issue = GCDIssue.objects.get(issue_id=issue_id)
         except GCDIssue.DoesNotExist:
             print("Error: Issue "+str(id)+" does not exist.")
             return
 
-        if image_type is PRIMARY_IMAGE:
+        if category is PRIMARY_IMAGE:
             if zoom is SMALL_ZOOM:
                 issue.small_url = url
             if zoom is MEDIUM_ZOOM:
                 issue.medium_url = url
             if zoom is LARGE_ZOOM:
                 issue.large_url = url
-        elif image_type is ALTERNATIVE_IMAGE:
+        elif category is ALTERNATIVE_IMAGE:
             issue.has_alternative = True
             if zoom is SMALL_ZOOM:
                 issue.alt_small_url = url
@@ -53,7 +53,7 @@ class GCDIssueCoverCatalogImporter:
             if zoom is LARGE_ZOOM:
                 issue.alt_large_url = url
         else:
-            print("Error: Unknown Image Type: " + str(image_type))
+            print("Error: Unknown Image Type: " + str(category))
             return
         issue.save()
 
@@ -75,6 +75,6 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         os.system('clear;')  # Clear the console text.
-        for file_path in options['file_path']:
+        for full_file_path in options['file_path']:
             importer = GCDIssueCoverCatalogImporter(full_file_path)
             importer.begin_import()
