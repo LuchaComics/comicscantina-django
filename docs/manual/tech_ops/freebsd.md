@@ -83,6 +83,11 @@ Now we need to get the most up-to-date repository of ports and apply it to our s
   cd usr/ports/converters/libiconv
   make deinstall clean
   make install clean
+
+
+  cd /usr/ports/ports-mgmt/pkg/ 
+  make deinstall clean
+  make install clean
   ```
 
 3. Compile from source Python 3.4
