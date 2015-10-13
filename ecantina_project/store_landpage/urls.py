@@ -3,11 +3,11 @@ from store_landpage import views
 
 urlpatterns = patterns('',
     # Main Aggregate Store
-    url(r'^$', views.aggregate_front_page),
+    url(r'^$', views.front_page),
+    url(r'store$', views.front_page),
+    url(r'landpage$', views.front_page),
     
     # Specific Store
-#    url(r'^(\d+)$', specific.front_page),
-#    url(r'^(\d+)/$', specific.front_page),
-#    url(r'^(\d+)/store$', specific.front_page),
-#    url(r'^(\d+)/landpage$', specific.front_page),
+    url(r'^(\d+)/$', views.front_page),
+    url(r'^(\d+)/(\d+)/$', views.front_page),
 )

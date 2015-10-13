@@ -33,7 +33,9 @@
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only"> Toggle navigation </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span> <span class="icon-bar"> </span></button>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"><i class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite"> Cart ($210.00) </span></button>
-            <a class="navbar-brand " href="index.html"> <img src="{% static "store/img/logo.png" %}" alt="TSHOP"> </a>
+            <a class="navbar-brand " href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">
+                <img src="{% static "store/img/logo.png" %}" alt="Comics Cantina" />
+            </a>
             
             <!-- this part for mobile -->
             <div class="search-box pull-right hidden-lg hidden-md hidden-sm">
@@ -170,9 +172,16 @@
         
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li {% if page == 'home' %}class="active"{% endif %}><a href="/1/"> Home </a></li>
-                <li {% if page == 'about' %}class="active"{% endif %}><a href="/1/about"> About Us </a></li>
-                <li {% if page == 'products' %}class="active"{% endif %}><a href="/1/products/list"> Browse Products </a></li>
+                <li {% if page == 'home' %}class="active"{% endif %}>
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}"> Home
+                    </a>
+                </li>
+                <li {% if page == 'about' %}class="active"{% endif %}>
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}about"> About Us </a>
+                </li>
+                <li {% if page == 'products' %}class="active"{% endif %}>
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid"> Browse Products </a>
+                </li>
 
                 <!-- change width of megamenu = use class > megamenu-fullwidth, megamenu-60width, megamenu-40width -->
                 <li class="dropdown megamenu-80width "><a data-toggle="dropdown" class="dropdown-toggle" href="#"> SHOP
