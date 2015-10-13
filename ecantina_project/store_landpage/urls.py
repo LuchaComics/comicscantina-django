@@ -1,10 +1,14 @@
 from django.conf.urls import patterns, include, url
-from store_landpage.views import landpage
+from store_landpage.views import aggregate
+from store_landpage.views import specific
 
 urlpatterns = patterns('',
-    url(r'^$', landpage.front_page),
-    url(r'^(\d+)$', landpage.front_page),
-    url(r'^(\d+)/$', landpage.front_page),
-    url(r'^(\d+)/store$', landpage.front_page),
-    url(r'^(\d+)/landpage$', landpage.front_page),
+    # Main Aggregate Store
+    url(r'^$', aggregate.front_page),
+    
+    # Specific Store
+    url(r'^(\d+)$', specific.front_page),
+    url(r'^(\d+)/$', specific.front_page),
+    url(r'^(\d+)/store$', specific.front_page),
+    url(r'^(\d+)/landpage$', specific.front_page),
 )
