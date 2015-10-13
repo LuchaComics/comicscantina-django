@@ -124,6 +124,11 @@ class Product(models.Model):
     qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
     is_qrcode_printed = models.BooleanField(default=False)
 
+    # Option which forces the online e-commerce system to deny any shipping
+    # options for the customer but instead forces the customer to physically
+    # go to the store location and pick up the order.
+    has_no_shipping = models.BooleanField(default=False)
+
     def __str__(self):
         return str(self.name)
 

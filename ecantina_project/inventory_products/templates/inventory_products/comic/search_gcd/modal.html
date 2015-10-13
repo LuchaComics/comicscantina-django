@@ -318,6 +318,7 @@
             'category': parseInt( $('#id_category').val() ),
             'currency': parseInt( {{ store.currency | escape | safe }} ),
             'language': "{{ store.language | escape | safe }}",
+            'has_no_shipping': false,
         };
                              
         var upload_id = $('#id_hidden_upload_id').val();

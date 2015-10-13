@@ -245,6 +245,10 @@
             'is_qrcode_printed': false,
             'currency': parseInt( {{ store.currency | escape | safe }} ),
             'language': "{{ store.language | escape | safe }}",
+            'has_no_shipping': $('#id_has_no_shipping').is(':checked'),
+            'is_available': $('#id_is_available').is(':checked'),
+            'is_featured': $('#id_is_featured').is(':checked'),
+            'is_new': $('#id_is_new').is(':checked'),
         };
         
         var upload_id = $('#id_hidden_upload_id').val();
@@ -258,7 +262,7 @@
         // so the javascript function will know to make an 'update' call and
         // not a 'insert' call.
         arr['product_id'] = {{ product_form.instance.product_id }}
-        arr['qrcode'] = '{{ product_form.instance.qrcode }}';
+        //arr['qrcode'] = '{{ product_form.instance.qrcode }}'; // No need to add it again.
         arr['is_qrcode_printed'] = '{{ product_form.instance.is_qrcode_printed }}';
     {% endif %}
 
