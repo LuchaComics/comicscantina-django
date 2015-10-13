@@ -61,9 +61,17 @@
                     </div>
                     <div class="panel-footer">
                         <div data-alerts="alerts"></div>
-                        <button onclick="ajax_save();" type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                        <div class="col-md-6 text-center">
+                            <button type="submit" class="btn btn-lg btn-labeled btn-warning pull-left mb mr" style="font-size:14pt;" onclick="window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping';">
+                                <span class="btn-label"><i class="fa fa-chevron-left"></i></span>Back
+                            </button>
+                        </div>
+               
+                        <div class="col-sm-6 text-center">
+                        <button onclick="ajax_update_rates();" type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
                             <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
                         </button>
+                        </div>
                     </div>
                 </div>
                 <!-- END panel-->
@@ -71,5 +79,5 @@
         </div>
     </div>
 </section>
-{% include "inventory_setting/shipping/master_js.html" %}
+{% include "inventory_setting/shipping/details_js.html" %}
 {% endblock content %}
