@@ -12,6 +12,7 @@
             url: url,
             data: data,
             type: type,
+            traditional: true, // Note: This allows many-to-many arrays for Django REST Framework
             success: function(json_result){
                 callback(json_result); // Call back the function with the JSON results.
             },
@@ -26,7 +27,7 @@
     }
 
 
-    function get_store(shipping_pref_id, success_callback, error_callback) {
+    function get_org_shipping_preference(shipping_pref_id, success_callback, error_callback) {
         var url = "/api/orgshippingpreferences/" + shipping_pref_id + "/?format=json";
         jQuery.ajax({
              url: url,
