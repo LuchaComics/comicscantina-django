@@ -23,7 +23,7 @@ class StoreFilter(django_filters.FilterSet):
     phone = django_filters.CharFilter(name="phone", lookup_type=("icontains"))
     class Meta:
         model = Store
-        fields = ['store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended','street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'logo', 'tax_rate', 'employee', 'language', 'currency','is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor',]
+        fields = ['store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended','street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'logo', 'tax_rate', 'employee', 'language', 'currency','is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor', 'is_aggregated',]
 
 
 class StoreViewSet(viewsets.ModelViewSet):
