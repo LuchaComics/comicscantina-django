@@ -3226,7 +3226,7 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 /***  -------  Parallax section 2  ------- ***/
 
 .parallax-image-2 {
-    background: url(../../images/parallax/people-collage.jpg) fixed;
+    background: url(../../store/img/parallax/people-collage.jpg) fixed;
     background-attachment: fixed; /* IE FIX */
 }
 

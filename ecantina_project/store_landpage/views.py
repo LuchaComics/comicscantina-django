@@ -33,7 +33,7 @@ def aggregate_front_page(request):
     except Brand.objects.DoesNotExist:
         brands = None
 
-    return render(request, 'store_landpage/index.html',{
+    return render(request, 'store_landpage/global/index.html',{
         'featured_comics': featured_comics,
         'new_comics': new_comics,
         'brands': brands,

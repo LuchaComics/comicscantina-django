@@ -277,6 +277,7 @@ STORE_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"store/js/jquery.minimalect.min.js",},
     {"type":"text/javascript", "src":"store/js/bootstrap.touchspin.js",},
     {"type":"text/javascript", "src":"store/js/script.js",},
+    {"type":"text/javascript", "src":"store/js/home.js",},
 ]
 
 
