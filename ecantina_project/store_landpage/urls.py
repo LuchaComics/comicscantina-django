@@ -4,7 +4,6 @@ from store_landpage import views
 urlpatterns = patterns('',
     # Main Aggregate Store
     url(r'^$', views.front_page),
-    url(r'store$', views.front_page),
     url(r'landpage$', views.front_page),
     
     # Specific Store
