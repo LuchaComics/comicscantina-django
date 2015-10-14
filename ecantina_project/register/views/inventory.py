@@ -15,7 +15,7 @@ from api.models.ec.employee import Employee
 
 
 def store_registration_page(request):
-    return render(request, 'register/store.html',{
+    return render(request, 'register/inventory/view.html',{
         'form': StoreRegistrationForm(),
         'image_form': ImageUploadForm(),
         'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
@@ -235,7 +235,7 @@ def create_employee(form):
 
 
 def store_registation_successful_page(request):
-    return render(request, 'register/store_ok.html',{
+    return render(request, 'register/inventory/view_ok.html',{
         'form': StoreRegistrationForm(),
         'image_form': ImageUploadForm(),
         'local_css_library' : settings.INVENTORY_CSS_LIBRARY,

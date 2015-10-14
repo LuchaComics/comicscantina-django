@@ -1,0 +1,283 @@
+{% extends 'register/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="wrapper login-body">
+    <div class="block-center mt-xl wd-xl register-panel">
+        <!-- START panel-->
+        <div class="panel panel-dark panel-flat text-left">
+            <a href="login.html">
+            <img src="{% static "inventory/img/logo-rect.png" %}" alt="Image" class="block-center cc-logo-rect">
+            </a>
+            
+            <div class="panel-body">
+                <form role="form" data-parsley-validate="" novalidate="" class="mb-lg">
+                    <fieldset class="col-sm-4 br">
+                        <legend class="text-muted mb0">User Info</legend>
+                        <div class="form-group has-feedback">
+                            <label for="signupInputEmail1" class="text-muted">Email address</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="form-group mt-lg">
+                            <label for="signupInputCompanyOwnerFirstName" class="text-muted">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-group mt-lg">
+                            <label for="signupInputCompanyOwnerLastName" class="text-muted">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-group mt-lg has-feedback">
+                            <label for="signupInputPassword1" class="text-muted">Password</label>
+                            {{ form.password }}
+                        </div>
+                        <div class="form-group mt-lg has-feedback">
+                            <label for="signupInputRePassword1" class="text-muted">Retype Password</label>
+                            {{ form.repeat_password }}
+                        </div>
+                        <div class="form-group mt-lg">
+                            <label for="signupInputCompanyName1" class="text-muted">Organization Name</label>
+                            {{ form.org_name }}
+                        </div>
+                        <div class="mt-sm clearfix">
+                            <div class="checkbox c-checkbox pull-left mt-lg">
+                                <label>
+                                    {{ form.is_digital_store_only }}
+                                    <span class="fa fa-check"></span>Digital store only
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="col-sm-8 mb0">
+                        <legend class="text-muted mb">Contact</legend>
+                        <fieldset class="col-sm-6 logo bb0 p0 mb0">
+                            <!-- LOGO -->
+                            <!-- Upload ID -->
+                                {{ form.hidden_upload_id }}
+                            <!-- /.Upload ID -->
+                            <img src="" style="height:100px;width:100px;" alt="Store Logo"
+                                class="img-thumbnail center-block mb0 add-cover-image"
+                                name="logo-image" id="logo-image">
+                                <label class="form-control btn btn-success mb0 mt10 curp center-block" >
+                                    <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Store Logo...
+                                    <input type="file" class="form-control mb10 hide" name="logo-image"
+                                    id="id_image" onchange="ajax_upload_image();"/>
+                                </label>
+                            </fieldset><!-- /.LOGO -->
+                        <fieldset class="col-sm-6 contact mb0">
+                            <div class="form-group col-sm-12 p0">
+                                <label for="signupPhone" class="text-muted">Phone</label>
+                                {{ form.phone }}
+                            </div>
+                            <div class="form-group col-sm-12 p0">
+                                <label for="signupFax" class="text-muted">Fax</label>
+                                {{ form.fax }}
+                            </div>
+                        </fieldset>
+                        <div class="form-group col-sm-6 pt0 mt0">
+                            <label for="signupWebSite" class="text-muted">Website</label>
+                            {{ form.website }}
+                        </div>
+                        <div class="form-group col-sm-6 pt0 mt0">
+                            <label for="signupTwitter" class="text-muted">Twitter</label>
+                            {{ form.twitter }}
+                        </div>
+                        <div class="form-group col-sm-6 pt0 mt0">
+                            <label for="signupFacebook" class="text-muted">Facebook</label>
+                            {{ form.facebook }}
+                        </div>
+                    </div>
+                    <fieldset class="col-sm-8 store-info m0">
+                        <legend class="text-muted mb0">Location</legend>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetNumber" class="text-muted">Street Number</label>
+                            {{ form.street_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetName" class="text-muted">Street Name</label>
+                            {{ form.street_name }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreUnitNumber" class="text-muted">Unit Number</label>
+                            {{ form.unit_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreCity" class="text-muted">City</label>
+                            {{ form.city }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreCountry" class="text-muted">Country</label>
+                            {{ form.country }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreProvince" class="text-muted">State/Province</label>
+                            {{ form.province }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStorePostal" class="text-muted">Zip/Postal</label>
+                            {{ form.postal }}
+                        </div>
+                    </fieldset>
+                    <fieldset class="col-sm-12 mb0 pb0">
+                        <div class="clearfix"></div>
+                        <hr/>
+                        <div class="checkbox c-checkbox pull-left m0 p0 col-sm-12">
+                            <div class="col-sm-offset-2 col-sm-6 pull-left text-right pt-sm">
+                                <label>
+                                    {{ form.is_terms_accepted }}
+                                    <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
+                                </label>
+                            </div>
+                            <div class="col-sm-4 pull-right">
+                                <button onclick="ajax_create_account();"
+                                           type="button"
+                                          class="pull-right btn btn-block btn-primary" >Create account
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <!-- END panel-->
+        <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>2015</span>
+            <span>-</span>
+            <span>Comics Cantina</span>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(function() {
+            var availableTags = [
+                "Ontario",
+                "Quebec",
+                "Nova Scotia",
+                "New Brunswick",
+                "Manitoba",
+                "British Columbia",
+                "Prince Edward Island",
+                "Saskatchewan",
+                "Alberta",
+                "Newfoundland and Labrador",
+            ];
+            $( "#id_province" ).autocomplete({
+            source: availableTags
+            });
+        });
+                      
+        $(function() {
+            var availableTags = [
+                "Canada",
+                "United States",
+            ];
+            $( "#id_country" ).autocomplete({
+                source: availableTags
+            });
+        });
+    });
+    
+    // this is to upload the cover image
+    function ajax_upload_image() {
+        var errors = 0;
+        //alert('ajax_upload_logo_image()'); // Debugging Purposes.
+        
+        if ($('#id_image').val() == "") {
+            alert('Please select an image to upload');
+            errors++;
+        }
+        
+        if (errors > 0) {
+            return false;
+        }
+        
+        // change this to the ajax function call in python
+        var url = '/inventory/save_image';
+        
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('image', document.getElementById('id_image').files[0]);
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                // If success then update the image, else display error.
+                if (json_result.status == "success")
+                {
+                    $('#logo-image').attr('src', json_result.src);
+                    $('#id_hidden_upload_id').val(json_result.id);
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                    
+            }
+        });
+    }
+
+    function ajax_create_account() {
+        // change this to the ajax function call in python
+        var url = '/inventory/create_account';
+    
+        var data = new FormData();
+        data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        data.append('email', $('#id_email').val());
+        data.append('hidden_upload_id', $('#id_hidden_upload_id').val());
+        data.append('first_name', $('#id_first_name').val());
+        data.append('last_name', $('#id_last_name').val());
+        data.append('password', $('#id_password').val());
+        data.append('repeat_password', $('#id_repeat_password').val());
+        data.append('org_name', $('#id_org_name').val());
+        data.append('is_digital_store_only', $('#id_is_digital_store_only').val());
+        data.append('phone', $('#id_phone').val());
+        data.append('fax', $('#id_fax').val());
+        data.append('website', $('#id_website').val());
+        data.append('twitter', $('#id_twitter').val());
+        data.append('facebook', $('#id_facebook').val());
+        data.append('street_number', $('#id_street_number').val());
+        data.append('street_name', $('#id_street_name').val());
+        data.append('unit_number', $('#id_unit_number').val());
+        data.append('city', $('#id_city').val());
+        data.append('country', $('#id_country').val());
+        data.append('province', $('#id_province').val());
+        data.append('postal', $('#id_postal').val());
+        jQuery.ajax({
+            url: url,
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(json_result){
+                if (json_result.status == "success")
+                {
+                    //alert("ok saved"); // Debugging Purposes
+                    window.location = '/inventory/registered_successful';
+                }
+                else
+                {
+                    alert(json_result.message);
+                }
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                
+            }
+        });
+    }
+
+</script>
+{% endblock content %}
