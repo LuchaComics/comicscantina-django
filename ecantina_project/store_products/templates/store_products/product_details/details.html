@@ -10,11 +10,20 @@
                     </a>
                 </li>
                 {% if product.category.parent_id == 1 %}
-                <li>Comics</li>
+                <li>
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category={{ product.category.parent_id }}">Comics
+                    </a>
+                </li>
                 {% else %}
                 <li>UNSUPPORTED - {{ product.category.parent_id }}</li>
                 {% endif %}
-                <li class="active">{{ product.category.name | escape | safe }}s</li>
+                <li>
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category={{ product.category_id }}">{{ product.category.name | escape | safe }}s
+                    </a>
+                </li>
+                <li class="active">
+                    {{ product.name | escape | safe }}
+                </li>
             </ul>
         </div>
     </div>
@@ -108,8 +117,11 @@
                     <a class="link-wishlist wishlist">Add to Wishlist</a>
                 </div>
                 <div style="clear:both"></div>
+                {% if product.is_sold == False %}
                 <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> In stock</h3>
-                <h3 style="display:none" class="incaps"><i class="fa fa-minus-circle color-out"></i> Out of stock</h3>
+                {% else %}
+                <h3 style="incaps" class="incaps"><i class="fa fa-minus-circle color-out"></i> Out of stock</h3>
+                {% endif %}
                 <h3 class="incaps"><i class="glyphicon glyphicon-lock"></i> Secure online ordering</h3>
             </div>
             <!--/.cart-actions-->
