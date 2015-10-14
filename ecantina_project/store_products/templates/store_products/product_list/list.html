@@ -6,7 +6,7 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
                 {% if current_category.parent_id == 1 %}
                 <li>Comics</li>
                 {% elif current_category.name == 'Comic' %}
