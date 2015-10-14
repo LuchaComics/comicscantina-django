@@ -119,9 +119,12 @@
             var position_index = 0;
             $(val2['results']).each(function(iter2,val){
                 var product_id = val['product_id'];
-                var image_url = val['image_url'];
                 var name = val['name'];
                 var sub_price = val['sub_price'];
+                var image_url = val['image_url'];
+                if (!image_url) {
+                    image_url = '{% static "inventory/img/missing_cover.png" %}';
+                }
 
                 html += '<div class="item col-sm-4 col-lg-4 col-md-4 col-xs-6">';
                 html += '<div class="product">';
