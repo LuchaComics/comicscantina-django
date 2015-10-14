@@ -21,7 +21,8 @@
                 {% for comic in featured_comics %}
                 <div class="product-slide">
                     <div class="col-sm-5 product-slide-left">
-                        <a class="product-slide-img">
+                        <a class="product-slide-img"
+                           href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
                             {% if comic.product.image == None %}
                                 {% if comic.issue.large_url == None %}
                                 <img alt="img"
@@ -85,15 +86,17 @@
 
                     <div class="image">
 
+                        <!--
                         <div class="quickview">
                             <a title="Quick View"
                                class="btn btn-xs  btn-quickview"
                          data-target="#product-details-modal"
-                         data-toggle="modal"> Quick View
+                         data-toggle="modal"> Detailed View
                             </a>
                         </div>
-
-                        <a href="product-details.html">
+                        -->
+                         
+                        <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
                             {% if comic.product.image == None %}
                                 {% if comic.issue.large_url == None %}
                                 <img alt="img"
@@ -211,11 +214,13 @@
                         </a>
 
                         <div class="image">
+                            <!--
                             <div class="quickview">
                                 <a title="Quick View" class="btn btn-xs  btn-quickview"
                                    data-target="#product-details-modal" data-toggle="modal"> Quick View </a>
                             </div>
-                            <a href="product-details.html">
+                             -->
+                            <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
                                 {% if comic.product.image == None %}
                                     {% if comic.issue.large_url == None %}
                                     <img alt="img"
