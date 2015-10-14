@@ -69,10 +69,14 @@
                         </h4>
                     </div>
                     <div id="collapseBrand" class="panel-collapse collapse in">
-                        <div class="panel-body smoothscroll maxheight300">
+                        <div id="brands_list" class="panel-body smoothscroll maxheight300">
                             {% for brand in brands %}
                             <div class="block-element">
-                                <label><input type="checkbox" name="tour" value="0"/> {{ brand.name }}</label>
+                                <label>
+                                    <input onclick="ajax_search();"
+                                                id="{{ brand.brand_id }}"
+                                    type="checkbox" /> {{ brand.name }}
+                                </label>
                             </div>
                             {% endfor %}
                         </div>
@@ -122,6 +126,7 @@
             <div class="w100 productFilter clearfix">
                 <p class="pull-left"> Showing <strong>{{ products.count }}</strong> products </p>
                 <div class="pull-right ">
+                    <!--
                     <div class="change-order pull-right">
                         <select class="form-control" name="orderby">
                             <option selected="selected">Default sorting</option>
@@ -132,6 +137,7 @@
                             <option value="price-desc">Sort by price: high to low</option>
                         </select>
                     </div>
+                     -->
                     <div class="change-view pull-right">
                         <a href="#" title="Grid" class="grid-view">
                             <i class="fa fa-th-large"></i>
@@ -140,58 +146,17 @@
                 </div>
             </div>
             <!--/.productFilter-->
-            <div class="row  categoryProduct xsResponse clearfix">
-                {% for product in products %}
-                <!-- item -->
-                <div class="item col-sm-4 col-lg-4 col-md-4 col-xs-6">
-                    <div class="product">
-                        <a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist" data-placement="left">
-                            <i class="glyphicon glyphicon-heart"></i>
-                        </a>
-                        <div class="image">
-                            <a href="/{{ org.org_id }}/products/details/{{ product.product_id }}">
-                                <img src="/media/{{ product.image.image }}" alt="img" class="img-responsive">
-                                    </a>
-                            <div class="promotion">
-                                <span class="new-product"> NEW</span> {% if product.discount > 0 %}<span class="discount">{% if product.discount_type == 2 %}${% endif %}{{ product.discount }}{% if product.discount_type == 1 %}%{% endif %} OFF</span>{% endif %}
-                            </div>
-                        </div>
-                        <div class="description">
-                            <h4><a href="/{{ org.org_id }}/products/details/{{ product.product_id }}"> {{ product.name }} </a></h4>
-                            <div class="grid-description">
-                                <p>{{ product.brand }}</p>
-                            </div>
-                            <div class="list-description">
-                                <p> </p>
-                            </div>
-                            <span class="size"> </span>
-                        </div>
-                        <div class="price"><span>${{ product.price }}</span></div>
-                        <div class="action-control"><a class="btn btn-primary"> <span class="add2cart"><i
-                            class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> </a></div>
-                    </div>
-                </div>
-                <!-- end item -->
-                {% endfor %}
+            <div id="id_table_placeholder" class="row  categoryProduct xsResponse clearfix">
+                
             </div>
             <!--/.categoryProduct || product content end-->
             {% load store_products_extras %}
             <div class="w100 categoryFooter">
-                <div class="pagination pull-left no-margin-top">
-                    <ul class="pagination no-margin-top">
-                        {% if products.has_previous %}
-                        <li><a href="?page={{ products.previous_page_number }}">«</a></li>
-                        {% endif %}
-                        {% for page in products.paginator.num_pages|get_range %}
-                        <li {% if page == products.number %}class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-                        {% endfor %}
-                        {% if products.has_next %}
-                        <li><a href="?page={{ products.next_page_number }}">»</a></li>
-                        {% endif %}
-                    </ul>
+                <div id="id_results_nav" class="pagination pull-left no-margin-top">
+                    
                 </div>
-                <div class="pull-right pull-right col-sm-4 col-xs-12 no-padding text-right text-left-xs">
-                    <p>Showing {{ products }} results</p>
+                <div id="id_results_count" class="pull-right pull-right col-sm-4 col-xs-12 no-padding text-right text-left-xs">
+                    <p>0 Results Found</p>
                 </div>
             </div>
             <!--/.categoryFooter-->

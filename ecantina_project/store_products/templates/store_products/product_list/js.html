@@ -1,9 +1,194 @@
 {% load staticfiles %}
-
+{% include 'api/issue.html' %}
+{% include 'api/series.html' %}
+{% include 'api/comic.html' %}
+{% include 'api/product.html' %}
+<!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
 
-$(document).ready(function(){
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                      
+                     
 
-});
+    });
+    
+    function ajax_search()
+    {
+        var arr = Array(); // Variable used to store the search criteria.
+        
+        // Get all the selected "Brands".
+        $('#brands_list input[type=checkbox]').each(function () {
+            if (this.checked) {
+                console.log (this.id);
+                arr.push({ 'brand': parseInt(this.id) });
+            }
+        });
+        
+        // Search through the products and generate UI with the results.
+        console.log (arr);
+        filter_products(arr, function(json_objects) {
+            generate_table(json_objects);
+        });
+    }
+
+    /**
+     * Function is to be used by the 'Next' and 'Previous' buttons. This 
+     * function will load the URL provided by the DJANGO REST API for calling
+     * the next or previous search results and then updates the page.
+     */
+    function ajax_onclick(url) {
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                generate_table(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(json_result, null, 2);
+        //var obj = JSON.parse(json_text);
+        //console.log(obj)
+    
+        // Initial Code
+        var html = '';
+    
+        // Get the search results
+        $(json_result).each(function(iter,val2){
+            // Update results count
+            var count = val2['count'];
+            var next = val2['next'];
+            var previous = val2['previous'];
+                      
+            // Set Results Count.
+            var txt = count;
+            txt += (count > 1) ? " Results Found" : " Result Found";
+            $('#id_results_count').html(txt);
+        
+            // Set Navigation Buttons.
+            var btns = '';
+            if (previous) {
+                btns += '<button onclick="'+'ajax_onclick(\''+previous+'\');' + '" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Previous</button>';;
+            }
+            if (next) {
+                btns += '<button onclick="'+'ajax_onclick(\''+next+'\');' + '" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Next</button>';
+            }
+            $('#id_results_nav').html(btns);
+                            
+            // Generate table.
+            var position_index = 0;
+            $(val2['results']).each(function(iter2,val){
+                var product_id = val['product_id'];
+                var image_url = val['image_url'];
+                var name = val['name'];
+                var sub_price = val['sub_price'];
+
+                html += '<div class="item col-sm-4 col-lg-4 col-md-4 col-xs-6">';
+                html += '<div class="product">';
+                html += '<a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist" data-placement="left">';
+                html += '<i class="glyphicon glyphicon-heart"></i>';
+                html += '</a>';
+                html += '<div class="image">';
+                html += '<a href="/{{ org.org_id }}/products/details/'+product_id+'">';
+                html += '<img src="'+image_url+'" alt="img" class="img-responsive">';
+                html += '</a>';
+                html += '<div class="promotion">';
+                //html += '<span class="new-product"> NEW</span> {% if product.discount > 0 %}<span class="discount">{% if product.discount_type == 2 %}${% endif %}{{ product.discount }}{% if product.discount_type == 1 %}%{% endif %} OFF</span>{% endif %}
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="description">';
+                html += '<h4><a href="/{{ org.org_id }}/products/details/'+product_id+'"> '+name+' </a></h4>';
+                html += '<div class="grid-description">';
+                //html += '<p>{{ product.brand }}</p>';
+                html += '</div>';
+                html += '<div class="list-description">';
+                html += '<p> </p>';
+                html += '</div>';
+                html += '<span class="size"> </span>';
+                html += '</div>';
+                html += '<div class="price"><span>$'+sub_price+'</span></div>';
+                html += '<div class="action-control"><a class="btn btn-primary"> <span class="add2cart"><i';
+                html += 'class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> </a></div>';
+                html += '</div>';
+                html += '</div>';
+            });
+        });
+        
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
+
+
+
+    function ajax_search_products(name, brand, category, tags, min_price, max_price)
+    {
+        // Load the 'Busy' indicator.
+        var src = "{% static "inventory/img/busy.gif" %}";
+        var html = '<img src="'+src+'" alt="Busy" class="displayed" style="display: block;margin-left: auto;margin-right: auto;">';
+        $('#id_table_placeholder').html(''); // Previous data.
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+        
+        // Apply search criteria.
+        var arr = Array();
+        
+        if (name.length > 0) {
+            arr.push({ 'name': name });
+        }
+        if (brand.length > 0) {
+            arr.push({ 'brand_name': brand });
+        }
+        if (category.length > 0) {
+            arr.push({ 'category_name': category });
+        }
+        if (min_price.length > 0) {
+            arr.push({ 'min_price': min_price });
+        }
+        if (max_price.length > 0) {
+            arr.push({ 'max_price': max_price });
+        }
+        if (tags.length > 0) {
+            var tags_arr = tags.split(",");
+            for (var i = 0; i < tags_arr.length; i++) {
+                arr.push({ 'tag': tags_arr[i] });
+            }
+        }
+        
+        filter_products(arr, function(json_objects) {
+            //generate_table(json_objects);
+        });
+    }
 
 </script>
