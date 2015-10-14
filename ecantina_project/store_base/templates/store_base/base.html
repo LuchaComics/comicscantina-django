@@ -61,14 +61,42 @@
     {% for local in local_js_library_body %}
     <script type="{{ local.type }}" src="{% static local.src %}"></script>
     {% endfor %}
-
-<script>
-    // this script required for subscribe modal
-    $(window).load(function () {
-        // full load
-        $('#modalAds').modal('show');
-        $('#modalAds').removeClass('hide');
-    });
-</script>
+    {% include 'api/emailsubscription.html' %}
+    <script>
+        // this script required for subscribe modal
+        $(window).load(function () {
+            // full load
+            $('#modalAds').modal('show');
+            $('#modalAds').removeClass('hide');
+        });
+        
+        function ajax_submit_email_subscription()
+        {
+            var arr = {
+                'email': $('#id_email_subscription').val(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            };
+            
+            {% if org != None %}
+            arr['organization'] = {{ org.org_id }};
+            {% endif %}
+            {% if store != None %}
+            arr['store'] = {{ store.store_id }};
+            {% endif %}
+            
+            set_email_subscription(
+                arr,
+                function(success_json) {
+                    console.log(success_json);
+                    alert("Thank you for subscribing!");
+                    location.reload(true); // Reload page and cache.
+                },
+                function(error_json) {
+                    console.log(error_json);
+                    alert('email - ' + error_json['email']);
+                }
+            );
+        }
+    </script>
 </body>
 </html>

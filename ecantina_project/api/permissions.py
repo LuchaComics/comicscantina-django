@@ -177,3 +177,24 @@ class BelongsToOrganizationOrReadOnly(permissions.BasePermission):
         except Employee.DoesNotExist:
             return False
 
+class AnonymousWriteAndIsEmployeeRead(permissions.BasePermission):
+    """
+        Custom permission to deny all non-employees from reading actions and 
+        allow all write-only actions for anonymous users.
+    """
+    message = 'Only anonymous users are able to write and authenticated users are allowed to read.'
+    def has_permission(self, request, view):
+        if request.user.is_anonymous():
+            # Check permissions for read-only request
+            if request.method in permissions.SAFE_METHODS:
+                # Note: Non-authenticated users are forbidden from reading.
+                return False
+            else:
+                return True
+        
+        # Find employee object for the user
+        try:
+            Employee.objects.get(user=request.user)
+            return True
+        except Employee.DoesNotExist:
+            return False

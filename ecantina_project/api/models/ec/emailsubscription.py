@@ -12,7 +12,7 @@ class EmailSubscription(models.Model):
         db_table = 'ec_email_subscriptions'
     
     subscription_id = models.AutoField(primary_key=True)
-    email = models.EmailField()
+    email = models.EmailField(unique=True, db_index=True)
     submission_date = models.DateTimeField(auto_now_add=True)
     
     # References
@@ -29,4 +29,4 @@ class EmailSubscription(models.Model):
         cache = caches['default']
         if cache is not None:
             cache.clear()
-            super(HelpRequest, self).save(*args, **kwargs)
+            super(EmailSubscription, self).save(*args, **kwargs)

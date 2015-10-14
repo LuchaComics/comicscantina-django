@@ -3,10 +3,10 @@
     {
         // Setup depending on whether we are inserting or updating.
         var type = "POST"; // Insert.
-        var url = "/api/organizations/";
-        if (data['org_id'] > 0) {
+        var url = "/api/emailsubscriptions/";
+        if (data['subscription_id'] > 0) {
             type = "PUT"; // Update
-            url += data['org_id'] + "/";
+            url += data['subscription_id'] + "/";
         }
         
         jQuery.ajax({
