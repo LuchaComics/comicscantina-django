@@ -62,6 +62,18 @@
             }
         });
         
+        // Get the mininum price.
+        var min_price = parseInt($('#id_min_price').val());
+        if (min_price > 0) {
+            arr.push({ 'min_price': min_price });
+        }
+        
+        // Get the maximum price.
+        var max_price = parseInt($('#id_max_price').val());
+        if (max_price > 0) {
+            arr.push({ 'max_price': max_price });
+        }
+        
         // Search through the products and generate UI with the results.
         console.log (arr);
         filter_products(arr, function(json_objects) {
