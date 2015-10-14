@@ -74,6 +74,15 @@
             arr.push({ 'max_price': max_price });
         }
         
+        // Get is Discounted
+        $('input[type=checkbox]').each(function () {
+            if (this.name == 'IsDiscounted') {
+                if (this.checked) {
+                    arr.push({ 'min_discount': 0.01 });
+                }
+            }
+        });
+        
         // Search through the products and generate UI with the results.
         console.log (arr);
         filter_products(arr, function(json_objects) {

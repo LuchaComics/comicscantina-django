@@ -38,16 +38,6 @@ def list_page(request, org_id=0, store_id=0):
     except Brand.DoesNotExist:
         brands = None
 
-    try:
-        tags = Tag.objects.all()
-    except Tag.DoesNotExist:
-        tags = None
-
-    try:
-        promotions = Promotion.objects.all()
-    except Promotion.DoesNotExist:
-        promotion = None
-
     # Get the categories and select the current category.
     category_id = int(request.GET.get('category'))
     try:
@@ -87,8 +77,6 @@ def list_page(request, org_id=0, store_id=0):
         'categories': categories,
         'current_category': current_category,
         'brands': brands,
-        'tags': tags,
-        'promotions': promotions,
         'products': prod_page,
         'product_count': prod_count,
         'org': organization,

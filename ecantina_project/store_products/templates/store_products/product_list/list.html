@@ -124,19 +124,12 @@
                     </div>
                     <div id="collapseThree" class="panel-collapse collapse in">
                         <div class="panel-body">
-                            {% for promo in promotions %}
-                            <div class="block-element">
+                            <div class="block-element" onclick="ajax_search();">
                                 <label>
-                                    <input type="checkbox" name="tour" value="{{ promo.promotion_id }}" />
-                                    {{ promo.name }}
-                                    {% if promo.discount_type == 1 %}
-                                    ({{ promo.discount|floatformat:"0" }}%)
-                                    {% else %}
-                                    (%{{ promo.discount|floatformat:"0" }})
-                                    {% endif %}
+                                    <input type="checkbox" name="IsDiscounted" value="false" />
+                                    Discounted items
                                 </label>
                             </div>
-                            {% endfor %}
                         </div>
                     </div>
                 </div>

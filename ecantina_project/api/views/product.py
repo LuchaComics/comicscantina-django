@@ -23,10 +23,11 @@ class ProductFilter(django_filters.FilterSet):
     category_name = django_filters.CharFilter(name="category__category_name", lookup_type=("icontains"))
     min_price = django_filters.CharFilter(name="price", lookup_type=("gte"))
     max_price = django_filters.CharFilter(name="price", lookup_type=("lte"))
+    min_discount = django_filters.CharFilter(name="discount", lookup_type=("gte"))
     store_aggregated_listing = django_filters.BooleanFilter(name="store__is_aggregated")
     class Meta:
         model = Product
-        fields = ['product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'organization', 'store', 'section', 'brand', 'brand_name', 'tag', 'is_available', 'category', 'category_name', 'min_price', 'max_price', 'is_new', 'is_featured', 'is_qrcode_printed', 'language', 'currency', 'store_aggregated_listing',]
+        fields = ['product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'organization', 'store', 'section', 'brand', 'brand_name', 'tag', 'is_available', 'category', 'category_name', 'min_price', 'max_price', 'min_discount', 'is_new', 'is_featured', 'is_qrcode_printed', 'language', 'currency', 'store_aggregated_listing',]
 
 
 class ProductViewSet(viewsets.ModelViewSet):
