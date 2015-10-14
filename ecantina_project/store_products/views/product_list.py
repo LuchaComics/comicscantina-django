@@ -63,22 +63,10 @@ def list_page(request, org_id=0, store_id=0):
         products = None
         prod_count = 0
 
-
-    paginator = Paginator(products, 3)
-    page = request.GET.get('page')
-    try:
-        prod_page = paginator.page(page)
-    except PageNotAnInteger:
-        prod_page = paginator.page(1)
-    except EmptyPage:
-        prod_page = paginator.page(paginator.num_pages)
-
     return render(request, 'store_products/product_list/list.html',{
         'categories': categories,
         'current_category': current_category,
         'brands': brands,
-        'products': prod_page,
-        'product_count': prod_count,
         'org': organization,
         'store': store,
         'local_css_library': settings.STORE_CSS_LIBRARY,
