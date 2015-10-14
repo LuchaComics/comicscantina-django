@@ -185,7 +185,7 @@
                 </li>
                 {% endif %}
                 <li {% if page == 'products' %}class="active"{% endif %}>
-                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid"> Browse Products </a>
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1"> Browse Products </a>
                 </li>
 
                 <!-- change width of megamenu = use class > megamenu-fullwidth, megamenu-60width, megamenu-40width -->
