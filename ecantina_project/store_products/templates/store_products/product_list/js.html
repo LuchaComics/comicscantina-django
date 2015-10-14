@@ -42,6 +42,17 @@
             arr.push({ 'category': category_id });
         }
         
+        // If we are limited to specifically this organization
+        var org_id = parseInt({{ org.org_id }});
+        if (org_id > 0) {
+            arr.push({ 'organization': org_id });
+        }
+        
+        // If we are limited to specifically this store
+        var store_id = parseInt({{ store.store_id }});
+        if (store_id > 0) {
+            arr.push({ 'store': store_id });
+        }
         
         // Get all the selected "Brands".
         $('#brands_list input:radio').each(function() {
@@ -122,6 +133,8 @@
                 var name = val['name'];
                 var sub_price = val['sub_price'];
                 var image_url = val['image_url'];
+                var discount = parseFloat(val['discount']);
+                var discount_type = parseInt(val['discount_type']);
                 if (!image_url) {
                     image_url = '{% static "inventory/img/missing_cover.png" %}';
                 }
@@ -136,7 +149,14 @@
                 html += '<img src="'+image_url+'" alt="img" class="img-responsive">';
                 html += '</a>';
                 html += '<div class="promotion">';
-                //html += '<span class="new-product"> NEW</span> {% if product.discount > 0 %}<span class="discount">{% if product.discount_type == 2 %}${% endif %}{{ product.discount }}{% if product.discount_type == 1 %}%{% endif %} OFF</span>{% endif %}
+                if (discount > 0) {
+                    if (discount_type == 1) {
+                        html += '<span class="new-product"> DISCOUNT</span><span class="discount">'+discount+'% OFF</span>';
+                    } else {
+                        html += '<span class="new-product"> DISCOUNT</span><span class="discount">$'+discount+' OFF</span>';
+                    }
+                }
+                
                 html += '</div>';
                 html += '</div>';
                 html += '<div class="description">';
