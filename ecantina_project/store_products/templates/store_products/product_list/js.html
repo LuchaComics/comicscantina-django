@@ -35,8 +35,16 @@
     {
         var arr = Array(); // Variable used to store the search criteria.
         
+        // Get the current category if it is not the current parent.
+        var parent_id = parseInt({{ current_category.parent_id }});
+        if (parent_id != 0) {
+            var category_id = parseInt({{ current_category.category_id }});
+            arr.push({ 'category': category_id });
+        }
+        
+        
         // Get all the selected "Brands".
-        $('#brands_list input[type=checkbox]').each(function () {
+        $('#brands_list input:radio').each(function() {
             if (this.checked) {
                 console.log (this.id);
                 arr.push({ 'brand': parseInt(this.id) });

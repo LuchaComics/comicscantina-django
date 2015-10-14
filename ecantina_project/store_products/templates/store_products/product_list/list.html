@@ -71,11 +71,12 @@
                     <div id="collapseBrand" class="panel-collapse collapse in">
                         <div id="brands_list" class="panel-body smoothscroll maxheight300">
                             {% for brand in brands %}
-                            <div class="block-element">
+                            <div class="block-element" onclick="ajax_search();">
                                 <label>
-                                    <input onclick="ajax_search();"
-                                                id="{{ brand.brand_id }}"
-                                    type="checkbox" /> {{ brand.name }}
+                                    <input id="{{ brand.brand_id }}"
+                                         type="radio"
+                                         name="agree"
+                                        value="0" /> {{ brand.name }}
                                 </label>
                             </div>
                             {% endfor %}
