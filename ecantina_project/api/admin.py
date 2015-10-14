@@ -39,6 +39,7 @@ from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
+from api.models.ec.emailsubscription import EmailSubscription
 
 
 # Registering Models
@@ -78,3 +79,4 @@ admin.site.register(OrgShippingPreference)
 admin.site.register(OrgShippingRate)
 admin.site.register(StoreShippingPreference)
 admin.site.register(StoreShippingRate)
+admin.site.register(EmailSubscription)

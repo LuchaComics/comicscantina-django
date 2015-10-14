@@ -24,6 +24,7 @@ from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
+from api.models.ec.emailsubscription import EmailSubscription
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -173,3 +174,8 @@ class StoreShippingRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreShippingRate
         fields = ('shipping_rate_id','organization','store','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
+
+class EmailSubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmailSubscription
+        fields = ('subscription_id', 'email', 'submission_date', 'store', 'organization',)

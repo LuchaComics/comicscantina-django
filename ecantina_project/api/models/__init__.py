@@ -37,3 +37,4 @@ from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
+from api.models.ec.emailsubscription import EmailSubscription
