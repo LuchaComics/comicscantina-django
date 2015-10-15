@@ -52,15 +52,15 @@
         };
         
         if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
-            data['billing_phone'] = get_phone('#id_billing_phone');
+            arr['billing_phone'] = get_phone('#id_billing_phone');
         } else {
-            data['billing_phone'] = "";
+            arr['billing_phone'] = "";
         }
         
         if ($('#id_shipping_phone').val().length > 0) { // Add telephone if added.
-            data['shipping_phone'] = get_phone('#id_shipping_phone');
+            arr['shipping_phone'] = get_phone('#id_shipping_phone');
         } else {
-            data['shipping_phone'] = "";
+            arr['shipping_phone'] = "";
         }
         
         // If we are editing the customer field.
