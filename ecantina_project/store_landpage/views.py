@@ -6,6 +6,8 @@ from django.conf import settings
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
+from api.models.ec.customer import Customer
+from api.models.ec.receipt import Receipt
 
 
 def front_page(request, org_id=0, store_id=0):
@@ -13,14 +15,8 @@ def front_page(request, org_id=0, store_id=0):
     store_id = int(store_id)
     
     # Fetch the Organization / Store.
-    try:
-        org = Organization.objects.get(org_id=org_id)
-    except Organization.DoesNotExist:
-        org = None
-    try:
-        store = Store.objects.get(store_id=store_id)
-    except Store.DoesNotExist:
-        store = None
+    org = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
 
     # Fetch all the featured comics throughout all the stores or depending
     # on the organization / store.
@@ -58,7 +54,15 @@ def front_page(request, org_id=0, store_id=0):
     except Comic.DoesNotExist:
         new_comics = None
 
+    # If user is logged in, fetch the Customer record or create one. Then
+    # fetch a Receipt record or create a new one.
+    customer = None
+    if request.user.is_authenticated():
+        customer = Customer.objects.get_or_create_for_user(request.user)
+
+    # Display the view with all our model information.
     return render(request, 'store_landpage/index.html',{
+        'customer': customer,
         'featured_comics': featured_comics,
         'new_comics': new_comics,
         'org': org,

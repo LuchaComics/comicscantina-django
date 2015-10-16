@@ -9,6 +9,38 @@ from api.models.ec.product import Product
 from django.core.cache import caches
 
 
+class ReceiptManager(models.Manager):
+    def get_or_create_for_customer(self, customer):
+        """
+            Function will lookup the Receipt based off the Customer info. If
+            a Receipt was not found, then this function will create one and
+            return an empty Receipt assigned to this Customer.
+            """
+        try:
+            return self.get(customer=customer)
+        except Receipt.DoesNotExist:
+            return self.create(
+                customer=customer,
+                email = customer.email,
+                billing_first_name = None,
+                billing_last_name = None,
+                billing_address = customer.billing_address,
+                billing_phone = customer.billing_phone,
+                billing_city = customer.billing_city,
+                billing_province = customer.billing_province,
+                billing_country = customer.billing_country,
+                billing_postal = customer.billing_postal,
+                shipping_first_name = None,
+                shipping_last_name = None,
+                shipping_address = customer.shipping_address,
+                shipping_phone = customer.shipping_phone,
+                shipping_city = customer.shipping_city,
+                shipping_province = customer.shipping_province,
+                shipping_country = customer.shipping_country,
+                shipping_postal = customer.shipping_postal,
+            )
+
+
 class Receipt(models.Model):
     class Meta:
         app_label = 'api'
@@ -16,8 +48,9 @@ class Receipt(models.Model):
         db_table = 'ec_receipts'
     
     # Meta & Data-Mining
-    organization = models.ForeignKey(Organization, db_index=True)
-    store = models.ForeignKey(Store, db_index=True)
+    objects = ReceiptManager()
+    organization = models.ForeignKey(Organization, null=True, blank=True, db_index=True)
+    store = models.ForeignKey(Store, null=True, blank=True, db_index=True)
     employee = models.ForeignKey(Employee, null=True, blank=True, db_index=True)
     customer = models.ForeignKey(Customer, null=True, blank=True, db_index=True)
     receipt_id = models.AutoField(primary_key=True)

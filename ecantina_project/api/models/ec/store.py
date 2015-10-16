@@ -6,6 +6,18 @@ from api.models.ec.employee import Employee
 from django.core.cache import caches
 
 
+class StoreManager(models.Manager):
+    """
+        Function will lookup and get the single Store entry by the id
+        and if nothing was found, it will return a None object.
+    """
+    def get_or_none(self, store_id):
+        try:
+            return Store.objects.get(store_id=store_id)
+        except Store.DoesNotExist:
+            return None
+
+
 class Store(models.Model):
     class Meta:
         app_label = 'api'
@@ -13,6 +25,7 @@ class Store(models.Model):
         db_table = 'ec_stores'
     
     # Basic
+    objects = StoreManager()
     store_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=127)
     description = models.TextField(null=True, blank=True)

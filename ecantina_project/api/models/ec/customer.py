@@ -6,6 +6,26 @@ from api.models.ec.imageupload import ImageUpload
 from django.core.cache import caches
 
 
+class CustomerManager(models.Manager):
+    def get_or_create_for_user(self, user):
+        """
+            Function will lookup the customer based off the user's email. If
+            a customer was not found, then this function will create one and
+            return an empty customer assigned to this user.
+        """
+        try:
+            return self.get(email=user.email)
+        except Customer.DoesNotExist:
+            return self.create(
+                user=user,
+                email=user.email,
+                first_name=user.first_name,
+                last_name=user.last_name,
+                billing_name = user.first_name+' '+user.last_name,
+                shipping_name = user.first_name+' '+user.last_name,
+            )
+
+
 class Customer(models.Model):
     class Meta:
         app_label = 'api'
@@ -13,6 +33,7 @@ class Customer(models.Model):
         db_table = 'ec_customers'
     
     # System
+    objects = CustomerManager()
     customer_id = models.AutoField(primary_key=True)
     joined = models.DateTimeField(auto_now_add=True, db_index=True)
     last_updated = models.DateTimeField(auto_now=True)

@@ -6,6 +6,18 @@ from api.models.ec.customer import Customer
 from django.core.cache import caches
 
 
+class OrganizationManager(models.Manager):
+    """
+        Function will lookup and get the single Organization entry by the id
+        and if nothing was found, it will return a None object.
+    """
+    def get_or_none(self, org_id):
+        try:
+            return self.get(org_id=org_id)
+        except Organization.DoesNotExist:
+            return None
+
+
 class Organization(models.Model):
     class Meta:
         app_label = 'api'
@@ -13,6 +25,7 @@ class Organization(models.Model):
         db_table = 'ec_organizations'
     
     # Basic
+    objects = OrganizationManager()
     org_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=127)
     description = models.TextField(null=True, blank=True)
