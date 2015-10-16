@@ -36,7 +36,14 @@
                 
             </div>
             <div class="modal-footer">
-                <p class="text-center"> Not here before? <a data-toggle="modal" data-dismiss="modal" href="#ModalSignup"> Sign Up. </a> <br>
+                <p class="text-center"> Not here before?
+                {% comment %}
+                NOTE: THIS IS HOW THE OLD CODE LOOKED LIKE TO LOAD UP A MODAL...
+                <a href="#" data-toggle="modal" data-target="#ModalSignup"> Create
+                    Account </a>
+                {% endcomment %}
+                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step1"> Sign Up.
+                </a> <br>
                 <a href="forgot-password.html"> Lost your password? </a></p>
             </div>
         </div>
