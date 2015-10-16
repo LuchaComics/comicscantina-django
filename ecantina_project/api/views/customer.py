@@ -2,7 +2,6 @@ import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
@@ -29,7 +28,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     """
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
+    permission_classes = (BelongsToCustomerOrIsEmployeeUser,)
     pagination_class = LargeResultsSetPagination
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     search_fields = ('=customer_id', 'first_name', 'last_name', 'email')

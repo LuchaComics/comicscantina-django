@@ -10,8 +10,12 @@ from django.db.models import Q
 from inventory_setting.forms.userform import UserForm
 
 
-@login_required()
 def ajax_register(request):
+    """
+        Function provides user registration into our system. Any user that wants
+        to log in using username / passwords is going to have to be registered
+        by this function.
+    """
     response_data = {}
     if request.is_ajax():
         if request.method == 'POST':

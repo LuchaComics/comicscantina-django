@@ -28,13 +28,15 @@ def ajax_login_authentication(request):
                 username=request.POST.get('username').lower(),
                 password=request.POST.get('password')
             )
-            # Perform a battery of tests on the user account to ensure
-            # it meets the requirements for logging into our system.
-            response_data = validate_user(user)
             
-            # If user meets requirements then offically login the user.
-            if response_data['status'] == 'success':
-                login(request, user)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    response_data = {'status': 'success', 'message': 'logged on', 'user_id': user.id }
+                else:
+                    response_data = {'status' : 'failure', 'message' : 'you are suspended'}
+            else:
+                response_data = {'status' : 'failure', 'message' : 'wrong username or password'}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
@@ -44,24 +46,3 @@ def ajax_logout_authentication(request):
         if request.method == 'POST':
             logout(request)
     return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-def validate_user(user):
-    if user is not None:
-        if user.is_active:
-            try:
-                # Get the employee and return the first store in the organization.
-                employee = Employee.objects.get(user=user)
-                store = Store.objects.filter(organization=employee.organization)[0]
-                return {
-                    'status': 'success',
-                    'message': 'logged on',
-                    'org_id': employee.organization.org_id,
-                    'store_id': store.store_id,
-                }
-            except Employee.DoesNotExist:
-                return {'status' : 'failure', 'message' : 'you are not an employee'}
-        else:
-            return {'status' : 'failure', 'message' : 'you are suspended'}
-    else:
-        return {'status' : 'failure', 'message' : 'wrong username or password'}
