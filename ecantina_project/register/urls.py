@@ -13,5 +13,11 @@ urlpatterns = patterns('',
     url(r'^store/register/step1$', store.registration_step1_page, name='store_register'),
     url(r'^store/register/step2$', store.registration_step2_page),
     url(r'^store/register/step3$', store.registration_step3_page),
+    url(r'^(\d+)/store/register/step1$', store.registration_step1_page, name='store_register'),
+    url(r'^(\d+)/store/register/step2$', store.registration_step2_page),
+    url(r'^(\d+)/store/register/step3$', store.registration_step3_page),
+    url(r'^(\d+)/(\d+)/store/register/step1$', store.registration_step1_page, name='store_register'),
+    url(r'^(\d+)/(\d+)/store/register/step2$', store.registration_step2_page),
+    url(r'^(\d+)/(\d+)/store/register/step3$', store.registration_step3_page),
 )
 

@@ -17,8 +17,20 @@ from inventory_base.forms.customerform import CustomerForm
 from inventory_setting.forms.userform import UserForm
 
 
-def registration_step1_page(request):
+def registration_step1_page(request, org_id=0, store_id=0,):
+    # Fetch the Organization / Store.
+    try:
+        org = Organization.objects.get(org_id=int(org_id))
+    except Organization.DoesNotExist:
+        org = None
+    try:
+        store = Store.objects.get(store_id=int(store_id))
+    except Store.DoesNotExist:
+        store = None
+    
     return render(request, 'register/store/step1.html',{
+        'org': org,
+        'store': store,
         'user_form': UserForm(),
         'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
@@ -27,8 +39,20 @@ def registration_step1_page(request):
 
 
 @login_required(login_url='/store/register/step1')
-def registration_step2_page(request):
+def registration_step2_page(request, org_id=0, store_id=0,):
+    # Fetch the Organization / Store.
+    try:
+        org = Organization.objects.get(org_id=int(org_id))
+    except Organization.DoesNotExist:
+        org = None
+    try:
+        store = Store.objects.get(store_id=int(store_id))
+    except Store.DoesNotExist:
+        store = None
+    
     return render(request, 'register/store/step2.html',{
+        'org': org,
+        'store': store,
         'customer_form': CustomerForm(initial={'joined':datetime.now()}),
         'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
@@ -37,10 +61,22 @@ def registration_step2_page(request):
 
 
 @login_required(login_url='/store/register/step1')
-def registration_step3_page(request):
+def registration_step3_page(request, org_id=0, store_id=0,):
+    # Fetch the Organization / Store.
+    try:
+        org = Organization.objects.get(org_id=int(org_id))
+    except Organization.DoesNotExist:
+        org = None
+    try:
+        store = Store.objects.get(store_id=int(store_id))
+    except Store.DoesNotExist:
+        store = None
+    
     return render(request, 'register/store/step3.html',{
-                  'customer_form': CustomerForm(initial={'joined':datetime.now()}),
-                  'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-                  'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-                  'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
+        'org': org,
+        'store': store,
+        'customer_form': CustomerForm(initial={'joined':datetime.now()}),
+        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
+        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
     })

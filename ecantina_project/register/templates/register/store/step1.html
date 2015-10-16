@@ -104,7 +104,7 @@
                     function(json_result) {
                         // STEP 2: Load the next page which involves editing
                         //         the billing and shipping information.
-                        window.location = '/store/register/step2';
+                        window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step2';
                     },
                     function(json_error) {
                         $(document).trigger("add-alerts",[{

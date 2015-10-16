@@ -183,7 +183,7 @@
         set_customer(
             arr,
             function(success_json) { // Create a new customer
-                window.location = '/store/register/step3';
+                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step3';
             },
             function(error_json) {
                 for (var key in error_json) {
