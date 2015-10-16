@@ -18,6 +18,14 @@ def front_page(request, org_id=0, store_id=0):
     org = Organization.objects.get_or_none(org_id)
     store = Store.objects.get_or_none(store_id)
 
+    # If user is logged in, fetch the Customer record or create one. Then
+    # fetch a Receipt record or create a new one.
+    customer = None
+    receipt = None
+    if request.user.is_authenticated():
+        customer = Customer.objects.get_or_create_for_user(request.user)
+        receipt = Receipt.objects.get_or_create_for_customer(customer)
+
     # Fetch all the featured comics throughout all the stores or depending
     # on the organization / store.
     try:
@@ -53,14 +61,6 @@ def front_page(request, org_id=0, store_id=0):
             new_comics = new_comics.filter(product__store_id=store_id)
     except Comic.DoesNotExist:
         new_comics = None
-
-    # If user is logged in, fetch the Customer record or create one. Then
-    # fetch a Receipt record or create a new one.
-    customer = None
-    receipt = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
-        receipt = Receipt.objects.get_or_create_for_customer(customer)
 
     # Display the view with all our model information.
     return render(request, 'store_landpage/index.html',{

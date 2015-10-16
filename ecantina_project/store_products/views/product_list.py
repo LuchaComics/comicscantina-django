@@ -11,6 +11,8 @@ from api.models.ec.store import Store
 from api.models.ec.tag import Tag
 from api.models.ec.promotion import Promotion
 from api.models.ec.product import Product
+from api.models.ec.customer import Customer
+from api.models.ec.receipt import Receipt
 
 
 def list_page(request, org_id=0, store_id=0):
@@ -18,14 +20,16 @@ def list_page(request, org_id=0, store_id=0):
     store_id = int(store_id)
     
     # Fetch the Organization / Store.
-    try:
-        organization = Organization.objects.get(org_id=org_id)
-    except Organization.DoesNotExist:
-        organization = None
-    try:
-        store = Store.objects.get(store_id=store_id)
-    except Store.DoesNotExist:
-        store = None
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
+
+    # If user is logged in, fetch the Customer record or create one. Then
+    # fetch a Receipt record or create a new one.
+    customer = None
+    receipt = None
+    if request.user.is_authenticated():
+        customer = Customer.objects.get_or_create_for_user(request.user)
+        receipt = Receipt.objects.get_or_create_for_customer(customer)
 
     # Fetch objects used for searching criteria.
     try:
@@ -64,6 +68,8 @@ def list_page(request, org_id=0, store_id=0):
         prod_count = 0
 
     return render(request, 'store_products/product_list/list.html',{
+        'receipt': receipt,
+        'customer': customer,
         'categories': categories,
         'current_category': current_category,
         'brands': brands,
