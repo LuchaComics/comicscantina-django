@@ -111,9 +111,20 @@
              --><!-- productFilter -->
             <div class="cart-actions">
                 <div class="addto">
-                    <button onclick="productAddToCartForm.submit(this);" class="button btn-cart cart first"
+                    
+                    
+                    {% if product in receipt.products.all %}
+                    <!-- REMOVE FROM CART -->
+                    <button onclick="ajax_remove_from_cart({{ product.product_id }});" class="button btn-cart cart first"
+                        title="Add to Cart" type="button">Remove from Cart
+                    </button>
+                    {% else %}
+                    <!-- ADD TO CART -->
+                    <button onclick="ajax_add_to_cart({{ product.product_id }});" class="button btn-cart cart first"
                         title="Add to Cart" type="button">Add to Cart
                     </button>
+                    {% endif %}
+                    
                     <a class="link-wishlist wishlist">Add to Wishlist</a>
                 </div>
                 <div style="clear:both"></div>
