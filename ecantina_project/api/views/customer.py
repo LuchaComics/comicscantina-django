@@ -19,7 +19,7 @@ class CustomerFilter(django_filters.FilterSet):
     postal = django_filters.CharFilter(name="billing_postal", lookup_type=("icontains"))
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'email', 'phone', 'postal', 'is_suspended',]
+        fields = ['first_name', 'last_name', 'email', 'phone', 'postal', 'is_suspended', 'billing_name', 'shipping_name',]
 
 
 class CustomerViewSet(viewsets.ModelViewSet):

@@ -358,8 +358,7 @@
         // Get the criteria to search by.
         var email = $('#id_email2').val();
         var phone = $('#id_phone2').val();
-        var first_name = $('#id_first_name2').val();
-        var last_name = $('#id_last_name2').val();
+        var billing_name = $('#id_billing_name2').val();
         var postal = $('#id_postal2').val();
         
         // Generate search criteria
@@ -373,11 +372,8 @@
         if (phone != '') {
             criteria['phone'] = phone;
         }
-        if (first_name != '') {
-            criteria['first_name'] = first_name;
-        }
-        if (last_name != '') {
-            criteria['last_name'] = last_name;
+        if (billing_name != '') {
+            criteria['billing_name'] = billing_name;
         }
         
         filter_customers(criteria, function(json_result) {
