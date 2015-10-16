@@ -38,9 +38,11 @@
      */
     function ajax_refresh_table() {
         var criteria = {
+            'has_purchased_online': false,
             'has_finished': false,
             'employee': {{ employee.employee_id }},
         };
+        console.log(criteria);
         filter_receipts(criteria, function(json_result) {
             generate_table(json_result); // Take the JSON results and generate a HTML table from it.
         });

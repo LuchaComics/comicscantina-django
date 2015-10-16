@@ -16,7 +16,7 @@ class ReceiptFilter(django_filters.FilterSet):
     has_finished = django_filters.BooleanFilter(name="has_finished")
     class Meta:
         model = Receipt
-        fields = ['organization', 'store', 'customer', 'has_finished', 'status', 'has_error', 'error',]
+        fields = ['organization', 'store', 'customer', 'has_finished', 'status', 'has_error', 'error', 'has_purchased_online','employee',]
 
 
 class ReceiptViewSet(viewsets.ModelViewSet):
