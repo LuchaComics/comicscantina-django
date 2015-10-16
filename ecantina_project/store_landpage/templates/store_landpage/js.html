@@ -52,34 +52,47 @@
                     
                 // STEP 3: Update the cart.
                 set_receipt(json_results, function(json_results2) {
-                    location.reload(true); // Reload page with cache.
+                    
+                    // STEP 4: Update that receipt by re-computing the totals
+                    perform_receipt_checkout_computation({{ receipt.receipt_id }}, function(json_results3) {
+                        location.reload(true); // Reload page with cache.
+                    });
+                    
                 });
             } else {
                 console.log("Duplicate item in product detected, not adding to cart.");
             }
+                    
         });
         {% endif %}
     }
 
     function ajax_remove_from_cart(product_id)
     {
-        // STEP 1: Get the current cart
+        var receipt_id = parseInt({{ receipt.receipt_id }});
+        
+        // STEP 1: Get the current Receipt.
         {% if receipt != None %}
-        get_receipt({{ receipt.receipt_id }}, function(json_results) {
+        get_receipt(receipt_id, function(json_results) {
+            
+            // STEP 2: Remove Product from the Receipt.
             var products = json_results['products'];
-                    
-            // STEP 2: Remove
-            for(var i = 0; i < products.length; i++) {
-                if (products[i] == product_id) {
-                    delete products[i];
-                };
+            var i = products.indexOf(product_id);
+            if(i != -1) {
+                products.splice(i, 1);
             }
             json_results['products'] = products;
                     
             // STEP 3: Update the cart.
             set_receipt(json_results, function(json_results2) {
-                location.reload(true); // Reload page with cache.
+
+                // STEP 4: Update that receipt by re-computing the totals
+                perform_receipt_checkout_computation(receipt_id, function(json_results3) {
+                    location.reload(true); // Reload page with cache.
+                });
+                        
             });
+                    
         });
         {% endif %}
     }

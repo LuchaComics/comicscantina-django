@@ -137,7 +137,7 @@ class Receipt(models.Model):
     )
 
     def __str__(self):
-        return "Receipt #" + str(self.receipt_id) + " - " + self.billing_first_name + " " + self.billing_last_name
+        return "Receipt #" + str(self.receipt_id) + " - " + self.billing_name
 
     def save(self, *args, **kwargs):
         """
