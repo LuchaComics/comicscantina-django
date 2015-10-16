@@ -57,11 +57,14 @@ def front_page(request, org_id=0, store_id=0):
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
     customer = None
+    receipt = None
     if request.user.is_authenticated():
         customer = Customer.objects.get_or_create_for_user(request.user)
+        receipt = Receipt.objects.get_or_create_for_customer(customer)
 
     # Display the view with all our model information.
     return render(request, 'store_landpage/index.html',{
+        'receipt': receipt,
         'customer': customer,
         'featured_comics': featured_comics,
         'new_comics': new_comics,

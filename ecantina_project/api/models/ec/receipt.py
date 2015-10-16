@@ -15,22 +15,31 @@ class ReceiptManager(models.Manager):
             Function will lookup the Receipt based off the Customer info. If
             a Receipt was not found, then this function will create one and
             return an empty Receipt assigned to this Customer.
-            """
+        """
         try:
             return self.get(customer=customer)
         except Receipt.DoesNotExist:
+            # Consolidate the address information into a single string.
+            billing_address = customer.billing_street_number+' '+customer.billing_street_name
+            if customer.billing_unit_number:
+                billing_address = customer.billing_unit_number+'-' + billing_address
+            shipping_address = customer.shipping_street_number+' '+customer.shipping_street_name
+            if customer.shipping_unit_number:
+                shipping_address = customer.shipping_unit_number+'-' + shipping_address
+
+            # Create our open receipt.
             return self.create(
                 customer=customer,
                 email = customer.email,
                 billing_name = customer.billing_name,
-                billing_address = customer.billing_address,
+                billing_address = billing_address,
                 billing_phone = customer.billing_phone,
                 billing_city = customer.billing_city,
                 billing_province = customer.billing_province,
                 billing_country = customer.billing_country,
                 billing_postal = customer.billing_postal,
                 shipping_name = customer.shipping_name,
-                shipping_address = customer.shipping_address,
+                shipping_address = shipping_address,
                 shipping_phone = customer.shipping_phone,
                 shipping_city = customer.shipping_city,
                 shipping_province = customer.shipping_province,
