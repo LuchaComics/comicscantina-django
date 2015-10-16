@@ -72,7 +72,7 @@
                                             <em class="fa fa-truck fa-4x text-muted"></em>
                                         </div>
                                         <div class="col-md-10">
-                                            <h4>{{ receipt.shipping_first_name | escape | safe }} {{ receipt.shipping_last_name | escape | safe }} &nbsp;<span class="text-sm">(Shipping)</span></h4>
+                                            <h4>{{ receipt.shipping_name | escape | safe }} &nbsp;<span class="text-sm">(Shipping)</span></h4>
                                             <address></address>
                                             {{ receipt.shipping_address | escape | safe }}
                                             <br>{{ receipt.shipping_city | escape | safe }}, {{ shipping.payer_postal | escape | safe }}

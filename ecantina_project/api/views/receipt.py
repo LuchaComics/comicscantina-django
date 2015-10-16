@@ -28,5 +28,5 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     pagination_class = LargeResultsSetPagination
     permission_classes = (BelongsToOrganizationOrCustomer, IsAuthenticated)
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
-    search_fields = ('billing_first_name','billing_last_name','email','billing_phone','billing_postal','shipping_first_name','shipping_last_name','shipping_phone','shipping_postal',)
+    search_fields = ('billing_name','email','billing_phone','billing_postal','shipping_first_name','shipping_last_name','shipping_phone','shipping_postal',)
     filter_class = ReceiptFilter

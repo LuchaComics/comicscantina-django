@@ -22,16 +22,14 @@ class ReceiptManager(models.Manager):
             return self.create(
                 customer=customer,
                 email = customer.email,
-                billing_first_name = None,
-                billing_last_name = None,
+                billing_name = customer.billing_name,
                 billing_address = customer.billing_address,
                 billing_phone = customer.billing_phone,
                 billing_city = customer.billing_city,
                 billing_province = customer.billing_province,
                 billing_country = customer.billing_country,
                 billing_postal = customer.billing_postal,
-                shipping_first_name = None,
-                shipping_last_name = None,
+                shipping_name = customer.shipping_name,
                 shipping_address = customer.shipping_address,
                 shipping_phone = customer.shipping_phone,
                 shipping_city = customer.shipping_city,
@@ -102,16 +100,14 @@ class Receipt(models.Model):
     
     # Payer Information
     email = models.EmailField(null=True, blank=True)
-    billing_first_name = models.CharField(max_length=63, null=True, blank=True)
-    billing_last_name = models.CharField(max_length=63, null=True, blank=True)
+    billing_name = models.CharField(max_length=126, null=True, blank=True)
     billing_address = models.CharField(max_length=63, null=True, blank=True)
     billing_phone = models.CharField(max_length=10, null=True, blank=True)
     billing_city = models.CharField(max_length=63, null=True, blank=True)
     billing_province = models.CharField(max_length=63, null=True, blank=True)
     billing_country = models.CharField(max_length=63, null=True, blank=True)
     billing_postal = models.CharField(max_length=31, null=True, blank=True)
-    shipping_first_name = models.CharField(max_length=63, null=True, blank=True)
-    shipping_last_name = models.CharField(max_length=63, null=True, blank=True)
+    shipping_name = models.CharField(max_length=126, null=True, blank=True)
     shipping_address = models.CharField(max_length=63, null=True, blank=True)
     shipping_phone = models.CharField(max_length=10, null=True, blank=True)
     shipping_city = models.CharField(max_length=63, null=True, blank=True)

@@ -183,9 +183,14 @@
                 products.push({{ product.product_id }});
             {% endfor %}
             
-                var address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
+                var billing_address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
                 if (json_result['billing_unit_number']) {
-                    address = json_result['billing_unit_number'] + "-" + address;
+                    billing_address = json_result['billing_unit_number'] + "-" + address;
+                }
+                     
+                var shipping_address = json_result['shipping_street_number'] + " " + json_result['shipping_street_name'];
+                if (json_result['shipping_unit_number']) {
+                     shipping_address = json_result['shipping_unit_number'] + "-" + address;
                 }
                      
                 // Update the receipt and then do nothing.
@@ -209,22 +214,20 @@
                     'status': {{ receipt.status }},
                     'has_error': '{{ receipt.has_error }}',
                     'error': {{ receipt.error }},
-                    'billing_first_name': json_result['first_name'],
-                    'billing_last_name': json_result['last_name'],
-                    'billing_address': address,
-                    'billing_phone': json_result['phone'],
-                    'billing_city': json_result['city'],
-                    'billing_province': json_result['province'],
-                    'billing_country': json_result['country'],
-                    'billing_postal': json_result['postal'],
-                    'shipping_first_name': json_result['first_name'],
-                    'shipping_last_name': json_result['last_name'],
-                    'shipping_address': address,
-                    'shipping_phone': json_result['phone'],
-                    'shipping_city': json_result['city'],
-                    'shipping_province': json_result['province'],
-                    'shipping_country': json_result['country'],
-                    'shipping_postal': json_result['postal'],
+                    'billing_name': json_result['billing_name'],
+                    'billing_address': billing_address,
+                    'billing_phone': json_result['billing_phone'],
+                    'billing_city': json_result['billing_city'],
+                    'billing_province': json_result['billing_province'],
+                    'billing_country': json_result['billing_country'],
+                    'billing_postal': json_result['billing_postal'],
+                    'shipping_name': json_result['shipping_name'],
+                    'shipping_address': shipping_address,
+                    'shipping_phone': json_result['shipping_phone'],
+                    'shipping_city': json_result['shipping_city'],
+                    'shipping_province': json_result['shipping_province'],
+                    'shipping_country': json_result['shipping_country'],
+                    'shipping_postal': json_result['shipping_postal'],
                     'products': products,
                 }, function(json_result) {
                     var receipt_id = json_result['receipt_id'];
@@ -271,9 +274,14 @@
         {% endfor %}
             
             // Create our address.
-            var address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
+            var billing_address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
             if (json_result['billing_unit_number']) {
-                address = json_result['billing_unit_number'] + "-" + address;
+                billing_address = json_result['billing_unit_number'] + "-" + address;
+            }
+                
+            var shipping_address = json_result['shipping_street_number'] + " " + json_result['shipping_street_name'];
+            if (json_result['shipping_unit_number']) {
+                shipping_address = json_result['shipping_unit_number'] + "-" + address;
             }
 
             set_receipt({
@@ -296,18 +304,16 @@
                 'status': {{ receipt.status }},
                 'has_error': '{{ receipt.has_error }}',
                 'error': {{ receipt.error }},
-                'billing_first_name': json_result['first_name'],
-                'billing_last_name': json_result['last_name'],
-                'billing_address': address,
+                'billing_name': json_result['billing_name'],
+                'billing_address': billing_address,
                 'email': json_result['email'],
                 'billing_phone': json_result['phone'],
                 'billing_city': json_result['city'],
                 'billing_province': json_result['province'],
                 'billing_country': json_result['country'],
                 'billing_postal': json_result['postal'],
-                'shipping_first_name': json_result['first_name'],
-                'shipping_last_name': json_result['last_name'],
-                'shipping_address': address,
+                'shipping_name': json_result['shipping_name'],
+                'shipping_address': shipping_address,
                 'shipping_phone': json_result['phone'],
                 'shipping_city': json_result['city'],
                 'shipping_province': json_result['province'],

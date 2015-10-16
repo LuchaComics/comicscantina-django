@@ -67,7 +67,7 @@ class ComicSerializer(serializers.ModelSerializer):
 class ReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
-        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','purchased','has_purchased_online','payment_method', 'sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'email', 'billing_first_name', 'billing_last_name', 'billing_address', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_first_name', 'shipping_last_name', 'shipping_address', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'products', 'has_error', 'error',)
+        fields = ('organization','store','employee','customer','receipt_id','created','last_updated','purchased','has_purchased_online','payment_method', 'sub_total', 'discount_amount', 'has_tax', 'tax_rate', 'tax_amount','total_amount', 'has_finished', 'has_paid', 'status', 'email', 'billing_name', 'billing_address', 'billing_phone', 'billing_city', 'billing_province', 'billing_country', 'billing_postal','shipping_name', 'shipping_address', 'shipping_phone', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'products', 'has_error', 'error',)
 
 
 class HelpRequestSerializer(serializers.ModelSerializer):

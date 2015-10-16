@@ -89,7 +89,7 @@
                 var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/orders/" + receipt_id +"/";
                 html += '<tr>';
                 html += '<td>' + receipt_id + '</td>';
-                html += '<td>' + val['billing_first_name'] + ' ' + val['billing_last_name'] + '</td>';
+                html += '<td>' + val['billing_name'] + '</td>';
                 html += '<td>' + val['email'] + '</td>';
                 html += '<td>' + val['last_updated'] + '</td>';
                 html += '<td>' + val['products'].length + '</td>';
