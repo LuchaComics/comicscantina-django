@@ -139,6 +139,13 @@
                 }
             }
         });
+           
+        {% if user %}
+            // Try to see if we can map the user account to an unmapped
+            // customer account.
+            map_user_to_customer();
+        {% endif %}
+                      
     });
 
     function ajax_submit()
@@ -187,9 +194,8 @@
             },
             function(error_json) {
                 for (var key in error_json) {
+                    // this will check if key is owned by data object and not by any of it's ancestors
                     if (error_json.hasOwnProperty(key)) {
-                        // this will check if key is owned by data object and not by any of it's ancestors
-                 
                         // Display the error here.
                         $(document).trigger("add-alerts",[{
                             'message': (key+': '+error_json[key]),
@@ -199,6 +205,45 @@
                 }
             }
         ); // End Customer
+    }
+
+    function map_user_to_customer() {
+        // STEP 1: Lookup the customer with the unique email address.
+        //
+        var criteria = { 'email': '{{ user.email }}' };
+        filter_customers(criteria, function(json_results) {
+            // Process the meta information.
+            $(json_results).each(function(iter,meta){
+                // Process the results search data.
+                $(meta['results']).each(function(iter, customer){
+                    // STEP 2: Map the user to customer.
+                    //
+                    customer['user'] = parseInt({{ user.id }});
+                                        
+                    // STEP 3: Save the Customer.
+                    //
+                    set_customer(
+                        customer,
+                        function(success_json) {
+                            // STEP 4: Load the next page.
+                            window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step3';
+                        },
+                        function(error_json) {
+                            for (var key in error_json) {
+                                // this will check if key is owned by data object and not by any of it's ancestors
+                                if (error_json.hasOwnProperty(key)) {
+                                    // Display the error here.
+                                    $(document).trigger("add-alerts",[{
+                                        'message': (key+': '+error_json[key]),
+                                        'priority': 'error'
+                                    }]);
+                                }
+                            }
+                        } // Error
+                    );
+                }); // meta
+            }); // results
+        }); // Search
     }
 
 

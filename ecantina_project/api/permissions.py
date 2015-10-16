@@ -150,7 +150,13 @@ class BelongsToCustomerOrIsEmployeeUser(permissions.BasePermission):
             pass
 
         try:
-            customer = Customer.objects.get(user=request.user)
+            # Key Idea:
+            #     The Customer and User object both need to have matching
+            #     email accounts for the permissions to work properly.
+            #     Therefore whenever the email gets updated, both Customer
+            #     and User object NEED to have these values changed to match.
+            #
+            customer = Customer.objects.get(email=request.user.email)
             return obj.customer_id == customer.customer_id
         except Customer.DoesNotExist:
             return False
