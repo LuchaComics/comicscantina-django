@@ -41,8 +41,9 @@ def ajax_login_authentication(request):
 
 
 def ajax_logout_authentication(request):
-    response_data = {'status' : 'success', 'message' : 'you are logged off'}
+    response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
         if request.method == 'POST':
             logout(request)
+            response_data = {'status' : 'success', 'message' : 'you are logged off'}
     return HttpResponse(json.dumps(response_data), content_type="application/json")

@@ -16,9 +16,28 @@
                 <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 no-margin no-padding">
                     <div class="pull-right">
                         <ul class="userMenu">
-                            <li><a href="account-1.html"><span class="hidden-xs"> My Account</span> <i class="glyphicon glyphicon-user hide visible-xs "></i></a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#ModalLogin"> <span class="hidden-xs">Sign In</span>
-                                <i class="glyphicon glyphicon-log-in hide visible-xs "></i> </a></li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="account-1.html">
+                                    <span class="hidden-xs"> My Account</span>
+                                    <i class="glyphicon glyphicon-user hide visible-xs ">
+                                    </i>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li>
+                                {% if user.is_authenticated %}
+                                <a onclick="ajax_logout_customer();">
+                                    <span class="hidden-xs">Sign Out</span>
+                                    <i class="glyphicon glyphicon-log-in hide visible-xs "></i>
+                                </a>
+                                {% else %}
+                                <a href="#" data-toggle="modal" data-target="#ModalLogin">
+                                    <span class="hidden-xs">Sign In</span>
+                                    <i class="glyphicon glyphicon-log-in hide visible-xs "></i>
+                                </a>
+                                {% endif %}
+                            </li>
                             <li class="hidden-xs">
                                 {% comment %}
                                 NOTE: THIS IS HOW THE OLD CODE LOOKED LIKE TO LOAD UP A MODAL...

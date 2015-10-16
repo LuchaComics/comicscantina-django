@@ -42,6 +42,7 @@
                 </div>
                 <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
                     <h3> My Account </h3>
+                    {% if user.is_authenticated %}
                     <ul>
                         <li><a href="account-1.html"> Account Login </a></li>
                         <li><a href="account.html"> My Account </a></li>
@@ -50,6 +51,12 @@
                         <li><a href="order-list.html"> Order list </a></li>
                         <li><a href="order-status.html"> Order Status </a></li>
                     </ul>
+                    {% else %}
+                    <ul>
+                        <li><a href="#" data-toggle="modal" data-target="#ModalLogin"> Sign In</a></li>
+                        <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step1"> Create Account</a></li>
+                    </ul>
+                    {% endif %}
                 </div>
                 <div style="clear:both" class="hide visible-xs"></div>
                 <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">

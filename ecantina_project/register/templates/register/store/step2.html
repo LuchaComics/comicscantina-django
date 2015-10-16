@@ -140,7 +140,7 @@
             }
         });
            
-        {% if user %}
+        {% if user.is_authenticated %}
             // Try to see if we can map the user account to an unmapped
             // customer account.
             map_user_to_customer();
