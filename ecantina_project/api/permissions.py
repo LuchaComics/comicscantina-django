@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, AnonymousUser
 from rest_framework import permissions
 from api.models.ec.employee import Employee
+from api.models.ec.customer import Customer
 
 
 class IsAdminUserOrReadOnly(permissions.BasePermission):
@@ -125,7 +126,7 @@ class BelongsToOrganizationOrCustomer(permissions.BasePermission):
             pass
 
         try:
-            customer = Customer.object.get(user=request.user)
+            customer = Customer.objects.get(user=request.user)
             return obj.customer == customer
         except Customer.DoesNotExist:
             return False
@@ -139,6 +140,9 @@ class BelongsToCustomerOrIsEmployeeUser(permissions.BasePermission):
     """
     message = 'Only employees or customer who own this object are able to access the data.'
     def has_object_permission(self, request, view, obj):
+        if request.user.is_anonymous():
+            return False
+        
         try:
             Employee.objects.get(user=request.user)
             return True
@@ -146,8 +150,8 @@ class BelongsToCustomerOrIsEmployeeUser(permissions.BasePermission):
             pass
 
         try:
-            customer = Customer.object.get(user=request.user)
-            return obj.customer == customer
+            customer = Customer.objects.get(user=request.user)
+            return obj.customer_id == customer.customer_id
         except Customer.DoesNotExist:
             return False
 
