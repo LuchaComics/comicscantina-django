@@ -78,12 +78,12 @@ class Receipt(models.Model):
     )
     
     # Financial
+    # Note: Here is the order of computation...
+    # sub_total = the total price of all the comics summed
+    # sub_total_with_tax = sub_total + tax_amount
+    # sub_total_with_tax_and_discount = sub_total_with_tax - discount
+    # total_amount = total + shipping costs
     sub_total = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0.00,
-    )
-    discount_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0.00,
@@ -93,8 +93,23 @@ class Receipt(models.Model):
         max_digits=10,
         decimal_places=2,
         default=0.00,
-    )
+        )
     tax_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    sub_total_with_tax = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    discount_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    shipping_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0.00,
