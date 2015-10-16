@@ -1,7 +1,5 @@
 {% load staticfiles %}
-{% include 'api/issue.html' %}
-{% include 'api/series.html' %}
-{% include 'api/comic.html' %}
+{% include 'store_base/receipt_js.html' %}
 {% include 'api/product.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
@@ -124,6 +122,11 @@
     
         // Initial Code
         var html = '';
+        
+        var products = [];
+        {% for product in receipt.products.all %}
+        products.push({{ product.product_id }});
+        {% endfor %}
     
         // Get the search results
         $(json_result).each(function(iter,val2){
@@ -192,10 +195,29 @@
                 html += '<span class="size"> </span>';
                 html += '</div>';
                 html += '<div class="price"><span>$'+sub_price+'</span></div>';
-                html += '<div class="action-control"><a class="btn btn-primary"> <span class="add2cart"><i';
-                html += 'class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> </a></div>';
-                html += '</div>';
-                html += '</div>';
+                                    
+                // Determine whether to create 'Add' or 'Remove' button.
+                var i = products.indexOf(product_id);
+                if (i != -1) { // If product exists!
+                    html += '<div class="action-control">';
+                    html += '<a onclick="ajax_remove_from_cart('+product_id+');" class="btn btn-primary">';
+                    html += '<span class="add2cart">';
+                    html += '<i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart </span>';
+                    html += '</a>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                } else {
+                    html += '<div class="action-control">';
+                    html += '<a onclick="ajax_add_to_cart('+product_id+');" class="btn btn-primary">';
+                    html += '<span class="add2cart">';
+                    html += '<i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span>';
+                    html += '</a>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+
             });
         });
         
