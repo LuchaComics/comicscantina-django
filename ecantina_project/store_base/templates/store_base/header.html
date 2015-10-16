@@ -79,9 +79,13 @@
                 <div class="w100 miniCartTable scroll-pane mCustomScrollbar _mCS_1" style="overflow: hidden;"><div class="mCustomScrollBox mCS-dark-2" id="mCSB_1" style="position: relative; height: 100%; overflow: hidden; max-width: 100%; max-height: 300px;"><div class="mCSB_container mCS_no_scrollbar" style="position: relative; top: 0px;">
                     <table>
                         <tbody>
+                            {% for product in receipt.products.all %}
                             <tr class="miniCartProduct">
                                 <td style="20%" class="miniCartProductThumb">
-                                    <div><a href="product-details.html"> <img src="{% static "store/img/product/3.jpg" %}" alt="img"> </a>
+                                    <div>
+                                        <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/">
+                                        <img src="{% static "store/img/product/3.jpg" %}" alt="img">
+                                        </a>
                                     </div>
                                 </td>
                                 <td style="40%">
@@ -96,91 +100,7 @@
                                 <td style="15%" class="miniCartSubtotal"><span> $8.80 </span></td>
                                 <td style="5%" class="delete"><a> x </a></td>
                             </tr>
-                            <tr class="miniCartProduct">
-                                <td style="20%" class="miniCartProductThumb">
-                                    <div><a href="product-details.html"> <img src="{% static "store/img/product/2.jpg" %}" alt="img"> </a>
-                                    </div>
-                                </td>
-                                <td style="40%">
-                                    <div class="miniCartDescription">
-                                        <h4><a href="product-details.html"> TSHOP T shirt Black </a></h4>
-                                        <span class="size"> 12 x 1.5 L </span>
-                                        
-                                        <div class="price"><span> $8.80 </span></div>
-                                    </div>
-                                </td>
-                                <td style="10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                <td style="15%" class="miniCartSubtotal"><span> $8.80 </span></td>
-                                <td style="5%" class="delete"><a> x </a></td>
-                            </tr>
-                            <tr class="miniCartProduct">
-                                <td style="20%" class="miniCartProductThumb">
-                                    <div><a href="product-details.html"> <img src="{% static "store/img/product/5.jpg" %}" alt="img"> </a>
-                                    </div>
-                                </td>
-                                <td style="40%">
-                                    <div class="miniCartDescription">
-                                        <h4><a href="product-details.html"> TSHOP T shirt Black </a></h4>
-                                        <span class="size"> 12 x 1.5 L </span>
-                                        
-                                        <div class="price"><span> $8.80 </span></div>
-                                    </div>
-                                </td>
-                                <td style="10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                <td style="15%" class="miniCartSubtotal"><span> $8.80 </span></td>
-                                <td style="5%" class="delete"><a> x </a></td>
-                            </tr>
-                            <tr class="miniCartProduct">
-                                <td style="20%" class="miniCartProductThumb">
-                                    <div><a href="product-details.html"> <img src="{% static "store/img/product/3.jpg" %}" alt="img"> </a>
-                                    </div>
-                                </td>
-                                <td style="40%">
-                                    <div class="miniCartDescription">
-                                        <h4><a href="product-details.html"> TSHOP T shirt Black </a></h4>
-                                        <span class="size"> 12 x 1.5 L </span>
-                                        
-                                        <div class="price"><span> $8.80 </span></div>
-                                    </div>
-                                </td>
-                                <td style="10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                <td style="15%" class="miniCartSubtotal"><span> $8.80 </span></td>
-                                <td style="5%" class="delete"><a> x </a></td>
-                            </tr>
-                            <tr class="miniCartProduct">
-                                <td style="20%" class="miniCartProductThumb">
-                                    <div><a href="product-details.html"> <img src="{% static "store/img/product/3.jpg" %}" alt="img"> </a>
-                                    </div>
-                                </td>
-                                <td style="40%">
-                                    <div class="miniCartDescription">
-                                        <h4><a href="product-details.html"> TSHOP T shirt Black </a></h4>
-                                        <span class="size"> 12 x 1.5 L </span>
-                                        
-                                        <div class="price"><span> $8.80 </span></div>
-                                    </div>
-                                </td>
-                                <td style="10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                <td style="15%" class="miniCartSubtotal"><span> $8.80 </span></td>
-                                <td style="5%" class="delete"><a> x </a></td>
-                            </tr>
-                            <tr class="miniCartProduct">
-                                <td style="20%" class="miniCartProductThumb">
-                                    <div><a href="product-details.html"> <img src="{% static "store/img/product/4.jpg" %}" alt="img"> </a>
-                                    </div>
-                                </td>
-                                <td style="40%">
-                                    <div class="miniCartDescription">
-                                        <h4><a href="product-details.html"> TSHOP T shirt Black </a></h4>
-                                        <span class="size"> 12 x 1.5 L </span>
-                                        
-                                        <div class="price"><span> $8.80 </span></div>
-                                    </div>
-                                </td>
-                                <td style="10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                <td style="15%" class="miniCartSubtotal"><span> $8.80 </span></td>
-                                <td style="5%" class="delete"><a> x </a></td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div><div class="mCSB_scrollTools" style="position: absolute; display: none;"><div class="mCSB_draggerContainer"><div class="mCSB_dragger" style="position: absolute; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="position:relative;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
@@ -283,116 +203,46 @@
                         <div class="w100 miniCartTable scroll-pane mCustomScrollbar _mCS_2" style="overflow: hidden;"><div class="mCustomScrollBox mCS-dark-2" id="mCSB_2" style="position: relative; height: 100%; overflow: hidden; max-width: 100%; max-height: 300px;"><div class="mCSB_container mCS_no_scrollbar" style="position: relative; top: 0px;">
                             <table>
                                 <tbody>
+                                    {% for product in receipt.products.all %}
                                     <tr class="miniCartProduct">
                                         <td style="width:20%" class="miniCartProductThumb">
-                                            <div><a href="product-details.html"> <img src="{% static "store/img/product/3.jpg" %}" alt="img">
-                                                </a></div>
+                                            <div>
+                                                <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';">
+                                                    {% if product.image_url == None %}
+                                                    <img alt="{{ product }}"
+                                                         src="{% static "inventory/img/missing_cover.png" %}" />
+                                                    {% else %}
+                                                    <img alt="{{ product }}"
+                                                         src="{{ product.image_url }}" />
+                                                    {% endif %}
+                                                </a>
+                                            </div>
                                         </td>
                                         <td style="width:40%">
                                             <div class="miniCartDescription">
-                                                <h4><a href="product-details.html"> TSHOP Tshirt DO9 </a></h4>
-                                                <span class="size"> 12 x 1.5 L </span>
+                                                <h4>
+                                                    <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';"> {{ product }}
+                                                    </a>
+                                                </h4>
+                                                <!--<span class="size"> 12 x 1.5 L </span>-->
                                                 
-                                                <div class="price"><span> $22 </span></div>
+                                                <div class="price"><span> ${{ product.sub_price }}</span></div>
                                             </div>
                                         </td>
                                         <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                        <td style="width:15%" class="miniCartSubtotal"><span> $33 </span></td>
-                                        <td style="width:5%" class="delete"><a> x </a></td>
+                                        <td style="width:15%" class="miniCartSubtotal"><span> ${{ product.sub_price }}</span></td>
+                                        <td style="width:5%" class="delete">
+                                            <a onclick="ajax_remove_from_cart({{ product.product_id }});"> x </a>
+                                        </td>
                                     </tr>
-                                    <tr class="miniCartProduct">
-                                        <td style="width:20%" class="miniCartProductThumb">
-                                            <div><a href="product-details.html"> <img src="{% static "store/img/product/2.jpg" %}" alt="img">
-                                                </a></div>
-                                        </td>
-                                        <td style="width:40%">
-                                            <div class="miniCartDescription">
-                                                <h4><a href="product-details.html"> TShir TSHOP 09 </a></h4>
-                                                <span class="size"> 12 x 1.5 L </span>
-                                                
-                                                <div class="price"><span> $15 </span></div>
-                                            </div>
-                                        </td>
-                                        <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                        <td style="width:15%" class="miniCartSubtotal"><span> $120 </span></td>
-                                        <td style="width:5%" class="delete"><a> x </a></td>
-                                    </tr>
-                                    <tr class="miniCartProduct">
-                                        <td style="width:20%" class="miniCartProductThumb">
-                                            <div><a href="product-details.html"> <img src="{% static "store/img/product/5.jpg" %}" alt="img">
-                                                </a></div>
-                                        </td>
-                                        <td style="width:40%">
-                                            <div class="miniCartDescription">
-                                                <h4><a href="product-details.html"> Tshir 2014 </a></h4>
-                                                <span class="size"> 12 x 1.5 L </span>
-                                                
-                                                <div class="price"><span> $30 </span></div>
-                                            </div>
-                                        </td>
-                                        <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                        <td style="width:15%" class="miniCartSubtotal"><span> $80 </span></td>
-                                        <td style="width:5%" class="delete"><a> x </a></td>
-                                    </tr>
-                                    <tr class="miniCartProduct">
-                                        <td style="width:20%" class="miniCartProductThumb">
-                                            <div><a href="product-details.html">
-                                                <img src="{% static "store/img/product/3.jpg" %}" alt="img">
-                                                </a></div>
-                                        </td>
-                                        <td style="width:40%">
-                                            <div class="miniCartDescription">
-                                                <h4><a href="product-details.html"> TSHOP T shirt DO20 </a></h4>
-                                                <span class="size"> 12 x 1.5 L </span>
-                                                
-                                                <div class="price"><span> $15 </span></div>
-                                            </div>
-                                        </td>
-                                        <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                        <td style="width:15%" class="miniCartSubtotal"><span> $55 </span></td>
-                                        <td style="width:5%" class="delete"><a> x </a></td>
-                                    </tr>
-                                    <tr class="miniCartProduct">
-                                        <td style="width:20%" class="miniCartProductThumb">
-                                            <div><a href="product-details.html"> <img src="{% static "store/img/product/4.jpg" %}" alt="img">
-                                                </a></div>
-                                        </td>
-                                        <td style="width:40%">
-                                            <div class="miniCartDescription">
-                                                <h4><a href="product-details.html"> T shirt Black </a></h4>
-                                                <span class="size"> 12 x 1.5 L </span>
-                                                
-                                                <div class="price"><span> $44 </span></div>
-                                            </div>
-                                        </td>
-                                        <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                        <td style="width:15%" class="miniCartSubtotal"><span> $40 </span></td>
-                                        <td style="width:5%" class="delete"><a> x </a></td>
-                                    </tr>
-                                    <tr class="miniCartProduct">
-                                        <td style="width:20%" class="miniCartProductThumb">
-                                            <div><a href="product-details.html">
-                                                <img src="{% static "store/img/site/winter.jpg" %}" alt="img"> </a></div>
-                                        </td>
-                                        <td style="width:40%">
-                                            <div class="miniCartDescription">
-                                                <h4><a href="product-details.html"> G Star T shirt </a></h4>
-                                                <span class="size"> 12 x 1.5 L </span>
-                                                
-                                                <div class="price"><span> $80 </span></div>
-                                            </div>
-                                        </td>
-                                        <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                        <td style="width:15%" class="miniCartSubtotal"><span> $8.80 </span></td>
-                                        <td style="width:5%" class="delete"><a> x </a></td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div><div class="mCSB_scrollTools" style="position: absolute; display: none;"><div class="mCSB_draggerContainer"><div class="mCSB_dragger" style="position: absolute; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="position:relative;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
                         <!--/.miniCartTable-->
                         
                         <div class="miniCartFooter text-right">
-                            <h3 class="text-right subtotal"> Subtotal: $210 </h3>
+                            <h3 class="text-right subtotal"> Subtotal: ${{ receipt.sub_total }} </h3>
                             <a class="btn btn-sm btn-danger"> <i class="fa fa-shopping-cart"> </i> VIEW CART </a> <a class="btn btn-sm btn-primary"> CHECKOUT </a></div>
                         <!--/.miniCartFooter-->
                         

@@ -53,8 +53,17 @@
                             <div class="details-description">
                                 <p><!-- TODO: DESCRIPTION --></p>
                             </div>
-                            <a title="Add to Cart" class="btn btn-stroke-dark"> <i
-                                class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
+                            {% if comic.product in receipt.products.all %}
+                            <a onclick="ajax_remove_from_cart({{ comic.product_id }});"
+                                title="Add to Cart"
+                                class="btn btn-stroke-dark"> <i
+                                    class="glyphicon glyphicon-shopping-cart"></i> Remove from Cart</a></div>
+                            {% else %}
+                            <a onclick="ajax_add_to_cart({{ comic.product_id }});"
+                                 title="Add to Cart"
+                                 class="btn btn-stroke-dark"> <i
+                                 class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
+                            {% endif %}
                     </div>
                 </div>
                 {% empty %}
@@ -131,8 +140,26 @@
                         <p><!-- TODO: DESCRIPTION --></p>
                         <span class="size">{{ comic.genre }}</span></div>
                     <div class="price"><span>${{ comic.product.sub_price }}</span></div>
-                    <div class="action-control"><a class="btn btn-primary"> <span class="add2cart"><i
-                            class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> </a></div>
+                    
+                    {% if comic.product in receipt.products.all %}
+                    <!-- REMOVE FROM CART -->
+                        <div class="action-control">
+                            <a onclick="ajax_remove_from_cart({{ comic.product_id }});" class="btn btn-primary">
+                                <span class="add2cart">
+                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart
+                                </span>
+                            </a>
+                        </div>
+                    {% else %}
+                    <!-- ADD TO CART -->
+                        <div class="action-control">
+                            <a onclick="ajax_add_to_cart({{ comic.product_id }});" class="btn btn-primary">
+                                <span class="add2cart">
+                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart
+                                </span>
+                            </a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             {% empty %}
@@ -257,8 +284,29 @@
                             <span>${{ comic.product.sub_price }}</span>
                             <!--<span class="old-price">$75</span>-->
                         </div>
-                        <div class="action-control"><a class="btn btn-primary"> <span class="add2cart"><i
-                                class="glyphicon glyphicon-shopping-cart"> </i> Add to cart </span> </a></div>
+                        
+                        
+                        {% if comic.product in receipt.products.all %}
+                        <!-- REMOVE FROM CART -->
+                        <div class="action-control">
+                            <a onclick="ajax_remove_from_cart({{ comic.product_id }});" class="btn btn-primary">
+                                <span class="add2cart">
+                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart
+                                </span>
+                            </a>
+                        </div>
+                        
+                        {% else %}
+                        <!-- ADD TO CART -->
+                        <div class="action-control">
+                            <a onclick="ajax_add_to_cart({{ comic.product_id }});" class="btn btn-primary">
+                                <span class="add2cart">
+                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart
+                                </span>
+                            </a>
+                        </div>
+                        {% endif %}
+                        
                     </div>
                 </div>
                 <!--/.item-->
