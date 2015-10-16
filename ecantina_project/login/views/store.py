@@ -1,13 +1,11 @@
 import json
 from django.shortcuts import render
-from django.core import serializers
 from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from inventory_base.forms.loginform import LoginForm
-from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 
 
@@ -40,6 +38,7 @@ def ajax_login_authentication(request):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_logout_authentication(request):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():

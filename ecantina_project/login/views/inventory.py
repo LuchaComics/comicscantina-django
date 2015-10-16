@@ -38,6 +38,7 @@ def ajax_login_authentication(request):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@login_required()
 def ajax_logout_authentication(request):
     response_data = {'status' : 'failure', 'message' : 'an unknown error occured'}
     if request.is_ajax():
