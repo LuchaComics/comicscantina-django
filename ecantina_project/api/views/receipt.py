@@ -227,15 +227,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         has_tax = avg_tax_rate > 0
     
         # Calculate shipping for the specific organization.
-        shipping_amount = Decimal(0.00)
-        if receipt.organization is not None:
-            preference = OrgShippingPreference.objects.get(organization=receipt.organization)
-            if preference.is_pickup_only:
-                receipt.shipping_amount = Decimal(0.00)
-            else:
-                print(preference)
-        else:
-            pass
+        shipping_amount = self.compute_shipping_cost(receipt)
 
         # Update financials.
         receipt.sub_total = sub_total_amount
@@ -249,6 +241,66 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         receipt.total_amount -= total_discount_amount
         receipt.total_amount += shipping_amount
         receipt.save()
+
+    def compute_shipping_cost(self, receipt):
+        shipping_amount = Decimal(0.00)
+        
+        # CASE 1: We have a single organization that receipt belongs to.
+        if receipt.organization:
+            # Fetch the organization preferences on how to handle shipping rates.
+            preference = OrgShippingPreference.objects.get(organization=receipt.organization)
+            
+            # If the organization set to in-store pickup only, then return zero
+            # shipping costs as the cost of travelling to store is handled by
+            # customer in real life.
+            if preference.is_pickup_only:
+                return Decimal(0.00)
+    
+            # Determine where the receipt is to be shipped
+            iso_3166_1_numeric_country_code = 0
+            if 'Canada' in receipt.shipping_country:
+                iso_3166_1_numeric_country_code = 124
+            elif 'United States' in receipt.shipping_country:
+                iso_3166_1_numeric_country_code = 840
+            elif 'Mexico' in receipt.shipping_country:
+                iso_3166_1_numeric_country_code = 484
+
+            # Find the shipping rate to apply for the country and apply it
+            for rate in preference.rates.all():
+                if rate.country is iso_3166_1_numeric_country_code:
+                    # Count how many products we are to ship and apply the
+                    # appropriate shipping rates. Note: These rates where taken
+                    # from the following file:
+                    # - - - - - - - - - - - - - - - - - - - - - - - - -
+                    # inventory_settings/forms/org_shipping_rates_form
+                    # - - - - - - - - - - - - - - - - - - - - - - - - -
+                    #
+                    comics_count = len(receipt.products.all())
+                    if comics_count > 0 and comics_count <= 10:
+                        return rate.comics_rate1
+                    elif comics_count > 10 and comics_count <= 20:
+                        return rate.comics_rate2
+                    elif comics_count > 20 and comics_count <= 30:
+                        return rate.comics_rate3
+                    elif comics_count > 30 and comics_count <= 40:
+                        return rate.comics_rate4
+                    elif comics_count > 40 and comics_count <= 50:
+                        return rate.comics_rate5
+                    elif comics_count > 50 and comics_count <= 74:
+                        return rate.comics_rate6
+                    elif comics_count > 74 and comics_count <= 100:
+                        return rate.comics_rate7
+                    elif comics_count > 100 and comics_count <= 150:
+                        return rate.comics_rate8
+                    elif comics_count > 150 and comics_count <= 200:
+                        return rate.comics_rate8
+                    elif comics_count > 200 and comics_count <= 300:
+                        return rate.comics_rate8
+                    
+        # CASE 2: We have no organization
+        else:
+            return Decimal(0.00)
+        return shipping_amount
 
 #
 # Note: For more information on setting up custom functions, see this url:
