@@ -67,6 +67,22 @@ class Product(models.Model):
         decimal_places=2,
         default=0.00,
     )
+    has_tax = models.BooleanField(default=True)
+    tax_rate = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    tax_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
+    sub_price_with_tax = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+    )
     discount = models.DecimalField( # Note: Meaured in dollar ($) amount.
         max_digits=10,
         decimal_places=2,

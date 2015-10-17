@@ -224,20 +224,30 @@
             tags.push( parseInt( $(el).data('tagid') ) );
         });
         
+        // Compute Tax
+        var sub_price = parseFloat($('#id_sub_price').val());
+        var has_tax = {% if store.tax_rate > 0 %}true{% else %}false{% endif %};
+        var tax_rate = {% if store.tax_rate > 0 %}{{ store.tax_rate }}{% else %}0{% endif %};
+        var tax_amount = sub_price * tax_rate;
+        var sub_price_with_tax = sub_price + tax_amount;
+        
         // Insert/Update "product" model.
         var arr = {
             'name': '{{ issue.series.name }} ' + 'Issue #{{ issue.number }}',
             'type': '1', // Comic book
             'is_sold': false,
-            'sub_price': $('#id_price').val(),
+            'sub_price': sub_price,
+            'has_tax': has_tax,
+            'tax_rate': tax_rate,
+            'tax_amount': tax_amount,
+            'sub_price_with_tax': sub_price_with_tax,
             'discount': 0,
             'discount_type': 1,
-            'price': $('#id_price').val(),
+            'price': sub_price_with_tax,
             'cost': $('#id_cost').val(),
             'organization': {{ org.org_id }},
             'store': parseInt( $('#id_store').val() ),
             'section': parseInt( $('#id_section').val() ),
-            'receipt': '',
             'brand': parseInt( {{ brand.brand_id }} ),
             'is_available': false,
             'tags': tags,
@@ -255,7 +265,14 @@
         if (upload_id > 0) { // Add in Image seperately if one was uploaded.
             arr['image'] = parseInt( upload_id );
             arr['image_url'] =  $('#id_hidden_url').val();
-        }        
+        } else {
+            {% if issue.large_url %}
+            // Check to see if we have an image with GCD.
+            arr['image_url'] = "{{ issue.large_ur | escape | safe }}";
+            {% else %}
+            arr['image_url'] = "";
+            {% endif %}
+        }
         
     {% if product_form.instance.product_id > 0 %}
         // If we are editing a product, then we need to add in the product_id
