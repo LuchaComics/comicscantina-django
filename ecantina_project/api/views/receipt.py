@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
 from rest_framework.decorators import detail_route
+from ecantina_project import constants
 from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.models.ec.organization import Organization
@@ -37,6 +38,12 @@ class ReceiptViewSet(viewsets.ModelViewSet):
   
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
     def apply_discounts(self, request, pk=None):
+        """
+            Function will iterate through all the products in the cart and
+            apply the associated Tag & Promotion discounts per each product.
+            Afterwords, each product will have the latest up-to-date price
+            associated with the current discounts.
+        """
         receipt = self.get_object() # Fetch the receipt we will be processing.
         try:
             promotions = Promotion.objects.filter(organization=receipt.organization)
@@ -80,25 +87,110 @@ class ReceiptViewSet(viewsets.ModelViewSet):
             product.price = (product.sub_price_with_tax - product.discount)
             product.save()
 
-        # Return success message.
-        return Response({'status': 'Receipt updated'})
+        return Response({'status': 'success', 'message': 'discounts successfully applied'})
 
   
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
-    def perform_checkout_computation(self, request, pk=None):
-        #
-        # Note: For more information on setting up custom functions, see this url:
-        # http://www.django-rest-framework.org/api-guide/viewsets/#marking-extra-actions-for-routing
-        #
+    def perform_tally(self, request, pk=None):
+        """
+            Function will find the total amount that is owed for the bill and
+            save it in the receipt.
+        """
+        receipt = self.get_object() # Fetch the receipt we will be processing.
+        self.tally_up_receipt(receipt)
+        return Response({'status': 'success', 'message': 'tallied up totals'})
+
+    @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
+    def perform_verification(self, request, pk=None):
+        """
+            Function will verify that the products being checked out are 
+            available and can be checked out. If any problems arise this
+            function will return a failed message.
+        """
+        receipt = self.get_object() # Fetch the receipt we will be processing.
+        message = self.verify(receipt)
+        if message:
+            return message
+        else:
+            return Response({'status': 'success', 'message': 'is ready for checkout'})
+
+    @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
+    def perform_checkout(self, request, pk=None):
+        """
+            Function will be used by in-store staff / point of sale device
+            to perform transaction handling.
+        """
         receipt = self.get_object() # Fetch the receipt we will be processing.
         
-        # Iterate through all the products and compute the total receipt amount.
-        self.process_receipt(receipt)
-        
-        # Return success message.
-        return Response({'status': 'Receipt updated'})
+        # STEP 1: Verify that our cart can be checked out.
+        message = self.verify(receipt)
+        if message:
+            return message
+        if receipt.employee is None:
+            return Response({'status': 'failed', 'message': 'must belong to employee'})
 
-    def process_receipt(self, receipt):
+        # STEP 2: Compute the final bill
+        self.tally_up_receipt(receipt)
+
+        # STEP 3: Set our customer information to the receipt if not guest shopper.
+        if receipt.customer:
+            billing_address = receipt.customer.billing_street_number
+            billing_address += ' ' + receipt.customer.billing_street_name
+            if receipt.customer.billing_unit_number:
+                billing_address = receipt.customer.billing_unit_number + '-' + billing_address
+
+            shipping_address = receipt.customer.shipping_street_number
+            shipping_address += ' ' + receipt.customer.shipping_street_name
+            if receipt.customer.shipping_unit_number:
+                shipping_address = receipt.customer.shipping_unit_number + '-' + shipping_address
+
+            receipt.email = receipt.customer.email
+            receipt.billing_name = receipt.customer.billing_name
+            receipt.billing_address = billing_address
+            receipt.billing_phone = receipt.customer.billing_phone
+            receipt.billing_city = receipt.customer.billing_city
+            receipt.billing_province = receipt.customer.billing_province
+            receipt.billing_country = receipt.customer.billing_country
+            receipt.billing_postal = receipt.customer.billing_postal
+            receipt.shipping_name = receipt.customer.shipping_name
+            receipt.shipping_address = shipping_address
+            receipt.shipping_phone = receipt.customer.shipping_phone
+            receipt.shipping_city = receipt.customer.shipping_city
+            receipt.shipping_province = receipt.customer.shipping_province
+            receipt.shipping_country = receipt.customer.shipping_country
+            receipt.shipping_postal = receipt.customer.shipping_postal
+
+        # STEP 3: Finalize our receipt.
+        receipt.purchased = datetime.today()
+        receipt.has_finished = True
+        receipt.has_paid = True
+        receipt.status = constants.IN_STORE_SALE_STATUS
+        receipt.payment_method = constants.CASH_PAYMENT_METHOD
+        receipt.save()
+        
+        # STEP 4: Inform our products that they are sold out.
+        for product in receipt.products.all():
+            product.is_sold = True
+            product.save()
+
+        return Response({'status': 'success', 'message': 'checkout complete'})
+
+    def verify(self, receipt):
+        # Verify Receipt.
+        if receipt.has_paid:
+            return Response({'status': 'failed', 'message': 'customer has already paid for receipt' })
+        if receipt.has_finished:
+            return Response({'status': 'failed', 'message': 'receipt has already been finsihed' })
+        
+        # Verify Products.
+        for product in receipt.products.all():
+            if product.is_sold:
+                return Response({'status': 'failed', 'message': 'product was already sold: '+product.name })
+            if product.is_available is False:
+                return Response({'status': 'failed', 'message': 'product is no longer sold: '+product.name })
+        return None
+
+    def tally_up_receipt(self, receipt):
         """
             Helper function used to compute the totals
         """
@@ -153,3 +245,8 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         receipt.discount_amount = total_discount_amount
         receipt.total_amount = total_amount
         receipt.save()
+
+#
+# Note: For more information on setting up custom functions, see this url:
+# http://www.django-rest-framework.org/api-guide/viewsets/#marking-extra-actions-for-routing
+#

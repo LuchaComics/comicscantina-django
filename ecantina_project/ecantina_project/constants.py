@@ -14,6 +14,25 @@ GENERAL_PRODUCT_TYPE = 4
 NO_ERROR_TYPE = 0
 CANCELLED_ONLINE_ORDER_ERROR_TYPE = 1
 
+# Receipt Status Types
+NEW_ORDER_STATUS = 1
+PICKED_STATUS = 2
+SHIPPED_STATUS = 3
+RECEIVED_STATUS = 4
+IN_STORE_SALE_STATUS = 5
+ONLINE_SALE_STATUS = 6
+
+# Receipt Payment Method Types
+CASH_PAYMENT_METHOD = 1
+DEBIT_CARD_PAYMENT_METHOD = 2
+CREDIT_CARD_PAYMENT_METHOD = 3
+GIFT_CARD_PAYMENT_METHOD = 4
+STORE_POINTS_PAYMENT_METHOD = 5
+CHEQUE_PAYMENT_METHOD = 6
+PAYPAL_PAYMENT_METHOD = 7
+INVOICE_PAYMENT_METHOD = 8
+OTHER_PAYMENT_METHOD = 9
+
 
 #-----------#
 # DROPDOWNS #
@@ -42,25 +61,25 @@ RECEIPT_ERROR_CHOICES = (
 
 
 PAYMENT_METHOD_CHOICES = (
-    (1, 'Cash'),
-    (2, 'Debit Card'),
-    (3, 'Credit Card'),
-    (4, 'Gift Card'),
-    (5, 'Store Points'),
-    (6, 'Cheque'),
-    (7, 'PayPal'),
-    (8, 'Invoice'),
-    (9, 'Other'),
+    (CASH_PAYMENT_METHOD, 'Cash'),
+    (DEBIT_CARD_PAYMENT_METHOD, 'Debit Card'),
+    (CREDIT_CARD_PAYMENT_METHOD, 'Credit Card'),
+    (GIFT_CARD_PAYMENT_METHOD, 'Gift Card'),
+    (STORE_POINTS_PAYMENT_METHOD, 'Store Points'),
+    (CHEQUE_PAYMENT_METHOD, 'Cheque'),
+    (PAYPAL_PAYMENT_METHOD, 'PayPal'),
+    (INVOICE_PAYMENT_METHOD, 'Invoice'),
+    (OTHER_PAYMENT_METHOD, 'Other'),
 )
 
 
 STATUS_CHOICES = (
-    (1, 'New Order'),
-    (2, 'Picked'),
-    (3, 'Shipped'),
-    (4, 'Received'),
-    (5, 'In-Store Sale'),
-    (6, 'Online Sale'),
+    (NEW_ORDER_STATUS, 'New Order'),
+    (PICKED_STATUS, 'Picked'),
+    (SHIPPED_STATUS, 'Shipped'),
+    (RECEIVED_STATUS, 'Received'),
+    (IN_STORE_SALE_STATUS, 'In-Store Sale'),
+    (ONLINE_SALE_STATUS, 'Online Sale'),
 )
 
 

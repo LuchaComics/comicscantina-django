@@ -36,6 +36,7 @@
                                     <td style="width:15%"> Product</td>
                                     <td style="width:40%">Details</td>
                                     <td style="width:10%" class="delete">&nbsp;</td>
+                                    <td style="width:10%">Price w/ Tax</td>
                                     <td style="width:10%">Discount</td>
                                     <td style="width:15%">Total</td>
                                 </tr>
@@ -45,7 +46,7 @@
                                     <td class="CartProductThumb">
                                         <div>
                                             <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';">
-                                                {% if product.image_url == None %}
+                                                {% if product.image_url == None or product.image_url == '' %}
                                                 <img alt="{{ product }}"
                                                 src="{% static "inventory/img/missing_cover.png" %}" />
                                                 {% else %}
@@ -68,7 +69,7 @@
                                             <i class="glyphicon glyphicon-trash fa-2x"></i>
                                         </a>
                                     </td>
-                                    
+                                    <td>${{ product.sub_price_with_tax }}</td>
                                     {% if product.discount > 0 %}
                                         {% if product.discount_type == 1 %}
                                             <td>{{ product.discount }}%</td>

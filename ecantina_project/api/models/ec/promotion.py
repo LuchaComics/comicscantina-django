@@ -10,12 +10,25 @@ DISCOUNT_TYPE_OPTIONS = (
 )
 
 
+class PromotionManager(models.Manager):
+    """
+        Function will lookup and get the single Organization entry by the id
+        and if nothing was found, it will return a None object.
+        """
+    def get_or_none(self, promotion_id):
+        try:
+            return self.get(promotion_id=promotion_id)
+        except Promotion.DoesNotExist:
+            return None
+
+
 class Promotion(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ('name',)
         db_table = 'ec_promotions'
     
+    objects = PromotionManager()
     promotion_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=127)
     discount = models.DecimalField( # Note: Meaured in dollar ($) amount.
