@@ -35,18 +35,20 @@
                             <div class="col-sm-7"><!-- Cover Uploader -->
                                 
                                 <!-- Upload ID -->
-                                <input type="hidden" id="id_hidden_upload_id" value="0"/>
-                                <input type="hidden" id="id_hidden_url" value=""/>
+                                <input type="hidden" id="id_hidden_upload_id" value="{{ product_form.instance.image_id }}"/>
+                                <input type="hidden" id="id_hidden_url" value="{{ product_form.instance.image_url }}"/>
                                 <!-- /.Upload ID -->
                                 
-                                {% if form.cover.image == '' %}
-                                <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                    class="img-thumbnail center-block mb0 add-cover-image"
+                                {% if product_form.instance.image == None %}
+                                <img src="" style="height:140px;width:140px;" alt="{{ product_form.instance.name }}"
+                                   class="img-thumbnail center-block mb0 add-cover-image"
                                     name="logo-image" id="logo-image">
                                 {% else %}
-                                <img src="{{ form.cover.image.url }}" style="height:200px;width:140px;" alt="Store Logo"
-                                        class="img-thumbnail center-block mb0 add-cover-image"
-                                        name="logo-image" id="logo-image">
+                                <img src="{{ product_form.instance.image_url }}"
+                                   style="height:200px;width:140px;"
+                                     alt="{{ product_form.instance.name }}"
+                                   class="img-thumbnail center-block mb0 add-cover-image"
+                                    name="logo-image" id="logo-image">
                                 {% endif %}
                                         
                                 <label class="form-control btn btn-success mt10 curp" >
