@@ -12,6 +12,7 @@ from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.models.ec.organization import Organization
 from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.receipt import Receipt
+from api.models.ec.promotion import Promotion
 from api.serializers import ReceiptSerializer
 
 
@@ -33,6 +34,54 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     search_fields = ('billing_name','email','billing_phone','billing_postal','shipping_name', 'shipping_phone','shipping_postal',)
     filter_class = ReceiptFilter
+  
+    @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
+    def apply_discounts(self, request, pk=None):
+        receipt = self.get_object() # Fetch the receipt we will be processing.
+        try:
+            promotions = Promotion.objects.filter(organization=receipt.organization)
+        except Promotion.DoesNotExist:
+            Promotions = None
+
+        for product in receipt.products.all():
+            # SECURIY: Ensure the appropriate taxes are applied from the store.
+            if product.store.tax_rate > 0:
+                product.tax_rate = product.store.tax_rate
+                product.tax_amount = product.sub_price * product.tax_rate
+                product.sub_price_with_tax = product.tax_amount + product.sub_price
+
+            # Iterate through all the Tags and sum their discounts
+            total_percent = Decimal(0.00)
+            total_amount = Decimal(0.00)
+            for tag in product.tags.all():
+                if tag.discount_type is 1:
+                    total_percent += tag.discount
+                if tag.discount_type is 2:
+                    total_amount += tag.discount
+           
+            # Iterate through all the Promotions and sum their discounts.
+            for promotion in promotions:
+                if promotion.discount_type is 1:
+                   total_percent += promotion.discount
+                if promotion.discount_type is 2:
+                    total_amount += promotion.discount
+                        
+           # Compute the discount
+            if total_percent > 0:
+                product.discount = product.sub_price_with_tax * (total_percent/100)
+        
+            if total_amount > 0:
+                product.discount += total_amount
+            
+            if total_percent > 0 or total_amount > 0:
+                product.discount_type = 2
+            
+            # Compute final price.
+            product.price = (product.sub_price_with_tax - product.discount)
+            product.save()
+
+        # Return success message.
+        return Response({'status': 'Receipt updated'})
 
   
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
