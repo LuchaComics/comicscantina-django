@@ -21,9 +21,7 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/(\d+)/change_discount_type$', pos_item.ajax_change_discount_type),
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/(\d+)/change_discount_amount$', pos_item.ajax_change_discount_amount),
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/change_tax$', pos_item.ajax_change_tax),
-    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/verify$', pos_item.ajax_verify),
-    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/process_receipt$', pos_item.ajax_process_receipt),
-                       
+                           
     # Receipt
     #-----------
     url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/receipt$', pos_receipt.checkout_page),

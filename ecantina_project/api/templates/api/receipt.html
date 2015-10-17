@@ -106,6 +106,26 @@
         });
     }
 
+    function perform_receipt_checkout(receipt_id, callback) {
+        var url = "/api/receipts/" + receipt_id + "/perform_checkout/?format=json";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
 
     function set_receipt(data, callback)
     {
