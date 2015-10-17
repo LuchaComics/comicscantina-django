@@ -194,44 +194,40 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         """
             Helper function used to compute the totals
         """
-        # Iterate through all the products and create a calculate
-        # our totals.
+        # Iterate through all the products and create a calculate our totals.
+        tax_rates = list()
         sub_total_amount = Decimal(0.00)
-        total_discount_amount = Decimal(0.00)
-        tax_amount = Decimal(0.00)
+        total_tax_amount = Decimal(0.00)
         sub_total_amount_with_tax = Decimal(0.00)
-        shipping_amount = Decimal(0.00)
-        total_amount = Decimal(0.00)
+        total_discount_amount = Decimal(0.00)
         for product in receipt.products.all():
-            # Process discount for the individual products.
+            # Sub Price
+            sub_total_amount += product.sub_price
+            
+            # Tax
+            if product.has_tax:
+                tax_rates.append(product.tax_rate)
+                total_tax_amount += product.tax_amount
+            else:
+                tax_rates.append(0)
+            
+            # Sub Price + Tax
+            sub_total_amount_with_tax += product.sub_price_with_tax
+            
+            # Discounts
             if product.discount_type is 1: # Percent
                 rate = Decimal(product.discount) / Decimal(100)
-                discount_amount = Decimal(rate) * Decimal(product.sub_price)
+                discount_amount = Decimal(rate) * Decimal(product.sub_price_with_tax)
             elif product.discount_type is 2: # Amount
                 discount_amount =  product.discount
-            post_discount_price = product.sub_price - discount_amount
             total_discount_amount += discount_amount
-                    
-            # Process sub-amount
-            sub_total_amount += post_discount_price
-        
-        # Process tax
-        if receipt.has_tax:
-            tax_rate = Decimal(receipt.tax_rate)
-            tax_amount = sub_total_amount * tax_rate
-            
-        # Process total amount
-        sub_total_amount_with_tax = sub_total_amount + tax_amount
-        
-        # Update financial
-        receipt.sub_total = sub_total_amount
-        receipt.tax_amount = tax_amount
-        receipt.sub_total_amount_with_tax = sub_total_amount_with_tax
-
-        # Calculate discount from promotions.
-        # TODO: Impl
-
+    
+        # Calculate tax
+        avg_tax_rate = sum(tax_rates)/len(tax_rates)
+        has_tax = avg_tax_rate > 0
+    
         # Calculate shipping for the specific organization.
+        shipping_amount = Decimal(0.00)
         if receipt.organization is not None:
             preference = OrgShippingPreference.objects.get(organization=receipt.organization)
             if preference.is_pickup_only:
@@ -242,8 +238,16 @@ class ReceiptViewSet(viewsets.ModelViewSet):
             pass
 
         # Update financials.
+        receipt.sub_total = sub_total_amount
+        receipt.has_tax = has_tax
+        receipt.tax_rate = avg_tax_rate
+        receipt.tax_amount = total_tax_amount
+        receipt.sub_total_with_tax = sub_total_amount_with_tax
         receipt.discount_amount = total_discount_amount
-        receipt.total_amount = total_amount
+        receipt.shipping_amount = shipping_amount
+        receipt.total_amount = sub_total_amount_with_tax
+        receipt.total_amount -= total_discount_amount
+        receipt.total_amount += shipping_amount
         receipt.save()
 
 #
