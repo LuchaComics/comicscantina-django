@@ -12,6 +12,7 @@ from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.models.ec.organization import Organization
 from api.models.ec.orgshippingpreference import OrgShippingPreference
+from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.receipt import Receipt
 from api.models.ec.promotion import Promotion
 from api.serializers import ReceiptSerializer
@@ -274,29 +275,9 @@ class ReceiptViewSet(viewsets.ModelViewSet):
                     # - - - - - - - - - - - - - - - - - - - - - - - - -
                     # inventory_settings/forms/org_shipping_rates_form
                     # - - - - - - - - - - - - - - - - - - - - - - - - -
-                    #
                     comics_count = len(receipt.products.all())
-                    if comics_count > 0 and comics_count <= 10:
-                        return rate.comics_rate1
-                    elif comics_count > 10 and comics_count <= 20:
-                        return rate.comics_rate2
-                    elif comics_count > 20 and comics_count <= 30:
-                        return rate.comics_rate3
-                    elif comics_count > 30 and comics_count <= 40:
-                        return rate.comics_rate4
-                    elif comics_count > 40 and comics_count <= 50:
-                        return rate.comics_rate5
-                    elif comics_count > 50 and comics_count <= 74:
-                        return rate.comics_rate6
-                    elif comics_count > 74 and comics_count <= 100:
-                        return rate.comics_rate7
-                    elif comics_count > 100 and comics_count <= 150:
-                        return rate.comics_rate8
-                    elif comics_count > 150 and comics_count <= 200:
-                        return rate.comics_rate8
-                    elif comics_count > 200 and comics_count <= 300:
-                        return rate.comics_rate8
-                    
+                    return rate.get_comics_rate(comics_count)
+                                        
         # CASE 2: We have no organization
         else:
             return Decimal(0.00)

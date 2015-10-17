@@ -94,3 +94,28 @@ class OrgShippingRate(models.Model):
         if cache is not None:
             cache.clear()
             super(OrgShippingRate, self).save(*args, **kwargs)
+
+    def get_comics_rate(self,comics_count):
+        """
+            Function returns the specific rate for the comics count.
+        """
+        if comics_count > 0 and comics_count <= 10:
+            return self.comics_rate1
+        elif comics_count > 10 and comics_count <= 20:
+            return self.comics_rate2
+        elif comics_count > 20 and comics_count <= 30:
+            return self.comics_rate3
+        elif comics_count > 30 and comics_count <= 40:
+            return self.comics_rate4
+        elif comics_count > 40 and comics_count <= 50:
+            return self.comics_rate5
+        elif comics_count > 50 and comics_count <= 74:
+            return self.comics_rate6
+        elif comics_count > 74 and comics_count <= 100:
+            return self.comics_rate7
+        elif comics_count > 100 and comics_count <= 150:
+            return self.comics_rate8
+        elif comics_count > 150 and comics_count <= 200:
+            return self.comics_rate9
+        elif comics_count > 200 and comics_count <= 300:
+            return self.comics_rate10
