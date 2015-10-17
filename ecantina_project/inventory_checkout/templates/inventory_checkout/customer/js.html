@@ -265,69 +265,48 @@
     function update_cart_by_set_customer_id(customer_id)
     {
         // STEP 1: Fetch the customer at the particular ID.
-        get_customer(customer_id, function(json_result) {
+        get_customer(customer_id, function(customer) {
             // STEP 2: Update the receipt with the customers info.
             //--------------------------------------------------------------
                      
-            // Create our array of product ID's to include in the Receipt update.
-            var products = [];
-        {% for product in receipt.products.all %}
-            products.push({{ product.product_id }});
-        {% endfor %}
-            
             // Create our address.
-            var billing_address = json_result['billing_street_number'] + " " + json_result['billing_street_name'];
-            if (json_result['billing_unit_number']) {
-                billing_address = json_result['billing_unit_number'] + "-" + address;
+            var billing_address = customer['billing_street_number'] + " " + customer['billing_street_name'];
+            if (customer['billing_unit_number']) {
+                billing_address = customer['billing_unit_number'] + "-" + billing_address;
             }
                 
-            var shipping_address = json_result['shipping_street_number'] + " " + json_result['shipping_street_name'];
-            if (json_result['shipping_unit_number']) {
-                shipping_address = json_result['shipping_unit_number'] + "-" + address;
+            var shipping_address = customer['shipping_street_number'] + " " + customer['shipping_street_name'];
+            if (customer['shipping_unit_number']) {
+                shipping_address = customer['shipping_unit_number'] + "-" + shipping_address;
             }
 
-            set_receipt({
-                'customer': json_result['customer_id'],
-                'purchased': '{{ receipt.purchased|date:"c" }}',
-                'organization': {{ receipt.organization_id }},
-                'store': {{ receipt.store_id }},
-                'employee': {{ receipt.employee_id }},
-                'receipt_id': {{ receipt.receipt_id }},
-                'payment_method': {{ receipt.payment_method }},
-                'has_purchased_online': '{{ receipt.has_purchased_online }}',
-                'sub_total': {{ receipt.sub_total }},
-                'has_tax': '{{ receipt.has_tax }}',
-                'tax_rate': {{ receipt.tax_rate }},
-                'tax_amount': {{ receipt.tax_amount }},
-                'sub_total_with_tax': {{ receipt.sub_total_with_tax }},
-                'discount_amount': {{ receipt.discount_amount }},
-                'shipping_amount': {{ receipt.shipping_amount }},
-                'total_amount': {{ receipt.total_amount }},
-                'has_finished': '{{ receipt.has_finished }}',
-                'has_paid': '{{ receipt.has_paid }}',
-                'status': {{ receipt.status }},
-                'has_error': '{{ receipt.has_error }}',
-                'error': {{ receipt.error }},
-                'billing_name': json_result['billing_name'],
-                'billing_address': billing_address,
-                'email': json_result['email'],
-                'billing_phone': json_result['phone'],
-                'billing_city': json_result['city'],
-                'billing_province': json_result['province'],
-                'billing_country': json_result['country'],
-                'billing_postal': json_result['postal'],
-                'shipping_name': json_result['shipping_name'],
-                'shipping_address': shipping_address,
-                'shipping_phone': json_result['phone'],
-                'shipping_city': json_result['city'],
-                'shipping_province': json_result['province'],
-                'shipping_country': json_result['country'],
-                'shipping_postal': json_result['postal'],
-                'products': products,
-            }, function(json_result) {
-                var receipt_id = json_result['receipt_id'];
-                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
-            }); // End Receipt jQuery.
+            // Fetch the receipt.
+            get_receipt({{ receipt.receipt_id }}, function(receipt) {
+                        
+                // Update the receipt with the latest customer information.
+                receipt['customer'] = customer['customer_id']
+                receipt['billing_name'] = customer['billing_name'];
+                receipt['billing_address'] = billing_address;
+                receipt['email'] = customer['email'];
+                receipt['billing_phone'] = customer['billing_phone'];
+                receipt['billing_city'] = customer['billing_city'];
+                receipt['billing_province'] = customer['billing_province'];
+                receipt['billing_country'] = customer['billing_country'];
+                receipt['billing_postal'] = customer['billing_postal'];
+                receipt['shipping_name'] = customer['shipping_name'];
+                receipt['shipping_address'] = shipping_address;
+                receipt['shipping_phone'] = customer['shipping_phone'];
+                receipt['shipping_city'] = customer['shipping_city'];
+                receipt['shipping_province'] = customer['shipping_province'];
+                receipt['shipping_country'] = customer['shipping_country'];
+                receipt['shipping_postal'] = customer['shipping_postal'];
+                        
+                // Update the receipt.
+                set_receipt(receipt, function(json_result) {
+                    var receipt_id = json_result['receipt_id'];
+                    window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
+                }); // End Set Receipt jQuery.
+            }); // End Get Receipt jQuery
         }); // End Customer jQuery.
     }
 
