@@ -1,0 +1,55 @@
+{% load staticfiles %}
+{% include 'api/organization.html' %}
+{% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
+{% include 'store_base/receipt_js.html' %}
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+
+
+    function ajax_confirm_and_proceed_next()
+    {
+        // Defensive Code: Ensure that the user agrees to the terms before proceeding.
+        var is_tsa_checked = $('#checkboxes-0').is(':checked');
+        if (is_tsa_checked == false) {
+            alert("Please agree to the service agreement to continue.");
+            return;
+        }
+        
+        // Get the receipt and update it.
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
+            // Fetch the selected option and update accordingly.
+            var optionValue = $('input[name=radios]:checked').val();
+            if (optionValue == 'PayPal') {
+                receipt['payment_method'] = 7; // PayPal (Note: see constants.py)
+                receipt['comment'] = $('#id_comment').val();
+            } 
+            console.log(receipt);
+            set_receipt(receipt, function(json_result) {
+                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/order';
+            }); // End Set Receipt.
+        }); // End Get Receipt
+
+    }
+</script>
