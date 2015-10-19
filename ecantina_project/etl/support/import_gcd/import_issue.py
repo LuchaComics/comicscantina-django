@@ -183,6 +183,13 @@ class ImportIssue:
             entry.rating = rating
             entry.no_rating = no_rating
             entry.publisher_name = publisher_name
+            entry.small_url = small_url
+            entry.medium_url = medium_url
+            entry.large_url = large_url
+            entry.alt_small_url = alt_small_url
+            entry.alt_medium_url = alt_medium_url
+            entry.alt_large_url = alt_large_url
+            entry.has_alternative = has_alternative
             entry.save()
         except GCDIssue.DoesNotExist:
             print("ImportIssue: Inserting: " + str(id))
@@ -227,6 +234,13 @@ class ImportIssue:
                 rating = rating,
                 no_rating = no_rating,
                 publisher_name=publisher_name,
+                small_url = small_url,
+                medium_url = medium_url,
+                large_url = large_url,
+                alt_small_url = alt_small_url,
+                alt_medium_url = alt_medium_url,
+                alt_large_url = alt_large_url,
+                has_alternative = has_alternative,
             )
 
         # Update the product name of the issue.
