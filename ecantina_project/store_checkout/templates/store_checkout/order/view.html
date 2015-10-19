@@ -6,8 +6,9 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="cart.html">Cart</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1">Category</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}cart">Cart</a></li>
                 <li class="active"> Checkout</li>
             </ul>
         </div>
@@ -19,8 +20,8 @@
         </div>
         
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
-            
-            <h4 class="caps"><a href="category.html"><i class="fa fa-chevron-left"></i> Back to shopping </a></h4>
+            <h4 class="caps"><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1"><i class="fa fa-chevron-left"></i> Back to shopping </a>
+            </h4>
         </div>
     </div>
     
@@ -32,21 +33,21 @@
                     
                     <div class="w100 clearfix">
                         
-                        
                         <ul class="orderStep orderStepLook2">
-                            <li><a href="checkout-1.html">
+                            <li><a href="">
                                 <i class="fa fa-map-marker "></i>
-                                <span> address</span>
-                            </a></li>
+                                    <span> address</span>
+                                </a>
+                            </li>
                             
-                            <li><a href="checkout-2.html"> <i class="fa fa fa-envelope  "></i>
+                            <li><a href=""> <i class="fa fa fa-envelope  "></i>
                                 <span> Billing </span></a></li>
                             
-                            <li><a href="checkout-3.html"><i class="fa fa-truck "> </i><span>Shipping</span> </a></li>
+                            <li><a href=""><i class="fa fa-truck "> </i><span>Shipping</span> </a></li>
                             
-                            <li><a href="checkout-4.html"><i class="fa fa-money  "> </i><span>Payment</span> </a></li>
+                            <li><a href=""><i class="fa fa-money  "> </i><span>Payment</span> </a></li>
                             
-                            <li class="active"><a href="checkout-5.html"><i
+                            <li class="active"><a href=""><i
                                 class="fa fa-check-square "> </i><span>Order</span></a></li>
                             
                         </ul>
@@ -72,67 +73,52 @@
                                                 <th style="width:15%"> Product</th>
                                                 <th class="checkoutReviewTdDetails">Details</th>
                                                 <th style="width:10%">Unit Price</th>
-                                                <th class="hidden-xs" style="width:5%">QNT</th>
-                                                <th class="hidden-xs" style="width:10%">Discount</th>
+                                                <th class="hidden-xs" style="width:5%">Tax</th>
+                                                <th class="hidden-xs" style="width:5%">Discount</th>
                                                 <th style="width:15%">Total</th>
                                             </tr>
+                                            
+                                            
+                                            {% for product in receipt.products.all %}
                                             <tr class="CartProduct">
                                                 <td class="CartProductThumb">
-                                                    <div><a href="product-details.html"><img src="images/product/3.jpg"></a>
+                                                    <div>
+                                                        <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';">
+                                                            {% if product.image_url == None or product.image_url == '' %}
+                                                            <img alt="{{ product }}"
+                                                            src="{% static "inventory/img/missing_cover.png" %}" />
+                                                            {% else %}
+                                                            <img alt="{{ product }}"
+                                                            src="{{ product.image_url }}" />
+                                                            {% endif %}
+                                                        </a>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="CartDescription">
-                                                        <h4><a href="product-details.html">Denim T shirt Black </a></h4>
-                                                        <span class="size">12 x 1.5 L</span>
+                                                        <h4><a href="product-details.html">{{ product }}</a></h4>
+                                                        <span class="size">{{ product.brand }}</span>
                                                         
                                                     </div>
                                                 </td>
                                                 <td class="delete">
-                                                    <div class="price ">$116.51</div>
+                                                    <div class="price ">${{ product.sub_price }}</div>
                                                 </td>
-                                                <td class="hidden-xs">1</td>
+                                           
+                                                <td class="hidden-xs">${{ product.tax_amount }}</td>
+                                                {% if product.discount > 0 %}
+                                                {% if product.discount_type == 1 %}
+                                                <td class="hidden-xs">{{ product.discount }}%</td>
+                                                {% elif product.discount_type == 2 %}
+                                                <td class="hidden-xs">${{ product.discount }}</td>
+                                                {% endif %}
+                                                {% else %}
                                                 <td class="hidden-xs">0</td>
-                                                <td class="price">$116.51</td>
+                                                {% endif %}
+                                                
+                                                <td class="price">${{ product.price }}</td>
                                             </tr>
-                                            <tr class="CartProduct">
-                                                <td class="CartProductThumb">
-                                                    <div><a href="product-details.html"><img src="images/product/2.jpg"></a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="CartDescription">
-                                                        <h4><a href="product-details.html">Denim T shirt </a></h4>
-                                                        <span class="size">12 x 1.5 L</span>
-                                                        
-                                                    </div>
-                                                </td>
-                                                <td class="delete">
-                                                    <div class="price ">$50</div>
-                                                </td>
-                                                <td class="hidden-xs">1</td>
-                                                <td class="hidden-xs">0</td>
-                                                <td class="price">$50</td>
-                                            </tr>
-                                            <tr class="CartProduct">
-                                                <td class="CartProductThumb">
-                                                    <div><a href="product-details.html"><img src="images/product/5.jpg"></a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="CartDescription">
-                                                        <h4><a href="product-details.html">Denim T shirt Red </a></h4>
-                                                        <span class="size">12 x 1.5 L</span>
-                                                        
-                                                    </div>
-                                                </td>
-                                                <td class="delete">
-                                                    <div class="price ">$50</div>
-                                                </td>
-                                                <td class="hidden-xs">1</td>
-                                                <td class="hidden-xs">0</td>
-                                                <td class="price">$50</td>
-                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
@@ -141,27 +127,36 @@
                                 <div class="w100 costDetails">
                                     <div class="table-block" id="order-detail-content">
                                         <table class="std table" id="cart-summary">
-                                            <tr>
-                                                <td>Total products</td>
-                                                <td class="price">$216.51</td>
-                                            </tr>
-                                            <tr style="">
-                                                <td>Shipping</td>
-                                                <td class="price"><span class="success">Free shipping!</span></td>
-                                            </tr>
-                                            <tr class="cart-total-price ">
-                                                <td>Total (tax excl.)</td>
-                                                <td class="price">$216.51</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total tax</td>
-                                                <td id="total-tax" class="price">0.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td> Total</td>
-                                                <td id="total-price" class="price">$216.51</td>
-                                            </tr>
                                             <tbody>
+                                                <tr>
+                                                    <td>Sub-Total</td>
+                                                    <td class="price">${{ receipt.sub_total }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tax</td>
+                                                    <td class="price" id="total-tax">${{ receipt.tax_amount }}</td>
+                                                </tr>
+                                                <tr class="cart-total-price ">
+                                                    <td>Sub-Total with Tax</td>
+                                                    <td class="price">${{ receipt.sub_total_with_tax }}</td>
+                                                </tr>
+                                                <tr style="">
+                                                    <td>Shipping</td>
+                                                    {% if receipt.shipping_amount > 0 %}
+                                                    <td class="price"><span>${{ receipt.shipping_amount }}</span></td>
+                                                    {% else %}
+                                                    <td class="price"><span class="success">Free shipping!</span></td>
+                                                    {% endif %}
+                                                </tr>
+                                                <tr class="cart-total-price ">
+                                                    <td>Discount</td>
+                                                    <td class="price">${{ receipt.discount_amount }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td> Total</td>
+                                                    <td class=" site-color" id="total-price">${{ receipt.total_amount }}</td>
+                                                </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -184,13 +179,16 @@
                     
                     <div class="cartFooter w100">
                         <div class="box-footer">
-                            <div class="pull-left"><a class="btn btn-default" href="checkout-4.html">
-                                <i class="fa fa-arrow-left"></i> &nbsp; Payment method </a>
+                            <div class="pull-left">
+                                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/payment_method"
+                                  class="btn btn-default">
+                                    <i class="fa fa-arrow-left"></i> &nbsp; Payment method
+                                </a>
                             </div>
                             
                             
                             <div class="pull-right">
-                                <a href="thanks-for-order.html" class="btn btn-primary btn-small ">
+                                <a onclick="ajax_confirm_and_proceed_next();" class="btn btn-primary btn-small ">
                                     Confirm Order &nbsp; <i class="fa fa-check"></i>
                                 </a>
                             </div>
@@ -213,29 +211,33 @@
                 <table id="cart-summary" class="std table">
                     <tbody>
                         <tr>
-                            <td>Total products</td>
-                            <td class="price">$216.51</td>
+                            <td>Sub-Total</td>
+                            <td class="price">${{ receipt.sub_total }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td class="price" id="total-tax">${{ receipt.tax_amount }}</td>
+                        </tr>
+                        <tr class="cart-total-price ">
+                            <td>Sub-Total with Tax</td>
+                            <td class="price">${{ receipt.sub_total_with_tax }}</td>
                         </tr>
                         <tr style="">
                             <td>Shipping</td>
+                            {% if receipt.shipping_amount > 0 %}
+                            <td class="price"><span>${{ receipt.shipping_amount }}</span></td>
+                            {% else %}
                             <td class="price"><span class="success">Free shipping!</span></td>
+                            {% endif %}
                         </tr>
                         <tr class="cart-total-price ">
-                            <td>Total (tax excl.)</td>
-                            <td class="price">$216.51</td>
-                        </tr>
-                        <tr>
-                            <td>Total tax</td>
-                            <td class="price" id="total-tax">$0.00</td>
+                            <td>Discount</td>
+                            <td class="price">${{ receipt.discount_amount }}</td>
                         </tr>
                         <tr>
                             <td> Total</td>
-                            <td class=" site-color" id="total-price">$216.51</td>
+                            <td class=" site-color" id="total-price">${{ receipt.total_amount }}</td>
                         </tr>
-                        
-                        
-                    </tbody>
-                    <tbody>
                     </tbody>
                 </table>
             </div>
