@@ -10,4 +10,8 @@ urlpatterns = patterns('',
     url(r'^checkout/shipping$', views.checkout_shipping_page),
     url(r'^(\d+)/checkout/shipping$', views.checkout_shipping_page),
     url(r'^(\d+)/(\d+)/checkout/shipping$', views.checkout_shipping_page),
+                       
+    url(r'^checkout/billing$', views.checkout_billing_page),
+    url(r'^(\d+)/checkout/billing$', views.checkout_billing_page),
+    url(r'^(\d+)/(\d+)/checkout/billing$', views.checkout_billing_page),
 )
