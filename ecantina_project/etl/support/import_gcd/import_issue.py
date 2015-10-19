@@ -127,6 +127,15 @@ class ImportIssue:
         except GCDBrand.DoesNotExist:
             brand = None
 
+        # Generate URL for images.
+        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_ADDRESS
+        small_url = base_url + str(id) + '_1_1.jpg'
+        medium_url = base_url + str(id) + '_1_2.jpg'
+        large_url = base_url + str(id) + '_1_4.jpg'
+        alt_small_url = base_url + str(id) + '_2_1.jpg'
+        alt_medium_url = base_url + str(id) + '_2_2.jpg'
+        alt_large_url = base_url + str(id) + '_2_4.jpg'
+        has_alternative = False
 
         #--------#
         #  Load  #

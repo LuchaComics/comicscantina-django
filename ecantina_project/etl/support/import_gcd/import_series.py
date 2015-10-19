@@ -123,6 +123,10 @@ class ImportSeries:
         publication_type_id = 0 if publication_type_id in 'NULL' else int(publication_type_id)
         open_reserve = 0 if open_reserve in 'NULL' else int(open_reserve)
 
+        # Generate Image URL
+        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_ADDRESS + str(id)
+        cover_url = base_url + '.jpg'
+
         #--------#
         #  Load  #
         #--------#
@@ -167,6 +171,7 @@ class ImportSeries:
             entry.publication_type_id=publication_type_id
             entry.is_singleton=is_singleton
             entry.publisher_name = publisher_name
+            entry.cover_url = cover_url
             entry.save()
         except GCDSeries.DoesNotExist:
             print("ImportSeries: Inserting: " + str(id))
@@ -209,4 +214,5 @@ class ImportSeries:
                 publication_type_id=publication_type_id,
                 is_singleton=is_singleton,
                 publisher_name=publisher_name,
+                cover_url=cover_url,
             )

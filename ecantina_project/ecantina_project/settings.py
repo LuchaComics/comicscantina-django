@@ -202,6 +202,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
+#  Django REST Framework Configuration (Third Party)
+#
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    )
+}
+
+
 # JavaScript Libraries
 #
 INVENTORY_CSS_LIBRARY= [
@@ -281,14 +294,6 @@ STORE_JS_LIBRARY_BODY = [
 ]
 
 
-#  Django REST Framework Configuration (Third Party)
+# External Servers
 #
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework.filters.DjangoFilterBackend',
-    )
-}
+COMICS_CANTINA_IMAGE_SERVER_ADDRESS = "http://img.comicscantina.com/image/"
