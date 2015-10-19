@@ -18,4 +18,8 @@ urlpatterns = patterns('',
     url(r'^checkout/shipping_method$', views.checkout_shipping_method_page),
     url(r'^(\d+)/checkout/shipping_method$', views.checkout_shipping_method_page),
     url(r'^(\d+)/(\d+)/checkout/shipping_method$', views.checkout_shipping_method_page),
+                       
+    url(r'^checkout/payment_method$', views.checkout_payment_method_page),
+    url(r'^(\d+)/checkout/payment_method$', views.checkout_payment_method_page),
+    url(r'^(\d+)/(\d+)/checkout/payment_method$', views.checkout_payment_method_page),
 )

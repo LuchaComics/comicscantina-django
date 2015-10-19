@@ -67,6 +67,10 @@ class Receipt(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     purchased = models.DateTimeField(null=True, blank=True, db_index=True)
     
+    # Variable holds any instructions / comments the customer would like
+    # to attach with his/her purchase.
+    comment = models.CharField(max_length=511, null=True, blank=True, default='')
+    
     # Variable indicates whether the purchase was made online or in-store.
     has_purchased_online = models.BooleanField(default=False)
     
