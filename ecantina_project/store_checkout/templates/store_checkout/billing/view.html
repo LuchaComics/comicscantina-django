@@ -117,8 +117,11 @@
                         <div class="box-footer">
                             
                             <div class="pull-left">
-                                <a class="btn btn-default" href="checkout-1.html"> <i class="fa fa-arrow-left"></i>
-                                    &nbsp; Shipping address </a></div>
+                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/shipping">
+                                    <i class="fa fa-arrow-left"></i>
+                                    &nbsp; Shipping address
+                                </a>
+                            </div>
                             <div class="pull-right">
                                 <a onclick="ajax_update_billing_and_proceed_next();"
                                      class="btn btn-primary btn-small "> Shipping method &nbsp;

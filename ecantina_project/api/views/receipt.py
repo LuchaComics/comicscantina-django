@@ -22,7 +22,7 @@ class ReceiptFilter(django_filters.FilterSet):
     has_finished = django_filters.BooleanFilter(name="has_finished")
     class Meta:
         model = Receipt
-        fields = ['receipt_id', 'organization', 'store', 'customer', 'has_finished', 'status', 'has_error', 'error', 'has_purchased_online','employee',]
+        fields = ['receipt_id', 'organization', 'store', 'customer', 'has_finished', 'status', 'has_error', 'error', 'has_purchased_online','employee', 'has_shipping',]
 
 
 class ReceiptViewSet(viewsets.ModelViewSet):
@@ -230,7 +230,8 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         # Calculate shipping for the specific organization.
         shipping_amount = 0
         if receipt.has_purchased_online:
-            shipping_amount = self.compute_shipping_cost(receipt)
+            if receipt.has_shipping:
+                shipping_amount = self.compute_shipping_cost(receipt)
 
         # Update financials.
         receipt.sub_total = sub_total_amount

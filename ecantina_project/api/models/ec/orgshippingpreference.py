@@ -4,12 +4,26 @@ from api.models.ec.organization import Organization
 from api.models.ec.orgshippingrate import OrgShippingRate
 from django.core.cache import caches
 
+
+class OrgShippingPreferenceManager(models.Manager):
+    """
+        Function will lookup and get the single OrgShippingPreference entry by 
+        the id and if nothing was found, it will return a None object.
+    """
+    def get_by_org_or_none(self, organization):
+        try:
+            return self.get(organization=organization)
+        except OrgShippingPreference.DoesNotExist:
+            return None
+
+
 class OrgShippingPreference(models.Model):
     class Meta:
         app_label = 'api'
         ordering = ('organization',)
         db_table = 'ec_org_shipping_preferences'
     
+    objects = OrgShippingPreferenceManager()
     shipping_pref_id = models.AutoField(primary_key=True)
     organization = models.ForeignKey(Organization, db_index=True)
     is_pickup_only = models.BooleanField(default=False)

@@ -10,7 +10,7 @@ from django.core.cache import caches
 
 
 class ReceiptManager(models.Manager):
-    def get_or_create_for_customer(self, customer):
+    def get_or_create_for_online_customer(self, customer):
         """
             Function will lookup the Receipt based off the Customer info. If
             a Receipt was not found, then this function will create one and
@@ -45,6 +45,8 @@ class ReceiptManager(models.Manager):
                 shipping_province = customer.shipping_province,
                 shipping_country = customer.shipping_country,
                 shipping_postal = customer.shipping_postal,
+                has_shipping = True,
+                has_purchased_online = True,
             )
 
 
@@ -64,18 +66,31 @@ class Receipt(models.Model):
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     last_updated = models.DateTimeField(auto_now=True)
     purchased = models.DateTimeField(null=True, blank=True, db_index=True)
+    
+    # Variable indicates whether the purchase was made online or in-store.
     has_purchased_online = models.BooleanField(default=False)
+    
+    # Variable controls HOW the payment was conducted.
     payment_method = models.PositiveSmallIntegerField(
         default=1,
         choices=constants.PAYMENT_METHOD_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(9)],
     )
+    
+    # Variable controls what is the status of the receipt. This variable is
+    # responsible for indicating whether the receipt was started, is ordered,
+    # is shipped, etc, etc.
     status = models.PositiveSmallIntegerField(
         default=1,
         choices=constants.STATUS_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(6)],
         db_index=True
     )
+    
+    # Variable controls whether the Customer is suppose to pickup the purchase
+    # at the store (and have shipping costs wavered) or the Store has to ship
+    # out the order to the customer (and apply shipping costs to the total).
+    has_shipping = models.BooleanField(default=False, db_index=True)
     
     # Financial
     # Note: Here is the order of computation...

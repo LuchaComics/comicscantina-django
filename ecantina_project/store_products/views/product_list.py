@@ -29,7 +29,7 @@ def list_page(request, org_id=0, store_id=0):
     receipt = None
     if request.user.is_authenticated():
         customer = Customer.objects.get_or_create_for_user(request.user)
-        receipt = Receipt.objects.get_or_create_for_customer(customer)
+        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Fetch objects used for searching criteria.
     try:

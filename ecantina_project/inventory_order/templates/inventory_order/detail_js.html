@@ -52,55 +52,14 @@
 
     function update_receipt_status()
     {
-        var status = $('#id_status').val();
-        
-        // Create our array of product ID's to include in the Receipt update.
-        var products = [];
-    {% for product in receipt.products.all %}
-        products.push({{ product.product_id }});
-    {% endfor %}
-    
-        // Update the receipt and then do nothing.
-        set_receipt({
-            'purchased': '{{ receipt.purchased|date:"c" }}',
-            'organization': {{ receipt.organization_id }},
-            'store': {{ receipt.store_id }},
-            'employee': {{ receipt.employee_id }},
-            'receipt_id': {{ receipt.receipt_id }},
-            'customer': {{ receipt.customer_id }},
-            'payment_method': {{ receipt.payment_method }},
-            'has_purchased_online': '{{ receipt.has_purchased_online }}',
-            'sub_total': {{ receipt.sub_total }},
-            'has_tax': '{{ receipt.has_tax }}',
-            'tax_rate': {{ receipt.tax_rate }},
-            'tax_amount': {{ receipt.tax_amount }},
-            'sub_total_with_tax': {{ receipt.sub_total_with_tax }},
-            'discount_amount': {{ receipt.discount_amount }},
-            'shipping_amount': {{ receipt.shipping_amount }},
-            'total_amount': {{ receipt.total_amount }},
-            'has_finished': '{{ receipt.has_finished }}',
-            'has_paid': '{{ receipt.has_paid }}',
-            'status': status,
-            'has_error': '{{ receipt.has_error }}',
-            'error': {{ receipt.error }},
-            'billing_name': "{{ receipt.billing_name | escape | safe }}",
-            'billing_address': "{{ receipt.billing_address | escape | safe }}",
-            'email': '{{ receipt.email }}',
-            'billing_phone': '{{ receipt.billing_phone }}',
-            'billing_city': "{{ receipt.billing_city | escape | safe }}",
-            'billing_province': "{{ receipt.billing_province | escape | safe }}",
-            'billing_country': "{{ receipt.billing_country | escape | safe }}",
-            'billing_postal': '{{ receipt.billing_postal }}',
-            'shipping_name': "{{ receipt.shipping_name | escape | safe }}",
-            'shipping_address': "{{ receipt.shipping_address | escape | safe }}",
-            'shipping_phone': '{{ receipt.shipping_phone }}',
-            'shipping_city': "{{ receipt.shipping_city | escape | safe }}",
-            'shipping_province': "{{ receipt.shipping_province | escape | safe }}",
-            'shipping_country': "{{ receipt.shipping_country | escape | safe }}",
-            'shipping_postal': '{{ receipt.shipping_postal }}',
-            'products': products,
-        }, function(json_result) {
-            // No nothing.
+        get_receipt({{ receipt.receipt_id }}, function(json_result) {
+            json_result['status'] = parseInt( ('#id_status').val() );
+            set_receipt(
+                json_result,
+                function(json_result) {
+                    // Do nothing.
+                }
+            );
         });
     }
 </script>

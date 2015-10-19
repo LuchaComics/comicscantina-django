@@ -1,0 +1,87 @@
+{% load staticfiles %}
+{% include 'api/organization.html' %}
+{% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
+{% include 'store_base/receipt_js.html' %}
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+
+    
+    var mySwiper = new Swiper('.swiper-container', {
+        pagination: '.box-pagination',
+        keyboardControl: true,
+        paginationClickable: true,
+        slidesPerView: 'auto',
+        autoResize: true,
+        resizeReInit: true,
+    })
+
+    $('.prevControl').on('click', function (e) {
+        e.preventDefault()
+        mySwiper.swipePrev()
+    })
+    $('.nextControl').on('click', function (e) {
+        e.preventDefault()
+        mySwiper.swipeNext()
+    })
+    
+    function ajax_update_shipping_and_proceed_next()
+    {
+        get_customer({{ customer.customer_id }}, function(customer) {
+            customer['shipping_name'] = $('#id_shipping_name').val();
+            customer['shipping_street_number'] = $('#id_shipping_street_number').val();
+            customer['shipping_street_name'] = $('#id_shipping_street_name').val();
+            customer['shipping_unit_number'] = $('#id_shipping_unit_number').val();
+            customer['shipping_city'] = $('#id_shipping_city').val();
+            customer['shipping_country'] = $('#id_shipping_country').val();
+            customer['shipping_province'] = $('#id_shipping_province').val();
+            customer['shipping_postal'] = $('#id_shipping_postal').val();
+                                 
+            if ($('#id_shipping_phone').val().length > 0) { // Add telephone if added.
+                customer['shipping_phone'] = get_phone('#id_shipping_phone');
+            } else {
+                customer['shipping_phone'] = "";
+            }
+                     
+            set_customer(
+                customer,
+                function(success_json) { // Create a new customer
+                    window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/billing';
+                },
+                function(error_json) {
+                    for (var key in error_json) {
+                        // this will check if key is owned by data object and not by any of it's ancestors
+                        if (error_json.hasOwnProperty(key)) {
+                            // Display the error here.
+                            $(document).trigger("add-alerts",[{
+                                'message': (key+': '+error_json[key]),
+                                'priority': 'error'
+                            }]);
+                        }
+                    }
+                }
+            ); // End Set Customer
+        }); // End Get Customer
+    }
+</script>
