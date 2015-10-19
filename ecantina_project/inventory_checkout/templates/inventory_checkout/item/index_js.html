@@ -99,23 +99,27 @@
      */
     function render_cart_content()
     {
-        var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/content';
-        
-        $.ajax( url, {
-            data: {
-               'csrfmiddlewaretoken': '{{ csrf_token }}',
-            },
-            type: 'post',
-            success: function(result) {
-               // success code execution here
-               $('#id_content_placeholder').html(result); // Update UI.
-            },
-            error: function(xhr,status,error) {
-               // error code here
-            },
-            complete: function(xhr,status) {
-               // completion code here
-            }
+        perform_apply_discounts({{ receipt.receipt_id }}, function(json_result) {
+            perform_receipt_checkout_computation({{ receipt.receipt_id }}, function(json_result2) {
+                var url = '/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items/content';
+                                                 
+                $.ajax( url, {
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    type: 'post',
+                    success: function(result) {
+                        // success code execution here
+                        $('#id_content_placeholder').html(result); // Update UI.
+                    },
+                    error: function(xhr,status,error) {
+                        // error code here
+                    },
+                    complete: function(xhr,status) {
+                        // completion code here
+                    }
+                });
+            });
         });
     }
 

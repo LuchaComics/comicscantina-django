@@ -210,8 +210,7 @@
                                  
                     // Update the receipt.
                     set_receipt(receipt, function(json_result) {
-                        var receipt_id = json_result['receipt_id'];
-                        window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
+                        load_checkout_page();
                     }); // End Set Receipt jQuery.
                 }); // End Get Receipt jQuery
             },
@@ -282,8 +281,7 @@
                         
                 // Update the receipt.
                 set_receipt(receipt, function(json_result) {
-                    var receipt_id = json_result['receipt_id'];
-                    window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/"+receipt_id+"/items";
+                    load_checkout_page();
                 }); // End Set Receipt jQuery.
             }); // End Get Receipt jQuery
         }); // End Customer jQuery.
@@ -298,11 +296,16 @@
     }
 
     /**
-     *  Function will cause the browser to move to the next page.
+     *  Function will cause the browser to move to the next page. This is done
+     *  right after the discounts are applied and the totals computed.
      */
     function load_checkout_page()
     {
-        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items";
+        perform_apply_discounts({{ receipt.receipt_id }}, function(json_result) {
+            perform_receipt_checkout_computation({{ receipt.receipt_id }}, function(json_result2) {
+                window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/{{ receipt.receipt_id }}/items";
+            });
+        });
     }
 
     function print_customer_card()
