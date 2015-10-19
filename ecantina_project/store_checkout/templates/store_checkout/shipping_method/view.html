@@ -75,20 +75,30 @@
                                                     <td>Price!</td>
                                                 </tr>
                                                 <tr>
-                                                    <td><label class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionsRadios1"
-                                                            value="option1" {% if not receipt.has_shipping %}checked{% endif %}>
-                                                        <i class="fa  fa-truck fa-2x"></i> </label></td>
+                                                    <td>
+                                                        <label class="radio">
+                                                            <input type="radio"
+                                                                   name="optionsRadios"
+                                                                     id="optionPickup"
+                                                                  value="option1" {% if not receipt.has_shipping %}checked{% endif %}>
+                                                            <i class="fa  fa-truck fa-2x"></i>
+                                                        </label>
+                                                    </td>
                                                     <td> By Road</td>
                                                     <td>Pick up in-store</td>
                                                     <td>Free!</td>
                                                 </tr>
                                                 {% if has_no_shipping == False %}
                                                 <tr>
-                                                    <td><label class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionsRadios2"
-                                                            value="option2" {% if receipt.has_shipping %}checked{% endif %}>
-                                                        <i class="fa fa-plane fa-2x"></i> </label></td>
+                                                    <td>
+                                                        <label class="radio">
+                                                            <input type="radio"
+                                                                   name="optionsRadios"
+                                                                     id="optionShipping"
+                                                                  value="option2" {% if receipt.has_shipping %}checked{% endif %}>
+                                                            <i class="fa fa-plane fa-2x"></i>
+                                                        </label>
+                                                    </td>
                                                     <td>By Air</td>
                                                     <td>Delivery next day!</td>
                                                     <td>${{ receipt.shipping_amount }}</td>
@@ -109,7 +119,8 @@
                                                 <i class="fa fa-arrow-left"></i> &nbsp; Billing address
                                             </a>
                                         </div>
-                                        <div class="pull-right"><a href="checkout-4.html"
+                                        <div class="pull-right">
+                                            <a onclick="ajax_update_shipping_method_and_proceed_next();"
                                             class="btn btn-primary btn-small "> Payment Method
                                             &nbsp; <i class="fa fa-arrow-circle-right"></i> </a></div>
                                     </div>
@@ -177,6 +188,6 @@
 
 <div class="gap"></div>
 
-{% include "store_checkout/shipping/js.html" %}
+{% include "store_checkout/shipping_method/js.html" %}
 
 {% endblock content %}
