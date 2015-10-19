@@ -27,37 +27,27 @@
         });
     });
 
-    
-    var mySwiper = new Swiper('.swiper-container', {
-        pagination: '.box-pagination',
-        keyboardControl: true,
-        paginationClickable: true,
-        slidesPerView: 'auto',
-        autoResize: true,
-        resizeReInit: true,
-    })
 
-    $('.prevControl').on('click', function (e) {
-        e.preventDefault()
-        mySwiper.swipePrev()
-    })
-    $('.nextControl').on('click', function (e) {
-        e.preventDefault()
-        mySwiper.swipeNext()
-    })
-    
-    function ajax_update_shipping_method_and_proceed_next()
+    function ajax_paypal_checkout_and_proceed_next()
     {
-        get_receipt({{ receipt.receipt_id }}, function(json_result) {
+        // Defensive Code: Ensure that the user agrees to the terms before proceeding.
+        var is_tsa_checked = $('#checkboxes-0').is(':checked');
+        if (is_tsa_checked == false) {
+            alert("Please agree to the service agreement to continue.");
+            return;
+        }
+        
+        // Get the receipt and update it.
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
             // Fetch the selected option and update accordingly.
-            var optionValue = $('input[name=optionsRadios]:checked').val();
-            if (optionValue == 'option1') {
-                json_result['has_shipping'] = false;
-            } else {
-                json_result['has_shipping'] = true;
-            }
-            set_receipt(json_result, function(json_result) {
-                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/payment_method';
+            var optionValue = $('input[name=radios]:checked').val();
+            if (optionValue == 'PayPal') {
+                receipt['payment_method'] = 7; // PayPal (Note: see constants.py)
+                receipt['comment'] = $('#id_comment').val();
+            } 
+            console.log(receipt);
+            set_receipt(receipt, function(json_result) {
+                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/order';
             }); // End Set Receipt.
         }); // End Get Receipt
 
