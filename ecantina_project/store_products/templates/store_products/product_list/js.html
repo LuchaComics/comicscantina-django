@@ -155,6 +155,7 @@
             $(val2['results']).each(function(iter2,val){
                 var product_id = val['product_id'];
                 var name = val['name'];
+                var brand = val['brand_name'];
                 var sub_price = val['sub_price'];
                 var image_url = val['image_url'];
                 var discount = parseFloat(val['discount']);
@@ -187,10 +188,10 @@
                 html += '<div class="description">';
                 html += '<h4><a href="/{{ org.org_id }}/products/details/'+product_id+'"> '+name+' </a></h4>';
                 html += '<div class="grid-description">';
-                //html += '<p>{{ product.brand }}</p>';
+                html += '<p>'+brand+'</p>';
                 html += '</div>';
                 html += '<div class="list-description">';
-                html += '<p> </p>';
+                html += '<p><!-- TODO --></p>';
                 html += '</div>';
                 html += '<span class="size"> </span>';
                 html += '</div>';
