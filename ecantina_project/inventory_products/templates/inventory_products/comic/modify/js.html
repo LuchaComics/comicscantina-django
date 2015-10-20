@@ -259,6 +259,7 @@
             'is_available': $('#id_is_available').is(':checked'),
             'is_featured': $('#id_is_featured').is(':checked'),
             'is_new': $('#id_is_new').is(':checked'),
+            'description': $('#id_description').val(),
         };
         
         // Handle saving the cover images for the Issue.
@@ -399,7 +400,7 @@
         $(json_result).each(function(iter,val2){
             var position_index = 0;
             $(val2['results']).each(function(iter2,val){
-            {% if comic_form.instance %}
+            {% if comic_form.instance.product_id > 0 %}
                 var this_product_id = {{ comic_form.instance.product_id }};
             {% else %}
                 var this_product_id = 0;

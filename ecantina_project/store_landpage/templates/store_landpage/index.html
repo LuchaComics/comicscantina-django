@@ -51,7 +51,7 @@
                                 <!--<span class="price-standard">$95</span>-->
                             </div>
                             <div class="details-description">
-                                <p><!-- TODO: DESCRIPTION --></p>
+                                <p>{{ comic.product.description|slice:":125" }}</p>
                             </div>
                             {% if comic.product in receipt.products.all %}
                             <a onclick="ajax_remove_from_cart({{ comic.product_id }});"
@@ -137,7 +137,7 @@
                     <div class="description">
                         <h4><a href="product-details.html">{{ comic }}</a></h4>
 
-                        <p><!-- TODO: DESCRIPTION --></p>
+                        <p>{{ comic.product.description|slice:":125" }}</p>
                         <span class="size">{{ comic.genre }}</span></div>
                     <div class="price"><span>${{ comic.product.sub_price }}</span></div>
                     
@@ -275,9 +275,9 @@
                             </div>
                         </div>
                         <div class="description">
-                            <h4><a href="product-details.html">aliquam erat volutpat</a></h4>
+                            <h4><a href="product-details.html">{{ comic.product.name }}</a></h4>
 
-                            <p><!-- TODO: COMIC DESCRIPTION --></p>
+                            <p>{{ comic.product.description|slice:":125" }}</p>
                             <span class="size">{{ comic.genre }}</span>
                         </div>
                         <div class="price">

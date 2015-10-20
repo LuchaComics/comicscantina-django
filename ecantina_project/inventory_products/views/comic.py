@@ -6,7 +6,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from api.models.gcd.issue import GCDIssue
-from api.models.gcd.story import GCDStory
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
@@ -47,16 +46,12 @@ def comic_page(request, org_id, store_id, issue_id, product_id):
         sections = Section.objects.filter(store=store)
     except Section.DoesNotExist:
         sections = None
+
     try:
         issue = GCDIssue.objects.get(issue_id=issue_id)
-        issue.publisher_name = issue.series.publisher.name
-        issue.save()
     except GCDIssue.DoesNotExist:
         issue = None
-    try:
-        story = GCDStory.objects.filter(issue_id=issue_id)[:1]
-    except GCDStory.DoesNotExist:
-        story = None
+
     try:
         tags = Tag.objects.filter(organization=org)
     except Tag.DoesNotExist:
@@ -70,9 +65,6 @@ def comic_page(request, org_id, store_id, issue_id, product_id):
         comic_form = ComicForm()
         product_form = ProductForm(initial={'price': 5.00})
 
-    # Update forms
-#    if story is not None:
-#        issue_form.fields['genre'].initial = story.genre
     if stores is not None:
         # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
         product_form.fields["store"].queryset = stores

@@ -81,7 +81,7 @@
             <div class="product-price"><span class="price-sales"> ${{ product.price }}</span>
             </div>
             <div class="details-description">
-                <p>In scelerisque libero ut elit porttitor commodo Suspendisse laoreet magna. </p>
+                <p>{{ product.description | escape | safe }}</p>
             </div>
             <div class="productThumb"></div>
             <!--/.productThumb-->
