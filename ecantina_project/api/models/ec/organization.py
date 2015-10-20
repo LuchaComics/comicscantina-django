@@ -73,6 +73,9 @@ class Organization(models.Model):
     youtube_url = models.URLField(null=True, blank=True)
     flickr_url = models.URLField(null=True, blank=True)
 
+    # Payment Processing Accounts
+    paypal_email = models.EmailField()
+
     # References
     administrator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)

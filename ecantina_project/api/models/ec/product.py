@@ -40,6 +40,9 @@ class Product(models.Model):
         default=1,
     )
     
+    # description that will be displayed to the customer about this product.
+    description = models.TextField(default='')
+    
     # Date & timekeeping tracking variables.
     created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)

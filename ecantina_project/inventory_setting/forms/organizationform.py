@@ -14,7 +14,7 @@ from api.models.ec.organization import Organization
 class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = ['name', 'description', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'twitter_url' , 'facebook_url' , 'currency', 'language',
+        fields = ['name', 'description', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'twitter_url' , 'facebook_url' , 'currency', 'language', 'paypal_email',
 #                  'instagram_url' , 'linkedin_url' , 'github_url' , 'google_url' , 'youtube_url' , 'flickr_url'
                   ]
         labels = {
@@ -102,4 +102,8 @@ class OrganizationForm(forms.ModelForm):
             }),
             'currency': Select(attrs={'class': u'form-control'}),
             'language': Select(attrs={'class': u'form-control'}),
+            'paypal_email': TextInput(attrs={
+                'class': u'form-control',
+                'placeholder': u'Enter PayPal Receiving Email Address'
+            }),
         }

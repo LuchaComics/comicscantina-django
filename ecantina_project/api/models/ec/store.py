@@ -103,6 +103,9 @@ class Store(models.Model):
     is_furniture_vendor = models.BooleanField(default=False)
     is_coins_vendor = models.BooleanField(default=False)
     
+    # Payment Processing Accounts
+    paypal_email = models.EmailField()
+    
     # Reference
     organization = models.ForeignKey(Organization, db_index=True)
     employees = models.ManyToManyField(Employee)

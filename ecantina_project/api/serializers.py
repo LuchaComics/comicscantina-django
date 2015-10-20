@@ -36,20 +36,20 @@ class StoreSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization', read_only=True)
     class Meta:
         model = Store
-        fields = ('store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'logo', 'tax_rate', 'currency', 'language', 'is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor', 'is_aggregated', 'organization_name',)
+        fields = ('store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'logo', 'tax_rate', 'currency', 'language', 'is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor', 'is_aggregated', 'organization_name', 'paypal_email',)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ('org_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'twitter_url', 'facebook_url', 'instagram_url', 'linkedin_url', 'github_url', 'google_url', 'youtube_url', 'flickr_url', 'administrator', 'logo','customers', 'currency', 'language',)
+        fields = ('org_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'twitter_url', 'facebook_url', 'instagram_url', 'linkedin_url', 'github_url', 'google_url', 'youtube_url', 'flickr_url', 'administrator', 'logo','customers', 'currency', 'language', 'paypal_email', )
 
 
 class ProductSerializer(serializers.ModelSerializer):
     brand_name = serializers.CharField(source='brand', read_only=True)
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'has_tax', 'tax_rate', 'tax_amount', 'sub_price_with_tax','discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_available', 'category', 'is_new', 'is_featured', 'qrcode', 'is_qrcode_printed', 'currency', 'language', 'has_no_shipping', 'brand_name',)
+        fields = ('product_id', 'name', 'description', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'has_tax', 'tax_rate', 'tax_amount', 'sub_price_with_tax','discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_available', 'category', 'is_new', 'is_featured', 'qrcode', 'is_qrcode_printed', 'currency', 'language', 'has_no_shipping', 'brand_name',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
