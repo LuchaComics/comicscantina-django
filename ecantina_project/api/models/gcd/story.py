@@ -58,4 +58,4 @@ class GCDStory(models.Model):
     deleted = models.BooleanField(default=False, db_index=True)
 
     def __str__(self):
-        return self.name
+        return '#'+str(self.story_id)+' '+self.title
