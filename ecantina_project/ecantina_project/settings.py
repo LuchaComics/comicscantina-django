@@ -43,6 +43,9 @@ ALLOWED_HOSTS = SECRET_ALLOWED_HOSTS
 # 'Sites Framework' requires this line.
 SITE_ID = 1
 
+# The address domain URL.
+SITE_DOMAIN_URL = "http://www.comicscantina.com"
+
 
 # Application definition
 
@@ -58,6 +61,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework.authtoken',
     'captcha',
+    'paypal.standard.ipn',
     'inventory_base',
     'inventory_products',
     'inventory_checkout',
@@ -202,7 +206,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-#  Django REST Framework Configuration (Third Party)
+# Django REST Framework Configuration (Third Party)
 #
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -214,6 +218,10 @@ REST_FRAMEWORK = {
     )
 }
 
+# PayPal
+#
+PAYPAL_RECEIVER_EMAIL = SECRET_PAYPAL_RECEIVER_EMAIL
+PAYPAL_TEST = SECRET_PAYPAL_TEST
 
 # JavaScript Libraries
 #

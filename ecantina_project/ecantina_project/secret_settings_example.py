@@ -27,3 +27,5 @@ SECRET_EMAIL_HOST_PASSWORD = ''
 #---------------------------------------------------------------------------#
 # Application Specific Settings                                             #
 #---------------------------------------------------------------------------#
+SECRET_PAYPAL_RECEIVER_EMAIL = "yourpaypalemail@example.com"
+SECRET_PAYPAL_TEST = True # Note: If True, be sure to use your test email.

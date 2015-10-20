@@ -30,4 +30,11 @@ urlpatterns = patterns('',
     url(r'^checkout/thank_you$', views.checkout_thank_you_page),
     url(r'^(\d+)/checkout/thank_you$', views.checkout_thank_you_page),
     url(r'^(\d+)/(\d+)/checkout/thank_you$', views.checkout_thank_you_page),
+                 
+    url(r'^checkout/cancel$', views.checkout_cancel_page),
+    url(r'^(\d+)/checkout/cancel$', views.checkout_cancel_page),
+    url(r'^(\d+)/(\d+)/checkout/cancel$', views.checkout_cancel_page),
+                       
+    # PayPal
+    url(r'^checkout/paypal/', include('paypal.standard.ipn.urls')),
 )
