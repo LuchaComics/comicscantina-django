@@ -126,7 +126,7 @@ class StoreForm(forms.ModelForm):
 #            'is_coins_vendor': Select(attrs={'class': u'form-control'}),
             'paypal_email': TextInput(attrs={
                 'class': u'form-control mb-lg',
-                'placeholder': u'Enter PayPal Receiving Email Address'
+                'placeholder': u'Enter PayPal Email Address'
             }),
 
     }
