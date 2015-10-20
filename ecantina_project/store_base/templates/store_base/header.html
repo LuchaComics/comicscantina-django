@@ -247,7 +247,7 @@
                                                     <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';"> {{ product }}
                                                     </a>
                                                 </h4>
-                                                <!--<span class="size"> 12 x 1.5 L </span>-->
+                                                <span class="size">{{ product.brand }}</span>
                                                 
                                                 <div class="price"><span> ${{ product.sub_price }}</span></div>
                                             </div>
