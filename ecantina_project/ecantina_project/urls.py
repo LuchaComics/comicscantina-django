@@ -32,7 +32,7 @@ urlpatterns = [
     url(r'', include('store_blog.urls')),
     url(r'', include('store_checkout.urls')),
     url(r'', include('store_customer.urls')),               
-    url(r'', include('register.urls')),
+    url(r'', include('store_register.urls')),
     url(r'', include('login.urls')),
     url(r'', include('inventory_base.urls')),
     url(r'', include('inventory_checkout.urls')),

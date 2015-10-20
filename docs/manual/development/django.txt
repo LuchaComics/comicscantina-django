@@ -134,6 +134,7 @@ python manage.py startapp inventory_dashboard
 python manage.py startapp inventory_setting
 python manage.py startapp inventory_email
 python manage.py startapp inventory_pulllist
+python manage.py startapp inventory_register
 python manage.py startapp etl
 python manage.py startapp store_base
 python manage.py startapp store_landpage
@@ -142,7 +143,7 @@ python manage.py startapp store_products
 python manage.py startapp store_blog
 python manage.py startapp store_checkout
 python manage.py startapp store_customer
-python manage.py startapp register
+python manage.py startapp store_register
 python manage.py startapp login
 python manage.py startapp api
 
@@ -169,6 +170,7 @@ INSTALLED_APPS = (
     'inventory_setting',
     'inventory_email',
     'inventory_pulllist',
+    'inventory_register',
     'etl',
     'store_base',
     'store_landpage',
@@ -177,7 +179,7 @@ INSTALLED_APPS = (
     'store_blog',
     'store_checkout',
     'store_customer',
-    'register',
+    'store_register',
     'login',
     'api','
 )
