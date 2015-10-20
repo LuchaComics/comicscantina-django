@@ -33,9 +33,10 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ('customer_id', 'joined', 'last_updated', 'is_suspended', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile', 'qrcode',)
 
 class StoreSerializer(serializers.ModelSerializer):
+    organization_name = serializers.CharField(source='organization', read_only=True)
     class Meta:
         model = Store
-        fields = ('store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'logo', 'tax_rate', 'currency', 'language', 'is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor', 'is_aggregated',)
+        fields = ('store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'logo', 'tax_rate', 'currency', 'language', 'is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor', 'is_aggregated', 'organization_name',)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
@@ -52,16 +53,21 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(source='user.first_name', read_only=True)
+    last_name = serializers.CharField(source='user.last_name', read_only=True)
+    email = serializers.CharField(source='user.email', read_only=True)
     class Meta:
         model = Employee
-        fields = ('employee_id', 'role',  'joined', 'last_updated', 'is_suspended', 'user', 'organization', 'profile',)
+        fields = ('employee_id', 'role',  'joined', 'last_updated', 'is_suspended', 'user', 'organization', 'profile', 'first_name', 'last_name', 'email',)
 
 
 class ComicSerializer(serializers.ModelSerializer):
+    series_name = serializers.CharField(source='issue.series', read_only=True)
+    issue_name = serializers.CharField(source='issue', read_only=True)
     class Meta:
         model = Comic
         fields = ('comic_id', 'is_cgc_rated', 'age',
-                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'product', 'created', 'organization',
+                  'cgc_rating', 'label_colour', 'condition_rating', 'is_canadian_priced_variant', 'is_variant_cover', 'is_retail_incentive_variant', 'is_newsstand_edition', 'issue', 'product', 'created', 'organization', 'issue_name', 'series_name',
                   )
 
 
@@ -136,9 +142,10 @@ class SeriesSerializer(serializers.ModelSerializer):
 
 
 class IssueSerializer(serializers.ModelSerializer):
+    series_name = serializers.CharField(source='series', read_only=True)
     class Meta:
         model = GCDIssue
-        fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name', 'product_name',)
+        fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name', 'product_name', 'series_name',)
 
 
 class TagSerializer(serializers.ModelSerializer):
