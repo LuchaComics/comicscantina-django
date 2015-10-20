@@ -120,8 +120,9 @@ def checkout_shipping_method_page(request, org_id=0, store_id=0):
 
     # Lock out 'Shipping' option if the organization does not support it.
     preference = OrgShippingPreference.objects.get_by_org_or_none(organization=org)
-    if preference.is_pickup_only:
-        has_no_shipping = True
+    if preference is not None:
+        if preference.is_pickup_only:
+            has_no_shipping = True
 
     # Display the view with all our model information.
     return render(request, 'store_checkout/shipping_method/view.html',{
@@ -225,12 +226,15 @@ def checkout_order_page(request, org_id=0, store_id=0):
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
     
-    # Generate our URLs
+    # Generate our URLs & pick the payment email
+    paypal_email = settings.PAYPAL_RECEIVER_EMAIL
     base_url = settings.SITE_DOMAIN_URL
     if org is not None and store is None:
         base_url += "/"+str(org.org_id)
+        paypal_email = org.paypal_email
     if org is not None and store is not None:
         base_url += "/"+str(org.org_id)+"/"+str(store.store_id)
+        paypal_email = store.paypal_email
     return_url = base_url+"/checkout/thank_you"
     cancel_url = base_url+"/checkout/cancel"
 
@@ -244,7 +248,7 @@ def checkout_order_page(request, org_id=0, store_id=0):
     
     # What you want the button to do.
     paypal_dict = {
-        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "business": paypal_email,
         "amount": str(receipt.total_amount),
         "item_name": "Comic Book(s) Purchase, Receipt #"+str(receipt.receipt_id),
         "invoice": str(receipt.receipt_id),
