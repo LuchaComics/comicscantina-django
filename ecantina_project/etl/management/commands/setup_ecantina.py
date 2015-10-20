@@ -34,6 +34,8 @@ class Command(BaseCommand):
         # Administrator
         #----------------
         try:
+            user = User.objects.get(email='bmika@icloud.com')
+        except User.DoesNotExist:
             user = User.objects.create_user(
                 'bmika@icloud.com',  # Username
                 'bmika@icloud.com',  # Email
@@ -44,45 +46,47 @@ class Command(BaseCommand):
             user.is_active = True
             user.save()
             user = User.objects.get(email='bmika@icloud.com')
-        except Exception as e:
-            user = User.objects.get(email='bmika@icloud.com')
 
         #----------------
         # Image Uploads
         #----------------
         try:
+            org_logo = ImageUpload.objects.get(upload_id=1)
+        except ImageUpload.DoesNotExist:
             org_logo = ImageUpload.objects.create(
                 upload_id = 1,
                 upload_date = now,
                 image = 'upload/bascomics_logo.png',
                 user = user,
             )
-        except Exception as e:
-            org_logo = ImageUpload.objects.get(upload_id=1)
+
         try:
+            profile = ImageUpload.objects.get(upload_id=2)
+        except ImageUpload.DoesNotExist:
             profile = ImageUpload.objects.create(
                 upload_id = 2,
                 upload_date = now,
                 image = 'upload/pepe.png',
                 user = user,
             )
-        except Exception as e:
-            profile = ImageUpload.objects.get(upload_id=2)
+
         try:
+            store_logo = ImageUpload.objects.get(upload_id=1)
+        except ImageUpload.DoesNotExist:
             store_logo = ImageUpload.objects.create(
                 upload_id = 3,
                 upload_date = now,
                 image = 'upload/bascomics_logo.png',
                 user = user,
             )
-        except Exception as e:
-            store_logo = ImageUpload.objects.get(upload_id=1)
 
 
         #-----------------
         # Organization
         #-----------------
         try:
+            organization = Organization.objects.get(org_id=1)
+        except Organization.DoesNotExist:
             organization = Organization.objects.create(
                 org_id=1,
                 name='B.A.\'s Comics',
@@ -111,13 +115,13 @@ class Command(BaseCommand):
                 logo = org_logo,
                 paypal_email = 'rodolfo@theshootingstarpress.com',
             )
-        except Exception as e:
-            organization = Organization.objects.get(org_id=1)
 
         #-----------------
         # Store
         #-----------------
         try:
+            store = Store.objects.get(store_id=1)
+        except Store.DoesNotExist:
             store = Store.objects.create(
                 store_id=1,
                 name='Main Store',
@@ -159,25 +163,16 @@ class Command(BaseCommand):
                 sunday_from = '08:00',
                 paypal_email = 'rodolfo@theshootingstarpress.com',
             )
-        except Exception as e:
-            store = Store.objects.get(store_id=1)
 
         #-----------------
         # Employees
         #-----------------
         try:
+            owner = Employee.objects.get(employee_id=1)
+        except Employee.DoesNotExist:
             owner = Employee.objects.create(
                 employee_id=1,
                 joined = datetime.now(),
-                street_name = 'Centre Street',
-                street_number = '120',
-                unit_number = '102',
-                city = 'London',
-                province = 'Ontario',
-                country = 'Canada',
-                postal = 'N6J4X4',
-                email = 'bmika@icloud.com',
-                phone = '5194327898',
                 role = constants.EMPLOYEE_OWNER_ROLE,
                 user = user,
                 organization = organization,
@@ -186,12 +181,11 @@ class Command(BaseCommand):
             # Make "Owner" an employee of that store.
             store.employees.add(owner)
             store.save()
-        except Exception as e:
-            owner = Employee.objects.get(employee_id=1)
         
         # Create Sections
-        sections = Section.objects.filter(store=store)
-        if len(sections) is 0:
+        try:
+            sections = Section.objects.filter(store=store)
+        except Section.DoesNotExist:
             Section.objects.create(
                 section_id=1,
                 name='Downstairs',
@@ -221,6 +215,8 @@ class Command(BaseCommand):
         # Category
         #-----------------
         try:
+            categories = Category.objects.all()
+        except Category.DoesNotExist:
             Category.objects.create(
                 category_id=1,
                 parent_id = 0,
@@ -256,14 +252,14 @@ class Command(BaseCommand):
                 parent_id = 1,
                 name = 'Comic - Trade Paperbacks',
             )
-        except Exception as e:
-            pass
 
 
         #-----------------
         # Tag
         #-----------------
         try:
+            tags = Tag.objects.all()
+        except Tag.DoesNotExist:
             Tag.objects.create(
                 tag_id=1,
                 name = 'Marvel',
@@ -309,8 +305,6 @@ class Command(BaseCommand):
                 name = 'Batman',
                 organization_id = 1,
             )
-        except Exception as e:
-            pass
 
         #------------
         #TODO: Continue adding here ...
@@ -328,8 +322,11 @@ class Command(BaseCommand):
             {"tablename": "ec_categories", "primarykey": "category_id",},
             {"tablename": "ec_customers", "primarykey": "customer_id",},
             {"tablename": "ec_employees", "primarykey": "employee_id",},
+#            {"tablename": "ec_email_subscriptions", "primarykey": "subscription_id",},
             {"tablename": "ec_help_requests", "primarykey": "help_id",},
             {"tablename": "ec_image_uploads", "primarykey": "upload_id",},
+            {"tablename": "ec_org_shipping_preferences", "primarykey": "shipping_pref_id",},
+            {"tablename": "ec_org_shipping_rates", "primarykey": "shipping_rate_id",},
             {"tablename": "ec_organizations", "primarykey": "org_id",},
             {"tablename": "ec_products", "primarykey": "product_id",},
             {"tablename": "ec_promotions", "primarykey": "promotion_id",},
@@ -338,6 +335,8 @@ class Command(BaseCommand):
             {"tablename": "ec_receipts", "primarykey": "receipt_id",},
             {"tablename": "ec_sections", "primarykey": "section_id",},
             {"tablename": "ec_stores", "primarykey": "store_id",},
+            {"tablename": "ec_store_shipping_preferences", "primarykey": "shipping_pref_id",},
+            {"tablename": "ec_store_shipping_rates", "primarykey": "shipping_rate_id",},
             {"tablename": "ec_tags", "primarykey": "tag_id",},
             {"tablename": "ec_wishlists", "primarykey": "wishlist_id",},
             # Grand Comics Database Tables
