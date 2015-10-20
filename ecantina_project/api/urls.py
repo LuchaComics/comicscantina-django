@@ -16,6 +16,7 @@ from api.views import pulllist
 from api.views import pulllistsubscription
 from api.views import series
 from api.views import issue
+from api.views import story
 from api.views import tag
 from api.views import category
 from api.views import brand
@@ -46,6 +47,7 @@ router.register(r'pulllists', pulllist.PulllistViewSet)
 router.register(r'pulllistsubscriptions', pulllistsubscription.PulllistSubscriptionViewSet)
 router.register(r'series', series.SeriesViewSet)
 router.register(r'issues', issue.IssueViewSet)
+router.register(r'stories', story.StoryViewSet)
 router.register(r'categories', category.CategoryViewSet)
 router.register(r'brands', brand.BrandViewSet)
 router.register(r'orgshippingpreferences', orgshippingpreference.OrgShippingPreferenceViewSet)

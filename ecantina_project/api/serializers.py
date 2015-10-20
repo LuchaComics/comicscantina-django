@@ -19,13 +19,13 @@ from api.models.ec.tag import Tag
 from api.models.ec.brand import Brand
 from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
+from api.models.gcd.story import GCDStory
 from api.models.ec.category import Category
 from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
 from api.models.ec.emailsubscription import EmailSubscription
-
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -147,6 +147,12 @@ class IssueSerializer(serializers.ModelSerializer):
         model = GCDIssue
         fields = ('issue_id','number','title','no_title','volume','no_volume','display_volume_with_number','isbn','no_isbn','valid_isbn','variant_of_id','variant_name','barcode','no_barcode','rating','no_rating','is_first_issue','is_last_issue','publication_date','key_date','on_sale_date','on_sale_date_uncertain','sort_code','indicia_frequency','no_indicia_frequency','price','page_count','page_count_uncertain','editing','no_editing','notes','keywords','is_indexed','reserved','created','modified','deleted','indicia_pub_not_printed','no_brand','small_url','medium_url','large_url','alt_small_url','alt_medium_url','alt_large_url','has_alternative','brand','series','indicia_publisher','images','publisher_name', 'product_name', 'series_name',)
 
+
+class StorySerializer(serializers.ModelSerializer):
+    #series_name = serializers.CharField(source='series', read_only=True)
+    class Meta:
+        model = GCDStory
+        fields = ('story_id', 'title', 'title_inferred', 'feature', 'type', 'sequence_number', 'page_count', 'page_count_uncertain', 'script', 'pencils', 'inks', 'colors', 'letters', 'editing', 'no_script', 'no_pencils', 'no_inks', 'no_colors', 'no_letters', 'no_editing', 'job_number', 'genre', 'characters', 'synopsis', 'reprint_notes', 'notes', 'keywords', 'issue', 'reserved', 'created', 'modified', 'deleted',)
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
