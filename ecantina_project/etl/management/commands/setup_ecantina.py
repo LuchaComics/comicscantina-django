@@ -109,6 +109,7 @@ class Command(BaseCommand):
                 flickr_url=None,
                 administrator = user,
                 logo = org_logo,
+                paypal_email = 'rodolfo@theshootingstarpress.com',
             )
         except Exception as e:
             organization = Organization.objects.get(org_id=1)
@@ -156,6 +157,7 @@ class Command(BaseCommand):
                 friday_from = '08:00',
                 saturday_from = '08:00',
                 sunday_from = '08:00',
+                paypal_email = 'rodolfo@theshootingstarpress.com',
             )
         except Exception as e:
             store = Store.objects.get(store_id=1)

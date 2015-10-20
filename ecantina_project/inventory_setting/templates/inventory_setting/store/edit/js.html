@@ -117,109 +117,105 @@
     }
 
     function ajax_save_edit() {
-        // Create our existing employees list.
-        var employees = [];
-    {% for an_employee in this_store.employees.all %}
-        employees.push(parseInt( {{ an_employee.employee_id }} ));
-    {% endfor %}
-        
-        var data = {
-            // Store
-            'store_id': {{ this_store.store_id }},
-            'organization': '{{ org.org_id }}',
-            'joined': $('#id_joined').val(),
-            'email': $('#id_email').val(),
-            'name': $('#id_name').val(),
-            'description': $('#id_description').val(),
-            'phone': get_phone('#id_phone'),
-            'fax': get_phone('#id_fax'),
-            'website': $('#id_website').val(),
-            'twitter_url': $('#id_twitter_url').val(),
-            'facebook_url': $('#id_facebook_url').val(),
-            'instagram_url': $('#id_instagram_url').val(),
-            'linkedin_url': $('#id_linkedin_url').val(),
-            'github_url': $('#id_github_url').val(),
-            'google_url': $('#id_google_url').val(),
-            'youtube_url': $('#id_youtube_url').val(),
-            'flickr_url': $('#id_flickr_url').val(),
-            'street_number': $('#id_street_number').val(),
-            'street_name': $('#id_street_name').val(),
-            'unit_number': $('#id_unit_number').val(),
-            'city': $('#id_city').val(),
-            'country': $('#id_country').val(),
-            'province': $('#id_province').val(),
-            'postal': $('#id_postal').val(),
-            // Store Hours
-            'monday_to': $('#id_monday_to').val(),
-            'monday_from': $('#id_monday_from').val(),
-            'tuesday_to': $('#id_tuesday_to').val(),
-            'tuesday_from': $('#id_tuesday_from').val(),
-            'wednesday_to': $('#id_wednesday_to').val(),
-            'wednesday_from': $('#id_wednesday_from').val(),
-            'thursday_to': $('#id_thursday_to').val(),
-            'thursday_from': $('#id_thursday_from').val(),
-            'friday_to': $('#id_friday_to').val(),
-            'friday_from': $('#id_friday_from').val(),
-            'saturday_to': $('#id_saturday_to').val(),
-            'saturday_from': $('#id_saturday_from').val(),
-            'sunday_to': $('#id_sunday_to').val(),
-            'sunday_from': $('#id_sunday_from').val(),
-            'is_open_monday': $('#id_is_open_monday').is(':checked'),
-            'is_open_tuesday': $('#id_is_open_tuesday').is(':checked'),
-            'is_open_wednesday': $('#id_is_open_wednesday').is(':checked'),
-            'is_open_thursday': $('#id_is_open_thursday').is(':checked'),
-            'is_open_friday': $('#id_is_open_friday').is(':checked'),
-            'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
-            'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
-            // Other
-            'employees': employees,
-            'is_suspended': '{{ form.instance.is_suspended }}',
-            'is_aggregated': $('#id_is_aggregated').is(':checked'),
-            'currency': $('#id_currency').val(),
-            'language': $('#id_language').val(),
-            'tax_rate': parseFloat( $('#id_tax_rate').val() ),
-            'is_comics_vendor': $('#id_is_comics_vendor').is(':checked'),
-            'is_furniture_vendor': $('#id_is_furniture_vendor').is(':checked'),
-            'is_coins_vendor': $('#id_is_coins_vendor').is(':checked'),
-        }
-        
-        // Add logo id if there exists one.
-        var logo = parseInt( $('#id_hidden_upload_id').val() );
-        if (logo > 0) {
-            data['logo'] = logo;
-        }
-        
-        set_store(
-            data,
-            function(success_json) {
-                // Update the store logo and tell the system
-                var upload_id = $('#id_hidden_upload_id').val();
-                set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
-                    // (1) Add notification message of success.
-                    $(document).trigger("add-alerts",[{
-                        'message': 'Store was Successfully Updated',
-                        'priority': 'success'
-                    }]);
-                                
-                    // (2) Add count-down timer to reloading page/cache.
-                    setTimeout(function(){
-                        location.reload(true); // Reload page with cache cleared.
-                    }, 1000)
-                });
-            },
-            function(error_json) {
-                for (var key in error_json) {
-                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+        get_store(
+            {{ store.store_id }},
+            function(store) {
+                store['email'] = $('#id_email').val();
+                store['name'] = $('#id_name').val();
+                store['description'] = $('#id_description').val();
+                store['phone'] = get_phone('#id_phone');
+                store['website'] = $('#id_website').val();
+                store['twitter_url'] = $('#id_twitter_url').val();
+                store['facebook_url'] = $('#id_facebook_url').val();
+                store['instagram_url'] = $('#id_instagram_url').val();
+                store['linkedin_url'] = $('#id_linkedin_url').val();
+                store['github_url'] = $('#id_github_url').val();
+                store['google_url'] = $('#id_google_url').val();
+                store['youtube_url'] = $('#id_youtube_url').val();
+                store['flickr_url'] = $('#id_flickr_url').val();
+                store['street_number'] = $('#id_street_number').val();
+                store['street_name'] = $('#id_street_name').val();
+                store['unit_number'] = $('#id_unit_number').val();
+                store['city'] = $('#id_city').val();
+                store['country'] = $('#id_country').val();
+                store['province'] = $('#id_province').val();
+                store['postal'] = $('#id_postal').val();
+                // Store Hours
+                store['monday_to'] = $('#id_monday_to').val();
+                store['monday_from'] = $('#id_monday_from').val();
+                store['tuesday_to'] = $('#id_tuesday_to').val();
+                store['tuesday_from'] = $('#id_tuesday_from').val();
+                store['wednesday_to'] = $('#id_wednesday_to').val();
+                store['wednesday_from'] = $('#id_wednesday_from').val();
+                store['thursday_to'] = $('#id_thursday_to').val();
+                store['thursday_from'] = $('#id_thursday_from').val();
+                store['friday_to'] = $('#id_friday_to').val();
+                store['friday_from'] = $('#id_friday_from').val();
+                store['saturday_to'] = $('#id_saturday_to').val();
+                store['saturday_from'] = $('#id_saturday_from').val();
+                store['sunday_to'] = $('#id_sunday_to').val();
+                store['sunday_from'] = $('#id_sunday_from').val();
+                store['is_open_monday'] = $('#id_is_open_monday').is(':checked');
+                store['is_open_tuesday'] = $('#id_is_open_tuesday').is(':checked');
+                store['is_open_wednesday'] = $('#id_is_open_wednesday').is(':checked');
+                store['is_open_thursday'] = $('#id_is_open_thursday').is(':checked');
+                store['is_open_friday'] = $('#id_is_open_friday').is(':checked');
+                store['is_open_saturday'] = $('#id_is_open_saturday').is(':checked');
+                store['is_open_sunday'] = $('#id_is_open_sunday').is(':checked');
+                // Other
+                store['is_suspended'] = '{{ form.instance.is_suspended }}';
+                store['is_aggregated'] = $('#id_is_aggregated').is(':checked');
+                store['currency'] = $('#id_currency').val();
+                store['language'] = $('#id_language').val();
+                store['tax_rate'] = parseFloat( $('#id_tax_rate').val() );
+                store['is_comics_vendor'] = $('#id_is_comics_vendor').is(':checked');
+                store['is_furniture_vendor'] = $('#id_is_furniture_vendor').is(':checked');
+                store['is_coins_vendor'] = $('#id_is_coins_vendor').is(':checked');
+                store['paypal_email'] = $('#id_paypal_email').val();
                   
-                         // Display the error here.
-                         $(document).trigger("add-alerts",[{
-                            'message': (key+': '+error_json[key]),
-                            'priority': 'error'
-                        }]);
-                    }
+                // Add logo id if there exists one.
+                var logo = parseInt( $('#id_hidden_upload_id').val() );
+                if (logo > 0) {
+                    store['logo'] = logo;
                 }
-            }
-        );
+                  
+                set_store(
+                    store,
+                    function(success_json) {
+                        // Update the store logo and tell the system
+                        var upload_id = $('#id_hidden_upload_id').val();
+                        set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
+                            // (1) Add notification message of success.
+                            $(document).trigger("add-alerts",[{
+                                'message': 'Store was Successfully Updated',
+                                'priority': 'success'
+                            }]);
+                                            
+                            // (2) Add count-down timer to reloading page/cache.
+                            setTimeout(function(){
+                                location.reload(true); // Reload page with cache cleared.
+                            }, 1000)
+                        });
+                    }, // success
+                    function(error_json) {
+                        for (var key in error_json) {
+                            if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                            
+                                // Display the error here.
+                                $(document).trigger("add-alerts",[{
+                                    'message': (key+': '+error_json[key]),
+                                    'priority': 'error'
+                                }]);
+                            }
+                        }
+                    } // failure
+                ); // End Set Store
+                  
+            }, // success
+            function(error_json) {
+                console.log(error_json); // Do nothing besides error.
+            } // failure
+        ); // End Get Store
     }
 
 
