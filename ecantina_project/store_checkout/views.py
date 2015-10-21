@@ -190,15 +190,17 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    
-    # Fetch Customer / Receipt
-    customer = Customer.objects.get_or_create_for_user(request.user)
-    receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Fetch OLD receipt
     old_receipt = Receipt.objects.get_or_none(receipt_id=receipt_id)
     old_receipt.has_finished = True
     old_receipt.save()
+
+    # Fetch Customer / Receipt
+    # Note: Because our previous Receipt was set "has_finished" to true
+    #       this will force a new cart to be opened / created here.
+    customer = Customer.objects.get_or_create_for_user(request.user)
+    receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Display the view with all our model information.
     return render(request, 'store_checkout/thank_you/view.html',{
