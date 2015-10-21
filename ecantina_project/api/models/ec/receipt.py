@@ -10,6 +10,16 @@ from django.core.cache import caches
 
 
 class ReceiptManager(models.Manager):
+    """
+        Function will lookup and get the single Receipt entry by the id
+        and if nothing was found, it will return a None object.
+    """
+    def get_or_none(self, receipt_id):
+        try:
+            return self.get(receipt_id=receipt_id)
+        except Receipt.DoesNotExist:
+            return None
+    
     def get_or_create_for_online_customer(self, customer):
         """
             Function will lookup the Receipt based off the Customer info. If
@@ -17,7 +27,7 @@ class ReceiptManager(models.Manager):
             return an empty Receipt assigned to this Customer.
         """
         try:
-            return self.get(customer=customer)
+            return self.get(customer=customer,has_finished=False)
         except Receipt.DoesNotExist:
             # Consolidate the address information into a single string.
             billing_address = customer.billing_street_number+' '+customer.billing_street_name

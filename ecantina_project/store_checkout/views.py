@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
@@ -167,21 +168,41 @@ def checkout_payment_method_page(request, org_id=0, store_id=0):
 
 
 @csrf_exempt
-def checkout_thank_you_page(request, org_id=0, store_id=0):
+@login_required(login_url='/')
+def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
+    # Adaptive URL parameter extractor.
+    param1_id = int(param1_id)
+    param2_id = int(param2_id)
+    param3_id = int(param3_id)
+    org_id = 0
+    store_id = 0
+    receipt_id = 0
+    if param1_id > 0 and param2_id == 0 and param3_id == 0:
+        receipt_id = param1_id
+    elif param1_id > 0 and param2_id > 0 and param3_id == 0:
+        receipt_id = param2_id
+        org_id = param1_id
+    elif param1_id > 0 and param2_id > 0 and param3_id > 0:
+        receipt_id = param3_id
+        org_id = param1_id
+        store_id = param2_id
+    
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
     
-    # If user is logged in, fetch the Customer record or create one. Then
-    # fetch a Receipt record or create a new one.
-    customer = None
-    receipt = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
-        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-    
+    # Fetch Customer / Receipt
+    customer = Customer.objects.get_or_create_for_user(request.user)
+    receipt = Receipt.objects.get_or_create_for_online_customer(customer)
+
+    # Fetch OLD receipt
+    old_receipt = Receipt.objects.get_or_none(receipt_id=receipt_id)
+    old_receipt.has_finished = True
+    old_receipt.save()
+
     # Display the view with all our model information.
     return render(request, 'store_checkout/thank_you/view.html',{
+        'old_receipt': old_receipt,
         'receipt': receipt,
         'customer': customer,
         'form': CustomerForm(instance=customer),
@@ -193,7 +214,9 @@ def checkout_thank_you_page(request, org_id=0, store_id=0):
         'page': 'home',
     })
 
+
 @csrf_exempt
+@login_required(login_url='/')
 def checkout_cancel_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))

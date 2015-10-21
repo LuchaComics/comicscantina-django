@@ -1,8 +1,5 @@
 {% load staticfiles %}
-{% include 'api/organization.html' %}
-{% include 'api/customer.html' %}
-{% include 'api/common_js.html' %}
-{% include 'store_base/receipt_js.html' %}
+{% include 'api/receipt.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -24,15 +21,28 @@
                     xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
                 }
             }
-        });     
+        });
+                      
+        // Run the code to close the cart as you land on this page.
+       // var receipt_id = parseInt({{ receipt.receipt_id }});
+        //ajax_close_cart(receipt_id);
     });
 
 
-    function ajax_confirm_and_proceed_next()
+    function ajax_close_cart(receipt_id)
     {
-        //TODO: ADD PAYPAL HANDLING.
-        
-        window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/order';
+        // STEP 1: Get the current Receipt.
+        {% if receipt != None %}
+        get_receipt(receipt_id, function(json_results) {
+            // Change the status to indicate the cart has been processed.
+            json_results['has_finished'] = true;
+                    
+            // STEP 2: Update the cart.
+            set_receipt(json_results, function(json_results2) {
+                console.log("Cart Closed"); // Do nothing.
+            });
 
+        }); // End Get Receipt
+        {% endif %}
     }
 </script>
