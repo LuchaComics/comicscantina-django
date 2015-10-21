@@ -55,10 +55,12 @@ def show_me_the_money(sender, **kwargs):
     # the custom callback function matches 'perform_receipt_checkout' then
     # find the Customer's Receipt and set it to succesffully checked out!
     if ipn_obj.payment_status == ST_PP_COMPLETED:
+        print(ipn_obj)
         if ipn_obj.custom == "perform_receipt_checkout":
             receipt_id = int(ipn_obj.invoice)
             try:
                 receipt = Receipt.objects.get(receipt_id=receipt_id)
+                print(receipt)
                 paypal_checkout_online_receipt(receipt)
             except Receipt.DoesNotExist:
                 print("Cannot find Receipt", str(receipt_id))
