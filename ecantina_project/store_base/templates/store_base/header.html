@@ -44,8 +44,11 @@
                                 <a href="#" data-toggle="modal" data-target="#ModalSignup"> Create
                                     Account </a>
                                 {% endcomment %}
+                                
+                                {% if not user.is_authenticated %}
                                 <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step1"> Create Account
                                 </a>
+                                {% endif %}
                             </li>
                         </ul>
                     </div>
