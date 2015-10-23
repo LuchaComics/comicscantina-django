@@ -172,3 +172,9 @@ class Product(models.Model):
             cache.clear()
             super(Product, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        """
+            When the sitemaps.xml gets generated for the all the URLS, all
+            returned "Organization" objects will have this URL called.
+        """
+        return "/products/"+str(self.product_id)+"/"
