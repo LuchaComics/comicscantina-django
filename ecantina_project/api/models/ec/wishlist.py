@@ -6,11 +6,24 @@ from api.models.gcd.series import GCDSeries
 from django.core.cache import caches
 
 
+class WishlistManager(models.Manager):
+    """
+        Function will lookup and get the single Wishlist entry by the id
+        and if nothing was found, it will return a None object.
+    """
+    def filter_by_customer_id_or_none(self, customer_id):
+        try:
+            return self.filter(customer_id=customer_id)
+        except Wishlist.DoesNotExist:
+            return None
+
+
 class Wishlist(models.Model):
     class Meta:
         app_label = 'api'
         db_table = 'ec_wishlists'
     
+    objects = WishlistManager()
     wishlist_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer)
     product = models.ForeignKey(Product)

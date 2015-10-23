@@ -8,6 +8,7 @@ from api.models.ec.store import Store
 from api.models.ec.comic import Comic
 from api.models.ec.customer import Customer
 from api.models.ec.receipt import Receipt
+from api.models.ec.wishlist import Wishlist
 
 
 def front_page(request, org_id=0, store_id=0):
@@ -22,9 +23,11 @@ def front_page(request, org_id=0, store_id=0):
     # fetch a Receipt record or create a new one.
     customer = None
     receipt = None
+    wishlists = None
     if request.user.is_authenticated():
         customer = Customer.objects.get_or_create_for_user(request.user)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
+        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
 
     # Fetch all the featured comics throughout all the stores or depending
     # on the organization / store.
@@ -65,6 +68,7 @@ def front_page(request, org_id=0, store_id=0):
     # Display the view with all our model information.
     return render(request, 'store_landpage/index.html',{
         'receipt': receipt,
+        'wishlists': wishlists,
         'customer': customer,
         'featured_comics': featured_comics,
         'new_comics': new_comics,

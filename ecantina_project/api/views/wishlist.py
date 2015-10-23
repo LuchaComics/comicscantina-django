@@ -18,5 +18,5 @@ class WishlistViewSet(viewsets.ModelViewSet):
     pagination_class = LargeResultsSetPagination
     permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('product', 'customer', 'wishlist_id',)
+    filter_fields = ('product', 'customer',)
 

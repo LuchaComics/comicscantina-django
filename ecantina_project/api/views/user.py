@@ -5,6 +5,7 @@ from api.serializers import UserSerializer, GroupSerializer
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsEmployeeUser
 
+
 class UserViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows users to be viewed or edited.
