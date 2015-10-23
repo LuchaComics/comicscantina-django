@@ -1,6 +1,8 @@
 from django.db import models
 from api.models.ec.product import Product
 from api.models.ec.customer import Customer
+from api.models.gcd.issue import GCDIssue
+from api.models.gcd.series import GCDSeries
 from django.core.cache import caches
 
 
@@ -11,10 +13,10 @@ class Wishlist(models.Model):
     
     wishlist_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer)
-    products = models.ManyToManyField(Product)
-
+    product = models.ForeignKey(Product)
+    
     def __str__(self):
-        return self.name
+        return str(self.customer)+" for "+str(self.product)
 
     def save(self, *args, **kwargs):
         """
