@@ -11,6 +11,7 @@ from api.models.ec.comic import Comic
 from api.models.ec.product import Product
 from api.models.ec.customer import Customer
 from api.models.ec.receipt import Receipt
+from api.models.ec.wishlist import Wishlist
 
 
 def details_page(request, org_id=0, store_id=0, product_id=0):
@@ -31,9 +32,11 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
     # fetch a Receipt record or create a new one.
     customer = None
     receipt = None
+    wishlists = None
     if request.user.is_authenticated():
         customer = Customer.objects.get_or_create_for_user(request.user)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
+        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
 
     # Fetch objects used for searching criteria.
     try:
@@ -53,6 +56,7 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
 
     return render(request, 'store_products/product_details/details.html',{
         'receipt': receipt,
+        'wishlists': wishlists,
         'customer': customer,
         'org': organization,
         'store': store,

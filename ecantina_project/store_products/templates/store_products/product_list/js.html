@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% include 'store_base/receipt_js.html' %}
+{% include 'store_base/wishlist_js.html' %}
 {% include 'api/product.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
@@ -160,6 +161,7 @@
                 var image_url = val['image_url'];
                 var discount = parseFloat(val['discount']);
                 var discount_type = parseInt(val['discount_type']);
+                var description = parseInt(val['description']);
                 if (!image_url) {
                     image_url = '{% static "inventory/img/missing_cover.png" %}';
                 }
@@ -167,8 +169,8 @@
 
                 html += '<div class="item col-sm-4 col-lg-4 col-md-4 col-xs-6">';
                 html += '<div class="product">';
-                html += '<a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist" data-placement="left">';
-                html += '<i class="glyphicon glyphicon-heart"></i>';
+                html += '<a class="add-fav tooltipHere" data-toggle="tooltip" data-original-title="Add to Wishlist" data-placement="left" onclick="ajax_favor('+product_id+');">';
+                html += '<i id="id_fav_heart_id_'+product_id+'" class="glyphicon glyphicon-heart"></i>';
                 html += '</a>';
                 html += '<div class="image">';
                 html += '<a href="'+url+'">';
@@ -191,7 +193,7 @@
                 html += '<p>'+brand+'</p>';
                 html += '</div>';
                 html += '<div class="list-description">';
-                html += '<p><!-- TODO --></p>';
+                html += '<p>'+description+'</p>';
                 html += '</div>';
                 html += '<span class="size"> </span>';
                 html += '</div>';

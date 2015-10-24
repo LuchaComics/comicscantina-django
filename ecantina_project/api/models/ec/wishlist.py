@@ -9,11 +9,15 @@ from django.core.cache import caches
 class WishlistManager(models.Manager):
     """
         Function will lookup and get the single Wishlist entry by the id
-        and if nothing was found, it will return a None object.
+        and if nothing was found, it will return a None object. This function
+        is primarly used by the online Store components.
     """
     def filter_by_customer_id_or_none(self, customer_id):
         try:
-            return self.filter(customer_id=customer_id)
+            return self.filter(
+                customer_id=customer_id,
+                product__is_sold=False, # DC: Don't show products already sold.
+            )
         except Wishlist.DoesNotExist:
             return None
 
