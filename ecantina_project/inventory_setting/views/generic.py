@@ -33,7 +33,9 @@ def ajax_register(request):
 
 def create_user(form):    
     # Perform validation to avoid blank passwords and mismatched passwords.
-    if form['password'].value() is not form['password_repeated'].value():
+    if form['password'].value() != form['password_repeated'].value():
+        print("pass1", form['password'].value())
+        print("pass2", form['password_repeated'].value())
         return {'status' : 'failure', 'message' : 'Entered passwords do not match.'}
     if form['password'].value() is '' or form['password_repeated'].value() is '':
         return {'status' : 'failure', 'message' : 'blank passwords are not acceptable' }
