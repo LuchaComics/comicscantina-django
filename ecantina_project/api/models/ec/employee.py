@@ -20,6 +20,11 @@ class Employee(models.Model):
         choices=constants.ROLE_CHOICES,
         validators=[MinValueValidator(0), MaxValueValidator(3)],
     )
+    
+    # Email Verification
+    is_verified = models.BooleanField(default=False)
+    verification_key = models.CharField(max_length=63, default='')
+    
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_suspended = models.BooleanField(default=False)

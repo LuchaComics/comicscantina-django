@@ -40,6 +40,10 @@ class Customer(models.Model):
     is_suspended = models.BooleanField(default=False)
     is_tos_signed = models.BooleanField(default=False)
     
+    # Email Verification
+    is_verified = models.BooleanField(default=False)
+    verification_key = models.CharField(max_length=63, default='')
+    
     # Name & Contact
     first_name = models.CharField(max_length=63, db_index=True)
     last_name = models.CharField(max_length=63, db_index=True)
