@@ -23,6 +23,7 @@ class Employee(models.Model):
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_suspended = models.BooleanField(default=False)
+    is_tos_signed = models.BooleanField(default=False)
     
     # References.
     user = models.ForeignKey(User)

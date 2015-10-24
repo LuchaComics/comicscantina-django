@@ -38,6 +38,7 @@ class Customer(models.Model):
     joined = models.DateTimeField(auto_now_add=True, db_index=True)
     last_updated = models.DateTimeField(auto_now=True)
     is_suspended = models.BooleanField(default=False)
+    is_tos_signed = models.BooleanField(default=False)
     
     # Name & Contact
     first_name = models.CharField(max_length=63, db_index=True)

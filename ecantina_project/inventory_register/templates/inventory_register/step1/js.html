@@ -26,16 +26,67 @@
                 }
             }
         });
-                      
-        {% if employee %}
-            // If the employee is already registered then skip this step.
-            window.location = "/inventory/register/step2";
-        {% endif %}
     });
 
 
     function ajax_proceed_next()
     {
-       
+        create_org(function(organization) {
+            create_owner(organization, function(owner) {
+                 window.location = "/inventory/register/step2";
+            });
+        });
     }
+
+    function create_org(callback)
+    {
+        var data = {
+            'administrator': {{ user.id }},
+            'email': '{{ org.email }}',
+            //'logo': parseInt( {{ org.logo_id }} ),
+            'name': "{{ customer.billing_name }}",
+            'description': "",
+            'phone': '{{ customer.billing_phone }}',
+            'street_number': '{{ customer.billing_street_number }}',
+            'street_name': "{{ customer.billing_street_name | escape | safe }}",
+            'unit_number': '{{ customer.billing_unit_number }}',
+            'city': "{{ customer.billing_city }}",
+            'country': "{{ customer.billing_country }}",
+            'province': "{{ customer.billing_province | escape | safe }}",
+            'postal': '{{ customer.billing_postal }}',
+            'paypal_email': "{{ customer.email | escape | safe }}",
+        };
+        
+        set_organization(
+            data,
+            function(success_json) {
+                callback(success_json); // Return newly created organization.
+            },
+            function(failure_json) {
+                console.log(failure_json);
+            }
+        );
+    }
+
+    function create_owner(organization, callback) {
+        // Create a new owner employee.
+        var data = {
+            'user': {{ user.id }},
+            'organization': organization['org_id'],
+            'role': 1, // AKA "Owner".
+            'is_tos_signed': true,
+            'is_suspended': false,
+            // 'profile': upload_id,
+        };
+        set_employee(
+            data,
+            function(success_json) {
+                callback(success_json); // Return the newly created employee.
+            },
+            function(failure_json) {
+                console.log(failure_json);
+            }
+        );
+    }
+
 </script>

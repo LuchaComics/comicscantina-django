@@ -30,9 +30,15 @@ def step1_page(request, org_id=0, store_id=0):
     except Employee.DoesNotExist:
         employee = None
 
+    # If user is logged in, fetch the Customer record or create one.
+    customer = None
+    if request.user.is_authenticated():
+        customer = Customer.objects.get_or_create_for_user(request.user)
+
     # Display the view with all our model information.
     return render(request, 'inventory_register/step1/view.html',{
         'employee': employee,
+        'customer': customer,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
