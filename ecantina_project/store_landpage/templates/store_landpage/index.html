@@ -88,9 +88,11 @@
             {% for comic in new_comics %}
             <div class="item">
                 <div class="product">
-                    <a class="add-fav tooltipHere" data-toggle="tooltip"
-                        data-original-title="Add to Wishlist" data-placement="left">
-                        <i class="glyphicon glyphicon-heart"></i>
+                    <a  onclick="ajax_favor({{ comic.product_id }});"
+                             id="id_fav_product_id_{{ comic.product_id }}"
+                          class="add-fav tooltipHere" data-toggle="tooltip"
+            data-original-title="Add to Wishlist" data-placement="left">
+                        <i id="id_fav_new_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
                     </a>
 
                     <div class="image">
@@ -241,7 +243,7 @@
                        data-toggle="tooltip"
                data-original-title="Add to Wishlist"
                     data-placement="left">
-                            <i  id="id_fav_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
+                            <i  id="id_fav_featured_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
                         </a>
 
                         <div class="image">
