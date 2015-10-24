@@ -87,6 +87,29 @@ class BelongsToOrganization(permissions.BasePermission):
         # Instance must have an attribute named `organization`.
         return obj.organization == employee.organization
 
+class BelongsToCompanyPolicy(permissions.BasePermission):
+    """
+        - (1) Must be authenticated user
+        - (2a) Customer is owner of organization and of the object
+        - (2b) OR Employee belongs to the organization of object
+    """
+    message = 'You must be authenticated as the owner of the organization or an employee of the organization.'
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_anonymous():
+            return False # Must be authenticated
+        
+        # Organizational Owners always have overriding authority of the organization.
+        try:
+            organization = Organization.objects.get(administrator=request.user)
+            if organization is not None:
+                return obj.organization == organization
+        except Organization.DoesNotExist:
+            return False
+        
+        # OR Employee belongs to organization
+        employee = Employee.objects.get(user=request.user)
+        return obj.organization == employee.organization
+
 
 class BelongsToOrganizationOwnerOrReadOnly(permissions.BasePermission):
     """

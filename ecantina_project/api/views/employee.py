@@ -4,10 +4,10 @@ from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 from api.pagination import LargeResultsSetPagination
-from api.permissions import IsEmployeeUser
+from api.permissions import BelongsToCompanyPolicy
 from api.serializers import EmployeeSerializer
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
@@ -19,6 +19,6 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (IsEmployeeUser, IsAuthenticated)
+    permission_classes = (BelongsToCompanyPolicy, IsAuthenticated)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('=user__username', '=user__email')
