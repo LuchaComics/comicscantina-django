@@ -198,6 +198,14 @@
                    </ul>
                </li>
                
+               <!-- WISHLIST -->
+               <li class={% if tab == 'wishlist' %}" active" {% else %}" "{% endif %}>
+                   <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/wishlist" title="Wishlist">
+                       <em class="icon-like"></em>
+                       <span>Wishlist</span>
+                   </a>
+               </li>
+               
                <!-- SETTINGS -->
                <li class=" ">
                    <!-- inventory menu header -->

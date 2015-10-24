@@ -118,9 +118,11 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class WishlistSerializer(serializers.ModelSerializer):
+    customer_name = serializers.CharField(source='customer', read_only=True)
+    product_name = serializers.CharField(source='product', read_only=True)
     class Meta:
         model = Wishlist
-        fields = ('wishlist_id', 'customer', 'product', 'created',)
+        fields = ('wishlist_id', 'customer', 'product', 'created', 'customer_name', 'product_name',)
 
 
 class PulllistSerializer(serializers.ModelSerializer):

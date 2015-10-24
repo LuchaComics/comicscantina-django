@@ -135,6 +135,7 @@ python manage.py startapp inventory_setting
 python manage.py startapp inventory_email
 python manage.py startapp inventory_pulllist
 python manage.py startapp inventory_register
+python manage.py startapp inventory_wishlist
 python manage.py startapp etl
 python manage.py startapp store_base
 python manage.py startapp store_landpage
@@ -171,6 +172,7 @@ INSTALLED_APPS = (
     'inventory_email',
     'inventory_pulllist',
     'inventory_register',
+    'inventory_wishlist','
     'etl',
     'store_base',
     'store_landpage',

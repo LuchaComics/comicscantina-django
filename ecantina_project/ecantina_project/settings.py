@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'inventory_email',
     'inventory_pulllist',
     'inventory_register',
+    'inventory_wishlist',
     'etl',
     'store_base',
     'store_landpage',
