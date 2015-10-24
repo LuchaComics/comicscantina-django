@@ -56,7 +56,6 @@
         // Get all the selected "Brands".
         $('#brands_list input:radio').each(function() {
             if (this.checked) {
-                console.log (this.id);
                 arr.push({ 'brand': parseInt(this.id) });
             }
         });
@@ -83,7 +82,6 @@
         });
         
         // Search through the products and generate UI with the results.
-        console.log (arr);
         filter_products(arr, function(json_objects) {
             generate_table(json_objects);
         });
@@ -226,10 +224,31 @@
         
         $('#id_table_placeholder').html(''); // Clear Table
         $(html).appendTo('#id_table_placeholder'); // Load Table.
+        
+        // UPDATE THE TABLE
+        ajax_update_table_with_wishlists();
     }
 
-
-
+    function ajax_update_table_with_wishlists()
+    {
+        var criteria = Array(); // Variable used to store the search criteria.
+        criteria.push({ 'customer': {{ customer.customer_id }}});
+        criteria.push({ 'product__is_sold': false });
+        filter_wishlists(
+            criteria,
+            function(success_json) {
+                $(success_json).each(function(iter,val2){
+                    $(val2['results']).each(function(iter2,val){
+                        var product_id = val['product'];
+                        $("#id_fav_heart_id_"+product_id).attr('class', 'glyphicon glyphicon-check');
+                    });
+                });
+            },
+            function(error_json) {
+                console.log(error_json); // Do nothing.
+            }
+        );
+    }
 
     function ajax_search_products(name, brand, category, tags, min_price, max_price)
     {
