@@ -30,11 +30,11 @@
                                 <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/purchases">Purchases</a>
                             </li>
                             {% if store.is_comics_vendor %}
-                            <li class="tab selected">
+                            <li class="tab">
                                 <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/subscriptions">Subscriptions</a>
                             </li>
                             {% endif %}
-                            <li class="tab">
+                            <li class="tab selected">
                                 <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}/wishlist">Wishlist</a>
                             </li>
                         </ul>
@@ -44,7 +44,7 @@
                         <div class="col-sm-12">
                             <!-- START row 1 -->
                             <div class="row clearfix" style="margin-left:-20px;margin-right:-20px;height:100% !important;">
-                                {% include 'inventory_customer/subscription/table.html' %}
+                                {% include 'inventory_customer/wishlist/table.html' %}
                             </div>
                         </div>
                     </div>

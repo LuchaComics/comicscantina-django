@@ -31,6 +31,7 @@ class Wishlist(models.Model):
     wishlist_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer)
     product = models.ForeignKey(Product)
+    created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return str(self.customer)+" for "+str(self.product)

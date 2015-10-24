@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/customer/(\d+)/profile$', views.profile_page),
     url(r'^inventory/(\d+)/(\d+)/customer/(\d+)/purchases$', views.purchases_page),
     url(r'^inventory/(\d+)/(\d+)/customer/(\d+)/subscriptions$', views.subscriptions_page),
+    url(r'^inventory/(\d+)/(\d+)/customer/(\d+)/wishlist$', views.wishlists_page),
 )

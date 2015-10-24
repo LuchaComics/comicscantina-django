@@ -120,7 +120,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
-        fields = ('wishlist_id', 'customer', 'product')
+        fields = ('wishlist_id', 'customer', 'product', 'created',)
 
 
 class PulllistSerializer(serializers.ModelSerializer):
