@@ -44,7 +44,7 @@
                             <div class="col-sm-offset-2 col-sm-6 pull-left text-right pt-sm">
                                 <label>
                                     {{ form.is_terms_accepted }}
-                                    <span class="fa fa-check"></span>I agree with the <a href="#">terms</a>
+                                    <span class="fa fa-check"></span>I agree with the <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}tos">terms</a>
                                 </label>
                             </div>
                             <div class="col-sm-4 pull-right">
