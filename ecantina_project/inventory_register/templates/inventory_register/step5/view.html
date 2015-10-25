@@ -65,7 +65,7 @@
                     <div class="w100 clearfix">
                         <div class="row userInfo">
                             <div class="col-lg-12">
-                                <h2 class="block-title-2"> Please read carefully this Terms of Service agreement before signing. </h2>
+                                <h2 class="block-title-2"> You are almost finished! Carefully read this before finishing.</h2>
                             </div>
                             <!--<div class="col-xs-12 col-sm-12">
                                 <label class="checkbox-inline" for="checkboxes-0">
@@ -74,8 +74,16 @@
                                 <hr>
                             </div>-->
                             <div class="col-xs-12 col-sm-12">
-                                
-
+                                <h2>Summary</h2>
+                                <p>You're store is now setup! You can view your online store page by entering the following link:</p>
+                                <p><a href="http://www.comicscantina/{{ this_org.org_id }}/{{ this_store.store_id }}/">http://www.comicscantina/{{ this_org.org_id }}/{{ this_store.store_id }}/ </a></p>
+                                <br />
+                                <p>In the future if you open up more stores for your organization, you can find them aggregated to your organization by following this link:</p>
+                                <p><a href="http://www.comicscantina/{{ this_org.org_id }}/">http://www.comicscantina/{{ this_org.org_id }}/ </a></p>
+                                <br />
+                                <p>Lastely all your products will also be listed in the main sites aggregate store by following this link (Note: You can disable this in your settings.):</p>
+                                <p><a href="http://www.comicscantina">http://www.comicscantina </a></p>
+                                <br />
                             </div>
                         </div>
                         <!--/row end-->
@@ -85,9 +93,9 @@
                         <div class="box-footer">
                             
                             <div class="pull-left">
-                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/shipping">
+                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step4">
                                     <i class="fa fa-arrow-left"></i>
-                                    &nbsp; Cancel
+                                    &nbsp; Back
                                 </a>
                             </div>
                             <div class="pull-right">
