@@ -49,7 +49,7 @@
                             </li>
                             <li>
                                 <a href="">
-                                    <i class="fa fa-users "> </i><span>Employee(s)</span>
+                                    <i class="fa fa-truck"> </i><span>Shipping</span>
                                 </a>
                             </li>
                             <li>
@@ -68,12 +68,6 @@
                             <div class="col-lg-12">
                                 <h2 class="block-title-2"> Please fill out essential information of where your store is operating from. </h2>
                             </div>
-                            <!--<div class="col-xs-12 col-sm-12">
-                                <label class="checkbox-inline" for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox">
-                                        My delivery and billing addresses are the same. </label>
-                                <hr>
-                            </div>-->
                             <div class="col-xs-12 col-sm-12">
                                 <div class="form-group">
                                     <label for="txt-store-name" class="col-md-4 control-label">Display Name</label>
@@ -177,6 +171,18 @@
                         </div>
                         <!--/row end-->
                         
+                        <div class="col-xs-12 col-sm-12">
+                            <h2 class="block-title-2"> Please check the items your store will be selling </h2>
+                            <label id="is_comics_vendor" class="checkbox-inline" for="checkboxes-0">
+                                <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" {%if form.instance.is_comics_vendor %}checked{% endif %}>Comic books</label>
+                            
+                            <label id="is_furniture_vendor" class="checkbox-inline" for="checkboxes-0">
+                                <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" disabled>Furniture</label>
+                            
+                            <label id="is_coins_vendor" class="checkbox-inline" for="checkboxes-0">
+                                <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" disabled>Coins</label>
+                            <hr>
+                        </div>
                     </div>
                     
                     <!-- Error Message Box -->

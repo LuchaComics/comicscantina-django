@@ -37,7 +37,7 @@
                                     <i class="fa fa-legal "></i> <span>Terms of Service</span>
                                 </a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="">
                                     <i class="fa fa fa-home  "></i> <span> Organization </span>
                                 </a>
@@ -47,7 +47,7 @@
                                     <i class="fa fa-building "> </i><span>Store</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="">
                                     <i class="fa fa-truck"> </i><span>Shipping</span>
                                 </a>
@@ -66,28 +66,27 @@
                     <div class="w100 clearfix">
                         <div class="row userInfo">
                             <div class="col-lg-12">
-                                <h2 class="block-title-2"> Please fill out your company information here. </h2>
+                                <h2 class="block-title-2"> Please select what type of items your store will be selling. </h2>
                             </div>
-                            <!--<div class="col-xs-12 col-sm-12">
-                                <label class="checkbox-inline" for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox">
-                                        My delivery and billing addresses are the same. </label>
-                                <hr>
-                            </div>-->
                             <div class="col-xs-12 col-sm-12">
-                                {% for field in form %}
-                                {% if 'Fax' in field.label %}
-                                <input type="hidden" id="id_fax" value="" />
-                                {% else %}
+                                <label class="checkbox-inline" for="checkboxes-0">
+                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox">Comic books</label>
+                                
+                                <label class="checkbox-inline" for="checkboxes-0">
+                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" disabled>Furniture</label>
+                                
+                                <label class="checkbox-inline" for="checkboxes-0">
+                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" disabled>Coins</label>
+                                <hr>
+                            </div>
+                            
+                            <div class="col-xs-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
+                                    <label for="sel-store-province" class="col-md-4 control-label">PayPal Email</label>
                                     <div class="col-md-8">
-                                        {{ field | escape | safe }}
+                                        {{ form.paypal_email }}
                                     </div>
                                 </div>
-                                {% endif %}
-                                {% endfor %}
-
                             </div>
                         </div>
                         <!--/row end-->
@@ -104,8 +103,9 @@
                     <div class="cartFooter w100">
                         <div class="box-footer">
                             
+                            
                             <div class="pull-left">
-                                <a disabled class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step1">
+                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step3">
                                     <i class="fa fa-arrow-left"></i>
                                     &nbsp; Back
                                 </a>
@@ -161,6 +161,6 @@
 
 <div class="gap"></div>
 
-{% include "inventory_register/step2/js.html" %}
+{% include "inventory_register/step4/js.html" %}
 
 {% endblock content %}
