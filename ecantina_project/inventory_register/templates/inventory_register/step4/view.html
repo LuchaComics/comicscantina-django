@@ -66,33 +66,39 @@
                     <div class="w100 clearfix">
                         <div class="row userInfo">
                             <div class="col-lg-12">
-                                <h2 class="block-title-2"> Please select what type of items your store will be selling. </h2>
+                                <h2 class="block-title-2"> Please select whether this you will allow shipping or not. </h2>
                             </div>
                             <div class="col-xs-12 col-sm-12">
                                 <label class="checkbox-inline" for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox">Comic books</label>
-                                
-                                <label class="checkbox-inline" for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" disabled>Furniture</label>
-                                
-                                <label class="checkbox-inline" for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" disabled>Coins</label>
-                                <hr>
+                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" {% if org_form.instance.is_pickup_only %}checked{% endif %}>Is Pickup Only
+                                </label>
+                             
                             </div>
                             
-                            <div class="col-xs-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="sel-store-province" class="col-md-4 control-label">PayPal Email</label>
-                                    <div class="col-md-8">
-                                        {{ form.paypal_email }}
-                                    </div>
-                                </div>
+                            <div class="col-lg-12">
+                                <h2 class="block-title-2">Please fill the shipping rates you would like to apply for Canada. </h2>
                             </div>
+                            <div class="col-xs-12 col-sm-12">
+                                {% for field in ca_form %}
+                                    {% if 'Country' in field.label %}
+                                    <input type="hidden" id="id_country" value={{ form.instance.country }} />
+                                    {% else %}
+                                    <div class="form-group">
+                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
+                                        <div class="col-md-8">
+                                            {{ field | escape | safe }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                            </div>
+                            
                         </div>
                         <!--/row end-->
                         
                     </div>
-                    
+                    <br />
                     <!-- Error Message Box -->
                     <div id="error_box" name="error_box" class="alert alert-danger alert-dismissable" hidden="true">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
