@@ -99,18 +99,14 @@ def step3_page(request, org_id=0, store_id=0):
     except Employee.DoesNotExist:
         employee = None
     
-    # If user is logged in, fetch the Customer record or create one.
-    customer = None
-    this_org = None
-    this_store = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
-        this_org = Organization.objects.get(administrator=request.user)
-        try:
-            this_store = Store.objects.get(organization__administrator=request.user)
-        except Store.DoesNotExist:
-            this_store = None
-    
+    # Fetch the current session information we are working with.
+    customer = Customer.objects.get_or_create_for_user(request.user)
+    this_org = Organization.objects.get(administrator=request.user)
+    try:
+        this_store = Store.objects.get(organization__administrator=request.user)
+    except Store.DoesNotExist:
+        this_store = None
+
     # Display the view with all our model information.
     return render(request, 'inventory_register/step3/view.html',{
         'form': StoreForm(instance=this_store),

@@ -33,21 +33,22 @@
     function ajax_proceed_next()
     {
         // Get the store_id of this store.
-        var store_id = parseInt({{ this_store.store_id }});
+        var store_id = parseInt({{ form.instance.store_id }});
         if (isNaN(store_id)) {
             ajax_add_store(function(json_results) { // Create our store for the very first time.
-                console.log(json_results);
-                // window.location = "/inventory/register/step3";
+                window.location = "/inventory/register/step4";
             });
         } else { // Update our store.
-           //TODO: Implement.
+            ajax_update_store(store_id, function(json_results) {
+                window.location = "/inventory/register/step4";
+            });
         }
     }
 
     function ajax_add_store(callback) {
         var data = {
             // Store
-            'organization': '{{ org.org_id }}',
+            'organization': '{{ this_org.org_id }}',
             'joined': $('#id_joined').val(),
             'email': $('#id_email').val(),
             'logo': $('#id_hidden_upload_id').val(),
@@ -121,6 +122,81 @@
             },
             function(error_json) {
                 print_error(error_json);
+            }
+        );
+    }
+
+    function ajax_update_store(store_id, callback) {
+        get_store(
+            store_id,
+            function(store) {
+                // Update our store information.
+                store['email'] = $('#id_email').val();
+                store['name'] = $('#id_name').val();
+                store['description'] = $('#id_description').val();
+                store['phone'] = get_phone('#id_phone');
+                store['website'] = $('#id_website').val();
+                store['twitter_url'] = $('#id_twitter_url').val();
+                store['facebook_url'] = $('#id_facebook_url').val();
+                store['instagram_url'] = $('#id_instagram_url').val();
+                store['linkedin_url'] = $('#id_linkedin_url').val();
+                store['github_url'] = $('#id_github_url').val();
+                store['google_url'] = $('#id_google_url').val();
+                store['youtube_url'] = $('#id_youtube_url').val();
+                store['flickr_url'] = $('#id_flickr_url').val();
+                store['street_number'] = $('#id_street_number').val();
+                store['street_name'] = $('#id_street_name').val();
+                store['unit_number'] = $('#id_unit_number').val();
+                store['city'] = $('#id_city').val();
+                store['country'] = $('#id_country').val();
+                store['province'] = $('#id_province').val();
+                store['postal'] = $('#id_postal').val();
+                // Store Hours
+                store['monday_to'] = $('#id_monday_to').val();
+                store['monday_from'] = $('#id_monday_from').val();
+                store['tuesday_to'] = $('#id_tuesday_to').val();
+                store['tuesday_from'] = $('#id_tuesday_from').val();
+                store['wednesday_to'] = $('#id_wednesday_to').val();
+                store['wednesday_from'] = $('#id_wednesday_from').val();
+                store['thursday_to'] = $('#id_thursday_to').val();
+                store['thursday_from'] = $('#id_thursday_from').val();
+                store['friday_to'] = $('#id_friday_to').val();
+                store['friday_from'] = $('#id_friday_from').val();
+                store['saturday_to'] = $('#id_saturday_to').val();
+                store['saturday_from'] = $('#id_saturday_from').val();
+                store['sunday_to'] = $('#id_sunday_to').val();
+                store['sunday_from'] = $('#id_sunday_from').val();
+                store['is_open_monday'] = $('#id_is_open_monday').is(':checked');
+                store['is_open_tuesday'] = $('#id_is_open_tuesday').is(':checked');
+                store['is_open_wednesday'] = $('#id_is_open_wednesday').is(':checked');
+                store['is_open_thursday'] = $('#id_is_open_thursday').is(':checked');
+                store['is_open_friday'] = $('#id_is_open_friday').is(':checked');
+                store['is_open_saturday'] = $('#id_is_open_saturday').is(':checked');
+                store['is_open_sunday'] = $('#id_is_open_sunday').is(':checked');
+                // Other
+                store['is_suspended'] = '{{ form.instance.is_suspended }}';
+                store['is_aggregated'] = $('#id_is_aggregated').is(':checked');
+                store['currency'] = $('#id_currency').val();
+                store['language'] = $('#id_language').val();
+                store['tax_rate'] = parseFloat( $('#id_tax_rate').val() );
+                store['is_comics_vendor'] = $('#id_is_comics_vendor').is(':checked');
+                store['is_furniture_vendor'] = $('#id_is_furniture_vendor').is(':checked');
+                store['is_coins_vendor'] = $('#id_is_coins_vendor').is(':checked');
+                store['paypal_email'] = $('#id_paypal_email').val();
+                  
+                // Update the store with the new status.
+                set_store(
+                    store,
+                    function(success_json2) {
+                        callback(success_json2);
+                    },
+                    function(error_json2) {
+                        print_error(error_json);
+                    }
+                );
+            },
+            function(error_json) {
+                alert("Failed getting your store.");
             }
         );
     }
