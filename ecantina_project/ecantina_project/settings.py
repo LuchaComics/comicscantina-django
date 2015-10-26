@@ -279,6 +279,8 @@ STORE_CSS_LIBRARY= [
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/skin-5.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/story.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/store.css", "id":"",},
+    {"type":"text/css", "rel":"stylesheet", "href":"store/css/footable-0.1.css", "id":"",},
+    {"type":"text/css", "rel":"stylesheet", "href":"store/css/footable.sortable-0.1.css", "id":"",},
 ]
 
 STORE_JS_LIBRARY_HEADER = [
@@ -301,6 +303,8 @@ STORE_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"store/js/bootstrap.touchspin.js",},
     {"type":"text/javascript", "src":"store/js/script.js",},
     {"type":"text/javascript", "src":"store/js/home.js",},
+    {"type":"text/javascript", "src":"store/js/footable.js",},
+    {"type":"text/javascript", "src":"store/js/footable.sortable.js",},
 ]
 
 
