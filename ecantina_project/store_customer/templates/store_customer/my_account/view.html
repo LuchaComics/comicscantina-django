@@ -24,8 +24,12 @@
                     </h2>
                     <ul class="myAccountList row">
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight"><a title="Orders" href="order-list.html"><i
-                                class="fa fa-calendar"></i> Order history </a></div>
+                            <div class="thumbnail equalheight">
+                                <a title="Orders"
+                                    href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/order_history">
+                                <i class="fa fa-calendar"></i> Order history
+                            </a>
+                            </div>
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
                             <div class="thumbnail equalheight"><a title="My addresses" href="my-address.html"><i
