@@ -57,6 +57,7 @@ class ReceiptManager(models.Manager):
                 shipping_postal = customer.shipping_postal,
                 has_shipping = True,
                 has_purchased_online = True,
+                payment_method = constants.PAYPAL_PAYMENT_METHOD,
             )
 
 
