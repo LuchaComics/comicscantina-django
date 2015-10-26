@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
@@ -43,6 +44,7 @@ def authentication_page(request, org_id=0, store_id=0):
     })
 
 
+@login_required(login_url='/customer/authentication')
 def my_account_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)

@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<script>
+    function ajax_login_customer2()
+    {
+        var email = $("#id_login_username2").val();
+        var password = $("#id_login_password2").val();
+        var url = '/store/login_authentication';
+        
+        $.ajax( url, {
+            data: {
+               'username': email,
+               'password': password,
+               'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            type: 'post',
+            success: function(json_result) {
+               console.log(json_result);
+               
+               // success code execution here
+               if (json_result.status == "success")
+               {
+                   location.reload(true); // Reload page with reloading cache.
+               }
+               else
+               {
+                   $('#login-email-error, #login-password-error').val('');
+                   $('#id_login_alerts').html('<p><b>Error - Wrong email or password.</b></p>');
+               }
+            },
+            error: function(xhr,status,error) {
+               console.log(error); // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
+            }
+        });
+    }
+
+</script>

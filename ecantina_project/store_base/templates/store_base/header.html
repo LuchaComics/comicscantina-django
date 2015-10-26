@@ -18,7 +18,7 @@
                         <ul class="userMenu">
                             {% if user.is_authenticated %}
                             <li>
-                                <a href="account-1.html">
+                                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account">
                                     <span class="hidden-xs"> My Account</span>
                                     <i class="glyphicon glyphicon-user hide visible-xs ">
                                     </i>
