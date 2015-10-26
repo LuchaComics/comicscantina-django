@@ -6,8 +6,8 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="account.html">My Account</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account">My Account</a></li>
                 <li class="active"> Order List</li>
             </ul>
         </div>
@@ -69,7 +69,10 @@
                                         Unknown Payment Method
                                     {% endif %}
                                 </td>
-                                <td><a href="order-status.html" class="btn btn-primary btn-sm">view status</a></td>
+                                <td>
+                                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/order_history/{{ receipt.receipt_id }}" class="btn btn-primary btn-sm">view status
+                                    </a>
+                                </td>
                                 <td>${{ receipt.total_amount }}</td>
                                 <td data-value="{{ receipt.last_updated }}">{{ receipt.last_updated }}</td>
                                 <td data-value="3">

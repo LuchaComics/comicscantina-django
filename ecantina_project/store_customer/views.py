@@ -99,7 +99,7 @@ def order_history_page(request, org_id=0, store_id=0):
         all_receipts = None
     
     # Display the view with all our model information.
-    return render(request, 'store_customer/order_history/view.html',{
+    return render(request, 'store_customer/order_history/master.html',{
         'all_receipts': all_receipts,
         'receipt': receipt,
         'wishlists': wishlists,
@@ -125,5 +125,55 @@ def order_history_page(request, org_id=0, store_id=0):
         'PAYPAL_PAYMENT_METHOD': constants.PAYPAL_PAYMENT_METHOD,
         'INVOICE_PAYMENT_METHOD': constants.INVOICE_PAYMENT_METHOD,
         'OTHER_PAYMENT_METHOD': constants.OTHER_PAYMENT_METHOD,
-                  
     })
+
+
+@login_required(login_url='/customer/authentication')
+def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
+    org_id = int(org_id)
+    store_id = int(store_id)
+    print("TESTTESTTEST")
+    # Fetch the Organization / Store.
+    org = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
+    
+    # Fetch required data.
+    customer = Customer.objects.get_or_create_for_user(request.user)
+    receipt = Receipt.objects.get_or_create_for_online_customer(customer)
+    wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
+    
+    # Fetch Specific Order
+    try:
+        this_receipts = Receipt.objects.filter(receipt_id=receipt_id)
+    except Receipt.DoesNotExist:
+        this_receipts = None
+    
+    # Display the view with all our model information.
+    return render(request, 'store_customer/order_history/detail.html',{
+        'this_receipts': this_receipts,
+        'receipt': receipt,
+        'wishlists': wishlists,
+        'customer': customer,
+        'org': org,
+        'store': store,
+        'local_css_library' : settings.STORE_CSS_LIBRARY,
+        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'order_history',
+        'NEW_ORDER_STATUS': constants.NEW_ORDER_STATUS,
+        'PICKED_STATUS': constants.PICKED_STATUS,
+        'SHIPPED_STATUS': constants.SHIPPED_STATUS,
+        'RECEIVED_STATUS': constants.RECEIVED_STATUS,
+        'IN_STORE_SALE_STATUS': constants.IN_STORE_SALE_STATUS,
+        'ONLINE_SALE_STATUS': constants.ONLINE_SALE_STATUS,
+        'CASH_PAYMENT_METHOD': constants.CASH_PAYMENT_METHOD,
+        'DEBIT_CARD_PAYMENT_METHOD': constants.DEBIT_CARD_PAYMENT_METHOD,
+        'CREDIT_CARD_PAYMENT_METHOD': constants.CREDIT_CARD_PAYMENT_METHOD,
+        'GIFT_CARD_PAYMENT_METHOD': constants.GIFT_CARD_PAYMENT_METHOD,
+        'STORE_POINTS_PAYMENT_METHOD': constants.STORE_POINTS_PAYMENT_METHOD,
+        'CHEQUE_PAYMENT_METHOD': constants.CHEQUE_PAYMENT_METHOD,
+        'PAYPAL_PAYMENT_METHOD': constants.PAYPAL_PAYMENT_METHOD,
+        'INVOICE_PAYMENT_METHOD': constants.INVOICE_PAYMENT_METHOD,
+        'OTHER_PAYMENT_METHOD': constants.OTHER_PAYMENT_METHOD,
+    })
+
