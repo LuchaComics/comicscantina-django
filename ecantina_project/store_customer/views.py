@@ -132,7 +132,13 @@ def order_history_page(request, org_id=0, store_id=0):
 def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    print("TESTTESTTEST")
+    receipt_id = int(receipt_id)
+    if receipt_id is 0:
+        if org_id is not 0 and store_id is 0:
+            receipt_id = org_id
+        if org_id is not 0 and store_id is not 0:
+            receipt_id = store_id
+
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
     store = Store.objects.get_or_none(store_id)
@@ -144,13 +150,13 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
     
     # Fetch Specific Order
     try:
-        this_receipts = Receipt.objects.filter(receipt_id=receipt_id)
+        this_receipt = Receipt.objects.get(receipt_id=receipt_id)
     except Receipt.DoesNotExist:
-        this_receipts = None
+        this_receipt = None
     
     # Display the view with all our model information.
     return render(request, 'store_customer/order_history/detail.html',{
-        'this_receipts': this_receipts,
+        'this_receipt': this_receipt,
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
