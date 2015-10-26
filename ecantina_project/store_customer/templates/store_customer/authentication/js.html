@@ -14,17 +14,16 @@
             },
             type: 'post',
             success: function(json_result) {
-               console.log(json_result);
+               
                
                // success code execution here
                if (json_result.status == "success")
                {
-                   location.reload(true); // Reload page with reloading cache.
+                   window.location = "/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account";
                }
                else
                {
-                   $('#login-email-error, #login-password-error').val('');
-                   $('#id_login_alerts').html('<p><b>Error - Wrong email or password.</b></p>');
+                   print_error(json_result);
                }
             },
             error: function(xhr,status,error) {
@@ -34,6 +33,21 @@
                // completion code here
             }
         });
+    }
+
+    /**
+     * Prints a error box with the contents of the errors received from the server.
+     */
+    function print_error(error_json)
+    {
+        $('#error_box').prop("hidden", false); // Display error box.
+        var message = "<b>Error(s):</b><hr/>";
+        for (var key in error_json) {
+            if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                message += "<p>" + key + ": " + error_json[key] + "<p>";
+            }
+        }
+        $('#error_box').html(message); // Replace the error string with the contents of the error box.
     }
 
 </script>
