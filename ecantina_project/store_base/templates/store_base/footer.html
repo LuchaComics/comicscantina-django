@@ -39,8 +39,7 @@
                     <h3> My Account </h3>
                     {% if user.is_authenticated %}
                     <ul>
-                        <li><a href="account-1.html"> Account Login </a></li>
-                        <li><a href="account.html"> My Account </a></li>
+                        <li><a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}my_account';"> My Account </a></li>
                         <li><a href="my-address.html"> My Address </a></li>
                         <li><a href="wishlist.html"> Wish List </a></li>
                         <li><a href="order-list.html"> Order list </a></li>
