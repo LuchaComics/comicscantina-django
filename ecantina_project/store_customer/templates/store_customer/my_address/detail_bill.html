@@ -1,7 +1,8 @@
 {% extends 'store_base/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
+{% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
 <!-- /.Fixed navbar  -->
 <div class="container main-container headerOffset">
     
@@ -89,11 +90,11 @@
                             {{ form.billing_postal }}
                         </div>
                         
-                        
                     </div>
                     
                     <div class="col-lg-12 col-xs-12 clearfix">
-                        <button type="submit" class="btn   btn-primary"><i class="fa fa-map-marker"></i> Save Address
+                        <button onclick="ajax_update();" type="button" class="btn btn-primary">
+                            <i class="fa fa-map-marker"></i> Save Address
                         </button>
                     </div>
                     
@@ -131,5 +132,75 @@
 <!-- /wrapper -->
 
 <div class="gap"></div>
+
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+    
+    function ajax_update()
+    {
+        get_customer({{ customer.customer_id }}, function(customer) {
+            customer['billing_name'] = $('#id_billing_name').val();
+            customer['billing_street_number'] = $('#id_billing_street_number').val();
+            customer['billing_street_name'] = $('#id_billing_street_name').val();
+            customer['billing_unit_number'] = $('#id_billing_unit_number').val();
+            customer['billing_city'] = $('#id_billing_city').val();
+            customer['billing_country'] = $('#id_billing_country').val();
+            customer['billing_province'] = $('#id_billing_province').val();
+            customer['billing_postal'] = $('#id_billing_postal').val();
+                     
+            if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
+                customer['billing_phone'] = get_phone('#id_billing_phone');
+            } else {
+                customer['billing_phone'] = "";
+            }
+                     
+            set_customer(
+                customer,
+                function(success_json) { // Create a new customer
+                    window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_address';
+                },
+                function(error_json) {
+                    print_error(error_json);
+                }
+            ); // End Set Customer
+        }); // End Get Customer
+    }
+
+    /**
+     * Prints a error box with the contents of the errors received from the server.
+     */
+    function print_error(error_json)
+    {
+        $('#error_box').prop("hidden", false); // Display error box.
+        var message = "<b>Error(s):</b><hr/>";
+        for (var key in error_json) {
+            if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                message += "<p>" + key + ": " + error_json[key] + "<p>";
+            }
+        }
+        $('#error_box').html(message); // Replace the error string with the contents of the error box.
+    }
+</script>
 
 {% endblock content %}
