@@ -53,9 +53,11 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="panel-footer panel-footer-address"><a href="add-address.html"
-                                class="btn btn-sm btn-success"> <i
-                                    class="fa fa-edit"> </i> Edit </a>
+                            <div class="panel-footer panel-footer-address">
+                                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_billing_address"
+                                  class="btn btn-sm btn-success">
+                                  <i class="fa fa-edit"> </i> Edit
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -75,14 +77,16 @@
                                     <li><span class="address-line2">{{ customer.shipping_province}},{{ customer.shipping_country }}</span></li>
                                     <li>
                                         <span>
-                                            <strong>Telephone</strong>:<a href="tel:{{ customer.shipping_phone }}">{{ customer.shipping_phone }}</a>
+                                            <strong>Telephone</strong>:<a href="tel:{{ customer.shipping_phone }}"> {{ customer.shipping_phone }}</a>
                                         </span>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="panel-footer panel-footer-address"><a href="add-address.html"
-                                class="btn btn-sm btn-success"> <i
-                                    class="fa fa-edit"> </i> Edit </a>
+                            <div class="panel-footer panel-footer-address">
+                                <a href=""
+                                  class="btn btn-sm btn-success"> <i
+                                    class="fa fa-edit"> </i> Edit
+                                </a>
                             </div>
                         </div>
                     </div>
