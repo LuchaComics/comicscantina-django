@@ -13,7 +13,7 @@
                 <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
                 <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account">My Account</a></li>
                 <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_address">My Address</a></li>
-                <li class="active">My Billing Address</li>
+                <li class="active">My Shipping Address</li>
             </ul>
         </div>
     </div>
@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-7">
             
-            <h1 class="section-title-inner"><span><i class="fa fa-map-marker"></i> Edit Your Billing Addresses </span></h1>
+            <h1 class="section-title-inner"><span><i class="fa fa-map-marker"></i> Edit Your Shipping Addresses </span></h1>
             
             <div class="row userInfo">
                 
@@ -40,28 +40,28 @@
                         
                         <div class="form-group required">
                             <label for="InputName">Full Name <sup>*</sup> </label>
-                            {{ form.billing_name }}
+                            {{ form.shipping_name }}
                         </div>
                         
                         <div class="form-group required">
                             <label for="InputName">Street Number <sup>*</sup> </label>
-                            {{ form.billing_street_number }}
+                            {{ form.shipping_street_number }}
                         </div>
                         
                         <div class="form-group required">
                             <label for="InputName">Street Name <sup>*</sup> </label>
-                            {{ form.billing_street_name }}
+                            {{ form.shipping_street_name }}
                         </div>
                         
                         <div class="form-group required">
                             <label for="InputName">Unit Number</label>
-                            {{ form.billing_unit_number }}
+                            {{ form.shipping_unit_number }}
                         </div>
                         
                         
                         <div class="form-group required">
                             <label for="InputName">Phone</label>
-                            {{ form.billing_phone }}
+                            {{ form.shipping_phone }}
                         </div>
     
                         
@@ -72,22 +72,22 @@
                         
                         <div class="form-group required">
                             <label for="InputName">City</label>
-                            {{ form.billing_city }}
+                            {{ form.shipping_city }}
                         </div>
                         
                         <div class="form-group required">
                             <label for="State">Province / State <sup>*</sup> </label>
-                            {{ form.billing_province }}
+                            {{ form.shipping_province }}
                         </div>
                         
                         <div class="form-group required">
                             <label for="InputCountry">Country <sup>*</sup> </label>
-                            {{ form.billing_country }}
+                            {{ form.shipping_country }}
                         </div>
                         
                         <div class="form-group required">
                             <label for="InputZip">Zip / Postal Code <sup>*</sup> </label>
-                            {{ form.billing_postal }}
+                            {{ form.shipping_postal }}
                         </div>
                         
                     </div>
@@ -167,19 +167,19 @@
     function ajax_update()
     {
         get_customer({{ customer.customer_id }}, function(customer) {
-            customer['billing_name'] = $('#id_billing_name').val();
-            customer['billing_street_number'] = $('#id_billing_street_number').val();
-            customer['billing_street_name'] = $('#id_billing_street_name').val();
-            customer['billing_unit_number'] = $('#id_billing_unit_number').val();
-            customer['billing_city'] = $('#id_billing_city').val();
-            customer['billing_country'] = $('#id_billing_country').val();
-            customer['billing_province'] = $('#id_billing_province').val();
-            customer['billing_postal'] = $('#id_billing_postal').val();
+            customer['shipping_name'] = $('#id_shipping_name').val();
+            customer['shipping_street_number'] = $('#id_shipping_street_number').val();
+            customer['shipping_street_name'] = $('#id_shipping_street_name').val();
+            customer['shipping_unit_number'] = $('#id_shipping_unit_number').val();
+            customer['shipping_city'] = $('#id_shipping_city').val();
+            customer['shipping_country'] = $('#id_shipping_country').val();
+            customer['shipping_province'] = $('#id_shipping_province').val();
+            customer['shipping_postal'] = $('#id_shipping_postal').val();
                      
-            if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
-                customer['billing_phone'] = get_phone('#id_billing_phone');
+            if ($('#id_shipping_phone').val().length > 0) { // Add telephone if added.
+                customer['shipping_phone'] = get_phone('#id_shipping_phone');
             } else {
-                customer['billing_phone'] = "";
+                customer['shipping_phone'] = "";
             }
                      
             set_customer(

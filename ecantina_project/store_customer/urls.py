@@ -29,4 +29,8 @@ urlpatterns = patterns('',
     url(r'customer/my_billing_address$', views.billing_address_page),
     url(r'^(\d+)/customer/my_billing_address$', views.billing_address_page),
     url(r'^(\d+)/(\d+)/customer/my_billing_address$', views.billing_address_page),
+                       
+    url(r'customer/my_shipping_address$', views.shipping_address_page),
+    url(r'^(\d+)/customer/my_shipping_address$', views.shipping_address_page),
+    url(r'^(\d+)/(\d+)/customer/my_shipping_address$', views.shipping_address_page),
 )
