@@ -32,21 +32,34 @@
                             </div>
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight"><a title="My addresses" href="my-address.html"><i
-                                class="fa fa-map-marker"></i> My addresses</a></div>
+                            <div class="thumbnail equalheight">
+                                <a title="My addresses" href="my-address.html">
+                                    <i class="fa fa-map-marker"></i> My addresses
+                                </a>
+                            </div>
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight"><a title="Add  address" href="add-address.html"> <i
-                                class="fa fa-edit"> </i> Add address</a></div>
+                            <div class="thumbnail equalheight">
+                                <a title="Add  address" href="add-address.html">
+                                    <i class="fa fa-edit"> </i> Add address
+                                </a>
+                            </div>
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight"><a title="Personal information"
-                                href="user-information.html"><i class="fa fa-cog"></i>
-                                Personal information</a></div>
+                            <div class="thumbnail equalheight">
+                                <a title="Personal information"
+                                    href="user-information.html">
+                                    <i class="fa fa-cog"></i> Personal information
+                                </a>
+                            </div>
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight"><a title="My wishlists" href="wishlist.html"><i
-                                class="fa fa-heart"></i> My wishlists </a></div>
+                            <div class="thumbnail equalheight">
+                                <a title="My wishlists"
+                                    href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/wishlist">
+                                    <i class="fa fa-heart"></i> My wishlists
+                                </a>
+                            </div>
                         </li>
                     </ul>
                     <div class="clear clearfix"></div>
