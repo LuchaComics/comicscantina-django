@@ -41,15 +41,8 @@
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
                             <div class="thumbnail equalheight">
-                                <a title="Add  address" href="add-address.html">
-                                    <i class="fa fa-edit"> </i> Add address
-                                </a>
-                            </div>
-                        </li>
-                        <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight">
                                 <a title="Personal information"
-                                    href="user-information.html">
+                                    href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/personal_information">
                                     <i class="fa fa-cog"></i> Personal information
                                 </a>
                             </div>
