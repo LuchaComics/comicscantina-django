@@ -21,4 +21,8 @@ urlpatterns = patterns('',
     url(r'customer/wishlist$', views.wishlist_page),
     url(r'^(\d+)/customer/wishlist$', views.wishlist_page),
     url(r'^(\d+)/(\d+)/customer/wishlist$', views.wishlist_page),
+                       
+    url(r'customer/my_address$', views.my_address_page),
+    url(r'^(\d+)/customer/my_address$', views.my_address_page),
+    url(r'^(\d+)/(\d+)/customer/my_address$', views.my_address_page),
 )
