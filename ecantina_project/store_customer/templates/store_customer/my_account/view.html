@@ -33,7 +33,8 @@
                         </li>
                         <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
                             <div class="thumbnail equalheight">
-                                <a title="My addresses" href="my-address.html">
+                                <a title="My addresses"
+                                    href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_address">
                                     <i class="fa fa-map-marker"></i> My addresses
                                 </a>
                             </div>
