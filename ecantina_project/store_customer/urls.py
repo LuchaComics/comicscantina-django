@@ -33,4 +33,8 @@ urlpatterns = patterns('',
     url(r'customer/my_shipping_address$', views.shipping_address_page),
     url(r'^(\d+)/customer/my_shipping_address$', views.shipping_address_page),
     url(r'^(\d+)/(\d+)/customer/my_shipping_address$', views.shipping_address_page),
+                       
+    url(r'customer/personal_information$', views.personal_info_page),
+    url(r'^(\d+)/customer/personal_information$', views.personal_info_page),
+    url(r'^(\d+)/(\d+)/customer/personal_information$', views.personal_info_page),
 )

@@ -49,6 +49,9 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=63, db_index=True)
     email = models.EmailField(null=True, blank=True, unique=True, db_index=True)
     
+    # Date of Birth
+    #date_of_birth = models.DateField()
+    
     # Billing Info
     billing_name = models.CharField(max_length=126)
     billing_phone = models.CharField(max_length=10, null=True, blank=True, db_index=True)
