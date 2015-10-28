@@ -39,6 +39,8 @@
                             <label for="InputEmail"> Email </label>
                             {{ customer_form.email }}
                         </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
                         <div class="form-group">
                             <label>Date of Birth</label>
                             
@@ -50,37 +52,24 @@
                          
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="form-group required">
-                            <label for="InputPasswordCurrent"> Old Password <sup> * </sup> </label>
-                            <input type="password" value="" name="InputPasswordCurrent" class="form-control"
-                                id="InputPasswordCurrent">
-                        </div>
-                        <div class="form-group required">
-                            <label for="InputPasswordnew"> New Password </label>
-                            <input type="password" name="InputPasswordnew" class="form-control" id="InputPasswordnew">
-                                </div>
-                        <div class="form-group required">
-                            <label for="InputPasswordnewConfirm"> Confirm Password </label>
-                            <input type="password" name="InputPasswordnewConfirm" class="form-control"
-                                id="InputPasswordnewConfirm">
-                                </div>
-                    </div>
-                    <div class="col-lg-12">
+                        <div class="col-lg-12">
                         <div class="form-group ">
                             <p class=" clearfix">
-                                <input type="checkbox" value="1" name="newsletter" id="newsletter" />
+                            <input type="checkbox" value="1" name="newsletter" id="newsletter" {% if customer.wants_newsletter %}checked{% endif %} />
                                 <label for="newsletter">Sign up for our newsletter!</label>
                             </p>
                                 
                             <p class="clearfix">
-                                <input type="checkbox" value="1" id="optin" name="optin" />
+                                <input type="checkbox" value="1" id="optin" name="optin" {% if customer.wants_flyers %}checked{% endif %} />
                                 <label for="optin">Receive special offers from our partners!</label>
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <button type="submit" class="btn   btn-primary"><i class="fa fa-save"></i> &nbsp; Save</button>
+                        <button onclick="ajax_save();"
+                                   type="button"
+                                  class="btn btn-primary">
+                            <i class="fa fa-save"></i> &nbsp; Save</button>
                     </div>
                 </form>
                 
@@ -100,6 +89,22 @@
                 
             </div>
             <!--/row end-->
+            
+            <!-- Error Message Box -->
+            <br />
+            <div id="error_box" name="error_box" class="alert alert-danger alert-dismissable" hidden="true">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                ERROR: This is to be filled in by the "print_error" function. If you see this message that means there's an error with your javascript somewhere.
+            </div>
+            <!-- /.Error Message Box -->
+            
+            <!-- Success Message Box -->
+            <br />
+            <div id="success_box" name="success_box" class="alert alert-success alert-dismissable" hidden="true">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                SUCCESS: You have changed your password.
+            </div>
+            <!-- /.Success Message Box -->
             
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5"></div>
