@@ -15,6 +15,7 @@ from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.receipt import Receipt
 from api.models.ec.promotion import Promotion
+from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 from api.serializers import ReceiptSerializer
 
 
@@ -247,8 +248,6 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         receipt.save()
 
     def compute_shipping_cost(self, receipt):
-        shipping_amount = Decimal(0.00)
-        
         # CASE 1: We have a single organization that receipt belongs to.
         if receipt.organization:
             # Fetch the organization preferences on how to handle shipping rates.
@@ -269,7 +268,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
             elif 'Mexico' in receipt.shipping_country:
                 iso_3166_1_numeric_country_code = 484
 
-            # Find the shipping rate to apply for the country and apply it
+            # Find the shipping rate to apply for the country and apply it.
             for rate in preference.rates.all():
                 if rate.country is iso_3166_1_numeric_country_code:
                     # Count how many products we are to ship and apply the
@@ -281,10 +280,29 @@ class ReceiptViewSet(viewsets.ModelViewSet):
                     comics_count = len(receipt.products.all())
                     return rate.get_comics_rate(comics_count)
                                         
-        # CASE 2: We have no organization
+        # CASE 2: We have no organization.
         else:
-            return Decimal(0.00)
-        return shipping_amount
+            # Determine where the receipt is to be shipped.
+            iso_3166_1_numeric_country_code = 0
+            if 'Canada' in receipt.shipping_country:
+                iso_3166_1_numeric_country_code = 124
+            elif 'United States' in receipt.shipping_country:
+                iso_3166_1_numeric_country_code = 840
+            elif 'Mexico' in receipt.shipping_country:
+                iso_3166_1_numeric_country_code = 484
+            
+            # Find the rate.
+            try:
+                rate = UnifiedShippingRate.objects.get(country=iso_3166_1_numeric_country_code)
+                comics_count = len(receipt.products.all())
+                return rate.get_comics_rate(comics_count)
+            except UnifiedShippingRate.DoesNotExist:
+                # Add "Shipping Rate Error" to our cart.
+                receipt.has_error = True
+                receipt.error = constants.SHIPPING_RATE_ERROR_TYPE
+                receipt.save()
+            
+        return Decimal(0.00) # Case 3: Nothing was found.
 
 #
 # Note: For more information on setting up custom functions, see this url:
