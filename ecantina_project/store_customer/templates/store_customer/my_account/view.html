@@ -63,6 +63,27 @@
                                 </a>
                             </div>
                         </li>
+                        
+                        {% if employee %}
+                        <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
+                            <div class="thumbnail equalheight">
+                                <a title="My wishlists"
+                                    href="/inventory/login">
+                                    <i class="fa fa-briefcase"></i> Inventory
+                                </a>
+                            </div>
+                        </li>
+                        {% else %}
+                        <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
+                            <div class="thumbnail equalheight">
+                                <a title="My wishlists"
+                                    href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step1">
+                                    <i class="fa fa-briefcase"></i> Become a Merchant
+                                </a>
+                            </div>
+                        </li>
+                        {% endif %}
+                        
                     </ul>
                     <div class="clear clearfix"></div>
                 </div>

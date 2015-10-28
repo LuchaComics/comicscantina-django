@@ -7,6 +7,15 @@ from api.models.ec.organization import Organization
 from django.core.cache import caches
 
 
+class EmployeeManager(models.Manager):
+    def get_for_user_or_none(self, user):
+        # Detect if the employee already exists by finding an employee record
+        # associated with this user account.
+        try:
+            return Employee.objects.get(user=user)
+        except Employee.DoesNotExist:
+            return None
+
 class Employee(models.Model):
     class Meta:
         app_label = 'api'
@@ -14,6 +23,7 @@ class Employee(models.Model):
         db_table = 'ec_employees'
     
     # System
+    objects = EmployeeManager()
     employee_id = models.AutoField(primary_key=True)
     role = models.PositiveSmallIntegerField(
         default=0,

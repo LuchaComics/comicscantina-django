@@ -7,6 +7,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
 from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 
@@ -14,6 +15,7 @@ from api.models.ec.wishlist import Wishlist
 def front_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -70,6 +72,7 @@ def front_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'featured_comics': featured_comics,
         'new_comics': new_comics,
         'org': org,
@@ -84,6 +87,7 @@ def front_page(request, org_id=0, store_id=0):
 def tos_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
 
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -104,6 +108,7 @@ def tos_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -116,6 +121,7 @@ def tos_page(request, org_id=0, store_id=0):
 def privacy_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -136,6 +142,7 @@ def privacy_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,

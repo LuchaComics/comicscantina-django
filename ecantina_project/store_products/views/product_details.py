@@ -10,11 +10,13 @@ from api.models.ec.store import Store
 from api.models.ec.comic import Comic
 from api.models.ec.product import Product
 from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 
 
 def details_page(request, org_id=0, store_id=0, product_id=0):
+    employee = Employee.objects.get_for_user_or_none(request.user)
     org_id = int(org_id)
     store_id = int(store_id)
     product_id = int(product_id)
@@ -58,6 +60,7 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': organization,
         'store': store,
         'categories': categories,

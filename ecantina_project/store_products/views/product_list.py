@@ -12,6 +12,7 @@ from api.models.ec.tag import Tag
 from api.models.ec.promotion import Promotion
 from api.models.ec.product import Product
 from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 
@@ -19,6 +20,7 @@ from api.models.ec.wishlist import Wishlist
 def list_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     organization = Organization.objects.get_or_none(org_id)
@@ -74,6 +76,7 @@ def list_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'categories': categories,
         'current_category': current_category,
         'brands': brands,

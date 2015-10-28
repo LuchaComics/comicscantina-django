@@ -9,6 +9,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
 from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 from inventory_base.forms.customerform import CustomerForm
@@ -18,6 +19,7 @@ from inventory_setting.forms.userform import UserForm
 def authentication_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -38,6 +40,7 @@ def authentication_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -51,6 +54,7 @@ def authentication_page(request, org_id=0, store_id=0):
 def my_account_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -71,6 +75,7 @@ def my_account_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -84,6 +89,7 @@ def my_account_page(request, org_id=0, store_id=0):
 def order_history_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -106,6 +112,7 @@ def order_history_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -144,7 +151,8 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
     store = Store.objects.get_or_none(store_id)
-    
+    employee = Employee.objects.get_for_user_or_none(request.user)
+
     # Fetch required data.
     customer = Customer.objects.get_or_create_for_user(request.user)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
@@ -162,6 +170,7 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -190,6 +199,7 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
 def wishlist_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -210,6 +220,7 @@ def wishlist_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -223,6 +234,7 @@ def wishlist_page(request, org_id=0, store_id=0):
 def my_address_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -243,6 +255,7 @@ def my_address_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -256,6 +269,7 @@ def my_address_page(request, org_id=0, store_id=0):
 def billing_address_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -277,6 +291,7 @@ def billing_address_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -290,6 +305,7 @@ def billing_address_page(request, org_id=0, store_id=0):
 def shipping_address_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -311,6 +327,7 @@ def shipping_address_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -323,6 +340,7 @@ def shipping_address_page(request, org_id=0, store_id=0):
 def personal_info_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -345,6 +363,7 @@ def personal_info_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -358,6 +377,7 @@ def personal_info_page(request, org_id=0, store_id=0):
 def change_password_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -380,6 +400,7 @@ def change_password_page(request, org_id=0, store_id=0):
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,

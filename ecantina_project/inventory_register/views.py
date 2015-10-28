@@ -32,13 +32,7 @@ def step1_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    
-    # Detect if the employee already exists by finding an employee record
-    # associated with this user account.
-    try:
-        employee = Employee.objects.get(user=request.user)
-    except Employee.DoesNotExist:
-        employee = None
+    employee = Employee.objects.get_for_user_or_none(request.user)
 
     # If user is logged in, fetch the Customer record or create one.
     customer = None
@@ -63,13 +57,7 @@ def step2_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    
-    # Detect if the employee already exists by finding an employee record
-    # associated with this user account.
-    try:
-        employee = Employee.objects.get(user=request.user)
-    except Employee.DoesNotExist:
-        employee = None
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # If user is logged in, fetch the Customer record or create one.
     customer = None
@@ -98,13 +86,7 @@ def step3_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    
-    # Detect if the employee already exists by finding an employee record
-    # associated with this user account.
-    try:
-        employee = Employee.objects.get(user=request.user)
-    except Employee.DoesNotExist:
-        employee = None
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the current session information we are working with.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -134,13 +116,7 @@ def step4_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    
-    # Detect if the employee already exists by finding an employee record
-    # associated with this user account.
-    try:
-        employee = Employee.objects.get(user=request.user)
-    except Employee.DoesNotExist:
-        employee = None
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch the current session information we are working with.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -222,13 +198,7 @@ def step5_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    
-    # Detect if the employee already exists by finding an employee record
-    # associated with this user account.
-    try:
-        employee = Employee.objects.get(user=request.user)
-    except Employee.DoesNotExist:
-        employee = None
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # If user is logged in, fetch the Customer record or create one.
     customer = None

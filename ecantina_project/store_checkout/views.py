@@ -13,6 +13,7 @@ from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
 from api.models.ec.customer import Customer
+from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
 from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
@@ -23,6 +24,7 @@ def cart_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -36,6 +38,7 @@ def cart_page(request, org_id=0, store_id=0):
     return render(request, 'store_checkout/cart/view.html',{
         'receipt': receipt,
         'customer': customer,
+        'employee': employee,
         'org': org,
         'store': store,
         'local_css_library' : settings.STORE_CSS_LIBRARY,
@@ -50,6 +53,7 @@ def checkout_shipping_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -59,6 +63,7 @@ def checkout_shipping_page(request, org_id=0, store_id=0):
     return render(request, 'store_checkout/shipping/view.html',{
         'receipt': receipt,
         'customer': customer,
+        'employee': employee,
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
@@ -74,6 +79,7 @@ def checkout_billing_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -83,6 +89,7 @@ def checkout_billing_page(request, org_id=0, store_id=0):
     return render(request, 'store_checkout/billing/view.html',{
         'receipt': receipt,
         'customer': customer,
+        'employee': employee,
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
@@ -98,6 +105,7 @@ def checkout_shipping_method_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -121,6 +129,7 @@ def checkout_shipping_method_page(request, org_id=0, store_id=0):
         'has_no_shipping': has_no_shipping,
         'receipt': receipt,
         'customer': customer,
+        'employee': employee,
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
@@ -136,6 +145,7 @@ def checkout_payment_method_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -145,6 +155,7 @@ def checkout_payment_method_page(request, org_id=0, store_id=0):
     return render(request, 'store_checkout/payment_method/view.html',{
         'receipt': receipt,
         'customer': customer,
+        'employee': employee,
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
@@ -178,6 +189,7 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
 
     # Fetch OLD receipt and process it.
     old_receipt = Receipt.objects.get_or_none(receipt_id=receipt_id)
@@ -232,6 +244,7 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
         'old_receipt': old_receipt,
         'receipt': receipt,
         'customer': customer,
+        'employee': employee,
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
@@ -248,6 +261,7 @@ def checkout_cancel_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user(request.user)
@@ -272,6 +286,7 @@ def checkout_order_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
+    employee = Employee.objects.get_for_user_or_none(request.user)
     
     # Generate our URLs & pick the payment email
     paypal_email = settings.PAYPAL_RECEIVER_EMAIL

@@ -39,11 +39,42 @@
                     <h3> My Account </h3>
                     {% if user.is_authenticated %}
                     <ul>
-                        <li><a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}my_account';"> My Account </a></li>
-                        <li><a href="my-address.html"> My Address </a></li>
-                        <li><a href="wishlist.html"> Wish List </a></li>
-                        <li><a href="order-list.html"> Order list </a></li>
-                        <li><a href="order-status.html"> Order Status </a></li>
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account';"> My Account
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_address';"> My Address
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/personal_information';"> My Info
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/change_password';"> Change Password
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/wishlist';"> Wish List
+                            </a>
+                        </li>
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/order_history';"> Order(s)
+                            </a>
+                        </li>
+                        {% if employee %}
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/login';"> Inventory
+                            </a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step1';"> Become a Merchant
+                            </a>
+                        </li>
+                        {% endif %}
+                        
                     </ul>
                     {% else %}
                     <ul>
