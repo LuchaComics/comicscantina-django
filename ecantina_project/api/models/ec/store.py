@@ -97,6 +97,9 @@ class Store(models.Model):
     # the main aggregate store.
     is_aggregated = models.BooleanField(default=True)
 
+    # This field controls whether we have a custom shipping rate for the store.
+    has_shipping_rate_override = models.BooleanField(default=False, blank=True)
+
     # The following columns determine if the particular store supports selling
     # the following products and thus granting access to unique user interface.
     is_comics_vendor = models.BooleanField(default=True)

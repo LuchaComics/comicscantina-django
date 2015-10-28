@@ -26,11 +26,14 @@ from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
 from api.models.ec.emailsubscription import EmailSubscription
+from api.models.ec.unified_shipping_rates import UnifiedShippingRate
+
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ('customer_id', 'joined', 'last_updated', 'is_suspended', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile', 'qrcode', 'is_tos_signed', 'is_verified', 'verification_key', 'date_of_birth', 'wants_newsletter', 'wants_flyers',)
+
 
 class StoreSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization', read_only=True)
@@ -156,42 +159,56 @@ class StorySerializer(serializers.ModelSerializer):
         model = GCDStory
         fields = ('story_id', 'title', 'title_inferred', 'feature', 'type', 'sequence_number', 'page_count', 'page_count_uncertain', 'script', 'pencils', 'inks', 'colors', 'letters', 'editing', 'no_script', 'no_pencils', 'no_inks', 'no_colors', 'no_letters', 'no_editing', 'job_number', 'genre', 'characters', 'synopsis', 'reprint_notes', 'notes', 'keywords', 'issue', 'reserved', 'created', 'modified', 'deleted',)
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('tag_id', 'name', 'discount', 'discount_type', 'organization',)
+
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = ('brand_id', 'name',)
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('category_id', 'parent_id', 'name',)
+
 
 class OrgShippingPreferenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrgShippingPreference
         fields = ('shipping_pref_id','organization','is_pickup_only','rates')
 
+
 class OrgShippingRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrgShippingRate
         fields = ('shipping_rate_id','organization','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
+
 
 class StoreShippingPreferenceSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreShippingPreference
         fields = ('shipping_pref_id','organization','store','is_pickup_only','rates')
 
+
 class StoreShippingRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoreShippingRate
         fields = ('shipping_rate_id','organization','store','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
 
+
 class EmailSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmailSubscription
         fields = ('subscription_id', 'email', 'submission_date', 'store', 'organization',)
+
+
+class UnifiedShippingRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UnifiedShippingRate
+        fields = ('shipping_rate_id','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
