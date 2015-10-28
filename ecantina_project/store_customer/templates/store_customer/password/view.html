@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <button onlick="ajax_save();" type="button" class="btn btn-primary"><i class="fa fa-save"></i> &nbsp; Save</button>
+                        <button onclick="ajax_save();" type="button" class="btn btn-primary"><i class="fa fa-save"></i> &nbsp; Save</button>
                     </div>
                 </form>
                 
@@ -63,6 +63,23 @@
             </div>
             <!--/row end-->
             
+            <!-- Error Message Box -->
+            <br />
+            <div id="error_box" name="error_box" class="alert alert-danger alert-dismissable" hidden="true">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                ERROR: This is to be filled in by the "print_error" function. If you see this message that means there's an error with your javascript somewhere.
+            </div>
+            <!-- /.Error Message Box -->
+            
+            <!-- Success Message Box -->
+            <br />
+            <div id="success_box" name="success_box" class="alert alert-success alert-dismissable" hidden="true">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                SUCCESS: You have changed your password.
+            </div>
+            <!-- /.Success Message Box -->
+
+            
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5"></div>
     </div>
@@ -74,6 +91,6 @@
 
 <div class="gap"></div>
 
-{% include "store_customer/personal_info/js.html" %}
+{% include "store_customer/password/js.html" %}
 
 {% endblock content %}

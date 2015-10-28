@@ -31,23 +31,25 @@
     function ajax_save() {
         $.ajax( '/user/settings/update_password', {
             data: {
-                'password': $('#id_password').val(),
-                'password_repeated': $('#id_password_repeated').val(),
-                'old_password': $('#id_old_password').val(),
+                'password': $('#InputPasswordnew').val(),
+                'password_repeated': $('#InputPasswordnewConfirm').val(),
+                'old_password': $('#InputPasswordCurrent').val(),
             },
             type: 'post',
             success: function(result) { // success code execution here
                 // Did not succeed.
                 if (result.status != 'success')
                 {
-                    $(document).trigger("add-alerts",[{
-                        'message': result.message,
-                        'priority': 'error'
-                    }]);
+                    print_error(result);
                 }
                 else
                 {
-                    callback();
+                    print_success(result); // Print the error message.
+               
+                    // Add a reset timer.
+                    setTimeout(function(){
+                        location.reload(true); // Reload page with cache cleared.
+                    }, 2150)
                 }
             },
             error: function(xhr,status,error) {
@@ -66,11 +68,15 @@
     {
         $('#error_box').prop("hidden", false); // Display error box.
         var message = "<b>Error(s):</b><hr/>";
-        for (var key in error_json) {
-            if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                message += "<p>" + key + ": " + error_json[key] + "<p>";
-            }
-        }
+        message += "<p>" + error_json.message + "<p>";
+        $('#error_box').html(message); // Replace the error string with the contents of the error box.
+    }
+
+    function print_success(error_json)
+    {
+        $('#success_box').prop("hidden", false); // Display error box.
+        var message = "<b>Password Changed:</b><hr/>";
+        message += "<p>In a few seconds you will be asked to log in again to finalize the process.<p>";
         $('#error_box').html(message); // Replace the error string with the contents of the error box.
     }
 
