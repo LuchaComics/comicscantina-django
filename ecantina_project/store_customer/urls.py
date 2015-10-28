@@ -37,4 +37,8 @@ urlpatterns = patterns('',
     url(r'customer/personal_information$', views.personal_info_page),
     url(r'^(\d+)/customer/personal_information$', views.personal_info_page),
     url(r'^(\d+)/(\d+)/customer/personal_information$', views.personal_info_page),
+                       
+    url(r'customer/change_password$', views.change_password_page),
+    url(r'^(\d+)/customer/change_password$', views.change_password_page),
+    url(r'^(\d+)/(\d+)/customer/change_password$', views.change_password_page),
 )

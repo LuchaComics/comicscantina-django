@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -39,10 +40,12 @@ class Customer(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     is_suspended = models.BooleanField(default=False)
     is_tos_signed = models.BooleanField(default=False)
+    wants_newsletter = models.BooleanField(default=False)
+    wants_flyers = models.BooleanField(default=False)
     
     # Email Verification
     is_verified = models.BooleanField(default=False)
-    verification_key = models.CharField(max_length=63, default='')
+    verification_key = models.CharField(max_length=63, default='', blank=True)
     
     # Name & Contact
     first_name = models.CharField(max_length=63, db_index=True)
@@ -50,7 +53,7 @@ class Customer(models.Model):
     email = models.EmailField(null=True, blank=True, unique=True, db_index=True)
     
     # Date of Birth
-    #date_of_birth = models.DateField()
+    date_of_birth = models.DateField(default=datetime.now)
     
     # Billing Info
     billing_name = models.CharField(max_length=126)

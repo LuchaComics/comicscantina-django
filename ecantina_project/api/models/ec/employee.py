@@ -23,7 +23,7 @@ class Employee(models.Model):
     
     # Email Verification
     is_verified = models.BooleanField(default=False)
-    verification_key = models.CharField(max_length=63, default='')
+    verification_key = models.CharField(max_length=63, default='', blank=True)
     
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)

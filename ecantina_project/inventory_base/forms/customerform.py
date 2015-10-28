@@ -14,10 +14,12 @@ from api.models.ec.customer import Customer
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['first_name', 'last_name', 'billing_name', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city' , 'billing_province' , 'billing_country' , 'billing_postal' , 'billing_phone', 'shipping_name', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city' , 'shipping_province' , 'shipping_country' , 'shipping_postal' , 'shipping_phone', 'email' , 'has_consented',
+        fields = ['first_name', 'last_name', 'billing_name', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city' , 'billing_province' , 'billing_country' , 'billing_postal' , 'billing_phone', 'shipping_name', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city' , 'shipping_province' , 'shipping_country' , 'shipping_postal' , 'shipping_phone', 'email' , 'has_consented', 'date_of_birth', 'wants_newsletter', 'wants_flyers',
         ]
         labels = {
             'has_consented': 'E-Mail Privacy Consent',
+            'wants_newsletter': 'Sign up for our newsletter!',
+            'wants_flyers': 'Receive special offers from our partners!',
         }
         widgets = {
             'first_name': TextInput(attrs={
@@ -96,4 +98,5 @@ class CustomerForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Email Address'
             }),
+            'date_of_birth': SelectDateWidget(),
         }

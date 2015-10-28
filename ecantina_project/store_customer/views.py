@@ -12,6 +12,7 @@ from api.models.ec.customer import Customer
 from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 from inventory_base.forms.customerform import CustomerForm
+from inventory_setting.forms.userform import UserForm
 
 
 def authentication_page(request, org_id=0, store_id=0):
@@ -339,7 +340,8 @@ def personal_info_page(request, org_id=0, store_id=0):
 
     # Display the view with all our model information.
     return render(request, 'store_customer/personal_info/view.html',{
-        'form': CustomerForm(instance=customer),
+        'customer_form': CustomerForm(instance=customer),
+        'user_form': UserForm(instance=customer),
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
@@ -351,3 +353,37 @@ def personal_info_page(request, org_id=0, store_id=0):
         'page' : 'wishlist',
     })
 
+
+@login_required(login_url='/customer/authentication')
+def change_password_page(request, org_id=0, store_id=0):
+    org_id = int(org_id)
+    store_id = int(store_id)
+    
+    # Fetch the Organization / Store.
+    org = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
+    
+    # If user is logged in, fetch the Customer record or create one. Then
+    # fetch a Receipt record or create a new one.
+    customer = None
+    receipt = None
+    wishlists = None
+    if request.user.is_authenticated():
+        customer = Customer.objects.get_or_create_for_user(request.user)
+        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
+        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
+    
+    # Display the view with all our model information.
+    return render(request, 'store_customer/password/view.html',{
+        'customer_form': CustomerForm(instance=customer),
+        'user_form': UserForm(instance=customer),
+        'receipt': receipt,
+        'wishlists': wishlists,
+        'customer': customer,
+        'org': org,
+        'store': store,
+        'local_css_library' : settings.STORE_CSS_LIBRARY,
+        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'wishlist',
+    })

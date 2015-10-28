@@ -29,43 +29,6 @@
     });
     
     function ajax_save() {
-        // Create our 'auth_users' object.
-        var data = {
-            'first_name': $('#id_first_name').val(),
-            'last_name': $('#id_last_name').val(),
-            'email': $('#id_email').val(),
-            'username': $('#id_email').val(),
-            'old_password': $('#id_old_password').val(),
-            'password': $('#id_password').val(),
-            'password_repeated': $('#id_password_repeated').val(),
-            'groups': '',
-            'user_id': {{ request.user.id }}
-        };
-        set_user(
-            data,
-            function(success_result) {
-                // Make custom call to update the password and handle errors in it.
-                ajax_update_password(function () {
-                    // (1) Add notification message of success.
-                    $(document).trigger("add-alerts",[{
-                        'message': 'Admin was Successfully Updated',
-                        'priority': 'success'
-                    }]);
-                                      
-                    // (2) Add count-down timer to reloading page/cache.
-                    setTimeout(function(){
-                        location.reload(true); // Reload page with cache cleared.
-                    }, 1000)
-                });
-            },
-            function(error_json) {
-                 print_error(error_json);
-            }
-        );
-    }
-
-    function ajax_update_password(callback)
-    {
         $.ajax( '/user/settings/update_password', {
             data: {
                 'password': $('#id_password').val(),
@@ -81,22 +44,21 @@
                         'message': result.message,
                         'priority': 'error'
                     }]);
-               }
-               else
-               {
-                   callback();
-               }
-           },
-           error: function(xhr,status,error) {
-           // error code here
-           },
-           complete: function(xhr,status) {
-           // completion code here
+                }
+                else
+                {
+                    callback();
+                }
+            },
+            error: function(xhr,status,error) {
+               // error code here
+            },
+            complete: function(xhr,status) {
+               // completion code here
             }
         });
     }
 
-    
     /**
      * Prints a error box with the contents of the errors received from the server.
      */
