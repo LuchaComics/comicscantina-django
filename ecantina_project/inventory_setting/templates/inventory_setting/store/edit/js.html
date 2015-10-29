@@ -51,7 +51,7 @@
         var upload_id = $('#id_hidden_upload_id').val();
                       
         // Insert or Update.
-        set_imageupload(upload_id, false, image, 0, function(json_result) {
+        set_imageupload(upload_id, true, image, {{ request.user.id }}, function(json_result) {
             $('#logo-image').attr('src', json_result['image']);
             $('#id_hidden_upload_id').val(json_result['upload_id']);
         });
@@ -117,6 +117,14 @@
     }
 
     function ajax_save_edit() {
+        if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please upload a picture before saving changes.',
+                'priority': 'error'
+            }]);
+            return false;
+        }
+        
         get_store(
             {{ store.store_id }},
             function(store) {
@@ -182,20 +190,16 @@
                 set_store(
                     store,
                     function(success_json) {
-                        // Update the store logo and tell the system
-                        var upload_id = $('#id_hidden_upload_id').val();
-                        set_imageupload(upload_id, true, null, {{ employee.employee_id }}, function(json_result) {
-                            // (1) Add notification message of success.
-                            $(document).trigger("add-alerts",[{
-                                'message': 'Store was Successfully Updated',
-                                'priority': 'success'
-                            }]);
-                                            
-                            // (2) Add count-down timer to reloading page/cache.
-                            setTimeout(function(){
-                                location.reload(true); // Reload page with cache cleared.
-                            }, 1000)
-                        });
+                          // (1) Add notification message of success.
+                          $(document).trigger("add-alerts",[{
+                                                            'message': 'Store was Successfully Updated',
+                                                            'priority': 'success'
+                                                            }]);
+                          
+                          // (2) Add count-down timer to reloading page/cache.
+                          setTimeout(function(){
+                                     location.reload(true); // Reload page with cache cleared.
+                                     }, 1000)
                     }, // success
                     function(error_json) {
                         for (var key in error_json) {
