@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, AnonymousUser
 from rest_framework import permissions
 from api.models.ec.employee import Employee
 from api.models.ec.customer import Customer
-
+from api.models.ec.organization import Organization
 
 class IsAdminUserOrReadOnly(permissions.BasePermission):
     message = 'Only administrators are allowed to write data.'
