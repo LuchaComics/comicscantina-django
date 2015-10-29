@@ -53,6 +53,12 @@
             arr.push({ 'store': store_id });
         }
         
+        {% if org == None and store == None %}
+        // If we are in the aggregate store, be sure to ONLY fetch items
+        // which are listed in the aggregate store.
+        arr.push({ 'store_aggregated_listing': 'True' });
+        {% endif %}
+        
         // Get all the selected "Brands".
         $('#brands_list input:radio').each(function() {
             if (this.checked) {
@@ -63,15 +69,15 @@
         // Get the mininum price.
         var min_price = parseInt($('#id_min_price').val());
         if (min_price > 0) {
-            arr.push({ 'min_price': min_price });
+            arr.push({ 'min_sub_price': min_price });
         }
         
         // Get the maximum price.
         var max_price = parseInt($('#id_max_price').val());
         if (max_price > 0) {
-            arr.push({ 'max_price': max_price });
+            arr.push({ 'max_sub_price': max_price });
         }
-        
+                
         // Get is Discounted
         $('input[type=checkbox]').each(function () {
             if (this.name == 'IsDiscounted') {
@@ -80,6 +86,10 @@
                 }
             }
         });
+        
+        // IMPORTANT: Ensure we only return non-sold and available products.
+        arr.push({ 'is_sold': 'False' });
+        arr.push({ 'is_available': 'True' });
         
         // Search through the products and generate UI with the results.
         filter_products(arr, function(json_objects) {

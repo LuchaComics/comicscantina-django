@@ -74,9 +74,9 @@
                             <div class="block-element" onclick="ajax_search();">
                                 <label>
                                     <input id="{{ brand.brand_id }}"
-                                         type="radio"
-                                         name="agree"
-                                        value="0" /> {{ brand.name }}
+                                    type="radio"
+                                    name="agree"
+                                    value="0" /> {{ brand.name }}
                                 </label>
                             </div>
                             {% endfor %}
@@ -98,17 +98,17 @@
                             <form class="form-inline " role="form">
                                 <div class="form-group">
                                     <input type="text"
-                                          class="form-control"
-                                             id="id_min_price"
-                                    placeholder="1 $">
+                                        class="form-control"
+                                        id="id_min_price"
+                                        placeholder="1 $">
                                         </div>
                                 <div class="form-group sp"> -</div>
                                 <div class="form-group">
                                     <input type="text"
-                                          class="form-control"
-                                             id="id_max_price"
-                                    placeholder="10 $">
-                                </div>
+                                        class="form-control"
+                                        id="id_max_price"
+                                        placeholder="10 $">
+                                        </div>
                                 <button onclick="ajax_search();" type="button" class="btn btn-default pull-right">check</button>
                             </form>
                         </div>
@@ -153,16 +153,16 @@
                 <p class="pull-left"> Showing <strong>{{ products.count }}</strong> products </p>
                 <div class="pull-right ">
                     <!--
-                    <div class="change-order pull-right">
-                        <select class="form-control" name="orderby">
-                            <option selected="selected">Default sorting</option>
-                            <option value="popularity">Sort by popularity</option>
-                            <option value="rating">Sort by average rating</option>
-                            <option value="date">Sort by newness</option>
-                            <option value="price">Sort by price: low to high</option>
-                            <option value="price-desc">Sort by price: high to low</option>
-                        </select>
-                    </div>
+                     <div class="change-order pull-right">
+                     <select class="form-control" name="orderby">
+                     <option selected="selected">Default sorting</option>
+                     <option value="popularity">Sort by popularity</option>
+                     <option value="rating">Sort by average rating</option>
+                     <option value="date">Sort by newness</option>
+                     <option value="price">Sort by price: low to high</option>
+                     <option value="price-desc">Sort by price: high to low</option>
+                     </select>
+                     </div>
                      -->
                     <div class="change-view pull-right">
                         <a href="#" title="Grid" class="grid-view">

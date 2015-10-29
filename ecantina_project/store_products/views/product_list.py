@@ -51,26 +51,8 @@ def list_page(request, org_id=0, store_id=0):
     category_id = int(request.GET.get('category'))
     try:
         current_category = Category.objects.get(category_id=category_id)
-        
-        # Filter down the products based on the organization / store / category.
-        products = None
-        if current_category.parent_id is 0:
-            products = Product.objects.filter(category__parent_id=1)
-        else:
-            products = Product.objects.filter(category_id=category_id)
-        if organization:
-            products = products.filter(organization=organization)
-        if store:
-            products = products.filter(store=store)
-
-        prod_count = len(products)
     except Category.DoesNotExist:
         current_category = None
-        products = None
-        prod_count = 0
-    except Product.DoesNotExist:
-        products = None
-        prod_count = 0
 
     return render(request, 'store_products/product_list/list.html',{
         'receipt': receipt,
