@@ -4,7 +4,6 @@
 {% include 'api/section.html' %}
 {% include 'api/employee.html' %}
 {% include 'api/user.html' %}
-{% include 'api/common_js.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -51,10 +50,6 @@
                 'organization': '{{ org.org_id }}',
                 'role': $('#id_role').val(),
                 'profile': upload_id,
-            }
-                        
-            if ($('#id_phone').val().length > 0) { // Add telephone if added.
-                data['phone'] = get_phone('#id_phone');
             }
                         
             set_employee(
