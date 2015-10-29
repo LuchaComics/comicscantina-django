@@ -20,7 +20,7 @@ class ProductFilter(django_filters.FilterSet):
     store = django_filters.CharFilter(name="store__store_id")
     section = django_filters.CharFilter(name="section__section_id")
     category = django_filters.CharFilter(name="category__category_id")
-    category_name = django_filters.CharFilter(name="category__category_name", lookup_type=("icontains"))
+    category_name = django_filters.CharFilter(name="category__name", lookup_type=("icontains"))
     min_price = django_filters.CharFilter(name="price", lookup_type=("gte"))
     max_price = django_filters.CharFilter(name="price", lookup_type=("lte"))
     min_discount = django_filters.CharFilter(name="discount", lookup_type=("gte"))
