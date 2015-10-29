@@ -140,53 +140,216 @@
             <div class="product-tab w100 clearfix">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-                    <li><a href="#size" data-toggle="tab">Size</a></li>
+                    {% if stories.count > 0 %}
+                    <li><a href="#story" data-toggle="tab">Story</a></li>
+                    {% endif %}
                     <li><a href="#shipping" data-toggle="tab">Shipping</a></li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane active" id="details">Sed ut eros felis. Vestibulum rutrum imperdiet nunc a
-                        interdum. In scelerisque libero ut elit porttitor commodo. Suspendisse laoreet magna nec urna
-                        fringilla viverra.<br>
-                        100% Cotton<br>
-                    </div>
-                    <div class="tab-pane" id="size"> 16" waist<br>
-                        34" inseam<br>
-                        10.5" front rise<br>
-                        8.5" knee<br>
-                        7.5" leg opening<br>
-                        <br>
-                        Measurements taken from size 30<br>
-                        Model wears size 31. Model is 6'2 <br>
-                        <br>
-                    </div>
-                    <div class="tab-pane" id="shipping">
+                    <!-- Details -->
+                    <div class="tab-pane active" id="details">
                         <table>
                             <colgroup>
                                 <col style="width:33%">
-                                    <col style="width:33%">
-                                        <col style="width:33%">
-                                            </colgroup>
+                                <col style="width:33%">
+                            </colgroup>
                             <tbody>
                                 <tr>
-                                    <td>Standard</td>
-                                    <td>1-5 business days</td>
-                                    <td>$7.95</td>
+                                    <td>Age</td>
+                                    <td>{{ comic.age }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Two Day</td>
-                                    <td>2 business days</td>
-                                    <td>$15</td>
+                                    <td>CGC Rated</td>
+                                    {% if comic.is_cgc_rated %}
+                                    <td><i class="fa fa fa-check-circle color-in"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa-minus-circle color-out"></i></td>
+                                    {% endif %}
                                 </tr>
                                 <tr>
-                                    <td>Next Day</td>
-                                    <td>1 business day</td>
-                                    <td>$30</td>
+                                    <td>Label Colour</td>
+                                    {% if comic.is_cgc_rated %}
+                                    <td>{{ comic.label_colour }}</td>
+                                    {% else %}
+                                    <td>-</td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    {% if comic.is_cgc_rated %}
+                                        <td>Rating</td>
+                                        {% if comic.cgc_rating == 10 %}
+                                            <td>Gem Mint</td>
+                                        {% elif comic.cgc_rating == 9.9 %}
+                                            <td>Mint</td>
+                                        {% elif comic.cgc_rating == 9.8 %}
+                                            <td>Near Mint/Mint</td>
+                                        {% elif comic.cgc_rating == 9.6 %}
+                                            <td>Near Mint +</td>
+                                        {% elif comic.cgc_rating == 9.4 %}
+                                            <td>Near Mint</td>
+                                        {% elif comic.cgc_rating == 9.2 %}
+                                            <td>Near Mint -</td>
+                                        {% elif comic.cgc_rating == 9.0 %}
+                                            <td>Very Fine/Near Mint</td>
+                                        {% elif comic.cgc_rating == 8.5 %}
+                                            <td>Very Fine +</td>
+                                        {% elif comic.cgc_rating == 8.0 %}
+                                            <td>Very Fine</td>
+                                        {% elif comic.cgc_rating == 7.5 %}
+                                            <td>Very Fine -</td>
+                                        {% elif comic.cgc_rating == 7.0 %}
+                                            <td>Fine/Very Fine</td>
+                                        {% elif comic.cgc_rating == 6.5 %}
+                                            <td>Fine +</td>
+                                        {% elif comic.cgc_rating == 6.0 %}
+                                            <td>Fine</td>
+                                        {% elif comic.cgc_rating == 5.5 %}
+                                            <td>Fine -</td>
+                                        {% elif comic.cgc_rating == 5.0 %}
+                                            <td>Very Good/Fine</td>
+                                        {% elif comic.cgc_rating == 4.5 %}
+                                            <td>Very Good +</td>
+                                        {% elif comic.cgc_rating == 4.0 %}
+                                            <td>Very Good</td>
+                                        {% elif comic.cgc_rating == 3.5 %}
+                                            <td>Very Good -</td>
+                                        {% elif comic.cgc_rating == 3.0 %}
+                                            <td>Good/Very Good</td>
+                                        {% elif comic.cgc_rating == 2.5 %}
+                                            <td>Good +</td>
+                                        {% elif comic.cgc_rating == 2.0 %}
+                                            <td>Good</td>
+                                        {% elif comic.cgc_rating == 1.8 %}
+                                            <td>Good -</td>
+                                        {% elif comic.cgc_rating == 1.5 %}
+                                            <td>Fair/Good</td>
+                                        {% elif comic.cgc_rating == 1.0 %}
+                                            <td>Fair</td>
+                                        {% elif comic.cgc_rating == 0.5 %}
+                                            <td>Poor</td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>Condition</td>
+                                        {% if comic.condition_rating == 10 %}
+                                        <td>Near Mint</td>
+                                        {% elif comic.condition_rating == 8 %}
+                                        <td>Very Fine</td>
+                                        {% elif comic.condition_rating == 6 %}
+                                        <td>Fine</td>
+                                        {% elif comic.condition_rating == 4 %}
+                                        <td>Very Good</td>
+                                        {% elif comic.condition_rating == 2 %}
+                                        <td>Good</td>
+                                        {% elif comic.condition_rating == 1 %}
+                                        <td>Fair</td>
+                                        {% elif comic.condition_rating == 0 %}
+                                        <td>Poor</td>
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Canadian Price Variant</td>
+                                    {% if comic.is_canadian_priced_variant %}
+                                    <td><i class="fa fa fa-check-circle color-in"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa-minus-circle color-out"></i></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Variant Cover</td>
+                                    {% if comic.is_variant_covert %}
+                                    <td><i class="fa fa fa-check-circle color-in"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa-minus-circle color-out"></i></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Retailer incentive cover</td>
+                                    {% if comic.is_retail_incentive_variant %}
+                                    <td><i class="fa fa fa-check-circle color-in"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa-minus-circle color-out"></i></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Newsstand Edition</td>
+                                    {% if comic.is_newsstand_edition %}
+                                    <td><i class="fa fa fa-check-circle color-in"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa-minus-circle color-out"></i></td>
+                                    {% endif %}
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="3">* Free on orders of $50 or more</td>
+                                    <!--<td colspan="3">* Free on orders of $50 or more</td>-->
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    {% if stories.count > 0 %}
+                    <!-- Story -->
+                    <div class="tab-pane" id="story">
+                        <table>
+                            <colgroup>
+                                <col style="width:33%">
+                                <col style="width:33%">
+                            </colgroup>
+                            <tbody>
+                                {% for story in stories %}
+                                <tr>
+                                    <!-- Title -->
+                                    {% if story.title %}
+                                    <td>{{ story.title }}</td>
+                                    {% else %}
+                                    <td>No Title</td>
+                                    {% endif %}
+                                    
+                                    <!-- Page Count -->
+                                    {% if story.page_count_uncertain == True%}
+                                    <td>{{ story.page_count | floatformat }} {% if story.page_count > 1 %}Pages{% else %}Page {% endif %}</td>
+                                    {% else %}
+                                    <td>{{ story.page_count }} Pages</td>
+                                    {% endif %}
+                                    
+                                </tr>{% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <!--<td colspan="3">* Free on orders of $50 or more</td>-->
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                    <!-- /.Story -->
+                    {% endif %}
+                    
+                    <div class="tab-pane" id="shipping">
+                        <table>
+                            <colgroup>
+                                <col style="width:33%">
+                                <col style="width:33%">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>Has Shipping</td>
+                                    {% if product.has_no_shipping %}
+                                    <td><i class="fa fa-minus-circle color-out"></i></td>
+                                    {% else %}
+                                    <td><i class="fa fa fa-check-circle color-in"></i></td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <td>Travel Time</td>
+                                    <td>1-5 business days</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <!--<td colspan="3">* Free on orders of $50 or more</td>-->
                                 </tr>
                             </tfoot>
                         </table>

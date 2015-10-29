@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
 from django.conf import settings
+from api.models.gcd.story import GCDStory
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
 from api.models.ec.organization import Organization
@@ -56,6 +57,12 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
     except Comic.DoesNotExist:
         comic = None
 
+    # Fetch the Stories per comic
+    try:
+        stories = GCDStory.objects.filter(issue_id=comic.issue_id)
+    except GCDStory.DoesNotExist:
+        stories = None
+
     return render(request, 'store_products/product_details/details.html',{
         'receipt': receipt,
         'wishlists': wishlists,
@@ -65,6 +72,7 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
         'store': store,
         'categories': categories,
         'comic': comic,
+        'stories': stories,
         'product': product,
         'local_css_library': settings.STORE_CSS_LIBRARY,
         'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
