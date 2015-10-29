@@ -13,7 +13,7 @@ from api.models.ec.employee import Employee
 
 
 class ProductFilter(django_filters.FilterSet):
-    brand_name = django_filters.CharFilter(name="brand__brand_name", lookup_type=("icontains"))
+    brand_name = django_filters.CharFilter(name="brand__name", lookup_type=("icontains"))
     tag = django_filters.CharFilter(name="tag__tag_name", lookup_type=("icontains"))
     name = django_filters.CharFilter(name="name", lookup_type=("icontains"))
     organization = django_filters.CharFilter(name="organization__org_id")
