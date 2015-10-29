@@ -361,9 +361,25 @@
             <div style="clear:both"></div>
             <div class="product-share clearfix">
                 <p> SHARE </p>
-                <div class="socialIcon"><a href="#"> <i class="fa fa-facebook"></i></a> <a href="#"> <i
-                    class="fa fa-twitter"></i></a> <a href="#"> <i class="fa fa-google-plus"></i></a> <a href="#">
-                        <i class="fa fa-pinterest"></i></a>
+                <div class="socialIcon">
+                    {% if org == None and store == None %}
+                    <a href="https://facebook.com/LuchaComics/"><i class="fa fa-facebook"></i></a>
+                    <a href="https://twitter.com/luchacomics"><i class="fa fa-twitter"></i></a>
+                    <a href="https://github.com/luchacomics"><i class="fa fa-github"></i></a>
+                    <!--<a href=""><i class="fa fa-google-plus"></i></a>-->
+                    <!--<a href=""><i class="fa fa-pinterest"></i></a>-->
+                    {% else %}
+                        {% if org != None and store == None %}
+                        <!-- Use ORG social media -->
+                        <a href="{{ org.facebook_url }}"><i class="fa fa-facebook"></i></a>
+                        <a href="{{ org.twitter_url }}"><i class="fa fa-twitter"></i></a>
+                        {% else %}
+                        <!-- Use STORE social media -->
+                        <a href="{{ store.facebook_url }}"><i class="fa fa-facebook"></i></a>
+                        <a href="{{ store.twitter_url }}"><i class="fa fa-twitter"></i></a>
+                        {% endif %}
+                    {% endif %}
+                    
                 </div>
             </div>
             <!--/.product-share-->
