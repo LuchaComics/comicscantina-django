@@ -127,7 +127,8 @@
         html += '<tr>';
         html += '<th style="width:10%;text-align:center;">Image</th>';
         html += '<th style="width:17%;">Name</th>';
-        html += '<th style="width:17%;">Type</th>';
+        html += '<th style="width:17%;">Brand</th>';
+        html += '<th style="width:8%;">Stock</th>';
         html += '<th style="width:10%;">Price</th>';
         html += '<th style="width:8%;text-align:center;">View Details</th>';
         //html += '<th data-check-all="">';
@@ -175,6 +176,8 @@
                                     
                                     
                 html += '<td>' + val['name'] + '</td>';
+                html += '<td>' + val['brand_name'] + '</td>';
+                                    
                 if (val['type'] == 1) {
                     html += '<td>' + 'Comic' + '</td>';
                 } else if (val['type'] == 2) {
@@ -185,7 +188,7 @@
                     html += '<td>' + '</td>';
                 }
                 
-                html += '<td>$' + val['price'] + '</td>';
+                html += '<td>$' + val['sub_price'] + '</td>';
                 html += '<td style="text-align:center;">';
                                     
                 //html += '<button style="margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled">';
