@@ -117,6 +117,7 @@
     }
 
     function ajax_save_edit() {
+        // Defensive Code: Ensure that a organization logo has been added.
         if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 ) {
             $(document).trigger("add-alerts",[{
                 'message': 'Please upload a picture before saving changes.',

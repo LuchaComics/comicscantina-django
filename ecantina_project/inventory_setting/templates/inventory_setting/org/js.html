@@ -36,9 +36,23 @@
         // Extract the information.
         var image = document.getElementById('id_image').files[0];
         var upload_id = $('#id_hidden_upload_id').val();
+        
+        // Insert or Update.
+        set_imageupload(upload_id, true, image, {{ request.user.id }}, function(json_result) {
+            $('#logo-image').attr('src', json_result['image']);
+            $('#id_hidden_upload_id').val(json_result['upload_id']);
+        });
     }
 
     function ajax_save() {
+        // Defensive Code: Ensure that a organization logo has been added.
+        if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please upload a picture before saving changes.',
+                'priority': 'error'
+            }]);
+            return false;
+        }
         
         get_organization(
             {{ org.org_id }},
@@ -75,6 +89,12 @@
                     organization['phone'] = get_phone('#id_phone');
                 } else {
                     organization['phone'] = "";
+                }
+                         
+                // Add logo id if there exists one.
+                var logo = parseInt( $('#id_hidden_upload_id').val() );
+                if (logo > 0) {
+                    organization['logo'] = logo;
                 }
     
                 // Send the "FormData" object to be sent through REST and get updated.
