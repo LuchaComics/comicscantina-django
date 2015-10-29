@@ -148,7 +148,7 @@ STORE_HOUR_OPTIONS = (
 CGC_RATING_OPTIONS = (
     (10.0, 'Gem Mint'),
     (9.9, 'Mint'),
-    (9.8, 'Near Mint/Mintt'),
+    (9.8, 'Near Mint/Mint'),
     (9.6, 'Near Mint +'),
     (9.4, 'Near Mint'),
     (9.2, 'Near Mint -'),
