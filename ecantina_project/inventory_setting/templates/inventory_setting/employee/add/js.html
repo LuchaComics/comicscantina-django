@@ -41,7 +41,7 @@
         var upload_id = $('#id_hidden_upload_id').val();
     
         // Insert or Update.
-        set_imageupload(upload_id, false, image, {{ employee.user_id }}, function(json_result) {
+        set_imageupload(upload_id, false, image, {{ request.user.id }}, function(json_result) {
             $('#logo-image').attr('src', json_result['image']);
             $('#id_hidden_upload_id').val(json_result['upload_id']);
         });
