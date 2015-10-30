@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from ecantina_project import constants
 from api.models.ec.category import Category
+from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 
 class Command(BaseCommand):
     """
@@ -18,8 +19,6 @@ class Command(BaseCommand):
         $ python manage.py setup_ecantina
     """
     help = 'Populates the tables neccessary to give us a initial start.'
-    
-    
     
     def handle(self, *args, **options):
         #-----------------
@@ -66,6 +65,29 @@ class Command(BaseCommand):
         except Category.DoesNotExist:
             pass
 
+        #------------------------
+        # Unified Shipping Rates
+        #------------------------
+        try:
+            shipping_rates = UnifiedShippingRate.objects.all()
+            if len(shipping_rates) <= 0:
+                UnifiedShippingRate.objects.create(
+                    shipping_rate_id = 1,
+                    country = 124, # Canada
+                    comics_rate1 = 10,
+                    comics_rate2 = 20,
+                    comics_rate3 = 25,
+                    comics_rate4 = 30,
+                    comics_rate5 = 35,
+                    comics_rate6 = 40,
+                    comics_rate7 = 50,
+                    comics_rate8 = 75,
+                    comics_rate9 = 100,
+                    comics_rate10 = 140,
+                )
+        except UnifiedShippingRate.DoesNotExist:
+            pass
+
         #-----------------
         # BUGFIX: We need to make sure our keys are synchronized.
         #-----------------
@@ -75,6 +97,7 @@ class Command(BaseCommand):
         tables_info = [
             # eCantina Tables
             {"tablename": "ec_categories", "primarykey": "category_id",},
+            {"tablename": "ec_unified_shipping_rates", "primarykey": "shipping_rate_id",},
         ]
         for table in tables_info:
             sql = table['tablename'] + '_' + table['primarykey'] + '_seq'
