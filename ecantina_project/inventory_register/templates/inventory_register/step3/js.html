@@ -98,7 +98,7 @@
             'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
             'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
             // Other
-            'is_aggregated': $('#id_is_aggregated').is(':checked'),
+            'is_aggregated': 'True',
             'currency': $('#id_currency').val(),
             'language': $('#id_language').val(),
             'tax_rate': $('#id_tax_rate').val(),
@@ -180,7 +180,7 @@
                 store['is_open_sunday'] = $('#id_is_open_sunday').is(':checked');
                 // Other
                 store['is_suspended'] = '{{ form.instance.is_suspended }}';
-                store['is_aggregated'] = $('#id_is_aggregated').is(':checked');
+                store['is_aggregated'] = '{{ form.instance.is_aggregated }}';
                 store['currency'] = $('#id_currency').val();
                 store['language'] = $('#id_language').val();
                 store['tax_rate'] = parseFloat( $('#id_tax_rate').val() );
