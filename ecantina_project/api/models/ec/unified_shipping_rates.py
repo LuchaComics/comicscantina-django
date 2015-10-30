@@ -92,7 +92,7 @@ class UnifiedShippingRate(models.Model):
         cache = caches['default']
         if cache is not None:
             cache.clear()
-            super(StoreShippingRate, self).save(*args, **kwargs)
+            super(UnifiedShippingRate, self).save(*args, **kwargs)
 
     def get_comics_rate(self,comics_count):
         """
