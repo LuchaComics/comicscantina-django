@@ -41,12 +41,6 @@
                         <hr/>
                         <div class="checkbox c-checkbox pull-left m0 p0 col-sm-12">
                             <div data-alerts="alerts"></div>
-                            <div class="col-sm-offset-2 col-sm-6 pull-left text-right pt-sm">
-                                <label>
-                                    {{ form.is_terms_accepted }}
-                                    <span class="fa fa-check"></span>I agree with the <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}tos">terms</a>
-                                </label>
-                            </div>
                             <div class="col-sm-4 pull-right">
                                 <button onclick="ajax_submit();"
                                            type="button"
@@ -118,6 +112,12 @@
                 console.log(json_error);
             }
         ); 
+    }
+
+    function ajax_agree_tos() {
+        
+        var tos_agreed =  $('#id_tos_agreed').val();
+        console.log(tos_agreed);
     }
 
     function ajax_new_user(success_callback, error_callback) {
