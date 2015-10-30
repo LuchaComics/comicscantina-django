@@ -33,6 +33,62 @@ class IsEmployeeUser(permissions.BasePermission):
         except Employee.DoesNotExist:
             return False
 
+class DenyListingForNonEmployees(permissions.BasePermission):
+    """
+        Custom permission to deny all non-employees that are logged in.
+        """
+    message = 'Only employees are allowed to access data.'
+    def has_permission(self, request, view):
+        # Reject Anonymous users.
+        if request.user.is_anonymous():
+            return False
+        
+        # Find employee object for the user
+        try:
+            Employee.objects.get(user__id=request.user.id)
+            return True
+        except Employee.DoesNotExist:
+            pass
+                
+        try:
+            customer = Customer.objects.get(user=request.user)
+            if request.method is 'GET':
+                return False
+            else:
+                return True
+        except Exception as e:
+            return False
+
+
+class UserBelongsToCustomerOrEmployee(permissions.BasePermission):
+    """
+        Object-level permission to allow Customers / Employees to access the
+        User object only if they belong to it.
+    """
+    message = 'You are not owner of this object'
+    def has_object_permission(self, request, view, obj):
+        # Fetch the User
+        try:
+            user = User.objects.get(id=request.user.id)
+        except User.DoesNotExist:
+            return False # If no user account exists, then deny permission.
+
+        # Confirm it belongs to Employee.
+        try:
+            employee = Employee.objects.get(user__id=request.user.id)
+            
+            # Instance must have an attribute named `organization`.
+            return obj.id == employee.user.id
+        except Exception as e:
+            pass
+
+        # Confirm it belongs to Customer.
+        try:
+            customer = Customer.objects.get(user=request.user)
+            return obj.id == customer.user.id
+        except Exception as e:
+            return False
+
 
 class IsEmployeeUserOrReadOnly(permissions.BasePermission):
     """

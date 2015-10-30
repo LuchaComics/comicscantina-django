@@ -57,12 +57,19 @@
 
     function ajax_save_customer(callback)
     {
+        // Get the date of birth.
+        var date_of_birth = '';
+        date_of_birth  = $('#id_date_of_birth_year').val() + '-';
+        date_of_birth += $('#id_date_of_birth_month').val() + '-';
+        date_of_birth += $('#id_date_of_birth_day').val();
+        
         get_customer({{ customer.customer_id }}, function(customer) {
             // Update the customer
             customer['first_name'] = $('#id_first_name').val();
             customer['last_name'] = $('#id_last_name').val();
             customer['wants_newsletter'] = $('#newsletter').val();
             customer['wants_flyers'] = $('#optin').is(':checked');
+            customer['date_of_birth'] = date_of_birth;
                      
             // Save the newly updated customer and return the callback.
             set_customer(

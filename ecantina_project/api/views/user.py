@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from api.serializers import UserSerializer, GroupSerializer
 from api.pagination import LargeResultsSetPagination
-from api.permissions import IsEmployeeUser
+from api.permissions import IsEmployeeUser, UserBelongsToCustomerOrEmployee
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -13,7 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (IsAuthenticated, IsEmployeeUser)
+    permission_classes = (UserBelongsToCustomerOrEmployee,)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
