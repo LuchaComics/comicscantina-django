@@ -92,6 +92,17 @@
                             {{ customer_form.shipping_postal }}
                         </div>
                     </fieldset>
+                    <div class="col-sm-12 mb0">
+                        <legend class="text-muted mb">Date of Birth</legend>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    {{ customer_form.date_of_birth }}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
                     <fieldset class="col-sm-12 mb0 pb0">
                         <div class="clearfix"></div>
                         <hr/>
@@ -150,6 +161,13 @@
 
     function ajax_submit()
     {
+        // Get the date of birth.
+        var date_of_birth = '';
+        date_of_birth  = $('#id_date_of_birth_year').val() + '-';
+        date_of_birth += $('#id_date_of_birth_month').val() + '-';
+        date_of_birth += $('#id_date_of_birth_day').val();
+        
+        // Generate our new customer.
         var arr = {
             'user': parseInt({{ user.id }}),
             'first_name': '{{ user.first_name }}',
@@ -171,6 +189,7 @@
             'shipping_country': $('#id_shipping_country').val(),
             'shipping_province': $('#id_shipping_province').val(),
             'shipping_postal': $('#id_shipping_postal').val(),
+            'date_of_birth': date_of_birth,
             'has_consented': 'False',
             //'has_consented': $('#id_has_consented').is(':checked'),
         };
