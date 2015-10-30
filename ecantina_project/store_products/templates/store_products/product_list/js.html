@@ -241,6 +241,7 @@
 
     function ajax_update_table_with_wishlists()
     {
+        {% if customer %}
         var criteria = Array(); // Variable used to store the search criteria.
         criteria.push({ 'customer': {{ customer.customer_id }}});
         criteria.push({ 'product__is_sold': false });
@@ -258,6 +259,7 @@
                 console.log(error_json); // Do nothing.
             }
         );
+        {% endif %}
     }
 
     function ajax_search_products(name, brand, category, tags, min_price, max_price)
