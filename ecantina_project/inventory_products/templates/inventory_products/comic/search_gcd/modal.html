@@ -371,7 +371,11 @@
                     }
                               
                     set_comic(data, function(json_result) {
-                        ajax_close_modal(); // HIDE the model.
+                              
+                        perform_apply_tax_and_discounts(product_id, function(ok) {
+                            ajax_close_modal(); // HIDE the model.
+                        }); // End Apply Tax + Discounts
+                              
                     }); // End Set Comic
                 }); // End Set Product
             },

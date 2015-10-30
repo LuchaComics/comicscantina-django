@@ -102,4 +102,25 @@
             }
         });
     }
+
+    function perform_apply_tax_and_discounts(product_id, callback) {
+        var url = "/api/products/" + product_id + "/apply_tax_and_discounts/?format=json";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
 </script>

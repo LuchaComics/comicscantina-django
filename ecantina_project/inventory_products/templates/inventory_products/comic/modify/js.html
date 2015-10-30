@@ -321,22 +321,26 @@
             // not a 'insert' call.
             data['comic_id'] =  parseInt( {{ comic_form.instance.comic_id }} );
         {% endif %}
-                    
-            set_comic(data, function(json_result) {
-                // If we've uploaded an image then we need to attach it and then
-                // launch the edit page, else if we did not upload anything then
-                // just launch the edit page immediately.
-                if (upload_id > 0) {
-                    // Let our upload image know it is properly assigned.
-                    set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                        // Load up the 'Edit' controller associated with comics.
+            
+            perform_apply_tax_and_discounts(product_id, function(ok) {
+               
+                set_comic(data, function(json_result) {
+                    // If we've uploaded an image then we need to attach it and then
+                    // launch the edit page, else if we did not upload anything then
+                    // just launch the edit page immediately.
+                    if (upload_id > 0) {
+                        // Let our upload image know it is properly assigned.
+                        set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                            // Load up the 'Edit' controller associated with comics.
+                            window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                        }); // end imageupload
+                    } else {
                         window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
-                    }); // end imageupload
-                } else {
-                    window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
-                }
-            }); // end comic
-        }); // end product
+                    }
+                }); // End Set Comic
+                                            
+            }); // End Apply Tax+Discounts
+        }); // End Set Product
     }
 
 
