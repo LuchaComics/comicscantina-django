@@ -22,7 +22,7 @@ class OrgShippingRateForm(forms.ModelForm):
             'comics_rate5':'41-50 Comics Rate:',
             'comics_rate6':'51-74  Comics Rate:',
             'comics_rate7':'75-100 Comics Rate:',
-            'comics_rate8':'100-150 Comics Rate:',
+            'comics_rate8':'101-150 Comics Rate:',
             'comics_rate9':'151-200 Comics Rate:',
             'comics_rate10':'201-300 Comics Rate:',
         }
