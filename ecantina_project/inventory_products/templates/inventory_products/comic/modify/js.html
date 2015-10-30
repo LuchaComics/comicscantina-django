@@ -181,17 +181,6 @@
     }
 
     /**
-     *  Helper function used in multipling two currency type numbers.
-     *  Code Source: http://stackoverflow.com/a/3081695
-     */
-    function money_multiply (a, b) {
-        var log_10 = function (c) { return Math.log(c) / Math.log(10); },
-        ten_e  = function (d) { return Math.pow(10, d); },
-        pow_10 = -Math.floor(Math.min(log_10(a), log_10(b))) + 1;
-        return ((a * ten_e(pow_10)) * (b * ten_e(pow_10))) / ten_e(pow_10 * 2);
-    }
-
-    /**
      *  Function will either insert / update the Product, Comic, and ImageUpload
      *  tables.
      */
@@ -239,8 +228,6 @@
         var sub_price = parseFloat($('#id_sub_price').val());
         var has_tax = {% if store.tax_rate > 0 %}true{% else %}false{% endif %};
         var tax_rate = {% if store.tax_rate > 0 %}{{ store.tax_rate }}{% else %}0{% endif %};
-        var tax_amount = money_multiply(sub_price, tax_rate);
-        var sub_price_with_tax = sub_price + tax_amount;
         
         // Insert/Update "product" model.
         var arr = {
@@ -250,11 +237,11 @@
             'sub_price': sub_price,
             'has_tax': has_tax,
             'tax_rate': tax_rate,
-            'tax_amount': tax_amount,
-            'sub_price_with_tax': sub_price_with_tax,
+            'tax_amount': 0,
+            'sub_price_with_tax': 0,
             'discount': 0,
             'discount_type': 1,
-            'price': sub_price_with_tax,
+            'price': 0,
             'cost': $('#id_cost').val(),
             'organization': {{ org.org_id }},
             'store': parseInt( $('#id_store').val() ),
