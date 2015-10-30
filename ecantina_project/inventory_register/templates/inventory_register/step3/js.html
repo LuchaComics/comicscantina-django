@@ -32,8 +32,13 @@
 
     function ajax_proceed_next()
     {
+        var store_id_string = '{{ form.instance.store_id }}';
+        if (store_id_string == 'None') {
+            store_id_string = '';
+        }
+        
         // Get the store_id of this store.
-        var store_id = parseInt({{ form.instance.store_id }});
+        var store_id = parseInt(store_id_string);
         if (isNaN(store_id)) {
             ajax_add_store(function(json_results) { // Create our store for the very first time.
                 window.location = "/inventory/register/step4";
