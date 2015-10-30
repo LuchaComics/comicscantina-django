@@ -276,7 +276,6 @@ INVENTORY_JS_LIBRARY_BODY = [
 STORE_CSS_LIBRARY= [
     {"type":"text/css", "rel":"stylesheet", "href":"store/bootstrap/css/bootstrap.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/style.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"store/css/skin-5.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/story.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/store.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/footable-0.1.css", "id":"",},
