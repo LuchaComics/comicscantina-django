@@ -102,7 +102,7 @@
             'currency': $('#id_currency').val(),
             'language': $('#id_language').val(),
             'tax_rate': $('#id_tax_rate').val(),
-            'is_comics_vendor': $('#id_is_comics_vendor').is(':checked'),
+            'is_comics_vendor': $('#checkboxes-0').is(':checked'),
             'is_furniture_vendor': $('#id_is_furniture_vendor').is(':checked'),
             'is_coins_vendor': $('#id_is_coins_vendor').is(':checked'),
             'paypal_email': $('#id_paypal_email').val(),
@@ -184,7 +184,7 @@
                 store['currency'] = $('#id_currency').val();
                 store['language'] = $('#id_language').val();
                 store['tax_rate'] = parseFloat( $('#id_tax_rate').val() );
-                store['is_comics_vendor'] = $('#id_is_comics_vendor').is(':checked');
+                store['is_comics_vendor'] = $('#checkboxes-0').is(':checked');
                 store['is_furniture_vendor'] = $('#id_is_furniture_vendor').is(':checked');
                 store['is_coins_vendor'] = $('#id_is_coins_vendor').is(':checked');
                 store['paypal_email'] = $('#id_paypal_email').val();
