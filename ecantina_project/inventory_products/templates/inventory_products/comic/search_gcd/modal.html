@@ -3,6 +3,7 @@
 {% include 'api/section.html' %}
 {% include 'api/comic.html' %}
 {% include 'api/product.html' %}
+{% include 'api/issue.html' %}
 <!-- Modal -->
 <div class="modal fade" id="quick-add-modal" tabindex="-1" role="dialog" aria-labelledby="quick-add-modal">
     <div class="modal-dialog" role="document">
@@ -134,6 +135,7 @@
         </div>
     </div>
 </div><!-- /.Modal -->
+
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -302,89 +304,81 @@
         var has_tax = {% if store.tax_rate > 0 %}true{% else %}false{% endif %};
         var tax_rate = {% if store.tax_rate > 0 %}{{ store.tax_rate }}{% else %}0{% endif %};
         
-        // Insert/Update "product" model.
-        var arr = {
-            'name': product_name,
-            'type': '1',
-            'is_sold': false,
-            'sub_price': sub_price,
-            'has_tax': has_tax,
-            'tax_rate': tax_rate,
-            'tax_amount': 0,
-            'sub_price_with_tax': 0,
-            'discount': 0,
-            'discount_type': 1,
-            'price': 0,
-            'cost': 0,
-            'organization': {{ org.org_id }},
-            'store': parseInt( $('#id_store').val() ),
-            'section': parseInt( $('#id_section').val() ),
-            'receipt': '',
-            'brand': parseInt( brand_id ),
-            'is_available': false,
-            'tags': tags,
-            'category': parseInt( $('#id_category').val() ),
-            'currency': parseInt( {{ store.currency | escape | safe }} ),
-            'language': "{{ store.language | escape | safe }}",
-            'has_no_shipping': false,
-        };
-                             
-        var upload_id = $('#id_hidden_upload_id').val();
-        if (upload_id > 0) { // Add in Image seperately if one was uploaded.
-            arr['image'] = parseInt( upload_id );
-            arr['image_url'] =  $('#id_hidden_url').val();
-        } else {
-            {% if issue.large_url %}
-            // Check to see if we have an image with GCD.
-            arr['image_url'] = "{{ issue.large_ur | escape | safe }}";
-            {% else %}
-            arr['image_url'] = "";
-            {% endif %}
-        }
-        
-        set_product(arr, function(json_result) {
-            // Extract the 'product_id' and use it to tie it to the
-            // 'comic' model.
-            var product_id = json_result['product_id'];
-            var organization_id = json_result['organization'];
-                                         
-            var data = {
-                'organization': parseInt( organization_id ),
-                'product': parseInt(product_id),
-                'issue': parseInt(issue_id),
-                'age': $('#id_age').val(),
-                'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
-                'label_colour': label_colour,
-                'cgc_rating': cgc_rating,
-                'condition_rating': condition_rating,
-                'is_canadian_priced_variant': $('#id_is_canadian_priced_variant').is(':checked'),
-                'is_variant_cover': $('#id_is_variant_cover').is(':checked'),
-                'is_retail_incentive_variant': $('#id_is_retail_incentive_variant').is(':checked'),
-                'is_newsstand_edition': $('#id_is_newsstand_edition').is(':checked'),
-                'is_qrcode_printed': false,
-            };
-                                         
-            if (upload_id > 0) { // Add in Image seperately if one was uploaded.
-                data['upload_id'] = upload_id;
+        get_issue(
+            issue_id,
+            function(issue) {
+                // Insert "product" model.
+                var arr = {
+                    'name': product_name,
+                    'type': '1',
+                    'is_sold': false,
+                    'sub_price': sub_price,
+                    'has_tax': has_tax,
+                    'tax_rate': tax_rate,
+                    'tax_amount': 0,
+                    'sub_price_with_tax': 0,
+                    'discount': 0,
+                    'discount_type': 1,
+                    'price': 0,
+                    'cost': 0,
+                    'organization': {{ org.org_id }},
+                    'store': parseInt( $('#id_store').val() ),
+                    'section': parseInt( $('#id_section').val() ),
+                    'receipt': '',
+                    'brand': parseInt( brand_id ),
+                    'is_available': true,
+                    'tags': tags,
+                    'category': parseInt( $('#id_category').val() ),
+                    'currency': parseInt( {{ store.currency | escape | safe }} ),
+                    'language': "{{ store.language | escape | safe }}",
+                    'has_no_shipping': false,
+                    'image_url': issue['large_url'], // Attach large image URL of cover.
+                };
+                  
+                set_product(arr, function(json_result) {
+                    // Extract the 'product_id' and use it to tie it to the
+                    // 'comic' model.
+                    var product_id = json_result['product_id'];
+                    var organization_id = json_result['organization'];
+                              
+                    var data = {
+                        'organization': parseInt( organization_id ),
+                        'product': parseInt(product_id),
+                        'issue': parseInt(issue_id),
+                        'age': $('#id_age').val(),
+                        'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
+                        'label_colour': label_colour,
+                        'cgc_rating': cgc_rating,
+                        'condition_rating': condition_rating,
+                        'is_canadian_priced_variant': $('#id_is_canadian_priced_variant').is(':checked'),
+                        'is_variant_cover': $('#id_is_variant_cover').is(':checked'),
+                        'is_retail_incentive_variant': $('#id_is_retail_incentive_variant').is(':checked'),
+                        'is_newsstand_edition': $('#id_is_newsstand_edition').is(':checked'),
+                        'is_qrcode_printed': false,
+                    };
+                              
+                    var label_colour = $('#id_label_colour').val();
+                    if (label_colour != '') {
+                        data['label_colour'] = label_colour;
+                    }
+                    var cgc_rating = $('#id_cgc_rating').val();
+                    if (cgc_rating != '') {
+                        data['cgc_rating'] = cgc_rating;
+                    }
+                    var condition_rating = $('#id_condition_rating').val();
+                    if (condition_rating != '') {
+                        data['condition_rating'] = condition_rating;
+                    }
+                              
+                    set_comic(data, function(json_result) {
+                        ajax_close_modal(); // HIDE the model.
+                    }); // End Set Comic
+                }); // End Set Product
+            },
+            function(error) {
+                  
             }
-                                         
-            var label_colour = $('#id_label_colour').val();
-            if (label_colour != '') {
-                data['label_colour'] = label_colour;
-            }
-            var cgc_rating = $('#id_cgc_rating').val();
-            if (cgc_rating != '') {
-                data['cgc_rating'] = cgc_rating;
-            }
-            var condition_rating = $('#id_condition_rating').val();
-            if (condition_rating != '') {
-                data['condition_rating'] = condition_rating;
-            }
-        
-            set_comic(data, function(json_result) {
-                ajax_close_modal(); // HIDE the model.
-            }); // end comic
-        }); // end product
+        ); // End Get Issue
     }
 
 
