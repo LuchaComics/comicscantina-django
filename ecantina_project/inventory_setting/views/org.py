@@ -25,7 +25,7 @@ def last_updated(request, org_id, store_id):
 @last_modified(last_updated)
 @login_required(login_url='/inventory/login')
 def org_settings_page(request, org_id, store_id):
-    employee = Employee.objects.get(user=request.user)
+    employee = Employee.objects.get(user__id=request.user.id)
     form = OrganizationForm(instance=employee.organization)
     logo = employee.organization.logo
     return render(request, 'inventory_setting/org/view.html',{
@@ -35,7 +35,7 @@ def org_settings_page(request, org_id, store_id):
         'tab':'org_settings',
         'employee': employee,
         'form': form,
-        'user_form': UserForm(instance=request.user),
+        'user_form': UserForm(instance=request.user), # Note: Possibly might error
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,

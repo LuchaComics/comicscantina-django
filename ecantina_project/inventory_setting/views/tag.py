@@ -20,7 +20,7 @@ def tags_settings_page(request, org_id, store_id):
     return render(request, 'inventory_setting/tag/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'employee': Employee.objects.get(user=request.user),
+        'employee': Employee.objects.get(user__id=request.user.id),
         'tab':'tags_settings',
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

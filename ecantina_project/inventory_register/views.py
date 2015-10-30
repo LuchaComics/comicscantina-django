@@ -32,12 +32,12 @@ def step1_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
 
     # If user is logged in, fetch the Customer record or create one.
     customer = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
 
     # Display the view with all our model information.
     return render(request, 'inventory_register/step1/view.html',{
@@ -57,14 +57,14 @@ def step2_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # If user is logged in, fetch the Customer record or create one.
     customer = None
     this_org = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
-        this_org = Organization.objects.get(administrator=request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+        this_org = Organization.objects.get(administrator__id=request.user.id)
 
     # Display the view with all our model information.
     return render(request, 'inventory_register/step2/view.html',{
@@ -86,13 +86,13 @@ def step3_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the current session information we are working with.
-    customer = Customer.objects.get_or_create_for_user(request.user)
-    this_org = Organization.objects.get(administrator=request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+    this_org = Organization.objects.get(administrator__id=request.user.id)
     try:
-        this_store = Store.objects.get(organization__administrator=request.user)
+        this_store = Store.objects.get(organization__administrator__id=request.user.id)
     except Store.DoesNotExist:
         this_store = None
 
@@ -116,13 +116,13 @@ def step4_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the current session information we are working with.
-    customer = Customer.objects.get_or_create_for_user(request.user)
-    this_org = Organization.objects.get(administrator=request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+    this_org = Organization.objects.get(administrator__id=request.user.id)
     try:
-        this_store = Store.objects.get(organization__administrator=request.user)
+        this_store = Store.objects.get(organization__administrator__id=request.user.id)
     except Store.DoesNotExist:
         this_store = None
 
@@ -198,18 +198,18 @@ def step5_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # If user is logged in, fetch the Customer record or create one.
     customer = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
 
     # Fetch the current session information we are working with.
-    customer = Customer.objects.get_or_create_for_user(request.user)
-    this_org = Organization.objects.get(administrator=request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+    this_org = Organization.objects.get(administrator__id=request.user.id)
     try:
-        this_store = Store.objects.get(organization__administrator=request.user)
+        this_store = Store.objects.get(organization__administrator__id=request.user.id)
     except Store.DoesNotExist:
         this_store = None
 

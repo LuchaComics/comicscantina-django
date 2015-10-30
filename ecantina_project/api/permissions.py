@@ -28,7 +28,7 @@ class IsEmployeeUser(permissions.BasePermission):
         
         # Find employee object for the user
         try:
-            Employee.objects.get(user=request.user)
+            Employee.objects.get(user__id=request.user.id)
             return True
         except Employee.DoesNotExist:
             return False
@@ -52,7 +52,7 @@ class IsEmployeeUserOrReadOnly(permissions.BasePermission):
         
         # Find employee object for the user
         try:
-            Employee.objects.get(user=request.user)
+            Employee.objects.get(user__id=request.user.id)
             return True
         except Employee.DoesNotExist:
             return False
@@ -66,7 +66,7 @@ class BelongsToEmployee(permissions.BasePermission):
     message = 'Only employees who belong to the same organization are able to access data.'
     def has_object_permission(self, request, view, obj):
         try:
-            employee = Employee.objects.get(user=request.user)
+            employee = Employee.objects.get(user__id=request.user.id)
         
             # Instance must have an attribute named `organization`.
             return obj.employee == employee
@@ -82,7 +82,7 @@ class BelongsToOrganization(permissions.BasePermission):
     """
     message = 'Only employees who belong to the same organization are able to access data.'
     def has_object_permission(self, request, view, obj):
-        employee = Employee.objects.get(user=request.user)
+        employee = Employee.objects.get(user__id=request.user.id)
         
         # Instance must have an attribute named `organization`.
         return obj.organization == employee.organization
@@ -100,14 +100,14 @@ class BelongsToCompanyPolicy(permissions.BasePermission):
         
         # Organizational Owners always have overriding authority of the organization.
         try:
-            organization = Organization.objects.get(administrator=request.user)
+            organization = Organization.objects.get(administrator__id=request.user.id)
             if organization is not None:
                 return obj.organization == organization
         except Organization.DoesNotExist:
             return False
         
         # OR Employee belongs to organization
-        employee = Employee.objects.get(user=request.user)
+        employee = Employee.objects.get(user__id=request.user.id)
         return obj.organization == employee.organization
 
 
@@ -126,7 +126,7 @@ class BelongsToOrganizationOwnerOrReadOnly(permissions.BasePermission):
             if request.user.is_anonymous():
                 return False
         try:
-            employee = Employee.objects.get(user=request.user)
+            employee = Employee.objects.get(user__id=request.user.id)
             return obj.org_id == employee.organization_id and obj.administrator == employee.user
         except Employee.DoesNotExist:
             return False
@@ -144,7 +144,7 @@ class BelongsToCustomerOrIsEmployeeUser(permissions.BasePermission):
             return False
         
         try:
-            Employee.objects.get(user=request.user)
+            Employee.objects.get(user__id=request.user.id)
             return True
         except Employee.DoesNotExist:
             pass
@@ -180,7 +180,7 @@ class BelongsToOrganizationOrReadOnly(permissions.BasePermission):
                 return False
 
         try:
-            employee = Employee.objects.get(user=request.user)
+            employee = Employee.objects.get(user__id=request.user.id)
         
             # Instance must have an attribute named `organization`.
             return obj.organization == employee.organization
@@ -204,7 +204,7 @@ class AnonymousWriteAndIsEmployeeRead(permissions.BasePermission):
         
         # Find employee object for the user
         try:
-            Employee.objects.get(user=request.user)
+            Employee.objects.get(user__id=request.user.id)
             return True
         except Employee.DoesNotExist:
             return False

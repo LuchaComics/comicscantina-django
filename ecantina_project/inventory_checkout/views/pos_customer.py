@@ -14,7 +14,7 @@ def checkout_page(request, org_id, store_id, receipt_id):
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'receipt': Receipt.objects.get(receipt_id=receipt_id),
-        'employee': Employee.objects.get(user=request.user),
+        'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
         'tab':'checkout',
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,

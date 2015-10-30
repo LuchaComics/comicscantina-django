@@ -8,14 +8,14 @@ from django.core.cache import caches
 
 
 class CustomerManager(models.Manager):
-    def get_or_create_for_user(self, user):
+    def get_or_create_for_user_email(self, user_email):
         """
             Function will lookup the customer based off the user's email. If
             a customer was not found, then this function will create one and
             return an empty customer assigned to this user.
         """
         try:
-            return self.get(email=user.email)
+            return self.get(email=user_email)
         except Customer.DoesNotExist:
             return self.create(
                 user=user,

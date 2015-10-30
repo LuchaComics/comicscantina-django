@@ -19,7 +19,7 @@ from inventory_setting.forms.userform import UserForm
 def authentication_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -31,7 +31,7 @@ def authentication_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -54,7 +54,7 @@ def authentication_page(request, org_id=0, store_id=0):
 def my_account_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -66,7 +66,7 @@ def my_account_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -89,14 +89,14 @@ def my_account_page(request, org_id=0, store_id=0):
 def order_history_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
     store = Store.objects.get_or_none(store_id)
     
     # Fetch required data.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
     wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -151,10 +151,10 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
     store = Store.objects.get_or_none(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
 
     # Fetch required data.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
     wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -199,7 +199,7 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
 def wishlist_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -211,7 +211,7 @@ def wishlist_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -234,7 +234,7 @@ def wishlist_page(request, org_id=0, store_id=0):
 def my_address_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -246,7 +246,7 @@ def my_address_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -269,7 +269,7 @@ def my_address_page(request, org_id=0, store_id=0):
 def billing_address_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -281,7 +281,7 @@ def billing_address_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     
@@ -305,7 +305,7 @@ def billing_address_page(request, org_id=0, store_id=0):
 def shipping_address_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -317,7 +317,7 @@ def shipping_address_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
 
@@ -340,7 +340,7 @@ def shipping_address_page(request, org_id=0, store_id=0):
 def personal_info_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -352,7 +352,7 @@ def personal_info_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
 
@@ -377,7 +377,7 @@ def personal_info_page(request, org_id=0, store_id=0):
 def change_password_page(request, org_id=0, store_id=0):
     org_id = int(org_id)
     store_id = int(store_id)
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
@@ -389,7 +389,7 @@ def change_password_page(request, org_id=0, store_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
     

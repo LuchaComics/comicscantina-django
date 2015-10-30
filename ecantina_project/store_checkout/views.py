@@ -24,14 +24,14 @@ def cart_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
     customer = None
     receipt = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Display the view with all our model information.
@@ -53,10 +53,10 @@ def checkout_shipping_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch Customer / Receipt.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Display the view with all our model information.
@@ -79,10 +79,10 @@ def checkout_billing_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch Customer / Receipt.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
     
     # Display the view with all our model information.
@@ -105,10 +105,10 @@ def checkout_shipping_method_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch Customer / Receipt.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
     
     # Lock out 'Shipping' option if a single product in the cart requires
@@ -145,10 +145,10 @@ def checkout_payment_method_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch Customer / Receipt.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Display the view with all our model information.
@@ -189,7 +189,7 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
 
     # Fetch OLD receipt and process it.
     old_receipt = Receipt.objects.get_or_none(receipt_id=receipt_id)
@@ -236,7 +236,7 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
     # Fetch Customer / Receipt
     # Note: Because our previous Receipt was set "has_finished" to true
     #       this will force a new cart to be opened / created here.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Display the view with all our model information.
@@ -261,10 +261,10 @@ def checkout_cancel_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Fetch Customer / Receipt.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
     
     # Display the view with all our model information.
@@ -286,7 +286,7 @@ def checkout_order_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(int(org_id))
     store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     
     # Generate our URLs & pick the payment email
     paypal_email = settings.PAYPAL_RECEIVER_EMAIL
@@ -301,7 +301,7 @@ def checkout_order_page(request, org_id=0, store_id=0):
     cancel_url = base_url+"/checkout/cancel"
 
     # Fetch Customer / Receipt.
-    customer = Customer.objects.get_or_create_for_user(request.user)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
     
     # What you want the button to do.

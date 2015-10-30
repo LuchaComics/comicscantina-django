@@ -17,7 +17,7 @@ from api.models.ec.wishlist import Wishlist
 
 
 def details_page(request, org_id=0, store_id=0, product_id=0):
-    employee = Employee.objects.get_for_user_or_none(request.user)
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org_id = int(org_id)
     store_id = int(store_id)
     product_id = int(product_id)
@@ -37,7 +37,7 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
     receipt = None
     wishlists = None
     if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user(request.user)
+        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
         receipt = Receipt.objects.get_or_create_for_online_customer(customer)
         wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
 

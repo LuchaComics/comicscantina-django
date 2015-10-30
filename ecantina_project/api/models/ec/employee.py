@@ -8,11 +8,11 @@ from django.core.cache import caches
 
 
 class EmployeeManager(models.Manager):
-    def get_for_user_or_none(self, user):
+    def get_for_user_id_or_none(self, user_id):
         # Detect if the employee already exists by finding an employee record
         # associated with this user account.
         try:
-            return Employee.objects.get(user=user)
+            return Employee.objects.get(user__id=user_id)
         except Employee.DoesNotExist:
             return None
 

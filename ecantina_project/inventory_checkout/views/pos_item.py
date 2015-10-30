@@ -23,7 +23,7 @@ def checkout_page(request, org_id, store_id, receipt_id):
         'store': Store.objects.get(store_id=store_id),
         'receipt': Receipt.objects.get(receipt_id=receipt_id),
         'tab':'checkout',
-        'employee': Employee.objects.get(user=request.user),
+        'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
         'local_css_library':settings.INVENTORY_CSS_LIBRARY,
         'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
@@ -58,7 +58,7 @@ def content_page(request, org_id, store_id, receipt_id):
         'tax': Decimal(store.tax_rate) * Decimal(100.00),
         'total_tax': total_tax.quantize(TWOPLACES),
         'total_amount': total_amount.quantize(TWOPLACES),
-        'employee': Employee.objects.get(user=request.user),
+        'employee': Employee.objects.get(user__id=request.user.id),
     })
 
 
