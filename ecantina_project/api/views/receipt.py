@@ -38,6 +38,29 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     search_fields = ('billing_name','email','billing_phone','billing_postal','shipping_name', 'shipping_phone','shipping_postal',)
     filter_class = ReceiptFilter
   
+    def get_queryset(self):
+        """
+            SECURITY: The following query override was set to protect private
+            Customer information from being leaked to non-employee staff.
+        """
+        # If user is an Employee then they have permission to list all the
+        # Customers Receipts in our application that belong to the organization,
+        # else don't show.
+        try:
+            employee = Employee.objects.get(user__id=self.request.user.id)
+            return Receipt.objects.filter(organization=employee.organization)
+        except Employee.DoesNotExist:
+            # Attempt to find the Customer in our system and see if it has any
+            # matching Receipts. If not, return nothing.
+            try:
+                customer = Customer.objects.filter(user_id=self.request.user.id)
+                return Receipt.objects.filter(customer=customer)
+            except Customer.DoesNotExist:
+                return Receipt.objects.none()
+        except Receipt.DoesNotExist:
+            # Worst Case: Return nothing found.
+            return Receipt.objects.none()
+  
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
     def apply_discounts(self, request, pk=None):
         """

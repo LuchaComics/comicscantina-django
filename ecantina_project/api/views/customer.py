@@ -34,3 +34,20 @@ class CustomerViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
     search_fields = ('=customer_id', 'first_name', 'last_name', 'email')
     filter_class = CustomerFilter
+
+    def get_queryset(self):
+        """
+            SECURITY: The following query override was set to protect private
+            Customer information from being leaked to non-employee staff.
+        """
+        # If user is an Employee then they have permission to list all the
+        # customers in our application, else don't show anything.
+        try:
+            employee = Employee.objects.get(user__id=self.request.user.id)
+            return employee.organization.customers
+        except Employee.DoesNotExist:
+            # Only return the Customer objects that belong to the Customer.
+            try:
+                return Customer.objects.filter(user_id=self.request.user.id)
+            except Customer.DoesNotExist:
+                return Customer.objects.none()
