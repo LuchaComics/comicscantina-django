@@ -160,11 +160,14 @@ class BelongsToCompanyPolicy(permissions.BasePermission):
             if organization is not None:
                 return obj.organization == organization
         except Organization.DoesNotExist:
-            return False
+            pass
         
         # OR Employee belongs to organization
-        employee = Employee.objects.get(user__id=request.user.id)
-        return obj.organization == employee.organization
+        try:
+            employee = Employee.objects.get(user__id=request.user.id)
+            return obj.organization == employee.organization
+        except Employee.DoesNotExist:
+            return False
 
 
 class BelongsToOrganizationOwnerOrReadOnly(permissions.BasePermission):
