@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import filters
@@ -12,7 +12,12 @@ from api.models.ec.employee import Employee
 from api.models.ec.imageupload import ImageUpload
 
 
-class ImageUploadViewSet(viewsets.ModelViewSet):
+class ImageUploadViewSet(mixins.CreateModelMixin,
+                         mixins.RetrieveModelMixin,
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin,
+                         #mixins.ListModelMixin,
+                         viewsets.GenericViewSet):
     """
         API endpoint that allows customers to be viewed or edited.
     """
