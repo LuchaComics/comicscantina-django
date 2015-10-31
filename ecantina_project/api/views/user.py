@@ -1,12 +1,17 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from api.serializers import UserSerializer, GroupSerializer
 from api.pagination import LargeResultsSetPagination
 from api.permissions import IsEmployeeUser, UserBelongsToCustomerOrEmployee
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(mixins.CreateModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.UpdateModelMixin,
+                  #mixins.DestroyModelMixin,
+                  #mixins.ListModelMixin,
+                  viewsets.GenericViewSet):
     """
         API endpoint that allows users to be viewed or edited.
         """
@@ -16,10 +21,15 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (UserBelongsToCustomerOrEmployee,)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   #mixins.DestroyModelMixin,
+                   #mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
     """
         API endpoint that allows groups to be viewed or edited.
-        """
+    """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     pagination_class = LargeResultsSetPagination
