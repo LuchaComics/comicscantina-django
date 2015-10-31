@@ -13,7 +13,7 @@ from api.models.ec.promotion import Promotion
 from api.models.ec.category import Category
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = LargeResultsSetPagination

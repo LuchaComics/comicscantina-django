@@ -19,7 +19,7 @@ class IssueFilter(django_filters.FilterSet):
         fields = ['publisher_name', 'title', 'series', 'issue_id', 'product_name',]
 
 
-class IssueViewSet(viewsets.ModelViewSet):
+class IssueViewSet(viewsets.ReadOnlyModelViewSet):
     """
         API endpoint that allows Issues to be viewed or edited.
     """

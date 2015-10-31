@@ -19,7 +19,7 @@ class SeriesFilter(django_filters.FilterSet):
         fields = ['name', 'publisher_name', 'min_year_began', 'max_year_ended', 'language', 'country', 'year_ended_uncertain', 'year_ended',]
 
 
-class SeriesViewSet(viewsets.ModelViewSet):
+class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     """
         API endpoint that allows customers to be viewed or edited.
     """

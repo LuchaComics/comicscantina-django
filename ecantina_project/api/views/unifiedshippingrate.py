@@ -16,7 +16,7 @@ class UnifiedShippingRateFilter(django_filters.FilterSet):
         fields = ['country',]
 
 
-class UnifiedShippingRateViewSet(viewsets.ModelViewSet):
+class UnifiedShippingRateViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UnifiedShippingRate.objects.all()
     serializer_class = UnifiedShippingRateSerializer
     pagination_class = LargeResultsSetPagination

@@ -16,7 +16,7 @@ class StoryFilter(django_filters.FilterSet):
         fields = ['issue',]
 
 
-class StoryViewSet(viewsets.ModelViewSet):
+class StoryViewSet(viewsets.ReadOnlyModelViewSet):
     """
         API endpoint that allows customers to be viewed or edited.
     """
