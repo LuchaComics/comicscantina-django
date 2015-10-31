@@ -93,10 +93,10 @@ class ImportStory:
         # Check to see if record already exists for the given identification.
         try:
             entry = GCDStory.objects.get(story_id=id)
-            print("ImportStory: Updating: " + str(id))
+            print("ImportStory: Updating Story: " + str(id))
             entry.save()
         except GCDStory.DoesNotExist:
-            print("ImportStory: Inserting: " + str(id))
+            print("ImportStory: Inserting Story: " + str(id))
             GCDStory.objects.create(
                 story_id=id,
                 title = title,
@@ -130,3 +130,8 @@ class ImportStory:
                 reserved = reserved,
                 deleted = deleted,
             )
+        
+        # Updated Issue
+        print("ImportStory: Updating Issue: " + str(issue_id))
+        issue.genre = genre
+        issue.save()
