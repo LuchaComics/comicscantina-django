@@ -148,7 +148,7 @@ python manage.py startapp store_register
 python manage.py startapp login
 python manage.py startapp api
 
-(11) Then go to ecantina_project/settings.py and make sure to include ‘webapp’ in the file.
+(11) Then go to ecantina_project/settings.py and make sure to include the following:
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -195,16 +195,58 @@ SITE_ID = 1
 - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
-(13) Now go to ecantina_project/urls.py and make sure to include the following:
-- - - - - - - - - - - - - - - - - - - - - - - - - -
+(13) Now go to ecantina_project/urls.py and make sure it looks like the following:
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+"""
+from django.conf.urls import include, url
+from django.contrib import admin
+from django.conf.urls.static import static, settings
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap
+from .sitemaps import OrganizationSitemap
+from .sitemaps import StoreSitemap
+from .sitemaps import ProductsSitemap
+
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'organizations': OrganizationSitemap,
+    'stores': StoreSitemap,
+    'products': ProductsSitemap,
+}
+
+urlpatterns = [
 url(r'^admin/', include(admin.site.urls)),
-url(r'', include('inventory.urls')),
-url(r'', include('store.urls')),
-url(r'', include('register.urls')),
+url(r'', include('store_base.urls')),
+url(r'', include('store_landpage.urls')),
+url(r'', include('store_about.urls')),
+url(r'', include('store_products.urls')),
+url(r'', include('store_blog.urls')),
+url(r'', include('store_checkout.urls')),
+url(r'', include('store_customer.urls')),
+url(r'', include('store_register.urls')),
 url(r'', include('login.urls')),
-url(r'', include('webservice.urls')),
-url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-- - - - - - - - - - - - - - - - - - - - - - - - - -
+url(r'', include('inventory_base.urls')),
+url(r'', include('inventory_checkout.urls')),
+url(r'', include('inventory_order.urls')),
+url(r'', include('inventory_customer.urls')),
+url(r'', include('inventory_dashboard.urls')),
+url(r'', include('inventory_help.urls')),
+url(r'', include('inventory_print_label.urls')),
+url(r'', include('inventory_products.urls')),
+url(r'', include('inventory_setting.urls')),
+url(r'', include('inventory_email.urls')),
+url(r'', include('inventory_pulllist.urls')),
+url(r'', include('inventory_register.urls')),
+url(r'', include('inventory_wishlist.urls')),
+url(r'', include('api.urls')),
+
+# Sitemap
+url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 (13) Finally, create a file called ‘requirements.txt’ and add all the libraries this project will use. Make sure this file is located in the root of the project. Run this code.
