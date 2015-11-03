@@ -31,7 +31,15 @@ def ajax_register(request):
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def create_user(form):    
+def create_user(form):
+    # Perform validation to ensure the email/username are unique.
+    email = form['email'].value().lower()
+    try:
+        user = User.objects.get(email=email)
+        return {'status' : 'failure', 'message' : 'email already exists! Please choose a unique email.' }
+    except User.DoesNotExist:
+        pass
+    
     # Perform validation to avoid blank passwords and mismatched passwords.
     if form['password'].value() != form['password_repeated'].value():
         print("pass1", form['password'].value())
@@ -41,7 +49,7 @@ def create_user(form):
         return {'status' : 'failure', 'message' : 'blank passwords are not acceptable' }
 
     # Create the user in our database
-    email = form['email'].value().lower()
+
     try:
         user = User.objects.create_user(
             email,  # Username
