@@ -118,4 +118,6 @@ class UnifiedShippingRate(models.Model):
             return self.comics_rate9
         elif comics_count > 200 and comics_count <= 300:
             return self.comics_rate10
+        else:
+             return 0
 

@@ -12,6 +12,7 @@ from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
+from api.models.ec.customer import Customer
 from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.receipt import Receipt
@@ -39,6 +40,18 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     search_fields = ('billing_name','email','billing_phone','billing_postal','shipping_name', 'shipping_phone','shipping_postal',)
     filter_class = ReceiptFilter
   
+    def get_customer_receipts(self, user_id):
+        """
+            HELPER FUNCTION: Used to return all the Receipt(s) that belong to 
+            the Customer User in our system.
+        """
+        try:
+            customer = Customer.objects.filter(user_id=user_id)
+            receipt = Receipt.objects.filter(customer=customer)
+            return receipt
+        except Customer.DoesNotExist:
+            return Receipt.objects.none()
+
     def get_queryset(self):
         """
             SECURITY: The following query override was set to protect private
@@ -49,18 +62,16 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         # else don't show.
         try:
             employee = Employee.objects.get(user__id=self.request.user.id)
-            return Receipt.objects.filter(organization=employee.organization)
+            receipt = Receipt.objects.filter(organization=employee.organization)
+            # If no receipts where returned, then return the customer receipt.
+            if len(receipt) is 0:
+                return self.get_customer_receipts(self.request.user.id)
+            else:
+                return receipt
         except Employee.DoesNotExist:
-            # Attempt to find the Customer in our system and see if it has any
-            # matching Receipts. If not, return nothing.
-            try:
-                customer = Customer.objects.filter(user_id=self.request.user.id)
-                return Receipt.objects.filter(customer=customer)
-            except Customer.DoesNotExist:
-                return Receipt.objects.none()
+            return self.get_customer_receipts(self.request.user.id)
         except Receipt.DoesNotExist:
-            # Worst Case: Return nothing found.
-            return Receipt.objects.none()
+            return Receipt.objects.none() # Worst Case: Return nothing found.
   
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
     def apply_discounts(self, request, pk=None):
@@ -241,16 +252,21 @@ class ReceiptViewSet(viewsets.ModelViewSet):
             sub_total_amount_with_tax += product.sub_price_with_tax
             
             # Discounts
-            if product.discount_type is 1: # Percent
-                rate = Decimal(product.discount) / Decimal(100)
-                discount_amount = Decimal(rate) * Decimal(product.sub_price_with_tax)
-            elif product.discount_type is 2: # Amount
-                discount_amount =  product.discount
-            total_discount_amount += discount_amount
+            if product.discount > 0:
+                if product.discount_type is 1: # Percent
+                    rate = Decimal(product.discount) / Decimal(100)
+                    discount_amount = Decimal(rate) * Decimal(product.sub_price_with_tax)
+                elif product.discount_type is 2: # Amount
+                    discount_amount =  product.discount
+                total_discount_amount += discount_amount
     
         # Calculate tax
-        avg_tax_rate = sum(tax_rates)/len(tax_rates)
-        has_tax = avg_tax_rate > 0
+        if len(tax_rates) > 0:
+            avg_tax_rate = sum(tax_rates)/len(tax_rates)
+            has_tax = avg_tax_rate > 0
+        else:
+            avg_tax_rate = Decimal(0.00)
+            has_tax = False
     
         # Calculate shipping for the specific organization.
         shipping_amount = 0
@@ -314,7 +330,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
                 iso_3166_1_numeric_country_code = 840
             elif 'Mexico' in receipt.shipping_country:
                 iso_3166_1_numeric_country_code = 484
-            
+
             # Find the rate.
             try:
                 rate = UnifiedShippingRate.objects.get(country=iso_3166_1_numeric_country_code)
