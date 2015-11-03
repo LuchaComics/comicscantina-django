@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render
 from django.core import serializers
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -12,12 +13,21 @@ from api.models.ec.store import Store
 
 
 def login_page(request):
-    return render(request, 'login/inventory.html',{
-        'form': LoginForm(),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
-    })
+    # If the user is already authenticated then simply redirect to the latest
+    # dashboard page, else load the login page.
+    if request.user.is_authenticated():
+        employee = Employee.objects.get(user__id=request.user.id)
+        store = Store.objects.filter(organization=employee.organization)[0]
+        dashboard_url = "/inventory/"+str(employee.organization_id)
+        dashboard_url += "/"+str(store.store_id)+"/"+"dashboard"
+        return HttpResponseRedirect(dashboard_url)
+    else:
+        return render(request, 'login/inventory.html',{
+            'form': LoginForm(),
+            'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
+            'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
+            'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
+        })
 
 
 def ajax_login_authentication(request):
