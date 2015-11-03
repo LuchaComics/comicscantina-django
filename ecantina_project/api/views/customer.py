@@ -10,7 +10,7 @@ from api.serializers import CustomerSerializer
 from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
-
+from itertools import chain
 
 class CustomerFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(name="first_name", lookup_type=("icontains"))
@@ -41,10 +41,15 @@ class CustomerViewSet(viewsets.ModelViewSet):
             Customer information from being leaked to non-employee staff.
         """
         # If user is an Employee then they have permission to list all the
-        # customers in our application, else don't show anything.
+        # customers in our organization, else don't show anything.
         try:
             employee = Employee.objects.get(user__id=self.request.user.id)
-            return employee.organization.customers
+            try:
+                customers = Customer.objects.filter(user__id=self.request.user.id)
+                customers |= employee.organization.customers.all() # UNION
+                return customers
+            except Customer.DoesNotExist: # return employee.organization.customers
+                return Customer.objects.none()
         except Employee.DoesNotExist:
             # Only return the Customer objects that belong to the Customer.
             try:
