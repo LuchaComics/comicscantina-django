@@ -37,11 +37,17 @@
             store_id_string = '';
         }
         
-        // Get the store_id of this store.
-        var store_id = parseInt(store_id_string);
+        var store_id = parseInt(store_id_string); // Get the store_id of this store.
+        
+        
         if (isNaN(store_id)) {
-            ajax_add_store(function(json_results) { // Create our store for the very first time.
-                window.location = "/inventory/register/step4";
+            // Fetch the owner and input the owner employee into our store.
+            ajax_get_owner_employee({{ employee.employee_id }}, function(employee) {
+                                    
+                // Create our store for the very first time with our owner.
+                ajax_add_store(employee, function(json_results) {
+                    window.location = "/inventory/register/step4";
+                });
             });
         } else { // Update our store.
             ajax_update_store(store_id, function(json_results) {
@@ -50,7 +56,22 @@
         }
     }
 
-    function ajax_add_store(callback) {
+    function ajax_get_owner_employee(employee_id, callback) {
+        get_employee(
+            employee_id,
+            function(success_json) {
+                callback(success_json);
+            },
+            function(error_json) {
+                print_error(error_json);
+            }
+        );
+    }
+
+    function ajax_add_store(employee, callback) {
+        var arr = new Array;
+        arr.push(employee['employee_id']);
+        
         var data = {
             // Store
             'organization': '{{ this_org.org_id }}',
@@ -106,6 +127,7 @@
             'is_furniture_vendor': $('#id_is_furniture_vendor').is(':checked'),
             'is_coins_vendor': $('#id_is_coins_vendor').is(':checked'),
             'paypal_email': $('#id_paypal_email').val(),
+            'employees': arr,
         }
     
         if ($('#id_phone').val().length > 0) { // Add telephone if added.
@@ -118,7 +140,7 @@
         } else {
             data['fax'] = "";
         }
-    
+        console.log(data);
         // Send the "FormData" object to be sent through REST and get updated.
         set_store(
             data,
