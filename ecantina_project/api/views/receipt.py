@@ -11,6 +11,7 @@ from ecantina_project import constants
 from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.models.ec.organization import Organization
+from api.models.ec.employee import Employee
 from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.receipt import Receipt
