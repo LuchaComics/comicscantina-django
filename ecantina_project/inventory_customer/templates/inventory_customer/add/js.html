@@ -78,14 +78,14 @@
         
         set_customer(
             arr,
-            function(success_json) { // Create a new customer
+            function(customer) { // Create a new customer
                      
                 get_organization( // Fetch the organization.
                     {{ org.org_id }},
                     function(organization) {
-                                 
+                        organization['customers'].push(customer['customer_id']); // Add the customer.
                         set_organization(
-                            arr,
+                            organization,
                             function(success_json) { // Update Organization
                                 // (1) Add notification message of success.
                                 $(document).trigger("add-alerts",[{
