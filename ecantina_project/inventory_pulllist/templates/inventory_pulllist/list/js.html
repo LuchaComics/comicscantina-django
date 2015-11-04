@@ -1,0 +1,81 @@
+<!-- Load API Handlers -->
+{% include 'api/imageupload.html' %}
+{% include 'api/helprequest.html' %}
+
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+                      
+        $('body').on('click', '.list-group.group-header', function () {
+            if ($(this).next().is(':visible')) {
+                $(this).next().slideUp();
+                $(this).find('.fa-caret-up').removeClass('fa-caret-up').addClass('fa-caret-down');
+            }
+            else {
+                // When user clicks slide-down for the row, we will have to fetch
+                // our view and update it.
+                var pulllist_id = $(this).data('id');
+                ajax_load_subscriptions_view(pulllist_id);
+                     
+                // Perform UI dynamic changing effects.
+                $(this).next().slideDown();
+                $(this).find('.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-up');
+            }
+        });
+                      
+        $('.subscribe-btn').on('click', function(e){
+            e.stopImmediatePropagation();
+            e.preventDefault();
+            $('#add-subscriber-modal').modal('show');
+            $('#add-subscriber-modal').focus();
+        });
+                      
+    });
+    
+    function ajax_load_subscriptions_view(pulllist_id)
+    {
+        var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist/" + pulllist_id + "/subscriptions";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(html_results){
+                $('#id_placeholder_'+pulllist_id).html(html_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+    function ajax_add_customer(pulllist_id)
+    {
+        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/pulllist/" + pulllist_id + "/add_customer";
+    }
+    
+</script>

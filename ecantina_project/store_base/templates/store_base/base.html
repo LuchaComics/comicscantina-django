@@ -1,0 +1,106 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Comics Cantina is an online comic book and graphic novel marketplace">
+        <meta name="keywords" content="online comic book shop">
+        <title>Comics Cantina</title>
+        
+        <!-- Favicons -->
+        <link rel="icon" href="{% static "img/favicon.ico" %}">
+        <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+        <link rel="apple-touch-icon" href="{% static "img/apple-touch-icon-57x57.png" %}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{% static "img/apple-touch-icon-72x72.png" %}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{% static "img/apple-touch-icon-114x114.png" %}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{% static "img/apple-touch-icon-144x144.png" %}">
+        
+        <!-- Local CSS -->
+        {% for local in local_css_library %}
+        <link type="{{ local.type }}" rel="{{ local.rel }}" href="{% static local.href %}">
+        {% endfor %}
+            
+        <!-- Local JS header -->
+        {% for local in local_js_library_header %}
+        <script type="{{ local.type }}" src="{% static local.src %}"></script>
+        {% endfor %}
+        
+        <!-- Just for debugging purposes. -->
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <!-- include pace script for automatic web page progress bar  -->
+        
+        <script>
+            paceOptions = {
+                elements: true
+            };
+        </script>
+</head>
+
+<body class="  pace-done" style="">
+    <div class="pace  pace-inactive">
+        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div></div>
+    
+    {% include "store_base/login.html" %}
+    {% include "store_base/signin.html" %}
+    {% include "store_base/header.html" %}
+    
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <!-- CONTENT -->
+    {% block content %}
+    {% endblock %}
+    
+    {% include "store_base/footer.html" %}
+
+    <!-- Local JS footer -->
+    {% for local in local_js_library_body %}
+    <script type="{{ local.type }}" src="{% static local.src %}"></script>
+    {% endfor %}
+    {% include 'api/emailsubscription.html' %}
+    <script>
+        // this script required for subscribe modal
+        $(window).load(function () {
+            // full load
+            $('#modalAds').modal('show');
+            $('#modalAds').removeClass('hide');
+        });
+        
+        function ajax_submit_email_subscription()
+        {
+            var arr = {
+                'email': $('#id_email_subscription').val(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            };
+            
+            {% if org != None %}
+            arr['organization'] = {{ org.org_id }};
+            {% endif %}
+            {% if store != None %}
+            arr['store'] = {{ store.store_id }};
+            {% endif %}
+            
+            set_email_subscription(
+                arr,
+                function(success_json) {
+                    console.log(success_json);
+                    alert("Thank you for subscribing!");
+                    location.reload(true); // Reload page and cache.
+                },
+                function(error_json) {
+                    console.log(error_json);
+                    alert('email - ' + error_json['email']);
+                }
+            );
+        }
+    </script>
+</body>
+</html>

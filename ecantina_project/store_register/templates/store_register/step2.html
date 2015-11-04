@@ -1,0 +1,270 @@
+{% extends 'store_register/base.html' %}
+{% load staticfiles %}
+{% block content %}
+{% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
+
+<div class="wrapper login-body">
+    <div class="block-center mt-xl wd-xl register-panel">
+        <!-- START panel-->
+        <div class="panel panel-dark panel-flat text-left">
+            <a href="login.html">
+            <img src="{% static "inventory/img/logo-rect.png" %}" alt="Image" class="block-center cc-logo-rect">
+            </a>
+            
+            <div class="panel-body">
+                <form role="form" data-parsley-validate="" novalidate="" class="mb-lg">
+                    <div class="col-sm-6 mb0">
+                        <legend class="text-muted mb">Billing Details</legend>
+                        <div class="form-group col-sm-6">
+                        <label for="signupWebSite" class="text-muted">Full Name</label>
+                            {{ customer_form.billing_name }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupPhone" class="text-muted">Phone</label>
+                            {{ customer_form.billing_phone }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetNumber" class="text-muted">Street Number</label>
+                            {{ customer_form.billing_street_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetName" class="text-muted">Street Name</label>
+                            {{ customer_form.billing_street_name }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreUnitNumber" class="text-muted">Unit Number</label>
+                            {{ customer_form.billing_unit_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreCity" class="text-muted">City</label>
+                            {{ customer_form.billing_city }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreCountry" class="text-muted">Country</label>
+                            {{ customer_form.billing_country }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreProvince" class="text-muted">State/Province</label>
+                            {{ customer_form.billing_province }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStorePostal" class="text-muted">Zip/Postal</label>
+                            {{ customer_form.billing_postal }}
+                        </div>
+                    </div>
+                    <fieldset class="col-sm-6 store-info m0">
+                        <legend class="text-muted mb0">Shipping Details</legend>
+                        <div class="form-group col-sm-6">
+                            <label for="signupWebSite" class="text-muted">Full Name</label>
+                            {{ customer_form.shipping_name }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupPhone" class="text-muted">Phone</label>
+                            {{ customer_form.shipping_phone }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetNumber" class="text-muted">Street Number</label>
+                            {{ customer_form.shipping_street_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreStreetName" class="text-muted">Street Name</label>
+                            {{ customer_form.shipping_street_name }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreUnitNumber" class="text-muted">Unit Number</label>
+                            {{ customer_form.shipping_unit_number }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreCity" class="text-muted">City</label>
+                            {{ customer_form.shipping_city }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreCountry" class="text-muted">Country</label>
+                            {{ customer_form.shipping_country }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStoreProvince" class="text-muted">State/Province</label>
+                            {{ customer_form.shipping_province }}
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="signupStorePostal" class="text-muted">Zip/Postal</label>
+                            {{ customer_form.shipping_postal }}
+                        </div>
+                    </fieldset>
+                    <div class="col-sm-12 mb0">
+                        <legend class="text-muted mb">Date of Birth</legend>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    {{ customer_form.date_of_birth }}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <fieldset class="col-sm-12 mb0 pb0">
+                        <div class="clearfix"></div>
+                        <hr/>
+                        <div class="checkbox c-checkbox pull-left m0 p0 col-sm-12">
+                            <div data-alerts="alerts"></div>
+                            <div class="col-sm-4 pull-right">
+                                <button onclick="ajax_submit();"
+                                           type="button"
+                                          class="pull-right btn btn-block btn-primary" >Finalize Account
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <!-- END panel-->
+        <div class="p-lg text-center">
+            <span>&copy;</span>
+            <span>2015</span>
+            <span>-</span>
+            <span>Comics Cantina</span>
+        </div>
+    </div>
+</div>
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+           
+        {% if user.is_authenticated %}
+            // Try to see if we can map the user account to an unmapped
+            // customer account.
+            map_user_to_customer();
+        {% endif %}
+                      
+    });
+
+    function ajax_submit()
+    {
+        // Get the date of birth.
+        var date_of_birth = '';
+        date_of_birth  = $('#id_date_of_birth_year').val() + '-';
+        date_of_birth += $('#id_date_of_birth_month').val() + '-';
+        date_of_birth += $('#id_date_of_birth_day').val();
+        
+        // Generate our new customer.
+        var arr = {
+            'user': parseInt({{ user.id }}),
+            'first_name': '{{ user.first_name }}',
+            'last_name': '{{ user.last_name }}',
+            'email': '{{ user.email }}',
+            'billing_name': $('#id_billing_name').val(),
+            'billing_street_number': $('#id_billing_street_number').val(),
+            'billing_street_name': $('#id_billing_street_name').val(),
+            'billing_unit_number': $('#id_billing_unit_number').val(),
+            'billing_city': $('#id_billing_city').val(),
+            'billing_country': $('#id_billing_country').val(),
+            'billing_province': $('#id_billing_province').val(),
+            'billing_postal': $('#id_billing_postal').val(),
+            'shipping_name': $('#id_shipping_name').val(),
+            'shipping_street_number': $('#id_shipping_street_number').val(),
+            'shipping_street_name': $('#id_shipping_street_name').val(),
+            'shipping_unit_number': $('#id_shipping_unit_number').val(),
+            'shipping_city': $('#id_shipping_city').val(),
+            'shipping_country': $('#id_shipping_country').val(),
+            'shipping_province': $('#id_shipping_province').val(),
+            'shipping_postal': $('#id_shipping_postal').val(),
+            'date_of_birth': date_of_birth,
+            'has_consented': 'False',
+            //'has_consented': $('#id_has_consented').is(':checked'),
+        };
+    
+        if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
+            arr['billing_phone'] = get_phone('#id_billing_phone');
+        } else {
+            arr['billing_phone'] = "";
+        }
+    
+        if ($('#id_shipping_phone').val().length > 0) { // Add telephone if added.
+            arr['shipping_phone'] = get_phone('#id_shipping_phone');
+        } else {
+            arr['shipping_phone'] = "";
+        }
+    
+        set_customer(
+            arr,
+            function(success_json) { // Create a new customer
+                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step3';
+            },
+            function(error_json) {
+                for (var key in error_json) {
+                    // this will check if key is owned by data object and not by any of it's ancestors
+                    if (error_json.hasOwnProperty(key)) {
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+error_json[key]),
+                            'priority': 'error'
+                        }]);
+                    }
+                }
+            }
+        ); // End Customer
+    }
+
+    function map_user_to_customer() {
+        // STEP 1: Lookup the customer with the unique email address.
+        //
+        var criteria = { 'email': '{{ user.email }}' };
+        filter_customers(criteria, function(json_results) {
+            // Process the meta information.
+            $(json_results).each(function(iter,meta){
+                // Process the results search data.
+                $(meta['results']).each(function(iter, customer){
+                    // STEP 2: Map the user to customer.
+                    //
+                    customer['user'] = parseInt({{ user.id }});
+                                        
+                    // STEP 3: Save the Customer.
+                    //
+                    set_customer(
+                        customer,
+                        function(success_json) {
+                            // STEP 4: Load the next page.
+                            window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step3';
+                        },
+                        function(error_json) {
+                            for (var key in error_json) {
+                                // this will check if key is owned by data object and not by any of it's ancestors
+                                if (error_json.hasOwnProperty(key)) {
+                                    // Display the error here.
+                                    $(document).trigger("add-alerts",[{
+                                        'message': (key+': '+error_json[key]),
+                                        'priority': 'error'
+                                    }]);
+                                }
+                            }
+                        } // Error
+                    );
+                }); // meta
+            }); // results
+        }); // Search
+    }
+
+
+</script>
+{% endblock content %}

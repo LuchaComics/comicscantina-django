@@ -1,0 +1,19 @@
+.store-information{
+
+}
+.store-info-header{
+    border-bottom:1px solid #ddd;
+    height: 2.4em;
+}
+.store-info-body{
+    padding-top:10px;
+}
+
+.store-info-body .store-info-hours p{
+    margin-bottom:0;
+    padding-bottom:0;
+}
+.store-info-body .store-info-hours p span{
+    display:inline-block;
+    width:50px;
+}

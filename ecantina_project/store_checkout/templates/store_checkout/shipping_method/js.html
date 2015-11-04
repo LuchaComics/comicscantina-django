@@ -1,0 +1,65 @@
+{% load staticfiles %}
+{% include 'api/organization.html' %}
+{% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
+{% include 'store_base/receipt_js.html' %}
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+
+    
+    var mySwiper = new Swiper('.swiper-container', {
+        pagination: '.box-pagination',
+        keyboardControl: true,
+        paginationClickable: true,
+        slidesPerView: 'auto',
+        autoResize: true,
+        resizeReInit: true,
+    })
+
+    $('.prevControl').on('click', function (e) {
+        e.preventDefault()
+        mySwiper.swipePrev()
+    })
+    $('.nextControl').on('click', function (e) {
+        e.preventDefault()
+        mySwiper.swipeNext()
+    })
+    
+    function ajax_update_shipping_method_and_proceed_next()
+    {
+        get_receipt({{ receipt.receipt_id }}, function(json_result) {
+            // Fetch the selected option and update accordingly.
+            var optionValue = $('input[name=optionsRadios]:checked').val();
+            if (optionValue == 'option1') {
+                json_result['has_shipping'] = false;
+            } else {
+                json_result['has_shipping'] = true;
+            }
+            set_receipt(json_result, function(json_result) {
+                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/payment_method';
+            }); // End Set Receipt.
+        }); // End Get Receipt
+
+    }
+</script>
