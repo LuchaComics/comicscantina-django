@@ -1,3 +1,4 @@
+import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -12,11 +13,15 @@ from api.models.ec.employee import Employee
 from api.models.ec.promotion import Promotion
 
 
+class PromotionFilter(django_filters.FilterSet):
+    class Meta:
+        model = Promotion
+        fields = ['name',]
+
+
 class PromotionViewSet(viewsets.ModelViewSet):
-    """
-        API endpoint that allows customers to be viewed or edited.
-    """
     queryset = Promotion.objects.all()
     serializer_class = PromotionSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly)
+    permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly,)
+    filter_class = PromotionFilter

@@ -1,3 +1,4 @@
+import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, mixins
 from rest_framework.response import Response
@@ -12,16 +13,15 @@ from api.models.ec.employee import Employee
 from api.models.ec.imageupload import ImageUpload
 
 
-class ImageUploadViewSet(mixins.CreateModelMixin,
-                         mixins.RetrieveModelMixin,
-                         mixins.UpdateModelMixin,
-                         mixins.DestroyModelMixin,
-                         #mixins.ListModelMixin,
-                         viewsets.GenericViewSet):
-    """
-        API endpoint that allows customers to be viewed or edited.
-    """
+class ImageUploadFilter(django_filters.FilterSet):
+    class Meta:
+        model = ImageUpload
+        fields = ['user_id',]
+
+
+class ImageUploadViewSet(viewsets.ModelViewSet):
     queryset = ImageUpload.objects.all()
     serializer_class = ImageUploadSerializer
     pagination_class = LargeResultsSetPagination
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    filter_class = ImageUploadFilter

@@ -1,3 +1,4 @@
+import django_filters
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -13,8 +14,15 @@ from api.models.ec.promotion import Promotion
 from api.models.ec.category import Category
 
 
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class CategoryFilter(django_filters.FilterSet):
+    class Meta:
+        model = Category
+        fields = ['name','parent_id',]
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = LargeResultsSetPagination
     permission_classes = (IsAdminUserOrReadOnly, IsAuthenticatedOrReadOnly,)
+    filter_class = CategoryFilter
