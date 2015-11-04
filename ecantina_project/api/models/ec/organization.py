@@ -79,7 +79,7 @@ class Organization(models.Model):
     # References
     administrator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
-    customers = models.ManyToManyField(Customer)
+    customers = models.ManyToManyField(Customer, blank=True)
     
     def __str__(self):
         return self.name

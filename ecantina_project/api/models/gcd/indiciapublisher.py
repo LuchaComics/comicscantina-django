@@ -35,7 +35,7 @@ class GCDIndiciaPublisher(models.Model):
 
     # Referenced
     country = models.ForeignKey(GCDCountry)
-    images = models.ManyToManyField(GCDImage)
+    images = models.ManyToManyField(GCDImage, blank=True)
     parent = models.ForeignKey(GCDPublisher, null=True)
 
     def __str__(self):

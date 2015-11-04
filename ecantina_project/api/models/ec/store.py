@@ -111,7 +111,7 @@ class Store(models.Model):
     
     # Reference
     organization = models.ForeignKey(Organization, db_index=True)
-    employees = models.ManyToManyField(Employee)
+    employees = models.ManyToManyField(Employee, blank=True)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):

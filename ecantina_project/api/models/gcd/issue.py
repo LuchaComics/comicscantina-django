@@ -92,7 +92,7 @@ class GCDIssue(models.Model):
     brand = models.ForeignKey(GCDBrand, null=True)
     series = models.ForeignKey(GCDSeries, null=True)
     indicia_publisher = models.ForeignKey(GCDIndiciaPublisher, null=True)
-    images = models.ManyToManyField(GCDImage)
+    images = models.ManyToManyField(GCDImage, blank=True)
 
     # Put them in here to simplify REST Framework
     publisher_name = models.CharField(max_length=255, db_index=True)

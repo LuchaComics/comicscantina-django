@@ -28,6 +28,13 @@
     
     function ajax_submit()
     {
+        // Get the date of birth.
+        var date_of_birth = '';
+        date_of_birth  = $('#id_date_of_birth_year').val() + '-';
+        date_of_birth += $('#id_date_of_birth_month').val() + '-';
+        date_of_birth += $('#id_date_of_birth_day').val();
+        
+        // Generate our new/existing customer.
         var arr = {
             'first_name': $('#id_first_name').val(),
             'last_name': $('#id_last_name').val(),
@@ -49,6 +56,7 @@
             'shipping_province': $('#id_shipping_province').val(),
             'shipping_postal': $('#id_shipping_postal').val(),
             'has_consented': $('#id_has_consented').is(':checked'),
+            'date_of_birth': date_of_birth,
         };
         
         if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
@@ -71,69 +79,48 @@
         set_customer(
             arr,
             function(success_json) { // Create a new customer
-                // Create our existing customers list.
-                var customers = [];
-            {% for customer in org.customers.all %}
-                customers.push(parseInt( {{ customer.customer_id }} ));
-            {% endfor %}
-                customers.push(parseInt( success_json['customer_id'] )); // Add our new customer
-                    
-                // Attach the 'Customer' to the 'Organization'
-                var arr = {
-                    'administrator': parseInt( {{ org.administrator_id }} ),
-                    'org_id': parseInt( {{ org.org_id }} ),
-                    'email': '{{ org.email }}',
-                    'logo': parseInt( {{ org.logo_id }} ),
-                    'name': "{{ org.name | escape | safe }}",
-                    'description': "{{ org.description  | escape | safe }}",
-                    'phone': '{{ org.phone }}',
-                    'fax': '{{ org.fax }}',
-                    'website': '{{ org.website }}',
-                    'twitter_url': '{{ org.twitter_url }}',
-                    'facebook_url': '{{ org.facebook_url }}',
-                    'instagram_url': '{{ org.instagram_url }}',
-                    'linkedin_url': '{{ org.linkedin_url }}',
-                    'github_url': '{{ org.github_url }}',
-                    'google_url': '{{ org.google_url }}',
-                    'youtube_url': '{{ org.youtube_url }}',
-                    'flickr_url': '{{ org.flickr_url }}',
-                    'street_number': '{{ org.street_number }}',
-                    'street_name': "{{ org.street_name | escape | safe }}",
-                    'unit_number': '{{ org.unit_number }}',
-                    'city': "{{ org.city | escape | safe }}",
-                    'country': "{{ org.country | escape | safe }}",
-                    'province': "{{ org.province | escape | safe }}",
-                    'postal': '{{ org.postal }}',
-                    'customers': customers,
-                };
-            
-                set_organization(
-                    arr,
-                    function(success_json) { // Update Organization
-                        // (1) Add notification message of success.
-                        $(document).trigger("add-alerts",[{
-                            'message': 'Customer was Successfully Updated',
-                            'priority': 'success'
-                        }]);
+                     
+                get_organization( // Fetch the organization.
+                    {{ org.org_id }},
+                    function(organization) {
                                  
-                        // (2) Add count-down timer to reloading page/cache.
-                        setTimeout(function(){
-                            location.reload(true); // Reload page with cache cleared.
-                        }, 1000)
-                    },
-                    function(error_json) {
-                        for (var key in error_json) {
-                            if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                             
-                                // Display the error here.
+                        set_organization(
+                            arr,
+                            function(success_json) { // Update Organization
+                                // (1) Add notification message of success.
                                 $(document).trigger("add-alerts",[{
-                                    'message': (key+': '+error_json[key]),
-                                    'priority': 'error'
+                                    'message': 'Customer was Successfully Updated',
+                                    'priority': 'success'
                                 }]);
+                                                  
+                                // (2) Add count-down timer to reloading page/cache.
+                                setTimeout(function(){
+                                    location.reload(true); // Reload page with cache cleared.
+                                }, 1000)
+                            },
+                            function(error_json) {
+                                for (var key in error_json) {
+                                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                                                  
+                                        // Display the error here.
+                                        $(document).trigger("add-alerts",[{
+                                            'message': (key+': '+error_json[key]),
+                                            'priority': 'error'
+                                        }]);
+                                    }
+                                }
                             }
-                        }
+                        ); // End Org
+
+                    },
+                    function(org_error_json) {
+                        // Display the error here.
+                        $(document).trigger("add-alerts",[{
+                            'message': (key+': '+org_error_json[key]),
+                            'priority': 'error'
+                        }]);
                     }
-                ); // End Org
+                ); // End Get Organization.
             },
             function(error_json) {
                 for (var key in error_json) {
@@ -147,7 +134,7 @@
                      }
                 }
             }
-        ); // End Customer
+        ); // End Set Customer
     }
                      
 </script>

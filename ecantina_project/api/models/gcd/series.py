@@ -74,7 +74,7 @@ class GCDSeries(models.Model):
     # Fields related to the publishers table.
     publication_type_id = models.IntegerField(null=True, blank=0)
     publisher = models.ForeignKey(GCDPublisher)
-    images = models.ManyToManyField(GCDImage)
+    images = models.ManyToManyField(GCDImage, blank=True)
 
     # Put them in here to simplify REST Framework
     publisher_name = models.CharField(max_length=255, db_index=True)

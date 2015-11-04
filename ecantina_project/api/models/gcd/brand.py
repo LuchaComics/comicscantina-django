@@ -15,9 +15,9 @@ class GCDBrand(models.Model):
     parent = models.ForeignKey(GCDPublisher, null=True)
     group = models.ManyToManyField(
         GCDBrandGroup, blank=True,
-        db_table='gcd_brand_emblem_group'
+        db_table='gcd_brand_emblem_group',
     )
-    images = models.ManyToManyField(GCDImage)
+    images = models.ManyToManyField(GCDImage, blank=True)
 
     # Core publisher fields.
     name = models.CharField(max_length=255, db_index=True)
