@@ -1,1 +1,0 @@
-Media root directory is where all the user uploads are stored.

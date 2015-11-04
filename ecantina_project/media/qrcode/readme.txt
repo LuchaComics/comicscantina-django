@@ -1,1 +1,0 @@
-Media “qrcode” "directory is where all the product QR Code images are stored.

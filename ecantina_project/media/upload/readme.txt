@@ -1,1 +1,0 @@
-Media "upload" "directory is where all the user uploads are stored.
