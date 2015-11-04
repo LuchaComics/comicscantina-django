@@ -30,6 +30,10 @@
             $('#remove_user_modal').modal('show');
         });
                       
+        $('body').on('click', '#id_activate_user_btn', function(){
+            $('#activate_user_modal').modal('show');
+        });
+                      
         // Load up Edit page
         $('body').on('click', '#id_edit_user_btn', function(){
             window.location = '/inventory/{{ org.org_id }}/{{ store.store_id }}/customer/{{ customer.customer_id }}';
@@ -43,6 +47,10 @@
         $('#remove_user_modal').modal('hide');
     }
 
+    function ajax_activate(customer_id) {
+        ajax_update_customer(customer_id, '{{ customer.has_consented }}', 'False');
+        $('#activate_user_modal').modal('hide');
+    }
 
     function ajax_close_modal()
     {

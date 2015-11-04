@@ -148,6 +148,14 @@
                     <div class="panel-footer">
                         <div data-alerts="alerts"></div>
                         <div class="col-sm-6 text-center">
+                            {% if customer.is_suspended %}
+                            <button id="id_activate_user_btn"
+                                  type="submit"
+                                 class="btn btn-lg btn-labeled btn-primary mb"
+                                 style="font-size:14pt;">
+                                <span class="btn-label">
+                                    <i class="fa fa-check"></i></span>Activate Customer
+                            {% else %}
                             <button id="id_remove_user_btn"
                                   type="submit"
                                  class="btn btn-lg btn-labeled btn-danger mb"
@@ -155,6 +163,7 @@
                                 <span class="btn-label">
                                     <i class="fa fa-remove"></i></span>Suspend Customer
                             </button>
+                            {% endif %}
                         </div>
                         <div class="col-sm-6 text-center">
                             <button id="id_edit_user_btn"
