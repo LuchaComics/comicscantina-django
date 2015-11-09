@@ -80,13 +80,16 @@ Now we need to get the most up-to-date repository of ports and apply it to our s
   
 2. Fix the following dependancy problem
   ```
-  cd usr/ports/converters/libiconv
+  cd /usr/ports/converters/libiconv
   make deinstall clean
-  make install clean
-
 
   cd /usr/ports/ports-mgmt/pkg/ 
   make deinstall clean
+  make install clean
+  make deinstall clean
+  make install clean
+
+  cd /usr/ports/converters/libiconv
   make install clean
   ```
 
