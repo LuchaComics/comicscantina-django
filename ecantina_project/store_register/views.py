@@ -100,15 +100,15 @@ def registration_step4_page(request, org_id=0, store_id=0,):
     
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step4/view.html',{
-                  'org': org,
-                  'store': store,
-                  'customer': customer,
-                  'customer_form': CustomerForm(instance=customer),
-                  'local_css_library' : settings.STORE_CSS_LIBRARY,
-                  'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-                  'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
-                  'page' : 'register',
-                  })
+        'org': org,
+        'store': store,
+        'customer': customer,
+        'customer_form': CustomerForm(instance=customer),
+        'local_css_library' : settings.STORE_CSS_LIBRARY,
+        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'register',
+    })
 
 
 @login_required(login_url='/store/register/step1')

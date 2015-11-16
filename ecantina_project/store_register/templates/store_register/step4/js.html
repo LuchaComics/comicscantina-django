@@ -29,9 +29,36 @@
         });
     });
 
+    function lock_or_unlock_fields(is_locked)
+    {
+        get_customer({{ customer.customer_id }}, function(customer) {
+                     
+            if (is_locked == 'False') {
+                customer['is_shipping_same_as_billing'] = 'True';
+            } else {
+               customer['is_shipping_same_as_billing'] = 'False';
+            }
+            
+            set_customer(
+                customer,
+                function(success_json) { // Create a new customer
+                    location.reload(true); // Reload page with cache cleared.
+                },
+                function(error_json) {
+                    print_error(error_json);
+                }
+            ); // End Set Customer
+        }); // End Get Customer
+    }
 
     function ajax_proceed_next()
     {
+        {% if customer.is_shipping_same_as_billing %}
+            window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step5';
+            return;
+        {% endif %}
+        
+        
         get_customer({{ customer.customer_id }}, function(customer) {
             customer['shipping_name'] = $('#id_shipping_name').val();
             customer['shipping_street_number'] = $('#id_shipping_street_number').val();
