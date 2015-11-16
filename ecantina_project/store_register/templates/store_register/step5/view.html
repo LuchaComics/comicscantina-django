@@ -6,14 +6,14 @@
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
                 <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
-                <li class="active"> Merchant Registration</li>
+                <li class="active"> Customer Registration</li>
             </ul>
         </div>
     </div>
     
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-7">
-            <h1 class="section-title-inner"><span><i class="glyphicon glyphicon-briefcase"></i> Merchant Registration</span></h1>
+            <h1 class="section-title-inner"><span><i class="glyphicon glyphicon-user"></i> Customer Registration</span></h1>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
             <h4 class="caps">
@@ -38,12 +38,12 @@
                             </li>
                             <li>
                                 <a href="">
-                                    <i class="fa fa fa-home  "></i> <span> Organization </span>
+                                    <i class="fa fa fa-info  "></i> <span> Account </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="">
-                                    <i class="fa fa-building "> </i><span>Store</span>
+                                    <i class="fa fa-money "> </i><span>Billing</span>
                                 </a>
                             </li>
                             <li>
@@ -75,14 +75,7 @@
                             </div>-->
                             <div class="col-xs-12 col-sm-12">
                                 <h2>Summary</h2>
-                                <p>You're store is now setup! You can view your online store page by entering the following link:</p>
-                                <p><a href="http://www.comicscantina/{{ this_org.org_id }}/{{ this_store.store_id }}/">http://www.comicscantina/{{ this_org.org_id }}/{{ this_store.store_id }}/ </a></p>
-                                <br />
-                                <p>In the future if you open up more stores for your organization, you can find them aggregated to your organization by following this link:</p>
-                                <p><a href="http://www.comicscantina/{{ this_org.org_id }}/">http://www.comicscantina/{{ this_org.org_id }}/ </a></p>
-                                <br />
-                                <p>Lastely all your products will also be listed in the main sites aggregate store by following this link (Note: You can disable this in your settings.):</p>
-                                <p><a href="http://www.comicscantina">http://www.comicscantina </a></p>
+                                <p>You are finished, you can now Purchase from us!</p>
                                 <br />
                             </div>
                         </div>
@@ -93,14 +86,14 @@
                         <div class="box-footer">
                             
                             <div class="pull-left">
-                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step4">
+                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step4">
                                     <i class="fa fa-arrow-left"></i>
                                     &nbsp; Back
                                 </a>
                             </div>
                             <div class="pull-right">
                                 <a onclick="ajax_proceed_next();"
-                                     class="btn btn-primary btn-small "> Open Store
+                                     class="btn btn-primary btn-small "> Finish
                                     <i class="fa fa-arrow-circle-right"></i>
                                 </a>
                             </div>
@@ -149,6 +142,6 @@
 
 <div class="gap"></div>
 
-{% include "inventory_register/step5/js.html" %}
+{% include "store_register/step5/js.html" %}
 
 {% endblock content %}

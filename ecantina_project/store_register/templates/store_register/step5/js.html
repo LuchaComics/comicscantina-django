@@ -31,7 +31,7 @@
 
     function ajax_proceed_next()
     {
-        window.location = "/inventory/{{ this_org.org_id }}/{{ this_store.store_id }}/dashboard";
+        window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}';
     }
 
 </script>
