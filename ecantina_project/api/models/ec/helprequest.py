@@ -5,6 +5,7 @@ from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
+from api.models.ec.customer import Customer
 from django.core.cache import caches
 
 
@@ -26,9 +27,10 @@ class HelpRequest(models.Model):
     
     # References
     screenshot = models.ForeignKey(ImageUpload, null=True, blank=True)
-    employee = models.ForeignKey(Employee)
-    store = models.ForeignKey(Store)
-    organization = models.ForeignKey(Organization)
+    customer = models.ForeignKey(Customer, null=True, blank=True)
+    employee = models.ForeignKey(Employee, null=True, blank=True)
+    store = models.ForeignKey(Store, null=True, blank=True)
+    organization = models.ForeignKey(Organization, null=True, blank=True)
 
     def __str__(self):
         return "Ticket #" + str(self.help_id)

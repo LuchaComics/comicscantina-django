@@ -145,6 +145,7 @@ python manage.py startapp store_blog
 python manage.py startapp store_checkout
 python manage.py startapp store_customer
 python manage.py startapp store_register
+python manage.py startapp store_help
 python manage.py startapp login
 python manage.py startapp api
 
@@ -182,6 +183,7 @@ INSTALLED_APPS = (
     'store_checkout',
     'store_customer',
     'store_register',
+    'store_help','
     'login',
     'api','
 )

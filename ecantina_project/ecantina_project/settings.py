@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'store_checkout',
     'store_customer',
     'store_register',
+    'store_help',
     'login',
     'api',
 )

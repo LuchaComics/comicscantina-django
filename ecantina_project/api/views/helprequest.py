@@ -22,5 +22,5 @@ class HelpRequestViewSet(viewsets.ModelViewSet):
     queryset = HelpRequest.objects.all()
     serializer_class = HelpRequestSerializer
     pagination_class = LargeResultsSetPagination
-    permission_classes = (BelongsToOrganization, IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     filter_class = HelpRequestFilter
