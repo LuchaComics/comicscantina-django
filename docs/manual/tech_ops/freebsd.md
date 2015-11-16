@@ -10,7 +10,7 @@
 
 3. From your local Mac, terminal into the server.
   ```
- ssh 45.55.221.217 -l freebsd
+  ssh 45.55.221.217 -l freebsd
   ```
 
 4. Add password for 'root'
