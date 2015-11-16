@@ -14,8 +14,22 @@ class CustomerManager(models.Manager):
             a customer was not found, then this function will create one and
             return an empty customer assigned to this user.
         """
+        # Find the User.
         try:
-            return self.get(email=user_email)
+            user = User.objects.get(email=user_email)
+        except User.DoesNotExist:
+            return None
+        
+        # Either fetch existing Customer or create it.
+        try:
+            customer = self.get(email=user_email)
+            
+            # Defensive Code: If missing 'user', then update it.
+            if customer.user is None:
+                customer.user = user
+                customer.save()
+            
+            return customer
         except Customer.DoesNotExist:
             return self.create(
                 user=user,

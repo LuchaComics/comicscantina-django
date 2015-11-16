@@ -12,7 +12,7 @@ from inventory_base.forms.imageuploadform import ImageUploadForm
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
-from api.models.ec.employee import Employee
+from api.models.ec.customer import Customer
 from inventory_base.forms.customerform import CustomerForm
 from inventory_setting.forms.userform import UserForm
 
@@ -73,12 +73,64 @@ def registration_step3_page(request, org_id=0, store_id=0,):
     except Store.DoesNotExist:
         store = None
     
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step3/view.html',{
         'org': org,
         'store': store,
-        'customer_form': CustomerForm(initial={'joined':datetime.now()}),
+        'customer': customer,
+        'customer_form': CustomerForm(instance=customer),
         'local_css_library' : settings.STORE_CSS_LIBRARY,
         'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
         'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'register',
     })
+
+
+@login_required(login_url='/store/register/step1')
+def registration_step4_page(request, org_id=0, store_id=0,):
+    # Fetch the Organization / Store.
+    try:
+        org = Organization.objects.get(org_id=int(org_id))
+    except Organization.DoesNotExist:
+        org = None
+    try:
+        store = Store.objects.get(store_id=int(store_id))
+    except Store.DoesNotExist:
+        store = None
+    
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+    return render(request, 'store_register/step4/view.html',{
+                  'org': org,
+                  'store': store,
+                  'customer': customer,
+                  'customer_form': CustomerForm(instance=customer),
+                  'local_css_library' : settings.STORE_CSS_LIBRARY,
+                  'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+                  'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+                  'page' : 'register',
+                  })
+
+
+@login_required(login_url='/store/register/step1')
+def registration_step5_page(request, org_id=0, store_id=0,):
+    # Fetch the Organization / Store.
+    try:
+        org = Organization.objects.get(org_id=int(org_id))
+    except Organization.DoesNotExist:
+        org = None
+    try:
+        store = Store.objects.get(store_id=int(store_id))
+    except Store.DoesNotExist:
+        store = None
+    
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+    return render(request, 'store_register/step3/view.html',{
+                  'org': org,
+                  'store': store,
+                'customer': customer,
+                  'customer_form': CustomerForm(instance=customer),
+                  'local_css_library' : settings.STORE_CSS_LIBRARY,
+                  'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+                  'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+                  'page' : 'register',
+                  })

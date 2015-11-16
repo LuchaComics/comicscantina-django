@@ -32,201 +32,36 @@
 
     function ajax_proceed_next()
     {
-        var store_id_string = '{{ form.instance.store_id }}';
-        if (store_id_string == 'None') {
-            store_id_string = '';
-        }
-        
-        var store_id = parseInt(store_id_string); // Get the store_id of this store.
-        
-        
-        if (isNaN(store_id)) {
-            // Fetch the owner and input the owner employee into our store.
-            ajax_get_owner_employee({{ employee.employee_id }}, function(employee) {
-                                    
-                // Create our store for the very first time with our owner.
-                ajax_add_store(employee, function(json_results) {
-                    window.location = "/inventory/register/step4";
-                });
-            });
-        } else { // Update our store.
-            ajax_update_store(store_id, function(json_results) {
-                window.location = "/inventory/register/step4";
-            });
-        }
-    }
-
-    function ajax_get_owner_employee(employee_id, callback) {
-        get_employee(
-            employee_id,
-            function(success_json) {
-                callback(success_json);
-            },
-            function(error_json) {
-                print_error(error_json);
+        get_customer({{ customer.customer_id }}, function(customer) {
+            customer['billing_name'] = $('#id_billing_name').val();
+            customer['billing_street_number'] = $('#id_billing_street_number').val();
+            customer['billing_street_name'] = $('#id_billing_street_name').val();
+            customer['billing_unit_number'] = $('#id_billing_unit_number').val();
+            customer['billing_city'] = $('#id_billing_city').val();
+            customer['billing_country'] = $('#id_billing_country').val();
+            customer['billing_province'] = $('#id_billing_province').val();
+            customer['billing_postal'] = $('#id_billing_postal').val();
+                     
+            if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
+                customer['billing_phone'] = get_phone('#id_billing_phone');
+            } else {
+                customer['billing_phone'] = "";
             }
-        );
+                     
+            set_customer(
+                customer,
+                function(success_json) { // Create a new customer
+                    window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step4';
+                },
+                function(error_json) {
+                    print_error(error_json);
+                }
+            ); // End Set Customer
+        }); // End Get Customer
     }
 
-    function ajax_add_store(employee, callback) {
-        var arr = new Array;
-        arr.push(employee['employee_id']);
-        
-        var data = {
-            // Store
-            'organization': '{{ this_org.org_id }}',
-            'joined': $('#id_joined').val(),
-            'email': $('#id_email').val(),
-            'logo': $('#id_hidden_upload_id').val(),
-            'name': $('#id_name').val(),
-            'description': $('#id_description').val(),
-            'website': $('#id_website').val(),
-            'twitter_url': $('#id_twitter_url').val(),
-            'facebook_url': $('#id_facebook_url').val(),
-            'instagram_url': $('#id_instagram_url').val(),
-            'linkedin_url': $('#id_linkedin_url').val(),
-            'github_url': $('#id_github_url').val(),
-            'google_url': $('#id_google_url').val(),
-            'youtube_url': $('#id_youtube_url').val(),
-            'flickr_url': $('#id_flickr_url').val(),
-            'street_number': $('#id_street_number').val(),
-            'street_name': $('#id_street_name').val(),
-            'unit_number': $('#id_unit_number').val(),
-            'city': $('#id_city').val(),
-            'country': $('#id_country').val(),
-            'province': $('#id_province').val(),
-            'postal': $('#id_postal').val(),
-            // Store Hours
-            'monday_to': $('#id_monday_to').val(),
-            'monday_from': $('#id_monday_from').val(),
-            'tuesday_to': $('#id_tuesday_to').val(),
-            'tuesday_from': $('#id_tuesday_from').val(),
-            'wednesday_to': $('#id_wednesday_to').val(),
-            'wednesday_from': $('#id_wednesday_from').val(),
-            'thursday_to': $('#id_thursday_to').val(),
-            'thursday_from': $('#id_thursday_from').val(),
-            'friday_to': $('#id_friday_to').val(),
-            'friday_from': $('#id_friday_from').val(),
-            'saturday_to': $('#id_saturday_to').val(),
-            'saturday_from': $('#id_saturday_from').val(),
-            'sunday_to': $('#id_sunday_to').val(),
-            'sunday_from': $('#id_sunday_from').val(),
-            'is_open_monday': $('#id_is_open_monday').is(':checked'),
-            'is_open_tuesday': $('#id_is_open_tuesday').is(':checked'),
-            'is_open_wednesday': $('#id_is_open_wednesday').is(':checked'),
-            'is_open_thursday': $('#id_is_open_thursday').is(':checked'),
-            'is_open_friday': $('#id_is_open_friday').is(':checked'),
-            'is_open_saturday': $('#id_is_open_saturday').is(':checked'),
-            'is_open_sunday': $('#id_is_open_sunday').is(':checked'),
-            // Other
-            'is_aggregated': 'True',
-            'currency': $('#id_currency').val(),
-            'language': $('#id_language').val(),
-            'tax_rate': $('#id_tax_rate').val(),
-            'is_comics_vendor': $('#checkboxes-0').is(':checked'),
-            'is_furniture_vendor': $('#id_is_furniture_vendor').is(':checked'),
-            'is_coins_vendor': $('#id_is_coins_vendor').is(':checked'),
-            'paypal_email': $('#id_paypal_email').val(),
-            'employees': arr,
-        }
+
     
-        if ($('#id_phone').val().length > 0) { // Add telephone if added.
-            data['phone'] = get_phone('#id_phone');
-        } else {
-            data['phone'] = "";
-        }
-        if ($('#id_fax').val().length > 0) { // Add fax if added.
-            data['fax'] = get_phone('#id_fax');
-        } else {
-            data['fax'] = "";
-        }
-        console.log(data);
-        // Send the "FormData" object to be sent through REST and get updated.
-        set_store(
-            data,
-            function(success_json) {
-                callback(success_json);
-            },
-            function(error_json) {
-                print_error(error_json);
-            }
-        );
-    }
-
-    function ajax_update_store(store_id, callback) {
-        get_store(
-            store_id,
-            function(store) {
-                // Update our store information.
-                store['email'] = $('#id_email').val();
-                store['name'] = $('#id_name').val();
-                store['description'] = $('#id_description').val();
-                store['phone'] = get_phone('#id_phone');
-                store['website'] = $('#id_website').val();
-                store['twitter_url'] = $('#id_twitter_url').val();
-                store['facebook_url'] = $('#id_facebook_url').val();
-                store['instagram_url'] = $('#id_instagram_url').val();
-                store['linkedin_url'] = $('#id_linkedin_url').val();
-                store['github_url'] = $('#id_github_url').val();
-                store['google_url'] = $('#id_google_url').val();
-                store['youtube_url'] = $('#id_youtube_url').val();
-                store['flickr_url'] = $('#id_flickr_url').val();
-                store['street_number'] = $('#id_street_number').val();
-                store['street_name'] = $('#id_street_name').val();
-                store['unit_number'] = $('#id_unit_number').val();
-                store['city'] = $('#id_city').val();
-                store['country'] = $('#id_country').val();
-                store['province'] = $('#id_province').val();
-                store['postal'] = $('#id_postal').val();
-                // Store Hours
-                store['monday_to'] = $('#id_monday_to').val();
-                store['monday_from'] = $('#id_monday_from').val();
-                store['tuesday_to'] = $('#id_tuesday_to').val();
-                store['tuesday_from'] = $('#id_tuesday_from').val();
-                store['wednesday_to'] = $('#id_wednesday_to').val();
-                store['wednesday_from'] = $('#id_wednesday_from').val();
-                store['thursday_to'] = $('#id_thursday_to').val();
-                store['thursday_from'] = $('#id_thursday_from').val();
-                store['friday_to'] = $('#id_friday_to').val();
-                store['friday_from'] = $('#id_friday_from').val();
-                store['saturday_to'] = $('#id_saturday_to').val();
-                store['saturday_from'] = $('#id_saturday_from').val();
-                store['sunday_to'] = $('#id_sunday_to').val();
-                store['sunday_from'] = $('#id_sunday_from').val();
-                store['is_open_monday'] = $('#id_is_open_monday').is(':checked');
-                store['is_open_tuesday'] = $('#id_is_open_tuesday').is(':checked');
-                store['is_open_wednesday'] = $('#id_is_open_wednesday').is(':checked');
-                store['is_open_thursday'] = $('#id_is_open_thursday').is(':checked');
-                store['is_open_friday'] = $('#id_is_open_friday').is(':checked');
-                store['is_open_saturday'] = $('#id_is_open_saturday').is(':checked');
-                store['is_open_sunday'] = $('#id_is_open_sunday').is(':checked');
-                // Other
-                store['is_suspended'] = '{{ form.instance.is_suspended }}';
-                store['is_aggregated'] = '{{ form.instance.is_aggregated }}';
-                store['currency'] = $('#id_currency').val();
-                store['language'] = $('#id_language').val();
-                store['tax_rate'] = parseFloat( $('#id_tax_rate').val() );
-                store['is_comics_vendor'] = $('#checkboxes-0').is(':checked');
-                store['is_furniture_vendor'] = $('#id_is_furniture_vendor').is(':checked');
-                store['is_coins_vendor'] = $('#id_is_coins_vendor').is(':checked');
-                store['paypal_email'] = $('#id_paypal_email').val();
-                  
-                // Update the store with the new status.
-                set_store(
-                    store,
-                    function(success_json2) {
-                        callback(success_json2);
-                    },
-                    function(error_json2) {
-                        print_error(error_json);
-                    }
-                );
-            },
-            function(error_json) {
-                alert("Failed getting your store.");
-            }
-        );
-    }
 
     /**
      * Prints a error box with the contents of the errors received from the server.

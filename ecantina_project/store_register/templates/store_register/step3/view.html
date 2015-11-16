@@ -127,7 +127,7 @@
                             
                             
                             <div class="pull-left">
-                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step2">
+                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step2">
                                     <i class="fa fa-arrow-left"></i>
                                     &nbsp; Back
                                 </a>
@@ -183,6 +183,6 @@
 
 <div class="gap"></div>
 
-{% include "inventory_register/step3/js.html" %}
+{% include "store_register/step3/js.html" %}
 
 {% endblock content %}

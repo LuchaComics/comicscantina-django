@@ -7,14 +7,14 @@
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
                 <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
-                <li class="active"> Merchant Registration</li>
+                <li class="active"> Customer Registration</li>
             </ul>
         </div>
     </div>
     
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-7">
-            <h1 class="section-title-inner"><span><i class="glyphicon glyphicon-briefcase"></i> Merchant Registration</span></h1>
+            <h1 class="section-title-inner"><span><i class="glyphicon glyphicon-info"></i> Customer Registration</span></h1>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
             <h4 class="caps">
@@ -39,12 +39,12 @@
                             </li>
                             <li>
                                 <a href="">
-                                    <i class="fa fa fa-home  "></i> <span> Organization </span>
+                                    <i class="fa fa fa-info  "></i> <span> Account </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="">
-                                    <i class="fa fa-building "> </i><span>Store</span>
+                                    <i class="fa fa-money "> </i><span>Billing</span>
                                 </a>
                             </li>
                             <li class="active">
@@ -66,11 +66,11 @@
                     <div class="w100 clearfix">
                         <div class="row userInfo">
                             <div class="col-lg-12">
-                                <h2 class="block-title-2"> Please select whether this you will allow shipping or not. </h2>
+                                <h2 class="block-title-2"> Is Shipping Address same as Billing Address? </h2>
                             </div>
                             <div class="col-xs-12 col-sm-12">
                                 <label class="checkbox-inline" for="checkboxes-0">
-                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" {% if org_form.instance.is_pickup_only %}checked{% endif %}>Is Pickup Only
+                                    <input name="checkboxes" id="checkboxes-0" value="1" type="checkbox" {% if org_form.instance.is_pickup_only %}checked{% endif %}>Same as Billing Address
                                 </label>
                              
                             </div>
@@ -79,18 +79,45 @@
                                 <h2 class="block-title-2">Please fill the shipping rates you would like to apply for Canada. </h2>
                             </div>
                             <div class="col-xs-12 col-sm-12">
-                                {% for field in ca_form %}
-                                    {% if 'Country' in field.label %}
-                                    <input type="hidden" id="id_country" value={{ form.instance.country }} />
-                                    {% else %}
-                                    <div class="form-group">
-                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
-                                        <div class="col-md-8">
-                                            {{ field | escape | safe }}
-                                        </div>
+                                
+                                <form role="form" data-parsley-validate="" novalidate="" class="mb-lg">
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupWebSite" class="text-muted">Full Name</label>
+                                        {{ customer_form.shipping_name }}
                                     </div>
-                                    {% endif %}
-                                {% endfor %}
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupPhone" class="text-muted">Phone</label>
+                                        {{ customer_form.shipping_phone }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStoreStreetNumber" class="text-muted">Street Number</label>
+                                        {{ customer_form.shipping_street_number }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStoreStreetName" class="text-muted">Street Name</label>
+                                        {{ customer_form.shipping_street_name }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStoreUnitNumber" class="text-muted">Unit Number</label>
+                                        {{ customer_form.shipping_unit_number }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStoreCity" class="text-muted">City</label>
+                                        {{ customer_form.shipping_city }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStoreCountry" class="text-muted">Country</label>
+                                        {{ customer_form.shipping_country }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStoreProvince" class="text-muted">State/Province</label>
+                                        {{ customer_form.shipping_province }}
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="signupStorePostal" class="text-muted">Zip/Postal</label>
+                                        {{ customer_form.shipping_postal }}
+                                    </div>
+                                </form>
                                 
                             </div>
                             
@@ -111,7 +138,7 @@
                             
                             
                             <div class="pull-left">
-                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}inventory/register/step3">
+                                <a class="btn btn-default" href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step3">
                                     <i class="fa fa-arrow-left"></i>
                                     &nbsp; Back
                                 </a>
@@ -167,6 +194,6 @@
 
 <div class="gap"></div>
 
-{% include "inventory_register/step4/js.html" %}
+{% include "store_register/step4/js.html" %}
 
 {% endblock content %}
