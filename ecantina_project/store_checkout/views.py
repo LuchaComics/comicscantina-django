@@ -18,6 +18,7 @@ from api.models.ec.receipt import Receipt
 from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from inventory_base.forms.customerform import CustomerForm
+from inventory_base.forms.readonlycustomerform import ReadOnlyCustomerForm
 
 
 def cart_page(request, org_id=0, store_id=0):
