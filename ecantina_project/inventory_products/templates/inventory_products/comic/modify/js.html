@@ -189,6 +189,14 @@
         var issue_id = {{ issue.issue_id }};
         
         // DEFENSIVE CODE.
+        if ($('#id_name').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please enter the name of the product.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+
         if ($('#id_age').val() == '') {
             // Display the error here.
             $(document).trigger("add-alerts",[{
@@ -231,7 +239,7 @@
         
         // Insert/Update "product" model.
         var arr = {
-            'name': '{{ issue.series.name }} ' + 'Issue #{{ issue.number }}',
+            'name': $('#id_name').val(),
             'type': '1', // Comic book
             'is_sold': false,
             'sub_price': sub_price,

@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="product-slide-inner ">
-                            <h1 class="product-title">{{ comic }}</h1>
+                            <h1 class="product-title">{{ comic.product.name | escape | safe }}</h1>
                             
                             <h3 class="product-code">Product Code : {{ comic.product.product_id }}</h3>
                             

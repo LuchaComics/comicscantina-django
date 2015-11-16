@@ -127,6 +127,7 @@
                                     </thead>
                                     <tbody>
                                         {% for product in products %}
+                                        {% autoescape off %}
                                         <tr>
                                             <td style="text-align:center;">
                                                 {% if product.image_url == "" or product.image_url == None  %}
@@ -141,7 +142,7 @@
                                                        src="{{ product.image_url }}" />
                                                 {% endif %}
                                             </td>
-                                            <td>{{ product }}</td>
+                                            <td>{{ product | escape | safe }}</td>
                                             <td>{{ product.brand }}</td>
                                             <td>
                                                 {% if product.type == 1 %}
@@ -158,6 +159,7 @@
                                                 </button>
                                             </td>
                                         </tr>
+                                        {% endautoescape %}
                                         {% endfor %}
                                     </tbody>
                                 </table>

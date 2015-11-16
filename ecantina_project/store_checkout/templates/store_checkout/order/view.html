@@ -85,10 +85,10 @@
                                                     <div>
                                                         <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';">
                                                             {% if product.image_url == None or product.image_url == '' %}
-                                                            <img alt="{{ product }}"
+                                                            <img alt="{{ product | escape | safe }}"
                                                             src="{% static "inventory/img/missing_cover.png" %}" />
                                                             {% else %}
-                                                            <img alt="{{ product }}"
+                                                            <img alt="{{ product | escape | safe }}"
                                                             src="{{ product.image_url }}" />
                                                             {% endif %}
                                                         </a>
@@ -96,7 +96,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="CartDescription">
-                                                        <h4><a href="product-details.html">{{ product }}</a></h4>
+                                                        <h4><a href="product-details.html">{{ product | escape | safe }}</a></h4>
                                                         <span class="size">{{ product.brand }}</span>
                                                         
                                                     </div>

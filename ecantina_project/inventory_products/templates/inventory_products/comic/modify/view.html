@@ -70,6 +70,7 @@
                             </div><!-- /.Cover Uploader -->
                             <div class="clearfix"></div>
                         </div>
+                        {% autoescape off %}
                         <form class="form-horizontal">
                             <div class="col-sm-12"><!-- Comic Information -->
                                 <hr class="pb" />
@@ -136,9 +137,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label for="sel-age" class="col-md-4 control-label">Name</label>
+                                        <div class="col-md-8">
+                                            {{ product_form.name | escape | safe }}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="txt-genre" class="col-md-4 control-label">Description</label>
                                         <div class="col-md-8">
-                                            {{ product_form.description }}
+                                            {{ product_form.description | escape | safe }}
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -347,6 +354,7 @@
                                 <div class="clearfix"></div>
                             </div><!-- /.Inventory Table -->
                         </form>
+                        {% endautoescape %}
                     </div>
                 </div>
                 <!-- END panel-->

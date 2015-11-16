@@ -97,11 +97,15 @@ class ImageUploadForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['description', 'image_url', 'price', 'section', 'sub_price','price','cost', 'store','type','images', 'category', 'qrcode', 'has_no_shipping', 'is_available', 'is_new', 'is_featured',]
+        fields = ['name', 'description', 'image_url', 'price', 'section', 'sub_price','price','cost', 'store','type','images', 'category', 'qrcode', 'has_no_shipping', 'is_available', 'is_new', 'is_featured',]
         labels = {
             
         }
         widgets = {
+            'name': TextInput(attrs={
+                'class':'form-control',
+                'placeholder':'Product Name',
+            }),
             'description': Textarea(attrs={'class': u'form-control','placeholder': u'Enter Description'}),
             'images': Select(attrs={'class': u'form-control mb10 mt-lg'}),
             'type': Select(attrs={'class': u'form-control'}),
