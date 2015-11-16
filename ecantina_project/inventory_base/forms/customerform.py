@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 from django.db import models
 from django import forms
 from django.forms import ModelForm, Textarea, TextInput, NumberInput
@@ -94,5 +94,5 @@ class CustomerForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Email Address'
             }),
-            'date_of_birth': SelectDateWidget(),
+            'date_of_birth': SelectDateWidget(years=range(1940, datetime.datetime.now().year-12)),
         }
