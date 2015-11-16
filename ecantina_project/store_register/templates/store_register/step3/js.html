@@ -40,11 +40,21 @@
             customer['billing_country'] = $('#id_billing_country').val();
             customer['billing_province'] = $('#id_billing_province').val();
             customer['billing_postal'] = $('#id_billing_postal').val();
+            customer['shipping_street_number'] = $('#id_billing_street_number').val();
+            customer['shipping_street_name'] = $('#id_billing_street_name').val();
+            customer['shipping_unit_number'] = $('#id_billing_unit_number').val();
+            customer['shipping_city'] = $('#id_billing_city').val();
+            customer['shipping_country'] = $('#id_billing_country').val();
+            customer['shipping_province'] = $('#id_billing_province').val();
+            customer['shipping_postal'] = $('#id_billing_postal').val();
+            customer['is_shipping_same_as_billing'] = true;
                      
             if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
                 customer['billing_phone'] = get_phone('#id_billing_phone');
+                customer['shipping_phone'] = get_phone('#id_shipping_phone');
             } else {
                 customer['billing_phone'] = "";
+                customer['shipping_phone'] = "";
             }
                      
             set_customer(
