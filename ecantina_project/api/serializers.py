@@ -32,7 +32,7 @@ from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('customer_id', 'joined', 'last_updated', 'is_suspended', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile', 'qrcode', 'is_tos_signed', 'is_verified', 'verification_key', 'date_of_birth', 'wants_newsletter', 'wants_flyers',)
+        fields = ('customer_id', 'joined', 'last_updated', 'is_suspended', 'first_name', 'last_name', 'email', 'billing_name', 'billing_phone', 'billing_street_name', 'billing_street_number', 'billing_unit_number', 'billing_city', 'billing_province', 'billing_country', 'billing_postal', 'is_shipping_same_as_billing','shipping_name', 'shipping_phone', 'shipping_street_name', 'shipping_street_number', 'shipping_unit_number', 'shipping_city', 'shipping_province', 'shipping_country', 'shipping_postal', 'has_consented', 'user', 'profile', 'qrcode', 'is_tos_signed', 'is_verified', 'verification_key', 'date_of_birth', 'wants_newsletter', 'wants_flyers',)
 
 
 class StoreSerializer(serializers.ModelSerializer):

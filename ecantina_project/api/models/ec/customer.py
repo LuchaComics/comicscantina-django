@@ -87,6 +87,7 @@ class Customer(models.Model):
     billing_postal = models.CharField(max_length=31, db_index=True)
     
     # Shipping Info
+    is_shipping_same_as_billing = models.BooleanField(default=False)
     shipping_name = models.CharField(max_length=126)
     shipping_phone = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     shipping_street_name = models.CharField(max_length=63)
