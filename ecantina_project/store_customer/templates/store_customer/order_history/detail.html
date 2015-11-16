@@ -60,7 +60,7 @@
                             
                             <div class="order-box-content">
                                 <div class="address">
-                                    <p><strong>{{ this_receipt.billing_name }}</strong></p>
+                                    <p><strong>{{ this_receipt.first_name }} {{ this_receipt.last_name }}</strong></p>
                                     <div class="adr">
                                         {{ this_receipt.billing_address }}<br>{{ this_receipt.billing_city }}, {{ this_receipt.billing_province }}, {{ this_receipt.billing_country }}<br>{{ this_receipt.billing_postal }}
                                     </div>
@@ -80,7 +80,7 @@
                             <div class="order-box-content">
                                 
                                 <div class="address">
-                                    <p><strong>{{ this_receipt.shipping_name }}</strong></p>
+                                    <p><strong>{{ this_receipt.customer.first_name }} {{ this_receipt.customer.last_name }}</strong></p>
                                     <div class="adr">
                                         {{ this_receipt.shipping_address }}<br>{{ this_receipt.shipping_city }}, {{ this_receipt.shipping_province }}, {{ this_receipt.shipping_country }}<br>{{ this_receipt.shipping_postal }}
                                     </div>

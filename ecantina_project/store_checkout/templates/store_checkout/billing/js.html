@@ -49,7 +49,6 @@
     function ajax_update_billing_and_proceed_next()
     {
         get_customer({{ customer.customer_id }}, function(customer) {
-            customer['billing_name'] = $('#id_billing_name').val();
             customer['billing_street_number'] = $('#id_billing_street_number').val();
             customer['billing_street_name'] = $('#id_billing_street_name').val();
             customer['billing_unit_number'] = $('#id_billing_unit_number').val();

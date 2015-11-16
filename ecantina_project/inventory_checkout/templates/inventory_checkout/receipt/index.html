@@ -81,7 +81,7 @@
                                             {% if receipt.customer == None %}
                                                 Guest
                                             {% else %}
-                                                <h4>{{ receipt.billing_name }} &nbsp;<span class="text-sm">(Customer)</span></h4>
+                                                <h4>{{ receipt.customer.first_name | escape | safe }} {{ receipt.customer.last_name | escape | safe }} &nbsp;<span class="text-sm">(Customer)</span></h4>
                                                 <address class="mb0">
                                                     {{ receipt.billing_address }}
                                                 <br>{{ receipt.billing_city }} {{ receipt.billing_postal }}

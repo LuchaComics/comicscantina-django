@@ -40,7 +40,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul>
-                                    <li><span class="address-name"> <strong>{{ customer.billing_name }}</strong></span></li>
+                                    <li><span class="address-name"> <strong>{{ customer.first_name }} {{ customer.last_name }}</strong></span></li>
                                     <li><span class="address-company">{{ customer.billing_street_number }} {{ customer.billing_street_name }}</span></li>
                                     {% if customer.billing_unit_number %}
                                     <li><span class="address-line1">Unit #{{ customer.billing_unit_number }}</span></li>
@@ -69,7 +69,7 @@
                             </div>
                             <div class="panel-body">
                                 <ul>
-                                    <li><span class="address-name"> <strong>{{ customer.billing_name }}</strong></span></li>
+                                    <li><span class="address-name"> <strong>{{ customer.first_name }} {{ customer.first_name }}</strong></span></li>
                                     {% if customer.shipping_unit_number %}
                                     <li><span class="address-company">{{ customer.shipping_street_number }} {{ customer.shipping_street_name }}</span></li>
                                     {% endif %}

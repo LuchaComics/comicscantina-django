@@ -17,10 +17,6 @@
                     <div class="col-sm-6 mb0">
                         <legend class="text-muted mb">Billing Details</legend>
                         <div class="form-group col-sm-6">
-                        <label for="signupWebSite" class="text-muted">Full Name</label>
-                            {{ customer_form.billing_name }}
-                        </div>
-                        <div class="form-group col-sm-6">
                             <label for="signupPhone" class="text-muted">Phone</label>
                             {{ customer_form.billing_phone }}
                         </div>
@@ -55,10 +51,6 @@
                     </div>
                     <fieldset class="col-sm-6 store-info m0">
                         <legend class="text-muted mb0">Shipping Details</legend>
-                        <div class="form-group col-sm-6">
-                            <label for="signupWebSite" class="text-muted">Full Name</label>
-                            {{ customer_form.shipping_name }}
-                        </div>
                         <div class="form-group col-sm-6">
                             <label for="signupPhone" class="text-muted">Phone</label>
                             {{ customer_form.shipping_phone }}
@@ -155,7 +147,6 @@
             'first_name': '{{ user.first_name }}',
             'last_name': '{{ user.last_name }}',
             'email': '{{ user.email }}',
-            'billing_name': $('#id_billing_name').val(),
             'billing_street_number': $('#id_billing_street_number').val(),
             'billing_street_name': $('#id_billing_street_name').val(),
             'billing_unit_number': $('#id_billing_unit_number').val(),
@@ -163,7 +154,6 @@
             'billing_country': $('#id_billing_country').val(),
             'billing_province': $('#id_billing_province').val(),
             'billing_postal': $('#id_billing_postal').val(),
-            'shipping_name': $('#id_shipping_name').val(),
             'shipping_street_number': $('#id_shipping_street_number').val(),
             'shipping_street_name': $('#id_shipping_street_name').val(),
             'shipping_unit_number': $('#id_shipping_unit_number').val(),

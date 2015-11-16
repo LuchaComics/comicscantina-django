@@ -115,7 +115,7 @@
                                             </div>
                                             <div class="panel-body">
                                                 <ul style="list-style-type:none;">
-                                                    <li><span class="address-name"> <strong>{{ customer.billing_name | escape | safe }}</strong></span></li>
+                                                    <li><span class="address-name"> <strong>{{ customer.first_name | escape | safe }} {{ customer.last_name | escape | safe }}</strong></span></li>
                                                     <li><span class="address-line1"> {{ customer.billing_street_number }} {{ customer.billing_street_name | escape | safe }} </span></li>
                                                     <li><span class="address-line2"> {{ customer.billing_postal }}</span></li>
                                                     <li><span class="address-line3"> {{ customer.billing_city | escape | safe }}, {{ customer.billing_province | escape | safe }}, {{ customer.billing_country | escape | safe }} </span></li>
@@ -131,7 +131,7 @@
                                             </div>
                                             <div class="panel-body">
                                                 <ul style="list-style-type:none;">
-                                                    <li><span class="address-name"> <strong>{{ customer.shipping_name | escape | safe }}</strong></span></li>
+                                                    <li><span class="address-name"> <strong>{{ customer.first_name | escape | safe }} {{ customer.last_name | escape | safe }}</strong></span></li>
                                                     <li><span class="address-line1"> {{ customer.shipping_street_number }} {{ customer.shipping_street_name | escape | safe }} </span></li>
                                                     <li><span class="address-line2"> {{ customer.shipping_postal }}</span></li>
                                                     <li><span class="address-line3"> {{ customer.shipping_city | escape | safe }}, {{ customer.shipping_province }}, {{ customer.shipping_country | escape | safe }} </span></li>

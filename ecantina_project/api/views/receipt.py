@@ -37,7 +37,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     pagination_class = LargeResultsSetPagination
     permission_classes = (BelongsToCustomerOrIsEmployeeUser, IsAuthenticated)
     filter_backends = (filters.SearchFilter,filters.DjangoFilterBackend,)
-    search_fields = ('billing_name','email','billing_phone','billing_postal','shipping_name', 'shipping_phone','shipping_postal',)
+    search_fields = ('email','billing_phone','billing_postal', 'shipping_phone','shipping_postal',)
     filter_class = ReceiptFilter
   
     def get_customer_receipts(self, user_id):
@@ -182,14 +182,12 @@ class ReceiptViewSet(viewsets.ModelViewSet):
                 shipping_address = receipt.customer.shipping_unit_number + '-' + shipping_address
 
             receipt.email = receipt.customer.email
-            receipt.billing_name = receipt.customer.billing_name
             receipt.billing_address = billing_address
             receipt.billing_phone = receipt.customer.billing_phone
             receipt.billing_city = receipt.customer.billing_city
             receipt.billing_province = receipt.customer.billing_province
             receipt.billing_country = receipt.customer.billing_country
             receipt.billing_postal = receipt.customer.billing_postal
-            receipt.shipping_name = receipt.customer.shipping_name
             receipt.shipping_address = shipping_address
             receipt.shipping_phone = receipt.customer.shipping_phone
             receipt.shipping_city = receipt.customer.shipping_city

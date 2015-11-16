@@ -37,12 +37,6 @@
                     
                     <div class="col-xs-12 col-sm-6">
                         
-                        
-                        <div class="form-group required">
-                            <label for="InputName">Full Name <sup>*</sup> </label>
-                            {{ form.shipping_name }}
-                        </div>
-                        
                         <div class="form-group required">
                             <label for="InputName">Street Number <sup>*</sup> </label>
                             {{ form.shipping_street_number }}
@@ -167,7 +161,6 @@
     function ajax_update()
     {
         get_customer({{ customer.customer_id }}, function(customer) {
-            customer['shipping_name'] = $('#id_shipping_name').val();
             customer['shipping_street_number'] = $('#id_shipping_street_number').val();
             customer['shipping_street_name'] = $('#id_shipping_street_name').val();
             customer['shipping_unit_number'] = $('#id_shipping_unit_number').val();

@@ -206,14 +206,12 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
         shipping_address = old_receipt.customer.shipping_unit_number + '-' + shipping_address
     
     old_receipt.email = old_receipt.customer.email
-    old_receipt.billing_name = old_receipt.customer.billing_name
     old_receipt.billing_address = billing_address
     old_receipt.billing_phone = old_receipt.customer.billing_phone
     old_receipt.billing_city = old_receipt.customer.billing_city
     old_receipt.billing_province = old_receipt.customer.billing_province
     old_receipt.billing_country = old_receipt.customer.billing_country
     old_receipt.billing_postal = old_receipt.customer.billing_postal
-    old_receipt.shipping_name = old_receipt.customer.shipping_name
     old_receipt.shipping_address = shipping_address
     old_receipt.shipping_phone = old_receipt.customer.shipping_phone
     old_receipt.shipping_city = old_receipt.customer.shipping_city

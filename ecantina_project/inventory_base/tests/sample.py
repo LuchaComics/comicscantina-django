@@ -141,7 +141,6 @@ class SampleDataPopulator():
                 email = 'rayanami@nerv.worldgov',
                                                 
                 # Billing Info
-                billing_name = 'Rei Ayanami',
                 billing_phone = '111-111-1111',
                 email = 'rayanami@nerv.worldgov',
                 billing_street_name = 'Nerv HQ Street',
@@ -153,7 +152,6 @@ class SampleDataPopulator():
                 billing_postal = 'N6J4X4',
                 
                 # Shipping Info
-                shipping_name = 'Rei Ayanami',
                 shipping_phone = '111-111-1111',
                 shipping_street_name = 'Nerv HQ Street',
                 shipping_street_number = '1000',
@@ -482,7 +480,6 @@ class SampleDataPopulator():
                 total_amount = 10,
                 has_finished = False,
                 has_paid = False,
-                billing_name = 'Rei Ayanami',
                 billing_address = '102-120 Centre Street',
                 email = 'rayanami@nerv.worldgov',
                 billing_phone = '111-111-1111',
@@ -490,7 +487,6 @@ class SampleDataPopulator():
                 billing_province = 'Ontario',
                 billing_country = 'Canada',
                 billing_postal = 'N6J4X4',
-                shipping_name = 'Rei Ayanami',
                 shipping_address = '102-120 Centre Street',
                 shipping_phone = '111-111-1111',
                 shipping_city = 'London',

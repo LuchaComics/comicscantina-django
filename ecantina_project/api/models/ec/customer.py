@@ -36,8 +36,6 @@ class CustomerManager(models.Manager):
                 email=user.email,
                 first_name=user.first_name,
                 last_name=user.last_name,
-                billing_name = user.first_name+' '+user.last_name,
-                shipping_name = user.first_name+' '+user.last_name,
             )
 
 
@@ -70,7 +68,6 @@ class Customer(models.Model):
     date_of_birth = models.DateField(default=datetime.now)
     
     # Billing Info
-    billing_name = models.CharField(max_length=126)
     billing_phone = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     billing_street_name = models.CharField(max_length=63)
     billing_street_number = models.CharField(max_length=15)
@@ -88,7 +85,6 @@ class Customer(models.Model):
     
     # Shipping Info
     is_shipping_same_as_billing = models.BooleanField(default=False)
-    shipping_name = models.CharField(max_length=126)
     shipping_phone = models.CharField(max_length=10, null=True, blank=True, db_index=True)
     shipping_street_name = models.CharField(max_length=63)
     shipping_street_number = models.CharField(max_length=15)

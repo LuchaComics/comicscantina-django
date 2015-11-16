@@ -60,7 +60,6 @@
         
         
         get_customer({{ customer.customer_id }}, function(customer) {
-            customer['shipping_name'] = $('#id_shipping_name').val();
             customer['shipping_street_number'] = $('#id_shipping_street_number').val();
             customer['shipping_street_name'] = $('#id_shipping_street_name').val();
             customer['shipping_unit_number'] = $('#id_shipping_unit_number').val();
