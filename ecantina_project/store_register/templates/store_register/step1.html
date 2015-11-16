@@ -87,6 +87,60 @@
 
     function ajax_submit()
     {
+        // Defensive Code: The following code will ensure the proper
+        //                 validation occured on the inputted entries.
+        if ($('#id_email').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please enter email address.',
+                'priority': 'error'
+            }]);
+        return;
+        }
+        if ( !is_email_valid( $('#id_email').val() ) ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please enter a valid email address.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        
+        if ($('#id_first_name').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please enter first name.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_last_name').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please enter last name.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_password').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Password cannot be blank',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_password_repeated').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Password repeated cannot be blank',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_password').val() != $('#id_password_repeated').val()) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Passwords do not match. Please try again!',
+                'priority': 'error'
+            }]);
+            return;
+        }
+
+        
         // STEP 1: Register the user account in our system. Once the user
         //         is registered we will receive a 'user_id' value to use.
         ajax_new_user(
