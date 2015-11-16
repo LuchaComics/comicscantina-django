@@ -28,17 +28,17 @@ def registration_step1_page(request, org_id=0, store_id=0,):
     except Store.DoesNotExist:
         store = None
     
-    return render(request, 'store_register/step1.html',{
+    return render(request, 'store_register/step1/view.html',{
         'org': org,
         'store': store,
         'user_form': UserForm(),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
+        'local_css_library' : settings.STORE_CSS_LIBRARY,
+        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'register',
     })
 
 
-@login_required(login_url='/store/register/step1')
 def registration_step2_page(request, org_id=0, store_id=0,):
     # Fetch the Organization / Store.
     try:
@@ -50,13 +50,14 @@ def registration_step2_page(request, org_id=0, store_id=0,):
     except Store.DoesNotExist:
         store = None
     
-    return render(request, 'store_register/step2.html',{
+    return render(request, 'store_register/step2/view.html',{
         'org': org,
         'store': store,
-        'customer_form': CustomerForm(initial={'joined':datetime.now()}),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
+        'user_form': UserForm(),
+        'local_css_library' : settings.STORE_CSS_LIBRARY,
+        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'register',
     })
 
 
@@ -72,11 +73,12 @@ def registration_step3_page(request, org_id=0, store_id=0,):
     except Store.DoesNotExist:
         store = None
     
-    return render(request, 'store_register/step3.html',{
+    return render(request, 'store_register/step3/view.html',{
         'org': org,
         'store': store,
         'customer_form': CustomerForm(initial={'joined':datetime.now()}),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
+        'local_css_library' : settings.STORE_CSS_LIBRARY,
+        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
+        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
+        'page' : 'register',
     })

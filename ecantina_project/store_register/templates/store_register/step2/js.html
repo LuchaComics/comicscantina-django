@@ -1,0 +1,174 @@
+{% load staticfiles %}
+{% include 'api/organization.html' %}
+{% include 'api/employee.html' %}
+{% include 'api/customer.html' %}
+{% include 'api/common_js.html' %}
+{% include 'store_base/receipt_js.html' %}
+<script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+                  
+    function ajax_proceed_next()
+    {
+        // Defensive Code: The following code will ensure the proper
+        //                 validation occured on the inputted entries.
+        if ($('#id_email').val() == '') {
+            print_error({'Email':'Please enter a email address.'});
+            return;
+        }
+        if ( !is_email_valid( $('#id_email').val() ) ) {
+            print_error({'Email':'Please enter a valid email address.'});
+            return;
+        }
+                      
+        if ($('#id_first_name').val() == '') {
+            print_error({'First Name':'Please enter first name'});
+            return;
+        }
+        if ($('#id_last_name').val() == '') {
+            print_error({'Last Name':'Please enter last name.'});
+            return;
+        }
+        if ($('#id_password').val() == '') {
+            print_error({'Password':'Password cannot be blank'});
+            return;
+        }
+        if ($('#id_password_repeated').val() == '') {
+            print_error({'Password':'Password repeated cannot be blank.'});
+            return;
+        }
+        if ($('#id_password').val() != $('#id_password_repeated').val()) {
+            print_error({'Passwords':'Passwords do not match. Please try again!'});
+            return;
+        }
+                      
+        // STEP 1: Register the user account in our system. Once the user
+        //         is registered we will receive a 'user_id' value to use.
+        ajax_new_user(
+            function(user_id) {
+                // STEP 2: Login into our portal for editing customer information.
+                ajax_login(
+                    $('#id_email').val(),
+                    $('#id_password').val(),
+                    function(json_result) {
+                        // STEP 2: Load the next page which involves editing
+                        //         the billing and shipping information.
+                        window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step3';
+                    },
+                    function(json_error) {
+                        print_error(json_error);
+                    }
+                )
+            },
+            function(json_error){
+                console.log(json_error);
+            }
+        );
+    }
+
+    function ajax_new_user(success_callback, error_callback) {
+        // STEP 1:
+        // Create our 'auth_users' object.
+        $.ajax( '/user/settings/register', {
+            data: {
+                'first_name': $('#id_first_name').val(),
+                'last_name': $('#id_last_name').val(),
+                'email': $('#id_email').val(),
+                'username': $('#id_email').val(),
+                'old_password': $('#id_old_password').val(),
+                'password': $('#id_password').val(),
+                'password_repeated': $('#id_password_repeated').val(),
+                'groups': ''
+            },
+            type: 'post',
+            success: function(result) { // success code execution here
+                // Did not succeed.
+                if (result.status != 'success')
+                {
+                    $(document).trigger("add-alerts",[{
+                        'message': result.message,
+                        'priority': 'error'
+                    }]);
+                }
+                else
+                {
+                    success_callback(result.user_id);
+                }
+            },
+            error: function(xhr,status,error) {
+                // error code here
+                $(document).trigger("add-alerts",[{
+                'message': status,
+                'priority': 'error'
+                }]);
+                error_callback(error);
+            },
+            complete: function(xhr,status) {
+                // completion code here
+            }
+        });
+    }
+
+    function ajax_login(username, password, success_callback, error_callback) {
+        var url = '/store/login_authentication';
+        $.ajax( url, {
+            data: {
+                'username': username,
+                'password': password
+            },
+            type: 'post',
+            success: function(json_result) {
+                // success code execution here
+                if (json_result.status == "success")
+                {
+                    success_callback();
+                }
+                else
+                {
+                   error_callback('Error - Wrong email or password.');
+                }
+           },
+           error: function(xhr,status,error) {
+               // error code here
+           },
+           complete: function(xhr,status) {
+               // completion code here
+           }
+        });
+    }
+
+    /**
+     * Prints a error box with the contents of the errors received from the server.
+     */
+    function print_error(error_json)
+    {
+        $('#error_box').prop("hidden", false); // Display error box.
+        var message = "<b>Error(s):</b><hr/>";
+        for (var key in error_json) {
+            if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                message += "<p>" + key + ": " + error_json[key] + "<p>";
+            }
+        }
+        $('#error_box').html(message); // Replace the error string with the contents of the error box.
+    }
+</script>
