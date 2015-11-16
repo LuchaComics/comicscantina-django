@@ -7,8 +7,8 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="account.html">My Account</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
+                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account">My Account</a></li>
                 <li class="active"> My information</li>
             </ul>
         </div>
