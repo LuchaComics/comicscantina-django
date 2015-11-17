@@ -62,6 +62,7 @@ def list_page(request, org_id=0, store_id=0):
         'categories': categories,
         'current_category': current_category,
         'brands': brands,
+        'brand_name': request.GET.get('brand_name'),
         'org': organization,
         'store': store,
         'local_css_library': settings.STORE_CSS_LIBRARY,
