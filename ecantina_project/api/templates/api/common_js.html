@@ -15,6 +15,14 @@
         return phonenumber_to_integer( $(text_id).val() );
     }
 
+    function is_phone_valid(phone) {
+        if (phone.length != 10) {
+            return false;
+        }
+        
+        return !isNaN( phonenumber_to_integer(phone) );
+    }
+
     {% comment %}
         http://stackoverflow.com/a/46181
     {% endcomment %}

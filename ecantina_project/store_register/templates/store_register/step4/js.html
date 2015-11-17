@@ -58,6 +58,43 @@
             return;
         {% endif %}
         
+        // Defensive Code: Ensure that our inputted entries are valid.
+        if ($('#id_shipping_phone').val().length == 0) {
+            print_error({'Phone Number':'Cannot be blank'});
+            return;
+        }
+        if (!is_phone_valid($('#id_shipping_phone').val())) {
+            print_error({'Phone Number':'Invalid phone number.'});
+            return;
+        }
+        if ($('#id_shipping_street_number').val().length == 0) {
+            print_error({'Street Number':'Cannot be blank'});
+            return;
+        }
+        if ( isNaN( Number( $('#id_shipping_street_number').val() ) ) ) {
+            print_error({'Street Number':'Must be number'});
+            return;
+        }
+        if ($('#id_shipping_street_name').val().length == 0) {
+            print_error({'Street Name':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_shipping_city').val().length == 0) {
+            print_error({'City':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_shipping_country').val().length == 0) {
+            print_error({'Country':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_shipping_province').val().length == 0) {
+            print_error({'Province':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_shipping_postal').val().length == 0) {
+            print_error({'Postal':'Cannot be blank'});
+            return;
+        }
         
         get_customer({{ customer.customer_id }}, function(customer) {
             customer['shipping_street_number'] = $('#id_shipping_street_number').val();
