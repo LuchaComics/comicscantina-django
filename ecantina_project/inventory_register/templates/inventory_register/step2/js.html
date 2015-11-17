@@ -37,6 +37,60 @@
     }
 
     function ajax_update_organization(callback) {
+        // Defensive Code: Ensure that our inputted entries are valid.
+        if ($('#id_email').val() == '') {
+            print_error({'Email':'Please enter a email address.'});
+            return;
+        }
+        if ( !is_email_valid( $('#id_email').val() ) ) {
+            print_error({'Email':'Please enter a valid email address.'});
+            return;
+        }
+        if ($('#id_phone').val().length == 0) {
+            print_error({'Phone Number':'Cannot be blank'});
+            return;
+        }
+        if (!is_phone_valid($('#id_phone').val())) {
+            print_error({'Phone Number':'Invalid phone number.'});
+            return;
+        }
+        if ($('#id_street_number').val().length == 0) {
+            print_error({'Street Number':'Cannot be blank'});
+            return;
+        }
+        if ( isNaN( Number( $('#id_street_number').val() ) ) ) {
+            print_error({'Street Number':'Must be number'});
+            return;
+        }
+        if ($('#id_street_name').val().length == 0) {
+            print_error({'Street Name':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_city').val().length == 0) {
+            print_error({'City':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_country').val().length == 0) {
+            print_error({'Country':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_province').val().length == 0) {
+            print_error({'Province':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_postal').val().length == 0) {
+            print_error({'Postal':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_paypal_email').val() == '') {
+            print_error({'Email':'Please enter a PayPal email address.'});
+            return;
+        }
+        if ( !is_email_valid( $('#id_paypal_email').val() ) ) {
+            print_error({'Email':'Please enter a valid PayPal email address.'});
+            return;
+        }
+        
         get_organization(
             {{ this_org.org_id }},
             function(organization) {
