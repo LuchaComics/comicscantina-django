@@ -32,6 +32,49 @@
 
     function ajax_proceed_next()
     {
+        // Defensive Code: Ensure that our inputted entries are valid.
+        if ($('#id_name').val() == '') {
+            print_error({'Name':'Please enter the store name.'});
+            return;
+        }
+        if ($('#id_street_number').val().length == 0) {
+            print_error({'Street Number':'Cannot be blank'});
+            return;
+        }
+        if ( isNaN( Number( $('#id_street_number').val() ) ) ) {
+            print_error({'Street Number':'Must be number'});
+            return;
+        }
+        if ($('#id_street_name').val().length == 0) {
+            print_error({'Street Name':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_city').val().length == 0) {
+            print_error({'City':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_country').val().length == 0) {
+            print_error({'Country':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_province').val().length == 0) {
+            print_error({'Province':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_postal').val().length == 0) {
+            print_error({'Postal':'Cannot be blank'});
+            return;
+        }
+        if ($('#id_paypal_email').val() == '') {
+            print_error({'Email':'Please enter a PayPal email address.'});
+            return;
+        }
+        if ( !is_email_valid( $('#id_paypal_email').val() ) ) {
+            print_error({'Email':'Please enter a valid PayPal email address.'});
+            return;
+        }
+        
+        
         var store_id_string = '{{ form.instance.store_id }}';
         if (store_id_string == 'None') {
             store_id_string = '';
