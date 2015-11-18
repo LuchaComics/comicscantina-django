@@ -81,7 +81,18 @@
                                         {{ form.description | escape | safe }}
                                     </div>
                                 </div>
-                                <input type="hidden" id="id_email" value="" />
+                                <div class="form-group">
+                                    <label for="txt-store-name" class="col-md-4 control-label">Email</label>
+                                    <div class="col-md-8">
+                                        {{ form.email | escape | safe }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt-store-name" class="col-md-4 control-label">Phone</label>
+                                    <div class="col-md-8">
+                                        {{ form.phone | escape | safe }}
+                                    </div>
+                                </div>
                                 <input type="hidden" id="id_wednesday_to" value="" />
                                 <input type="hidden" id="id_wednesday_from" value="" />
                                 <input type="hidden" id="id_friday_to" value="" />
@@ -97,7 +108,6 @@
                                 <input type="hidden" id="id_thursday_to" value="" />
                                 <input type="hidden" id="id_saturday_to" value="" />
                                 <input type="hidden" id="id_thursday_from" value="" />
-                                <input type="hidden" id="id_phone" value="" />
                                 <input type="hidden" id="id_fax" value="" />
                                 <div class="form-group">
                                     <label for="txt-store-street" class="col-md-4 control-label">Street Number</label>
