@@ -27,7 +27,12 @@
         });
                       
         ajax_search();
-
+                   
+        // Detect changes in the UI and filter the search results.
+        // http://stackoverflow.com/a/27277677
+        $('input').on('ifChecked', function(event){
+            ajax_search();
+        });
     });
     
     function ajax_search()
