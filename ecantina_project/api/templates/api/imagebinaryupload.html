@@ -3,8 +3,8 @@
      *  Makes a JSON call to our API service to fetch all the image uploads
      *  and run the callback function.
      */
-    function list_all_imagebinaryuploads(callback) {
-        var url = "/api/imagebinaryuploads/?format=json";
+    function list_all_imageuploads(callback) {
+        var url = "/api/imageuploads/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,
@@ -28,31 +28,26 @@
      *  Function will create a new image upload and return the inserted
      *  results through the callback.
      */
-    function set_imagebinaryupload(id, file_type, mime_type, owner_id, data, callback)
+    function set_imageupload(upload_id, is_assigned, image, user_id ,callback)
     {
         var data = new FormData();
         data.append('format', 'json');
-        if (file_type > 0) {
-            data.append('file_type', file_type);
-        }
-        if (mime_type > 0) {
-            data.append('owner', mime_type);
-        }
-        if (data != null)
+        data.append('is_assigned', is_assigned);
+        if (image != null)
         {
-            data.append('data', data);
+            data.append('image', image);
         }
-        if (owner_id > 0) {
-            data.append('owner', owner_id);
+        if (user_id > 0) {
+            data.append('user', user_id);
         }
         
-        var url = "/api/imagebinaryuploads/";
+        var url = "/api/imageuploads/";
         var type = "POST";
-        if (id > 0)
+        if (upload_id > 0)
         {
-            url += id + "/";
+            url += upload_id + "/";
             type = "PUT";
-            data.append('id', upload_id);
+            data.append('upload_id', upload_id);
         }
     
         jQuery.ajax({
@@ -80,8 +75,8 @@
         });
     }
 
-    function delete_imagebinaryupload(id, callback) {
-        var url = "/api/imagebinaryuploads/" + id + "/";
+    function delete_imageupload(upload_id, callback) {
+        var url = "/api/imageuploads/" + upload_id + "/";
         jQuery.ajax({
             url: url,
             cache: false,

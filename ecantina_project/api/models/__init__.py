@@ -16,6 +16,7 @@ from api.models.gcd.brandemblemgroup import GCDBrandEmblemGroup
 
 # Comics Cantina Database Models
 #------------------------------------------------------------------
+from api.models.ec.imagebinaryupload import ImageBinaryUpload
 from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store

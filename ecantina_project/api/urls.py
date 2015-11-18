@@ -1,4 +1,5 @@
 from django.conf.urls import url, include
+from api.views import imagebinaryupload
 from api.views import comic
 from api.views import customer
 from api.views import organization
@@ -29,6 +30,7 @@ from rest_framework.routers import DefaultRouter
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()
+router.register(r'imagebinaryuploads', imagebinaryupload.ImageBinaryUploadViewSet)
 router.register(r'comics', comic.ComicViewSet)
 router.register(r'organizations', organization.OrganizationViewSet)
 router.register(r'customers', customer.CustomerViewSet)

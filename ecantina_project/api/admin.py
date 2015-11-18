@@ -18,6 +18,7 @@ from api.models.gcd.brandemblemgroup import GCDBrandEmblemGroup
 
 # Comics Cantina Database Models
 #------------------------------------------------------------------
+from api.models.ec.imagebinaryupload import ImageBinaryUpload
 from api.models.ec.brand import Brand
 from api.models.ec.category import Category
 from api.models.ec.comic import Comic
@@ -59,6 +60,7 @@ admin.site.register(GCDStory)
 admin.site.register(GCDBrandUse)
 admin.site.register(GCDBrandEmblemGroup)
 # EC
+admin.site.register(ImageBinaryUpload)
 admin.site.register(Brand)
 admin.site.register(Category)
 admin.site.register(Comic)

@@ -1,6 +1,7 @@
 from django.forms import widgets
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from api.models.ec.imagebinaryupload import ImageBinaryUpload
 from api.models.ec.customer import Customer
 from api.models.ec.store import Store
 from api.models.ec.organization import Organization
@@ -84,6 +85,12 @@ class HelpRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = HelpRequest
         fields = ('help_id', 'subject', 'subject_url', 'message', 'submission_date', 'screenshot', 'employee', 'store', 'organization',)
+
+
+class ImageBinaryUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageBinaryUpload
+        fields = ('id', 'created', 'file_type', 'mime_type', 'owner', 'data',)
 
 
 class ImageUploadSerializer(serializers.ModelSerializer):
