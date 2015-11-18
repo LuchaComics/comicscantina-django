@@ -117,8 +117,101 @@
     }
 
     function ajax_save_edit() {
+        // Defensive Code: Ensure that our inputted entries are valid.
+        if ($('#id_email').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the email field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ( !is_email_valid( $('#id_email').val() ) ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the email field with a valid email.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_phone').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the phone field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if (!is_phone_valid($('#id_phone').val())) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the phone field with a valid number.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_street_number').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the street number field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ( isNaN( Number( $('#id_street_number').val() ) ) ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the street number field with a number only.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_street_name').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the street name field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_city').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the city field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_country').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the country field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_province').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the province field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_postal').val().length == 0) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the postal field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ($('#id_paypal_email').val() == '') {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please fill out the PayPal email field.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        if ( !is_email_valid( $('#id_paypal_email').val() ) ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please make sure the PayPal email is a valid email.',
+                'priority': 'error'
+            }]);
+            return;
+        }
+        
         // Defensive Code: Ensure that a organization logo has been added.
-        if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 ) {
+        if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 || $('#id_hidden_upload_id').val() == 'None' ) {
             $(document).trigger("add-alerts",[{
                 'message': 'Please upload a picture before saving changes.',
                 'priority': 'error'
