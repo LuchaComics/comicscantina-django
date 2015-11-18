@@ -6,8 +6,11 @@
  Custom Scrollbar
  Custom animated.css effect
  Equal height ( subcategory thumb)
- responsive fix
+ Responsive fix
+ PRODUCT DETAILS 5 Customs Script
  */
+
+
 $(document).ready(function () {
 
     /*==================================
@@ -15,11 +18,38 @@ $(document).ready(function () {
      ====================================*/
 
     // NEW ARRIVALS Carousel
-    $("#productslider").owlCarousel({
-        navigation: true,
+
+    function customPager() {
+
+        $.each(this.owl.userItems, function (i) {
+
+            var pagination1 = $('.owl-controls .owl-pagination > div:first-child');
+            var pagination = $('.owl-controls .owl-pagination');
+            $(pagination[i]).append("<div class=' owl-has-nav owl-next'><i class='fa fa-angle-right'></i>  </div>");
+            $(pagination1[i]).before("<div class=' owl-has-nav owl-prev'><i class='fa fa-angle-left'></i> </div>");
+
+
+        });
+
+    }
+
+    var latestProductSlider = $("#productslider");
+    latestProductSlider.owlCarousel({
+        navigation: false, // Show next and prev buttons
         items: 4,
-        itemsTablet: [768, 2]
+        itemsTablet: [768, 2],
+        afterInit: customPager,
+        afterUpdate: customPager
     });
+
+
+    // Custom Navigation Events
+    $(".owl-next").click(function () {
+        latestProductSlider.trigger('owl.next');
+    })
+    $(".owl-prev").click(function () {
+        latestProductSlider.trigger('owl.prev');
+    })
 
 
     // BRAND  carousel
@@ -48,9 +78,27 @@ $(document).ready(function () {
     // YOU MAY ALSO LIKE  carousel
 
     $("#SimilarProductSlider").owlCarousel({
-        navigation: true
-
+        navigation: false, // Show next and prev buttons
+        afterInit: customPager,
+        afterUpdate: customPager
     });
+
+
+    var SimilarProductSlider = $("#SimilarProductSlider");
+    SimilarProductSlider.owlCarousel({
+        navigation: false, // Show next and prev buttons
+        afterInit: customPager,
+        afterUpdate: customPager
+    });
+
+    // Custom Navigation Events
+    $("#SimilarProductSlider .owl-next").click(function () {
+        SimilarProductSlider.trigger('owl.next');
+    })
+
+    $("#SimilarProductSlider .owl-prev").click(function () {
+        SimilarProductSlider.trigger('owl.prev');
+    })
 
 
     // Home Look 2 || Single product showcase 
@@ -111,12 +159,9 @@ $(document).ready(function () {
      ========================================================================================*/
 
 
-    
-	
-	  $(function () {
-		 $('.categoryProduct > .item').responsiveEqualHeightGrid()
+    $(function () {
+        $('.categoryProduct > .item').responsiveEqualHeightGrid()
     });
-
 
     $(function () {
         $('.thumbnail.equalheight').responsiveEqualHeightGrid(); // add class with selector class equalheight
@@ -142,13 +187,27 @@ $(document).ready(function () {
         $(".zoomImg").attr('src', largeImage);
     });
 
-    // collapse according add  active class
-    $('.collapseWill').on('click', function (e) {
-        $(this).toggleClass("pressed"); //you can list several class names 
-        e.preventDefault();
+
+    // Support
+
+    $("#accordionNo .panel-collapse").each(function () {
+
+        $(this).on('hidden.bs.collapse', function () {
+            // do something…
+            $(this).parent().find('.collapseWill').removeClass('active').addClass('hasPlus');
+        });
+
+        $(this).on('show.bs.collapse', function () {
+            // do something…
+
+            $(this).parent().find('.collapseWill').removeClass('hasPlus').addClass('active');
+        });
+
+
     });
 
-    $('.search-box .getFullSearch').on('click', function (e) {
+
+    $(".getFullSearch").on('click', function (e) {
         $('.search-full').addClass("active"); //you can list several class names 
         e.preventDefault();
     });
@@ -165,6 +224,40 @@ $(document).ready(function () {
     });
 
 
+    // NEW TREE MENU
+
+
+    $(function () {
+        var navTree = $('.nav-tree li:has(ul)');
+        var navTreeA = navTree.addClass('parent_li').find(' > a');
+
+        navTreeA.each(function () {
+
+            if ($(this).hasClass("child-has-open")) {
+
+            } else {
+                $(this).addClass("child-has-close");
+                var navTreeAchildren = $(this).parent('li.parent_li').find(' > ul > li');
+                navTreeAchildren.hide();
+            }
+
+        });
+
+
+        $('.nav-tree li.parent_li > a').on('click', function (e) {
+            var children = $(this).parent('li.parent_li').find(' > ul > li');
+            if (children.is(":visible")) {
+                children.hide('fast');
+                $(this).addClass('child-has-close').removeClass('child-has-open');
+
+            } else {
+                children.show('fast');
+                $(this).addClass('child-has-open').removeClass('child-has-close');
+            }
+            e.stopPropagation();
+        });
+    });
+
     // Add to Wishlist Click Event	 // Only For Demo Purpose	
 
     $('.add-fav').click(function (e) {
@@ -177,33 +270,47 @@ $(document).ready(function () {
 
     $(".change-view .list-view, .change-view-flat .list-view").click(function (e) { //use a class, since your ID gets mangled
         e.preventDefault();
-        $('.item').addClass("list-view"); //add the class to the clicked element
+        $('.categoryProduct  .item').addClass("list-view"); //add the class to the clicked element
         $('.add-fav').attr("data-placement", $(this).attr("left"));
         $('.categoryProduct > .item').detectGridColumns();
-
 
 
     });
 
     $(".change-view .grid-view, .change-view-flat .grid-view").click(function (e) { //use a class, since your ID gets mangled
         e.preventDefault();
-        $('.item').removeClass("list-view"); //add the class to the clicked element
+        $('.categoryProduct  .item').removeClass("list-view"); //add the class to the clicked element
 
 
         $('.categoryProduct > .item').detectGridColumns();
-        setTimeout( function(){
+        setTimeout(function () {
                 //  reload function after 0.5 second
                 $('.categoryProduct > .item').responsiveEqualHeightGrid();
             }
-            , 500 );
-     
+            , 500);
+
     });
 
+    // v 7
+    $('div.has-equal-height-child .product-item ').detectGridColumns();
+    setTimeout(function () {
+            //  reload function after 0.5 second
+            $('div.has-equal-height-child .product-item').responsiveEqualHeightGrid();
+        }
+        , 500);
+
+
+    $('div.has-equal-height-child > div.is-equal').responsiveEqualHeightGrid();
 
     // product details color switch 
     $(".swatches li").click(function () {
         $(".swatches li.selected").removeClass("selected");
         $(this).addClass('selected');
+    });
+
+    $(".product-color a").click(function () {
+        $(".product-color a").removeClass("active");
+        $(this).addClass('active');
 
     });
 
@@ -230,8 +337,8 @@ $(document).ready(function () {
 
     if (isMobile()) {
         // For  mobile , ipad, tab
-		 $('.introContent').addClass('ismobile');
-		
+        $('.introContent').addClass('ismobile');
+
 
     } else {
 
@@ -279,6 +386,7 @@ $(document).ready(function () {
         $('.parallax-section').addClass('isios');
         $('.navbar-header').addClass('isios');
         $('.blog-intro').addClass('isios');
+        $('.product-story-hasbg').addClass('isios');
     }
 
     if (/Android|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -302,12 +410,14 @@ $(document).ready(function () {
             var scrolledY = $(window).scrollTop();
             var sc = ((scrolledY * 0.3)) + 'px';
             $('.parallaximg').css('marginTop', '' + ((scrolledY * 0.3)) + 'px');
+            $('.parallax-windowz').css('background-position', 'center -' + ((scrolledY * 0.1)) + 'px');
         }
 
 
         if ($(window).width() < 768) {
         } else {
-            $('.parallax-image-aboutus').parallax("50%", 0, 0.2, true);
+            $('.parallax-image-aboutus').parallax("50%", 0, 0.15, true);
+            $('.about-3').parallax("50%", 0, 0.2, true);
             $('.parallaxbg').parallax("50%", 0, 0.2, true);
         }
 
@@ -383,15 +493,14 @@ $(document).ready(function () {
      Code for tablet device || responsive check
      ========================================================================================*/
 
+    $(window).bind('resize load', function () {
+        if ($(this).width() < 767) {
 
-    if ($(window).width() < 989) {
+            $("#accordionNo .panel-collapse:not(#collapseCategory)").collapse('hide');
 
+        }
 
-        $('.collapseWill').trigger('click');
-
-    } else {
-        // ('More than 960');
-    }
+    }); // end resize load
 
 
     $(".tbtn").click(function () {
@@ -405,13 +514,29 @@ $(document).ready(function () {
 
     // For stylish input check box 
 
-    $(function () {
-        $("input[type='radio'], input[type='checkbox']").ionCheckRadio();
+
+    $(document).ready(function () {
+
+        $('input').iCheck({
+            // checkboxClass: 'icheckbox_minimal-green',
+            // radioClass: 'iradio_minimal-green'
+
+            checkboxClass: 'icheckbox_square-green iCheck-margin',
+            radioClass: 'iradio_square-green iChk iCheck-margin'
+        });
+
+
     });
 
 
-    // customs select by minimalect
-    $("select").minimalect();
+
+    // customs select by select2
+
+    // $("select").minimalect(); // REMOVED with  selct2.min.js
+
+    $(document).ready(function () {
+        $('select').select2();
+    });
 
     // cart quantity changer sniper
     $("input[name='quanitySniper']").TouchSpin({
@@ -429,7 +554,7 @@ $(document).ready(function () {
 
     var options = [];
 
-    $(".dropdown-menu div, .dropdown-menu input[type='radio'], .dropdown-menu input[type='checkbox'], .dropdown-menu input[type='button']").on('click', function (event) {
+    $(".subscribe-dropdown .dropdown-menu div, .dropdown-menu input[type='radio'], .subscribe-dropdown  .dropdown-menu input[type='checkbox'], .subscribe-dropdown .dropdown-menu input[type='button']").on('click', function (event) {
 
         var $target = $(event.currentTarget),
             val = $target.attr('data-value'),
@@ -455,11 +580,6 @@ $(document).ready(function () {
     });
 
 
-    $('.dropdown-menu').find('input').click(function (e) {
-        e.stopPropagation();
-    });
-
-
     // scroll to certain anchor/div
 
     $(".scrollto").click(function (event) {
@@ -473,6 +593,52 @@ $(document).ready(function () {
         }
         //go to destination
         $('html,body').animate({scrollTop: dest - 51}, 1000, 'swing');
+    });
+
+    /*=======================================================================================
+     PRODUCT DETAILS 5 Customs Script
+     ========================================================================================*/
+
+    $(document).ready(function () {
+        $('.swatches-rounded a').click(function () {
+            var colorName = $(this).attr('title');
+            $('.color-value').html(colorName)
+
+        });
+
+
+        // Modal Event
+
+
+        $('#productSetailsModalAjax').on('loaded.bs.modal', function (e) {
+            // Do ajax modal is loaded
+
+            // Product Details Modal Change large image when click thumb image
+            $(".modal-product-thumb a").click(function () {
+                // alert();
+
+                $(".modal-product-thumb a.selected").removeClass("selected");
+                $(this).addClass('selected');
+                var largeImage = $(this).find("img").attr('data-large');
+                $(".product-largeimg").attr('src', largeImage);
+                $(".zoomImg").attr('src', largeImage);
+            });
+
+            // product details color switch
+            $(".swatches li").click(function () {
+                $(".swatches li.selected").removeClass("selected");
+                $(this).addClass('selected');
+            });
+
+            $('.swatches-rounded a').click(function () {
+                var colorName = $(this).attr('title');
+                $('.color-value').html(colorName)
+
+            });
+
+        })
+
+
     });
 
 

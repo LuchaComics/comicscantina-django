@@ -1,129 +1,9 @@
 /*
 
-This less file only for category 2 pages. 
+This less file only for category-2 page.
 
 */
-
-// Variable
-
-@primaryColor: #4ec67f;
-// navbar background, btn-primary
-@primaryDarkColor: #4BB777;
-// navbar top background
-@primaryHoverColor: #27AE60;
-// btn-primary:hover, navbar a:hover
-@primaryLiteColor: #66de97;
-
-// MIXINS
-
-.crossbrowseropacity (@color,@alpha) {
-  @rgba: rgba(red(@color), green(@color), blue(@color),@alpha);
-  @argb: argb(@rgba);
-  background-color: @color;
-  background-color: @rgba;
-  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
-  -ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
-}
-
-.transition (@prop: all, @time: 1s, @ease: linear) {
-  -webkit-transition: @prop @time @ease;
-  -moz-transition: @prop @time @ease;
-  -o-transition: @prop @time @ease;
-  -ms-transition: @prop @time @ease;
-  transition: @prop @time @ease;
-
-}
-
-// .transition(all, 0.5s, ease-in);
-
-/* UTILITIES */
-
-// global class
-
-.hw100 {
-  height: 100%;
-  width: 100%;
-}
-
-.w100 {
-  width: 100%;
-}
-
-.h100 {
-  height: 100%;
-}
-
-.no-margin {
-  margin: 0;
-}
-
-.no-padding {
-  padding: 0;
-}
-
-.no-margin-padding {
-  margin: 0;
-  padding: 0;
-}
-
-.relative {
-  position: relative;
-}
-
-.zindex10 {
-  z-index: 10
-}
-
-.cover {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.wh100 {
-  width: 100%;
-  height: 100%;
-}
-
-.display-table {
-  display: table;
-}
-
-.display-table-cell {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-/* STYLE CONTENT  */
-
-.no-margin-bottom {
-  margin-bottom: 0;
-}
-
-.background-overly {
-  .hw100;
-  z-index: 1;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.relative1 {
-  position: relative;;
-  z-index: 2;
-}
-
-.relative5 {
-  position: relative;;
-  z-index: 5;
-}
-
-.center-col {
-  float: none !important;
-  margin-left: auto;
-  margin-right: auto;
-}
+@import "config";
 
 /* CATEGORY NEW */
 
@@ -458,4 +338,33 @@ This less file only for category 2 pages.
 
   }
 
+}
+
+// CATEGORY 3 UPDATED
+.category-filter-bar {
+  background: #fff;
+  clear: both;
+  display: block;
+  float: left;
+  height: auto;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.category-filter-bar-tab {
+  background: #fff none repeat scroll 0 0;
+  border-bottom: 1px solid #d1d4d6;
+  border-top: 1px solid #d1d4d6;
+}
+
+.category-filter-bar-content {
+  background: @gray;
+
+}
+
+.cf-content-inner {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #d1d4d6;
 }

@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container main-container headerOffset globalPaddingBottom">
-
+    
     <!-- Main component call to action -->
     <div class="row">
         <div class="col-lg-12 text-center">
@@ -13,7 +13,7 @@
             <hr>
         </div>
     </div>
-
+    
     <div style="clear:both"></div>
     <div class="row">
         <div class="col-sm-10 show-case-wrapper center-block relative">
@@ -22,23 +22,23 @@
                 <div class="product-slide">
                     <div class="col-sm-5 product-slide-left">
                         <a class="product-slide-img"
-                           href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
+                            href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
                             {% if comic.product.image == None %}
-                                {% if comic.issue.large_url == None %}
-                                <img alt="img"
-                                     src="{% static "inventory/img/missing_cover_4.png" %}"
-                                   class="img-responsive" />
-                                {% else %}
-                                <img alt="img"
-                                     src="{{ comic.issue.large_url }}"
-                                   class="img-responsive" />
-                                {% endif %}
+                            {% if comic.issue.large_url == None %}
+                            <img alt="img"
+                            src="{% static "inventory/img/missing_cover_4.png" %}"
+                            class="img-responsive" />
                             {% else %}
                             <img alt="img"
-                                 src="{{ comic.product.image_url }}"
-                                class="img-responsive">
+                            src="{{ comic.issue.large_url }}"
+                            class="img-responsive" />
                             {% endif %}
-                        </a>
+                            {% else %}
+                            <img alt="img"
+                                src="{{ comic.product.image_url }}"
+                                class="img-responsive">
+                                {% endif %}
+                                </a>
                     </div>
                     <div class="col-sm-7">
                         <div class="product-slide-inner ">
@@ -58,397 +58,122 @@
                                 title="Add to Cart"
                                 class="btn btn-stroke-dark"> <i
                                     class="glyphicon glyphicon-shopping-cart"></i> Remove from Cart</a></div>
-                            {% else %}
-                            <a onclick="ajax_add_to_cart({{ comic.product_id }});"
-                                 title="Add to Cart"
-                                 class="btn btn-stroke-dark"> <i
-                                 class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
-                            {% endif %}
-                    </div>
-                </div>
-                {% empty %}
-                
-                {% endfor %}
-            </div>
-            <!--/#productShowCase -->
-
-            <div style="clear:both;"></div>
-            <a id="ps-next" class="ps-nav"> <i class="fa fa-angle-right"></i> </a> <a id="ps-prev" class="ps-nav"> <i
-                class="fa fa-angle-left"></i> </a></div>
-        <!--/.show-case-wrapper -->
-    </div>
-
-    <div class="row featuredPostContainer ">
-        <div class="featured-category"></div>
-        <div class="col-lg-12">
-            <h3 class="boxes-title-1"><span>NEW ARRIVALS</span></h3>
-        </div>
-        <div style="clear:both;"></div>
-        <div id="productslider" class="owl-carousel owl-theme">
-            {% for comic in new_comics %}
-            <div class="item">
-                <div class="product">
-                    <a  onclick="ajax_favor({{ comic.product_id }});"
-                             id="id_fav_product_id_{{ comic.product_id }}"
-                          class="add-fav tooltipHere" data-toggle="tooltip"
-            data-original-title="Add to Wishlist" data-placement="left">
-                        <i id="id_fav_new_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
-                    </a>
-
-                    <div class="image">
-
-                        <!--
-                        <div class="quickview">
-                            <a title="Quick View"
-                               class="btn btn-xs  btn-quickview"
-                         data-target="#product-details-modal"
-                         data-toggle="modal"> Detailed View
-                            </a>
-                        </div>
-                        -->
-                         
-                        <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
-                            {% if comic.product.image == None %}
-                                {% if comic.issue.large_url == None %}
-                                <img alt="img"
-                                     src="{% static "inventory/img/missing_cover.png" %}"
-                                   class="img-responsive" />
-                                {% else %}
-                                <img alt="img"
-                                     src="{{ comic.issue.large_url }}"
-                                   class="img-responsive" />
-                                {% endif %}
-                            {% else %}
-                            <img alt="img"
-                                 src="{{ comic.product.image_url }}"
-                               class="img-responsive">
-                            {% endif %}
-                        </a>
-
-                        <div class="promotion">
-                            {% if comic.product.discount > 0 %}
-                            <span class="new-product"> DISCOUNTED</span>
-                                {% if comic.product.discount_type = 1 %}
-                                <span class="discount">{{ comic.product.discount }}% OFF</span>
-                                {% else %}
-                                <span class="discount">${{ comic.product.discount }} OFF</span>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="description">
-                        <h4><a href="product-details.html">{{ comic }}</a></h4>
-
-                        <p>{{ comic.product.description|slice:":125" }}</p>
-                        <span class="size">{{ comic.genre }}</span></div>
-                    <div class="price"><span>${{ comic.product.sub_price }}</span></div>
-                    
-                    {% if comic.product in receipt.products.all %}
-                    <!-- REMOVE FROM CART -->
-                        <div class="action-control">
-                            <a onclick="ajax_remove_from_cart({{ comic.product_id }});" class="btn btn-primary">
-                                <span class="add2cart">
-                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart
-                                </span>
-                            </a>
-                        </div>
-                    {% else %}
-                    <!-- ADD TO CART -->
-                        <div class="action-control">
-                            <a onclick="ajax_add_to_cart({{ comic.product_id }});" class="btn btn-primary">
-                                <span class="add2cart">
-                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart
-                                </span>
-                            </a>
-                        </div>
+                        {% else %}
+                        <a onclick="ajax_add_to_cart({{ comic.product_id }});"
+                            title="Add to Cart"
+                            class="btn btn-stroke-dark"> <i
+                                class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
                     {% endif %}
                 </div>
             </div>
             {% empty %}
+            
             {% endfor %}
-            </div>
         </div>
-        <!--/.productslider-->
-
-    </div>
-    <!--/.featuredPostContainer-->
+        <!--/#productShowCase -->
+        
+        <div style="clear:both;"></div>
+        <a id="ps-next" class="ps-nav"> <i class="fa fa-angle-right"></i> </a> <a id="ps-prev" class="ps-nav"> <i
+            class="fa fa-angle-left"></i> </a></div>
+    <!--/.show-case-wrapper -->
 </div>
-<!-- /main container -->
 
-<!--
-<div class="w100 sectionCategory">
-    <div class="container">
-        <div class="sectionCategoryIntro text-center">
-            <h1>Featured Categories</h1>
-
-            <p> litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc
-                nobis videntur parum clari, fiant sollemnes in futurum.</p>
-        </div>
-        <div class="row subCategoryList clearfix">
-            <div class="col-md-2 col-sm-3 col-xs-4  col-xs-mini-6  text-center ">
-                <div class="thumbnail equalheight"><a class="subCategoryThumb" href="sub-category.html"><img
-                        src="images/product/3.jpg" class="img-rounded " alt="img"> </a> <a
-                        class="subCategoryTitle"><span> T shirt </span></a></div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-4 col-xs-mini-6 text-center">
-                <div class="thumbnail equalheight"><a class="subCategoryThumb" href="sub-category.html"><img
-                        src="images/site/casual.jpg" class="img-rounded " alt="img"> </a> <a
-                        class="subCategoryTitle"><span> Shirt </span></a></div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-4 col-xs-mini-6 text-center">
-                <div class="thumbnail equalheight"><a class="subCategoryThumb" href="sub-category.html"><img
-                        src="images/site/shoe.jpg" class="img-rounded " alt="img"> </a> <a
-                        class="subCategoryTitle"><span> shoes </span></a></div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-4 col-xs-mini-6 text-center">
-                <div class="thumbnail equalheight"><a class="subCategoryThumb" href="sub-category.html"><img
-                        src="images/site/jewelry.jpg" class="img-rounded " alt="img"> </a> <a
-                        class="subCategoryTitle"><span> Accessories </span></a></div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-4 col-xs-mini-6 text-center">
-                <div class="thumbnail equalheight"><a class="subCategoryThumb" href="sub-category.html"><img
-                        src="images/site/winter.jpg" class="img-rounded  " alt="img"> </a> <a
-                        class="subCategoryTitle"><span> Winter Collection </span></a></div>
-            </div>
-            <div class="col-md-2 col-sm-3 col-xs-4 col-xs-mini-6 text-center">
-                <div class="thumbnail equalheight"><a class="subCategoryThumb" href="sub-category.html"><img
-                        src="images/site/Male-Fragrances.jpg" class="img-rounded " alt="img"> </a> <a
-                        class="subCategoryTitle"><span> Fragrances </span></a></div>
-            </div>
-        </div>
-        /.row
-
+<div class="row featuredPostContainer ">
+    <div class="featured-category"></div>
+    <div class="col-lg-12">
+        <h3 class="boxes-title-1"><span>NEW ARRIVALS</span></h3>
     </div>
-    /.container
-</div>
-/.sectionCategory
--->
-
-<div class="container main-container">
-
-    <!-- Main component call to action -->
-
-    <div class="morePost row featuredPostContainer style2 globalPaddingTop ">
-        <div class="col-lg-12">
-            <h3 class="boxes-title-1"><span>FEATURED PRODUCTS</span></h3>
-        </div>
-        <div class="container">
-            <div class="row xsResponse">
-                {% for comic in featured_comics %}
-                <div class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
-                    <div class="product">
-                        <a onclick="ajax_favor({{ comic.product_id }});"
-                                id="id_fav_product_id_{{ comic.product_id }}"
-                             class="add-fav tooltipHere"
-                       data-toggle="tooltip"
-               data-original-title="Add to Wishlist"
-                    data-placement="left">
-                            <i  id="id_fav_featured_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
-                        </a>
-
-                        <div class="image">
-                            <!--
-                            <div class="quickview">
-                                <a title="Quick View" class="btn btn-xs  btn-quickview"
-                                   data-target="#product-details-modal" data-toggle="modal"> Quick View </a>
-                            </div>
-                             -->
-                            <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
-                                {% if comic.product.image == None %}
-                                    {% if comic.issue.large_url == None %}
-                                    <img alt="img"
-                                         src="{% static "inventory/img/missing_cover.png" %}"
-                                       class="img-responsive" />
-                                    {% else %}
-                                    <img alt="img"
-                                         src="{{ comic.issue.large_url }}"
-                                       class="img-responsive" />
-                                    {% endif %}
-                                {% else %}
-                                <img alt="img"
-                                     src="{{ comic.product.image_url }}"
-                                   class="img-responsive">
-                                {% endif %}
-                            <div class="promotion">
-                                {% if comic.product.discount > 0 %}
-                                    <span class="new-product"> DISCOUNTED</span>
-                                    {% if comic.product.discount_type = 1 %}
-                                        <span class="discount">{{ comic.product.discount }}% OFF</span>
-                                    {% else %}
-                                        <span class="discount">${{ comic.product.discount }} OFF</span>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="description">
-                            <h4><a href="product-details.html">{{ comic.product.name }}</a></h4>
-
-                            <p>{{ comic.product.description|slice:":125" }}</p>
-                            <span class="size">{{ comic.genre }}</span>
-                        </div>
-                        <div class="price">
-                            <span>${{ comic.product.sub_price }}</span>
-                            <!--<span class="old-price">$75</span>-->
-                        </div>
-                        
-                        
-                        {% if comic.product in receipt.products.all %}
-                        <!-- REMOVE FROM CART -->
-                        <div class="action-control">
-                            <a onclick="ajax_remove_from_cart({{ comic.product_id }});" class="btn btn-primary">
-                                <span class="add2cart">
-                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart
-                                </span>
-                            </a>
-                        </div>
-                        
+    <div style="clear:both;"></div>
+    <div id="productslider" class="owl-carousel owl-theme">
+        {% for comic in new_comics %}
+        <div class="item">
+            <div class="product">
+                <a  onclick="ajax_favor({{ comic.product_id }});"
+                    id="id_fav_product_id_{{ comic.product_id }}"
+                    class="add-fav tooltipHere" data-toggle="tooltip"
+                    data-original-title="Add to Wishlist" data-placement="left">
+                    <i id="id_fav_new_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
+                </a>
+                
+                <div class="image">
+                    
+                    <!--
+                     <div class="quickview">
+                     <a title="Quick View"
+                     class="btn btn-xs  btn-quickview"
+                     data-target="#product-details-modal"
+                     data-toggle="modal"> Detailed View
+                     </a>
+                     </div>
+                     -->
+                    
+                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
+                        {% if comic.product.image == None %}
+                        {% if comic.issue.large_url == None %}
+                        <img alt="img"
+                        src="{% static "inventory/img/missing_cover.png" %}"
+                        class="img-responsive" />
                         {% else %}
-                        <!-- ADD TO CART -->
-                        <div class="action-control">
-                            <a onclick="ajax_add_to_cart({{ comic.product_id }});" class="btn btn-primary">
-                                <span class="add2cart">
-                                    <i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart
-                                </span>
-                            </a>
-                        </div>
+                        <img alt="img"
+                        src="{{ comic.issue.large_url }}"
+                        class="img-responsive" />
                         {% endif %}
-                        
+                        {% else %}
+                        <img alt="img"
+                            src="{{ comic.product.image_url }}"
+                            class="img-responsive">
+                            {% endif %}
+                            </a>
+                    
+                    <div class="promotion">
+                        {% if comic.product.discount > 0 %}
+                        <span class="new-product"> DISCOUNTED</span>
+                        {% if comic.product.discount_type = 1 %}
+                        <span class="discount">{{ comic.product.discount }}% OFF</span>
+                        {% else %}
+                        <span class="discount">${{ comic.product.discount }} OFF</span>
+                        {% endif %}
+                        {% endif %}
                     </div>
                 </div>
-                <!--/.item-->
-                {% empty %}
-                {% endfor %}
-            </div>
-            <!-- /.row -->
-
-            <div class="row">
-                <div class="load-more-block text-center"><a class="btn btn-thin" href="#"> <i
-                        class="fa fa-plus-sign">+</i> load more products</a></div>
-            </div>
-        </div>
-        <!--/.container-->
-    </div>
-    <!--/.featuredPostContainer-->
-
-<!--
-    <hr class="no-margin-top">
-    <div class="width100 section-block  text-center">
-        <div class="row featuredImgLook2">
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <div class="inner" style="height: 414px;"><a href="category.html" class="img-link"><img alt="img"
-                                                                                                        class="img-responsive"
-                                                                                                        src="images/featured/1.jpg"></a>
-
-                    <h3><span>Latest Arrivals</span> demonstraverunt lectores </h3>
-
-                    <p>We are very pleased to announce the availability of many new emerging designers</p>
-                    <a class="btn btn-link"> See More <i class="fa fa-long-arrow-right"></i> </a></div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <div class="inner" style="height: 414px;"><a href="category.html" class="img-link"><img alt="img"
-                                                                                                        class="img-responsive"
-                                                                                                        src="images/featured/2.jpg"></a>
-
-                    <h3><span> Summer 2014 </span> demonstraverunt lectores </h3>
-
-                    <p>We are very pleased to announce the availability of many new emerging designers</p>
-                    <a class="btn btn-link"> See More <i class="fa fa-long-arrow-right"></i> </a></div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <div class="inner" style="height: 414px;"><a href="category.html" class="img-link"><img alt="img"
-                                                                                                        class="img-responsive"
-                                                                                                        src="images/featured/3.jpg"></a>
-
-                    <h3><span> Latest Offers </span> demonstraverunt lectores </h3>
-
-                    <p>We are very pleased to announce the availability of many new emerging designers</p>
-                    <a class="btn btn-link"> See More <i class="fa fa-long-arrow-right"></i> </a></div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-6">
-                <div class="inner" style="height: 414px;"><a href="category.html" class="img-link"><img alt="img"
-                                                                                                        class="img-responsive"
-                                                                                                        src="images/featured/4.jpg"></a>
-
-                    <h3><span> New Look </span> demonstraverunt lectores </h3>
-
-                    <p>We are very pleased to announce the availability of many new emerging designers </p>
-                    <a class="btn btn-link"> See More <i class="fa fa-long-arrow-right"></i> </a></div>
-            </div>
-        </div>
-        /.row
-    </div>
-   /.section-block
- -->
-
-    <div class="width100 section-block">
-        <h3 class="section-title"><span> BRAND</span> <a id="nextBrand" class="link pull-right carousel-nav"> <i
-                class="fa fa-angle-right"></i></a> <a id="prevBrand" class="link pull-right carousel-nav"> <i
-                class="fa fa-angle-left"></i> </a></h3>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="no-margin brand-carousel owl-carousel owl-theme">
-                    <li><a href="/products/grid?category=1&brand_name=DC">
-                        <img src="{% static "store/img/brand/dc_comics.jpg" %}" alt="DC Comics"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Marvel">
-                        <img src="{% static "store/img/brand/marvel.jpg" %}" alt="Marvel"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Image">
-                        <img src="{% static "store/img/brand/image_comics.jpg" %}" alt="Image Comics"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=IDW">
-                        <img src="{% static "store/img/brand/idw.jpg" %}" alt="IDW"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Dark Horse">
-                        <img src="{% static "store/img/brand/darkhorse.jpg" %}" alt="Darkhorse Comics"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Boom! Studios">
-                        <img src="{% static "store/img/brand/boom_studios.jpg" %}" alt="BOOM! Comics"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Dynamite Entertainment">
-                        <img src="{% static "store/img/brand/dynamite.jpg" %}" alt="Dynamite Entertainment"></a>
-                    </li>
-<!--                    <li><a href="/products/grid?category=1&brand_name=MonkeyBrain">-->
-<!--                        <img src="{% static "store/img/brand/monkeybrain.jpg" %}" alt="MonkeyBrain"></a>-->
-<!--                    </li>-->
-                    <li><a href="/products/grid?category=1&brand_name=Oni Press">
-                        <img src="{% static "store/img/brand/onipress.jpg" %}" alt="Oni Press"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Viz">
-                        <img src="{% static "store/img/brand/viz.jpg" %}" alt="Viz"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Valiant Entertainment">
-                        <img src="{% static "store/img/brand/valiant.jpg" %}" alt="Valiant Entertainment"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Avatar Press">
-                        <img src="{% static "store/img/brand/avatar.jpg" %}" alt="Avatar Press"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Zenescope Entertainment">
-                        <img src="{% static "store/img/brand/zenescope.jpg" %}" alt="Zenescope Entertainment"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Fantagraphics">
-                        <img src="{% static "store/img/brand/fantagraphics.jpg" %}" alt="Fantagraphics"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Archie">
-                        <img src="{% static "store/img/brand/archie.jpg" %}" alt="Archie"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Action Lab Comics">
-                        <img src="{% static "store/img/brand/action_lab.jpg" %}" alt="Action Lab"></a>
-                    </li>
-                    <li><a href="/products/grid?category=1&brand_name=Aspen">
-                        <img src="{% static "store/img/brand/aspen_comics.jpg" %}" alt="Aspen Comics"></a>
-                    </li>
+                <div class="description">
+                    <h4><a href="product-details.html">{{ comic }}</a></h4>
                     
-                </ul>
+                    <p>{{ comic.product.description|slice:":125" }}</p>
+                    <span class="size">{{ comic.genre }}</span></div>
+                <div class="price"><span>${{ comic.product.sub_price }}</span></div>
+                
+                {% if comic.product in receipt.products.all %}
+                <!-- REMOVE FROM CART -->
+                <div class="action-control">
+                    <a onclick="ajax_remove_from_cart({{ comic.product_id }});" class="btn btn-primary">
+                        <span class="add2cart">
+                            <i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart
+                        </span>
+                    </a>
+                </div>
+                {% else %}
+                <!-- ADD TO CART -->
+                <div class="action-control">
+                    <a onclick="ajax_add_to_cart({{ comic.product_id }});" class="btn btn-primary">
+                        <span class="add2cart">
+                            <i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart
+                        </span>
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
-        <!--/.row-->
+        {% empty %}
+        {% endfor %}
     </div>
-    <!--/.section-block-->
+</div>
+<!--/.productslider-->
 
 </div>
-<!--main-container-->
+<!--/.featuredPostContainer-->
+</div>
+<!-- /main container -->
 
 <div class="parallax-section parallax-image-2">
     <div class="w100 parallax-section-overley">
@@ -473,16 +198,6 @@
     </div>
 </div>
 <!--/.parallax-section-->
-
-
-<!----------------------------------------------------------------------------->
-
-<!-- Modal -->
-<div id="ajax_modal_placeholder"
-   name="ajax_modal_placeholder"></div>
-<!-- end modal -->
-
-<!----------------------------------------------------------------------------->
 
 {% include "store_landpage/js.html" %}
 

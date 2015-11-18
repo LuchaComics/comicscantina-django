@@ -1,126 +1,9 @@
 /*
 
-This less file only for blog pages. 
+This less file only for blog pages.
 
 */
-
-// Variable
-
-@primaryColor: #4ec67f;
-// navbar background, btn-primary
-@primaryDarkColor: #4BB777;
-// navbar top background
-@primaryHoverColor: #27AE60;
-// btn-primary:hover, navbar a:hover
-@primaryLiteColor: #66de97;
-
-// MIXINS
-
-.crossbrowseropacity (@color,@alpha) {
-  @rgba: rgba(red(@color), green(@color), blue(@color),@alpha);
-  @argb: argb(@rgba);
-  background-color: @color;
-  background-color: @rgba;
-  filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
-  -ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{argb}, endColorstr=@{argb})";
-}
-
-/* UTILITIES */
-
-// common class
-
-.hw100 {
-  height: 100%;
-  width: 100%;
-}
-
-.w100 {
-  width: 100%;
-}
-
-.h100 {
-  height: 100%;
-}
-
-.no-margin {
-  margin: 0;
-}
-
-.no-padding {
-  padding: 0;
-}
-
-.no-margin-padding {
-  margin: 0;
-  padding: 0;
-}
-
-.relative {
-  position: relative;
-}
-
-.zindex10 {
-  z-index: 10
-}
-
-.cover {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-.wh100 {
-  width: 100%;
-  height: 100%;
-}
-
-.display-table {
-  display: table;
-}
-
-.display-table-cell {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-/* STYLE CONTENT  */
-
-.no-margin-bottom {
-  margin-bottom: 0;
-}
-
-.background-overly {
-  .hw100;
-  z-index: 1;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: .2;
-}
-
-.background-overly-inner {
-  .crossbrowseropacity (black, .3);
-}
-
-.overlay-shade {
-  z-index: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  .hw100;
-  z-index: 2;
-}
-
-.relative1 {
-  position: relative;;
-  z-index: 2;
-}
-
-.relative5 {
-  position: relative;;
-  z-index: 5;
-}
+@import "config";
 
 // blog
 
@@ -134,6 +17,12 @@ This less file only for blog pages.
 
 }
 
+@media @xsOnly {
+  .blog-intro {
+    background-position: 50% 0 !important;
+  }
+}
+
 .subscribe-dropdown {
   display: inline-block;
   width: auto;
@@ -145,6 +34,7 @@ This less file only for blog pages.
     width: 200px;
     top: 50px;
     font-size: 14px;
+    color: #303030;
     background: #f0f0f2;
     &:after {
       bottom: 100%;

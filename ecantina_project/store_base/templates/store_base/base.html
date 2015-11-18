@@ -41,21 +41,16 @@
         </script>
 </head>
 
-<body class="  pace-done" style="">
-    <div class="pace  pace-inactive">
-        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
-        <div class="pace-progress-inner"></div>
-    </div>
-    <div class="pace-activity"></div></div>
-    
+<body>
+    {% include "store_base/cart.html" %}
     {% include "store_base/login.html" %}
     {% include "store_base/signin.html" %}
     {% include "store_base/header.html" %}
     
     {% comment %}
-    This block of code is used to load any external modal
-    assets to load up, simply fill the source URL in this
-    array in the view and load it in there.
+        This block of code is used to load any external modal
+        assets to load up, simply fill the source URL in this
+        array in the view and load it in there.
     {% endcomment %}
     {% for src_url in src_urls %}{% include src_url %}{% endfor %}
     

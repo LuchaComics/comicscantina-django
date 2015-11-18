@@ -13,7 +13,9 @@
 }
 
 a:hover,
-a:focus, a.link {
+a:focus,
+a.link,
+.link {
     color: #4ec67f;
 }
 
@@ -173,7 +175,7 @@ a:focus, a.link {
 .nav.tree > li > a:focus,
 .nav.tree > li:hover > a {
     background: none;
-    color: #2c3e50;
+    color: #2a2a2a;
 }
 
 .nav.tree .open-tree > a,
@@ -181,7 +183,7 @@ a:focus, a.link {
 .nav.tree .open-tree > a:focus {
     background: none;
     font-weight: bold;
-    color: #2c3e50;
+    color: #2a2a2a;
 }
 
 .panel-default > .panel-heading {
@@ -211,7 +213,7 @@ a:focus, a.link {
 
 .cart-actions button:hover {
     background: #ffffff;
-    color: #2c3e50;
+    color: #2a2a2a;
     border: solid 2px #4ec67f;
 }
 

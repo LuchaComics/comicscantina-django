@@ -277,10 +277,11 @@ INVENTORY_JS_LIBRARY_BODY = [
 STORE_CSS_LIBRARY= [
     {"type":"text/css", "rel":"stylesheet", "href":"store/bootstrap/css/bootstrap.css", "id":"",},
     {"type":"text/css", "rel":"stylesheet", "href":"store/css/style.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"store/css/story.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"store/css/store.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"store/css/footable-0.1.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"store/css/footable.sortable-0.1.css", "id":"",},
+    {"type":"text/css", "rel":"stylesheet", "href":"store/css/cart-nav.css", "id":"",},
+#  {"type":"text/css", "rel":"stylesheet", "href":"store/css/story.css", "id":"",},
+#    {"type":"text/css", "rel":"stylesheet", "href":"store/css/store.css", "id":"",},
+#{"type":"text/css", "rel":"stylesheet", "href":"store/css/footable-0.1.css", "id":"",},
+#   {"type":"text/css", "rel":"stylesheet", "href":"store/css/footable.sortable-0.1.css", "id":"",},
 ]
 
 STORE_JS_LIBRARY_HEADER = [
@@ -296,15 +297,18 @@ STORE_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"store/js/jquery.parallax-1.1.js",},
     {"type":"text/javascript", "src":"store/js/helper-plugins/jquery.mousewheel.min.js",},
     {"type":"text/javascript", "src":"store/js/jquery.mCustomScrollbar.js",},
-    {"type":"text/javascript", "src":"store/js/ion-checkRadio/ion.checkRadio.min.js",},
+    {"type":"text/javascript", "src":"store/plugins/icheck-1.x/icheck.min.js",},
+#    {"type":"text/javascript", "src":"store/js/ion-checkRadio/ion.checkRadio.min.js",},
     {"type":"text/javascript", "src":"store/js/grids.js",},
     {"type":"text/javascript", "src":"store/js/owl.carousel.min.js",},
-    {"type":"text/javascript", "src":"store/js/jquery.minimalect.min.js",},
+    {"type":"text/javascript", "src":"store/js/select2.min.js",},
+#    {"type":"text/javascript", "src":"store/js/jquery.minimalect.min.js",},
     {"type":"text/javascript", "src":"store/js/bootstrap.touchspin.js",},
-    {"type":"text/javascript", "src":"store/js/script.js",},
     {"type":"text/javascript", "src":"store/js/home.js",},
-    {"type":"text/javascript", "src":"store/js/footable.js",},
-    {"type":"text/javascript", "src":"store/js/footable.sortable.js",},
+    {"type":"text/javascript", "src":"store/js/script.js",},
+    {"type":"text/javascript", "src":"store/js/sidebar-nav.js",},
+#    {"type":"text/javascript", "src":"store/js/footable.js",},
+#    {"type":"text/javascript", "src":"store/js/footable.sortable.js",},
 ]
 
 

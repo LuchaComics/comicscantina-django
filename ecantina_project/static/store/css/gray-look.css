@@ -133,3 +133,16 @@ hr {
     background: #f9f9f9 !important;
     border-top: 1px solid #f0f0f0 !important;
 }
+
+.hide-on-gray-look {
+    display: none;
+}
+
+.section-tab-content {
+    background: #fff !important;
+}
+
+.section-similar-product.graybg {
+    background: #fff !important;
+    border-top: 1px solid #f0f0f0 !important;
+}
