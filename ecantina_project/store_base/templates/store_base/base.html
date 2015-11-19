@@ -21,9 +21,9 @@
         <link type="text/css" rel="stylesheet" href="{% static 'store/bootstrap/css/bootstrap.css' %}">
         {% if org != None %}
             {% if store != None %}
-            <link type="text/css" rel="stylesheet" href="/static/store/css/{{ store.theme }}">
+            <link type="text/css" rel="stylesheet" href="/static/store/css/{{ store.style }}">
             {% else %}
-            <link type="text/css" rel="stylesheet" href="/static/store/css/{{ org.theme }}">
+            <link type="text/css" rel="stylesheet" href="/static/store/css/{{ org.style }}">
             {% endif %}
         {% else %}
         <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
