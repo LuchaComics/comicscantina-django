@@ -24,8 +24,10 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
     if product_id is 0:
         if org_id is not 0 and store_id is 0:
             product_id = org_id
+            org_id = 0
         if org_id is not 0 and store_id is not 0:
             product_id = store_id
+            store_id = 0
 
     # Fetch the Organization / Store.
     organization = Organization.objects.get_or_none(org_id)
