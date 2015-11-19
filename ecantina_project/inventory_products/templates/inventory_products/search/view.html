@@ -130,7 +130,7 @@
                                         {% autoescape off %}
                                         <tr>
                                             <td style="text-align:center;">
-                                                {% if product.image.image.url == "" or product.image.image.url == None  %}
+                                                {% if product.image_url == "" or product.image_url == None  %}
                                                 <img class="product-image center-block"
                                                      width="50"
                                                        alt="{{ product.name | escape | safe }}"
@@ -139,7 +139,7 @@
                                                 <img class="product-image center-block"
                                                      width="50"
                                                        alt="{{ product.name | escape | safe }}"
-                                                       src="{{ product.image.image.url }}" />
+                                                       src="{{ product.image_url }}" />
                                                 {% endif %}
                                             </td>
                                             <td>{{ product | escape | safe }}</td>
