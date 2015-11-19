@@ -75,9 +75,22 @@
                 Cart ($0.00)
             {% endif %}
             </span></button>
-            <a class="navbar-brand " href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">
+            {% if org != None %}
+            
+                {% if store != None %}
+                <a class="navbar-brand " href="/{{ org.org_id }}/{{ store.store_id }}/">
+                    <img src="{{ store.header.image.url }}" alt="Comics Cantina" />
+                </a>
+                {% else %}
+                <a class="navbar-brand " href="/{{ org.org_id }}/">
+                    <img src="{{ org.header.image.url }}" alt="Comics Cantina" />
+                </a>
+                {% endif %}
+            {% else %}
+            <a class="navbar-brand " href="/">
                 <img src="{% static "store/img/logo.png" %}" alt="Comics Cantina" />
             </a>
+            {% endif %}
             
             <!-- this part for mobile -->
             <div class="search-box pull-right hidden-lg hidden-md hidden-sm">
