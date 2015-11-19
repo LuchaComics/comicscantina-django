@@ -77,8 +77,9 @@ class Organization(models.Model):
     paypal_email = models.EmailField()
 
     # References
-    administrator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
+    administrator = models.ForeignKey(User, null=True,)
+    header = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='org_header',)
+    logo = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='org_logo',)
     customers = models.ManyToManyField(Customer, blank=True)
     
     def __str__(self):

@@ -112,7 +112,8 @@ class Store(models.Model):
     # Reference
     organization = models.ForeignKey(Organization, db_index=True)
     employees = models.ManyToManyField(Employee, blank=True)
-    logo = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
+    header = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='store_header',)
+    logo = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='store_logo',)
 
     def __str__(self):
         return self.name

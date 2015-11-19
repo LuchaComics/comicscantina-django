@@ -118,8 +118,7 @@ class Product(models.Model):
     )
                               
     # Every product has images.
-    image = models.ForeignKey(ImageUpload, null=True, blank=True, on_delete=models.SET_NULL)
-    image_url = models.URLField(null=True, blank=True)
+    image = models.ForeignKey(ImageUpload, null=True, blank=True,)
     images = models.ManyToManyField(ImageUpload, blank=True, related_name='product_images')
     
     # Products need to belong to a specific organization and where it is located

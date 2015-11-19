@@ -48,10 +48,10 @@
                                 {% else %}
                                 <!-- Upload ID -->
                                 <input type="hidden" id="id_hidden_upload_id" value="{{ product_form.instance.image_id }}"/>
-                                <input type="hidden" id="id_hidden_url" value="{{ product_form.instance.image_url }}"/>
+                                <input type="hidden" id="id_hidden_url" value="{{ product_form.instance.image.image.url }}"/>
                                 <!-- /.Upload ID -->
                                 
-                                <img src="{{ product_form.instance.image_url }}"
+                                <img src="{{ product_form.instance.image.image.url }}"
                                    style="height:200px;width:140px;"
                                      alt="{{ product_form.instance.name }}"
                                    class="img-thumbnail center-block mb0 add-cover-image"
