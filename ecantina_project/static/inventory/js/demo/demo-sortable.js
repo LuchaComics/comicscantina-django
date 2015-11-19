@@ -2,15 +2,15 @@
 // ----------------------------------- 
 
 
-(function (window, document, $, undefined) {
+(function(window, document, $, undefined){
 
-    $(function () {
+  $(function(){
 
-        $('.sortable').sortable({
-            forcePlaceholderSize: true,
-            placeholder: '<div class="box-placeholder p0 m0"><div></div></div>'
-        });
-
+    $('.sortable').sortable({
+      forcePlaceholderSize: true,
+      placeholder: '<div class="box-placeholder p0 m0"><div></div></div>'
     });
+
+  });
 
 })(window, document, window.jQuery);

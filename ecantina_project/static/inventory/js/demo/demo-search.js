@@ -2,36 +2,36 @@
 // ----------------------------------- 
 
 
-(function (window, document, $, undefined) {
+(function(window, document, $, undefined){
 
-    $(function () {
+  $(function(){
 
-        // BOOTSTRAP SLIDER CTRL
-        // -----------------------------------
+    // BOOTSTRAP SLIDER CTRL
+    // ----------------------------------- 
 
-        $('[data-ui-slider]').slider();
+    $('[data-ui-slider]').slider();
 
-        // CHOSEN
-        // -----------------------------------
+    // CHOSEN
+    // ----------------------------------- 
 
-        $('.chosen-select').chosen();
+    $('.chosen-select').chosen();
 
-        // DATETIMEPICKER
-        // -----------------------------------
+    // DATETIMEPICKER
+    // ----------------------------------- 
 
-        $('#datetimepicker').datetimepicker({
-            icons: {
-                time: 'fa fa-clock-o',
-                date: 'fa fa-calendar',
-                up: 'fa fa-chevron-up',
-                down: 'fa fa-chevron-down',
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-crosshairs',
-                clear: 'fa fa-trash'
-            }
-        });
-
+    $('#datetimepicker').datetimepicker({
+      icons: {
+          time: 'fa fa-clock-o',
+          date: 'fa fa-calendar',
+          up: 'fa fa-chevron-up',
+          down: 'fa fa-chevron-down',
+          previous: 'fa fa-chevron-left',
+          next: 'fa fa-chevron-right',
+          today: 'fa fa-crosshairs',
+          clear: 'fa fa-trash'
+        }
     });
+
+  });
 
 })(window, document, window.jQuery);

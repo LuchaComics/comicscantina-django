@@ -1,7 +1,7 @@
 // Upload Demo
 // ----------------------------------- 
 
-(function (window, document, $, undefined) {
+(function(window, document, $, undefined){
 
     $(function () {
         'use strict';
