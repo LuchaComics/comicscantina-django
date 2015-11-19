@@ -32,9 +32,6 @@ def registration_step1_page(request, org_id=0, store_id=0,):
         'org': org,
         'store': store,
         'user_form': UserForm(),
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'register',
     })
 
@@ -54,9 +51,6 @@ def registration_step2_page(request, org_id=0, store_id=0,):
         'org': org,
         'store': store,
         'user_form': UserForm(),
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'register',
     })
 
@@ -79,9 +73,6 @@ def registration_step3_page(request, org_id=0, store_id=0,):
         'store': store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'register',
     })
 
@@ -104,9 +95,6 @@ def registration_step4_page(request, org_id=0, store_id=0,):
         'store': store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'register',
     })
 
@@ -129,8 +117,5 @@ def registration_step5_page(request, org_id=0, store_id=0,):
         'store': store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'register',
     })

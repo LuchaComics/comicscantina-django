@@ -76,10 +76,17 @@ class Organization(models.Model):
     # Payment Processing Accounts
     paypal_email = models.EmailField()
 
-    # References
-    administrator = models.ForeignKey(User, null=True,)
+    # Look and Feel
     header = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='org_header',)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='org_logo',)
+    theme = models.CharField(
+        max_length=31,
+        choices=constants.TSHOP_THEME_OPTIONS,
+        default='ecantina-style-5.css',
+    )
+
+    # Users
+    administrator = models.ForeignKey(User, null=True,)
     customers = models.ManyToManyField(Customer, blank=True)
     
     def __str__(self):

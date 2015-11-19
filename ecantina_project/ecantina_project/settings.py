@@ -274,35 +274,6 @@ INVENTORY_JS_LIBRARY_BODY = [
     {"type":"text/javascript", "src":"inventory/js/jquery.alerts.min.js",},
 ]
 
-STORE_CSS_LIBRARY= [
-    {"type":"text/css", "rel":"stylesheet", "href":"store/bootstrap/css/bootstrap.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"store/css/style.css", "id":"",},
-#    {"type":"text/css", "rel":"stylesheet", "href":"store/css/cart-nav.css", "id":"",},
-]
-
-STORE_JS_LIBRARY_HEADER = [
-    {"type":"text/javascript", "src":"store/js/jquery/jquery-1.10.1.min.js",},
-    {"type":"text/javascript", "src":"store/bootstrap/js/bootstrap.min.js",},
-    {"type":"text/javascript", "src":"store/js/idangerous.swiper-2.1.min.js",},
-    {"type":"text/javascript", "src":"store/js/pace.min.js",},
-]
-
-STORE_JS_LIBRARY_BODY = [
-    {"type":"text/javascript", "src":"store/js/jquery.cycle2.min.js",},
-    {"type":"text/javascript", "src":"store/js/jquery.easing.1.3.js",},
-    {"type":"text/javascript", "src":"store/js/jquery.parallax-1.1.js",},
-    {"type":"text/javascript", "src":"store/js/helper-plugins/jquery.mousewheel.min.js",},
-    {"type":"text/javascript", "src":"store/js/jquery.mCustomScrollbar.js",},
-    {"type":"text/javascript", "src":"store/plugins/icheck-1.x/icheck.min.js",},
-    {"type":"text/javascript", "src":"store/js/grids.js",},
-    {"type":"text/javascript", "src":"store/js/owl.carousel.min.js",},
-    {"type":"text/javascript", "src":"store/js/select2.min.js",},
-    {"type":"text/javascript", "src":"store/js/bootstrap.touchspin.js",},
-    {"type":"text/javascript", "src":"store/js/home.js",},
-    {"type":"text/javascript", "src":"store/js/script.js",},
-#    {"type":"text/javascript", "src":"store/js/sidebar-nav.js",},
-]
-
 
 # External Servers
 #

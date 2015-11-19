@@ -65,7 +65,4 @@ def list_page(request, org_id=0, store_id=0):
         'brand_name': request.GET.get('brand_name'),
         'org': organization,
         'store': store,
-        'local_css_library': settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
     })

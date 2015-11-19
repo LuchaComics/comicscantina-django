@@ -43,9 +43,6 @@ def authentication_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'my_account',
     })
 
@@ -78,9 +75,6 @@ def my_account_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'my_account',
     })
 
@@ -115,9 +109,6 @@ def order_history_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'order_history',
         'NEW_ORDER_STATUS': constants.NEW_ORDER_STATUS,
         'PICKED_STATUS': constants.PICKED_STATUS,
@@ -173,9 +164,6 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'order_history',
         'NEW_ORDER_STATUS': constants.NEW_ORDER_STATUS,
         'PICKED_STATUS': constants.PICKED_STATUS,
@@ -223,9 +211,6 @@ def wishlist_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'wishlist',
     })
 
@@ -258,9 +243,6 @@ def my_address_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'wishlist',
     })
 
@@ -294,9 +276,6 @@ def billing_address_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'wishlist',
     })
 
@@ -330,9 +309,6 @@ def shipping_address_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'wishlist',
     })
 
@@ -366,9 +342,6 @@ def personal_info_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'wishlist',
     })
 
@@ -403,8 +376,5 @@ def change_password_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'wishlist',
     })

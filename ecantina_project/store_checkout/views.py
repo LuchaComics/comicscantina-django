@@ -42,9 +42,6 @@ def cart_page(request, org_id=0, store_id=0):
         'employee': employee,
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page' : 'home',
     })
 
@@ -68,9 +65,6 @@ def checkout_shipping_page(request, org_id=0, store_id=0):
         'form': ReadOnlyCustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header' : settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
 
@@ -94,9 +88,6 @@ def checkout_billing_page(request, org_id=0, store_id=0):
         'form': ReadOnlyCustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library': settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
 
@@ -134,9 +125,6 @@ def checkout_shipping_method_page(request, org_id=0, store_id=0):
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library': settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
 
@@ -160,9 +148,6 @@ def checkout_payment_method_page(request, org_id=0, store_id=0):
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library': settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
 
@@ -247,9 +232,6 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library': settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
 
@@ -273,9 +255,6 @@ def checkout_cancel_page(request, org_id=0, store_id=0):
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library': settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
 
@@ -324,8 +303,5 @@ def checkout_order_page(request, org_id=0, store_id=0):
         'form': CustomerForm(instance=customer),
         'org': org,
         'store': store,
-        'local_css_library' : settings.STORE_CSS_LIBRARY,
-        'local_js_library_header': settings.STORE_JS_LIBRARY_HEADER,
-        'local_js_library_body': settings.STORE_JS_LIBRARY_BODY,
         'page': 'home',
     })
