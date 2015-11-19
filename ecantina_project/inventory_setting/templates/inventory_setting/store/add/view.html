@@ -40,30 +40,71 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="panel-body panel-body-main">
-                            <!-- Logo -->
+                            <!-- HEADER -->
                             <div class="col-sm-12 mt-lg">
                                 <div class="col-sm-5">
                                     <div class="jumbotron bg-gray-lighter">
-                                        <h3 class="p0 mt0 mb-lg">Store Logo</h3>
-                                        <p class="mb0 text-justify">This is where you can upload this store's logo.  This logo will appear with this store on your about store page, and also will be on receipt and order printouts that were made at this store.</p>
+                                        <h3 class="p0 mt0 mb-lg">Organization Header</h3>
+                                        <p class="mb0 text-justify">This is where you can upload your store header. Please upload an image which is 256 pixels x 27 pixels.</p>
                                     </div>
                                 </div>
                                 <div class="col-sm-7">
-                                    <!-- Upload ID -->
-                                    <input type="hidden" id="id_hidden_upload_id" value=""/>
-                                    <!-- /.Upload ID -->
-                                    <img src="" style="height:140px;width:140px;" alt="Store Logo"
-                                        class="img-thumbnail center-block mb0 add-cover-image"
-                                        name="logo-image" id="logo-image">
-                                        <label class="form-control btn btn-success mt10 curp" >
-                                            <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Store Logo...
-                                            <input type="file" class="form-control mb10 hide" name="logo-image"
-                                            id="id_image" onchange="ajax_upload_image();"/>
-                                        </label>
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <!-- Upload ID -->
+                                            <input type="hidden"
+                                                     id="id_hidden_header_id"
+                                                  value="" />
+                                            <!-- /.Upload ID -->
+                                            <img src=""
+                                               style="height:45px;width:256px;"
+                                                 alt="Organization Header"
+                                               class="img-thumbnail center-block mb0 add-cover-image"
+                                                name="logo-image-header"
+                                                  id="logo-image-header" />
+                                            <label class="form-control btn btn-success mt10 curp" >
+                                                <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Header...
+                                                <input type="file"
+                                                      class="form-control mb10 hide"
+                                                       name="header-image"
+                                                         id="id_header_image"
+                                                   onchange="ajax_upload_header();" />
+                                            </label>
                                         </div>
-                                <div class="clearfix"></div>
-                            </div>
-                            <!-- /.Logo -->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div><!-- /.HEADER -->
+                            <!-- LOGO -->
+                            <div class="col-sm-12 mt-lg">
+                                <div class="col-sm-5">
+                                    <div class="jumbotron bg-gray-lighter">
+                                        <h3 class="p0 mt0 mb-lg">Organization Logo</h3>
+                                        <p class="mb0 text-justify">This is where you can upload your store logo. If you own multiple stores with different logos, you can set a logo for each store in its Location Settings. Your logos will appear on your store page, on emails to customers, and on receipts and order printouts for customers.</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <div class="col-md-8">
+                                            <!-- Upload ID -->
+                                            <input type="hidden" id="id_hidden_logo_id" value="" />
+                                            <!-- /.Upload ID -->
+                                            <img src=""
+                                               style="height:140px;width:140px;"
+                                                 alt="Organization Logo"
+                                               class="img-thumbnail center-block mb0 add-cover-image"
+                                                name="logo-image-logo"
+                                                  id="logo-image-logo" />
+                                            <label class="form-control btn btn-success mt10 curp" >
+                                                <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Org Logo...
+                                                <input type="file" class="form-control mb10 hide" name="logo-image"
+                                                         id="id_logo_image" onchange="ajax_upload_logo();" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div><!-- /.LOGO -->
                             <form class="form-horizontal">
                                 <div class="col-sm-12">
                                     <div class="col-sm-5">

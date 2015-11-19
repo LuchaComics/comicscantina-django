@@ -40,22 +40,53 @@
          */        
     });
 
-    // this is to upload the cover image
-    function ajax_upload_image() {
-        if ($('#id_image').val() == "") {
-           alert('Please select an image to upload');
-           return false;
+    function ajax_upload_header() {
+        if ($('#id_header_image').val() == "") {
+            alert('Please select an image to upload');
+            return false;
         }
     
-        var image = document.getElementById('id_image').files[0];
-        var upload_id = $('#id_hidden_upload_id').val();
-                      
+        // Extract the information.
+        var image = document.getElementById('id_header_image').files[0];
+        var id = $('#id_hidden_header_id').val();
+    
+        // Insert or Update.
+        set_imageupload(id, true, image, {{ request.user.id }}, function(json_result) {
+            $('#logo-image-header').attr('src', json_result['image']);
+                $('#id_hidden_header_id').val(json_result['upload_id']);
+                    
+                // Delete if nothing was saved.
+                if (json_result['image'] == null) {
+                    delete_imageupload(json_result['upload_id'], function() {
+                        location.reload(true); // Reload page with cache cleared.
+                    }); // End Delete Image.
+                }
+                    
+            }); // End Set Image
+    }
+
+    function ajax_upload_logo() {
+        if ($('#id_logo_image').val() == "") {
+            alert('Please select an image to upload');
+            return false;
+        }
+    
+        // Extract the information.
+        var image = document.getElementById('id_logo_image').files[0];
+        var upload_id = $('#id_hidden_logo_id').val();
+    
         // Insert or Update.
         set_imageupload(upload_id, true, image, {{ request.user.id }}, function(json_result) {
-            $('#logo-image').attr('src', json_result['image']);
-            $('#id_hidden_upload_id').val(json_result['upload_id']);
+            $('#logo-image-logo').attr('src', json_result['image']);
+            $('#id_hidden_logo_id').val(json_result['upload_id']);
+                    
+            // Delete if nothing was saved.
+            if (json_result['image'] == null) {
+                delete_imageupload(json_result['upload_id'], function() {
+                    location.reload(true); // Reload page with cache cleared.
+                }); // End Delete Image.
+            }
         });
-
     }
 
     function ajax_suspend_store(is_suspended) {
@@ -118,34 +149,34 @@
 
     function ajax_save_edit() {
         // Defensive Code: Ensure that our inputted entries are valid.
-        if ($('#id_email').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the email field.',
-                'priority': 'error'
-            }]);
-            return;
-        }
-        if ( !is_email_valid( $('#id_email').val() ) ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the email field with a valid email.',
-                'priority': 'error'
-            }]);
-            return;
-        }
-        if ($('#id_phone').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the phone field.',
-                'priority': 'error'
-            }]);
-            return;
-        }
-        if (!is_phone_valid($('#id_phone').val())) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the phone field with a valid number.',
-                'priority': 'error'
-            }]);
-            return;
-        }
+        //if ($('#id_email').val() == '') {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the email field.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        //if ( !is_email_valid( $('#id_email').val() ) ) {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the email field with a valid email.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        //if ($('#id_phone').val().length == 0) {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the phone field.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        //if (!is_phone_valid($('#id_phone').val())) {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the phone field with a valid number.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
         if ($('#id_street_number').val().length == 0) {
             $(document).trigger("add-alerts",[{
                 'message': 'Please fill out the street number field.',
@@ -211,13 +242,22 @@
         }
         
         // Defensive Code: Ensure that a organization logo has been added.
-        if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 || $('#id_hidden_upload_id').val() == 'None' ) {
+        if (parseInt( $('#id_hidden_header_id').val() ) <= 0 || $('#id_hidden_header_id').val() == 'None' ||  $('#id_hidden_header_id').val() == '') {
             $(document).trigger("add-alerts",[{
-                'message': 'Please upload a picture before saving changes.',
+                'message': 'Please upload a header picture before saving changes.',
                 'priority': 'error'
             }]);
             return false;
         }
+        
+        if (parseInt( $('#id_hidden_logo_id').val() ) <= 0 || $('#id_hidden_logo_id').val() == 'None' || $('#id_hidden_logo_id').val() == '' ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please upload a logo picture before saving changes.',
+                'priority': 'error'
+            }]);
+            return false;
+        }
+        
         
         get_store(
             {{ store.store_id }},
@@ -276,24 +316,22 @@
                 store['paypal_email'] = $('#id_paypal_email').val();
                   
                 // Add logo id if there exists one.
-                var logo = parseInt( $('#id_hidden_upload_id').val() );
-                if (logo > 0) {
-                    store['logo'] = logo;
-                }
+                store['header']  = parseInt( $('#id_hidden_header_id').val() );
+                store['logo']  = parseInt( $('#id_hidden_logo_id').val() );
                   
                 set_store(
                     store,
                     function(success_json) {
                           // (1) Add notification message of success.
                           $(document).trigger("add-alerts",[{
-                                                            'message': 'Store was Successfully Updated',
-                                                            'priority': 'success'
-                                                            }]);
+                            'message': 'Store was Successfully Updated',
+                            'priority': 'success'
+                          }]);
                           
                           // (2) Add count-down timer to reloading page/cache.
                           setTimeout(function(){
-                                     location.reload(true); // Reload page with cache cleared.
-                                     }, 1000)
+                            location.reload(true); // Reload page with cache cleared.
+                        }, 1000)
                     }, // success
                     function(error_json) {
                         for (var key in error_json) {
