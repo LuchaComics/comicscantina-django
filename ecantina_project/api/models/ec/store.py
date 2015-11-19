@@ -112,7 +112,7 @@ class Store(models.Model):
     # Look and Feel
     header = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='store_header',)
     logo = models.ForeignKey(ImageUpload, null=True, blank=True, related_name='store_logo',)
-    theme = models.CharField(
+    style = models.CharField(
         max_length=31,
         choices=constants.TSHOP_THEME_OPTIONS,
         default='ecantina-style-5.css',
