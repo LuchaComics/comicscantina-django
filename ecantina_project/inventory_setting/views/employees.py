@@ -45,9 +45,6 @@ def users_list_settings_page(request, org_id, store_id, this_store_id):
         'form': StoreForm(),
         'tab':'users_settings',
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
         'src_urls': ['inventory_setting/employee/list/suspend_modal.html'],
     })
 
@@ -68,9 +65,6 @@ def add_employee_page(request, org_id, store_id):
         'user_form': UserForm(),
         'tab':'users_settings',
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -98,9 +92,6 @@ def edit_user_settings_page(request, org_id, store_id, this_employee_id):
         'user_form': UserForm() if this_employee is None else UserForm(instance=this_employee.user),
         'tab':'users_settings',
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 

@@ -32,9 +32,6 @@ def registration_step1_page(request, org_id=0, store_id=0,):
         'org': org,
         'store': store,
         'user_form': UserForm(),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -54,9 +51,6 @@ def registration_step2_page(request, org_id=0, store_id=0,):
         'org': org,
         'store': store,
         'customer_form': CustomerForm(initial={'joined':datetime.now()}),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -76,7 +70,4 @@ def registration_step3_page(request, org_id=0, store_id=0,):
         'org': org,
         'store': store,
         'customer_form': CustomerForm(initial={'joined':datetime.now()}),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
     })

@@ -221,58 +221,11 @@ REST_FRAMEWORK = {
     )
 }
 
+
 # PayPal
 #
 PAYPAL_RECEIVER_EMAIL = SECRET_PAYPAL_RECEIVER_EMAIL
 PAYPAL_TEST = SECRET_PAYPAL_TEST
-
-# JavaScript Libraries
-#
-INVENTORY_CSS_LIBRARY= [
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/fontawesome/css/font-awesome.min.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/simple-line-icons/css/simple-line-icons.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/animate.css/animate.min.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/bootstrap.css", "id":"bscss",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/js/jquery/jquery-ui/jquery-ui.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/js/jquery/jquery-ui/jquery-ui.structure.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/js/jquery/jquery-ui/jquery-ui.theme.css", "id":"",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/app.css", "id":"maincss",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/theme-e.css", "id":"themecss",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/comicscantina.css", "id":"comicscantinacss",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/jquery.filer.css", "id":"jqfiler",},
-    {"type":"text/css", "rel":"stylesheet", "href":"inventory/css/themes/jquery.filer-dragdropbox-theme.css", "id":"jqfilertheme",},
-                        ]
-
-INVENTORY_JS_LIBRARY_HEADER = [
-    {"type":"text/javascript", "src":"inventory/js/jquery/dist/jquery.js",},
-    {"type":"text/javascript", "src":"inventory/js/bootstrap/dist/js/bootstrap.js",},
-]
-
-INVENTORY_JS_LIBRARY_BODY = [
-    {"type":"text/javascript", "src":"inventory/js/modernizr/modernizr.js",},
-    {"type":"text/javascript", "src":"inventory/js/jquery/dist/jquery.js",},
-    {"type":"text/javascript", "src":"inventory/js/jquery/jquery-ui/jquery-ui.js",},
-    {"type":"text/javascript", "src":"inventory/js/bootstrap/dist/js/bootstrap.js",},
-    {"type":"text/javascript", "src":"inventory/js/jquery/jquery.easing/js/jquery.easing.js",},
-    {"type":"text/javascript", "src":"inventory/js/animo.js/animo.js",},
-    #{"type":"text/javascript", "src":"inventory/vendor/jquery-localize-i18n/dist/jquery.localize.js",},
-    {"type":"text/javascript", "src":"inventory/js/jQuery-Storage-API/jquery.storageapi.js",},
-    {"type":"text/javascript", "src":"inventory/js/slimScroll/jquery.slimscroll.min.js",},
-    {"type":"text/javascript", "src":"inventory/js/sparklines/jquery.sparkline.min.js",},
-    {"type":"text/javascript", "src":"inventory/js/Flot/jquery.flot.js",},
-    {"type":"text/javascript", "src":"inventory/js/flot.tooltip/js/jquery.flot.tooltip.min.js",},
-    {"type":"text/javascript", "src":"inventory/js/Flot/jquery.flot.resize.js",},
-    {"type":"text/javascript", "src":"inventory/js/Flot/jquery.flot.categories.js",},
-    {"type":"text/javascript", "src":"inventory/js/flot-spline/js/jquery.flot.spline.min.js",},
-    {"type":"text/javascript", "src":"inventory/js/ika.jvectormap/jquery-jvectormap-1.2.2.min.js",},
-    {"type":"text/javascript", "src":"inventory/js/ika.jvectormap/jquery-jvectormap-world-mill-en.js",},
-    {"type":"text/javascript", "src":"inventory/js/ika.jvectormap/jquery-jvectormap-us-mill-en.js",},
-    {"type":"text/javascript", "src":"inventory/js/flot-annual_sales_chart.js",},
-    {"type":"text/javascript", "src":"inventory/js/dropzone/dropzone.js",},
-    {"type":"text/javascript", "src":"inventory/js/app.js",},
-    {"type":"text/javascript", "src":"inventory/js/jquery.filer.min.js",},
-    {"type":"text/javascript", "src":"inventory/js/jquery.alerts.min.js",},
-]
 
 
 # External Servers

@@ -26,9 +26,6 @@ def pulllist_page(request, org_id, store_id):
         'tab':'pulllist',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 @login_required()
@@ -46,9 +43,6 @@ def pulllist_subscriptions_page(request, org_id, store_id, pulllist_id):
         'tab':'pulllist',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 @login_required(login_url='/inventory/login')
@@ -64,9 +58,6 @@ def add_pulllist_page(request, org_id, store_id):
         'tab':'pulllist',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 @login_required(login_url='/inventory/login')
@@ -78,7 +69,4 @@ def add_pulllist_customer_page(request, org_id, store_id, pulllist_id):
         'tab':'pulllist',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })

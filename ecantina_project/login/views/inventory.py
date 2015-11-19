@@ -24,9 +24,6 @@ def login_page(request):
     else:
         return render(request, 'login/inventory.html',{
             'form': LoginForm(),
-            'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-            'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-            'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
         })
 
 

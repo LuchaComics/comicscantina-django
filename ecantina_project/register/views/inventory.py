@@ -18,9 +18,6 @@ def store_registration_page(request):
     return render(request, 'register/inventory/view.html',{
         'form': StoreRegistrationForm(),
         'image_form': ImageUploadForm(),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -238,7 +235,4 @@ def store_registation_successful_page(request):
     return render(request, 'register/inventory/view_ok.html',{
         'form': StoreRegistrationForm(),
         'image_form': ImageUploadForm(),
-        'local_css_library' : settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header' : settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body' : settings.INVENTORY_JS_LIBRARY_BODY,
     })

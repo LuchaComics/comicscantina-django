@@ -70,9 +70,6 @@ def shipping_settings_page(request, org_id, store_id):
         'employee': Employee.objects.get(user__id=request.user.id),
         'tab':'shipping_settings',
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 @login_required(login_url='/inventory/login')
@@ -89,7 +86,4 @@ def shipping_details_settings_page(request, org_id, store_id, country_id):
         'employee': Employee.objects.get(user__id=request.user.id),
         'tab':'shipping_settings',
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })

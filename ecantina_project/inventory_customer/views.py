@@ -24,9 +24,6 @@ def customers_page(request, org_id, store_id):
         'tab':'customers_list',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -46,9 +43,6 @@ def customer_page(request, org_id, store_id, customer_id):
         'tab':'add_customer',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -61,9 +55,6 @@ def profile_page(request, org_id, store_id, customer_id):
         'tab':'customers_list',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
         'src_urls': ['inventory_customer/profile/modal.html'],
     })
 
@@ -77,9 +68,6 @@ def purchases_page(request, org_id, store_id, customer_id):
         'tab':'customers_list',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -100,9 +88,6 @@ def subscriptions_page(request, org_id, store_id, customer_id):
         'tab':'customers_list',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
 
 
@@ -126,7 +111,4 @@ def wishlists_page(request, org_id, store_id, customer_id):
         'tab':'customers_list',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'local_css_library':settings.INVENTORY_CSS_LIBRARY,
-        'local_js_library_header':settings.INVENTORY_JS_LIBRARY_HEADER,
-        'local_js_library_body':settings.INVENTORY_JS_LIBRARY_BODY,
     })
