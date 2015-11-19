@@ -1,6 +1,3 @@
-{% include 'api/imageupload.html' %}
-{% include 'api/organization.html' %}
-{% include 'api/common_js.html' %}
 <!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
     //-------------------------------------//
@@ -26,21 +23,52 @@
         });
     });
 
-    // this is to upload the cover image
-    function ajax_upload_image() {
-        if ($('#id_image').val() == "") {
+    function ajax_upload_header() {
+        if ($('#id_header_image').val() == "") {
+            alert('Please select an image to upload');
+            return false;
+        }
+    
+        // Extract the information.
+        var image = document.getElementById('id_header_image').files[0];
+        var id = $('#id_hidden_header_id').val();
+    
+        // Insert or Update.
+        set_imageupload(id, true, image, {{ request.user.id }}, function(json_result) {
+            $('#logo-image-header').attr('src', json_result['image']);
+            $('#id_hidden_header_id').val(json_result['upload_id']);
+                        
+            // Delete if nothing was saved.
+            if (json_result['image'] == null) {
+                delete_imageupload(json_result['upload_id'], function() {
+                    location.reload(true); // Reload page with cache cleared.
+                }); // End Delete Image.
+            }
+                        
+        }); // End Set Image
+    }
+
+    function ajax_upload_logo() {
+        if ($('#id_logo_image').val() == "") {
            alert('Please select an image to upload');
            return false;
         }
     
         // Extract the information.
-        var image = document.getElementById('id_image').files[0];
-        var upload_id = $('#id_hidden_upload_id').val();
+        var image = document.getElementById('id_logo_image').files[0];
+        var upload_id = $('#id_hidden_logo_id').val();
         
         // Insert or Update.
         set_imageupload(upload_id, true, image, {{ request.user.id }}, function(json_result) {
-            $('#logo-image').attr('src', json_result['image']);
-            $('#id_hidden_upload_id').val(json_result['upload_id']);
+            $('#logo-image-logo').attr('src', json_result['image']);
+            $('#id_hidden_logo_id').val(json_result['upload_id']);
+                        
+            // Delete if nothing was saved.
+            if (json_result['image'] == null) {
+                delete_imageupload(json_result['upload_id'], function() {
+                    location.reload(true); // Reload page with cache cleared.
+                }); // End Delete Image.
+            }
         });
     }
 
@@ -139,9 +167,17 @@
         }
         
         // Defensive Code: Ensure that a organization logo has been added.
-        if (parseInt( $('#id_hidden_upload_id').val() ) <= 0 || $('#id_hidden_upload_id').val() == 'None' ) {
+        if (parseInt( $('#id_hidden_header_id').val() ) <= 0 || $('#id_hidden_header_id').val() == 'None' ||  $('#id_hidden_header_id').val() == '') {
             $(document).trigger("add-alerts",[{
-                'message': 'Please upload a picture before saving changes.',
+                'message': 'Please upload a header picture before saving changes.',
+                'priority': 'error'
+            }]);
+            return false;
+        }
+        
+        if (parseInt( $('#id_hidden_logo_id').val() ) <= 0 || $('#id_hidden_logo_id').val() == 'None' || $('#id_hidden_logo_id').val() == '' ) {
+            $(document).trigger("add-alerts",[{
+                'message': 'Please upload a logo picture before saving changes.',
                 'priority': 'error'
             }]);
             return false;
@@ -161,7 +197,8 @@
                 }
                          
                 organization['email'] = $('#id_email').val();
-                organization['logo'] = $('#id_hidden_upload_id').val();
+                organization['header'] = $('#id_hidden_header_id').val();
+                organization['logo'] = $('#id_hidden_logo_id').val();
                 organization['name'] = $('#id_name').val();
                 organization['description'] = $('#id_description').val();
                 organization['website'] = website;
