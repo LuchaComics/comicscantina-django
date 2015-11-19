@@ -63,7 +63,7 @@ def comic_page(request, org_id, store_id, issue_id, product_id):
         product_form = ProductForm(instance=comic.product)
     except Comic.DoesNotExist:
         comic_form = ComicForm()
-        product_form = ProductForm(initial={'price': 5.00})
+        product_form = ProductForm(initial={'price': 5.00,'name':str(issue)})
 
     if stores is not None:
         # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
