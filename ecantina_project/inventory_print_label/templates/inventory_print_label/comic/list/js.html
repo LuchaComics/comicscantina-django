@@ -38,7 +38,7 @@
     
     function load_comic(issue_id, comic_id)
     {
-        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+comic_id;
+        window.open('/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+comic_id, '_blank');
     }
 
     function ajax_delete_comic(product_id, comic_id)
@@ -52,6 +52,6 @@
     }
 
     function load_series_qrcodes(series_id) {
-        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics/series/'+series_id;
+        window.open('/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics/series/'+series_id, '_blank');
     }
 </script>

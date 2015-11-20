@@ -45,7 +45,6 @@ def comics_print_labels_page(request, org_id, store_id):
         'locations': Store.objects.filter(organization_id=org_id),
     })
 
-
 @login_required(login_url='/inventory/login')
 def series_qrcodes_page(request, org_id, store_id, series_id):
     q = Comic.objects.filter(issue__series_id=series_id)
@@ -55,6 +54,7 @@ def series_qrcodes_page(request, org_id, store_id, series_id):
         process_comic(comic)
     
     return render(request, 'inventory_print_label/comic/qrcodes/view.html',{
+        'HOST': request.get_host(),
         'comics': q,
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),

@@ -34,21 +34,46 @@
             location.reload(true); // Reload page with cache cleared.
         })
             
+        load_docgen();
     });
-    
-    function load_comic(issue_id, comic_id)
+</script>
+
+<script>
+    function load_docgen()
     {
-        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+comic_id;
+        var command = '[';
+        
+        
+        {% for comic in comics %}
+        command += '{"title":"{{ comic.product.name }}","http://{{ HOST }}{{ comic.product.qrcode.url }}"},';
+        {% endfor %}
+        
+        command += '[{"title":"","qrcode":""}]'; // the data (an empty one is needed on the end
+        
+        var arr = [command, 'qrcodes.data' // the filename
+        ];
+        
+        // Breakpoint. (Debugging purposes only)
+        //console.log(command);
+        //return;
+                   
+        $(document).ready(function(){
+            $.ajax({
+                url: 'http://docs.comicscantina.com/test/labels.php',
+                data: JSON.stringify ({
+                    "method" : "save_dat",
+                    "params" : arr,
+                    "id"     : "comics-cantina",
+                    "jsonrpc": "2.0"
+                }),
+                type:"POST",
+                dataType:"json",
+                success: function (data) {
+                    window.location=data.result;
+                }
+            });
+        });
     }
 
-    function ajax_delete_comic(product_id, comic_id)
-    {
-        delete_comic(comic_id, function(json_result) {
-            // Do nothing.
-        });
-        delete_product(product_id, function(json_result) {
-            location.reload(true); // Reload page with cache cleared.
-        });
-    }
-    
+                      
 </script>
