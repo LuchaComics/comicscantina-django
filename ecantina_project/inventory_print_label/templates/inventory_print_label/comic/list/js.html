@@ -38,7 +38,7 @@
     
     function load_comic(issue_id, comic_id)
     {
-        window.open('/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+comic_id, '_blank');
+        window.location='/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+comic_id;
     }
 
     function ajax_delete_comic(product_id, comic_id)
