@@ -43,13 +43,12 @@
     {
         var command = '[';
         
-        
         {% for comic in comics %}
-        command += '{"title":"{{ comic.product.name }}","http://{{ HOST }}{{ comic.product.qrcode.url }}"},';
+        command += '{"title":"{{ comic.product.name }}","qrcode":"http://{{ HOST }}{{ comic.product.qrcode.url }}"},';
         {% endfor %}
         
-        command += '[{"title":"","qrcode":""}]'; // the data (an empty one is needed on the end
-        
+        command = command.substring(0, command.length - 1);
+        command += "]";
         var arr = [command, 'qrcodes.data' // the filename
         ];
         
