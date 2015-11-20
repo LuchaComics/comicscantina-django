@@ -66,11 +66,182 @@ Password: ***REDACTED***
   source ~/.cshrc
   ```  
   
+  
+### Recompile Kernel
+We will recompile the Kernel for our server and enable PF firewall. The recompiling instructions are summarized from this article: [How To Customize and Recompile Your Kernel on FreeBSD 10.1](https://www.digitalocean.com/community/tutorials/how-to-customize-and-recompile-your-kernel-on-freebsd-10-1)
+
+1. Install subversion
+  ```
+  pkg install subversion  
+  rehash
+  ```
+  
+2. Download our source
+  ```
+  svn co https://svn0.us-east.FreeBSD.org/base/stable/10 /usr/src
+  
+  Note:
+  i. Choose (p) to accept
+  ```
+  
+3. Setup our configuration file
+  ```
+  cd /usr/src/sys/amd64/conf
+  cp GENERIC WEBAPP
+  ```
+  
+4. Go into our new file and perform the following modifications:
+  ```
+  vi WEBAPP
+  
+  (a) Rename "GENERIC" to "WEBAPP"
+  (b) Scroll to the bottom fo the file and add:
+  - - - - - - - - - - 
+  # pf firewall
+  device pf
+  device pflog
+  device pfsync
+  - - - - - - - - - - 
+  ```
+  
+5. Compile
+  ```
+  cd /usr/src
+  make buildkernel KERNCONF=WEBAPP
+  make installkernel KERNCONF=WEBAPP
+  reboot
+  ```
+  
+6. To confirm our new Kernel has been built, simply run the following and confirm:
+  ```
+  sysctl kern.conftxt | grep ident
+  
+  Note:
+  i. You should see "ident WEBAPP"
+  ```
+
+### Security
+#### (A) SSH Banners
+1. Update MOTD
+  ```
+  cat > /etc/motd
+  
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  WARNING: Unauthorized access to this system is forbidden and will be prosecuted
+  by law. By accessing this system, you agree that your actions may be
+  be monitored if unauthorized usage is suspected.
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  ```
+
+2. Update WELCOME.
+  ```
+  cat > /etc/welcomemsg
+  
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+                                  -------
+                                  WARNING
+                                  -------
+                     THIS IS A PRIVATE COMPUTER SYSTEM.
+
+This computer system including all related equipment, network devices
+(specifically including Internet access), are provided only for authorized use.
+All computer systems may be monitored for all lawful purposes, including to
+ensure that their use is authorized, for management of the system, to facilitate
+protection against unauthorized access, and to verify security procedures,
+survivability and operational security. Monitoring includes active attacks by
+authorized personnel and their entities to test or verify the security of the
+system. During monitoring, information may be examined, recorded, copied and
+used for authorized purposes. All information including personal information,
+placed on or sent over this system may be monitored. Uses of this system,
+authorized or unauthorized, constitutes consent to monitoring of this system.
+Unauthorized use may subject you to criminal prosecution. Evidence of any such
+unauthorized use collected during monitoring may be used for administrative,
+criminal or other adverse action. Use of this system constitutes consent to
+monitoring for these purposes.
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  ```
+  
+3. Update the SSH configuration to play our welcome message.
+  ```
+  vi /etc/ssh/sshd_config
+  
+  Note:
+  i. Add/Change: "Banner /etc/welcomemsg"
+  ```
+  
+#### (B) Firewall
+1. Populate our firewall ruleset
+  ```
+  cat > /etc/pf.conf
+  
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  ext_if="vtnet0"
+
+  webports = "{http, https}"
+  int_tcp_services = "{domain, ntp, smtp, www, https, ftp}"
+  int_udp_services = "{domain, ntp}"
+
+  set skip on lo
+  set loginterface $ext_if
+
+  # Normalization
+  scrub in all random-id fragment reassemble
+
+  block return in log all
+  block out all
+
+  antispoof quick for $ext_if
+
+  # Block 'rapid-fire brute force attempts
+  table <bruteforce> persist
+  block quick from <bruteforce>
+
+  # ftp-proxy needs to have an anchor
+  anchor "ftp-proxy/*"
+
+  # SSH is listening on port 22
+  pass in quick proto tcp to $ext_if port 22 keep state (max-src-conn 15, max-src-conn-rate 5/3, overload <bruteforce> flush global)
+
+  # Webserver
+  pass proto tcp from any to $ext_if port $webports
+
+  # Allow essential outgoing traffic
+  pass out quick on $ext_if proto tcp to any port $int_tcp_services
+  pass out quick on $ext_if proto udp to any port $int_udp_services
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  ```
+
+2. Update **rc.conf**:
+  ```
+  vi /etc/rc.conf
+  
+  - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
+  ###### FIREWALL
+  #
+  pf_enable="YES" 		# Turn PF on when pc boots.
+  pf_rules="/etc/pf.conf" # Define the rules for the firewall
+  pf_flags=""			# Additional flags (none).
+  pflog_enabled="YES"		# Turn on packet loggin support.
+  pflog_logfile="/var/log/pflog" # Where to log data to, used by pflog daemon
+  pflog_flags=""			# Additional flags (None).
+  - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
+  ```
+
+3. To start the firewall, run the following. Note: More instructions can be found here: [PF Firewall](https://www.freebsd.org/doc/handbook/firewalls-pf.html)
+  ```
+  service pf start
+  service pflog start
+  ```
+  
+4. You will get logged off so down worry, this is normal. Simply log back and everything should be working.
+  
+
 ### Ports
 Now we need to get the most up-to-date repository of ports and apply it to our system.
   ```
   sudo portsnap fetch extract update
   ```
+  
   
 ### Python 3.4
 1. Become Root
