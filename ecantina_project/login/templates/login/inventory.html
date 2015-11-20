@@ -8,13 +8,21 @@
         <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
         <title>Comics Cantina - Login Page</title>
         <!-- Local CSS -->
-    {% for local in local_css_library %}
-        <link type="{{ local.type }}" rel="{{ local.rel }}" href="{% static local.href %}">
-    {% endfor %}
-        <!-- Local JS -->
-    {% for local in local_js_library_header %}
-        <script type="{{ local.type }}" src="{% static local.src %}"></script>
-    {% endfor %}
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/fontawesome/css/font-awesome.min.css' %}" id="">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/simple-line-icons/css/simple-line-icons.css' %}" id="">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/animate.css/animate.min.css' %}" id="">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/whirl/dist/whirl.css' %}" id="">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/weather-icons/css/weather-icons.min.css' %}" id="">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/bootstrap.css' %}" id="bscss">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/app.css' %}" id="maincss">
+                                    
+  
+           <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/theme-e.css' %}" id="themecss">
+          <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/comicscantina.css' %}" id="comicscantinacss">
+          
+          <!-- Local JS -->
+          <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
+          <script type="text/javascript" src="{% static 'inventory/js/bootstrap/dist/js/bootstrap.js' %}"></script>
     </head>
     <body>
         <!-- CSRF Token -->
@@ -63,9 +71,28 @@
             </div>
         </div>
         <!-- Local JS -->
-        {% for local in local_js_library_body %}
-        <script type="{{ local.type }}" src="{% static local.src %}"></script>
-        {% endfor %}
+        <script type="text/javascript" src="{% static 'inventory/js/modernizr/modernizr.custom.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/matchMedia/matchMedia.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/bootstrap/dist/js/bootstrap.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/jQuery-Storage-API/jquery.storageapi.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/jquery.easing/js/jquery.easing.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/animo.js/animo.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/slimScroll/jquery.slimscroll.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/screenfull/dist/screenfull.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/sparkline/index.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/Flot/jquery.flot.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/flot.tooltip/js/jquery.flot.tooltip.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/Flot/jquery.flot.resize.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/Flot/jquery.flot.pie.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/Flot/jquery.flot.time.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/Flot/jquery.flot.categories.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/jquery-classyloader/js/jquery.classyloader.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/moment/min/moment-with-locales.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/demo/demo-flot.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/app.js' %}"></script>
+
     </body>
     {% include "login/inventory_js.html" %}
 </html>
