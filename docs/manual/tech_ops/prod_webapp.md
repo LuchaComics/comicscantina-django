@@ -117,13 +117,10 @@ We will enable public-private key based authentication and ensure every user tha
 ### (d) Recompile Kernel
 We will recompile the Kernel for our server and enable PF firewall. The recompiling instructions are summarized from this article: [How To Customize and Recompile Your Kernel on FreeBSD 10.1](https://www.digitalocean.com/community/tutorials/how-to-customize-and-recompile-your-kernel-on-freebsd-10-1)
 
-1. Install subversion and screen
+1. Install subversion
   ```
   pkg install subversion  
   rehash
-  
-  cd /usr/ports/sysutils/screen
-  make install clean
   ```
   
 2. Download our source
@@ -154,9 +151,8 @@ We will recompile the Kernel for our server and enable PF firewall. The recompil
   - - - - - - - - - - 
   ```
   
-5. Compile while using **screen** because if the network connection messes up, the compiling will continue on the server.
+5. Compile
   ```
-  screen
   cd /usr/src
   make buildkernel KERNCONF=WEBAPP
   make installkernel KERNCONF=WEBAPP
@@ -267,7 +263,8 @@ monitoring for these purposes.
   vi /etc/rc.conf
   
   - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
-  # FIREWALL
+  ###### FIREWALL
+  #
   pf_enable="YES" 		# Turn PF on when pc boots.
   pf_rules="/etc/pf.conf" # Define the rules for the firewall
   pf_flags=""			# Additional flags (none).
@@ -275,6 +272,12 @@ monitoring for these purposes.
   pflog_logfile="/var/log/pflog" # Where to log data to, used by pflog daemon
   pflog_flags=""			# Additional flags (None).
   - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
+  ```
+
+3. To start the firewall, run the following. Note: More instructions can be found here: [PF Firewall](https://www.freebsd.org/doc/handbook/firewalls-pf.html)
+  ```
+  service pf start
+  service pflog start
   ```
 
 #### (iii) Hardening rc.conf
@@ -405,21 +408,24 @@ To support "django-simple-captcha" rendering, we will have to install these
 1. Lets make sure we are using the latest setup tools
   ```
   cd /usr/ports/devel/py-setuptools27
-  sudo make deinstall clean
+  make deinstall clean
   cd /usr/ports/devel/py-setuptools34
-  sudo make install clean
+  make install clean
   ```
 
 2. Lets install GD:
   ```
   cd /usr/ports/graphics/gd
-  sudo make install clean
+  make install clean
+  
+  Note:
+  i. Select all at the beginning
   ```
 
 3. Lets install FreeType
   ```
   cd /usr/ports/print/freetype2
-  sudo make install clean
+  make install clean
   ```
   
 4. Lets install memcached.
