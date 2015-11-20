@@ -7,18 +7,27 @@ This documentation will provide two sections: Section 1 will provide detailed in
 
 ## (1) Setup
 ### Requirements
+* Hosting with **Vultr**
 * 1 **FreeBSD 64bit** Droplet (IP: 104.238.162.153)
 * Must have **private networking** enabled
 
 
-### (a) Login
+### (a) Login & Change Swap
 We will login and change our password to something we use.
 
-Run from your local machine. When asked a question, select **yes**. Use the **initial password** found on Vultr.
+1. Run from your local machine. When asked a question, select **yes**. Use the **initial password** found on Vultr.
   ```
   ssh 104.238.162.153 -l root
   ```
   
+2. Vultr does not configure swap, we have to do it manually. Instructions taken from here: [11.12. Adding Swap Space](https://www.freebsd.org/doc/handbook/adding-swap-space.html) 
+  ```
+  dd if=/dev/zero of=/usr/swap0 bs=1m count=2000   # 2 Gigabtye
+  chmod 0600 /usr/swap0
+  swapon -aL
+  mdconfig -a -t vnode -f /usr/swap0 -u 0 && swapon /dev/md0
+  ```
+
   
 ### (b) Change Shell & Password
 1. We will be using the **TC-Shell** in for our environment. Check what Shell we are currently using on our inital install.
