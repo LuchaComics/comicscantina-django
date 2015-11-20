@@ -1,8 +1,8 @@
-———————————————————————————————————————————————————————————————
-SETUP BREW, PYTHON 3, VIRTUALENV & POSTGRES IN MAC OSX YOSEMITE
-———————————————————————————————————————————————————————————————
+———————————————————————————————————————————————————————
+SETUP BREW, PYTHON 3, VIRTUALENV & POSTGRES IN MAC OSX
+———————————————————————————————————————————————————————
 By: Bartlomiej Mika
-Date: Feb, 14th, 2015
+Date: Nov, 20th, 2015
 
 
 
