@@ -27,7 +27,12 @@ We will login and change our password to something we use.
   swapon -aL
   mdconfig -a -t vnode -f /usr/swap0 -u 0 && swapon /dev/md0
   ```
-
+  
+3. Run the following command to confirm swap was added.
+  ```
+  swapinfo
+  ````
+  
   
 ### (b) Change Shell & Password
 1. We will be using the **TC-Shell** in for our environment. Check what Shell we are currently using on our inital install.
