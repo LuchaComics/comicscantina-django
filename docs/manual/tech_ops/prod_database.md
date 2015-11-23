@@ -72,8 +72,15 @@ ssh 107.191.50.75 -l root
 ### Postgres 9.4.4   *
 1. Compile from source
   ```
-  su
-  cd /usr/ports/databases/postgresql94-server/ && make
+  # Bugfix - For some reason this library messes up on install unless you 
+  #          run the following commands manually.
+  cd /usr/ports/devel/gettext-tools
+  make install clean
+
+  cd /usr/ports/databases/postgresql94-client
+  make install clean
+
+  cd /usr/ports/databases/postgresql94-server
   make install clean
   ```
 
@@ -84,6 +91,8 @@ ssh 107.191.50.75 -l root
 
   Add this line to /etc/rc.conf:
   ```
+  ###### DATABASE
+  #
   postgresql_enable="YES"
   ```
 
@@ -94,7 +103,7 @@ ssh 107.191.50.75 -l root
 
 4. Now open the configuration file:
   ```
-  sudo vi /usr/local/pgsql/data/postgresql.conf
+  vi /usr/local/pgsql/data/postgresql.conf
   ```
 
 Then find the following line and remove the hashtag to uncomment the line.
@@ -112,12 +121,11 @@ Then find the following line and remove the hashtag to uncomment the line.
 6. Reboot the server & reconnect
   ```
   reboot
-  ssh 45.55.221.217 -l freebsd
+  ssh 107.191.50.75 -l root
   ```
 
 7. Create our administrator User & our database
   ```
-  su
   su pgsql
   createuser -sdrP django
   ```
