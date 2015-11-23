@@ -2,24 +2,36 @@
 ## Description
 Database server runs only the Postgres database and does not accept any other connections form the internet; furthermore, this server only accept database calls from the private network that the web-application is running on.
 
+
 ## (1) Setup
 ### Requirements
 * Hosting with **Vultr**
-* 1 **FreeBSD 64bit** Droplet (IP: 104.238.162.153)
+* 1 **FreeBSD 64bit** Droplet (IP: 107.191.50.75)
 * Must have **private networking** enabled
 
-## Firewall
-Please follow along the instructions in the **prod_webapp.md** file until you get to step **e-ii-1** and then continue following these instructions.
 
+### (a) Login 
+We will login and change our password to something we use.
+
+1. Run from your local machine. When asked a question, select **yes**. Use the **initial password** found on Vultr.
+```
+ssh 107.191.50.75 -l root
+```
+
+2. Please follow along the instructions in the **prod_webapp.md** file until you get to step **e-ii-1** and then continue following the instructions below:
+
+
+## Firewall
 1. Populate our firewall ruleset
   ```
   cat > /etc/pf.conf
   
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   ext_if="vtnet0"
+  int_if="vtnet1"
 
-  webports = "{http, https}"
-  int_tcp_services = "{domain, ntp, smtp, www, https, ftp, 5432, 5433}"
+  databaseports = "{5432, 5433}"
+  int_tcp_services = "{domain, ntp}"
   int_udp_services = "{domain, ntp}"
 
   set skip on lo
@@ -43,8 +55,8 @@ Please follow along the instructions in the **prod_webapp.md** file until you ge
   # SSH is listening on port 22
   pass in quick proto tcp to $ext_if port 22 keep state (max-src-conn 15, max-src-conn-rate 5/3, overload <bruteforce> flush global)
 
-  # Webserver
-  pass proto tcp from any to $ext_if port $webports
+  # Database Access
+  pass proto tcp from any to $int_if port $databaseports
 
   # Allow essential outgoing traffic
   pass out quick on $ext_if proto tcp to any port $int_tcp_services
@@ -52,67 +64,73 @@ Please follow along the instructions in the **prod_webapp.md** file until you ge
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   ```
 
-2. Update **rc.conf**:
+
+2. Please resume follow along the instructions in the **prod_webapp.md** file - resme at step **e-ii-1** and then continue following the instructions until step **(f) Python**.
+
+
+
+### Postgres 9.4.4   *
+1. Compile from source
   ```
-  vi /etc/rc.conf
-  
-  - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
-  ###### FIREWALL
-  #
-  pf_enable="YES" 		# Turn PF on when pc boots.
-  pf_rules="/etc/pf.conf" # Define the rules for the firewall
-  pf_flags=""			# Additional flags (none).
-  pflog_enabled="YES"		# Turn on packet loggin support.
-  pflog_logfile="/var/log/pflog" # Where to log data to, used by pflog daemon
-  pflog_flags=""			# Additional flags (None).
-  - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
+  su
+  cd /usr/ports/databases/postgresql94-server/ && make
+  make install clean
   ```
 
-3. To start the firewall, run the following. Note: More instructions can be found here: [PF Firewall](https://www.freebsd.org/doc/handbook/firewalls-pf.html)
-  ```
-  service pf start
-  service pflog start
-  ```
-
-#### (iii) Hardening rc.conf
-1. Load up our file
+2. Load up our rc.config
   ```
   vi /etc/rc.conf
   ```
-  
-2. Notes: When we are doing modification to the Kernel, use this:
+
+  Add this line to /etc/rc.conf:
   ```
-  kern_securelevel_enable="YES" 
-  kern_securelevel="1"	 
-  ```
-  
-3. Else when we are running production, use this:
-  ```
-  kern_securelevel_enable="YES"  
-  kern_securelevel="4"			    
+  postgresql_enable="YES"
   ```
 
-3. Now append the file with the following.
+3. Next, initialize a PostgreSQL database cluster:
   ```
-  ###### SECURITY
-  #
-  kern_securelevel_enable="YES" # Enable Kernel Security
-  kern_securelevel="4"              # Network Secure Level
-  sendmail_enable="NONE"            # Disable Sendmail
-  nfs_server_enable="NO"            # Disable NFS Server
-  nfs_client_enable="NO"            # Disable NFS Client
-  portmap_enable="NO"               # Disable portmap
-  syslogd_enable="YES"              # Allow system logging
-  syslogd_flags="-ss"               # Disable remote system logging
-  #tcp_drop_synfin="YES"             # Drop OS Fingerprinting
-  icmp_drop_redirect="YES"
-  icmp_log_redirect="YES"
-  log_in_vain="YES"                 # Root login security thingy
-  #accounting_enable="YES"           # Logs all attempts to closed ports
-  clear_tmp_enable="YES"            # Clear /tmp on startup
+  /usr/local/etc/rc.d/postgresql initdb
   ```
- 
-4. Reboot the computer to apply all our changes.
-   ```
+
+4. Now open the configuration file:
+  ```
+  sudo vi /usr/local/pgsql/data/postgresql.conf
+  ```
+
+Then find the following line and remove the hashtag to uncomment the line.
+  ```
+  listen_addresses = 'localhost'
+  ```
+
+5. Restarting Postres
+  ```
+  /usr/local/etc/rc.d/postgresql stop
+  /usr/local/etc/rc.d/postgresql start
+  /usr/local/etc/rc.d/postgresql restart
+  ```
+
+6. Reboot the server & reconnect
+  ```
   reboot
-   ```
+  ssh 45.55.221.217 -l freebsd
+  ```
+
+7. Create our administrator User & our database
+  ```
+  su
+  su pgsql
+  createuser -sdrP django
+  ```
+
+8. Now you can look at 'postgres.txt' and setup the DB. Help taken from:
+http://www.freebsddiary.org/postgresql.php
+
+In summary, run the following codes and eCantina Database will be setup.
+  ```
+  /usr/local/bin/dropdb ecantina_db;
+  /usr/local/bin/createdb ecantina_db;
+  /usr/local/bin/psql ecantina_db;
+  CREATE USER django WITH PASSWORD '123password';
+  GRANT ALL PRIVILEGES ON DATABASE ecantina_db to django;
+  ALTER USER django CREATEDB;
+  ```
