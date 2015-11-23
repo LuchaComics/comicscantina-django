@@ -28,6 +28,7 @@ from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
 from api.models.ec.emailsubscription import EmailSubscription
 from api.models.ec.unified_shipping_rates import UnifiedShippingRate
+from api.models.ec.print_history import PrintHistory
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -223,3 +224,9 @@ class UnifiedShippingRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UnifiedShippingRate
         fields = ('shipping_rate_id','country','comics_rate1','comics_rate2','comics_rate3','comics_rate4','comics_rate5','comics_rate6','comics_rate7','comics_rate8','comics_rate9','comics_rate10',)
+
+
+class PrintHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrintHistory
+        fields = ('print_id','created','filename','url','organization',)

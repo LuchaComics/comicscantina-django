@@ -25,6 +25,7 @@ from api.views import orgshippingpreference
 from api.views import orgshippingrate
 from api.views import emailsubscription
 from api.views import unifiedshippingrate
+from api.views import print_history
 from rest_framework.routers import DefaultRouter
 
 
@@ -57,6 +58,7 @@ router.register(r'orgshippingpreferences', orgshippingpreference.OrgShippingPref
 router.register(r'orgshippingrates', orgshippingrate.OrgShippingRateViewSet)
 router.register(r'emailsubscriptions', emailsubscription.EmailSubscriptionViewSet)
 router.register(r'unifiedshippingrates', unifiedshippingrate.UnifiedShippingRateViewSet)
+router.register(r'print_history', print_history.PrintHistoryViewSet)
 
 
 # The API URLs are now determined automatically by the router.
