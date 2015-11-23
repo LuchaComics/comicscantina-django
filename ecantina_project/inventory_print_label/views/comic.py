@@ -80,6 +80,9 @@ def process_comic(comic):
         img = qrcode.make(product_id)
         img.save(os.path.join(settings.MEDIA_ROOT,filepath), 'JPEG')
         
+        # Indicate the product has been printed.
+        comic.product.is_qrcode_printed = True
+        
         # Save the QRCode image to the model.
         comic.product.qrcode = filepath
         comic.product.save()

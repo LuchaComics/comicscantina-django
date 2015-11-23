@@ -52,10 +52,12 @@
     }
 
     function load_series_qrcodes(series_id) {
-        //TODO: Add code to set all products belonging to series to be set for is_qrcode_printed to be true.
-        
-        
+        // Load the page which will generate and create the QR-codes.
         window.open('/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics/series/'+series_id, '_blank');
-        location.reload(true); // Reload page with cache cleared.
+        
+        // After a certain amount of time, refresh the page.
+        setTimeout(function(){
+            location.reload(true); // Reload page with cache cleared.
+        }, 100)
     }
 </script>
