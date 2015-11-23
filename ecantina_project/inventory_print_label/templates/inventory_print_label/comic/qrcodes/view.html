@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% include 'api/print_history.html' %}
 <html><head></head><body>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -62,14 +63,14 @@
                 success: function (data) {
                    
                    // Save the resulting URL and then load the URL.
-                   save_print_history_and_load_page(data.result);
+                   save_print_history_and_load_page(data.result['download'], data.result['filename']);
                    
                 }
             }); // End Save
         }); // End Document is Ready
     }
 
-    function save_print_history_and_load_page(url)
+    function save_print_history_and_load_page(download_url, url)
     {
         var filename = url.substring(url.lastIndexOf('/')+1);
         var data = {
@@ -82,7 +83,7 @@
         set_print_history(
             data,
             function(print_history) {
-                window.location=data.result; // Load up the file.
+                window.location=download_url; // Load up the url where the file will be generated.
             },
             function(error_json) {
                 alert(error_json);
