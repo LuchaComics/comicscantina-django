@@ -47,7 +47,25 @@ def comics_print_labels_page(request, org_id, store_id):
 
 @login_required(login_url='/inventory/login')
 def series_qrcodes_page(request, org_id, store_id, series_id):
-    q = Comic.objects.filter(issue__series_id=series_id)
+    q = Comic.objects.filter(product__store_id=store_id,issue__series_id=series_id)
+    q = q.order_by('created')
+    
+    for comic in q:
+        process_comic(comic)
+    
+    return render(request, 'inventory_print_label/comic/qrcodes/view.html',{
+        'HOST': request.get_host(),
+        'comics': q,
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'tab':'print',
+        'employee': Employee.objects.get(user__id=request.user.id),
+        'locations': Store.objects.filter(organization_id=org_id),
+    })
+
+@login_required(login_url='/inventory/login')
+def all_qrcodes_page(request, org_id, store_id):
+    q = Comic.objects.filter(product__store_id=store_id,product__is_qrcode_printed=False)
     q = q.order_by('created')
     
     for comic in q:

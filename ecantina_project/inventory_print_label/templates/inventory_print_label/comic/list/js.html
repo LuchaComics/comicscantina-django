@@ -60,4 +60,14 @@
             location.reload(true); // Reload page with cache cleared.
         }, 100)
     }
+
+    function load_all_qrcodes(series_id) {
+        // Load the page which will generate and create the QR-codes.
+        window.open('/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics/all', '_blank');
+    
+        // After a certain amount of time, refresh the page.
+        setTimeout(function(){
+            location.reload(true); // Reload page with cache cleared.
+        }, 100)
+    }
 </script>
