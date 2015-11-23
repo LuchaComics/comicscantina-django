@@ -24,43 +24,6 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="panel-tabs w100 p m0" style="border-top: 1px solid #ddd;">
-                        <div id="search-issues-list" class="inventory-search-list inventory-list" style="border:none;">
-                            <div id="list-filter-bar" class="clearfix navbar-inverse"
-                                style="background-color:#eee;width:100%;border-bottom:1px solid rgb(207,219,226);">
-                                <div class="pull-left">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle"
-                                            style="margin:3px;margin-right:3px;" data-toggle="dropdown"
-                                            aria-expanded="false">
-                                            Sort By&nbsp;&nbsp;<span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Title&nbsp;&nbsp;<em class="fa fa-sort-alpha-asc"
-                                                style="top:2px;"></em></a></li>
-                                            <li><a href="#">Series</a></li>
-                                            <li><a href="#">Publisher</a></li>
-                                            <li><a href="#">Release Date</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Price</a></li>
-                                            <li><a href="#">Quantity On Hand</a></li>
-                                            <li><a href="#">Quantity Needed</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="pull-right;" style="float:right;">
-                                    <div class="input-group input-group-sm pull-right"
-                                        style="width:400px;margin-top:3px;margin-right:10px;">
-                                        <input id="id_search_keyword" type="text" class="form-control" placeholder="Search for..." />
-                                        <span class="input-group-btn">
-                                            <button onclick="ajax_search();" class="btn btn-default" type="button" style="margin-top:0px;">Search Cart Items
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <!-- /input-group -->
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
                         <div class="clearfix"></div>
                         <div class="panel-body panel-body-main">
                             <div class="col-sm-12">
@@ -87,5 +50,5 @@
     </div>
 </section>
 
-{% include "inventory_print_label/comic/list/js.html" %}
+{% include "inventory_print_label/print_history/js.html" %}
 {% endblock content %}
