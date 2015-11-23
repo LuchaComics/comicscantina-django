@@ -15,7 +15,7 @@ class PrintHistoryFilter(django_filters.FilterSet):
     filename = django_filters.CharFilter(name="filename", lookup_type=("icontains"))
     class Meta:
         model = PrintHistory
-        fields = ['print_id','created','filename','url','organization',]
+        fields = ['print_id','created','filename','url','organization','store',]
 
 
 class PrintHistoryViewSet(viewsets.ModelViewSet):

@@ -229,4 +229,4 @@ class UnifiedShippingRateSerializer(serializers.ModelSerializer):
 class PrintHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = PrintHistory
-        fields = ('print_id','created','filename','url','organization',)
+        fields = ('print_id','created','filename','url','organization','store',)
