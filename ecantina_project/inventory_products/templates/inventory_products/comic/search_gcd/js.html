@@ -278,9 +278,10 @@
                             comiclist += val['publication_date'] + '</span></th>';
                                 
                             // Buttons
+                            var safe_product_name = product_name.replace("'", "&apos;");
                             var onclick1 = 'ajax_create_and_load_product('+issue_id+');';
                             comiclist += '<th style="text-align:center;">';
-                            comiclist += '<button onclick="ajax_load_modal('+series_id+','+issue_id+',\''+publisher_name+'\',\''+product_name+'\');" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
+                            comiclist += '<button onclick="ajax_load_modal('+issue_id+');" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
                                                 
                             comiclist += '<button onclick="'+onclick1+'" style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>';
                             comiclist += '</th>';
@@ -398,39 +399,50 @@
         window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/0";
     }
 
-    function ajax_load_modal(series_id, issue_id, publisher_name, product_name)
+    function ajax_load_modal(issue_id)
     {
-        $('#id_selected_issue_id').val(issue_id);
-        $('#id_selected_series_id').val(series_id);
-        $('#id_selected_issue_name').val(product_name);
-        
-        // If a brand name was entered, find it and remember the 'brand_id' else
-        // if it doesn't exist then we need to create it.
-        if (publisher_name.length > 0) {
-            filter_brands_by(publisher_name, function(json_result) {
-                $(json_result).each(function(iter,val2){
-                    // Update results count
-                    var count = val2['count'];
-                    if (count > 1) {
-                        console.log("ERROR: MULTIPLE BRANDS FOUND");
-                        alert("ERROR: MULTIPLE BRANDS FOUND");
-                    }
-                    else if (count == 1) {
-                        $(val2['results']).each(function(iter2,val){
-                            $('#id_selected_brand_id').val(val['brand_id']);
-                        });
-                    } else { // Create if none found.
-                        set_brand({
-                            'name':publisher_name,
-                        }, function(json_result) {
-                            $('#id_selected_brand_id').val(json_result['brand_id']);
-                        });
-                    }
-                }); // .iteration
-            }); // .brands
-        } else {
-            console.error("No Publisher Name");
-            alert("No Publisher Name");
-        }
+        get_issue(
+            issue_id,
+            function(issue) {
+                // Save the particular information in a hidden value to recall
+                // later when we are saving the new product.
+                $('#id_selected_issue_id').val(issue['issue_id']);
+                $('#id_selected_series_id').val(issue['series']);
+                $('#id_selected_issue_name').val(issue['product_name']);
+                  
+                // If a brand name was entered, find it and remember the 'brand_id' else
+                // if it doesn't exist then we need to create it.
+                var publisher_name = issue['publisher_name'];
+                if (publisher_name.length > 0) {
+                    filter_brands_by(publisher_name, function(json_result) {
+                        $(json_result).each(function(iter,val2){
+                            // Update results count
+                            var count = val2['count'];
+                            if (count > 1) {
+                                console.log("ERROR: MULTIPLE BRANDS FOUND");
+                                alert("ERROR: MULTIPLE BRANDS FOUND");
+                            }
+                            else if (count == 1) {
+                                $(val2['results']).each(function(iter2,val){
+                                    $('#id_selected_brand_id').val(val['brand_id']);
+                                });
+                            } else { // Create if none found.
+                                set_brand({
+                                    'name':publisher_name,
+                                }, function(json_result) {
+                                    $('#id_selected_brand_id').val(json_result['brand_id']);
+                                });
+                            }
+                        }); // .iteration
+                    }); // .brands
+                  } else {
+                      console.error("No Publisher Name");
+                      alert("No Publisher Name");
+                  }
+            },
+            function(error_json) {
+                alert(error_json);
+            }
+        ); // End Get Issue
     }
 </script>
