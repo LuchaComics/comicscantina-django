@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from django.shortcuts import render
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -18,18 +18,20 @@ from inventory_setting.forms.userform import UserForm
 
 
 def registration_step1_page(request, org_id=0, store_id=0,):
-    # Fetch the Organization / Store.
-    try:
-        org = Organization.objects.get(org_id=int(org_id))
-    except Organization.DoesNotExist:
-        org = None
-    try:
-        store = Store.objects.get(store_id=int(store_id))
-    except Store.DoesNotExist:
-        store = None
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
+    
+    # Redirect the user to a forbidden error if the store or organization
+    # are not listed.
+    if organization:
+        if organization.is_listed is False:
+            return HttpResponseRedirect("/403")
+    if store:
+        if store.is_listed is False:
+            return HttpResponseRedirect("/403")
     
     return render(request, 'store_register/step1/view.html',{
-        'org': org,
+        'org': organization,
         'store': store,
         'user_form': UserForm(),
         'page' : 'register',
@@ -37,18 +39,10 @@ def registration_step1_page(request, org_id=0, store_id=0,):
 
 
 def registration_step2_page(request, org_id=0, store_id=0,):
-    # Fetch the Organization / Store.
-    try:
-        org = Organization.objects.get(org_id=int(org_id))
-    except Organization.DoesNotExist:
-        org = None
-    try:
-        store = Store.objects.get(store_id=int(store_id))
-    except Store.DoesNotExist:
-        store = None
-    
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
     return render(request, 'store_register/step2/view.html',{
-        'org': org,
+        'org': organization,
         'store': store,
         'user_form': UserForm(),
         'page' : 'register',
@@ -57,19 +51,11 @@ def registration_step2_page(request, org_id=0, store_id=0,):
 
 @login_required(login_url='/store/register/step1')
 def registration_step3_page(request, org_id=0, store_id=0,):
-    # Fetch the Organization / Store.
-    try:
-        org = Organization.objects.get(org_id=int(org_id))
-    except Organization.DoesNotExist:
-        org = None
-    try:
-        store = Store.objects.get(store_id=int(store_id))
-    except Store.DoesNotExist:
-        store = None
-    
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step3/view.html',{
-        'org': org,
+        'org': organization,
         'store': store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
@@ -79,19 +65,11 @@ def registration_step3_page(request, org_id=0, store_id=0,):
 
 @login_required(login_url='/store/register/step1')
 def registration_step4_page(request, org_id=0, store_id=0,):
-    # Fetch the Organization / Store.
-    try:
-        org = Organization.objects.get(org_id=int(org_id))
-    except Organization.DoesNotExist:
-        org = None
-    try:
-        store = Store.objects.get(store_id=int(store_id))
-    except Store.DoesNotExist:
-        store = None
-    
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step4/view.html',{
-        'org': org,
+        'org': organization,
         'store': store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
@@ -101,19 +79,11 @@ def registration_step4_page(request, org_id=0, store_id=0,):
 
 @login_required(login_url='/store/register/step1')
 def registration_step5_page(request, org_id=0, store_id=0,):
-    # Fetch the Organization / Store.
-    try:
-        org = Organization.objects.get(org_id=int(org_id))
-    except Organization.DoesNotExist:
-        org = None
-    try:
-        store = Store.objects.get(store_id=int(store_id))
-    except Store.DoesNotExist:
-        store = None
-    
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step5/view.html',{
-        'org': org,
+        'org': organization,
         'store': store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),

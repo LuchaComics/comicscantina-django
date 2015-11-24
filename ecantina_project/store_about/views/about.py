@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
 from api.models.ec.organization import Organization
@@ -12,14 +12,17 @@ def about_page(request, org_id=0, store_id=0):
     store_id = int(store_id)
     
     # Fetch the Organization / Store.
-    try:
-        organization = Organization.objects.get(org_id=org_id)
-    except Organization.DoesNotExist:
-        organization = None
-    try:
-        store = Store.objects.get(store_id=store_id)
-    except Store.DoesNotExist:
-        store = None
+    organization = Organization.objects.get_or_none(org_id)
+    store = Store.objects.get_or_none(store_id)
+
+    # Redirect the user to a forbidden error if the store or organization
+    # are not listed.
+    if organization:
+        if organization.is_listed is False:
+            return HttpResponseRedirect("/403")
+    if store:
+        if store.is_listed is False:
+            return HttpResponseRedirect("/403")
 
     # Fetch either all the stores within the organization or fetch the
     # individual store at the 'store_id' value.

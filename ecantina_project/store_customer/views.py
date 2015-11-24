@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from ecantina_project import constants
@@ -24,6 +24,15 @@ def authentication_page(request, org_id=0, store_id=0):
     # Fetch the Organization / Store.
     org = Organization.objects.get_or_none(org_id)
     store = Store.objects.get_or_none(store_id)
+    
+    # Redirect the user to a forbidden error if the store or organization
+    # are not listed.
+    if org:
+        if org.is_listed is False:
+            return HttpResponseRedirect("/403")
+    if store:
+        if store.is_listed is False:
+            return HttpResponseRedirect("/403")
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
