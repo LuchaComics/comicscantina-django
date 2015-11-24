@@ -22,10 +22,10 @@ We will login and change our password to something we use.
   
 2. Vultr does not configure swap, we have to do it manually. Instructions taken from here: [11.12. Adding Swap Space](https://www.freebsd.org/doc/handbook/adding-swap-space.html) 
   ```
-  dd if=/dev/zero of=/usr/swap0 bs=1m count=5000   # 5 Gigabtye
-  chmod 0600 /usr/swap0
-  swapon -aL
-  mdconfig -a -t vnode -f /usr/swap0 -u 0 && swapon /dev/md0
+  dd if=/dev/zero of=/usr/swap0 bs=1m count=5000;  
+  chmod 0600 /usr/swap0;
+  swapon -aL;
+  mdconfig -a -t vnode -f /usr/swap0 -u 0 && swapon /dev/md0;
   ```
   
 3. Run the following command to confirm swap was added.
@@ -382,8 +382,11 @@ It's a key security ingredient that we have our applications running on a non-ro
   make deinstall clean
   make install clean
 
-  cd /usr/ports/converters/libiconv
-  make install clean
+  cd /usr/ports/converters/libiconv && make install clean;
+
+  # Bugfix - For some reason this library messes up on install unless you 
+  #          run the following commands manually.
+  cd /usr/ports/devel/gettext-tools && make install clean MAKE_JOBS_UNSAFE=yes;
   ```
   
   
@@ -391,8 +394,7 @@ It's a key security ingredient that we have our applications running on a non-ro
 #### (i) Python 3.4
 1. Compile from source Python 3.4
   ```
-  cd /usr/ports/lang/python34
-  make install clean
+  cd /usr/ports/lang/python34 && make install clean;
   ```
   
 2. Find where Python was installed
@@ -417,16 +419,13 @@ To support "django-simple-captcha" rendering, we will have to install these
 
 1. Lets make sure we are using the latest setup tools
   ```
-  cd /usr/ports/devel/py-setuptools27
-  make deinstall clean
-  cd /usr/ports/devel/py-setuptools34
-  make install clean
+  cd /usr/ports/devel/py-setuptools27 && make deinstall clean;
+  cd /usr/ports/devel/py-setuptools34 && make install clean;
   ```
 
 2. Lets install GD:
   ```
-  cd /usr/ports/graphics/gd
-  make install clean
+  cd /usr/ports/graphics/gd && make install clean;
   
   Note:
   i. Select all at the beginning
@@ -434,16 +433,13 @@ To support "django-simple-captcha" rendering, we will have to install these
 
 3. Lets install FreeType
   ```
-  cd /usr/ports/print/freetype2
-  make install clean
+  cd /usr/ports/print/freetype2 && make install clean;
   ```
   
 4. Lets install memcached.
   ```
-  cd /usr/ports/databases/memcached
-  make install clean
-  cd /usr/ports/databases/libmemcached
-  make install clean
+  cd /usr/ports/databases/memcached && make install clean;
+  cd /usr/ports/databases/libmemcached && make install clean;
   ```
 
 5. Edit /etc/rc.conf and add the following.  
@@ -453,22 +449,19 @@ To support "django-simple-captcha" rendering, we will have to install these
 
 6. Add screen
   ```
-  cd /usr/ports/sysutils/screen
-  make install clean
+  cd /usr/ports/sysutils/screen && make install clean;
   ```
 
 
 ####(iii) pip
 1. Lets install pip:
   ```
-  cd /usr/ports/ftp/curl
-  make install clean
-
+  cd /usr/ports/ftp/curl && make install clean;
   
-  cd ~/
-  curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
-  python get-pip.py
-  rm get-pip.py
+  cd ~/;
+  curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py;
+  python get-pip.py;
+  rm get-pip.py;
   ```
   
 2. Verify pip was installed
@@ -486,17 +479,9 @@ To install:
   
 ###(g) Postgres 9.4
 1. Compile from source
-  ```
-  # Bugfix - For some reason this library messes up on install unless you 
-  #          run the following commands manually.
-  cd /usr/ports/devel/gettext-tools
-  make install clean
-  
-  cd /usr/ports/databases/postgresql94-client
-  make install clean
-
-  cd /usr/ports/databases/postgresql94-server
-  make install clean
+  ```  
+  cd /usr/ports/databases/postgresql94-client && make install clean;
+  cd /usr/ports/databases/postgresql94-server && make install clean;
   ```
 
 2. Load up our rc.config
@@ -506,8 +491,6 @@ To install:
 
 Add this line to /etc/rc.conf:
   ```
-  ###### DATABASE
-  #
   postgresql_enable="YES"
   ```
 
