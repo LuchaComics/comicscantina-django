@@ -35,7 +35,7 @@ def front_page(request, org_id=0, store_id=0):
     # on the organization / store.
     try:
         featured_comics = Comic.objects.filter(
-            product__is_available=True,
+            product__is_listed=True,
             product__store__is_aggregated=True,
             product__is_sold=False,
             product__is_featured=True,
@@ -53,7 +53,7 @@ def front_page(request, org_id=0, store_id=0):
     # organization / store.
     try:
         new_comics = Comic.objects.filter(
-            product__is_available=True,
+            product__is_listed=True,
             product__store__is_aggregated=True,
             product__is_sold=False,
             product__is_new=True,

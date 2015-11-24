@@ -58,7 +58,7 @@ class Product(models.Model):
     # in-store for customers to see or find in the catalog search. Products
     # with this variable set to false are not allowed to show up in search
     # results nor are customers allowed to see this product.
-    is_available = models.BooleanField(default=True)
+    is_listed = models.BooleanField(default=True)
     
     # These two variables are used in the store.
     is_new = models.BooleanField(default=False)

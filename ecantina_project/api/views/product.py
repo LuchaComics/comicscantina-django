@@ -32,7 +32,7 @@ class ProductFilter(django_filters.FilterSet):
     store_aggregated_listing = django_filters.BooleanFilter(name="store__is_aggregated")
     class Meta:
         model = Product
-        fields = ['product_id', 'name', 'description', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'organization', 'store', 'section', 'brand', 'brand_name', 'tag', 'is_available', 'category', 'category_name', 'min_sub_price', 'max_sub_price', 'min_price', 'max_price', 'min_discount', 'is_new', 'is_featured', 'is_qrcode_printed', 'language', 'currency', 'store_aggregated_listing',]
+        fields = ['product_id', 'name', 'description', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'discount', 'discount_type', 'price', 'cost', 'image', 'organization', 'store', 'section', 'brand', 'brand_name', 'tag', 'is_listed', 'category', 'category_name', 'min_sub_price', 'max_sub_price', 'min_price', 'max_price', 'min_discount', 'is_new', 'is_featured', 'is_qrcode_printed', 'language', 'currency', 'store_aggregated_listing',]
 
 
 class ProductViewSet(viewsets.ModelViewSet):

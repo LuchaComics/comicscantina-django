@@ -31,7 +31,17 @@ class Store(models.Model):
     description = models.TextField(null=True, blank=True)
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    
+    # Variable controls whether the store is no longer listed in our system
+    # and Users are not allowed to login/access this store.
     is_suspended = models.BooleanField(default=False)
+    
+    # Variable controls whether we are to allow displaying and listing
+    # this store in our system. Setting to "False" means it won't
+    # appear anywhere. This value is read-only and is only adjusted
+    # by the staff of eCantina to set it 'False'.
+    is_listed = models.BooleanField(default=True)
+    
     tax_rate = models.DecimalField(
         max_digits=10,
         decimal_places=2,

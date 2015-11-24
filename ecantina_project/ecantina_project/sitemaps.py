@@ -21,7 +21,7 @@ class OrganizationSitemap(sitemaps.Sitemap):
     changefreq = 'monthly'
     
     def items(self):
-        return Organization.objects.filter(is_suspended=False)
+        return Organization.objects.filter(is_suspended=False, is_listed=True,)
     
     def lastmod(self, obj):
         return obj.last_updated
@@ -32,7 +32,7 @@ class StoreSitemap(sitemaps.Sitemap):
     changefreq = 'monthly'
     
     def items(self):
-        return Store.objects.filter(is_suspended=False)
+        return Store.objects.filter(is_suspended=False, is_listed=True,)
     
     def lastmod(self, obj):
         return obj.last_updated
@@ -43,7 +43,7 @@ class ProductsSitemap(sitemaps.Sitemap):
     changefreq = 'weekly'
     
     def items(self):
-        return Product.objects.filter(is_sold=False)
+        return Product.objects.filter(is_sold=False, is_listed=True,)
     
     def lastmod(self, obj):
         return obj.last_updated

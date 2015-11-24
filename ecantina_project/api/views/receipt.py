@@ -221,7 +221,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         for product in receipt.products.all():
             if product.is_sold:
                 return Response({'status': 'failed', 'message': 'product was already sold: '+product.name })
-            if product.is_available is False:
+            if product.is_listed is False:
                 return Response({'status': 'failed', 'message': 'product is no longer sold: '+product.name })
         return None
 

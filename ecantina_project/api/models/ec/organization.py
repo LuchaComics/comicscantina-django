@@ -31,7 +31,16 @@ class Organization(models.Model):
     description = models.TextField(null=True, blank=True)
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
+    
+    # Variable controls whether the Organization is no longer listed in our
+    # system and Users are not allowed to login/access it.
     is_suspended = models.BooleanField(default=False)
+    
+    # Variable controls whether we are to allow displaying and listing
+    # this Organization in our system. Setting to "False" means it won't
+    # appear anywhere. This value is read-only and is only adjusted
+    # by the staff of eCantina to set it 'False'.
+    is_listed = models.BooleanField(default=True)
     
     # Location
     street_name = models.CharField(max_length=63)

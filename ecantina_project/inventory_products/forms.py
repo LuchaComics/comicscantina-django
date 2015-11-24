@@ -97,7 +97,7 @@ class ImageUploadForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'price', 'section', 'sub_price','price','cost', 'store','type','images', 'category', 'qrcode', 'has_no_shipping', 'is_available', 'is_new', 'is_featured',]
+        fields = ['name', 'description', 'price', 'section', 'sub_price','price','cost', 'store','type','images', 'category', 'qrcode', 'has_no_shipping', 'is_listed', 'is_new', 'is_featured',]
         labels = {
             
         }
