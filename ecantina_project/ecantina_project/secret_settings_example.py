@@ -13,6 +13,8 @@ SECRET_ALLOWED_HOSTS = []
 #---------------------------------------------------------------------------#
 SECRET_DB_USER = "django"
 SECRET_DB_PASSWORD = "123password"
+SECRET_DB_HOST = "localhost"
+SECRET_DB_PORT = "5432"
 
 
 #---------------------------------------------------------------------------#

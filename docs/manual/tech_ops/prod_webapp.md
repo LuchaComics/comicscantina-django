@@ -102,6 +102,7 @@ We will enable public-private key based authentication and ensure every user tha
   
 5. Change the following line to look like this.
   ```
+  PubkeyAuthentication yes
   PasswordAuthentication no
   ChallengeResponseAuthentication no
   ```
@@ -469,7 +470,11 @@ To install:
   
   
 ###(g) Postgres 9.4
-Please read the instructions in **prod_database.md**.
+Please read the instructions in **prod_database.md**. This machine will only have:
+  ```
+  cd /usr/ports/databases/postgresql94-client
+  make install clean
+  ```
 
 
 ###(h) NGINX 
@@ -490,7 +495,7 @@ Please read the instructions in **prod_database.md**.
   ```
   
 4. In your browser, verify this brings up a page. Go to:
-http://45.55.221.217
+http://104.238.162.153 
 
 
 ###(i) Depyloment
@@ -515,10 +520,35 @@ http://45.55.221.217
 
 5. Now lets install the libraries this project depends on.
   ```
-  sudo pip install -r requirements.txt
+  pip3 install django                 # Our MVC Framework
+  pip3 install psycopg2               # Postgres SQL DB
+  pip3 install gunicorn               # Web-Server Helper
+  pip3 install Pillow                 # Req: ImageField
+  pip3 install django-simple-captcha  # Captchas
+  pip3 install pep8                   # Coding Style Checker
+  pip3 install urllib3                # Library for making HTTP requests to external websites
+  pip3 install beautifulsoup4         # HTML Scrapper
+  pip3 install simplejson             # JSON Reader
+  pip3 install djangorestframework    # Web browsable API Framework
+  pip3 install markdown               # Markdown support for the browsable API.
+  pip3 install django-filter          # Filtering support
+  pip3 install qrcode                 # QR Code Generator
+  pip3 install pylibmc --install-option="--with-libmemcached=/usr/local"  # (FreeBSD Only for memcached!)
+  pip3 install django-paypal           # PayPal Service
   ```
 
-6. Initialize database and make the server run.
+6. Initialize the **secret_settings.py** file to look like this:
+  ```
+  #---------------------------------------------------------------------------#
+  # Database                                                                  #
+  #---------------------------------------------------------------------------#
+  SECRET_DB_USER = "django"
+  SECRET_DB_PASSWORD = "123password"
+  SECRET_DB_HOST = "107.191.50.75"
+  SECRET_DB_PORT = "5432"
+  ```
+
+7. Initialize database and make the server run.
   ```
   cd ecantina_project/
   python manage.py migrate

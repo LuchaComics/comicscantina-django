@@ -146,10 +146,10 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "ecantina_db",
-        "USER": "django",
-        "PASSWORD": "123password",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "USER": SECRET_DB_USER,
+        "PASSWORD": SECRET_DB_PASSWORD,
+        "HOST": SECRET_DB_HOST,
+        "PORT": SECRET_DB_PORT,
     }
 }
 
