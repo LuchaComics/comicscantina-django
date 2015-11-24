@@ -34,13 +34,13 @@ class Organization(models.Model):
     
     # Variable controls whether the Organization is no longer listed in our
     # system and Users are not allowed to login/access it.
-    is_suspended = models.BooleanField(default=False)
+    is_suspended = models.BooleanField(default=False, db_index=True)
     
     # Variable controls whether we are to allow displaying and listing
     # this Organization in our system. Setting to "False" means it won't
     # appear anywhere. This value is read-only and is only adjusted
     # by the staff of eCantina to set it 'False'.
-    is_listed = models.BooleanField(default=True)
+    is_listed = models.BooleanField(default=True, db_index=True)
     
     # Location
     street_name = models.CharField(max_length=63)

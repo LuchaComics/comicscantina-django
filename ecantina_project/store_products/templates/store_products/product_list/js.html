@@ -95,6 +95,9 @@
         // IMPORTANT: Ensure we only return non-sold and available products.
         arr.push({ 'is_sold': 'False' });
         arr.push({ 'is_listed': 'True' });
+        arr.push({ 'is_org_listed': 'True' });
+        arr.push({ 'is_store_listed': 'True' });
+        
         
         // Search through the products and generate UI with the results.
         filter_products(arr, function(json_objects) {

@@ -48,6 +48,8 @@ def front_page(request, org_id=0, store_id=0):
             product__store__is_aggregated=True,
             product__is_sold=False,
             product__is_featured=True,
+            product__organization__is_listed=True,
+            product__store__is_listed=True,
         )
     
         if org_id > 0:

@@ -38,6 +38,7 @@ class Product(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         choices=constants.PRODUCT_TYPE_OPTIONS,
         default=1,
+        db_index=True,
     )
     
     # description that will be displayed to the customer about this product.
@@ -52,17 +53,17 @@ class Product(models.Model):
     # It is important to note that when a product is purchased, the product
     # is not to be deleted from the table, but instead remain in the table
     # and just have the "is_sold" varible to be "True".
-    is_sold = models.BooleanField(default=False)
+    is_sold = models.BooleanField(default=False, db_index=True)
     
     # This variable controls whether we are allowed to display the product
     # in-store for customers to see or find in the catalog search. Products
     # with this variable set to false are not allowed to show up in search
     # results nor are customers allowed to see this product.
-    is_listed = models.BooleanField(default=True)
+    is_listed = models.BooleanField(default=True, db_index=True)
     
     # These two variables are used in the store.
-    is_new = models.BooleanField(default=False)
-    is_featured = models.BooleanField(default=False)
+    is_new = models.BooleanField(default=False, db_index=True)
+    is_featured = models.BooleanField(default=False, db_index=True)
     
     # The following variables are to save financial information.
     sub_price = models.DecimalField( # Note: Price before discount applied.
@@ -90,6 +91,7 @@ class Product(models.Model):
         max_digits=10,
         decimal_places=2,
         default=0.00,
+        db_index=True,
     )
     discount_type = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(2)],

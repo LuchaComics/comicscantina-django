@@ -34,13 +34,13 @@ class Store(models.Model):
     
     # Variable controls whether the store is no longer listed in our system
     # and Users are not allowed to login/access this store.
-    is_suspended = models.BooleanField(default=False)
+    is_suspended = models.BooleanField(default=False, db_index=True)
     
     # Variable controls whether we are to allow displaying and listing
     # this store in our system. Setting to "False" means it won't
     # appear anywhere. This value is read-only and is only adjusted
     # by the staff of eCantina to set it 'False'.
-    is_listed = models.BooleanField(default=True)
+    is_listed = models.BooleanField(default=True, db_index=True)
     
     tax_rate = models.DecimalField(
         max_digits=10,
@@ -105,7 +105,7 @@ class Store(models.Model):
 
     # This field controls whether the products in this store will be listed on
     # the main aggregate store.
-    is_aggregated = models.BooleanField(default=True)
+    is_aggregated = models.BooleanField(default=True, db_index=True)
 
     # This field controls whether we have a custom shipping rate for the store.
     has_shipping_rate_override = models.BooleanField(default=False, blank=True)

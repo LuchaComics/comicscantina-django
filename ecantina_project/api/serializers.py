@@ -58,9 +58,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     brand_name = serializers.CharField(source='brand', read_only=True)
+    is_org_listed = serializers.CharField(source='organization.is_listed',read_only=True)
+    is_store_listed = serializers.CharField(source='store.is_listed',read_only=True)
     class Meta:
         model = Product
-        fields = ('product_id', 'name', 'description', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'has_tax', 'tax_rate', 'tax_amount', 'sub_price_with_tax','discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_listed', 'category', 'is_new', 'is_featured', 'qrcode', 'is_qrcode_printed', 'currency', 'language', 'has_no_shipping', 'brand_name',)
+        fields = ('product_id', 'name', 'description', 'type', 'created', 'last_updated', 'is_sold', 'sub_price', 'has_tax', 'tax_rate', 'tax_amount', 'sub_price_with_tax','discount', 'discount_type', 'price', 'cost', 'image', 'image_url', 'images', 'organization', 'store', 'section', 'brand', 'tags', 'is_listed', 'category', 'is_new', 'is_featured', 'qrcode', 'is_qrcode_printed', 'currency', 'language', 'has_no_shipping', 'brand_name', 'is_org_listed', 'is_store_listed',)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
