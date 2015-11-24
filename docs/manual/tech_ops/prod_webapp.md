@@ -445,10 +445,13 @@ To support "django-simple-captcha" rendering, we will have to install these
 ####(iii) pip
 1. Lets install pip:
   ```
-  exit
+  cd /usr/ports/ftp/curl
+  make install clean
+
+  
   cd ~/
   curl -O https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
-  sudo python get-pip.py
+  python get-pip.py
   rm get-pip.py
   ```
   
@@ -459,18 +462,9 @@ To support "django-simple-captcha" rendering, we will have to install these
   
   
 ####(iv) Virtualenv
-1. To install:
+To install:
   ```
   pip install virtualenv
-  ```
-
-2. Verify virtualenv is intalled
-  ```
-  su freebsd
-  cd ~/
-  mkdir py-ecantina
-  cd py-ecantina
-  virtualenv env
   ```
   
   
@@ -505,7 +499,7 @@ http://45.55.221.217
 
 2. Go into the directory
   ```
-  exit
+  su freebsd
   cd ~/py-ecantina
   ```
 
