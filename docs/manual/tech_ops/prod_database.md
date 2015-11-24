@@ -18,7 +18,19 @@ We will login and change our password to something we use.
 ssh 107.191.50.75 -l root
 ```
 
-2. Please follow along the instructions in the **prod_webapp.md** file until you get to step **e-ii-1** and then continue following the instructions below:
+
+2. Go the this file and add:
+  ```
+  vi /etc/rc.conf
+
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  defaultrouter="107.191.50.1"
+  ifconfig_vtnet1="inet 10.99.0.10 netmask 255.255.0.0"  # DATABASEAPP
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  ```
+
+
+3. Please follow along the instructions in the **prod_webapp.md** file until you get to step **e-ii-1** and then continue following the instructions below:
 
 
 ## Firewall
@@ -108,29 +120,40 @@ ssh 107.191.50.75 -l root
 
 Then find the following line and remove the hashtag to uncomment the line.
   ```
-  listen_addresses = 'localhost'
+  listen_addresses = '*'
+  port = 5432
   ```
 
-5. Restarting Postres
+5. 
+  ```
+  vi /usr/local/pgsql/data/pg_hba.conf
+
+  Add
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  host    all             all            10.99.0.11/24          trust
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  ```
+
+6. Restarting Postres
   ```
   /usr/local/etc/rc.d/postgresql stop
   /usr/local/etc/rc.d/postgresql start
   /usr/local/etc/rc.d/postgresql restart
   ```
 
-6. Reboot the server & reconnect
+7. Reboot the server & reconnect
   ```
   reboot
   ssh 107.191.50.75 -l root
   ```
 
-7. Create our administrator User & our database
+8. Create our administrator User & our database
   ```
   su pgsql
   createuser -sdrP django
   ```
 
-8. Now you can look at 'postgres.txt' and setup the DB. Help taken from:
+9. Now you can look at 'postgres.txt' and setup the DB. Help taken from:
 http://www.freebsddiary.org/postgresql.php
 
 In summary, run the following codes and eCantina Database will be setup.
@@ -141,4 +164,10 @@ In summary, run the following codes and eCantina Database will be setup.
   CREATE USER django WITH PASSWORD '123password';
   GRANT ALL PRIVILEGES ON DATABASE ecantina_db to django;
   ALTER USER django CREATEDB;
+  ```
+
+10. Test:
+  ```
+  psql -h 10.99.0.11 -U django -d ecantina_db
+  psql -h localhost -U django -d ecantina_db
   ```

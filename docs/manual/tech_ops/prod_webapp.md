@@ -12,7 +12,7 @@ This documentation will provide two sections: Section 1 will provide detailed in
 * Must have **private networking** enabled
 
 
-### (a) Login & Change Swap
+### (a) Login & Change Swap & Add Private Newtwork
 We will login and change our password to something we use.
 
 1. Run from your local machine. When asked a question, select **yes**. Use the **initial password** found on Vultr.
@@ -32,6 +32,16 @@ We will login and change our password to something we use.
   ```
   swapinfo
   ````
+
+4. Go the this file and add:
+  ```
+  vi /etc/rc.conf
+  
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  defaultrouter="104.238.162.1"
+  ifconfig_vtnet1="inet 10.99.0.11 netmask 255.255.0.0"  # WEBAPP
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  ```
   
   
 ### (b) Change Shell & Password
@@ -224,8 +234,10 @@ monitoring for these purposes.
   
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   ext_if="vtnet0"
+  int_if="vtnet1" # (PRIVATE NETWORK)
 
   webports = "{http, https}"
+  databaseports = "{5432, 5433}" # (PRIVATE NETWORK)
   int_tcp_services = "{domain, ntp, smtp, www, https, ftp}"
   int_udp_services = "{domain, ntp}"
 
@@ -256,6 +268,9 @@ monitoring for these purposes.
   # Allow essential outgoing traffic
   pass out quick on $ext_if proto tcp to any port $int_tcp_services
   pass out quick on $ext_if proto udp to any port $int_udp_services
+
+  # (PRIVATE NETWORK) Allow outbound Postgres traffic
+  pass out quick on $int_if proto tcp to any port $databaseports
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   ```
 
@@ -442,6 +457,12 @@ To support "django-simple-captcha" rendering, we will have to install these
   memcached_enable="YES"
   ```
 
+6. Add screen
+  ```
+  cd /usr/ports/sysutils/screen
+  make install clean
+  ```
+
 
 ####(iii) pip
 1. Lets install pip:
@@ -544,7 +565,7 @@ http://104.238.162.153
   #---------------------------------------------------------------------------#
   SECRET_DB_USER = "django"
   SECRET_DB_PASSWORD = "123password"
-  SECRET_DB_HOST = "107.191.50.75"
+  SECRET_DB_HOST = "10.99.0.10"
   SECRET_DB_PORT = "5432"
   ```
 
@@ -559,7 +580,8 @@ http://104.238.162.153
 
 1. Nginx needs updating, make the following adjustments to:
   ```
-  sudo vi /usr/local/etc/nginx/nginx.conf
+  exit
+  vi /usr/local/etc/nginx/nginx.conf
   ```
 
 2. And then scroll to the ***server*** line and replace the code with the following.
@@ -588,7 +610,7 @@ http://104.238.162.153
 
 3. We need to restart NGINX though so that it knows to look for our changes. To do this run the following:
   ```
-  sudo service nginx restart
+  service nginx restart
   ```
   
   
@@ -598,6 +620,7 @@ http://104.238.162.153
 
 2. Run the script to import
   ```
+  su freebsd
   python manage.py import_gcd /usr/home/freebsd/xml
   ```
 #####(Part 2) Import Cover Images
@@ -635,10 +658,10 @@ Now lets initial the web-application database to default values.
   gunicorn -c gunicorn_config.py ecantina_project.wsgi
   ```
   
-3. Then in your browser checkout: http://45.55.221.217
+3. Then in your browser checkout: http://104.238.162.153
 
 
-4. Now go to http://45.55.221.217admin and log in.
+4. Now go to http://104.238.162.153/admin and log in.
 
 
 5. Go to the 'Sites' model and change 'example.com' to 'comicscantina.com'
@@ -649,7 +672,7 @@ Now lets initial the web-application database to default values.
 
 2. Run:
   ```
-  ssh 45.55.221.217 -l freebsd
+  ssh 104.238.162.153 -l freebsd
   cd ~/py-ecantina
   source env/bin/activate.csh
   cd ecantina_project/
