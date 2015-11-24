@@ -335,9 +335,9 @@ monitoring for these purposes.
   ```
  
  4. Reboot the computer to apply all our changes.
-   ```
+  ```
   reboot
-   ```
+  ```
 
 
 ### (e) eCantina Service User

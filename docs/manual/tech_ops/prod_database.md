@@ -14,9 +14,9 @@ Database server runs only the Postgres database and does not accept any other co
 We will login and change our password to something we use.
 
 1. Run from your local machine. When asked a question, select **yes**. Use the **initial password** found on Vultr.
-```
-ssh 107.191.50.75 -l root
-```
+  ```
+  ssh 107.191.50.75 -l root
+  ```
 
 
 2. Go the this file and add:
@@ -130,7 +130,8 @@ Then find the following line and remove the hashtag to uncomment the line.
 
   Add
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  host    all             all            10.99.0.11/24          trust
+  #host    all             all            10.99.0.11/24           md5
+  host    all             all             0.0.0.0/0               md5
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   ```
 
@@ -166,8 +167,8 @@ In summary, run the following codes and eCantina Database will be setup.
   ALTER USER django CREATEDB;
   ```
 
-10. Test:
+10. Run the following commands to ensure our Database is accessible remotely:
   ```
-  psql -h 10.99.0.11 -U django -d ecantina_db
+  psql -h 10.99.0.10 -U django -d ecantina_db
   psql -h localhost -U django -d ecantina_db
   ```
