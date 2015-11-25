@@ -74,4 +74,5 @@ def list_page(request, org_id=0, store_id=0):
         'brand_name': request.GET.get('brand_name'),
         'org': organization,
         'store': store,
+        'page' : 'products',
     })
