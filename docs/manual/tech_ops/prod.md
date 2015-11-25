@@ -538,7 +538,6 @@ In summary, run the following codes and eCantina Database will be setup.
 
 9. Run the following commands to ensure our Database is accessible remotely:
   ```
-  psql -h 108.61.119.219 -U django -d ecantina_db
   psql -h localhost -U django -d ecantina_db
   ```
 
@@ -571,7 +570,9 @@ http://108.61.119.219
 2. Go into the directory
   ```
   su freebsd
-  cd ~/py-ecantina
+  cd ~/;
+  mkdir py-ecantina;
+  cd ~/py-ecantina;
   ```
 
 3. Setup our virtual environment
@@ -586,33 +587,24 @@ http://108.61.119.219
 
 5. Now lets install the libraries this project depends on.
   ```
-  pip3 install django                 # Our MVC Framework
-  pip3 install psycopg2               # Postgres SQL DB
-  pip3 install gunicorn               # Web-Server Helper
-  pip3 install Pillow                 # Req: ImageField
-  pip3 install django-simple-captcha  # Captchas
-  pip3 install pep8                   # Coding Style Checker
-  pip3 install urllib3                # Library for making HTTP requests to external websites
-  pip3 install beautifulsoup4         # HTML Scrapper
-  pip3 install simplejson             # JSON Reader
-  pip3 install djangorestframework    # Web browsable API Framework
-  pip3 install markdown               # Markdown support for the browsable API.
-  pip3 install django-filter          # Filtering support
-  pip3 install qrcode                 # QR Code Generator
-  pip3 install pylibmc --install-option="--with-libmemcached=/usr/local"  # (FreeBSD Only for memcached!)
-  pip3 install django-paypal           # PayPal Service
+  pip3 install django;                 
+  pip3 install psycopg2;              
+  pip3 install gunicorn;               
+  pip3 install Pillow;                 
+  pip3 install django-simple-captcha;  
+  pip3 install pep8;                   
+  pip3 install urllib3;                
+  pip3 install beautifulsoup4;        
+  pip3 install simplejson;             
+  pip3 install djangorestframework;    
+  pip3 install markdown;               
+  pip3 install django-filter;          
+  pip3 install qrcode;                
+  pip3 install pylibmc --install-option="--with-libmemcached=/usr/local"; 
+  pip3 install django-paypal;          
   ```
 
-6. Initialize the **secret_settings.py** file to look like this:
-  ```
-  #---------------------------------------------------------------------------#
-  # Database                                                                  #
-  #---------------------------------------------------------------------------#
-  SECRET_DB_USER = "django"
-  SECRET_DB_PASSWORD = "123password"
-  SECRET_DB_HOST = "10.99.0.10"
-  SECRET_DB_PORT = "5432"
-  ```
+6. Initialize the **secret_settings.py** file with what we have on record for the **prod** server.
 
 7. Initialize database and make the server run.
   ```
@@ -620,6 +612,8 @@ http://108.61.119.219
   python manage.py migrate
   python manage.py runserver  # Verify server can run. Close once verified.
   ```
+
+
 
 ####(ii) Nginx
 
@@ -659,6 +653,7 @@ http://108.61.119.219
   ```
   
   
+
 ####(iii) Grand Comic Database
 #####(Part 1) Import XML Files
 1. Load up CyberDuck and copy the gcd folder into the ~/py-ecantina folder.
@@ -668,6 +663,8 @@ http://108.61.119.219
   su freebsd
   python manage.py import_gcd /usr/home/freebsd/xml
   ```
+
+
 #####(Part 2) Import Cover Images
 See file **gcd.txt**
 
@@ -676,6 +673,8 @@ Now lets initial the web-application database to default values.
   ```
   python manage.py setup_ecantina
   ```
+
+
 
 #####(Part 4) Staff User
 1. Lets add eCantina user
