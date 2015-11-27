@@ -27,7 +27,13 @@ SECRET_EMAIL_HOST_PASSWORD = ''
 
 
 #---------------------------------------------------------------------------#
-# Application Specific Settings                                             #
+# PayPal Settings                                                           #
 #---------------------------------------------------------------------------#
 SECRET_PAYPAL_RECEIVER_EMAIL = "yourpaypalemail@example.com"
 SECRET_PAYPAL_TEST = True # Note: If True, be sure to use your test email.
+
+#---------------------------------------------------------------------------#
+# Google Analytics Settings                                                 #
+#---------------------------------------------------------------------------#
+#Note: Leaving it blank turns of analytics in the store.
+SECRET_GOOGLE_ANALYTICS_KEY = "UA-70664917-2"

@@ -65,6 +65,7 @@ def list_page(request, org_id=0, store_id=0):
 
     return render(request, 'store_products/product_list/list.html',{
         'page_metadata': 'store_landpage/meta.html',
+        'GOOGLE_ANALYTICS_KEY': settings.GOOGLE_ANALYTICS_KEY,
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,

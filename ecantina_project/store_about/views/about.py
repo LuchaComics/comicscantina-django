@@ -33,6 +33,8 @@ def about_page(request, org_id=0, store_id=0):
         stores = Store.objects.filter(organization=organization)
 
     return render(request, 'store_about/about.html',{
+        'page_metadata': 'store_landpage/meta.html',
+        'GOOGLE_ANALYTICS_KEY': settings.GOOGLE_ANALYTICS_KEY,
         'org' : organization,
         'store': store,
         'stores' : stores,
