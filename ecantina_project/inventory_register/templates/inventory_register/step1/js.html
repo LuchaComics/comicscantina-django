@@ -1,7 +1,9 @@
 {% load staticfiles %}
 {% include 'api/organization.html' %}
+{% include 'api/store.html' %}
 {% include 'api/employee.html' %}
 {% include 'api/customer.html' %}
+{% include 'api/subdomain.html' %}
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
@@ -37,7 +39,13 @@
     {
         create_org(function(organization) {
             create_owner(organization, function(owner) {
-                 window.location = "/inventory/register/step2";
+                create_subdomain(organization, null, function(ok) {
+                    create_store(organization, function(store) {
+                        create_subdomain(organization, store, function(ok2) {
+                            window.location = "/inventory/register/step2";
+                        });
+                    });
+                });
             });
         });
     }
@@ -59,6 +67,7 @@
             'province': "{{ customer.billing_province | escape | safe }}",
             'postal': "{{ customer.billing_postal | escape | safe }}",
             'paypal_email': "{{ customer.email | escape | safe }}",
+            'email': "{{ customer.email | escape | safe }}",
         };
         
         set_organization(
@@ -83,6 +92,63 @@
             // 'profile': upload_id,
         };
         set_employee(
+            data,
+            function(success_json) {
+                callback(success_json); // Return the newly created employee.
+            },
+            function(failure_json) {
+                console.log(failure_json);
+            }
+        );
+    }
+
+    function create_store(organization, callback)
+    {
+        var data = {
+            'organization': organization['org_id'],
+            'administrator': {{ user.id }},
+            'email': "{{ org.email | escape | safe }}",
+            //'logo': parseInt( {{ org.logo_id }} ),
+            'name': "Comics Cantina Store",
+            'description': "",
+            'phone': "{{ customer.billing_phone | escape | safe }}",
+            'street_number': "{{ customer.billing_street_number | escape | safe }}",
+            'street_name': "{{ customer.billing_street_name | escape | safe }}",
+            'unit_number': "{{ customer.billing_unit_number | escape | safe }}",
+            'city': "{{ customer.billing_city | escape | safe }}",
+            'country': "{{ customer.billing_country | escape | safe }}",
+            'province': "{{ customer.billing_province | escape | safe }}",
+            'postal': "{{ customer.billing_postal | escape | safe }}",
+            'paypal_email': "{{ customer.email | escape | safe }}",
+            'email': "{{ customer.email | escape | safe }}",
+        };
+    
+        set_store(
+            data,
+            function(success_json) {
+                callback(success_json); // Return newly created organization.
+            },
+            function(failure_json) {
+                console.log(failure_json);
+            }
+        );
+    }
+
+    function create_subdomain(organization, store, callback) {
+        var data = null;
+        
+        if (store != null) {
+            data = {
+                'organization': organization['org_id'],
+                'store': store['store_id'],
+            };
+        } else {
+            data = {
+                'organization': organization['org_id'],
+            };
+        }
+        
+        set_subdomain(
             data,
             function(success_json) {
                 callback(success_json); // Return the newly created employee.

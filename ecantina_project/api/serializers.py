@@ -29,6 +29,7 @@ from api.models.ec.store_shipping_rates import StoreShippingRate
 from api.models.ec.emailsubscription import EmailSubscription
 from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 from api.models.ec.print_history import PrintHistory
+from api.models.ec.subdomain import SubDomain
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -234,3 +235,9 @@ class PrintHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = PrintHistory
         fields = ('print_id','created','filename','url','organization','store',)
+
+
+class SubDomainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubDomain
+        fields = ('sub_domain_id','name','organization','store',)

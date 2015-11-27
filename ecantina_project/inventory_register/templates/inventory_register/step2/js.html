@@ -2,6 +2,7 @@
 {% include 'api/organization.html' %}
 {% include 'api/employee.html' %}
 {% include 'api/customer.html' %}
+{% include 'api/subdomain.html' %}
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
@@ -31,13 +32,36 @@
 
     function ajax_proceed_next()
     {
-        ajax_update_organization(function(json_results) {
-            window.location = "/inventory/register/step3";                   
+        ajax_update_subdomain(function(ok) {
+            ajax_update_organization(function(json_results) {
+                window.location = "/inventory/register/step3";
+            });
         });
+    }
+
+    function ajax_update_subdomain(callback) {
+        var data = {
+            'organization': {{ this_org.org_id }},
+            'name': $('#id_subdomain').val(),
+        };
+        
+        set_subdomain(
+            data,
+            function(success_json) {
+                callback(success_json); // Return the newly created employee.
+            },
+            function(failure_json) {
+                console.log(failure_json);
+            }
+        );
     }
 
     function ajax_update_organization(callback) {
         // Defensive Code: Ensure that our inputted entries are valid.
+        if ($('#id_subdomain').val() == '') {
+            print_error({'Sub-Domain':'Please enter a subdomain address.'});
+            return;
+        }
         if ($('#id_email').val() == '') {
             print_error({'Email':'Please enter a email address.'});
             return;

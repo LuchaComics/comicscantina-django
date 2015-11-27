@@ -12,12 +12,15 @@ class SubDomain(models.Model):
         db_table = 'ec_subdomains'
     
     sub_domain_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=127, db_index=True, unique=True,)
+    name = models.CharField(max_length=127, db_index=True, unique=True, null=True, blank=True,)
     organization = models.ForeignKey(Organization, null=True, blank=True, db_index=True)
     store = models.ForeignKey(Store, null=True, blank=True, db_index=True)
 
     def __str__(self):
-        return str(self.name)
+        if self.name is None:
+           return str(self.sub_domain_id)
+        else:
+            return str(self.name)
 
     def save(self, *args, **kwargs):
         """

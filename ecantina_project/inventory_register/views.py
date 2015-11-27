@@ -19,6 +19,7 @@ from api.models.ec.orgshippingpreference import OrgShippingPreference
 from api.models.ec.orgshippingrate import OrgShippingRate
 from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
+from api.models.ec.subdomain import SubDomain
 from inventory_base.forms.customerform import CustomerForm
 from inventory_setting.forms.userform import UserForm
 from inventory_setting.forms.organizationform import OrganizationForm
@@ -44,27 +45,28 @@ def step1_page(request):
 
 
 @login_required(login_url='/store/register/step1')
-def step2_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
-    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # If user is logged in, fetch the Customer record or create one.
-    customer = None
+def step2_page(request):
     this_org = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
-        this_org = Organization.objects.get(administrator__id=request.user.id)
+    customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+    this_org = Organization.objects.get(administrator__id=request.user.id)
+
+    # Find the subdomain associated with this organization.
+    try:
+        this_subdomain = SubDomain.objects.filter(organization=this_org).order_by("-store")[:1]
+        this_subdomain = this_subdomain[0]
+    except SubDomain.DoesNotExist:
+        this_subdomain = None
+    print(this_subdomain)
 
     # Display the view with all our model information.
     return render(request, 'inventory_register/step2/view.html',{
         'form': OrganizationForm(instance=this_org),
-        'employee': employee,
-        'customer': customer,
-        'org': org,
+        'this_subdomain': this_subdomain,
+        'employee': Employee.objects.get_for_user_id_or_none(request.user.id),
+        'customer': request.customer,
+        'org': request.organization,
         'this_org': this_org,
-        'store': store,
+        'store': request.store,
         'page' : 'register',
     })
 

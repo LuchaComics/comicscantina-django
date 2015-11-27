@@ -26,9 +26,17 @@ class ECantinaSubDomainMiddleware(object):
         request.subdomain = None
         request.organization = None
         request.store = None
-        request.customer = None
-        request.receipt = None
-        request.wishlists = None
+        
+        # If user is logged in, fetch the Customer record or create one. Then
+        # fetch a Receipt record or create a new one.
+        if request.user.is_authenticated():
+            request.customer = Customer.objects.get_or_create_for_user_email(request.user.email)
+            request.receipt = Receipt.objects.get_or_create_for_online_customer(request.customer)
+            request.wishlists = Wishlist.objects.filter_by_customer_id_or_none(request.customer.customer_id)
+        else:
+            request.customer = None
+            request.receipt = None
+            request.wishlists = None
         
         # If the user is visiting the main site, then exit.
         if short_url is None:
@@ -60,14 +68,7 @@ class ECantinaSubDomainMiddleware(object):
                 return HttpResponseRedirect("/403")
             else:
                 request.store = subdomain.store
-    
-        # If user is logged in, fetch the Customer record or create one. Then
-        # fetch a Receipt record or create a new one.
-        if request.user.is_authenticated():
-            request.customer = Customer.objects.get_or_create_for_user_email(request.user.email)
-            request.receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-            request.wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
-    
+        
         # Finish our middleware handler.
         return None
 
