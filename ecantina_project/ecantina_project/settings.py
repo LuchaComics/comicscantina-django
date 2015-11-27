@@ -100,7 +100,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'ecantina_project.middleware.SubDomainMiddleware',
+    'ecantina_project.middleware.ECantinaSubDomainMiddleware',
 #    'django.middleware.cache.UpdateCacheMiddleware',    # per-site cache
 #    'django.middleware.common.CommonMiddleware',        # per-site cache
 #    'django.middleware.cache.FetchFromCacheMiddleware', # per-site cache

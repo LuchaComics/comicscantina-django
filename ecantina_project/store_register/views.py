@@ -18,32 +18,18 @@ from inventory_setting.forms.userform import UserForm
 
 
 def registration_step1_page(request):
-    org = request.organization
-    store = request.store
-    
-    # Redirect the user to a forbidden error if the store or organization
-    # are not listed.
-    if organization:
-        if organization.is_listed is False:
-            return HttpResponseRedirect("/403")
-    if store:
-        if store.is_listed is False:
-            return HttpResponseRedirect("/403")
-    
     return render(request, 'store_register/step1/view.html',{
-        'org': organization,
-        'store': store,
+        'org': request.organization,
+        'store': request.store,
         'user_form': UserForm(),
         'page' : 'register',
     })
 
 
 def registration_step2_page(request):
-    org = request.organization
-    store = request.store
     return render(request, 'store_register/step2/view.html',{
-        'org': organization,
-        'store': store,
+        'org': request.organization,
+        'store': request.store,
         'user_form': UserForm(),
         'page' : 'register',
     })
@@ -51,13 +37,10 @@ def registration_step2_page(request):
 
 @login_required(login_url='/store/register/step1')
 def registration_step3_page(request):
-    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    organization = request.organization
-    store = request.store
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step3/view.html',{
-        'org': organization,
-        'store': store,
+        'org': request.organization,
+        'store': request.store,
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
         'page' : 'register',

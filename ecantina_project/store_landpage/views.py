@@ -16,16 +16,9 @@ def front_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-
-    # If user is logged in, fetch the Customer record or create one. Then
-    # fetch a Receipt record or create a new one.
-    customer = None
-    receipt = None
-    wishlists = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
-        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
+    customer = request.customer
+    receipt = request.receipt
+    wishlists = request.wishlists
 
     # Fetch all the featured comics throughout all the stores or depending
     # on the organization / store.
@@ -86,16 +79,9 @@ def tos_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-
-    # If user is logged in, fetch the Customer record or create one. Then
-    # fetch a Receipt record or create a new one.
-    customer = None
-    receipt = None
-    wishlists = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
-        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
+    customer = request.customer
+    receipt = request.receipt
+    wishlists = request.wishlists
 
     # Display the view with all our model information.
     return render(request, 'store_landpage/tos.html',{
@@ -115,16 +101,9 @@ def privacy_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
-    # If user is logged in, fetch the Customer record or create one. Then
-    # fetch a Receipt record or create a new one.
-    customer = None
-    receipt = None
-    wishlists = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
-        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
+    customer = request.customer
+    receipt = request.receipt
+    wishlists = request.wishlists
     
     # Display the view with all our model information.
     return render(request, 'store_landpage/privacy.html',{

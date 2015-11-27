@@ -21,25 +21,9 @@ def details_page(request, product_id=0):
     organization = request.organization
     store = request.store
     product_id = int(product_id)
-   
-    # Redirect the user to a forbidden error if the store or organization
-    # are not listed.
-    if organization:
-        if organization.is_listed is False:
-            return HttpResponseRedirect("/403")
-    if store:
-        if store.is_listed is False:
-            return HttpResponseRedirect("/403")
-
-    # If user is logged in, fetch the Customer record or create one. Then
-    # fetch a Receipt record or create a new one.
-    customer = None
-    receipt = None
-    wishlists = None
-    if request.user.is_authenticated():
-        customer = Customer.objects.get_or_create_for_user_email(request.user.email)
-        receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-        wishlists = Wishlist.objects.filter_by_customer_id_or_none(customer.customer_id)
+    customer = request.customer
+    receipt = request.receipt
+    wishlists = request.wishlists
 
     # Fetch objects used for searching criteria.
     try:

@@ -46,18 +46,18 @@
     {
         var data = {
             'administrator': {{ user.id }},
-            'email': '{{ org.email }}',
+            'email': "{{ org.email | escape | safe }}",
             //'logo': parseInt( {{ org.logo_id }} ),
             'name': "Comics Cantina",
             'description': "",
-            'phone': '{{ customer.billing_phone }}',
-            'street_number': '{{ customer.billing_street_number }}',
+            'phone': "{{ customer.billing_phone | escape | safe }}",
+            'street_number': "{{ customer.billing_street_number | escape | safe }}",
             'street_name': "{{ customer.billing_street_name | escape | safe }}",
-            'unit_number': '{{ customer.billing_unit_number }}',
-            'city': "{{ customer.billing_city }}",
-            'country': "{{ customer.billing_country }}",
+            'unit_number': "{{ customer.billing_unit_number | escape | safe }}",
+            'city': "{{ customer.billing_city | escape | safe }}",
+            'country': "{{ customer.billing_country | escape | safe }}",
             'province': "{{ customer.billing_province | escape | safe }}",
-            'postal': '{{ customer.billing_postal }}',
+            'postal': "{{ customer.billing_postal | escape | safe }}",
             'paypal_email': "{{ customer.email | escape | safe }}",
         };
         
