@@ -66,6 +66,27 @@
                     <div class="w100 clearfix">
                         <div class="row userInfo">
                             <div class="col-lg-12">
+                                <h2 class="block-title-2"> Please enter a unique sub-domain name without spaces or special characters. </h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-12">
+                                
+                                <div class="form-group">
+                                    <label for="txt-store-name" class="col-md-4 control-label">Sub-Domain</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control"
+                                            id="id_subdomain"
+                                            maxlength="127"
+                                            name="subdomain"
+                                            placeholder="Ex. mystore"
+                                            type="text"
+                                            value="{% if this_subdomain.name %}{{ this_subdomain.name }}{% endif %}">
+                                            </div>
+                                    <div class="col-md-3">.comicscantina.com</div>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="col-lg-12">
                                 <h2 class="block-title-2"> Please fill out essential information of where your store is operating from. </h2>
                             </div>
                             <div class="col-xs-12 col-sm-12">

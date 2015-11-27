@@ -56,7 +56,6 @@ def step2_page(request):
         this_subdomain = this_subdomain[0]
     except SubDomain.DoesNotExist:
         this_subdomain = None
-    print(this_subdomain)
 
     # Display the view with all our model information.
     return render(request, 'inventory_register/step2/view.html',{
@@ -86,8 +85,15 @@ def step3_page(request, org_id=0, store_id=0):
     except Store.DoesNotExist:
         this_store = None
 
+    # Find the subdomain associated with this store.
+    try:
+        this_subdomain = SubDomain.objects.get(store=this_store)
+    except SubDomain.DoesNotExist:
+        this_subdomain = None
+
     # Display the view with all our model information.
     return render(request, 'inventory_register/step3/view.html',{
+        'this_subdomain': this_subdomain,
         'form': StoreForm(instance=this_store),
         'employee': employee,
         'customer': customer,
@@ -197,8 +203,23 @@ def step5_page(request, org_id=0, store_id=0):
     except Store.DoesNotExist:
         this_store = None
 
+    # Find the subdomain associated with this organization.
+    try:
+        org_subdomain = SubDomain.objects.filter(organization=this_org).order_by("-store")[:1]
+        org_subdomain = org_subdomain[0]
+    except SubDomain.DoesNotExist:
+        org_subdomain = None
+
+    # Find the subdomain associated with this store.
+    try:
+        store_subdomain = SubDomain.objects.get(store=this_store)
+    except SubDomain.DoesNotExist:
+        store_subdomain = None
+
     # Display the view with all our model information.
     return render(request, 'inventory_register/step5/view.html',{
+        'org_subdomain': org_subdomain,
+        'store_subdomain': store_subdomain,
         'this_org': this_org,
         'this_store': this_store,
         'employee': employee,
