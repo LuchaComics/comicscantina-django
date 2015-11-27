@@ -42,6 +42,7 @@ from api.models.ec.store_shipping_preference import StoreShippingPreference
 from api.models.ec.store_shipping_rates import StoreShippingRate
 from api.models.ec.emailsubscription import EmailSubscription
 from api.models.ec.unified_shipping_rates import UnifiedShippingRate
+from api.models.ec.subdomain import SubDomain
 
 
 # Registering Models
@@ -84,3 +85,4 @@ admin.site.register(StoreShippingPreference)
 admin.site.register(StoreShippingRate)
 admin.site.register(EmailSubscription)
 admin.site.register(UnifiedShippingRate)
+admin.site.register(SubDomain)
