@@ -480,7 +480,7 @@ http://http://45.55.221.217
 2. And then scroll to the ***server*** line and replace the code with the following.
   ```
   server {
-        server_name comicscantina.com;
+        server_name ~(?<short_url>\w+)\.consolebits\.com$;
 
         access_log off;
 
@@ -493,6 +493,7 @@ http://http://45.55.221.217
         }
 
         location / {
+                proxy_set_header X-CustomUrl $short_url;
                 proxy_pass http://127.0.0.1:8001;
                 proxy_set_header Host $host;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

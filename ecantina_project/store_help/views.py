@@ -21,14 +21,10 @@ from inventory_help.forms import HelpRequestForm
 
 
 @login_required(login_url='/customer/authentication')
-def help_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def help_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.

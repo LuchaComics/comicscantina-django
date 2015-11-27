@@ -17,9 +17,9 @@ from inventory_base.forms.customerform import CustomerForm
 from inventory_setting.forms.userform import UserForm
 
 
-def registration_step1_page(request, org_id=0, store_id=0,):
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def registration_step1_page(request):
+    org = request.organization
+    store = request.store
     
     # Redirect the user to a forbidden error if the store or organization
     # are not listed.
@@ -38,9 +38,9 @@ def registration_step1_page(request, org_id=0, store_id=0,):
     })
 
 
-def registration_step2_page(request, org_id=0, store_id=0,):
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def registration_step2_page(request):
+    org = request.organization
+    store = request.store
     return render(request, 'store_register/step2/view.html',{
         'org': organization,
         'store': store,
@@ -50,9 +50,10 @@ def registration_step2_page(request, org_id=0, store_id=0,):
 
 
 @login_required(login_url='/store/register/step1')
-def registration_step3_page(request, org_id=0, store_id=0,):
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def registration_step3_page(request):
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    organization = request.organization
+    store = request.store
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step3/view.html',{
         'org': organization,
@@ -64,9 +65,9 @@ def registration_step3_page(request, org_id=0, store_id=0,):
 
 
 @login_required(login_url='/store/register/step1')
-def registration_step4_page(request, org_id=0, store_id=0,):
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def registration_step4_page(request):
+    organization = request.organization
+    store = request.store
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step4/view.html',{
         'org': organization,
@@ -78,9 +79,9 @@ def registration_step4_page(request, org_id=0, store_id=0,):
 
 
 @login_required(login_url='/store/register/step1')
-def registration_step5_page(request, org_id=0, store_id=0,):
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def registration_step5_page(request):
+    organization = request.organization
+    store = request.store
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     return render(request, 'store_register/step5/view.html',{
         'org': organization,

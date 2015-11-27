@@ -628,6 +628,8 @@ http://108.61.119.219
   server {
         server_name comicscantina.com;
 
+        rewrite ^ http://comicscantina.com$request_uri permanent;
+
         access_log off;
 
         location /static/rest_framework/ {

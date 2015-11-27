@@ -12,23 +12,10 @@ from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 
 
-def front_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def front_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
-  
-    # Redirect the user to a forbidden error if the store or organization
-    # are not listed.
-    if org:
-        if org.is_listed is False:
-            return HttpResponseRedirect("/403")
-    if store:
-        if store.is_listed is False:
-            return HttpResponseRedirect("/403")
+    org = request.organization
+    store = request.store
 
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -52,11 +39,11 @@ def front_page(request, org_id=0, store_id=0):
             product__store__is_listed=True,
         )
     
-        if org_id > 0:
-            featured_comics = featured_comics.filter(organization_id=org_id)
+        if org:
+            featured_comics = featured_comics.filter(organization=org)
                 
-        if store_id > 0:
-            featured_comics = featured_comics.filter(product__store_id=store_id)
+        if store:
+            featured_comics = featured_comics.filter(product__store=store)
     except Comic.DoesNotExist:
         featured_comics = None
     
@@ -70,11 +57,11 @@ def front_page(request, org_id=0, store_id=0):
             product__is_new=True,
         )
 
-        if org_id > 0:
-            new_comics = new_comics.filter(organization_id=org_id)
+        if org:
+            new_comics = new_comics.filter(organization=org)
 
-        if store_id > 0:
-            new_comics = new_comics.filter(product__store_id=store_id)
+        if store:
+            new_comics = new_comics.filter(product__store=store)
     except Comic.DoesNotExist:
         new_comics = None
 
@@ -90,18 +77,15 @@ def front_page(request, org_id=0, store_id=0):
         'new_comics': new_comics,
         'org': org,
         'store': store,
-        'page' : 'home',
+        'page': 'home',
+        'settings': settings,
     })
 
 
-def tos_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def tos_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
 
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -127,14 +111,10 @@ def tos_page(request, org_id=0, store_id=0):
     })
 
 
-def privacy_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def privacy_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.

@@ -21,11 +21,10 @@ from inventory_base.forms.customerform import CustomerForm
 from inventory_base.forms.readonlycustomerform import ReadOnlyCustomerForm
 
 
-def cart_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def cart_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -47,11 +46,10 @@ def cart_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/')
-def checkout_shipping_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_shipping_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -70,11 +68,10 @@ def checkout_shipping_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/')
-def checkout_billing_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_billing_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -93,11 +90,10 @@ def checkout_billing_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/')
-def checkout_shipping_method_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_shipping_method_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -130,11 +126,10 @@ def checkout_shipping_method_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/')
-def checkout_payment_method_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_payment_method_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -154,28 +149,10 @@ def checkout_payment_method_page(request, org_id=0, store_id=0):
 
 @csrf_exempt
 @login_required(login_url='/')
-def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
-    # Adaptive URL parameter extractor.
-    param1_id = int(param1_id)
-    param2_id = int(param2_id)
-    param3_id = int(param3_id)
-    org_id = 0
-    store_id = 0
-    receipt_id = 0
-    if param1_id > 0 and param2_id == 0 and param3_id == 0:
-        receipt_id = param1_id
-    elif param1_id > 0 and param2_id > 0 and param3_id == 0:
-        receipt_id = param2_id
-        org_id = param1_id
-    elif param1_id > 0 and param2_id > 0 and param3_id > 0:
-        receipt_id = param3_id
-        org_id = param1_id
-        store_id = param2_id
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_thank_you_page(request, receipt_id=0):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
 
     # Fetch OLD receipt and process it.
     old_receipt = Receipt.objects.get_or_none(receipt_id=receipt_id)
@@ -238,11 +215,10 @@ def checkout_thank_you_page(request, param1_id=0, param2_id=0, param3_id=0):
 
 @csrf_exempt
 @login_required(login_url='/')
-def checkout_cancel_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_cancel_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -260,11 +236,10 @@ def checkout_cancel_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/')
-def checkout_order_page(request, org_id=0, store_id=0):
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(int(org_id))
-    store = Store.objects.get_or_none(int(store_id))
+def checkout_order_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
     
     # Generate our URLs & pick the payment email
     paypal_email = settings.PAYPAL_RECEIVER_EMAIL

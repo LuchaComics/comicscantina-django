@@ -16,23 +16,12 @@ from api.models.ec.receipt import Receipt
 from api.models.ec.wishlist import Wishlist
 
 
-def details_page(request, org_id=0, store_id=0, product_id=0):
+def details_page(request, product_id=0):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    org_id = int(org_id)
-    store_id = int(store_id)
+    organization = request.organization
+    store = request.store
     product_id = int(product_id)
-    if product_id is 0:
-        if org_id is not 0 and store_id is 0:
-            product_id = org_id
-            org_id = 0
-        if org_id is not 0 and store_id is not 0:
-            product_id = store_id
-            store_id = 0
-
-    # Fetch the Organization / Store.
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
-
+   
     # Redirect the user to a forbidden error if the store or organization
     # are not listed.
     if organization:

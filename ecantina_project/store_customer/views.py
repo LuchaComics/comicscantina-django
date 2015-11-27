@@ -16,14 +16,10 @@ from inventory_base.forms.customerform import CustomerForm
 from inventory_setting.forms.userform import UserForm
 
 
-def authentication_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def authentication_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # Redirect the user to a forbidden error if the store or organization
     # are not listed.
@@ -57,14 +53,10 @@ def authentication_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def my_account_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def my_account_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -89,14 +81,10 @@ def my_account_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def order_history_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def order_history_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # Fetch required data.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -138,20 +126,10 @@ def order_history_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
-    receipt_id = int(receipt_id)
-    if receipt_id is 0:
-        if org_id is not 0 and store_id is 0:
-            receipt_id = org_id
-        if org_id is not 0 and store_id is not 0:
-            receipt_id = store_id
-
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def order_details_page(request, receipt_id=0):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
 
     # Fetch required data.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
@@ -193,14 +171,10 @@ def order_details_page(request, org_id=0, store_id=0, receipt_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def wishlist_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def wishlist_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -225,14 +199,10 @@ def wishlist_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def my_address_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def my_address_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -257,14 +227,10 @@ def my_address_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def billing_address_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def billing_address_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -290,14 +256,10 @@ def billing_address_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def shipping_address_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def shipping_address_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -322,14 +284,10 @@ def shipping_address_page(request, org_id=0, store_id=0):
     })
 
 @login_required(login_url='/customer/authentication')
-def personal_info_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def personal_info_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
@@ -356,14 +314,10 @@ def personal_info_page(request, org_id=0, store_id=0):
 
 
 @login_required(login_url='/customer/authentication')
-def change_password_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
+def change_password_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
-    
-    # Fetch the Organization / Store.
-    org = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+    org = request.organization
+    store = request.store
     
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.

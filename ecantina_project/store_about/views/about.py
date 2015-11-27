@@ -7,13 +7,10 @@ from django.db.models import Q
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 
-def about_page(request, org_id=0, store_id=0):
-    org_id = int(org_id)
-    store_id = int(store_id)
-    
-    # Fetch the Organization / Store.
-    organization = Organization.objects.get_or_none(org_id)
-    store = Store.objects.get_or_none(store_id)
+def about_page(request):
+    employee = Employee.objects.get_for_user_id_or_none(request.user.id)
+    org = request.organization
+    store = request.store
 
     # Redirect the user to a forbidden error if the store or organization
     # are not listed.
