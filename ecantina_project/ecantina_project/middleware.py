@@ -53,7 +53,7 @@ class ECantinaSubDomainMiddleware(object):
         # a 403 error.
         try:
             subdomain = SubDomain.objects.get(name=short_url)
-            request.subdomain = None
+            request.subdomain = subdomain
         except SubDomain.DoesNotExist:
             return HttpResponseBadRequest('Company not found')
 
