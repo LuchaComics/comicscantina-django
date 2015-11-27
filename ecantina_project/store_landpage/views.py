@@ -80,6 +80,7 @@ def front_page(request, org_id=0, store_id=0):
 
     # Display the view with all our model information.
     return render(request, 'store_landpage/index.html',{
+        'page_metadata': 'store_landpage/meta.html',
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
@@ -113,6 +114,7 @@ def tos_page(request, org_id=0, store_id=0):
 
     # Display the view with all our model information.
     return render(request, 'store_landpage/tos.html',{
+        'page_metadata': 'store_landpage/meta.html',
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,
@@ -144,6 +146,7 @@ def privacy_page(request, org_id=0, store_id=0):
     
     # Display the view with all our model information.
     return render(request, 'store_landpage/privacy.html',{
+        'page_metadata': 'store_landpage/meta.html',
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,

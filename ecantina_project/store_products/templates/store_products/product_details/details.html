@@ -373,11 +373,11 @@
                         {% if org != None and store == None %}
                         <!-- Use ORG social media -->
                         <a href="{{ org.facebook_url }}"><i class="fa fa-facebook"></i></a>
-                        <a href="{{ org.twitter_url }}"><i class="fa fa-twitter"></i></a>
+                        <a href="http://www.twitter.com/{{ org.twitter }}"><i class="fa fa-twitter"></i></a>
                         {% else %}
                         <!-- Use STORE social media -->
                         <a href="{{ store.facebook_url }}"><i class="fa fa-facebook"></i></a>
-                        <a href="{{ store.twitter_url }}"><i class="fa fa-twitter"></i></a>
+                        <a href="http://www.twitter.com/{{ org.twitter }}"><i class="fa fa-twitter"></i></a>
                         {% endif %}
                     {% endif %}
                     

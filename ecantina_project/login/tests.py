@@ -54,7 +54,7 @@ class InventoryLoginTest(TestCase):
             email = TEST_USER_EMAIL,
             phone = '519-432-7898',
             fax = '',
-            twitter_url = '',
+            twitter = '',
             facebook_url = '',
             instagram_url = '',
             linkedin_url = '',

@@ -191,7 +191,7 @@ class SampleDataPopulator():
                 email=None,
                 phone='519-439-9636',
                 fax=None,
-                twitter_url='https://twitter.com/bascomics',
+                twitter='https://twitter.com/bascomics',
                 facebook_url=None,
                 instagram_url=None,
                 linkedin_url=None,

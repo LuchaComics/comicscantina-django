@@ -14,7 +14,7 @@ from api.models.ec.organization import Organization
 class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = ['name', 'description', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'twitter_url' , 'facebook_url' , 'currency', 'language', 'paypal_email', 'style',
+        fields = ['name', 'description', 'street_name', 'street_number', 'unit_number', 'city' , 'province' , 'country' , 'postal' , 'website' , 'email' , 'phone' , 'fax' , 'twitter' , 'facebook_url' , 'currency', 'language', 'paypal_email', 'style',
 #                  'instagram_url' , 'linkedin_url' , 'github_url' , 'google_url' , 'youtube_url' , 'flickr_url'
                   ]
         labels = {
@@ -72,7 +72,7 @@ class OrganizationForm(forms.ModelForm):
                 'class': u'form-control',
                 'placeholder': u'Enter Facebook URL'
             }),
-            'twitter_url': TextInput(attrs={
+            'twitter': TextInput(attrs={
                 'class': u'form-control',
                 'placeholder': u'Enter Twitter URL'
             }),

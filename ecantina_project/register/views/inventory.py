@@ -149,7 +149,7 @@ def create_organization(form):
             email = email,
             phone = form['phone'].value(),
             fax = form['fax'].value(),
-            twitter_url = form['twitter'].value(),
+            twitter = form['twitter'].value(),
             facebook_url = form['facebook'].value(),
             instagram_url = '',
             linkedin_url = '',

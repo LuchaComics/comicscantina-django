@@ -150,6 +150,11 @@ class Product(models.Model):
     # go to the store location and pick up the order.
     has_no_shipping = models.BooleanField(default=False)
 
+    # TODO: For future release:
+    # Variable controls whether to create a create another product that is a
+    # copy of this product when this product gets sold.
+    is_unlimited = models.BooleanField(default=False)
+
     def __str__(self):
         return str(self.name)
 

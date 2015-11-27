@@ -1,0 +1,31 @@
+{% if org != None %}
+    {% if store != None %}
+
+        <!-- Twitter Metadata -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@{{ store.twitter }}">
+        <meta name="twitter:title" content="{{ store.name }}">
+        <meta name="twitter:description" content="{{ store.description }}">
+        <meta name="twitter:image" content="http://www.comicscantina.com/{{ store.logo }}">
+
+    {% else %}
+
+        <!-- Twitter Metadata -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@{{ org.twitter }}">
+        <meta name="twitter:title" content="{{ org.name }}">
+        <meta name="twitter:description" content="{{ org.description }}" >
+        <meta name="twitter:image" content="http://www.comicscantina.com/{{ org.logo }}">
+
+    {% endif %}
+{% else %}
+
+    <!-- Twitter Metadata -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@comicscantina">
+    <meta name="twitter:title" content="Comics Cantina">
+    <meta name="twitter:description" content="Comics Cantina is an online comic book and graphic novel marketplace">
+    <meta name="twitter:image" content="http://www.comicscantina.com/static/img/apple-touch-icon-144x144.png">
+
+{% endif %}
+

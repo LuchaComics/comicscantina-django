@@ -72,7 +72,7 @@ class StoreForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Facebook URL'
             }),
-            'twitter_url': TextInput(attrs={
+            'twitter': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Twitter URL'
             }),

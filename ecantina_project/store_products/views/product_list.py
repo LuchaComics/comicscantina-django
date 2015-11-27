@@ -64,6 +64,7 @@ def list_page(request, org_id=0, store_id=0):
         current_category = None
 
     return render(request, 'store_products/product_list/list.html',{
+        'page_metadata': 'store_landpage/meta.html',
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,

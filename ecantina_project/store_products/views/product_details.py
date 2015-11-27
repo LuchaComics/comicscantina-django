@@ -75,6 +75,7 @@ def details_page(request, org_id=0, store_id=0, product_id=0):
         stories = None
 
     return render(request, 'store_products/product_details/details.html',{
+        'page_metadata': 'store_landpage/meta.html',
         'receipt': receipt,
         'wishlists': wishlists,
         'customer': customer,

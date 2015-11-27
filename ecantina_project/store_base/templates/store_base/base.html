@@ -8,6 +8,11 @@
         <meta name="keywords" content="online comic book shop">
         <title>Comics Cantina</title>
         
+        <!-- Page Metadata -->
+        {% if page_metadata != None %}
+            {% include page_metadata %}
+        {% endif %}
+        
         <!-- Favicons -->
         <link rel="icon" href="{% static "img/favicon.ico" %}">
         <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
