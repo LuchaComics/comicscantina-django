@@ -73,7 +73,7 @@ class Organization(models.Model):
     fax = models.CharField(max_length=10, null=True, blank=True)
     
     # Social Media
-    twitter = models.URLField(null=True, blank=True)
+    twitter = models.CharField(max_length=15, null=True, blank=True)
     facebook_url = models.URLField(null=True, blank=True)
     instagram_url = models.URLField(null=True, blank=True)
     linkedin_url = models.URLField(null=True, blank=True)
