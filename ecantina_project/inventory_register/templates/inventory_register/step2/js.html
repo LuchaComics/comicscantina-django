@@ -40,9 +40,17 @@
     }
 
     function ajax_update_subdomain(callback) {
+        var name = $('#id_subdomain').val();
+        
+        if (!name.match(/^[a-zA-Z]+$/) && name !="") {
+            print_error({'Sub-Domain':'Please enter a subdomain address without any special characters.'});
+            return;
+        }
+        
         var data = {
+            'sub_domain_id': {{ this_subdomain.sub_domain_id }},
             'organization': {{ this_org.org_id }},
-            'name': $('#id_subdomain').val(),
+            'name': name,
         };
         
         set_subdomain(
@@ -51,7 +59,8 @@
                 callback(success_json); // Return the newly created employee.
             },
             function(failure_json) {
-                console.log(failure_json);
+                print_error(failure_json);
+                return;
             }
         );
     }
