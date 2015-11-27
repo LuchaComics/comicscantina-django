@@ -630,6 +630,14 @@ http://108.61.119.219
 
         access_log off;
 
+        location /static/rest_framework/ {
+            alias /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/rest_framework/static/rest_framework/; 
+        }
+
+        location /static/admin/ {
+            alias /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/django/contrib/admin/static/admin/; 
+        }
+
         location /static/ {
             alias /usr/home/freebsd/py-ecantina/ecantina_project/static/;
         }
