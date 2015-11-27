@@ -18,16 +18,14 @@ from django.contrib import admin
 from django.conf.urls.static import static, settings
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import StaticViewSitemap
-from .sitemaps import OrganizationSitemap
-from .sitemaps import StoreSitemap
+#from .sitemaps import SubDomainSitemap
 from .sitemaps import ProductsSitemap
 
 
 
 sitemaps = {
     'static': StaticViewSitemap,
-    'organizations': OrganizationSitemap,
-    'stores': StoreSitemap,
+    #'subdomains': SubDomainSitemap,
     'products': ProductsSitemap,
 }
 

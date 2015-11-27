@@ -30,3 +30,10 @@ class SubDomain(models.Model):
         if cache is not None:
             cache.clear()
             super(SubDomain, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        """
+            When the sitemaps.xml gets generated for the all the URLS, all
+            returned "Organization" objects will have this URL called.
+        """
+        return str(self.sub_domain_id) + ".comicscantina.com"

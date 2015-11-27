@@ -1,7 +1,6 @@
 from django.contrib import sitemaps
 from django.core.urlresolvers import reverse
-from api.models.ec.organization import Organization
-from api.models.ec.store import Store
+from api.models.ec.subdomain import SubDomain
 from api.models.ec.product import Product
 
 
@@ -15,27 +14,16 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def location(self, item):
         return reverse(item)
 
-
-class OrganizationSitemap(sitemaps.Sitemap):
-    priority = 0.5
-    changefreq = 'monthly'
-    
-    def items(self):
-        return Organization.objects.filter(is_suspended=False, is_listed=True,)
-    
-    def lastmod(self, obj):
-        return obj.last_updated
-
-
-class StoreSitemap(sitemaps.Sitemap):
-    priority = 0.5
-    changefreq = 'monthly'
-    
-    def items(self):
-        return Store.objects.filter(is_suspended=False, is_listed=True,)
-    
-    def lastmod(self, obj):
-        return obj.last_updated
+#TODO: Fix Later
+#class SubDomainSitemap(sitemaps.Sitemap):
+#    priority = 0.5
+#    changefreq = 'monthly'
+#    
+#    def location(self, item):
+#        return "http://"+str(item)+"comicscantina.com"
+#    
+#    def items(self):
+#        return SubDomain.objects.all()
 
 
 class ProductsSitemap(sitemaps.Sitemap):
