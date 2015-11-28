@@ -626,8 +626,6 @@ http://108.61.119.219
 2. And then scroll to the ***server*** line and replace the code with the following.
   ```
   server {
-        server_name comicscantina.com;
-
         server_name ~(?<short_url>\w+)\.comicscantina\.com$;
 
         access_log off;
