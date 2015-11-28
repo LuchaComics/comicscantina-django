@@ -284,16 +284,16 @@ class SubDomainSerializer(serializers.ModelSerializer):
 class BannedDomainSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannedDomain
-        fields = ('print_id','created','filename','url','organization','store',)
+        fields = ('id','name','banned_on','reason',)
 
 
 class BannedIPSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannedIP
-        fields = ('print_id','created','filename','url','organization','store',)
+        fields = ('id','address','banned_on','reason',)
 
 
 class BannedWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannedWord
-        fields = ('print_id','created','filename','url','organization','store',)
+        fields = ('id','text','banned_on','reason',)

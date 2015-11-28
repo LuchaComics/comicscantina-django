@@ -27,6 +27,9 @@ from api.views import emailsubscription
 from api.views import unifiedshippingrate
 from api.views import print_history
 from api.views import subdomain
+from api.views import banned_domain
+from api.views import banned_ip
+from api.views import banned_word
 from rest_framework.routers import DefaultRouter
 
 
@@ -61,6 +64,9 @@ router.register(r'emailsubscriptions', emailsubscription.EmailSubscriptionViewSe
 router.register(r'unifiedshippingrates', unifiedshippingrate.UnifiedShippingRateViewSet)
 router.register(r'print_history', print_history.PrintHistoryViewSet)
 router.register(r'subdomains', subdomain.SubDomainViewSet)
+router.register(r'banned_domains', banned_domain.BannedDomainViewSet)
+router.register(r'banned_ips', banned_ip.BannedIPViewSet)
+router.register(r'banned_words', banned_word.BannedWordViewSet)
 
 
 # The API URLs are now determined automatically by the router.
