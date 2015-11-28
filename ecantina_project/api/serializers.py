@@ -241,3 +241,38 @@ class SubDomainSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubDomain
         fields = ('sub_domain_id','name','organization','store',)
+
+    def validate_name(self, value):
+        # Validate to ensure there are not capitals.
+        if not value.islower():
+            raise serializers.ValidationError("Cannot have capitol letters")
+        
+        # Validate to ensure there are no special characters (including whitespace).
+        if not value.isalpha():
+            raise serializers.ValidationError("Cannot have special characters")
+
+        # Validate to ensure the user doesn't take a valuable sub-domain name
+        # that we (ComicsCantina) can use in the future.
+        reserved_words = [
+            'dev','develop', 'development', 'developments', 'developer',
+            'qa','quality', 'qualityassurance', 'developments', 'book', 'books',
+            'prod','production', 'productions', 'shop', 'shops', 'docgen',
+            'img', 'image', 'images', 'shopping', 'comicbooks', 'comicbook',
+            'help', 'contact', 'contactus', 'exchange', 'stock', 'product',
+            'products', 'list', 'listing', 'listings', 'directory', 'tech',
+            'technology', 'engineer', 'engineering', 'landpage', 'page', 'test',
+            'tests', 'testing', 'doc', 'docs', 'document', 'documents',
+            'file', 'files', 'ftp', 'sftp', 'server', 'client', 'comic',
+            'comics', 'issue', 'issues', 'series', 'publisher', 'publishers',
+            'brand', 'brands', 'inv', 'inventory', 'inventorying', 'catalog',
+            'inventorys', 'catalogs', 'ios','android','microsoft', 'apple',
+            'samsung', 'mobile', 'tablet', '', 'iphone', 'reader', 'reading',
+            'download', 'downloader', 'downloading', 'news', 'blogs', 'www',
+            'tutorial', 'tutorials', 'edu', 'education', 'educational', 'link',
+            'article', 'www2', 'ww3', 'ww4', 'store', 'storing',
+        ]
+        if value in reserved_words:
+            raise serializers.ValidationError("Cannot us a reserved name")
+
+        # Return the successfully validated value.
+        return value
