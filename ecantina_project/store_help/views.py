@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from ecantina_project import constants
-from register.forms import StoreRegistrationForm
 from inventory_base.forms.imageuploadform import ImageUploadForm
 from api.models.ec.imageupload import ImageUpload
 from api.models.ec.organization import Organization

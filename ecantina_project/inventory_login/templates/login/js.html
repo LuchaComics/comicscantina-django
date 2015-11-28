@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% include 'api/register.html' %}
+{% include 'api/login.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -21,6 +23,7 @@
                 }
             }
         });
+    
         $('#login-btn').on('click', function(){
             $(document).trigger("clear-alerts");
                            
@@ -63,38 +66,30 @@
             return;
         }
         
-        var url = '/inventory/login_authentication';
-    
-        $.ajax( url, {
-            data: {
-                'username': email,
-                'password': password
-            },
-            type: 'post',
-            success: function(json_result) {
+        sign_in(
+            email,
+            password,
+            function(json_result) {
                 // success code execution here
                 if (json_result.status == "success")
                 {
                     console.log("Logged in!");
                     $(document).unbind("keypress.key13");
-                    window.location = '/inventory/'+json_result.org_id+'/'+json_result.store_id+'/dashboard';
+                    location.reload(true); // Reload page with cache cleared.
                 }
                 else
                 {
-                   $('#login-email-error, #login-password-error').val('');
-                   $(document).trigger("add-alerts",[{
+                    $('#login-email-error, #login-password-error').val('');
+                    $(document).trigger("add-alerts",[{
                         'message':'Error - Wrong email or password.',
                         'priority':'error'
-                   }]);
+                    }]);
                 }
             },
-            error: function(xhr,status,error) {
+            function(xhr,status,error) {
                 // error code here
-            },
-            complete: function(xhr,status) {
-                // completion code here
             }
-        });
+        );
     }
 
 </script>

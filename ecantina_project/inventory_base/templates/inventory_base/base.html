@@ -46,6 +46,33 @@
         
     </head>
     <body class="">
+        <script>
+            //-------------------------------------//
+            // Fix jQuery CSFR Code Issue - 1 of 2 //
+            //-------------------------------------//
+            // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+        
+            $(document).ready(function () {
+                //-------------------------------------//
+                // Fix jQuery CSFR Code Issue - 2 of 2 //
+                //-------------------------------------//
+                // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                        }
+                    }
+                });
+            });
+        </script>
+        {% include 'api/register.html' %}
+        {% include 'api/login.html' %}
+        
         {% comment %}
             This block of code is used to load any external modal
             assets to load up, simply fill the source URL in this
@@ -95,29 +122,16 @@
         <script type="text/javascript" src="{% static 'inventory/js/demo/demo-flot.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/app.js' %}"></script>
         <script>
-            /**
-             *  Function will log out the user and reload the page.
-             */
-            function ajax_logout()
-            {
-                var url = '/inventory/logout_authentication';
-                
-                $.ajax( url, {
-                    data: {
-                       'csrfmiddlewaretoken': '{{ csrf_token }}',
+            function ajax_logout() {
+                sign_off(
+                    function(json_result) {
+                         location.reload(true); // Reload page with reloading cache.
                     },
-                    type: 'post',
-                    success: function(result) {
-                       // success code execution here
-                       location.reload(true); // Reload page with cache cleared.
-                    },
-                    error: function(xhr,status,error) {
-                       // error code here
-                    },
-                    complete: function(xhr,status) {
-                       // completion code here
+                    function(error_callback) {
+                         console.log(error_callback.message);
+                         $('#id_example7').html(error_callback.message);
                     }
-                });
+                ); // End Login
             }
         </script>
     </body>

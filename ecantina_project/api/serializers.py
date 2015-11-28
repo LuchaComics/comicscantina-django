@@ -35,13 +35,17 @@ from api.models.ec.banned_ip import BannedIP
 from api.models.ec.banned_word import BannedWord
 
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=255)
+    password = serializers.CharField(max_length=255)
+
+
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255)
     email = serializers.EmailField(max_length=100,style={'placeholder': 'Email'})
     password = serializers.CharField(max_length=255)
     first_name = serializers.CharField(max_length=255)
     last_name = serializers.CharField(max_length=255)
-
 
 
 class CustomerSerializer(serializers.ModelSerializer):

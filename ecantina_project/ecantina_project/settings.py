@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     'captcha',
     'paypal.standard.ipn',
     'inventory_base',
+    'inventory_login',
     'inventory_products',
     'inventory_checkout',
     'inventory_order',
@@ -87,7 +88,6 @@ INSTALLED_APPS = (
     'store_customer',
     'store_register',
     'store_help',
-    'login',
     'api',
 )
 

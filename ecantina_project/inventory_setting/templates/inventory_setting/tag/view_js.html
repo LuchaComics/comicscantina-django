@@ -1,28 +1,6 @@
 {% include 'api/tag.html' %}
-<!-- this is mainly for data that needs to be loaded when the page is loaded -->
 <script>
-    //-------------------------------------//
-    // Fix jQuery CSFR Code Issue - 1 of 2 //
-    //-------------------------------------//
-    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
-    function csrfSafeMethod(method) {
-        // these HTTP methods do not require CSRF protection
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
     $(document).ready(function () {
-        //-------------------------------------//
-        // Fix jQuery CSFR Code Issue - 2 of 2 //
-        //-------------------------------------//
-        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-                }
-            }
-        });
-                      
         /**
          *  The following section makes the 'tags' automatically load
          *  when this page is refreshed or loaded.

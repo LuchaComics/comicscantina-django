@@ -55,58 +55,36 @@
 
 <!-- Modal Script -->
 <script type="text/javascript">
-    function ajax_logout_customer()
-    {
-        var url = '/store/logout_authentication';
-        $.ajax( url, {
-            data: {
-               'csrfmiddlewaretoken': '{{ csrf_token }}',
-            },
-            type: 'post',
-            success: function(json_result) {
-               location.reload(true); // Reload page with reloading cache.
-            },
-            error: function(xhr,status,error) {
-               // error code here
-            },
-            complete: function(xhr,status) {
-               // completion code here
-            }
-        });
-    }
     
-    function ajax_login_customer()
-    {
-        var email = $("#id_login_email").val();
-        var password = $("#id_login_password").val();
-        var url = '/store/login_authentication';
-        
-        $.ajax( url, {
-            data: {
-               'username': email,
-               'password': password,
-               'csrfmiddlewaretoken': '{{ csrf_token }}',
+    function ajax_logout_customer() {
+        sign_off(
+            function(json_result) {
+                 location.reload(true); // Reload page with reloading cache.
             },
-            type: 'post',
-            success: function(json_result) {
-               // success code execution here
-               if (json_result.status == "success")
-               {
-                   location.reload(true); // Reload page with reloading cache.
-               }
-               else
-               {
-                   $('#login-email-error, #login-password-error').val('');
-                   $('#id_login_alerts').html('<p><b>Error - Wrong email or password.</b></p>');
-               }
-            },
-            error: function(xhr,status,error) {
-               // error code here
-            },
-            complete: function(xhr,status) {
-               // completion code here
+            function(error_callback) {
+                 console.log(error_callback.message);
+                 $('#id_example7').html(error_callback.message);
             }
-        });
+        ); // End Login
+    }
+
+    function ajax_login_customer() {
+        sign_in(
+            $("#id_login_email").val(),
+            $("#id_login_password").val(),
+            function(json_result) {
+                if (json_result.status == "success") {
+                    location.reload(true); // Reload page with reloading cache.
+                }
+                else {
+                    $('#login-email-error, #login-password-error').val('');
+                    $('#id_login_alerts').html('<p><b>Error - Wrong email or password.</b></p>');
+                }
+            },
+            function(error_callback) {
+                // Do nothing.
+            }
+        ); // End Login
     }
 </script>
 <!-- /.Modal Script -->

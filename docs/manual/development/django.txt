@@ -124,6 +124,7 @@ DATABASES = {
 
 (10) Create the application(s).
 python manage.py startapp inventory_base
+python manage.py startapp inventory_login
 python manage.py startapp inventory_checkout
 python manage.py startapp inventory_order
 python manage.py startapp inventory_help
@@ -146,7 +147,6 @@ python manage.py startapp store_checkout
 python manage.py startapp store_customer
 python manage.py startapp store_register
 python manage.py startapp store_help
-python manage.py startapp login
 python manage.py startapp api
 
 (11) Then go to ecantina_project/settings.py and make sure to include the following:
@@ -184,7 +184,6 @@ INSTALLED_APPS = (
     'store_customer',
     'store_register',
     'store_help','
-    'login',
     'api','
 )
 - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,38 +1,21 @@
 {% load staticfiles %}
 <script>
-    function ajax_login_customer2()
-    {
-        var email = $("#id_login_username2").val();
-        var password = $("#id_login_password2").val();
-        var url = '/store/login_authentication';
-        
-        $.ajax( url, {
-            data: {
-               'username': email,
-               'password': password,
-               'csrfmiddlewaretoken': '{{ csrf_token }}',
+    function ajax_login_customer2() {
+        sign_in(
+            $("#id_login_username2").val(),
+            $("#id_login_password2").val(),
+            function(json_result) {
+                if (json_result.status == "success") {
+                    window.location = "/customer/my_account";
+                }
+                else {
+                    print_error(json_result);
+                }
             },
-            type: 'post',
-            success: function(json_result) {
-               
-               
-               // success code execution here
-               if (json_result.status == "success")
-               {
-                   window.location = "/customer/my_account";
-               }
-               else
-               {
-                   print_error(json_result);
-               }
-            },
-            error: function(xhr,status,error) {
-               console.log(error); // error code here
-            },
-            complete: function(xhr,status) {
-               // completion code here
+            function(error_callback) {
+                // Do nothing.
             }
-        });
+        ); // End Login
     }
 
     /**
