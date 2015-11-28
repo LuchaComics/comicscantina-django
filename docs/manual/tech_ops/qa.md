@@ -484,6 +484,14 @@ http://http://45.55.221.217
 
         access_log off;
 
+        location /static/rest_framework/ {
+            alias /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/rest_framework/static/rest_framework/; 
+        }
+
+        location /static/admin/ {
+            alias /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/django/contrib/admin/static/admin/; 
+        }
+
         location /static/ {
             alias /usr/home/freebsd/py-ecantina/ecantina_project/static/;
         }
@@ -493,11 +501,11 @@ http://http://45.55.221.217
         }
 
         location / {
-                proxy_set_header X-CustomUrl $short_url;
-                proxy_pass http://127.0.0.1:8001;
-                proxy_set_header Host $host;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
+            proxy_set_header X-CustomUrl $short_url;
+            proxy_pass http://127.0.0.1:8001;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
         }
   }
   ```
