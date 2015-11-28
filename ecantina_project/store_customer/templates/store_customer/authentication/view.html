@@ -7,7 +7,7 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li class="active"> Authentication</li>
             </ul>
         </div>
@@ -26,7 +26,7 @@
                     <form role="form" class="regForm">
                         <p>To create an account, click the following button.</p>
                         
-                        <button onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step1';" type="button" class="btn   btn-primary"><i class="fa fa-user"></i> Create an account
+                        <button onclick="window.location='/store/register/step1';" type="button" class="btn   btn-primary"><i class="fa fa-user"></i> Create an account
                         </button>
                     </form>
                 </div>

@@ -47,7 +47,7 @@
             } 
             console.log(receipt);
             set_receipt(receipt, function(json_result) {
-                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/order';
+                window.location = '/checkout/order';
             }); // End Set Receipt.
         }); // End Get Receipt
 

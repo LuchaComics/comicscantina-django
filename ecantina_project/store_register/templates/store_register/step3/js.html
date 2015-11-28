@@ -98,7 +98,7 @@
             set_customer(
                 customer,
                 function(success_json) { // Create a new customer
-                    window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step4';
+                    window.location = '/store/register/step4';
                 },
                 function(error_json) {
                     print_error(error_json);

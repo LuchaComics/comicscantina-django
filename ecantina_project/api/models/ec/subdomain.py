@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from django.core.cache import caches
-
+from django.contrib.sites.models import Site
 
 class SubDomain(models.Model):
     class Meta:
@@ -31,9 +31,3 @@ class SubDomain(models.Model):
             cache.clear()
             super(SubDomain, self).save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        """
-            When the sitemaps.xml gets generated for the all the URLS, all
-            returned "Organization" objects will have this URL called.
-        """
-        return str(self.sub_domain_id) + ".comicscantina.com"

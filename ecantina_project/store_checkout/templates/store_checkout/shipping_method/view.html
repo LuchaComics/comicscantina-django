@@ -7,9 +7,9 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1">Category</a></li>
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}cart">Cart</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/products/grid?category=1">Category</a></li>
+                <li><a href="/cart">Cart</a></li>
                 <li class="active"> Checkout</li>
             </ul>
         </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
             <h4 class="caps">
-                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1">
+                <a href="/products/grid?category=1">
                     <i class="fa fa-chevron-left"></i> Back to shopping
                 </a>
             </h4>
@@ -118,7 +118,7 @@
                                     <div class="box-footer">
                                         <div class="pull-left">
                                             <a class="btn btn-default"
-                                                href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/billing">
+                                                href="/checkout/billing">
                                                 <i class="fa fa-arrow-left"></i> &nbsp; Billing address
                                             </a>
                                         </div>

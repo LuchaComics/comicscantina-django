@@ -22,7 +22,7 @@
                 <div class="product-slide">
                     <div class="col-sm-5 product-slide-left">
                         <a class="product-slide-img"
-                            href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
+                            href="/products/{{ comic.product_id }}/">
                             {% if comic.product.image == None %}
                             {% if comic.issue.large_url == None %}
                             <img alt="img"
@@ -107,7 +107,7 @@
                      </div>
                      -->
                     
-                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ comic.product_id }}/">
+                    <a href="/products/{{ comic.product_id }}/">
                         {% if comic.product.image == None %}
                         {% if comic.issue.large_url == None %}
                         <img alt="img"

@@ -54,7 +54,7 @@
     function ajax_proceed_next()
     {
         {% if customer.is_shipping_same_as_billing %}
-            window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step5';
+            window.location = '/store/register/step5';
             return;
         {% endif %}
         
@@ -114,7 +114,7 @@
             set_customer(
                 customer,
                 function(success_json) { // Create a new customer
-                    window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}store/register/step5';
+                    window.location = '/store/register/step5';
                 },
                 function(error_json) {
                     print_error(error_json);

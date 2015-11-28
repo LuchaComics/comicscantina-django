@@ -6,19 +6,19 @@
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
                 <li>
-                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home
+                    <a href="/">Home
                     </a>
                 </li>
                 {% if product.category.parent_id == 1 %}
                 <li>
-                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category={{ product.category.parent_id }}">Comics
+                    <a href="/products/grid?category={{ product.category.parent_id }}">Comics
                     </a>
                 </li>
                 {% else %}
                 <li>UNSUPPORTED - {{ product.category.parent_id }}</li>
                 {% endif %}
                 <li>
-                    <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category={{ product.category_id }}">{{ product.category.name | escape | safe }}s
+                    <a href="/products/grid?category={{ product.category_id }}">{{ product.category.name | escape | safe }}s
                     </a>
                 </li>
                 <li class="active">

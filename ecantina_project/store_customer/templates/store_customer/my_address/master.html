@@ -6,8 +6,8 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account">My Account</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/customer/my_account">My Account</a></li>
                 <li class="active">My Address</li>
             </ul>
         </div>
@@ -54,7 +54,7 @@
                                 </ul>
                             </div>
                             <div class="panel-footer panel-footer-address">
-                                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_billing_address"
+                                <a href="/customer/my_billing_address"
                                   class="btn btn-sm btn-success">
                                   <i class="fa fa-edit"> </i> Edit
                                 </a>
@@ -83,7 +83,7 @@
                                 </ul>
                             </div>
                             <div class="panel-footer panel-footer-address">
-                                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_shipping_address"
+                                <a href="/customer/my_shipping_address"
                                   class="btn btn-sm btn-success">
                                   <i class="fa fa-edit"> </i> Edit
                                 </a>
@@ -98,12 +98,12 @@
                 <div class="col-lg-12 clearfix">
                     <ul class="pager">
                         <li class="previous pull-right">
-                            <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">
+                            <a href="/">
                                 <i class="fa fa-home"></i> Go to Shop
                             </a>
                         </li>
                         <li class="next pull-left">
-                            <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account"> &larr; Back to My Account
+                            <a href="/customer/my_account"> &larr; Back to My Account
                             </a>
                         </li>
                     </ul>

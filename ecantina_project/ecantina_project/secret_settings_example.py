@@ -37,3 +37,11 @@ SECRET_PAYPAL_TEST = True # Note: If True, be sure to use your test email.
 #---------------------------------------------------------------------------#
 #Note: Leaving it blank turns of analytics in the store.
 SECRET_GOOGLE_ANALYTICS_KEY = "UA-70664917-2"
+
+
+#---------------------------------------------------------------------------#
+# Domain Settings                                                           #
+#---------------------------------------------------------------------------#
+#Note: Leaving it blank turns of analytics in the store.
+SECRET_DOMAIN = "consolebits.com"
+SECRET_HTTP_PROTOCOL = "http://"

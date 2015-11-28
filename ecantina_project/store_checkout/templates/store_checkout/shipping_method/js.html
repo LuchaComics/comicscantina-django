@@ -57,7 +57,7 @@
                 json_result['has_shipping'] = true;
             }
             set_receipt(json_result, function(json_result) {
-                window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/payment_method';
+                window.location = '/checkout/payment_method';
             }); // End Set Receipt.
         }); // End Get Receipt
 

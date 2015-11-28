@@ -6,7 +6,7 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
+                <li><a href="/">Home</a></li>
                 {% if current_category.parent_id == 1 %}
                 <li>Comics</li>
                 {% elif current_category.name == 'Comic' %}
@@ -40,14 +40,14 @@
                                     <ul class='category-level-2 dropdown-menu-tree'
                                         id='cat-tree-{{ category.category_id }}'>
                                         <li>
-                                            <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category={{ category.category_id }}"
+                                            <a href="/products/grid?category={{ category.category_id }}"
                                                 class="{% if current_category.category_id == category.category_id %}active{% endif %}">All {{ category.name }}s
                                             </a>
                                         </li>
                                         {% for subcategory in categories %}
                                         {% if subcategory.parent_id == category.category_id %}
                                         <li>
-                                            <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category={{ subcategory.category_id }}"
+                                            <a href="/products/grid?category={{ subcategory.category_id }}"
                                                 class="{% if subcategory.category_id == current_category.category_id %}active{% endif %}">{{ subcategory.name }}
                                             </a>
                                         </li>

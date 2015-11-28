@@ -118,3 +118,4 @@ def privacy_page(request):
         'page' : 'tos',
     })
 
+

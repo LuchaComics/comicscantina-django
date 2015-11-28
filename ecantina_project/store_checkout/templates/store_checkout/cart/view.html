@@ -6,8 +6,8 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1">Category</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/products/grid?category=1">Category</a></li>
                 <li class="active">Cart</li>
             </ul>
         </div>
@@ -19,7 +19,7 @@
             <h1 class="section-title-inner"><span><i class="glyphicon glyphicon-shopping-cart"></i> Shopping cart </span></h1>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
-            <h4 class="caps"><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1"><i class="fa fa-chevron-left"></i> Back to shopping </a></h4>
+            <h4 class="caps"><a href="/products/grid?category=1"><i class="fa fa-chevron-left"></i> Back to shopping </a></h4>
         </div>
     </div>
     <!--/.row-->
@@ -45,7 +45,7 @@
                                 <tr class="CartProduct">
                                     <td class="CartProductThumb">
                                         <div>
-                                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';">
+                                            <a onclick="window.location='/products/{{ product.product_id }}/';">
                                                 {% if product.image_url == None or product.image_url == '' %}
                                                 <img alt="{{ product | escape | safe }}"
                                                 src="{% static "inventory/img/missing_cover.png" %}" />
@@ -91,9 +91,9 @@
                     
                     <div class="cartFooter w100">
                         <div class="box-footer">
-                            <div class="pull-left"><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}" class="btn btn-default"> <i class="fa fa-arrow-left"></i> &nbsp; Continue shopping </a></div>
+                            <div class="pull-left"><a href="/" class="btn btn-default"> <i class="fa fa-arrow-left"></i> &nbsp; Continue shopping </a></div>
                             <div class="pull-right">
-                                <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/shipping"
+                                <a href="/checkout/shipping"
                                     class="btn btn-primary btn-small ">
                                     Checkout &nbsp;
                                     <i class="fa fa-arrow-circle-right"></i>
@@ -112,7 +112,7 @@
             <div class="contentBox">
                 <div class="w100 costDetails">
                     <div class="table-block" id="order-detail-content">
-                        <a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/shipping"
+                        <a href="/checkout/shipping"
                           class="btn btn-primary btn-lg btn-block "
                           title="checkout"
                           style="margin-bottom:20px"> Proceed to

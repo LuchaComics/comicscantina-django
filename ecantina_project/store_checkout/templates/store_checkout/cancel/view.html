@@ -6,9 +6,9 @@
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}">Home</a></li>
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/grid?category=1">Category</a></li>
-                <li><a href="/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}cart">Cart</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/products/grid?category=1">Category</a></li>
+                <li><a href="/cart">Cart</a></li>
                 <li class="active"> Checkout</li>
             </ul>
         </div>
@@ -44,7 +44,7 @@
                                 <tr class="CartProduct">
                                     <td class="CartProductThumb">
                                         <div>
-                                            <a onclick="window.location='/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}products/{{ product.product_id }}/';">
+                                            <a onclick="window.location='/products/{{ product.product_id }}/';">
                                                 {% if product.image_url == None or product.image_url == '' %}
                                                 <img alt="{{ product | escape | safe }}"
                                                 src="{% static "inventory/img/missing_cover.png" %}" />

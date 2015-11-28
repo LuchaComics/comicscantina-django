@@ -19,7 +19,7 @@
                // success code execution here
                if (json_result.status == "success")
                {
-                   window.location = "/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}customer/my_account";
+                   window.location = "/customer/my_account";
                }
                else
                {

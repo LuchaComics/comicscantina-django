@@ -66,7 +66,7 @@
             set_customer(
                 customer,
                 function(success_json) { // Create a new customer
-                    window.location = '/{% if org != None %}{{ org.org_id }}/{% endif %}{% if store != None %}{{ store.store_id }}/{% endif %}checkout/shipping_method';
+                    window.location = '/checkout/shipping_method';
                 },
                 function(error_json) {
                     for (var key in error_json) {
