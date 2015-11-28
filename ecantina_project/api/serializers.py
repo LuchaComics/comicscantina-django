@@ -35,6 +35,15 @@ from api.models.ec.banned_ip import BannedIP
 from api.models.ec.banned_word import BannedWord
 
 
+class RegisterSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=255)
+    email = serializers.EmailField(max_length=100,style={'placeholder': 'Email'})
+    password = serializers.CharField(max_length=255)
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
+
+
+
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
@@ -132,6 +141,15 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+    def validate_email(self, value):
+        # Validate to ensure the user is not using an email which is banned in
+        # our system for whatever reason.
+        banned_domains = BannedDomain.objects.all()
+        for banned_domain in banned_domains:
+            if value.count(banned_domain.name) > 1:
+                raise serializers.ValidationError("Email is using a banned domain.")
+        return value
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -276,6 +294,11 @@ class SubDomainSerializer(serializers.ModelSerializer):
         ]
         if value in reserved_words:
             raise serializers.ValidationError("Cannot us a reserved name")
+        
+        # Validate to ensure the domain name isn't using a 'bad word'.
+        bad_words = BannedWord.objects.all()
+        if value in bad_words:
+            raise serializers.ValidationError("Cannot us that word!")
 
         # Return the successfully validated value.
         return value

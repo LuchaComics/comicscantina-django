@@ -1,9 +1,6 @@
 {% load staticfiles %}
-{% include 'api/organization.html' %}
-{% include 'api/employee.html' %}
-{% include 'api/customer.html' %}
+{% include "api/register.html" %}
 {% include 'api/common_js.html' %}
-{% include 'store_base/receipt_js.html' %}
 <script>
     //-------------------------------------//
     // Fix jQuery CSFR Code Issue - 1 of 2 //
@@ -87,46 +84,27 @@
     }
 
     function ajax_new_user(success_callback, error_callback) {
-        // STEP 1:
-        // Create our 'auth_users' object.
-        $.ajax( '/user/settings/register', {
-            data: {
-                'first_name': $('#id_first_name').val(),
-                'last_name': $('#id_last_name').val(),
-                'email': $('#id_email').val(),
-                'username': $('#id_email').val(),
-                'old_password': $('#id_old_password').val(),
-                'password': $('#id_password').val(),
-                'password_repeated': $('#id_password_repeated').val(),
-                'groups': ''
-            },
-            type: 'post',
-            success: function(result) { // success code execution here
-                // Did not succeed.
-                if (result.status != 'success')
-                {
-                    $(document).trigger("add-alerts",[{
-                        'message': result.message,
-                        'priority': 'error'
-                    }]);
+        var username = $('#id_email').val();
+        var email = $('#id_email').val();
+        var password = $('#id_password').val();
+        var first_name = $('#id_first_name').val();
+        var last_name = $('#id_last_name').val();
+        
+        registration(
+            username, email, password, first_name, last_name,
+            function(json_result) {
+                // Success
+                if (json_result['status'] == 'success') {
+                    success_callback(json_result['user_id']);
+                } else {
+                    print_error(json_result['errors']);
                 }
-                else
-                {
-                    success_callback(result.user_id);
-                }
+                     
             },
-            error: function(xhr,status,error) {
-                // error code here
-                $(document).trigger("add-alerts",[{
-                'message': status,
-                'priority': 'error'
-                }]);
-                error_callback(error);
-            },
-            complete: function(xhr,status) {
-                // completion code here
+            function(error_json) {
+                print_error(error_json['errors']);
             }
-        });
+        ); // End Registration
     }
 
     function ajax_login(username, password, success_callback, error_callback) {
