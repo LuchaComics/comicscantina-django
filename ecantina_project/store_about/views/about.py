@@ -27,7 +27,7 @@ def about_page(request):
     # individual store at the 'store_id' value.
     stores = None
     if store:
-        stores = Store.objects.filter(store=store)
+        stores = Store.objects.filter(store_id=store.store_id)
     else:
         stores = Store.objects.filter(organization=organization)
 
