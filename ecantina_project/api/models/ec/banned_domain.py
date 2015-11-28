@@ -9,7 +9,9 @@ class BannedDomain(models.Model):
         db_table = 'ec_banned_domains'
     
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=127, db_index=True, unique=True)
+    name = models.CharField(max_length=63, db_index=True, unique=True)
+    banned_on = models.DateTimeField(auto_now_add=True)
+    reason = models.CharField(max_length=127, blank=True, null=True)
     
     def __str__(self):
         return str(self.name)

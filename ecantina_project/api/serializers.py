@@ -30,6 +30,9 @@ from api.models.ec.emailsubscription import EmailSubscription
 from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 from api.models.ec.print_history import PrintHistory
 from api.models.ec.subdomain import SubDomain
+from api.models.ec.banned_domain import BannedDomain
+from api.models.ec.banned_ip import BannedIP
+from api.models.ec.banned_word import BannedWord
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -276,3 +279,21 @@ class SubDomainSerializer(serializers.ModelSerializer):
 
         # Return the successfully validated value.
         return value
+
+
+class BannedDomainSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BannedDomain
+        fields = ('print_id','created','filename','url','organization','store',)
+
+
+class BannedIPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BannedIP
+        fields = ('print_id','created','filename','url','organization','store',)
+
+
+class BannedWordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BannedWord
+        fields = ('print_id','created','filename','url','organization','store',)

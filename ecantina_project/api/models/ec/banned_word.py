@@ -9,7 +9,8 @@ class BannedWord(models.Model):
         db_table = 'ec_banned_words'
     
     id = models.AutoField(primary_key=True)
-    text = models.CharField(max_length=127, db_index=True, unique=True)
+    text = models.CharField(max_length=63, db_index=True, unique=True)
+    banned_on = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return str(self.text)
