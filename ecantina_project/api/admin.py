@@ -43,6 +43,9 @@ from api.models.ec.store_shipping_rates import StoreShippingRate
 from api.models.ec.emailsubscription import EmailSubscription
 from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 from api.models.ec.subdomain import SubDomain
+from api.models.ec.banned_domain import BannedDomain
+from api.models.ec.banned_ip import BannedIP
+from api.models.ec.banned_word import BannedWord
 
 
 # Registering Models
@@ -86,3 +89,6 @@ admin.site.register(StoreShippingRate)
 admin.site.register(EmailSubscription)
 admin.site.register(UnifiedShippingRate)
 admin.site.register(SubDomain)
+admin.site.register(BannedDomain)
+admin.site.register(BannedIP)
+admin.site.register(BannedWord)

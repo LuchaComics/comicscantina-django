@@ -42,3 +42,6 @@ from api.models.ec.emailsubscription import EmailSubscription
 from api.models.ec.unified_shipping_rates import UnifiedShippingRate
 from api.models.ec.print_history import PrintHistory
 from api.models.ec.subdomain import SubDomain
+from api.models.ec.banned_domain import BannedDomain
+from api.models.ec.banned_ip import BannedIP
+from api.models.ec.banned_word import BannedWord
