@@ -16,9 +16,9 @@
     function ajax_proceed_next()
     {
         create_org(function(organization) {
-            create_owner(organization, function(owner) {
+            create_owner(organization, function(employee) {
                 create_subdomain(organization, null, function(ok) {
-                    create_store(organization, function(store) {
+                    create_store(organization, employee, function(store) {
                         create_subdomain(organization, store, function(ok2) {
                             window.location = "/inventory/register/step2";
                         });
@@ -80,7 +80,7 @@
         );
     }
 
-    function create_store(organization, callback)
+    function create_store(organization, employee, callback)
     {
         var data = {
             'organization': organization['org_id'],
@@ -99,6 +99,7 @@
             'postal': "{{ customer.billing_postal | escape | safe }}",
             'paypal_email': "{{ customer.email | escape | safe }}",
             'email': "{{ customer.email | escape | safe }}",
+            'employees': [ parseInt(employee['employee_id']) ],
         };
     
         set_store(
