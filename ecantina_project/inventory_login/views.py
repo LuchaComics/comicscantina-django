@@ -22,6 +22,6 @@ def login_page(request):
         dashboard_url += "/"+str(store.store_id)+"/"+"dashboard"
         return HttpResponseRedirect(dashboard_url)
     else:
-        return render(request, 'login/inventory.html',{
+        return render(request, 'inventory_login/view.html',{
             'form': LoginForm(),
         })
