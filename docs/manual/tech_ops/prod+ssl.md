@@ -14,7 +14,13 @@ Go to www.namecheap.com and purchase a SSL from them.
 ### Setting up Server
 1. Login
   ```
-  ssh 108.61.119.219 -l freebsd
+  ssh 108.61.119.219 -l root
+  su freebsd;
+  cd ~/;
+  mkdir ~/ssl;
+  mkdir ~/ssl/cert;
+  mkdir ~/ssl/ca;
+  cd ~/ssl/cert;
   ```
 
 
@@ -24,27 +30,45 @@ Go to www.namecheap.com and purchase a SSL from them.
 
 
   Note:
-  i. You will be prompted to enter a password
+  i. You will be prompted to enter a password, enter a password.
   ```
 
 
-3. Enter next.
+3. Enter this command and you will be prompted to enter the password you chose in last step.
   ```
   openssl rsa -in comicscantina.com.key -out comicscantina.com.key.nopass
   ```
 
 
-4. You will be prompted to enter the password you chose in last step
+4. Next enter this command as well.
   ```
   openssl req -new -key comicscantina.com.key.nopass -out comicscantina.com.csr
 
 
   Note:
-  i. You will be prompted for a bunch of information, don’t worry about most of it but make sure for “Common Name” you input your domain name. Do not choose a challenge password
+  i. You will be prompted for a bunch of information, don’t worry about most of it but make sure for “Common Name” you input your is "*.comicscantina.com" and Do not choose a challenge password
+  ii. Make sure it ends up looking like this:
+  - - - - - - - - - - - - - - - - - - -  -  -  -  -  -  -  -  -  -  -  -  -  - 
+  Country Name (2 letter code) [AU]:CA
+  State or Province Name (full name) [Some-State]:Ontario
+  Locality Name (eg, city) []:London
+  Organization Name (eg, company) [Internet Widgits Pty Ltd]:The Shooting Star Press inc.
+  Organizational Unit Name (eg, section) []:Comics Cantina
+  Common Name (e.g. server FQDN or YOUR name) []:*.comicscantina.com
+  Email Address []:support@comicscantina.com
+
+  Please enter the following 'extra' attributes
+  to be sent with your certificate request
+  A challenge password []:
+  An optional company name []:
+  - - - - - - - - - - - - - - - - - - -  -  -  -  -  -  -  -  -  -  -  -  -  - 
   ```
 
 
-5. Submit certificate signing request to PositiveSSL/Comodo
+5. Submit certificate signing request to EssentialSSL/Comodo
+  ```
+  cat comicscantina.com.csr
+  ```
 
 Depending on where you bought your certificate, log in to your control panel and “activate” your certificate by submitting the contents of your .csr file to them. In my case it would be namecheap.com, go to manage ssl certificates and click activate link next to the certificate. Select “other” from the web server type dropdown and then paste in your key and submit.
 
