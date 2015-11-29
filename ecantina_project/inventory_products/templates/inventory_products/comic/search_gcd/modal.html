@@ -246,31 +246,19 @@
     
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select comic age',
-                'priority': 'error'
-            }]);
+            $.notify("Please select comic age", "error");
             return;
         }
         if ($('#id_store').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select store',
-                'priority': 'error'
-            }]);
+            $.notify("Please select store", "error");
             return;
         }
         if ($('#id_section').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select section',
-                'priority': 'error'
-            }]);
+            $.notify("Please select section", "error");
             return;
         }
         if ($('#id_category').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select categorye',
-                'priority': 'error'
-            }]);
+            $.notify("Please select category.", "error");
             return;
         }
     

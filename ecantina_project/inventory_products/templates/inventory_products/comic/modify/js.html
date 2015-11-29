@@ -128,7 +128,7 @@
      */
     function ajax_upload_image() {
         if ($('#id_image').val() == "") {
-            alert('Please select an image to upload');
+            $.notify("Please select an image to upload", "danger");
             return false;
         }
         
@@ -168,40 +168,25 @@
         
         // DEFENSIVE CODE.
         if ($('#id_name').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please enter the name of the product.',
-                'priority': 'error'
-            }]);
+            $.notify("Please enter the name of the product.", "danger");
             return;
         }
 
         if ($('#id_age').val() == '') {
             // Display the error here.
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select comic age',
-                'priority': 'error'
-            }]);
+            $.notify("Please select comic age", "danger");
             return;
         }
         if ($('#id_store').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select store',
-                'priority': 'error'
-            }]);
+            $.notify("Please select store", "danger");
             return;
         }
         if ($('#id_section').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select section',
-                'priority': 'error'
-            }]);
+            $.notify("Please select section", "danger");
             return;
         }
         if ($('#id_category').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select categorye',
-                'priority': 'error'
-            }]);
+            $.notify("Please select a category.", "danger");
             return;
         }
         

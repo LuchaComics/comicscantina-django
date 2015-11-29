@@ -20,11 +20,8 @@
             function(success_result) {
                 ajax_update_password(function () {
                     // (1) Add notification message of success.
-                    $(document).trigger("add-alerts",[{
-                        'message': 'Admin was Successfully Updated',
-                        'priority': 'success'
-                    }]);
-                                               
+                    $.notify("Admin was Successfully Updated", "success");
+                                
                     // (2) Add count-down timer to reloading page/cache.
                     setTimeout(function(){
                         location.reload(true); // Reload page with cache cleared.
@@ -34,12 +31,7 @@
             function(error_json) {
                 for (var key in error_json) {
                     if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                 
-                        // Display the error here.
-                        $(document).trigger("add-alerts",[{
-                            'message': (key+': '+error_json[key]),
-                            'priority': 'error'
-                        }]);
+                        $.notify( (key+': '+error_json[key]), "danger");
                     }
                  }
             }
@@ -59,10 +51,7 @@
                // Did not succeed.
                if (result.status != 'success')
                {
-                    $(document).trigger("add-alerts",[{
-                        'message': result.message,
-                        'priority': 'error'
-                    }]);
+                    $.notify(result.message, "danger");
                }
                else
                {

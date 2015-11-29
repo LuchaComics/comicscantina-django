@@ -49,113 +49,75 @@
     }
 
     function ajax_save() {
+        // https://notifyjs.com
+        //$.notify("Hello World");
+        //$.notify("Access granted", "success");
+        //$.notify("Do not press this button", "info");
+        //$.notify("Do not press this button", "warning");
+        //$.notify("Do not press this button", "danger");
+        
         // Defensive Code: Ensure that our inputted entries are valid.
         if ($('#id_email').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the email field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the email field", "danger");
             return;
         }
         if ( !is_email_valid( $('#id_email').val() ) ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the email field with a valid email.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the email field with a valid email.", "danger");
             return;
         }
         if ($('#id_phone').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the phone field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the phone field.", "danger");
             return;
         }
         if (!is_phone_valid($('#id_phone').val())) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the phone field with a valid number.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the phone field with a valid number.", "danger");
             return;
         }
         if ($('#id_street_number').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the street number field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the street number field.", "danger");
             return;
         }
         if ( isNaN( Number( $('#id_street_number').val() ) ) ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the street number field with a number only.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the street number field with a number only.", "danger");
             return;
         }
         if ($('#id_street_name').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the street name field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the street name field.", "danger");
             return;
         }
         if ($('#id_city').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the city field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the city field.d", "danger");
             return;
         }
         if ($('#id_country').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the country field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the country field.", "danger");
             return;
         }
         if ($('#id_province').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the province field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the province field.", "danger");
             return;
         }
         if ($('#id_postal').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the postal field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the postal field.", "danger");
             return;
         }
         if ($('#id_paypal_email').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the PayPal email field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the PayPal email field.", "danger");
             return;
         }
         if ( !is_email_valid( $('#id_paypal_email').val() ) ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please make sure the PayPal email is a valid email.',
-                'priority': 'error'
-            }]);
+            $.notify("Please make sure the PayPal email is a valid email.", "danger");
             return;
         }
         
         // Defensive Code: Ensure that a organization logo has been added.
         if (parseInt( $('#id_hidden_header_id').val() ) <= 0 || $('#id_hidden_header_id').val() == 'None' ||  $('#id_hidden_header_id').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please upload a header picture before saving changes.',
-                'priority': 'error'
-            }]);
+            $.notify("Please upload a header picture before saving changes.", "danger");
             return false;
         }
         
         if (parseInt( $('#id_hidden_logo_id').val() ) <= 0 || $('#id_hidden_logo_id').val() == 'None' || $('#id_hidden_logo_id').val() == '' ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please upload a logo picture before saving changes.',
-                'priority': 'error'
-            }]);
+            $.notify("Please upload a logo picture before saving changes.", "danger");
             return false;
         }
         
@@ -209,10 +171,7 @@
                     organization,
                     function(success_json) {
                         // (1) Add notification message of success.
-                        $(document).trigger("add-alerts",[{
-                            'message': 'Organization was Successfully Updated',
-                            'priority': 'success'
-                        }]);
+                        $.notify("Organization was Successfully Updated", "success");
                                           
                         // (2) Add count-down timer to reloading page/cache.
                         setTimeout(function(){
@@ -225,10 +184,7 @@
                             // this will check if key is owned by data object and not by any of it's ancestors
                             if (error_json.hasOwnProperty(key)) {
                                 // Display the error here.
-                                $(document).trigger("add-alerts",[{
-                                    'message': (key+': '+error_json[key]),
-                                    'priority': 'error'
-                                }]);
+                                $.notify(  (key+': '+error_json[key]), "danger");
                             }
                         }
                     } 

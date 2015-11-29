@@ -30,10 +30,7 @@
             $('#login-email-error, #login-password-error').val('');
             if( $('#id_email').val() == "" || $('#id_password').val() == "" ){
                 // Add error notification.
-                $(document).trigger("add-alerts",[{
-                    'message':'Error! Username and password required.',
-                    'priority':'error'
-                }]);
+                $.notify("Error! Username and password required.", "error");
             } else {
                 ajax_inventory_authenticate();
             }
@@ -59,10 +56,7 @@
         if (!is_email(email)) {
             // Add error notification.
             $('#login-email-error, #login-password-error').val('');
-            $(document).trigger("add-alerts",[{
-                'message':'Not valid email - please enter a valid email.',
-                'priority':'error'
-            }]);
+            $.notify("Not valid email - please enter a valid email.", "error");
             return;
         }
         
@@ -80,10 +74,7 @@
                 else
                 {
                     $('#login-email-error, #login-password-error').val('');
-                    $(document).trigger("add-alerts",[{
-                        'message':'Error - Wrong email or password.',
-                        'priority':'error'
-                    }]);
+                    $.notify("Error - Wrong email or password.", "error");
                 }
             },
             function(xhr,status,error) {

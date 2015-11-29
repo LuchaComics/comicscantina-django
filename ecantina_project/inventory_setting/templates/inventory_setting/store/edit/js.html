@@ -72,10 +72,7 @@
         
         if (store_id == {{ store.store_id }})
         {
-            $(document).trigger("add-alerts",[{
-                'message': 'Cannot suspend this store as we are currently in it!',
-                'priority': 'error'
-            }]);
+            $.notify("Cannot suspend this store as we are currently in it!", "error");
             return;
         }
         
@@ -91,15 +88,9 @@
                     function(success_json2) {
                         // (1) Add notification message of success.
                         if (is_suspended) {
-                            $(document).trigger("add-alerts",[{
-                                'message': 'Store was Successfully Suspended.',
-                                'priority': 'success'
-                            }]);
+                             $.notify("Store was Successfully Suspended.", "success");
                         } else {
-                            $(document).trigger("add-alerts",[{
-                                'message': 'Store was Successfully Activated.',
-                                'priority': 'success'
-                            }]);
+                            $.notify("Store was Successfully Activated.", "success");
                         }
                             
                         // (2) Add count-down timer to reloading page/cache.
@@ -109,23 +100,24 @@
 
                     },
                     function(error_json2) {
-                        $(document).trigger("add-alerts",[{
-                            'message': error_json2,
-                            'priority': 'success'
-                        }]);
+                        $.notify(error_json2, "danger");
                     }
                 );
             },
             function(error_json) {
-                $(document).trigger("add-alerts",[{
-                    'message': error_json,
-                    'priority': 'success'
-                }]);
+                $.notify(error_json, "danger");
             }
         );
     }
 
     function ajax_save_edit() {
+        // https://notifyjs.com
+        //$.notify("Hello World");
+        //$.notify("Access granted", "success");
+        //$.notify("Do not press this button", "info");
+        //$.notify("Do not press this button", "warning");
+        //$.notify("Do not press this button", "danger");
+        
         // Defensive Code: Ensure that our inputted entries are valid.
         //if ($('#id_email').val() == '') {
         //    $(document).trigger("add-alerts",[{
@@ -156,83 +148,54 @@
         //    return;
         //}
         if ($('#id_street_number').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the street number field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the street number field.", "danger");
             return;
         }
         if ( isNaN( Number( $('#id_street_number').val() ) ) ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the street number field with a number only.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the street number field with a number only.", "danger");
             return;
         }
         if ($('#id_street_name').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the street name field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the street name field.", "danger");
             return;
         }
         if ($('#id_city').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the city field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the city field.", "danger");
             return;
         }
         if ($('#id_country').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the country field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the country field.", "danger");
             return;
         }
         if ($('#id_province').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the province field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the province field.", "danger");
             return;
         }
         if ($('#id_postal').val().length == 0) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the postal field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the postal field.", "danger");
             return;
         }
         if ($('#id_paypal_email').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please fill out the PayPal email field.',
-                'priority': 'error'
-            }]);
+            $.notify("Please fill out the PayPal email field.", "danger");
             return;
         }
         if ( !is_email_valid( $('#id_paypal_email').val() ) ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please make sure the PayPal email is a valid email.',
-                'priority': 'error'
-            }]);
+            $.notify("Please make sure the PayPal email is a valid email.", "danger");
+            return;
+        }
+        if ($('#id_name').val() == '') {
+            $.notify("Please fill out the name field.", "danger");
             return;
         }
         
         // Defensive Code: Ensure that a organization logo has been added.
         if (parseInt( $('#id_hidden_header_id').val() ) <= 0 || $('#id_hidden_header_id').val() == 'None' ||  $('#id_hidden_header_id').val() == '') {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please upload a header picture before saving changes.',
-                'priority': 'error'
-            }]);
+            $.notify("Please upload a header picture before saving changes.", "danger");
             return false;
         }
         
         if (parseInt( $('#id_hidden_logo_id').val() ) <= 0 || $('#id_hidden_logo_id').val() == 'None' || $('#id_hidden_logo_id').val() == '' ) {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please upload a logo picture before saving changes.',
-                'priority': 'error'
-            }]);
+            $.notify("Please upload a logo picture before saving changes.", "danger");
             return false;
         }
         
@@ -302,10 +265,7 @@
                     store,
                     function(success_json) {
                           // (1) Add notification message of success.
-                          $(document).trigger("add-alerts",[{
-                            'message': 'Store was Successfully Updated',
-                            'priority': 'success'
-                          }]);
+                          $.notify("Store was Successfully Updated.", "success");
                           
                           // (2) Add count-down timer to reloading page/cache.
                           setTimeout(function(){
@@ -317,10 +277,7 @@
                             if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                             
                                 // Display the error here.
-                                $(document).trigger("add-alerts",[{
-                                    'message': (key+': '+error_json[key]),
-                                    'priority': 'error'
-                                }]);
+                                $.notify( (key+': '+error_json[key]), "danger");
                             }
                         }
                     } // failure
@@ -442,10 +399,7 @@
             $(json_result).each(function(iter,val2){
                 var count = val2['count'];
                 if (count > 0) {
-                    $(document).trigger("add-alerts",[{
-                        'message': 'Cannot delete section as present or sold products belong to this section..',
-                        'priority': 'error'
-                    }]);
+                    $.notify("Cannot delete section as present or sold products belong to this section.", "error");
                 } else {
                     // Call function to delete the section.
                     delete_section(section_id, function(json_result) {
@@ -453,10 +407,7 @@
                         ajax_refresh_sections_table();  // Reload the table.
                                    
                         // (2) Communicate success message.
-                        $(document).trigger("add-alerts",[{
-                            'message': 'Section was successfully deleted.',
-                            'priority': 'success'
-                        }]);
+                        $.notify("Section was successfully deleted.", "success");
                     });
                 }
             });

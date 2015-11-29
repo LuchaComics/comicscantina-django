@@ -48,11 +48,7 @@
                     for (var key in error_json) {
                         // this will check if key is owned by data object and not by any of it's ancestors
                         if (error_json.hasOwnProperty(key)) {
-                            // Display the error here.
-                            $(document).trigger("add-alerts",[{
-                                'message': (key+': '+error_json[key]),
-                                'priority': 'error'
-                            }]);
+                            $.notify( (key+': '+error_json[key]), "danger");
                         }
                     }
                 }

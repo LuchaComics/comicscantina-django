@@ -15,17 +15,11 @@
             function(json_success) {
                 json_success['is_pickup_only'] = !json_success['is_pickup_only'];
                 set_org_shipping_preference(json_success, function(json_results) {
-                    $(document).trigger("add-alerts",[{
-                        'message': 'Store was Successfully Updated',
-                        'priority': 'success'
-                    }]);
+                    $.notify("Store was Successfully Updated", "success");
                 });
             },
             function(json_error) {
-                $(document).trigger("add-alerts",[{
-                    'message': (key+': '+json_error[key]),
-                    'priority': 'error'
-                }]);
+                $.notify( (key+': '+json_error[key]), "danger");
             }
         );
     }

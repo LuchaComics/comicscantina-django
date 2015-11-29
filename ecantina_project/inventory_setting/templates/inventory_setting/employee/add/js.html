@@ -60,10 +60,7 @@
                 set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
                                 
                     // STEP 6: Add notification message of success.
-                    $(document).trigger("add-alerts",[{
-                        'message': 'Employee was Successfully Added',
-                        'priority': 'success'
-                    }]);
+                    $.notify("Employee was Successfully Added", "success");
                                 
                     // STEP 7: Add count-down timer to reloading page/cache.
                     setTimeout(function(){
@@ -83,10 +80,7 @@
                 for (var key in error_json) { // Print the error message.
                     if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                         // Display the error here.
-                        $(document).trigger("add-alerts",[{
-                            'message': (key+': '+error_json[key]),
-                            'priority': 'error'
-                        }]);
+                        $.notify( (key+': '+error_json[key]), "danger");
                     }
                 }
             }
@@ -96,10 +90,7 @@
     function ajax_save_employee() {
         // Defensive Code: We need to have a profile pic before continuing.
         if ($('#id_image').val() == "") {
-            $(document).trigger("add-alerts",[{
-                'message': 'Please select an image to upload',
-                'priority': 'error'
-            }]);
+            $.notify("Please select an image to upload", "error");
             return false;
         }
         
@@ -121,10 +112,7 @@
                 // Did not succeed.
                 if (result.status != 'success')
                 {
-                    $(document).trigger("add-alerts",[{
-                        'message': result.message,
-                        'priority': 'error'
-                    }]);
+                    $.notify( result.message, "danger");               
                 }
                 else
                 {

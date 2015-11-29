@@ -62,10 +62,7 @@
                             organization,
                             function(success_json) { // Update Organization
                                 // (1) Add notification message of success.
-                                $(document).trigger("add-alerts",[{
-                                    'message': 'Customer was Successfully Updated',
-                                    'priority': 'success'
-                                }]);
+                                $.notify( 'Customer was Successfully Updated', "success");
                                                   
                                 // (2) Add count-down timer to reloading page/cache.
                                 setTimeout(function(){
@@ -77,10 +74,7 @@
                                     if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                                                   
                                         // Display the error here.
-                                        $(document).trigger("add-alerts",[{
-                                            'message': (key+': '+error_json[key]),
-                                            'priority': 'error'
-                                        }]);
+                                        $.notify( (key+': '+error_json[key]), "danger");
                                     }
                                 }
                             }
@@ -89,10 +83,7 @@
                     },
                     function(org_error_json) {
                         // Display the error here.
-                        $(document).trigger("add-alerts",[{
-                            'message': (key+': '+org_error_json[key]),
-                            'priority': 'error'
-                        }]);
+                        $.notify( (key+': '+error_json[key]), "danger");
                     }
                 ); // End Get Organization.
             },
@@ -101,10 +92,7 @@
                     if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
                      
                         // Display the error here.
-                        $(document).trigger("add-alerts",[{
-                            'message': (key+': '+error_json[key]),
-                            'priority': 'error'
-                        }]);
+                        $.notify( (key+': '+error_json[key]), "danger");
                      }
                 }
             }
