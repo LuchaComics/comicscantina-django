@@ -18,14 +18,14 @@ Go to www.namecheap.com and purchase a SSL from them.
   su freebsd;
   cd ~/;
   mkdir ~/ssl;
-  mkdir ~/ssl/cert;
-  mkdir ~/ssl/ca;
-  cd ~/ssl/cert;
+  mkdir ~/ssl/private;
+  mkdir ~/ssl/certs;
   ```
 
 
 2. Generate private key and certificate signing request
   ```
+  cd ~/ssl/private;
   openssl genrsa -des3 -out comicscantina.com.key 2048
 
 
@@ -88,35 +88,55 @@ example csr file contents:
   -----END CERTIFICATE REQUEST-----
   ```
 
-After you are finished with that process you will just have to wait for a verification email at the email you provided them. (webmaster@mydomain.com in my case). When you get the email you click the link and enter a verification code in. Then you just need to wait for your final signed certificate to arrive in your primary email box. When you get the email it should have a zip file attached containing three files. yourdomain_com.crt, PositiveSSLCA2.crt and AddTrustExternalCARoot.crt. Copy these files somewhere on your server.
+After you are finished with that process you will just have to wait for a verification email at the email you provided them. (webmaster@mydomain.com in my case). When you get the email you click the link and enter a verification code in. Then you just need to wait for your final signed certificate to arrive in your primary email box. When you get the email it should have a zip file attached containing two files: A .crt and .ca-bundle: Copy these files somewhere on your server.
 
 
 
 
 ### Setting up Nginx *
-1. Install signed certificate
+1. Install signed certificate here using **CyberDuck**.
   ```
-  cat yourdomain_com.crt PositiveSSLCA2.crt AddTrustExternalCARoot.crt > yourdomain.com.pem
+  su freebsd
+  cd ~/ssl/certs
+  
+  Note:
+  i. Copy *STAR_comicscantina_com.ca-bundle* and *STAR_comicscantina_com.crt* into this folder.
+  ```
 
-  cat comicscantina_com.crt COMODORSAAddTrustCA.crt AddTrustExternalCARoot.crt COMODORSADomainValidationSecureServerCA.crt > comicscantina.com.pem
+
+2. Copy the CSR and Private keys into the **certs** folder.
+  ```
+  cp /usr/home/freebsd/ssl/private/comicscantina.com.csr /usr/home/freebsd/ssl/certs/comicscantina.com.csr
+  cp /usr/home/freebsd/ssl/private/comicscantina.com.key /usr/home/freebsd/ssl/certs/comicscantina.com.key
+
+
+3. Create a PEM file 
+
+  cat comicscantina.com.key comicscantina.com.csr STAR_comicscantina_com.crt STAR_comicscantina_com.ca-bundle > comicscantina.com.pem
+
+  Note:
+  i. If you get an error, try to re-arrange the order until it works.
+  ii. Special thanks to this link, reference it if you have any problems: http://stackoverflow.com/a/17420863
   ```
 
 
 2. Configure Nginx virtualhost to enable SSL:
 Nginx needs updating, make the following adjustments to:
   ```
-  sudo vi /usr/local/etc/nginx/nginx.conf
+  vi /usr/local/etc/nginx/nginx.conf
   ```
 
-3. change your “listen” line to read as follows:
+
+3. Append your “listen 80” line to include this as well:
   ```
   listen    443 ssl;
   ```
 
+
 4. Add these 2 lines below the listen line in the same server block (substitute with your path to your certificate files)
   ```
-  ssl_certificate        /usr/home/freebsd/ssl/comicscantina.com.pem;
-  ssl_certificate_key    /usr/home/freebsd/ssl/comicscantina.com.key.nopass;
+  ssl_certificate        /usr/home/freebsd/ssl/certs/comicscantina.com.pem;
+  ssl_certificate_key    /usr/home/freebsd/ssl/private/comicscantina.com.key.nopass;
   ```
 
 
@@ -129,6 +149,7 @@ Nginx needs updating, make the following adjustments to:
   }
   ```
 
+
 6. You should be good to go now, restart nginx and test it out
   ```
   sudo service nginx restart
@@ -140,21 +161,14 @@ Nginx needs updating, make the following adjustments to:
   server {
       listen         80;
       listen    443 ssl;
-      ssl_certificate        /usr/home/freebsd/ssl/comicscantina.com.pem;
-      ssl_certificate_key    /usr/home/freebsd/ssl/comicscantina.com.key.nopass;
-      server_name comicscantina.com www.comicscantina.com;
+      ssl_certificate        /usr/home/freebsd/ssl/certs/comicscantina.com.pem;
+      ssl_certificate_key    /usr/home/freebsd/ssl/private/comicscantina.com.key.nopass;
+
+      server_name ~(?<short_url>\w+)\.comicscantina\.com$;
 
       access_log off;
 
-      location /static/ {
-          alias /usr/home/freebsd/py-mikasoftware/mikasoftware_project/static/;
-      }
-
-      location /media/ {
-          alias /usr/home/freebsd/py-mikasoftware/mikasoftware_project/media/;
-      }
-
-      location / {
+      location /static/rest_framework/ {
       ...
       ...
       ...
