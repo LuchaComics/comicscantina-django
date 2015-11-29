@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import filters
+from api.authentication import CsrfExemptSessionAuthentication, BasicAuthentication
 from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToOrganizationOrReadOnly
 from api.serializers import TagSerializer
@@ -20,6 +21,7 @@ class PrintHistoryFilter(django_filters.FilterSet):
 
 class PrintHistoryViewSet(viewsets.ModelViewSet):
     queryset = PrintHistory.objects.all()
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     serializer_class = PrintHistorySerializer
     pagination_class = LargeResultsSetPagination
     permission_classes = (BelongsToOrganizationOrReadOnly,)
