@@ -28,7 +28,7 @@ class Comic(models.Model):
         blank=True,
     )
     cgc_rating = models.FloatField(
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
         choices=constants.CGC_RATING_OPTIONS,
         null=True,
         blank=True,
