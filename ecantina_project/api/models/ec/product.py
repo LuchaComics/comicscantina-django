@@ -168,7 +168,7 @@ class Product(models.Model):
         if self.qrcode:
             if os.path.isfile(self.qrcode.path):
                 os.remove(self.qrcode.path)
-                super(Product, self).delete(*args, **kwargs) # Call the "real" delete() method
+        super(Product, self).delete(*args, **kwargs) # Call the "real" delete() method
 
     def save(self, *args, **kwargs):
         """
