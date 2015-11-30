@@ -51,7 +51,7 @@ def detect_mimetype(url):
 @cache_page(60 * 15)
 def image_page(request, filename):
     # Get the image from our comics image database.
-    fetch_url = 'http://img.comicscantina.com/image/'+filename
+    fetch_url = 'http://104.207.135.220/image/'+filename
     http = urllib3.PoolManager()
     r = http.request('GET', fetch_url)
     
