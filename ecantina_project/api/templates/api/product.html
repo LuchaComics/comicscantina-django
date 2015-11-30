@@ -82,20 +82,27 @@
         });
     }
 
-    function delete_product(product_id, callback) {
-        var url = "/api/products/" + product_id + "/";
+    /**
+     *  Function will delete the product. This function is different then most
+     *  delete functions because it calls a custom function in the Product API.
+     *  This function will ensure that.
+     *     a) All Customer Receipts no longer have this product
+     *     b) All Customer Receipts which had this product have their totals updated
+     *     c) All associated data with this product gets deleted.
+     */
+    function delete_product(product_id, success_callback, error_callback) {
+        var url = "/api/products/" + product_id + "/delete_with_additional_processing/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,
             contentType: false,
             processData: false,
-            type: 'DELETE',
+            type: 'GET',
             success: function(json_results){
-                callback(json_results);
+                success_callback(json_results);
             },
             error: function(xhr,status,error) {
-                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
+                error_callback(xhr.responseText);
             },
             complete: function(xhr,status) {
                 // Do nothing.

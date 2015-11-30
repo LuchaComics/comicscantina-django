@@ -448,9 +448,39 @@
         delete_comic(comic_id, function(json_result) {
             // Do nothing.
         });
-        delete_product(product_id, function(json_result) {
-            ajax_refresh_table({{ issue.issue_id }}); // Refresh table.
-        });
+        delete_product(
+            product_id,
+            function(json_result) {
+                ajax_refresh_table({{ issue.issue_id }}); // Refresh table.
+            },
+            function(error_result) {
+                console.log(error_result);
+            }
+        );
+    }
+
+    function ajax_delete_me() {
+        // (1) Delete the product and update the database to ensure:
+        //     a) All Customer Receipts no longer have this product
+        //     b) All Customer Receipts which had this product have their totals updated
+        //     c) All associated data with this product gets deleted.
+        delete_product(
+            {{ comic_form.instance.product_id }},
+            function(json_result) {
+                // (2) Notify the user of successful deletion.
+                $.notify("Product has been deleted", "success");
+                       
+                // (3) Leave this page back to the tabular list.
+                setTimeout(function(){
+                    window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/products";
+                }, 1000)
+            },
+            function(error_result) {
+                console.log(error_result); // Do nothing but print to console.
+            }
+        );
+        
+        
     }
 
 

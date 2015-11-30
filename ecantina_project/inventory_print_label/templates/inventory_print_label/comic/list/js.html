@@ -24,9 +24,15 @@
         delete_comic(comic_id, function(json_result) {
             // Do nothing.
         });
-        delete_product(product_id, function(json_result) {
-            location.reload(true); // Reload page with cache cleared.
-        });
+        delete_product(
+            product_id,
+            function(json_result) {
+                location.reload(true); // Reload page with cache cleared.
+            },
+            function(error_result) {
+                console.log(error_result);
+            }
+        );
     }
 
     function load_series_qrcodes(series_id) {

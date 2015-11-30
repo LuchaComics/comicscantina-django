@@ -7,12 +7,16 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from rest_framework import filters
 from rest_framework.decorators import detail_route
 from api.pagination import TinyResultsSetPagination
-from api.permissions import BelongsToOrganizationOrReadOnly, BelongsToCustomerOrIsEmployeeUser
+from api.permissions import BelongsToOrganizationOrReadOnly, BelongsToCustomerOrIsEmployeeUser, BelongsToCompanyPolicy
 from api.serializers import ProductSerializer
 from api.models.ec.product import Product
 from api.models.ec.promotion import Promotion
 from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
+
+from api.models.ec.receipt import Receipt
+from api.models.ec.comic import Comic
+from django.core.management import call_command
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -47,6 +51,34 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = ProductFilter
+
+    @detail_route(methods=['get'], permission_classes=[BelongsToCompanyPolicy])
+    def delete_with_additional_processing(self, request, pk=None):
+        """
+            Removes the product from the inventory permanetly and deletes the associated files.
+            Furthermore if any customer has this product in their cart, the cart gets automatically
+            updated to have totals done
+        """
+        product = self.get_object() # Fetch the product we will be processing.
+        
+        # Fetch all the receipts which have this product in there.
+        receipts = Receipt.objects.filter(products__product_id=product.product_id)
+        for receipt in receipts:
+            receipt.products.remove(receipts)
+            # call_command('myadmincmd')
+            #TODO: Update
+            
+        # Delete the associated comic.
+        try:
+            Comic.objects.get(product=product).delete()
+        except Exception as e:
+            pass
+        
+        # Delete the phyiscal product.
+        product.delete()
+
+        # Return a success message.
+        return Response({'status': 'success', 'message': 'product was deleted from the database and the associated customer receipts have been updated.'})
 
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
     def apply_tax_and_discounts(self, request, pk=None):

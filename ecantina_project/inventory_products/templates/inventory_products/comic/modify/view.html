@@ -304,18 +304,25 @@
                                 
                                 <!-- Quantity + Submit -->
                                 <div class="col-sm-12">
-                                    <div class="col-xs-3">
+                                    
                                     {% if product_form.instance.product_id > 0%}
+                                        <div class="col-xs-6">
+                                        <button onclick="ajax_delete_me();"
+                                                   type="button"
+                                                  class="btn btn-labeled btn-lg btn-danger pull-left mb mr"
+                                                  style="font-size:14pt;">
+                                            <span class="btn-label"><i class="fa fa-trash"></i></span>Delete this Product
+                                        </button>
+                                        </div>
                                     {% else %}
+                                        <div class="col-xs-3">
                                         <label class="control-label lbl-qty" style="position:relative;top:-2px;font-size:14pt;">Quantity</label>
-                                    {% endif %}
-                                    </div>
-                                    <div class="col-xs-3">
-                                    {% if product_form.instance.product_id > 0 %}
-                                    {% else %}
+                                        </div>
+                                        <div class="col-xs-3">
                                         <input class="form-control input-lg" value="1" min="1" max="100" name="quantity" id="txt-quantity" type="number">
+                                        </div>
                                     {% endif %}
-                                    </div>
+                                    
                                     <div class="col-xs-6">
                                     {% if product_form.instance.product_id > 0 %}
                                         <button onclick="ajax_set_data();"
