@@ -46,6 +46,7 @@
             'postal': "{{ customer.billing_postal | escape | safe }}",
             'paypal_email': "{{ customer.email | escape | safe }}",
             'email': "{{ customer.email | escape | safe }}",
+            'is_listed': 'True',
         };
         
         set_organization(
@@ -99,6 +100,8 @@
             'postal': "{{ customer.billing_postal | escape | safe }}",
             'paypal_email': "{{ customer.email | escape | safe }}",
             'email': "{{ customer.email | escape | safe }}",
+            'is_aggregated': 'True',
+            'is_listed': 'True',
             'employees': [ parseInt(employee['employee_id']) ],
         };
     

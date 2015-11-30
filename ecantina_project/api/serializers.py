@@ -58,7 +58,6 @@ class StoreSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization', read_only=True)
     header_url = serializers.URLField(source='header.image.url', read_only=True)
     logo_url = serializers.URLField(source='logo.image.url', read_only=True)
-    is_listed = serializers.CharField(read_only=True)
     class Meta:
         model = Store
         fields = ('store_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'is_listed', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'is_open_monday', 'is_open_tuesday', 'is_open_wednesday', 'is_open_thursday', 'is_open_friday', 'is_open_saturday', 'is_open_sunday', 'monday_to', 'tuesday_to', 'wednesday_to', 'thursday_to', 'friday_to', 'saturday_to', 'sunday_to', 'monday_from', 'tuesday_from', 'wednesday_from', 'thursday_from', 'friday_from', 'saturday_from', 'sunday_from', 'organization', 'employees', 'header', 'logo', 'tax_rate', 'currency', 'language', 'is_comics_vendor', 'is_furniture_vendor', 'is_coins_vendor', 'is_aggregated', 'organization_name', 'paypal_email', 'header_url', 'logo_url', 'style',)
@@ -67,7 +66,6 @@ class StoreSerializer(serializers.ModelSerializer):
 class OrganizationSerializer(serializers.ModelSerializer):
     header_url = serializers.URLField(source='header.image.url', read_only=True)
     logo_url = serializers.URLField(source='logo.image.url', read_only=True)
-    is_listed = serializers.CharField(read_only=True)
     class Meta:
         model = Organization
         fields = ('org_id', 'name', 'description', 'joined', 'last_updated', 'is_suspended', 'is_listed', 'street_name', 'street_number', 'unit_number', 'city', 'province', 'country', 'postal', 'website', 'email', 'phone', 'fax', 'twitter', 'facebook_url', 'instagram_url', 'linkedin_url', 'github_url', 'google_url', 'youtube_url', 'flickr_url', 'administrator', 'header', 'logo','customers', 'currency', 'language', 'paypal_email', 'header_url', 'logo_url', 'style',)
