@@ -36,9 +36,9 @@
                                         <!-- Upload ID -->
                                         <input type="hidden"
                                                  id="id_hidden_header_id"
-                                              value="{{ employee.organization.header.id }}" />
+                                              value="{{ org.header.upload_id }}" />
                                         <!-- /.Upload ID -->
-                                        <img src="{{ employee.organization.header.image.url }}"
+                                        <img src="{{ org.header.image.url }}"
                                           style="height:45px;width:256px;"
                                              alt="Organization Header"
                                            class="img-thumbnail center-block mb0 add-cover-image"
@@ -69,7 +69,7 @@
                                 <div class="form-group">
                                     <div class="col-md-8">
                                         <!-- Upload ID -->
-                                        <input type="hidden" id="id_hidden_logo_id" value="{{ employee.organization.logo.image.id }}" />
+                                        <input type="hidden" id="id_hidden_logo_id" value="{{ employee.organization.logo.upload_id }}" />
                                         <!-- /.Upload ID -->
                                         <img src="{{ employee.organization.logo.image.url }}"
                                            style="height:140px;width:140px;"
