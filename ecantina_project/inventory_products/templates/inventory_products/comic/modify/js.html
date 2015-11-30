@@ -139,8 +139,13 @@
         // Insert or Update.
         set_imageupload(upload_id, false, image, {{ request.user.id }}, function(json_result) {
             $('#logo-image').attr('src', json_result['image']);
-            $('#id_hidden_url').val(json_result['image']);
             $('#id_hidden_upload_id').val(json_result['upload_id']);
+                      
+            // When saving the URL, be sure to include the URL base.
+            var protocol = window.location.protocol;
+            var domain = window.location.host;
+            var url = protocol + "//" + domain + json_result['image'];
+            $('#id_hidden_url').val(url);
         });
     }
 
