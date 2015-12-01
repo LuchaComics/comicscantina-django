@@ -233,4 +233,4 @@ PAYPAL_TEST = SECRET_PAYPAL_TEST
 
 # External Servers
 #
-COMICS_CANTINA_IMAGE_SERVER_ADDRESS = "http://img.comicscantina.com/image/"
+COMICS_CANTINA_IMAGE_SERVER_ADDRESS = "https://www.comicscantina.com/img/"
