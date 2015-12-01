@@ -23,22 +23,10 @@
                     <div class="col-sm-5 product-slide-left">
                         <a class="product-slide-img"
                             href="/products/{{ comic.product_id }}/">
-                            {% if comic.product.image == None %}
-                            {% if comic.issue.large_url == None %}
-                            <img alt="img"
-                            src="{% static "inventory/img/missing_cover_4.png" %}"
-                            class="img-responsive" />
-                            {% else %}
-                            <img alt="img"
-                            src="{{ comic.issue.large_url }}"
-                            class="img-responsive" />
-                            {% endif %}
-                            {% else %}
-                            <img alt="img"
-                                src="{{ comic.product.image.image.url }}"
-                                class="img-responsive">
-                                {% endif %}
-                                </a>
+                        <img alt="img"
+                             src="{{ comic.product.image_url }}"
+                           class="img-responsive" />
+                        </a>
                     </div>
                     <div class="col-sm-7">
                         <div class="product-slide-inner ">
@@ -58,12 +46,12 @@
                                 title="Add to Cart"
                                 class="btn btn-stroke-dark"> <i
                                     class="glyphicon glyphicon-shopping-cart"></i> Remove from Cart</a></div>
-                        {% else %}
+                            {% else %}
                         <a onclick="ajax_add_to_cart({{ comic.product_id }});"
                             title="Add to Cart"
                             class="btn btn-stroke-dark"> <i
                                 class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
-                    {% endif %}
+                            {% endif %}
                 </div>
             </div>
             {% empty %}
@@ -108,21 +96,9 @@
                      -->
                     
                     <a href="/products/{{ comic.product_id }}/">
-                        {% if comic.product.image == None %}
-                        {% if comic.issue.large_url == None %}
                         <img alt="img"
-                        src="{% static "inventory/img/missing_cover.png" %}"
+                        src="{{ comic.product.image_url }}"
                         class="img-responsive" />
-                        {% else %}
-                        <img alt="img"
-                        src="{{ comic.issue.large_url }}"
-                        class="img-responsive" />
-                        {% endif %}
-                        {% else %}
-                        <img alt="img"
-                            src="{{ comic.product.image_url }}"
-                            class="img-responsive">
-                            {% endif %}
                             </a>
                     
                     <div class="promotion">
