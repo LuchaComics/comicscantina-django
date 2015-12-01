@@ -4,6 +4,7 @@
 {% include 'api/employee.html' %}
 {% include 'api/customer.html' %}
 {% include 'api/subdomain.html' %}
+{% include 'api/section.html' %}
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
@@ -20,7 +21,9 @@
                 create_subdomain(organization, null, function(ok) {
                     create_store(organization, employee, function(store) {
                         create_subdomain(organization, store, function(ok2) {
-                            window.location = "/inventory/register/step2";
+                            ajax_section(organization, store, function(section) {
+                                  window.location = "/inventory/register/step2";
+                            });
                         });
                     });
                 });
@@ -114,6 +117,21 @@
                 console.log(failure_json);
             }
         );
+    }
+
+    function ajax_section(organization, store, callback)
+    {
+        var name = "General Section";
+    
+        // Fetch the data from the view and encode it into a "FormData" object.
+        var data = {
+            'name': name,
+            'store': store['store_id'],
+            'organization': organization['org_id'],
+        }
+        set_section(data, function(section) {
+            callback(section);
+        });
     }
 
     function create_subdomain(organization, store, callback) {
