@@ -140,11 +140,12 @@
         set_imageupload(upload_id, false, image, {{ request.user.id }}, function(json_result) {
             $('#logo-image').attr('src', json_result['image']);
             $('#id_hidden_upload_id').val(json_result['upload_id']);
-                      
-            // When saving the URL, be sure to include the URL base.
-            var protocol = window.location.protocol;
-            var domain = window.location.host;
-            var url = protocol + "//" + domain + json_result['image'];
+                
+            // If we are doing HTTPS then apply it
+            var url = json_result['image'];
+            if (window.location.protocol == "https:") {
+                url = url.replace("http:", "https:");
+            }
             $('#id_hidden_url').val(url);
         });
     }
@@ -242,8 +243,24 @@
             arr['image'] = parseInt( upload_id );
             
         }
-        arr['image_url'] =  $('#id_hidden_url').val();
         
+        // MAJOR BUGFIX: If we upload a custom image initially, the url is like
+        // "/media/upload/Weekly_1_cAvxO7G.jpg" and is missing the protocol and
+        // domain so we need to add it in.
+        var url = $('#id_hidden_url').val();
+        if ( url.indexOf( "media" ) > -1 ) {
+            var protocol = window.location.protocol;
+            var domain = window.location.host;
+            
+            // Check to see if it's of /media/... or http://.../media/format.
+            if ( url.indexOf( domain ) > -1 ) {
+                // Do nothing.
+            } else {
+                url = protocol + "//" + domain + url;
+            }
+        }
+        arr['image_url'] = url;
+                
     {% if product_form.instance.product_id > 0 %}
         // If we are editing a product, then we need to add in the product_id
         // so the javascript function will know to make an 'update' call and
