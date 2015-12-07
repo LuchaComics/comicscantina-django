@@ -268,11 +268,11 @@ class SubDomainSerializer(serializers.ModelSerializer):
     def validate_name(self, value):
         # Validate to ensure there are not capitals.
         if not value.islower():
-            raise serializers.ValidationError("Cannot have capitol letters")
+            raise serializers.ValidationError("Your subdomain can only contain lowercase letters.")
         
         # Validate to ensure there are no special characters (including whitespace).
         if not value.isalpha():
-            raise serializers.ValidationError("Cannot have special characters")
+            raise serializers.ValidationError("Your subdomain cannot have special characters.")
 
         # Validate to ensure the user doesn't take a valuable sub-domain name
         # that we (ComicsCantina) can use in the future.
