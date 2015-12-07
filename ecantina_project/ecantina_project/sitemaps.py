@@ -14,16 +14,12 @@ class StaticViewSitemap(sitemaps.Sitemap):
     def location(self, item):
         return reverse(item)
 
-#TODO: Fix Later
-#class SubDomainSitemap(sitemaps.Sitemap):
-#    priority = 0.5
-#    changefreq = 'monthly'
-#    
-#    def location(self, item):
-#        return "http://"+str(item)+"comicscantina.com"
-#    
-#    def items(self):
-#        return SubDomain.objects.all()
+class SubDomainSitemap(sitemaps.Sitemap):
+    priority = 0.5
+    changefreq = 'monthly'
+    
+    def items(self):
+        return SubDomain.objects.all()
 
 
 class ProductsSitemap(sitemaps.Sitemap):

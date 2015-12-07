@@ -31,3 +31,10 @@ class SubDomain(models.Model):
             cache.clear()
             super(SubDomain, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        """
+            When the sitemaps.xml gets generated for the all the URLS, all
+            returned "Subdomain" objects will have this URL called.
+        """
+        return "/storefront/"+str(self.name)+"/"
+
