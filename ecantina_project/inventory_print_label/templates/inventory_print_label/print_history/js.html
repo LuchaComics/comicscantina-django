@@ -3,16 +3,16 @@
 <script>
     $(document).ready(function () {
                   
-                  ajax_refresh_table(0); // Refresh the table for the first time.
+        ajax_refresh_table(0); // Refresh the table for the first time.
                   
-                  $('.tab').click(function(){
-                                      $('.tab.selected').removeClass('selected');
-                                      $(this).addClass('selected');
-                                  
-                                  var tab_index = $(this).index();
-                                  $('#id_tab_index').val(tab_index);
-                                  ajax_refresh_table(tab_index);
-                                  })
+        $('.tab').click(function(){
+            $('.tab.selected').removeClass('selected');
+            $(this).addClass('selected');
+                        
+            var tab_index = $(this).index();
+            $('#id_tab_index').val(tab_index);
+            ajax_refresh_table(tab_index);
+        })
                   
     });
     

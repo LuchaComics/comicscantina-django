@@ -109,18 +109,17 @@
                     <a href="/"> Home
                     </a>
                 </li>
+                <li {% if page == 'products' %}class="active"{% endif %}>
+                    <a href="/products/grid?category=1"> Browse Products </a>
+                </li>
                 {% comment %}
-                    Hide the 'About' page if we are the aggregate store as that means we have nothing to be about.
+                Hide the 'About' page if we are the aggregate store as that means we have nothing to be about.
                 {% endcomment %}
                 {% if org.org_id > 0 %}
                 <li {% if page == 'about' %}class="active"{% endif %}>
                     <a href="/about"> About Us </a>
                 </li>
                 {% endif %}
-                <li {% if page == 'products' %}class="active"{% endif %}>
-                    <a href="/products/grid?category=1"> Browse Products </a>
-                </li>
-                
             </ul>
 
 
