@@ -125,7 +125,8 @@
             function ajax_logout() {
                 sign_off(
                     function(json_result) {
-                         location.reload(true); // Reload page with reloading cache.
+                         // Return the the login screen when successsfully logged out.
+                         window.location="/inventory/login";
                     },
                     function(error_callback) {
                          console.log(error_callback.message);
