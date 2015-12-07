@@ -90,5 +90,33 @@ def storefront_redirect(request, name=""):
     url = SECRET_HTTP_PROTOCOL+this_subdomain.name+"."+SECRET_DOMAIN
     return HttpResponseRedirect(url)
 
-# Note:
-# http://www.djangobook.com/en/2.0/chapter03.html
+
+def org_subdomain_redirect(request, org_id=0):
+    """
+        Example:
+        127.0.0.1:8000/store/directory/1/
+        """
+    org_id = int(org_id)
+    # Find the subdomain associated with this organization.
+    try:
+        this_subdomain = SubDomain.objects.filter(organization=org_id).order_by("-store")[:1]
+        this_subdomain = this_subdomain[0]
+    except SubDomain.DoesNotExist:
+        this_subdomain = None
+    
+    url = SECRET_HTTP_PROTOCOL+this_subdomain.name+"."+SECRET_DOMAIN
+    return HttpResponseRedirect(url)
+
+
+def store_subdomain_redirect(request, org_id=0, store_id=0):
+    org_id = int(org_id)
+    store_id = int(store_id)
+    
+    # Find the subdomain associated with this store.
+    try:
+        this_subdomain = SubDomain.objects.get(store_id=store_id)
+    except SubDomain.DoesNotExist:
+        this_subdomain = None
+    
+    url = SECRET_HTTP_PROTOCOL+this_subdomain.name+"."+SECRET_DOMAIN
+    return HttpResponseRedirect(url)
