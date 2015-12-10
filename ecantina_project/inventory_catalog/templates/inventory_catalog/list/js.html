@@ -152,26 +152,11 @@
         $(html).appendTo('#id_table_placeholder'); // Load Table.
     }
 
-    function ajax_load_product(product_id, product_type)
+    function ajax_load_catalog(catalog_id, catalog_type)
     {
-        var link_url = "";
-        if (product_type == 1) {
-            // Get a single comic (Note: product-comic are 1-to-1.
-            filter_comics_by_product_id(product_id, function(json_result) {
-                $(json_result).each(function(iter,val2){
-                    $(val2['results']).each(function(iter2,val){
-                        var issue_id = val['issue'];
-                        link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
-                        window.location=link_url;
-                    });
-                });
-            });
-        } else if (product_type == 2) {
-            //TODO: Implement.
-        } else if (product_type == 3) {
-            //TODO: Implement.
-        } else {
-            //TODO: Implement.
+        if (catalog_type == 1) {
+            var link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/"+catalog_id;
+            window.location=link_url;
         }
     }
 

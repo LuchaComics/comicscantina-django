@@ -42,3 +42,16 @@ def catalog_add_comic_page(request, org_id, store_id):
         'locations': Store.objects.filter(organization_id=org_id),
         'src_urls': ['inventory_help/success_modal.html'],
     })
+
+
+@login_required(login_url='/inventory/login')
+def catalog_edit_comic_page(request, org_id, store_id):
+    return render(request, 'inventory_catalog/edit_comic/view.html',{
+        'org': Organization.objects.get(org_id=org_id),
+        'store': Store.objects.get(store_id=store_id),
+        'form': HelpRequestForm(),
+        'tab':'catalog_add_comic',
+        'employee': Employee.objects.get(user__id=request.user.id),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'src_urls': ['inventory_help/success_modal.html'],
+    })
