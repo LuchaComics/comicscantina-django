@@ -1,8 +1,5 @@
 {% load staticfiles %}
-{% include 'api/issue.html' %}
-{% include 'api/series.html' %}
-{% include 'api/comic.html' %}
-{% include 'api/product.html' %}
+{% include 'api/catalog_item.html' %}
 <script>
     $(document).ready(function () {
         // DYNAMIC SEARCHING (AKA AJAX SEARCHING)
@@ -16,13 +13,9 @@
         function lookupProducts() {
             var name =  $('#id_name').val();
             var brand =  $('#id_brand').val();
-            var category =  $('#id_category').val();
-            var tags =  $('#id_tags').val();
-            var min_price =  $('#id_min_price').val();
-            var max_price =  $('#id_max_price').val();
                       
             // Call our application and return results.
-            ajax_search_products(name, brand, category, tags, min_price, max_price);
+            ajax_search_products(name, brand);
         }
                       
         $('#id_name').keyup(function() {
@@ -33,25 +26,9 @@
             clearTimeout(thread);
             thread = setTimeout(function() { lookupProducts(); }, 500);
         });
-        $('#id_category').keyup(function() {
-            clearTimeout(thread);
-            thread = setTimeout(function() { lookupProducts(); }, 500);
-        });
-        $('#id_tags').keyup(function() {
-            clearTimeout(thread);
-            thread = setTimeout(function() { lookupProducts(); }, 500);
-        });
-        $('#id_min_price').keyup(function() {
-            clearTimeout(thread);
-            thread = setTimeout(function() { lookupProducts(); }, 500);
-        });
-        $('#id_max_price').keyup(function() {
-            clearTimeout(thread);
-            thread = setTimeout(function() { lookupProducts(); }, 500);
-        });
     });
     
-    function ajax_search_products(name, brand, category, tags, min_price, max_price)
+    function ajax_search_products(name, brand)
     {
         // Load the 'Busy' indicator.
         var src = "{% static "inventory/img/busy.gif" %}";
@@ -68,23 +45,8 @@
         if (brand.length > 0) {
             arr.push({ 'brand_name': brand });
         }
-        if (category.length > 0) {
-            arr.push({ 'category_name': category });
-        }
-        if (min_price.length > 0) {
-            arr.push({ 'min_sub_price': min_price });
-        }
-        if (max_price.length > 0) {
-            arr.push({ 'max_sub_price': max_price });
-        }
-        if (tags.length > 0) {
-            var tags_arr = tags.split(",");
-            for (var i = 0; i < tags_arr.length; i++) {
-                arr.push({ 'tag': tags_arr[i] });
-            }
-        }
         
-        filter_products(arr, function(json_objects) {
+        filter_catalog_item(arr, function(json_objects) {
             generate_table(json_objects);
         });
         
@@ -107,7 +69,6 @@
         html += '<th style="width:17%;">Name</th>';
         html += '<th style="width:17%;">Brand</th>';
         html += '<th style="width:8%;">Stock</th>';
-        html += '<th style="width:10%;">Price</th>';
         html += '<th style="width:8%;text-align:center;">View Details</th>';
         //html += '<th data-check-all="">';
         //html += '<div title="" data-original-title="" data-toggle="tooltip" data-title="Check All" class="checkbox c-checkbox">';
@@ -132,7 +93,7 @@
             // Generate table.
             var position_index = 0;
             $(val2['results']).each(function(iter2,val){
-                var product_id = val['product_id'];
+                var product_id = val['catalog_id'];
                 position_index += 1;
                 html += '<tr>';
                 html += '<td style="text-align:center;">';
@@ -166,7 +127,6 @@
                     html += '<td>' + '</td>';
                 }
                 
-                html += '<td>$' + val['sub_price'] + '</td>';
                 html += '<td style="text-align:center;">';
                                     
                 //html += '<button style="margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled">';

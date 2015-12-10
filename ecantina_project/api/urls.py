@@ -32,6 +32,7 @@ from api.views import banned_ip
 from api.views import banned_word
 from api.views import register
 from api.views import login
+from api.views import catalog_item
 from rest_framework.routers import DefaultRouter
 
 
@@ -72,6 +73,7 @@ router.register(r'banned_words', banned_word.BannedWordViewSet)
 router.register(r'banned_words', banned_word.BannedWordViewSet)
 router.register(r'registers', register.RegisterViewSet)
 router.register(r'logins', login.LoginViewSet)
+router.register(r'catalog_items', catalog_item.CatalogItemViewSet)
 
 
 # The API URLs are now determined automatically by the router.

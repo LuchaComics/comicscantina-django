@@ -53,54 +53,6 @@
                                 <!-- /input-group -->
                             </div>
                             <!-- /.BRAND -->
-                            <!-- CATEGORY -->
-                            <div class="col-sm-12 col-md-6 mb">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category</button>
-                                    </div>
-                                    <!-- /btn-group -->
-                                    <input id="id_category" type="text" class="form-control">
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                            <!-- /.CATEGORY -->
-                            <!-- TAGS -->
-                            <div class="col-sm-12 col-md-6 mb">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tags</button>
-                                    </div>
-                                    <!-- /btn-group -->
-                                    <input id="id_tags" type="text" class="form-control">
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                            <!-- /.TAGS -->
-                            <!-- MIN PRICE -->
-                            <div class="col-sm-12 col-md-6 mb">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Min Price</button>
-                                    </div>
-                                    <!-- /btn-group -->
-                                    <input id="id_min_price" type="text" class="form-control">
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                            <!-- /.MIN PRICE-->
-                            <!-- MAX PRICE -->
-                            <div class="col-sm-12 col-md-6 mb">
-                                <div class="input-group">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Max Price</button>
-                                    </div>
-                                    <!-- /btn-group -->
-                                    <input id="id_max_price" type="text" class="form-control">
-                                </div>
-                                <!-- /input-group -->
-                            </div>
-                            <!-- /.MAX PRICE -->
                             
                         </div><!-- end filter search boxes -->
                         <!--                      -->
@@ -121,37 +73,35 @@
                                             <th style="width:17%;">Name</th>
                                             <th style="width:17%;">Brand</th>
                                             <th style="width:8%;">Stock</th>
-                                            <th style="width:10%;">Price</th>
                                             <th style="width:8%;text-align:center;">View Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for product in products %}
+                                        {% for item in catalog_items %}
                                         {% autoescape off %}
                                         <tr>
                                             <td style="text-align:center;">
-                                                {% if product.image_url == "" or product.image_url == None  %}
+                                                {% if item.image_url == "" or item.image_url == None  %}
                                                 <img class="product-image center-block"
                                                      width="50"
-                                                       alt="{{ product.name | escape | safe }}"
+                                                       alt="{{ item.name | escape | safe }}"
                                                        src="{% static "inventory/img/missing_cover.png" %}" />
                                                 {% else %}
                                                 <img class="product-image center-block"
                                                      width="50"
-                                                       alt="{{ product.name | escape | safe }}"
-                                                       src="{{ product.image_url }}" />
+                                                       alt="{{ item.name | escape | safe }}"
+                                                       src="{{ item.image_url }}" />
                                                 {% endif %}
                                             </td>
-                                            <td>{{ product | escape | safe }}</td>
-                                            <td>{{ product.brand }}</td>
+                                            <td>{{ item | escape | safe }}</td>
+                                            <td>{{ item.brand_name }}</td>
                                             <td>
-                                                {% if product.type == 1 %}
+                                                {% if item.type == 1 %}
                                                 Comic
                                                 {% else %}
                                                 Unknown Type
                                                 {% endif %}
                                             </td>
-                                            <td>${{ product.sub_price }}</td>
                                             <td style="text-align:center;">
                                                 <button onclick="ajax_load_product('{{ product.product_id }}','{{ product.type }}');"
                                                     style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled">
@@ -181,5 +131,5 @@
         </div>
     </div>
 </section>
-{% include "inventory_products/search/js.html" %}
+{% include "inventory_catalog/list/js.html" %}
 {% endblock content %}

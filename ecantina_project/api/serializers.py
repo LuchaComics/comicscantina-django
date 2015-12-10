@@ -33,6 +33,7 @@ from api.models.ec.subdomain import SubDomain
 from api.models.ec.banned_domain import BannedDomain
 from api.models.ec.banned_ip import BannedIP
 from api.models.ec.banned_word import BannedWord
+from api.models.ec.catalog_item import CatalogItem
 
 
 class LoginSerializer(serializers.Serializer):
@@ -322,3 +323,9 @@ class BannedWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = BannedWord
         fields = ('id','text','banned_on','reason',)
+
+
+class CatalogItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CatalogItem
+        fields = ('catalog_id','name','type','description','brand_name','image','created','last_updated','length_in_meters','width_in_meters','height_in_meters','weight_in_kilograms','volume_in_litres','materials','is_tangible','is_flammable','is_biohazard','is_toxic','is_explosive','is_corrosive','is_volatile','is_radioactive','is_restricted','restrictions','organization',)
