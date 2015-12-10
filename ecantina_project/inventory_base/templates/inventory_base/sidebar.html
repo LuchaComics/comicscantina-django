@@ -89,9 +89,32 @@
                 </li>
                 
                 
+                <!-- CATALOG -->
+                <li class=" ">
+                    <a href="#products" title="Inventory" data-toggle="collapse">
+                        <em class="fa fa-map"></em>
+                        <span>Catalog</span>
+                    </a>
+                    <ul id="products" class="nav sidebar-subnav collapse">
+                        <li class="sidebar-subnav-header">Catalog</li>
+                        <li class={% if tab == 'catalog_list_all' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog" title="View Inventory">
+                                <span>View All</span>
+                            </a>
+                        </li>
+                        
+                        {% if store.is_comics_vendor %}
+                        <li class={% if tab == 'catalog_add_comic' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog_add_comic" title="View Inventory">
+                                <span>Add Comic</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </li>
                
                
-                <!-- INVENTORY -->
+                <!-- PRODUCTS -->
                 <li class=" ">
                     <a href="#products" title="Inventory" data-toggle="collapse">
                         <em class="fa fa-tags"></em>
