@@ -91,11 +91,11 @@
                 
                 <!-- CATALOG -->
                 <li class=" ">
-                    <a href="#products" title="Inventory" data-toggle="collapse">
+                    <a href="#catalog" title="Catalog" data-toggle="collapse">
                         <em class="fa fa-map"></em>
                         <span>Catalog</span>
                     </a>
-                    <ul id="products" class="nav sidebar-subnav collapse">
+                    <ul id="catalog" class="nav sidebar-subnav collapse">
                         <li class="sidebar-subnav-header">Catalog</li>
                         <li class={% if tab == 'catalog_list_all' %}" active" {% else %}" "{% endif %}>
                             <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog" title="View Inventory">
@@ -105,7 +105,7 @@
                         
                         {% if store.is_comics_vendor %}
                         <li class={% if tab == 'catalog_add_comic' %}" active" {% else %}" "{% endif %}>
-                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog_add_comic" title="View Inventory">
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/add_comic" title="View Inventory">
                                 <span>Add Comic</span>
                             </a>
                         </li>

@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = patterns('',
-#    url(r'^$', views.index_page, name='index'),
-#    url(r'^image/(.*)$', views.image_page, name='file'),
+    url(r'^inventory/(\d+)/(\d+)/catalog$', views.catalog_page),
+    url(r'^inventory/(\d+)/(\d+)/catalog/add_comic$', views.catalog_add_comic_page),
 )
