@@ -6,7 +6,7 @@
     <!-- Page content-->
     <div class="content-wrapper p0 bg-gray-lighter">
         <div class="header w100 bb m0 p-lg bg-white">
-            <h3 class="m0 b0 p0"><em class="fa fa-tag mr"></em>Inventory <em class="fa fa-angle-right pl pr"></em>  View Products</h3>
+            <h3 class="m0 b0 p0"><em class="fa fa-tag mr"></em>Inventory <em class="fa fa-angle-right pl pr"></em>  View Catalog</h3>
         </div>
         <div class="clearfix"></div>
         <!-- START row 1 -->
@@ -16,7 +16,7 @@
                 <div id="inventory-panel" class="clearfix panel panel-default m-lg">
                     <div class="panel-tabs w100 p m0" style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
                         <ul class="tab-list clearfix">
-                            <!-- if the store is only selling 1 product type, we don't need the dropdown list -->
+                            <!-- if the store is only selling 1 catalog type, we don't need the dropdown list -->
                             <li class="tab product-type dropdown" role="presentation">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
                                     Catalog: View All
@@ -61,7 +61,7 @@
                         <div class="clearfix"></div>
                         
                         
-                        <!-- begin product listing -->
+                        <!-- begin item listing -->
                         <div id="id_table_placeholder">
                             
                             <!-- INITIAL TABLE -->
@@ -103,7 +103,7 @@
                                                 {% endif %}
                                             </td>
                                             <td style="text-align:center;">
-                                                <button onclick="ajax_load_product('{{ product.product_id }}','{{ product.type }}');"
+                                                <button onclick="ajax_load_catalog('{{ item.catalog_id }}','{{ item.type }}');"
                                                     style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled">
                                                     <span class="btn-label"><i class="fa fa-edit"></i></span>View Details
                                                 </button>
@@ -115,12 +115,12 @@
                                 </table>
                             </div><!-- /.INITIAL TABLE -->
                         </div>
-                        <!-- end product listing -->
+                        <!-- end item listing -->
                         
                     </div>
-                    <!-- end product listing -->
+                    <!-- end item listing -->
                     
-                    <div class="panel-footer" id="id_results_count">{{ products.count }} Results Listed</div>
+                    <div class="panel-footer" id="id_results_count">{{ catalog_items.count }} Results Listed</div>
                     
                 </div>
                 <!--                      -->
