@@ -324,11 +324,34 @@
                     if (upload_id > 0) {
                         // Let our upload image know it is properly assigned.
                         set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                            // Load up the 'Edit' controller associated with comics.
-                            window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                                        
+                            // (1) Notify the user of successful deletion.
+                            {% if product_form.instance.product_id == None %}
+                                $.notify("Product has been created", "success");
+                            {% else %}
+                                $.notify("Product has been updated", "success");
+                            {% endif %}
+                                        
+                            // (2) Leave this page back to the tabular list.
+                            setTimeout(function(){
+                                window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                            }, 750);
+                                        
                         }); // end imageupload
                     } else {
-                        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                          
+                          // (1) Notify the user of successful deletion.
+                          {% if product_form.instance.product_id == None %}
+                              $.notify("Product has been created", "success");
+                          {% else %}
+                              $.notify("Product has been updated", "success");
+                          {% endif %}
+                          
+                          // (2) Leave this page back to the tabular list.
+                          setTimeout(function(){
+                            window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                          }, 750);
+                          
                     }
                 }); // End Set Comic
                                             
