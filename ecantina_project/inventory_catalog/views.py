@@ -10,7 +10,6 @@ from api.models.ec.organization import Organization
 from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.models.ec.catalog_item import CatalogItem
-from inventory_help.forms import HelpRequestForm
 from inventory_catalog.forms import CatalogItemForm
 
 @login_required(login_url='/inventory/login')
@@ -32,8 +31,8 @@ def catalog_page(request, org_id, store_id):
 
 
 @login_required(login_url='/inventory/login')
-def catalog_add_comic_page(request, org_id, store_id):
-    return render(request, 'inventory_catalog/add_comic/view.html',{
+def catalog_add_page(request, org_id, store_id):
+    return render(request, 'inventory_catalog/add/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'form': CatalogItemForm(),
@@ -45,11 +44,15 @@ def catalog_add_comic_page(request, org_id, store_id):
 
 
 @login_required(login_url='/inventory/login')
-def catalog_edit_comic_page(request, org_id, store_id, catalog_id):
-    return render(request, 'inventory_catalog/edit_comic/view.html',{
+def catalog_edit_page(request, org_id, store_id, catalog_id):
+    try:
+        catalog_item = CatalogItem.objects.get(catalog_id=catalog_id)
+    except CatalogItem.DoesNotExist:
+        catalog_item = None
+    return render(request, 'inventory_catalog/edit/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
-        'form': HelpRequestForm(),
+        'form': CatalogItemForm(instance=catalog_item),
         'tab':'catalog_add_comic',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
