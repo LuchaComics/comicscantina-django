@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
-from api.models.ec.comic import Comic
+from api.models.ec.product import Product
 from api.models.ec.customer import Customer
 from api.models.ec.employee import Employee
 from api.models.ec.receipt import Receipt
@@ -23,40 +23,40 @@ def front_page(request):
     # Fetch all the featured comics throughout all the stores or depending
     # on the organization / store.
     try:
-        featured_comics = Comic.objects.filter(
-            product__is_listed=True,
-            product__store__is_aggregated=True,
-            product__is_sold=False,
-            product__is_featured=True,
-            product__organization__is_listed=True,
-            product__store__is_listed=True,
+        featured_products = Product.objects.filter(
+            is_listed=True,
+            store__is_aggregated=True,
+            is_sold=False,
+            is_featured=True,
+            organization__is_listed=True,
+            store__is_listed=True,
         )
     
         if org:
-            featured_comics = featured_comics.filter(organization=org)
+            featured_products = featured_products.filter(organization=org)
                 
         if store:
-            featured_comics = featured_comics.filter(product__store=store)
-    except Comic.DoesNotExist:
-        featured_comics = None
+            featured_products = featured_products.filter(store=store)
+    except Product.DoesNotExist:
+        featured_products = None
     
     # Fetch all the new comics throghout all the stores or depending on the
     # organization / store.
     try:
-        new_comics = Comic.objects.filter(
-            product__is_listed=True,
-            product__store__is_aggregated=True,
-            product__is_sold=False,
-            product__is_new=True,
+        new_products = Product.objects.filter(
+            is_listed=True,
+            store__is_aggregated=True,
+            is_sold=False,
+            is_new=True,
         )
 
         if org:
-            new_comics = new_comics.filter(organization=org)
+            new_products = new_products.filter(organization=org)
 
         if store:
-            new_comics = new_comics.filter(product__store=store)
-    except Comic.DoesNotExist:
-        new_comics = None
+            new_products = new_products.filter(store=store)
+    except Product.DoesNotExist:
+        new_products = None
 
     # Display the view with all our model information.
     return render(request, 'store_landpage/index.html',{
@@ -66,8 +66,8 @@ def front_page(request):
         'wishlists': wishlists,
         'customer': customer,
         'employee': employee,
-        'featured_comics': featured_comics,
-        'new_comics': new_comics,
+        'featured_products': featured_products,
+        'new_products': new_products,
         'org': org,
         'store': store,
         'page': 'home',

@@ -18,36 +18,36 @@
     <div class="row">
         <div class="col-sm-10 show-case-wrapper center-block relative">
             <div id="productShowCase" class="owl-carousel owl-theme">
-                {% for comic in featured_comics %}
+                {% for product in featured_products %}
                 <div class="product-slide">
                     <div class="col-sm-5 product-slide-left">
                         <a class="product-slide-img"
-                            href="/products/{{ comic.product_id }}/">
+                            href="/products/{{ product.product_id }}/">
                         <img alt="img"
-                             src="{{ comic.product.image_url }}"
+                             src="{{ product.image_url }}"
                            class="img-responsive" />
                         </a>
                     </div>
                     <div class="col-sm-7">
                         <div class="product-slide-inner ">
-                            <h1 class="product-title">{{ comic.product.name | escape | safe }}</h1>
+                            <h1 class="product-title">{{ product.name | escape | safe }}</h1>
                             
-                            <h3 class="product-code">Product Code : {{ comic.product.product_id }}</h3>
+                            <h3 class="product-code">Product Code : {{ product.product_id }}</h3>
                             
                             <div class="product-price">
-                                <span class="price-sales"> ${{ comic.product.sub_price }}</span>
+                                <span class="price-sales"> ${{ product.sub_price }}</span>
                                 <!--<span class="price-standard">$95</span>-->
                             </div>
                             <div class="details-description">
-                                <p>{{ comic.product.description|slice:":125" }}</p>
+                                <p>{{ product.description|slice:":125" }}</p>
                             </div>
-                            {% if comic.product in receipt.products.all %}
-                            <a onclick="ajax_remove_from_cart({{ comic.product_id }});"
+                            {% if product in receipt.products.all %}
+                            <a onclick="ajax_remove_from_cart({{ product.product_id }});"
                                 title="Add to Cart"
                                 class="btn btn-stroke-dark"> <i
                                     class="glyphicon glyphicon-shopping-cart"></i> Remove from Cart</a></div>
                             {% else %}
-                        <a onclick="ajax_add_to_cart({{ comic.product_id }});"
+                        <a onclick="ajax_add_to_cart({{ product.product_id }});"
                             title="Add to Cart"
                             class="btn btn-stroke-dark"> <i
                                 class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
@@ -73,14 +73,14 @@
     </div>
     <div style="clear:both;"></div>
     <div id="productslider" class="owl-carousel owl-theme">
-        {% for comic in new_comics %}
+        {% for product in new_products %}
         <div class="item">
             <div class="product">
-                <a  onclick="ajax_favor({{ comic.product_id }});"
-                    id="id_fav_product_id_{{ comic.product_id }}"
+                <a  onclick="ajax_favor({{ product.product_id }});"
+                    id="id_fav_product_id_{{ product.product_id }}"
                     class="add-fav tooltipHere" data-toggle="tooltip"
                     data-original-title="Add to Wishlist" data-placement="left">
-                    <i id="id_fav_new_heart_id_{{ comic.product_id }}" class="glyphicon glyphicon-heart"></i>
+                    <i id="id_fav_new_heart_id_{{ product.product_id }}" class="glyphicon glyphicon-heart"></i>
                 </a>
                 
                 <div class="image">
@@ -95,34 +95,34 @@
                      </div>
                      -->
                     
-                    <a href="/products/{{ comic.product_id }}/">
+                    <a href="/products/{{ product.product_id }}/">
                         <img alt="img"
-                        src="{{ comic.product.image_url }}"
+                        src="{{ product.image_url }}"
                         class="img-responsive" />
                             </a>
                     
                     <div class="promotion">
-                        {% if comic.product.discount > 0 %}
+                        {% if product.discount > 0 %}
                         <span class="new-product"> DISCOUNTED</span>
-                        {% if comic.product.discount_type = 1 %}
-                        <span class="discount">{{ comic.product.discount }}% OFF</span>
+                        {% if product.discount_type = 1 %}
+                        <span class="discount">{{ product.discount }}% OFF</span>
                         {% else %}
-                        <span class="discount">${{ comic.product.discount }} OFF</span>
+                        <span class="discount">${{ product.discount }} OFF</span>
                         {% endif %}
                         {% endif %}
                     </div>
                 </div>
                 <div class="description">
-                    <h4><a href="product-details.html">{{ comic }}</a></h4>
+                    <h4><a href="product-details.html">{{ product.name }}</a></h4>
                     
-                    <p>{{ comic.product.description|slice:":125" }}</p>
-                    <span class="size">{{ comic.genre }}</span></div>
-                <div class="price"><span>${{ comic.product.sub_price }}</span></div>
+                    <p>{{ product.description|slice:":125" }}</p>
+                    <span class="size"></span></div>
+                <div class="price"><span>${{ product.sub_price }}</span></div>
                 
-                {% if comic.product in receipt.products.all %}
+                {% if product in receipt.products.all %}
                 <!-- REMOVE FROM CART -->
                 <div class="action-control">
-                    <a onclick="ajax_remove_from_cart({{ comic.product_id }});" class="btn btn-primary">
+                    <a onclick="ajax_remove_from_cart({{ product.product_id }});" class="btn btn-primary">
                         <span class="add2cart">
                             <i class="glyphicon glyphicon-shopping-cart"> </i> Remove from cart
                         </span>
@@ -131,7 +131,7 @@
                 {% else %}
                 <!-- ADD TO CART -->
                 <div class="action-control">
-                    <a onclick="ajax_add_to_cart({{ comic.product_id }});" class="btn btn-primary">
+                    <a onclick="ajax_add_to_cart({{ product.product_id }});" class="btn btn-primary">
                         <span class="add2cart">
                             <i class="glyphicon glyphicon-shopping-cart"> </i> Add to cart
                         </span>
