@@ -35,7 +35,7 @@ def catalog_add_page(request, org_id, store_id):
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'form': CatalogItemForm(),
-        'tab':'catalog_add_comic',
+        'tab':'catalog_add',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
     })
@@ -51,7 +51,7 @@ def catalog_edit_page(request, org_id, store_id, catalog_id):
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'form': CatalogItemForm(instance=catalog_item),
-        'tab':'catalog_add_comic',
+        'tab':'catalog_edit',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
     })

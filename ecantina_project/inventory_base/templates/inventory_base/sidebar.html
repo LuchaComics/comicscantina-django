@@ -103,13 +103,11 @@
                             </a>
                         </li>
                         
-                        {% if store.is_comics_vendor %}
-                        <li class={% if tab == 'catalog_add_comic' %}" active" {% else %}" "{% endif %}>
+                        <li class={% if tab == 'catalog_add' %}" active" {% else %}" "{% endif %}>
                             <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/add_comic" title="View Inventory">
                                 <span>Add Item</span>
                             </a>
                         </li>
-                        {% endif %}
                     </ul>
                 </li>
                
