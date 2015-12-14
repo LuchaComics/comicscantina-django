@@ -31,20 +31,19 @@ def details_page(request, product_id=0):
     except Category.DoesNotExist:
         categories = None
 
-    # Fetch the product details
+    # Fetch the product details & stories.
     try:
         product = Product.objects.get(product_id=product_id)
     except Product.DoesNotExist:
         product = None
     try:
         comic = Comic.objects.get(product__product_id=product_id)
+        stories = GCDStory.objects.filter(issue_id=comic.issue_id)
     except Comic.DoesNotExist:
         comic = None
-
-    # Fetch the Stories per comic
-    try:
-        stories = GCDStory.objects.filter(issue_id=comic.issue_id)
+        stories = None
     except GCDStory.DoesNotExist:
+        comic = None
         stories = None
 
     return render(request, 'store_products/product_details/details.html',{

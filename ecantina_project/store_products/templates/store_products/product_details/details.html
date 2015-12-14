@@ -10,17 +10,16 @@
                     </a>
                 </li>
                 {% if product.category.parent_id == 1 %}
-                <li>
-                    <a href="/products/grid?category={{ product.category.parent_id }}">Comics
-                    </a>
-                </li>
+                    <li>
+                        <a href="/products/grid?category={{ product.category.parent_id }}">Comics
+                        </a>
+                    </li>
                 {% else %}
-                <li>UNSUPPORTED - {{ product.category.parent_id }}</li>
-                {% endif %}
                 <li>
                     <a href="/products/grid?category={{ product.category_id }}">{{ product.category.name | escape | safe }}s
                     </a>
                 </li>
+                {% endif %}
                 <li class="active">
                     {{ product.name | escape | safe }}
                 </li>
@@ -31,25 +30,35 @@
         <!-- left column -->
         <div class="col-lg-6 col-md-6 col-sm-6 productImageZoom">
             <div class='zoom' id='zoomContent'>
-                {% if comic.product.image == None %}
-                    {% if comic.issue.large_url == None %}
+                {% if comic == None %}
+                    <!-- Custom Products -->
                     <img alt="img"
-                    src="{% static "inventory/img/missing_cover.png" %}"
-                    class="img-responsive" />
-                    {% else %}
-                    <img alt="img"
-                    src="{{ comic.issue.large_url }}"
-                    class="img-responsive" />
-                    {% endif %}
+                         src="{{ product.image.image.url }}"
+                       class="img-responsive" />
+                    <!-- /.Custom Products -->
                 {% else %}
-                <a class="gall-item"
-                   title="{{ product.name | escape | safe }}"
-                    href="{{ comic.product.image_url }}">
-                    <img class="zoomImage1 img-responsive"
-                      data-src="{{ comic.product.image_url }}"
-                           src='{{ comic.product.image_url }}'
-                           alt='Daisy on the Ohoopee' />
-                </a>
+                    <!-- Comic Products -->
+                    {% if comic.product.image == None %}
+                        {% if comic.issue.large_url == None %}
+                            <img alt="img"
+                                 src="{% static "inventory/img/missing_cover.png" %}"
+                               class="img-responsive" />
+                        {% else %}
+                            <img alt="img"
+                                 src="{{ comic.issue.large_url }}"
+                               class="img-responsive" />
+                        {% endif %}
+                    {% else %}
+                        <a class="gall-item"
+                           title="{{ product.name | escape | safe }}"
+                            href="{{ comic.product.image_url }}">
+                            <img class="zoomImage1 img-responsive"
+                              data-src="{{ comic.product.image_url }}"
+                                   src='{{ comic.product.image_url }}'
+                                   alt='Daisy on the Ohoopee' />
+                        </a>
+                    {% endif %}
+                    <!-- /.Comic Products -->
                 {% endif %}
             </div>
             <!--
