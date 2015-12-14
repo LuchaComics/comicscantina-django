@@ -27,6 +27,7 @@
             if (!product_exists_in_cart) {
                 products.push(product_id);
                 json_results['products'] = products;
+                json_results['error'] = 0;
                     
                 // STEP 3: Update the cart.
                 set_receipt(json_results, function(json_results2) {
@@ -65,6 +66,7 @@
                 products.splice(i, 1);
             }
             json_results['products'] = products;
+            json_results['error'] = 0;
                     
             // STEP 3: Update the cart.
             set_receipt(json_results, function(json_results2) {
