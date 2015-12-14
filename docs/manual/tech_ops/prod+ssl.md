@@ -173,3 +173,50 @@ Nginx needs updating, make the following adjustments to:
       ...
       ...
   ```
+
+
+### HowTo: Nginx Redirect All HTTP Request To HTTPS Rewrite Rules
+1. ginx needs updating, make the following adjustments to:
+  ```
+  vi /usr/local/etc/nginx/nginx.conf
+  ```
+
+  ```
+  ## our http server at port 80
+  server {
+      listen        80 default;
+      server_name comicscantina.com www.comicscantina.com;
+      ## redirect http to https ##
+      rewrite        ^ https://$server_name$request_uri? permanent;
+  }
+
+  ## Our https server at port 443. You need to provide ssl config here###
+  server {
+  ```
+
+2. You should be good to go now, restart nginx and test it out
+  ```
+  service nginx restart
+  ```
+
+3. In summary, the file should look like this:
+  ```
+  server {
+      listen        80 default;
+      server_name comicscantina.com www.comicscantina.com;
+      ## redirect http to https ##
+      rewrite        ^ https://$server_name$request_uri? permanent;
+  }
+
+  server {
+      listen    443 ssl;
+      ssl_certificate        /usr/home/freebsd/ssl/certs/comicscantina.com.pem;
+      ssl_certificate_key    /usr/home/freebsd/ssl/private/comicscantina.com.key.nopass;
+
+      server_name ~(?<short_url>\w+)\.comicscantina\.com$;
+
+      ...
+      ...
+      ...
+  }
+  ```
