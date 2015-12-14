@@ -29,7 +29,7 @@ def catalog_page(request, org_id, store_id):
         catalog_items = CatalogItem.objects.filter(organization_id=org_id,store_id=store_id)
     except CatalogItem.DoesNotExist:
         catalog_items = None
-    return render(request, 'inventory_products/add/list/view.html',{
+    return render(request, 'inventory_products/add_or_edit/list/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'catalog_items': catalog_items,
@@ -73,7 +73,55 @@ def create_product_page(request, org_id, store_id, catalog_id):
         product_form.fields["section"].queryset = sections
     
     # Render page
-    return render(request, 'inventory_products/add/create/view.html',{
+    return render(request, 'inventory_products/add_or_edit/create/view.html',{
+        'org': org,
+        'store': store,
+        'catalog_item': catalog_item,
+        'catalog_form': CatalogItemForm(instance=catalog_item),
+        'product_form': product_form,
+        'tags': tags,
+        'employee': Employee.objects.get(user__id=request.user.id),
+        'locations': Store.objects.filter(organization_id=org_id),
+        'tab':'add_catalogued_product'
+    })
+
+
+@login_required(login_url='/inventory/login')
+def update_product_page(request, org_id, store_id, catalog_id):
+    org = Organization.objects.get(org_id=org_id)
+    employee = Employee.objects.get(user__id=request.user.id)
+    store = Store.objects.get(store_id=store_id)
+    stores = Store.objects.filter(organization=org, is_suspended=False)
+    
+    try:
+        catalog_item = CatalogItem.objects.get(catalog_id=catalog_id)
+    except CatalogItem.DoesNotExist:
+        catalog_item = None
+    
+    try:
+        sections = Section.objects.filter(store=store)
+    except Section.DoesNotExist:
+        sections = None
+    
+    try:
+        tags = Tag.objects.filter(organization=org)
+    except Tag.DoesNotExist:
+        tags = None
+    
+    #    try:
+    #
+    #        product_form = ProductForm(instance=comic.product)
+    #    except Comic.DoesNotExist:
+    product_form = ProductForm(initial={'price': 5.00,})
+    
+    if stores is not None:
+        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
+        product_form.fields["store"].queryset = stores
+    if sections is not None:
+        product_form.fields["section"].queryset = sections
+    
+    # Render page
+    return render(request, 'inventory_products/add_or_edit/update/view.html',{
         'org': org,
         'store': store,
         'catalog_item': catalog_item,

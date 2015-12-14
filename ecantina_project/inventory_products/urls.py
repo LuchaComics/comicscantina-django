@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from inventory_products.views import add
+from inventory_products.views import add_or_edit
 from inventory_products.views import comic
 from inventory_products.views import search
 from inventory_products.views import search_comic
@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^inventory/(\d+)/(\d+)/products$', search.product_search_page),
                        
     # Products Add & Edit
-    url(r'^inventory/(\d+)/(\d+)/products/add$', add.catalog_page),
-    url(r'^inventory/(\d+)/(\d+)/products/add/(\d+)/create$', add.create_product_page),
+    url(r'^inventory/(\d+)/(\d+)/products/add$', add_or_edit.catalog_page),
+    url(r'^inventory/(\d+)/(\d+)/products/add/(\d+)/create$', add_or_edit.create_product_page),
+    url(r'^inventory/(\d+)/(\d+)/products/(\d+)$', add_or_edit.update_product_page),
 )
