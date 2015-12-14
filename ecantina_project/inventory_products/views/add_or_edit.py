@@ -99,16 +99,16 @@ def create_product_page(request, org_id, store_id, catalog_id):
 
 
 @login_required(login_url='/inventory/login')
-def update_product_page(request, org_id, store_id, catalog_id):
+def update_product_page(request, org_id, store_id, product_id):
     org = Organization.objects.get(org_id=org_id)
     employee = Employee.objects.get(user__id=request.user.id)
     store = Store.objects.get(store_id=store_id)
     stores = Store.objects.filter(organization=org, is_suspended=False)
     
     try:
-        catalog_item = CatalogItem.objects.get(catalog_id=catalog_id)
-    except CatalogItem.DoesNotExist:
-        catalog_item = None
+        product = Product.objects.get(product_id=product_id)
+    except Product.DoesNotExist:
+        product = None
     
     try:
         sections = Section.objects.filter(store=store)
@@ -120,14 +120,13 @@ def update_product_page(request, org_id, store_id, catalog_id):
     except Tag.DoesNotExist:
         tags = None
     
-    #    try:
-    #
-    #        product_form = ProductForm(instance=comic.product)
-    #    except Comic.DoesNotExist:
-    product_form = ProductForm(initial={'price': 5.00,})
+    try:
+        product_form = ProductForm(instance=product)
+    except Comic.DoesNotExist:
+        product_form = ProductForm(initial={'price': 5.00,})
     
     if stores is not None:
-        # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
+        # http://stackoverflow.com/a/291968
         product_form.fields["store"].queryset = stores
     if sections is not None:
         product_form.fields["section"].queryset = sections
@@ -136,11 +135,11 @@ def update_product_page(request, org_id, store_id, catalog_id):
     return render(request, 'inventory_products/add_or_edit/update/view.html',{
         'org': org,
         'store': store,
-        'catalog_item': catalog_item,
-        'catalog_form': CatalogItemForm(instance=catalog_item),
+        'product': product,
         'product_form': product_form,
         'tags': tags,
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
+        'brand': lazy_load_brand(product.brand),
         'tab':'add_catalogued_product'
     })

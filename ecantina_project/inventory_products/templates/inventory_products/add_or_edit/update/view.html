@@ -17,7 +17,7 @@
                         <ul class="tab-list clearfix">
                             <li class="tab product-type dropdown" role="presentation">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                    Comic
+                                    Product
                                 </a>
                             </li>
                         </ul>
@@ -32,42 +32,50 @@
                                     <p class="mb0 text-justify">Along with the cover image that is supplied, you can add your own images.  If there is no image supplied, and you don't upload one, there will be no image for customers to view when browsing your online store.</p>
                                 </div>
                             </div>
-                            <div class="col-sm-7"><!-- Cover Uploader -->
                             
-                                {% if product_form.instance.image == None %}
+                            <!-- CATALOG -->
+                            <div class="col-sm-7">
+                            {% if product_form.instance.image == None %}
                                 <!-- Upload ID -->
                                 <input type="hidden" id="id_hidden_upload_id" value="0"/>
-                                <input type="hidden" id="id_hidden_url" value="{{ issue.large_url }}"/>
+                                <input type="hidden" id="id_hidden_url" value=""/>
                                 <!-- /.Upload ID -->
                                 
                                 <img src="{{ issue.large_url }}"
                                    style="height:200px;width:140px;"
                                      alt="{{ product_form.instance.name }}"
                                    class="img-thumbnail center-block mb0 add-cover-image"
-                                    name="logo-image" id="logo-image">
-                                {% else %}
+                                    name="product-image"
+                                      id="product-image">
+                            {% else %}
                                 <!-- Upload ID -->
-                                <input type="hidden" id="id_hidden_upload_id" value="{{ product_form.instance.image_id }}"/>
-                                <input type="hidden" id="id_hidden_url" value="{{ product_form.instance.image.image.url }}"/>
+                                <input type="hidden"
+                                         id="id_hidden_upload_id"
+                                      value="{{ product_form.instance.image_id }}"/>
+                                <input type="hidden"
+                                         id="id_hidden_url"
+                                      value="{{ product_form.instance.image.image.url }}"/>
                                 <!-- /.Upload ID -->
                                 
                                 <img src="{{ product_form.instance.image.image.url }}"
                                    style="height:200px;width:140px;"
                                      alt="{{ product_form.instance.name }}"
                                    class="img-thumbnail center-block mb0 add-cover-image"
-                                    name="logo-image" id="logo-image">
-                                {% endif %}
+                                    name="product-image" id="product-image">
+                            {% endif %}
                                         
                                 <label class="form-control btn btn-success mt10 curp" >
                                     <em class="fa fa-upload"></em>&nbsp;&nbsp; Upload Product Image...
                                     <input onchange="ajax_upload_image();"
                                                type="file"
                                               class="form-control mb10 hide"
-                                               name="logo-image"
+                                               name="product-image"
                                                  id="id_image"/>
                                 </label>
         
-                            </div><!-- /.Cover Uploader -->
+                            </div>
+                            <!-- /.CATALOG -->
+                            
                             <div class="clearfix"></div>
                         </div>
                         {% autoescape off %}
@@ -76,66 +84,11 @@
                                 <hr class="pb" />
                                 <div class="col-sm-5">
                                     <div class="jumbotron bg-gray-lighter">
-                                        <h3 class="p0 mt0 mb-lg">Comic Information</h3>
-                                        <p class="mb0 text-justify">This is the information about the comic you are adding.  Adding a comic from the search page will fill in a number of fields for you.</p>
+                                        <h3 class="p0 mt0 mb-lg">Product Information</h3>
+                                        <p class="mb0 text-justify">This is the information about the product you are adding.</p>
                                     </div>
                                 </div>
                                 <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <label for="txt-series" class="col-md-4 control-label">Series</label>
-                                        <div class="col-md-8">
-                                            <input type="text"
-                                                     id="id_series"
-                                                   name="series"
-                                                  class="form-control"
-                                                  value="{{ issue.series | escape | safe }}"
-                                               disabled="true" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-issue" class="col-md-4 control-label">Issue #</label>
-                                        <div class="col-md-8">
-                                            <input type="text"
-                                                     id="id_number"
-                                                   name="issue number"
-                                                  class="form-control"
-                                                  value="{{ issue.number }}"
-                                               disabled="true" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-title" class="col-md-4 control-label">Title</label>
-                                        <div class="col-md-8">
-                                            <input type="text"
-                                                     id="id_title"
-                                                   name="title"
-                                                  class="form-control"
-                                                  value="{% if issue.title == "" %}None{% else %}{{ issue.title | escape | safe }}{% endif %}"
-                                               disabled="true" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-publisher" class="col-md-4 control-label">Publisher</label>
-                                        <div class="col-md-8">
-                                            <input type="text"
-                                                     id="id_publisher_name"
-                                                   name="publisher"
-                                                  class="form-control"
-                                                  value="{{ issue.publisher_name | escape | safe }}"
-                                               disabled="true" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txt-genre" class="col-md-4 control-label">Genre</label>
-                                        <div class="col-md-8">
-                                            <input type="text"
-                                                     id="id_publisher_name"
-                                                   name="publisher"
-                                                  class="form-control"
-                                                  value="{{ issue.genre | escape | safe }}"
-                                               disabled="true" />
-                                        </div>
-                                    </div>
                                     <div class="form-group">
                                         <label for="sel-age" class="col-md-4 control-label">Name</label>
                                         <div class="col-md-8">
@@ -149,9 +102,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="sel-age" class="col-md-4 control-label">Age</label>
+                                        <label for="txt-genre" class="col-md-4 control-label">Type</label>
                                         <div class="col-md-8">
-                                            {{ comic_form.age }}
+                                            {{ product_form.type | escape | safe }}
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -171,41 +124,6 @@
                                         <div class="col-md-4">
                                             {{ product_form.cost }}
                                         </div>
-                                    </div>
-                                    <!-- cgc rating -->
-                                    <div class="col-sm-4 text-right" style="">
-                                        {{ comic_form.is_cgc_rated }}
-                                        <label for="cb-cgc-rated" class="control-label">&nbsp;&nbsp;CGC Rated</label>
-                                    </div>
-                                    <div class="col-sm-4 p10 pt0">
-                                        {{ comic_form.label_colour }}
-                                    </div>
-                                    <div class="col-sm-4 p10 pt0" id="id_condition_rating_ui">
-                                        {{ comic_form.condition_rating }}
-                                    </div>
-                                    <div class="col-sm-4 p10 pt0" id="id_cgc_rating_ui">
-                                        {{ comic_form.cgc_rating }}
-                                    </div>
-                                    <!-- alternate covers -->
-                                    <div class="col-sm-offset-4 col-sm-8 p10 pt0">
-                                        <label class="control-label">
-                                            {{ comic_form.is_canadian_priced_variant }}&nbsp;&nbsp;Canadian price variant
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-offset-4 col-sm-8 p10 pt0">
-                                        <label class="control-label">
-                                            {{ comic_form.is_variant_cover }}&nbsp;&nbsp;Variant cover
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-offset-4 col-sm-8 p10 pt0">
-                                        <label class="control-label">
-                                            {{ comic_form.is_retail_incentive_variant }}&nbsp;&nbsp;Retailer incentive cover
-                                        </label>
-                                    </div>
-                                    <div class="col-sm-offset-4 col-sm-8 p10 pt0">
-                                        <label class="control-label">
-                                            {{ comic_form.is_newsstand_edition }}&nbsp;&nbsp;Newsstand Edition
-                                        </label>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -342,24 +260,6 @@
                                 <div class="clearfix"></div>
                             </div><!-- /.Quantity + Submit -->
                             
-                            <div class="col-sm-12"><!-- Inventory Table -->
-                                <div data-alerts="alerts"></div>
-                                <hr class="pb" />
-                                <div class="col-sm-12">
-                                    <div class="table-responsive">
-                                        <div class="jumbotron bg-gray-lighter">
-                                            <h3 class="p0 mt0 mb-lg">Inventory Items</h3>
-                                            <p class="mb0 text-justify">This is a list of items of this product in the store's inventory.  These may be product variants or condition variants, or may be copies of the same product.</p>
-                                        </div>
-                                        <!-- TABLE -->
-                                        <div id="id_table_placeholder"
-                                           name="id_table_placeholder">
-                                        </div>
-                                        <!-- /.TABLE -->
-                                    </div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div><!-- /.Inventory Table -->
                         </form>
                         {% endautoescape %}
                     </div>

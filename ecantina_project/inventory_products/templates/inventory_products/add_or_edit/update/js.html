@@ -91,9 +91,6 @@
             $('.item-tag').each(function(int, el){ console.debug( $(el).data('tagid') ); });
         });
                       
-                      
-        // Get the latest table data when this page loads up first.
-        ajax_refresh_table({{ issue.issue_id }});
     });
     
     
@@ -169,18 +166,9 @@
      *  tables.
      */
     function ajax_set_data() {
-        var series_id = {{ issue.series_id }};
-        var issue_id = {{ issue.issue_id }};
-        
         // DEFENSIVE CODE.
         if ($('#id_name').val() == '') {
             $.notify("Please enter the name of the product.", "danger");
-            return;
-        }
-
-        if ($('#id_age').val() == '') {
-            // Display the error here.
-            $.notify("Please select comic age", "danger");
             return;
         }
         if ($('#id_store').val() == '') {
@@ -208,8 +196,9 @@
         
         // Insert/Update "product" model.
         var arr = {
+            'product_id': {{ product.product_id }},
             'name': $('#id_name').val(),
-            'type': '1', // Comic book
+            'type': $('#id_type').val(),
             'is_sold': false,
             'sub_price': sub_price,
             'has_tax': has_tax,
@@ -241,7 +230,6 @@
         var upload_id = $('#id_hidden_upload_id').val();
         if (upload_id > 0) { // Add in Image seperately if one was uploaded.
             arr['image'] = parseInt( upload_id );
-            
         }
         
         // MAJOR BUGFIX: If we upload a custom image initially, the url is like
@@ -271,66 +259,36 @@
     {% endif %}
 
         set_product(arr, function(json_result) {
-            // Extract the 'product_id' and use it to tie it to the
-            // 'comic' model.
             var product_id = json_result['product_id'];
-            var organization_id = json_result['organization'];
-                    
-            var data = {
-                'organization': parseInt( organization_id ),
-                'product': parseInt(product_id),
-                'issue': parseInt(issue_id),
-                'age': $('#id_age').val(),
-                'is_cgc_rated': $('#id_is_cgc_rated').is(':checked'),
-                'label_colour': label_colour,
-                'cgc_rating': cgc_rating,
-                'condition_rating': condition_rating,
-                'is_canadian_priced_variant': $('#id_is_canadian_priced_variant').is(':checked'),
-                'is_variant_cover': $('#id_is_variant_cover').is(':checked'),
-                'is_retail_incentive_variant': $('#id_is_retail_incentive_variant').is(':checked'),
-                'is_newsstand_edition': $('#id_is_newsstand_edition').is(':checked'),
-            };
-                 
-            if (upload_id > 0) { // Add in Image seperately if one was uploaded.
-                data['upload_id'] = upload_id;
-            }
-                    
-            var label_colour = $('#id_label_colour').val();
-            if (label_colour != '') {
-                data['label_colour'] = label_colour;
-            }
-            var cgc_rating = $('#id_cgc_rating').val();
-            if (cgc_rating != '') {
-                data['cgc_rating'] = cgc_rating;
-            }
-            var condition_rating = $('#id_condition_rating').val();
-            if (condition_rating != '') {
-                data['condition_rating'] = condition_rating;
-            }
-                    
-        {% if comic_form.instance.comic_id > 0 %}
-            // If we are editing a comic, then we need to add in the comic_id
-            // so the javascript function will know to make an 'update' call and
-            // not a 'insert' call.
-            data['comic_id'] =  parseInt( {{ comic_form.instance.comic_id }} );
-        {% endif %}
-            
             perform_apply_tax_and_discounts(product_id, function(ok) {
                
-                set_comic(data, function(json_result) {
-                    // If we've uploaded an image then we need to attach it and then
-                    // launch the edit page, else if we did not upload anything then
-                    // just launch the edit page immediately.
-                    if (upload_id > 0) {
-                        // Let our upload image know it is properly assigned.
-                        set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                            // Load up the 'Edit' controller associated with comics.
-                            window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
-                        }); // end imageupload
-                    } else {
-                        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
-                    }
-                }); // End Set Comic
+                // If we've uploaded an image then we need to attach it and then
+                // launch the edit page, else if we did not upload anything then
+                // just launch the edit page immediately.
+                if (upload_id > 0) {
+                    // Let our upload image know it is properly assigned.
+                    set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
+                                    
+                        // (1) Notify the user of successful deletion.
+                        $.notify("Product has been updated", "success");
+                                    
+                        // (2) Leave this page back to the tabular list.
+                        setTimeout(function(){
+                            window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/products/"+product_id;
+                        }, 750);
+                        
+                    }); // end imageupload
+                } else {
+                                            
+                    // (1) Notify the user of successful deletion.
+                    $.notify("Product has been updated", "success");
+                                            
+                    // (2) Leave this page back to the tabular list.
+                    setTimeout(function(){
+                        window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/products/"+product_id;
+                    }, 750);
+                                            
+                }
                                             
             }); // End Apply Tax+Discounts
         }); // End Set Product
@@ -358,152 +316,32 @@
         });
     }
 
-
-    function ajax_refresh_table(issue_id)
-    {
-        // Apply search criteria and start searching.
-        var criteria = Array();
-        criteria.push({ 'issue': issue_id });
-        criteria.push({ 'is_sold': 'False' });
-        filter_comics_by(criteria, function(json_result) { // fix.
-            generate_table(json_result);
-        });
-    }
-
-
-    function generate_table(json_result)
-    {
-        // Debugging code
-        //var json_text = JSON.stringify(json_result, null, 2);
-        //var obj = JSON.parse(json_text);
-        //console.log(obj)
-    
-        // Initial Code
-        var html = '';
-        html += '<table id="added-items-table" class="table table-condensed table-striped table-hover inventory-details">';
-        html += '<thead>';
-        html += '<tr>';
-        html += '<th>Product #</th>';
-        html += '<th>CGC Rated</th>';
-        html += '<th>Label Colour</th>';
-        html += '<th>Condition</th>';
-        html += '<th></th>';
-        html += '</tr>';
-        html += '</thead>';
-        html += '<tbody>';
-    
-        $(json_result).each(function(iter,val2){
-            var position_index = 0;
-            $(val2['results']).each(function(iter2,val){
-            {% if comic_form.instance.product_id > 0 %}
-                var this_product_id = {{ comic_form.instance.product_id }};
-            {% else %}
-                var this_product_id = 0;
-            {% endif %}
-                                    
-                var issue_id = val['issue'];
-                var product_id = val['product'];
-                var comic_id = val['comic_id'];
-                                    
-                if (this_product_id != product_id) {
-                    position_index += 1;
-                    html += '<tr>';
-                    html += '<td>' + product_id + '</td>';
-                
-                    // Is CGC Rated
-                    html += '<td class="text-center">';
-                    if (val['is_cgc_rated']) {
-                        html += 'Yes';
-                    } else {
-                        html += 'No';
-                    }
-                    html += '</td>';
-                                    
-                    // Label Colour
-                    html += '<td class="text-center">';
-                    if (val['is_cgc_rated']) {
-                        html += val['label_colour'];
-                                    
-                    } else {
-                        html += '-';
-                    }
-                    html += '</td>';
-                                    
-                // Condition
-                html += '<td class="text-center">';
-                    if (val['is_cgc_rated']) {
-                        var percent = 10 * val['cgc_rating'];
-                        html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
-                                    
-                    } else {
-                        // Convert to 100/100
-                        var percent = 10 * val['condition_rating'];
-                         html += '<div data-label="'+percent+'%" class="radial-bar radial-bar-'+percent+' radial-bar-sm"></div>';
-                    }
-                    html += '</td>';
-                                    
-                
-                    // Edit / Delete
-                    html += '<td>';
-                                    
-                    var onclick1 = 'onclick="window.location=\'/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/'+issue_id+'/product/'+product_id+'\';"';
-                    html += '<a '+onclick1+' class="edit-item pr10 curp" data-toggle="tooltip" data-original-title="Edit Item" data-placement="top"><em class="fa fa-2x fa-edit"></em></a>';
-                                    
-                    var onclick2 = 'ajax_delete('+comic_id+','+product_id+');';
-                    html += '<a onclick="'+onclick2+'" class="remove-item curp" data-toggle="tooltip" data-original-title="Remove Item" data-placement="top"><em class="fa fa-2x fa-remove"></em></a>';
-                    html += '</td>';
-                                    
-                    html += '</tr>';
-                }
-            });
-        });
-        
-        html += '</tbody>';
-        html += '</table>';
-        $('#id_table_placeholder').html(''); // Clear Table
-        $(html).appendTo('#id_table_placeholder'); // Load Table.
-    }
-
-
-    function ajax_delete(comic_id, product_id)
-    {
-        delete_comic(comic_id, function(json_result) {
-            // Do nothing.
-        });
-        delete_product(
-            product_id,
-            function(json_result) {
-                ajax_refresh_table({{ issue.issue_id }}); // Refresh table.
-            },
-            function(error_result) {
-                console.log(error_result);
-            }
-        );
-    }
-
     function ajax_delete_me() {
         // (1) Delete the product and update the database to ensure:
         //     a) All Customer Receipts no longer have this product
         //     b) All Customer Receipts which had this product have their totals updated
         //     c) All associated data with this product gets deleted.
         delete_product(
-            {{ comic_form.instance.product_id }},
+            {{ product_form.instance.product_id }},
             function(json_result) {
                 // (2) Notify the user of successful deletion.
                 $.notify("Product has been deleted", "success");
-                       
+                   
                 // (3) Leave this page back to the tabular list.
                 setTimeout(function(){
                     window.location = "/inventory/{{ org.org_id }}/{{ store.store_id }}/products";
-                }, 1000)
+                }, 1000);
             },
             function(error_result) {
-                console.log(error_result); // Do nothing but print to console.
+                var message = "<b>Error(s):</b><hr/>";
+                for (var key in error_json) {
+                    if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+                       message += "<p>" + key + ": " + error_json[key] + "<p>";
+                    }
+                }
+                $.notify(message);
             }
         );
-        
-        
     }
-
 
 </script>
