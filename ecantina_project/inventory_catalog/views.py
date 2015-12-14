@@ -45,7 +45,7 @@ def catalog_add_comic_page(request, org_id, store_id):
 
 
 @login_required(login_url='/inventory/login')
-def catalog_edit_comic_page(request, org_id, store_id):
+def catalog_edit_comic_page(request, org_id, store_id, catalog_id):
     return render(request, 'inventory_catalog/edit_comic/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
