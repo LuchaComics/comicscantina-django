@@ -199,11 +199,18 @@
             // Get a single comic (Note: product-comic are 1-to-1.
             filter_comics_by_product_id(product_id, function(json_result) {
                 $(json_result).each(function(iter,val2){
-                    $(val2['results']).each(function(iter2,val){
-                        var issue_id = val['issue'];
-                        link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                    
+                    var count = parseInt(val2['count']);
+                    if (count == 0) { //CASE 1 of 2: CATALOG ITEM
+                        link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/products/"+product_id;
                         window.location=link_url;
-                    });
+                    } else { // CASE 2 of 2: COMIC ITEMS
+                        $(val2['results']).each(function(iter2,val){
+                            var issue_id = val['issue'];
+                            link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/comic/"+issue_id+"/product/"+product_id;
+                            window.location=link_url;
+                        });
+                    }
                 });
             });
         } else if (product_type == 2) {
