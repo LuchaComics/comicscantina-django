@@ -26,7 +26,6 @@ def catalog_page(request, org_id, store_id):
         'tab':'catalog_list_all',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'src_urls': ['inventory_help/success_modal.html'],
     })
 
 
@@ -39,7 +38,6 @@ def catalog_add_page(request, org_id, store_id):
         'tab':'catalog_add_comic',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'src_urls': ['inventory_help/success_modal.html'],
     })
 
 
@@ -56,5 +54,4 @@ def catalog_edit_page(request, org_id, store_id, catalog_id):
         'tab':'catalog_add_comic',
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
-        'src_urls': ['inventory_help/success_modal.html'],
     })

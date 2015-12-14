@@ -85,8 +85,14 @@
         set_catalog_item(
             data,
             function(success_json) {
-                var catalog_id = success_json['catalog_id'];
-                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/" + catalog_id;
+                // (1) Add notification message of success.
+                $.notify( 'Catalog Item successfully created.', "success");
+                         
+                // (2) Add count-down timer to reloading page/cache.
+                setTimeout(function(){
+                    var catalog_id = success_json['catalog_id'];
+                    window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/" + catalog_id;
+                }, 750);
             },
             function(error_json) {
                 for (var key in error_json) {
