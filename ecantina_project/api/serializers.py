@@ -326,6 +326,7 @@ class BannedWordSerializer(serializers.ModelSerializer):
 
 
 class CatalogItemSerializer(serializers.ModelSerializer):
+    image_url = serializers.URLField(source='image.image.url', read_only=True)
     class Meta:
         model = CatalogItem
-        fields = ('catalog_id','name','type','description','brand_name','image','created','last_updated','length_in_meters','width_in_meters','height_in_meters','weight_in_kilograms','volume_in_litres','materials','is_tangible','is_flammable','is_biohazard','is_toxic','is_explosive','is_corrosive','is_volatile','is_radioactive','is_restricted','restrictions','organization', 'store',)
+        fields = ('catalog_id','name','type','description','brand_name','image','image_url','created','last_updated','length_in_meters','width_in_meters','height_in_meters','weight_in_kilograms','volume_in_litres','materials','is_tangible','is_flammable','is_biohazard','is_toxic','is_explosive','is_corrosive','is_volatile','is_radioactive','is_restricted','restrictions','organization', 'store',)
