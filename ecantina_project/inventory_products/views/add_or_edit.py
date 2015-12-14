@@ -60,12 +60,7 @@ def create_product_page(request, org_id, store_id, catalog_id):
     except Tag.DoesNotExist:
         tags = None
     
-#    try:
-#        
-#        product_form = ProductForm(instance=comic.product)
-#    except Comic.DoesNotExist:
     product_form = ProductForm(initial={'price': 5.00,})
-    
     if stores is not None:
         # http://stackoverflow.com/questions/291945/how-do-i-filter-foreignkey-choices-in-a-django-modelform
         product_form.fields["store"].queryset = stores
