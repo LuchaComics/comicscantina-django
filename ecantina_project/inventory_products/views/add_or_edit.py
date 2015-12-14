@@ -38,6 +38,22 @@ def catalog_page(request, org_id, store_id):
         'locations': Store.objects.filter(organization_id=org_id),
     })
 
+
+def lazy_load_brand(brand_name):
+    """
+        Find the brand based on the publisher name and return it, else
+        create a new brand based on the publisher name and return it.
+        """
+    # Load or create the brand.
+    try:
+        brand = Brand.objects.get(name=brand_name)
+    except Exception as e:
+        brand = Brand.objects.create(
+            name = brand_name,
+        )
+    return brand
+
+
 @login_required(login_url='/inventory/login')
 def create_product_page(request, org_id, store_id, catalog_id):
     org = Organization.objects.get(org_id=org_id)
@@ -77,6 +93,7 @@ def create_product_page(request, org_id, store_id, catalog_id):
         'tags': tags,
         'employee': Employee.objects.get(user__id=request.user.id),
         'locations': Store.objects.filter(organization_id=org_id),
+        'brand': lazy_load_brand(catalog_item.brand_name),
         'tab':'add_catalogued_product'
     })
 
