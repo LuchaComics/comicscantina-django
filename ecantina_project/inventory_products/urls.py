@@ -16,5 +16,5 @@ urlpatterns = patterns('',
                        
     # Products Add & Edit
     url(r'^inventory/(\d+)/(\d+)/products/add$', add.catalog_page),
-    url(r'^inventory/(\d+)/(\d+)/products/add/create$', add.create_product_page),
+    url(r'^inventory/(\d+)/(\d+)/products/add/(\d+)/create$', add.create_product_page),
 )

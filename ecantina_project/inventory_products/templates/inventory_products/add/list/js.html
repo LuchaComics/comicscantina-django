@@ -155,7 +155,7 @@
     function ajax_load_catalog(catalog_id, catalog_type)
     {
         if (catalog_type == 1) {
-            var link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/"+catalog_id;
+            var link_url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/products/add/"+catalog_id+"/create";
             window.location=link_url;
         }
     }
