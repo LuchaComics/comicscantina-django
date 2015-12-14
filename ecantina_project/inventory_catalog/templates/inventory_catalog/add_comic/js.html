@@ -1,92 +1,116 @@
-<!-- Load API Handlers -->
 {% include 'api/imageupload.html' %}
-{% include 'api/helprequest.html' %}
+{% include 'api/catalog_item.html' %}
+{% include 'api/common_js.html' %}
 <script>
-    $(document).ready(function () {
-        // When the user closes the modal...
-        $('#id_close_model_btn').on('click', function(){
-            // Allow some time to go by for the modal to close and then
-            // refresh the page.
-            setTimeout(function(){
-                location.reload(true); // Reload page with cache cleared.
-            }, 250);
-        });
-        $('#id_close_btn').on('click', function(){
-            // Allow some time to go by for the modal to close and then
-            // refresh the page.
-            setTimeout(function(){
-                location.reload(true); // Reload page with cache cleared.
-            }, 250);
-        });
-    });
-                  
-    /**
-     *  Function will either upload a new image or update the existing
-     *  one with the new image. Afterwards function will upad the UI
-     *  to have a picture of the image that was uploaded and save the
-     *  upload_id.
-     */
     function ajax_upload_image() {
-        if ($('#id_image').val() == "") {
-            alert('Please select an image to upload');
+        if ($('#id_product_image').val() == "") {
+            $.notify("Please select an image to upload", "danger");
+            return false;
+        }
+    
+        // Extract the information.
+        var image = document.getElementById('id_product_image').files[0];
+        var upload_id = $('#id_hidden_image_id').val();
+    
+        // Insert or Update.
+        set_imageupload(upload_id, true, image, {{ request.user.id }}, function(json_result) {
+            $('#product-image').attr('src', json_result['image']);
+            $('#id_hidden_image_id').val(json_result['upload_id']);
+                
+            // Delete if nothing was saved.
+            if (json_result['image'] == null) {
+                delete_imageupload(json_result['upload_id'], function() {
+                                       location.reload(true); // Reload page with cache cleared.
+                }); // End Delete Image.
+            }
+        });
+    }
+
+
+    function ajax_save_add() {
+        // https://notifyjs.com
+        //$.notify("Hello World");
+        //$.notify("Access granted", "success");
+        //$.notify("Do not press this button", "info");
+        //$.notify("Do not press this button", "warning");
+        //$.notify("Do not press this button", "danger");
+        
+        
+        // Defensive Code: Ensure that our inputted entries are valid.
+        //if ($('#id_email').val() == '') {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the email field.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        //if ( !is_email_valid( $('#id_email').val() ) ) {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the email field with a valid email.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        //if ($('#id_phone').val().length == 0) {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the phone field.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        //if (!is_phone_valid($('#id_phone').val())) {
+        //    $(document).trigger("add-alerts",[{
+        //        'message': 'Please fill out the phone field with a valid number.',
+        //        'priority': 'error'
+        //    }]);
+        //    return;
+        //}
+        if ($('#id_name').val().length == 0) {
+            $.notify("Please fill out the name.", "danger");
+            return;
+        }
+        if ($('#id_description').val().length == 0) {
+            $.notify("Please fill out the description.", "danger");
+            return;
+        }
+        if ($('#id_brand_name').val().length == 0) {
+            $.notify("Please fill out the brand name.", "danger");
+            return;
+        }
+        
+        // Defensive Code: Ensure that a organization logo has been added.        
+        if (parseInt( $('#id_hidden_image_id').val() ) <= 0 || $('#id_hidden_image_id').val() == 'None' || $('#id_hidden_logo_id').val() == '' ) {
+            $.notify("Please upload a product picture before saving changes.", "danger");
             return false;
         }
         
-        // Extract the information.
-        var image = document.getElementById('id_image').files[0];
-        var upload_id = $('#id_hidden_upload_id').val();
+        var data = {
+            'organization': '{{ org.org_id }}',
+            'store': '{{ store.store_id }}',
+            'image': $('#id_hidden_image_id').val(),
+            'name': $('#id_name').val(),
+            'description': $('#id_description').val(),
+            'brand_name': $('#id_brand_name').val(),
         
-        // Insert or Update.
-        set_imageupload(upload_id, false, image, 0, function(json_result) {
-            $('#logo-image').attr('src', json_result['image']);
-            $('#id_hidden_upload_id').val(json_result['upload_id']);
-        });
-    }
-
-    function ajax_save() {
-        var upload_id = $('#id_hidden_upload_id').val();
-        var arr = {
-            'format': 'json',
-            'subject': $('#id_subject').val(),
-            
-            'message': $('#id_message').val(),
-            'employee': {{ employee.employee_id }},
-            'store': {{ store.store_id }},
-            'organization': {{ org.org_id }}
-        };
-        
-        if (parseInt(upload_id) > 0) {
-            arr['screenshot'] = upload_id;
         }
+    
         
-        // Get the URL and format it so no errors will be returned by Python.
-        var subject_url = $('#id_subject_url').val();
-        if (subject_url.indexOf("http") < 0) {
-            subject_url = 'http://' + subject_url;
-        }
-        // However if nothing was enterd then don't add the URL.
-        if (subject_url.length > 7) {
-            arr['subject_url'] = subject_url
-            console.log(subject_url);
-        }
-        
-        // Create our ticket!
-        set_helprequest(arr,
+        // Send the "FormData" object to be sent through REST and get updated.
+        set_catalog_item(
+            data,
             function(success_json) {
-                // Let our upload image know it is properly assigned.
-                set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                    $('#success-modal').modal(); // Load the modal telling user the action was
-                                                 // completed successfully.
-                });
-            }, // success
+                var catalog_id = success_json['catalog_id'];
+                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/catalog/" + catalog_id;
+            },
             function(error_json) {
                 for (var key in error_json) {
                     if (error_json.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-                        $.notify( (key+': '+error_json[key]), "danger");
+                  
+                         // Display the error here.
+                         $.notify( (key+': '+error_json[key]), "danger");
                     }
                 }
-            } 
+            }
         );
     }
-
 </script>
