@@ -18,7 +18,6 @@ def catalog_page(request, org_id, store_id):
         catalog_items = CatalogItem.objects.filter(organization_id=org_id,store_id=store_id)
     except CatalogItem.DoesNotExist:
         catalog_items = None
-    print(catalog_items)
     return render(request, 'inventory_catalog/list/view.html',{
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),

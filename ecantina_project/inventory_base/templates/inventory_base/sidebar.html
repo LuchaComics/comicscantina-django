@@ -125,6 +125,11 @@
                                 <span>View All</span>
                             </a>
                         </li>
+                        <li class={% if tab == 'add_catalogued_product' %}" active" {% else %}" "{% endif %}>
+                            <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/products/add" title="View Inventory">
+                                <span>Add</span>
+                            </a>
+                        </li>
                         
                         {% if store.is_comics_vendor %}
                         <li class=" ">
