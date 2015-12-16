@@ -65,7 +65,7 @@
                      
             if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
                 customer['billing_phone'] = get_phone('#id_billing_phone');
-                customer['shipping_phone'] = get_phone('#id_shipping_phone');
+                customer['shipping_phone'] = get_phone('#id_billing_phone');
             } else {
                 customer['billing_phone'] = "";
                 customer['shipping_phone'] = "";
