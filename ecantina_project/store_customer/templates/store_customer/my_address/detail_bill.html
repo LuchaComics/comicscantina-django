@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block content %}
 {% include 'api/customer.html' %}
+{% include 'api/receipt.html' %}
 {% include 'api/common_js.html' %}
 <!-- /.Fixed navbar  -->
 <div class="container main-container headerOffset">
@@ -137,6 +138,17 @@
 <script>
     function ajax_update()
     {
+        ajax_update_customer(function(ok){
+            ajax_update_receipt(function(ok2){
+                perform_receipt_checkout_computation({{ receipt.receipt_id }}, function(json_result2) {
+                    window.location = '/customer/my_address';
+                });
+            });
+        });
+    }
+
+    function ajax_update_customer(callback)
+    {
         get_customer({{ customer.customer_id }}, function(customer) {
             customer['billing_street_number'] = $('#id_billing_street_number').val();
             customer['billing_street_name'] = $('#id_billing_street_name').val();
@@ -155,7 +167,38 @@
             set_customer(
                 customer,
                 function(success_json) { // Create a new customer
-                    window.location = '/customer/my_address';
+                    callback(success_json);
+                },
+                function(error_json) {
+                    print_error(error_json);
+                }
+            ); // End Set Customer
+        }); // End Get Customer
+    }
+
+    function ajax_update_receipt(callback)
+    {
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
+            receipt['billing_street_number'] = $('#id_billing_street_number').val();
+            receipt['billing_street_name'] = $('#id_billing_street_name').val();
+            receipt['billing_unit_number'] = $('#id_billing_unit_number').val();
+            receipt['billing_city'] = $('#id_billing_city').val();
+            receipt['billing_country'] = $('#id_billing_country').val();
+            receipt['billing_province'] = $('#id_billing_province').val();
+            receipt['billing_postal'] = $('#id_billing_postal').val();
+            receipt['has_error'] = false;
+            receipt['error'] = 0;
+                
+            if ($('#id_billing_phone').val().length > 0) { // Add telephone if added.
+                receipt['billing_phone'] = get_phone('#id_billing_phone');
+            } else {
+                receipt['billing_phone'] = "";
+            }
+                
+            set_receipt(
+                receipt,
+                function(success_json) { // Create a new customer
+                    callback(success_json);
                 },
                 function(error_json) {
                     print_error(error_json);

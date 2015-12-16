@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% include 'api/organization.html' %}
 {% include 'api/customer.html' %}
+{% include 'api/receipt.html' %}
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
@@ -22,7 +23,37 @@
         mySwiper.swipeNext()
     })
     
+    /**
+     * Prints a error box with the contents of the errors received from the server.
+     */
+    function print_error(new_message)
+    {
+    $('#error_box').prop("hidden", false);
+    var message = "<b>Error(s):</b> "+new_message+"";
+    $('#error_box').html(message);
+    }
+
     function ajax_update_shipping_and_proceed_next()
+    {
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
+            if (receipt['has_error']) {
+                // Print error depending on system error.
+                var error_code = receipt['error']
+                if (error_code == 1) {
+                    print_error("Cancellation online order detected. Contact administration.");
+                } else if (error_code == 2) {
+                    print_error("Currently we don't support shipping to your country.");
+                } else {
+                    print_error("Unknown error detected, please contact administration.");
+                }
+            } else {
+                // Proceed further next and update.
+                ajax_update_addendum();
+            }
+        });
+    }
+
+    function ajax_update_addendum()
     {
         get_customer({{ customer.customer_id }}, function(customer) {
             customer['shipping_street_number'] = $('#id_shipping_street_number').val();

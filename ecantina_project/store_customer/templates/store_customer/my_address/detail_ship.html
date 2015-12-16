@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block content %}
 {% include 'api/customer.html' %}
+{% include 'api/receipt.html' %}
 {% include 'api/common_js.html' %}
 <!-- /.Fixed navbar  -->
 <div class="container main-container headerOffset">
@@ -137,6 +138,17 @@
 <script>    
     function ajax_update()
     {
+        ajax_update_customer(function(ok){
+            ajax_update_receipt(function(ok2){
+                perform_receipt_checkout_computation({{ receipt.receipt_id }}, function(json_result2) {
+                    window.location = '/customer/my_address';
+                });
+            });
+        });
+    }
+
+    function ajax_update_customer(callback)
+    {
         get_customer({{ customer.customer_id }}, function(customer) {
             customer['shipping_street_number'] = $('#id_shipping_street_number').val();
             customer['shipping_street_name'] = $('#id_shipping_street_name').val();
@@ -155,7 +167,38 @@
             set_customer(
                 customer,
                 function(success_json) { // Create a new customer
-                    window.location = '/customer/my_address';
+                    callback(success_json);
+                },
+                function(error_json) {
+                    print_error(error_json);
+                }
+            ); // End Set Customer
+        }); // End Get Customer
+    }
+
+    function ajax_update_receipt(callback)
+    {
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
+            receipt['shipping_street_number'] = $('#id_shipping_street_number').val();
+            receipt['shipping_street_name'] = $('#id_shipping_street_name').val();
+            receipt['shipping_unit_number'] = $('#id_shipping_unit_number').val();
+            receipt['shipping_city'] = $('#id_shipping_city').val();
+            receipt['shipping_country'] = $('#id_shipping_country').val();
+            receipt['shipping_province'] = $('#id_shipping_province').val();
+            receipt['shipping_postal'] = $('#id_shipping_postal').val();
+            receipt['has_error'] = false;
+            receipt['error'] = 0;
+                    
+            if ($('#id_shipping_phone').val().length > 0) { // Add telephone if added.
+                receipt['shipping_phone'] = get_phone('#id_shipping_phone');
+            } else {
+                receipt['shipping_phone'] = "";
+            }
+                 
+            set_receipt(
+                receipt,
+                function(success_json) { // Create a new customer
+                    callback(success_json);
                 },
                 function(error_json) {
                     print_error(error_json);

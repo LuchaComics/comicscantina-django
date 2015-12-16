@@ -88,61 +88,65 @@ class Command(BaseCommand):
         receipt.save()
 
     def compute_shipping_cost(self, receipt):
-        # CASE 1: We have a single organization that receipt belongs to.
-        if receipt.organization:
-            # Fetch the organization preferences on how to handle shipping rates.
-            preference = OrgShippingPreference.objects.get(organization=receipt.organization)
+        if receipt.organization: # CASE 1 of 2: We have a single organization that receipt belongs to.
+            return self.compute_shipping_cost_for_organization(receipt.organization)
+        else: # CASE 2 of 2: We have no organization.
+            return self.compute_shipping_cost_for_aggregate(receipt)
+
+    def compute_shipping_cost_for_organization(self, receipt):
+        # Fetch the organization preferences on how to handle shipping rates.
+        preference = OrgShippingPreference.objects.get(organization=receipt.organization)
             
-            # If the organization set to in-store pickup only, then return zero
-            # shipping costs as the cost of travelling to store is handled by
-            # customer in real life.
-            if preference.is_pickup_only:
-                return Decimal(0.00)
+        # If the organization set to in-store pickup only, then return zero
+        # shipping costs as the cost of travelling to store is handled by
+        # customer in real life.
+        if preference.is_pickup_only:
+            return Decimal(0.00)
     
-            # Determine where the receipt is to be shipped
-            iso_3166_1_numeric_country_code = 0
-            if 'Canada' in receipt.shipping_country:
-                iso_3166_1_numeric_country_code = 124
-            elif 'United States' in receipt.shipping_country:
-                iso_3166_1_numeric_country_code = 840
-            elif 'Mexico' in receipt.shipping_country:
-                iso_3166_1_numeric_country_code = 484
+        # Determine where the receipt is to be shipped
+        iso_3166_1_numeric_country_code = 0
+        if 'Canada' in receipt.shipping_country:
+            iso_3166_1_numeric_country_code = 124
+        elif 'United States' in receipt.shipping_country:
+            iso_3166_1_numeric_country_code = 840
+        elif 'Mexico' in receipt.shipping_country:
+            iso_3166_1_numeric_country_code = 484
 
-            # Find the shipping rate to apply for the country and apply it.
-            for rate in preference.rates.all():
-                if rate.country is iso_3166_1_numeric_country_code:
-                    # Count how many products we are to ship and apply the
-                    # appropriate shipping rates. Note: These rates where taken
-                    # from the following file:
-                    # - - - - - - - - - - - - - - - - - - - - - - - - -
-                    # inventory_settings/forms/org_shipping_rates_form
-                    # - - - - - - - - - - - - - - - - - - - - - - - - -
-                    comics_count = len(receipt.products.all())
-                    return rate.get_comics_rate(comics_count)
-                                        
-        # CASE 2: We have no organization.
-        else:
-            # Determine where the receipt is to be shipped.
-            iso_3166_1_numeric_country_code = 0
-            if 'Canada' in receipt.shipping_country:
-                iso_3166_1_numeric_country_code = 124
-            elif 'United States' in receipt.shipping_country:
-                iso_3166_1_numeric_country_code = 840
-            elif 'Mexico' in receipt.shipping_country:
-                iso_3166_1_numeric_country_code = 484
-
-            # Find the rate.
-            try:
-                rate = UnifiedShippingRate.objects.get(country=iso_3166_1_numeric_country_code)
+        # Find the shipping rate to apply for the country and apply it.
+        for rate in preference.rates.all():
+            if rate.country is iso_3166_1_numeric_country_code:
+                # Count how many products we are to ship and apply the
+                # appropriate shipping rates. Note: These rates where taken
+                # from the following file:
+                # - - - - - - - - - - - - - - - - - - - - - - - - -
+                # inventory_settings/forms/org_shipping_rates_form
+                # - - - - - - - - - - - - - - - - - - - - - - - - -
                 comics_count = len(receipt.products.all())
                 return rate.get_comics_rate(comics_count)
-            except UnifiedShippingRate.DoesNotExist:
-                # Add "Shipping Rate Error" to our cart.
-                receipt.has_error = True
-                receipt.error = constants.SHIPPING_RATE_ERROR_TYPE
-                receipt.save()
-            
-        return Decimal(0.00) # Case 3: Nothing was found.
+        return Decimal(0.00) # Return no rate.
+
+    def compute_shipping_cost_for_aggregate(self, receipt):
+        # Determine where the receipt is to be shipped.
+        iso_3166_1_numeric_country_code = 0
+        if 'Canada' in receipt.shipping_country:
+            iso_3166_1_numeric_country_code = 124
+        elif 'United States' in receipt.shipping_country:
+            iso_3166_1_numeric_country_code = 840
+        elif 'Mexico' in receipt.shipping_country:
+            iso_3166_1_numeric_country_code = 484
+        
+        # Find the rate.
+        try:
+            print(receipt.shipping_country)
+            rate = UnifiedShippingRate.objects.get(country=iso_3166_1_numeric_country_code)
+            comics_count = len(receipt.products.all())
+            return rate.get_comics_rate(comics_count)
+        except UnifiedShippingRate.DoesNotExist:
+            # Add "Shipping Rate Error" to our cart.
+            receipt.has_error = True
+            receipt.error = constants.SHIPPING_RATE_ERROR_TYPE
+            receipt.save()
+        return Decimal(0.00) # Return no rate.
 
 #
 # Note: For more information on setting up custom functions, see this url:
