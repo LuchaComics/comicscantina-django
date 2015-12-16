@@ -16,9 +16,9 @@
                     <div class="panel-tabs w100 p m0" style="background-color:#FAFAFA;border-bottom:1px solid #EEE;">
                         <ul class="tab-list clearfix">
                             
-                            <li id="id_all" class="tab selected"><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics">Print Batch</a></li>
+                            <li id="id_all" class="tab"><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_labels/comics">Print Batch</a></li>
                             <li id="id_new" class="tab"><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_history">Print History</a></li>
-                            <li id="id_new" class="tab"><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_redo">Print Redo</a></li>
+                            <li id="id_new" class="tab selected"><a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/print_redo">Print Redo</a></li>
                             
                         </ul>
                         <div class="clearfix"></div>
@@ -39,7 +39,7 @@
                                             </a>
                                         </h4>
                                         <div class="pull-right" style="margin-top:-25px;">
-                                            <button onclick="load_series_qrcodes('{{ newest_comics.grouper.series_id }}');" type="button" class="btn btn-success btn-labeled"><span class="btn-label"><i class="fa fa-print"></i></span>Print Batch</button>
+                                            <button onclick="ajax_delete_series('{{ newest_comics.grouper.series_id }}');" type="button" class="btn btn-danger btn-labeled"><span class="btn-label"><i class="fa fa-remove"></i></span>Clear Batch</button>
                                         </div>
                                     </div>
                                     <div class="clearfix pb bb"></div>
@@ -71,12 +71,7 @@
                                                         </td>
                                                         <td>{{ comic.product.store | escape | safe }} / {{ comic.product.section | escape | safe }}</td>
                                                         <td class="text-center">
-                                                            <button onclick="load_comic({{ comic.issue.issue_id}},{{ comic.comic_id }});"
-                                                                type="button"
-                                                                class="btn btn-sm btn-primary btn-tbl btn-edit">
-                                                                <em class="fa fa-edit center-block text-center p-sm"></em>
-                                                            </button>
-                                                            <button onclick="ajax_delete_comic({{ comic.product_id }},{{ comic.comic_id }});"
+                                                            <button onclick="ajax_delete_comic({{ comic.product_id }});"
                                                                 type="button"
                                                                 class="btn btn-sm btn-danger btn-tbl btn-remove">
                                                                 <em class="fa fa-remove center-block text-center p-sm"></em>
@@ -115,8 +110,8 @@
                                 </div>
                             </div>
                             <!-- /.Pagination -->
-                            <button onclick="load_all_qrcodes();" type="submit" class="btn btn-labeled btn-default pull-right mb mr" style="font-size:14pt;">
-                                <span class="btn-label"><i class="fa fa-print"></i></span>Print All
+                            <button onclick="ajax_delete_all();" type="submit" class="btn btn-labeled btn-danger pull-right mb mr" style="font-size:14pt;">
+                                <span class="btn-label"><i class="fa fa-remove"></i></span>Clear All
                             </button>
                         </div>
                         <div class="clearfix"></div>
@@ -127,5 +122,5 @@
         </div>
     </div>
 </section>
-{% include "inventory_print_label/comic/list/js.html" %}
+{% include "inventory_print_label/print_redo/js.html" %}
 {% endblock content %}

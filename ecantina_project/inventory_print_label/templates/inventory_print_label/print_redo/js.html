@@ -1,0 +1,29 @@
+{% include 'api/product.html' %}
+{% include 'api/comic.html' %}
+<input type="hidden" value="0" id="id_tab_index" />
+<script>
+    $(document).ready(function () {
+        $('.tab').click(function(){
+            $('.tab.selected').removeClass('selected');
+            $(this).addClass('selected');
+                        
+            var tab_index = $(this).index();
+            $('#id_tab_index').val(tab_index);
+            location.reload(true); // Reload page with cache cleared.
+        })
+            
+    });
+
+    function ajax_delete_comic(product_id)
+    {
+        console.log(product_id);
+    }
+
+    function ajax_delete_series(series_id) {
+        console.log(series_id);
+    }
+
+    function ajax_delete_all() {
+        console.log("All");
+    }
+</script>
