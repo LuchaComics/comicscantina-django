@@ -124,7 +124,7 @@ class ImportSeries:
         open_reserve = 0 if open_reserve in 'NULL' else int(open_reserve)
 
         # Generate Image URL
-        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_ADDRESS + str(id)
+        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_BASE_URL + str(id)
         cover_url = base_url + '.jpg'
 
         #--------#

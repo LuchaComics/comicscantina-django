@@ -45,3 +45,4 @@ SECRET_GOOGLE_ANALYTICS_KEY = "UA-70664917-2"
 #Note: Leaving it blank turns of analytics in the store.
 SECRET_DOMAIN = "consolebits.com"
 SECRET_HTTP_PROTOCOL = "http://"
+SECRET_COMICS_CANTINA_IMAGE_SERVER_BASE_URL = "https://www.comicscantina.com/img/"

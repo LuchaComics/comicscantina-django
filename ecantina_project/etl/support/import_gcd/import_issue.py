@@ -128,7 +128,7 @@ class ImportIssue:
             brand = None
 
         # Generate URL for images.
-        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_ADDRESS
+        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_BASE_URL
         small_url = base_url + str(id) + '_1_1.jpg'
         medium_url = base_url + str(id) + '_1_2.jpg'
         large_url = base_url + str(id) + '_1_4.jpg'
