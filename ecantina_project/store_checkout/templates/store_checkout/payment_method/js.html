@@ -21,7 +21,7 @@
                 receipt['payment_method'] = 7; // PayPal (Note: see constants.py)
                 receipt['comment'] = $('#id_comment').val();
             } 
-            console.log(receipt);
+            receipt['error'] = 0;
             set_receipt(receipt, function(json_result) {
                 window.location = '/checkout/order';
             }); // End Set Receipt.
