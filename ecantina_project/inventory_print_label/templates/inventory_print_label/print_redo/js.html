@@ -1,5 +1,4 @@
 {% include 'api/product.html' %}
-{% include 'api/comic.html' %}
 <input type="hidden" value="0" id="id_tab_index" />
 <script>
     $(document).ready(function () {
@@ -16,11 +15,24 @@
 
     function ajax_delete_comic(product_id)
     {
-        console.log(product_id);
-    }
-
-    function ajax_delete_series(series_id) {
-        console.log(series_id);
+        get_product(
+            product_id,
+            function(product) {
+                product['is_qrcode_printed'] = false;
+                set_product(product, function(ok) {
+                    // (1) Add notification message of success.
+                    $.notify( 'The comic was deleted', "success");
+                            
+                    // (2) Add count-down timer to reloading page/cache.
+                    setTimeout(function(){
+                        location.reload(true); // Reload page with cache cleared.
+                    }, 250)
+                });
+            },
+            function(error_json) {
+                $.notify(error_json, "danger");
+            }
+        );
     }
 
     function ajax_delete_all() {
