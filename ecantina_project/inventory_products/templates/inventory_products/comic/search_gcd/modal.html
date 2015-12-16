@@ -114,7 +114,16 @@
             </div>
             <div class="clearfix"></div>
             <div class="modal-footer">
+                
+                <!-- Error Message Box -->
+                <div id="error_box" name="error_box" class="alert alert-danger alert-dismissable" hidden="true">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    ERROR: This is to be filled in by the "print_error" function. If you see this message that means there's an error with your javascript somewhere.
+                </div><!-- /.Error Message Box -->
+
+                
                 <div data-alerts="alerts"></div>
+                
                 <button onclick="ajax_close_modal();" class="btn btn-lg btn-labeled btn-danger pull-left mb mr" style="font-size:14pt;">
                     <span class="btn-label"><i class="fa fa-remove"></i></span>Cancel
                 </button>
@@ -246,19 +255,19 @@
     
         // DEFENSIVE CODE.
         if ($('#id_age').val() == '') {
-            $.notify("Please select comic age", "error");
+            print_error("Please select comic age");
             return;
         }
         if ($('#id_store').val() == '') {
-            $.notify("Please select store", "error");
+            print_error("Please select store.");
             return;
         }
         if ($('#id_section').val() == '') {
-            $.notify("Please select section", "error");
+            print_error("Please select section.");
             return;
         }
         if ($('#id_category').val() == '') {
-            $.notify("Please select category.", "error");
+            print_error("Please select category.");
             return;
         }
     
@@ -347,7 +356,7 @@
                 }); // End Set Product
             },
             function(error) {
-                  
+                print_error(error);
             }
         ); // End Get Issue
     }
@@ -375,6 +384,16 @@
     function ajax_close_modal()
     {
         $('#quick-add-modal').modal('hide');
+    }
+
+    /**
+     * Prints a error box with the contents of the errors received from the server.
+     */
+    function print_error(new_message)
+    {
+        $('#error_box').prop("hidden", false);
+        var message = "<b>Error(s):</b> "+new_message+"";
+        $('#error_box').html(message);
     }
 
 </script>
