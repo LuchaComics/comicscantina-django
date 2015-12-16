@@ -123,6 +123,11 @@ class Command(BaseCommand):
                 # - - - - - - - - - - - - - - - - - - - - - - - - -
                 comics_count = len(receipt.products.all())
                 return rate.get_comics_rate(comics_count)
+        
+        # Add "Shipping Rate Error" to our cart if cart not found.
+        receipt.has_error = True
+        receipt.error = constants.SHIPPING_RATE_ERROR_TYPE
+        receipt.save()
         return Decimal(0.00) # Return no rate.
 
     def compute_shipping_cost_for_aggregate(self, receipt):
