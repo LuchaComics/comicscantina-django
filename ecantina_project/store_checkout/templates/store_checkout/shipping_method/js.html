@@ -24,15 +24,16 @@
     
     function ajax_update_shipping_method_and_proceed_next()
     {
-        get_receipt({{ receipt.receipt_id }}, function(json_result) {
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
             // Fetch the selected option and update accordingly.
             var optionValue = $('input[name=optionsRadios]:checked').val();
             if (optionValue == 'option1') {
-                json_result['has_shipping'] = false;
+                receipt['has_shipping'] = false;
             } else {
-                json_result['has_shipping'] = true;
+                receipt['has_shipping'] = true;
             }
-            set_receipt(json_result, function(json_result) {
+            receipt['error'] = 0;
+            set_receipt(receipt, function(json_result) {
                 window.location = '/checkout/payment_method';
             }); // End Set Receipt.
         }); // End Get Receipt
