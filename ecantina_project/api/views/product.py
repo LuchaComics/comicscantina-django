@@ -10,10 +10,6 @@ from api.pagination import TinyResultsSetPagination
 from api.permissions import BelongsToOrganizationOrReadOnly, BelongsToCustomerOrIsEmployeeUser, BelongsToCompanyPolicy
 from api.serializers import ProductSerializer
 from api.models.ec.product import Product
-from api.models.ec.promotion import Promotion
-from api.models.ec.organization import Organization
-from api.models.ec.employee import Employee
-
 from api.models.ec.receipt import Receipt
 from api.models.ec.comic import Comic
 from django.core.management import call_command
@@ -85,46 +81,5 @@ class ProductViewSet(viewsets.ModelViewSet):
         """
             Function will add discounts and taxes to the product.
         """
-        product = self.get_object() # Fetch the product we will be processing.
-
-        try:
-            promotions = Promotion.objects.filter(organization=product.organization)
-        except Promotion.DoesNotExist:
-            Promotions = None
-
-        if product.store.tax_rate > 0:
-            product.tax_rate = product.store.tax_rate
-            product.tax_amount = product.sub_price * product.tax_rate
-            product.sub_price_with_tax = product.tax_amount + product.sub_price
-            
-        # Iterate through all the Tags and sum their discounts
-        total_percent = Decimal(0.00)
-        total_amount = Decimal(0.00)
-        for tag in product.tags.all():
-            if tag.discount_type is 1:
-                total_percent += tag.discount
-            if tag.discount_type is 2:
-                total_amount += tag.discount
-        
-        # Iterate through all the Promotions and sum their discounts.
-        for promotion in promotions:
-            if promotion.discount_type is 1:
-                total_percent += promotion.discount
-            if promotion.discount_type is 2:
-                total_amount += promotion.discount
-            
-        # Compute the discount
-        if total_percent > 0:
-            product.discount = product.sub_price_with_tax * (total_percent/100)
-                    
-            if total_amount > 0:
-                product.discount += total_amount
-                    
-            if total_percent > 0 or total_amount > 0:
-                product.discount_type = 2
-                
-        # Compute final price.
-        product.price = (product.sub_price_with_tax - product.discount)
-        product.save()
-
+        call_command('product_apply_tax_and_discounts',str(pk))
         return Response({'status': 'success', 'message': 'discounts and taxes successfully applied'})
