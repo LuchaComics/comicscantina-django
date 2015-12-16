@@ -38,16 +38,10 @@
                     <!-- /.Custom Products -->
                 {% else %}
                     <!-- Comic Products -->
-                    {% if comic.product.image == None %}
-                        {% if comic.issue.large_url == None %}
-                            <img alt="img"
-                                 src="{% static "inventory/img/missing_cover.png" %}"
-                               class="img-responsive" />
-                        {% else %}
-                            <img alt="img"
-                                 src="{{ comic.issue.large_url }}"
-                               class="img-responsive" />
-                        {% endif %}
+                    {% if comic.product.image_url == None %}
+                        <img alt="img"
+                             src="{% static "inventory/img/missing_cover.png" %}"
+                           class="img-responsive" />
                     {% else %}
                         <a class="gall-item"
                            title="{{ product.name | escape | safe }}"
