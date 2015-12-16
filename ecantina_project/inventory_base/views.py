@@ -16,6 +16,10 @@ def comodo_txt_page(request):
     return render(request, 'inventory_base/txt/F860DA3DF4C3F8A7F5EAFFDA1DB33807.txt', {}, content_type="text/plain")
 
 
+def bing_txt_page(request):
+    return render(request, 'inventory_base/txt/BingSiteAuth.xml', {}, content_type="text/plain")
+
+
 PNG_EXTENSION = 'png'
 JPG_EXTENSION = 'jpg'
 JPEG_EXTENSION = 'jpeg'

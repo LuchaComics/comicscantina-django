@@ -7,7 +7,8 @@ urlpatterns = patterns('',
     url(r'^robots\.txt$', views.robots_txt_page, name='robots'),
     url(r'^humans\.txt$', views.humans_txt_page, name='humans'),
     url(r'^F860DA3DF4C3F8A7F5EAFFDA1DB33807\.txt$', views.comodo_txt_page, name='comodo'),
-                                              
+    url(r'^BingSiteAuth\.xml$', views.bing_txt_page, name='bing'),
+                       
     # Image Redirection to http://img.comicscantina.com
     url(r'^img/(.*)$', views.image_page, name='file'),
 )
