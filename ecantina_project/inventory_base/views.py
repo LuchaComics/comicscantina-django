@@ -20,6 +20,10 @@ def bing_txt_page(request):
     return render(request, 'inventory_base/txt/BingSiteAuth.xml', {}, content_type="text/plain")
 
 
+def baidu_txt_page(request):
+    return render(request, 'inventory_base/txt/baidu_verify_ObbdOAW2Jy.html', {}, content_type="text/plain")
+
+
 PNG_EXTENSION = 'png'
 JPG_EXTENSION = 'jpg'
 JPEG_EXTENSION = 'jpeg'
