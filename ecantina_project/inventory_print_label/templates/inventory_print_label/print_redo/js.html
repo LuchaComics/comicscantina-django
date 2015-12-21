@@ -19,6 +19,7 @@
             product_id,
             function(product) {
                 product['is_qrcode_printed'] = false;
+                product['qrcode'] = null;
                 set_product(product, function(ok) {
                     // (1) Add notification message of success.
                     $.notify( 'The comic was deleted', "success");
