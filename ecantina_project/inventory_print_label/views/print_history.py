@@ -22,7 +22,7 @@ from api.models.ec.print_history import PrintHistory
 @login_required(login_url='/inventory/login')
 def print_history_page(request, org_id, store_id):
     try:
-        history = PrintHistory.objects.get(store_id=store_id)
+        history = PrintHistory.objects.filter(store_id=store_id)
     except PrintHistory.DoesNotExist:
         history = None
     return render(request, 'inventory_print_label/print_history/view.html',{
