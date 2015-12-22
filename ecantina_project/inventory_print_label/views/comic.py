@@ -54,6 +54,7 @@ def series_qrcodes_page(request, org_id, store_id, series_id):
     q = Comic.objects.filter(
         product__store_id=store_id,
         issue__series_id=series_id,
+        product__is_qrcode_printed=False,
         product__is_sold=False,
     )
     q = q.order_by('created')
