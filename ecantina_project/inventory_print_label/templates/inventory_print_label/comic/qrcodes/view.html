@@ -30,13 +30,14 @@
                    
         $(document).ready(function(){
             $.ajax({
-                url: 'http://docs.comicscantina.com/test/labels.php',
+                url: 'https://docs.comicscantina.com/test/labels.php',
                 data: JSON.stringify ({
                     "method" : "save_dat",
                     "params" : arr,
                     "id"     : "comics-cantina",
                     "jsonrpc": "2.0"
                 }),
+                crossDomain: true,   
                 type:"POST",
                 dataType:"json",
                 success: function (data) {
