@@ -47,7 +47,7 @@ from api.models.ec.banned_domain import BannedDomain
 from api.models.ec.banned_ip import BannedIP
 from api.models.ec.banned_word import BannedWord
 from api.models.ec.catalog_item import CatalogItem
-#from api.models.ec.comic_catalog_item import ComicCatalogItem
+from api.models.ec.print_history import PrintHistory
 
 
 # Registering Models
@@ -95,4 +95,4 @@ admin.site.register(BannedDomain)
 admin.site.register(BannedIP)
 admin.site.register(BannedWord)
 admin.site.register(CatalogItem)
-#admin.site.register(ComicCatalogItem)
+admin.site.register(PrintHistory)
