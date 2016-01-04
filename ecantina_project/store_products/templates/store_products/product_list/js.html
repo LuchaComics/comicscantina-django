@@ -129,7 +129,18 @@
             var count = val2['count'];
             var next = val2['next'];
             var previous = val2['previous'];
-                      
+                
+            // Detect if we are using HTTPS and if so then replace the HTTP
+            // protocol with the HTTPS protocol.
+            if (window.location.protocol == "https:") {
+                if (next != null) {
+                    next = next.replace("http:", "https:");
+                }
+                if (previous != null) {
+                    previous = previous.replace("http:", "https:");
+                }
+            }
+                            
             // Set Results Count.
             var txt = count;
             txt += (count > 1) ? " Results Found" : " Result Found";
