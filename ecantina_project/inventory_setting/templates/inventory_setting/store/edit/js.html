@@ -252,8 +252,10 @@
                 store['language'] = $('#id_language').val();
                 store['tax_rate'] = parseFloat( $('#id_tax_rate').val() );
                 store['is_comics_vendor'] = $('#id_is_comics_vendor').is(':checked');
-                store['is_furniture_vendor'] = $('#id_is_furniture_vendor').is(':checked');
-                store['is_coins_vendor'] = $('#id_is_coins_vendor').is(':checked');
+                store['is_furniture_vendor'] = 'False';
+                store['is_coins_vendor'] = 'False';
+                //store['is_furniture_vendor'] = $('#id_is_furniture_vendor').is(':checked');
+                //store['is_coins_vendor'] = $('#id_is_coins_vendor').is(':checked');
                 store['paypal_email'] = $('#id_paypal_email').val();
                 store['style'] = $('#id_style').val();
                 store['is_listed'] = $('#id_is_listed').is(':checked');
