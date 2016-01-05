@@ -56,8 +56,23 @@
                                         {{ form.message }}
                                     </div>
                                 </div>
-
-
+                                <div class="form-group">
+                                    <!-- Upload ID -->
+                                    <input type="hidden" id="id_hidden_upload_id" value="0"/>
+                                    <!-- /.Upload ID -->
+                                    
+                                    <label class="col-md-4 control-label">Related Image</label>
+                                    <div class="col-md-8">
+                                        <img src="" style="height:140px;width:140px;" alt="Screenshot"
+                                            class="img-thumbnail center-block mb0 add-cover-image"
+                                            name="logo-image" id="logo-image" />
+                                            
+                                        <label class="form-control btn btn-success curp">
+                                            <em class="fa fa-upload"></em>&nbsp;&nbsp; Attach image...
+                                            <input onchange="ajax_upload_image();" id="id_image" class="form-control mb10 hide" name="image" id="file-image" type="file">
+                                        </label>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
