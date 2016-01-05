@@ -6,6 +6,24 @@
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
+    $(document).ready(function () {
+       // When the user closes the modal...
+       $('#id_close_model_btn').on('click', function(){
+          // Allow some time to go by for the modal to close and then
+          // refresh the page.
+          setTimeout(function(){
+              window.location = '/';
+          }, 250);
+       });
+       $('#id_close_btn').on('click', function(){
+            // Allow some time to go by for the modal to close and then
+            // refresh the page.
+            setTimeout(function(){
+               window.location = '/';
+            }, 250);
+       });
+    });
+    
     function ajax_proceed_next()
     {
         get_customer({{ request.customer.customer_id }}, function(customer){
@@ -40,7 +58,7 @@
                                  
                 // Update the receipt.
                 set_receipt(receipt, function(json_result) {
-                    window.location = '/';
+                    $('#success-modal').modal(); // Load the modal telling user the action was completed successfully.
                 }); // End Set Receipt jQuery.
                         
             }); // End Get Receipt jQuery

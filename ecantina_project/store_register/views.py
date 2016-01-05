@@ -71,4 +71,5 @@ def registration_step5_page(request):
         'customer': customer,
         'customer_form': CustomerForm(instance=customer),
         'page' : 'register',
+        'src_urls': ['store_register/step5/success_modal.html'], # MODAL
     })
