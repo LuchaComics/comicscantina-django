@@ -49,7 +49,22 @@
             clearTimeout(thread);
             thread = setTimeout(function() { lookupProducts(); }, 500);
         });
-    });
+                
+        // Load the 'Busy' indicator.
+        var src = "{% static "inventory/img/busy.gif" %}";
+        var html = '<img src="'+src+'" alt="Busy" class="displayed" style="display: block;margin-left: auto;margin-right: auto;">';
+        $('#id_table_placeholder').html(''); // Previous data.
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+                      
+        // Fetch all products for this store and organization on starup
+        // and generate the table.
+        var arr = Array();
+        arr.push({ 'name': name });
+        filter_products(arr, function(json_objects) {
+            generate_table(json_objects);
+        });
+                
+    }); // End Document Ready
     
     function ajax_search_products(name, brand, category, tags, min_price, max_price)
     {
@@ -125,10 +140,35 @@
         $(json_result).each(function(iter,val2){
             // Update results count
             var count = val2['count'];
+            var next = val2['next'];
+            var previous = val2['previous'];
+                            
+            // Detect if we are using HTTPS and if so then replace the HTTP
+            // protocol with the HTTPS protocol.
+            if (window.location.protocol == "https:") {
+                if (next != null) {
+                    next = next.replace("http:", "https:");
+                }
+                if (previous != null) {
+                    previous = previous.replace("http:", "https:");
+                }
+            }
+                            
+            // Update UI.
             var txt = count;
             txt += (count > 1) ? " Results Listed" : " Result Listed";
             $('#id_results_count').html(txt);
                           
+            // Set Navigation Buttons.
+            var btns = '';
+            if (previous) {
+                btns += '<button onclick="'+'ajax_onclick(\''+previous+'\');' + '" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Previous</button>';;
+            }
+            if (next) {
+                btns += '<button onclick="'+'ajax_onclick(\''+next+'\');' + '" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Next</button>';
+                }
+            $('#id_results_nav').html(btns);
+                            
             // Generate table.
             var position_index = 0;
             $(val2['results']).each(function(iter2,val){
@@ -220,6 +260,31 @@
         } else {
             //TODO: Implement.
         }
+    }
+
+    /**
+     * Function is to be used by the 'Next' and 'Previous' buttons. This
+     * function will load the URL provided by the DJANGO REST API for calling
+     * the next or previous search results and then updates the page.
+     */
+    function ajax_onclick(url) {
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                generate_table(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                alert(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
     }
 
 </script>

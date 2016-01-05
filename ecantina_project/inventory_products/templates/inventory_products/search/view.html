@@ -111,62 +111,15 @@
                         
                         <!-- begin product listing -->
                         <div id="id_table_placeholder">
-                            
-                            <!-- INITIAL TABLE -->
-                            <div class="table-responsive" style="background-color:inherit;">
-                                <table class="table table-hover table-striped" style="border:1px solid #ddd;">
-                                    <thead>
-                                        <tr>
-                                            <th style="width:10%;text-align:center;">Image</th>
-                                            <th style="width:17%;">Name</th>
-                                            <th style="width:17%;">Brand</th>
-                                            <th style="width:8%;">Stock</th>
-                                            <th style="width:10%;">Price</th>
-                                            <th style="width:8%;text-align:center;">View Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for product in products %}
-                                        {% autoescape off %}
-                                        <tr>
-                                            <td style="text-align:center;">
-                                                {% if product.image_url == "" or product.image_url == None  %}
-                                                <img class="product-image center-block"
-                                                     width="50"
-                                                       alt="{{ product.name | escape | safe }}"
-                                                       src="{% static "inventory/img/missing_cover.png" %}" />
-                                                {% else %}
-                                                <img class="product-image center-block"
-                                                     width="50"
-                                                       alt="{{ product.name | escape | safe }}"
-                                                       src="{{ product.image_url }}" />
-                                                {% endif %}
-                                            </td>
-                                            <td>{{ product | escape | safe }}</td>
-                                            <td>{{ product.brand }}</td>
-                                            <td>
-                                                {% if product.type == 1 %}
-                                                Comic
-                                                {% else %}
-                                                Unknown Type
-                                                {% endif %}
-                                            </td>
-                                            <td>${{ product.sub_price }}</td>
-                                            <td style="text-align:center;">
-                                                <button onclick="ajax_load_product('{{ product.product_id }}','{{ product.type }}');"
-                                                    style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled">
-                                                    <span class="btn-label"><i class="fa fa-edit"></i></span>View Details
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        {% endautoescape %}
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div><!-- /.INITIAL TABLE -->
+                            <!-- Content -->
                         </div>
                         <!-- end product listing -->
+                    
+                        <!-- Pagination -->
                         
+                        <div id="id_results_nav" class="pagination pull-left no-margin-top"></div>
+                        <!-- end Pagination -->
+                    
                     </div>
                     <!-- end product listing -->
                     
