@@ -490,16 +490,15 @@
 
     function ajax_delete(comic_id, product_id)
     {
-        delete_comic(comic_id, function(json_result) {
-            // Do nothing.
-        });
         delete_product(
             product_id,
             function(json_result) {
+                $.notify("Product has been deleted", "success");
                 ajax_refresh_table({{ issue.issue_id }}); // Refresh table.
             },
             function(error_result) {
                 console.log(error_result);
+                alert(error_result.message);
             }
         );
     }

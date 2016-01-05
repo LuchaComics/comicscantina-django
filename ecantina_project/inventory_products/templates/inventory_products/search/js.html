@@ -59,7 +59,9 @@
         // Fetch all products for this store and organization on starup
         // and generate the table.
         var arr = Array();
-        arr.push({ 'name': name });
+        arr.push({ 'is_sold': 'False' });
+        arr.push({ 'organization': {{ org.org_id }} });
+        arr.push({ 'store': {{ store.store_id }} });
         filter_products(arr, function(json_objects) {
             generate_table(json_objects);
         });
@@ -76,6 +78,9 @@
         
         // Apply search criteria.
         var arr = Array();
+        arr.push({ 'organization': {{ org.org_id }} });
+        arr.push({ 'store': {{ store.store_id }} });
+        arr.push({ 'is_sold': 'False' });
         
         if (name.length > 0) {
             arr.push({ 'name': name });

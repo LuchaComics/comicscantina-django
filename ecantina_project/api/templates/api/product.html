@@ -88,13 +88,13 @@
      *     c) All associated data with this product gets deleted.
      */
     function delete_product(product_id, success_callback, error_callback) {
-        var url = "/api/products/" + product_id + "/delete_with_additional_processing/?format=json";
+        var url = "/api/products/" + product_id + "/?format=json";
         jQuery.ajax({
             url: url,
             cache: false,
             contentType: false,
             processData: false,
-            type: 'GET',
+            type: 'DELETE',
             success: function(json_results){
                 success_callback(json_results);
             },
