@@ -59,15 +59,15 @@
         }
     
         // Get the URL and format it so no errors will be returned by Python.
-        var subject_url = $('#id_subject_url').val();
-        if (subject_url.indexOf("http") < 0) {
-            subject_url = 'http://' + subject_url;
-        }
+        //var subject_url = $('#id_subject_url').val();
+        //if (subject_url.indexOf("http") < 0) {
+        //    subject_url = 'http://' + subject_url;
+        //}
         // However if nothing was enterd then don't add the URL.
-        if (subject_url.length > 7) {
-            arr['subject_url'] = subject_url
-            console.log(subject_url);
-        }
+        //if (subject_url.length > 7) {
+        //    arr['subject_url'] = subject_url
+        //    console.log(subject_url);
+        //}
     
         // Create our ticket!
         set_helprequest(arr,
