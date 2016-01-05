@@ -123,7 +123,8 @@ def update_product_page(request, org_id, store_id, product_id):
     try:
         product_form = ProductForm(instance=product)
     except Comic.DoesNotExist:
-        product_form = ProductForm(initial={'price': 5.00,})
+        product_form = ProductForm(initial={'price': 5.00, 'is_new': True,})
+    
     
     if stores is not None:
         # http://stackoverflow.com/a/291968
