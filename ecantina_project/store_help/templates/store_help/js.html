@@ -5,27 +5,27 @@
     $(document).ready(function () {                  
         // When the user closes the modal...
         $('#id_close_model_btn').on('click', function(){
-                                              // Allow some time to go by for the modal to close and then
-                                              // refresh the page.
-                                              setTimeout(function(){
-                                                         location.reload(true); // Reload page with cache cleared.
-                                                         }, 250);
-                                              });
+            // Allow some time to go by for the modal to close and then
+            // refresh the page.
+            setTimeout(function(){
+                location.reload(true); // Reload page with cache cleared.
+            }, 250);
+        });
         $('#id_close_btn').on('click', function(){
-                                        // Allow some time to go by for the modal to close and then
-                                        // refresh the page.
-                                        setTimeout(function(){
-                                                   location.reload(true); // Reload page with cache cleared.
-                                                   }, 250);
-                                        });
-                  });
+            // Allow some time to go by for the modal to close and then
+            // refresh the page.
+            setTimeout(function(){
+                location.reload(true); // Reload page with cache cleared.
+            }, 250);
+        });
+    });
                   
-                  /**
-                   *  Function will either upload a new image or update the existing
-                   *  one with the new image. Afterwards function will upad the UI
-                   *  to have a picture of the image that was uploaded and save the
-                   *  upload_id.
-                   */
+    /**
+     *  Function will either upload a new image or update the existing
+     *  one with the new image. Afterwards function will upad the UI
+     *  to have a picture of the image that was uploaded and save the
+     *  upload_id.
+     */
     function ajax_upload_image() {
         if ($('#id_image').val() == "") {
             alert('Please select an image to upload');
@@ -73,10 +73,7 @@
         set_helprequest(arr,
             function(success_json) {
                 // Let our upload image know it is properly assigned.
-                set_imageupload(upload_id, true, null, {{ employee.user_id }}, function(json_result) {
-                    $('#success-modal').modal(); // Load the modal telling user the action was
-                    // completed successfully.
-                });
+                $('#success-modal').modal(); // Load the modal telling user the action was completed successfully.
             }, // success
             function(error_json) {
                 print_error(error_json);
