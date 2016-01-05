@@ -53,9 +53,17 @@
                                 {% for an_employee in employees %}
                                 <tr {% if an_employee.is_suspended %}class="info"{% endif %}>
                                     <td>
-                                        <img style="width: 44px; height: 44px;"
-                                               src="{{ an_employee.profile.image.url }}"
-                                               alt="J Smith" class="user-image center-block">
+                                        {% if an_employee.profile.image %}
+                                            <img style="width: 44px; height: 44px;"
+                                                   src="{{ an_employee.profile.image.url }}"
+                                                   alt="{{ an_employee.first_name }} {{ an_employee.last_name }}"
+                                                 class="user-image center-block">
+                                        {% else %}
+                                            <img style="width: 44px; height: 44px;"
+                                                   src=""
+                                                   alt="{{ an_employee.first_name }} {{ an_employee.last_name }}"
+                                                 class="user-image center-block">
+                                        {% endif %}
                                     </td>
                                     <td>
                                         <span class="mb0 pb0" style="font-size:12pt;font-weight:bold;display:block;">
