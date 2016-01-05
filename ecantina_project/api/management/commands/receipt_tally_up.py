@@ -142,7 +142,6 @@ class Command(BaseCommand):
         
         # Find the rate.
         try:
-            print(receipt.shipping_country)
             rate = UnifiedShippingRate.objects.get(country=iso_3166_1_numeric_country_code)
             comics_count = len(receipt.products.all())
             return rate.get_comics_rate(comics_count)
