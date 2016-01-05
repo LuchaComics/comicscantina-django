@@ -53,23 +53,29 @@
                                 <tr>
                                     <td>
                                         {% if rate.country == 124 %}
-                                        Canada
+                                            Canada
                                         {% elif rate.country == 840 %}
-                                        United States
+                                            United States
                                         {% elif rate.country == 484 %}
-                                        Mexico
+                                            Mexico
                                         {% else %}
-                                        Unsupported Country #{{ rate.country }}
+                                            Unsupported Country #{{ rate.country }}
                                         {% endif %}
-                                        
                                     </td>
                                     <td>
                                         <button onclick='window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping/{{ rate.shipping_rate_id }}";'
                                                    type="button"
-                                                  class="btn btn-sm btn-labeled btn-primary pull-right mb mr"
+                                                  class="btn btn-sm btn-labeled btn-warning pull-right mb mr"
                                                   style="font-size:14pt;">
-                                            <span class="btn-label"><i class="fa fa-check"></i></span>Configure
+                                            <span class="btn-label"><i class="fa fa-pencil"></i></span>Edit
                                         </button>
+                                        <button onclick='ajax_delete_rate({{ rate.shipping_rate_id }});'
+                                                   type="button"
+                                                  class="btn btn-sm btn-labeled btn-danger pull-right mb mr"
+                                                  style="font-size:14pt;">
+                                            <span class="btn-label"><i class="fa fa-minus"></i></span>Delete
+                                        </button>
+
                                     </td>
                                     
                                 </tr>

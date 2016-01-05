@@ -1,4 +1,5 @@
 {% include 'api/orgshippingpreference.html' %}
+{% include 'api/orgshippingrate.html' %}
 <script>
     $(document).ready(function () {
         // When 'is_pickup_only' checkbox is selected, then change status.
@@ -8,19 +9,20 @@
                       
     });
     
-    function ajax_update_shipping()
+    function ajax_delete_rate(rate_id)
     {
-        get_org_shipping_preference(
-            {{ org_form.instance.shipping_pref_id }},
-            function(json_success) {
-                json_success['is_pickup_only'] = !json_success['is_pickup_only'];
-                set_org_shipping_preference(json_success, function(json_results) {
-                    $.notify("Store was Successfully Updated", "success");
-                });
-            },
-            function(json_error) {
-                $.notify( (key+': '+json_error[key]), "danger");
+        delete_org_shipping_rate(
+            rate_id,
+            function(ok) {
+                // (1) Add notification message of success.
+                $.notify( 'Shipping Rate was Successfully Deleted', "success");
+                                
+                // (2) Add count-down timer to reloading page/cache.
+                setTimeout(function(){
+                    location.reload(true); // Reload page with cache cleared.
+                }, 500)
             }
         );
     }
+
 </script>
