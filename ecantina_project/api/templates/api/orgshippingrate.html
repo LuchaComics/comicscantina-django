@@ -1,4 +1,35 @@
-<script>   
+<script>
+    function filter_org_shipping_rate(criteria, callback)
+    {
+        var url = "/api/orgshippingrates/?format=json";
+        for (var i = 0; i < criteria.length; i++) {
+            url += "&";
+            
+            // Build our search criteria in the URL based on the results.
+            for(var index in criteria[i]) {
+                url += index + "=" + criteria[i][index];
+            }
+        }
+        
+        jQuery.ajax({
+                    url: url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'GET',
+                    success: function(json_results){
+                    callback(json_results);
+                    },
+                    error: function(xhr,status,error) {
+                    console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                    alert(xhr.responseText);
+                    },
+                    complete: function(xhr,status) {
+                    // Do nothing.
+                    }
+                    });
+    }
+    
     function set_org_shipping_rate(data, callback)
     {
         // Setup depending on whether we are inserting or updating.
