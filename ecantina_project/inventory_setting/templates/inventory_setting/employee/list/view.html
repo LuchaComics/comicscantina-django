@@ -56,12 +56,12 @@
                                         {% if an_employee.profile.image %}
                                             <img style="width: 44px; height: 44px;"
                                                    src="{{ an_employee.profile.image.url }}"
-                                                   alt="{{ an_employee.first_name }} {{ an_employee.last_name }}"
+                                                   alt="{{ an_employee.user.first_name }} {{ an_employee.user.last_name }}"
                                                  class="user-image center-block">
                                         {% else %}
                                             <img style="width: 44px; height: 44px;"
                                                    src=""
-                                                   alt="{{ an_employee.first_name }} {{ an_employee.last_name }}"
+                                                   alt="{{ an_employee.user.first_name }} {{ an_employee.user.last_name }}"
                                                  class="user-image center-block">
                                         {% endif %}
                                     </td>
