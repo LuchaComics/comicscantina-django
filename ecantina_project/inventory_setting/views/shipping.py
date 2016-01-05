@@ -28,43 +28,8 @@ def shipping_settings_page(request, org_id, store_id):
             organization_id = org_id,
         )
 
-    # If we don't have the shipping rates set then add them in now.
-    if len(org_preference.rates.all()) is 0:
-        # Create for Canda, United States and Mexico
-        canada = OrgShippingRate.objects.create(
-            organization_id = org_id,
-            country = 124,
-        )
-        org_preference.rates.add(canada)
-        united_states = OrgShippingRate.objects.create(
-            organization_id = org_id,
-            country = 840,
-        )
-        org_preference.rates.add(united_states)
-        mexico = OrgShippingRate.objects.create(
-            organization_id = org_id,
-            country = 484,
-        )
-        org_preference.rates.add(mexico)
-
-    ca_rate = OrgShippingRate.objects.get(
-        organization_id=org_id,
-        country = 124,
-    )
-    us_rate = OrgShippingRate.objects.get(
-        organization_id=org_id,
-        country = 840,
-    )
-    mx_rate = OrgShippingRate.objects.get(
-        organization_id=org_id,
-        country = 484,
-    )
-
     return render(request, 'inventory_setting/shipping/master.html',{
         'org_form': OrgShippingPreferenceForm(instance=org_preference),
-        'ca_form': OrgShippingRateForm(instance=ca_rate),
-        'us_form': OrgShippingRateForm(instance=us_rate),
-        'mx_form': OrgShippingRateForm(instance=mx_rate),
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),
         'employee': Employee.objects.get(user__id=request.user.id),
@@ -73,13 +38,20 @@ def shipping_settings_page(request, org_id, store_id):
     })
 
 @login_required(login_url='/inventory/login')
-def shipping_details_settings_page(request, org_id, store_id, country_id):
-    rate = OrgShippingRate.objects.get(
-        organization_id=org_id,
-        country = int(country_id),
-    )
+def shipping_details_settings_page(request, org_id, store_id, shipping_rate_id=0):
+    # Get our organization preferences.
+    try:
+        org_preference = OrgShippingPreference.objects.get(organization_id=org_id)
+    except OrgShippingPreference.DoesNotExist:
+        org_preference = OrgShippingPreference.objects.create(organization_id = org_id,)
     
+    try:
+        rate = OrgShippingRate.objects.get(shipping_rate_id=shipping_rate_id)
+    except OrgShippingRate.DoesNotExist:
+        rate = None
+
     return render(request, 'inventory_setting/shipping/details.html',{
+        'org_preference': org_preference,
         'form': OrgShippingRateForm(instance=rate),
         'org': Organization.objects.get(org_id=org_id),
         'store': Store.objects.get(store_id=store_id),

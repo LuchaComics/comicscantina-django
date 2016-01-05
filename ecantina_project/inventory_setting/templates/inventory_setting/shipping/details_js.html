@@ -1,5 +1,10 @@
+{% include 'api/orgshippingpreference.html' %}
 {% include 'api/orgshippingrate.html' %}
 <script>
+{% if form.instance.country != None %}
+    //---------//
+    // UPDATE. //
+    //---------//
     function ajax_update_rates()
     {
         get_org_shipping_rate(
@@ -27,4 +32,52 @@
             }
         );
     }
+{% else %}
+    //---------//
+    // INSERT. //
+    //---------//
+    function ajax_update_rates()
+    {
+        // STEP 1: Get our prefence.
+        get_org_shipping_preference(
+            {{ org_preference.shipping_pref_id }},
+            function(preference) {
+                // STEP 2: Create our rate.
+                var data = {};
+                data['country'] = $('#id_country').val();
+                data['organization'] = {{ org.org_id }};
+                data['comics_rate1'] = $('#id_comics_rate1').val();
+                data['comics_rate2'] = $('#id_comics_rate2').val();
+                data['comics_rate3'] = $('#id_comics_rate3').val();
+                data['comics_rate4'] = $('#id_comics_rate4').val();
+                data['comics_rate5'] = $('#id_comics_rate5').val();
+                data['comics_rate6'] = $('#id_comics_rate6').val();
+                data['comics_rate7'] = $('#id_comics_rate7').val();
+                data['comics_rate8'] = $('#id_comics_rate8').val();
+                data['comics_rate9'] = $('#id_comics_rate9').val();
+                data['comics_rate10'] = $('#id_comics_rate10').val();
+                set_org_shipping_rate(
+                    data,
+                    function(rate) {
+                        // STEP 3: Update our preferences to include our new rate.
+                        preference['rates'].push(rate['shipping_rate_id']);
+                        set_org_shipping_preference(preference, function() {
+                            // STEP 3: Load the list-view with all the rates.
+                            $.notify("Rate was Successfully Created", "success");
+                                                    
+                            setTimeout(function(){
+                                window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping";
+                            }, 500)
+                        }); // End Set Org Shipping Preference
+                    }
+                ); // End Set Shipping Rate
+                                    
+            },
+            function(json_error) {
+                alert(json_error);
+                console.log(json_error);
+            }
+        ); // End Get Org Shipping Preferences
+    }
+{% endif %}
 </script>

@@ -35,23 +35,38 @@
                                         {% elif form.instance.country == 484 %}
                                         <h3 class="p0 mt0 mb-lg">Mexico Shipping Rates</h3>
                                         {% else %}
-                                        ERROR UNKNOWN COUNTRY
+                                        <h3 class="p0 mt0 mb-lg">Pick New Country Shipping Rates</h3>
                                         {% endif %}
                                         <p class="mb0 text-justify">Set the shipping fees to be applied to online orders with the following number of comics purchased</p>
                                     </div>
                                 </div>
                                 <div class="col-sm-7">
                                     {% for field in form %}
-                                    {% if 'Country' in field.label %}
-                                    <input type="hidden" id="id_country" value={{ form.instance.country }} />
-                                    {% else %}
-                                    <div class="form-group">
-                                        <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}</label>
-                                        <div class="col-md-8">
-                                            {{ field | escape | safe }}
-                                        </div>
-                                    </div>
-                                    {% endif %}
+                                        {% if 'Country' in field.label %}
+                                            {% if form.instance.country == None %}
+                                                <div class="form-group">
+                                                    <label for="txt-store-name" class="col-md-4 control-label">Pick Country
+                                                    </label>
+                                                    <div class="col-md-8">
+                                                        <select class="form-control" id="id_country" name="country">
+                                                            <option value="124">Canada</option>
+                                                            <option value="840">United States</option>
+                                                            <option value="484">Mexico</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <input type="hidden" id="id_country" value={{ form.instance.country }} />
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="form-group">
+                                                <label for="txt-store-name" class="col-md-4 control-label">{{ field.label | escape | safe }}
+                                                </label>
+                                                <div class="col-md-8">
+                                                    {{ field | escape | safe }}
+                                                </div>
+                                            </div>
+                                        {% endif %}
                                     {% endfor %}
                                 </div>
                                 <div class="clearfix"></div>
@@ -68,7 +83,10 @@
                         </div>
                
                         <div class="col-sm-6 text-center">
-                        <button onclick="ajax_update_rates();" type="button" class="btn btn-lg btn-labeled btn-success pull-right mb mr" style="font-size:14pt;">
+                        <button onclick="ajax_update_rates();"
+                                   type="button"
+                                  class="btn btn-lg btn-labeled btn-success pull-right mb mr"
+                                  style="font-size:14pt;">
                             <span class="btn-label"><i class="fa fa-check"></i></span>Save Changes
                         </button>
                         </div>

@@ -49,12 +49,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- !!!! each of these will show the latest order info for any
-                                 orders that are in the pending status !!!! -->
+                                {% for rate in org_form.instance.rates.all %}
                                 <tr>
-                                    <td>Canada</td>
                                     <td>
-                                        <button onclick='window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping/124";'
+                                        {% if rate.country == 124 %}
+                                        Canada
+                                        {% elif rate.country == 840 %}
+                                        United States
+                                        {% elif rate.country == 484 %}
+                                        Mexico
+                                        {% else %}
+                                        Unsupported Country #{{ rate.country }}
+                                        {% endif %}
+                                        
+                                    </td>
+                                    <td>
+                                        <button onclick='window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping/{{ rate.shipping_rate_id }}";'
                                                    type="button"
                                                   class="btn btn-sm btn-labeled btn-primary pull-right mb mr"
                                                   style="font-size:14pt;">
@@ -63,35 +73,16 @@
                                     </td>
                                     
                                 </tr>
-                                <tr>
-                                    <td>United States</td>
-                                    <td>
-                                        <button onclick='window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping/840";'
-                                                   type="button"
-                                                  class="btn btn-sm btn-labeled btn-primary pull-right mb mr"
-                                                   style="font-size:14pt;">
-                                            <span class="btn-label"><i class="fa fa-check"></i></span>Configure
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Mexico</td>
-                                    <td>
-                                        <button onclick='window.location="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping/484";'
-                                                   type="button"
-                                                  class="btn btn-sm btn-labeled btn-primary pull-right mb mr"
-                                                  style="font-size:14pt;">
-                                            <span class="btn-label"><i class="fa fa-check"></i></span>Configure
-                                        </button>
-                                    </td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
+                    
                     <!-- END table responsive-->
-                    <!--<div class="panel-footer text-right"><a href="orders_view.html" class="btn btn-default btn-sm">View
-                        All Orders</a>
-                    </div>-->
+                    <div class="panel-footer text-right">
+                        <a href="/inventory/{{ org.org_id }}/{{ store.store_id }}/settings/shipping/0" class="btn btn-success btn-sm">
+                        Add Country</a>
+                    </div>
                 </div>
                 <div data-alerts="alerts"></div>
             </div>
