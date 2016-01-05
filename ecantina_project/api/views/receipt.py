@@ -1,6 +1,7 @@
 import django_filters
 from datetime import datetime
 from decimal import *
+from django.db.models import Q
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -36,18 +37,6 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     search_fields = ('email','billing_phone','billing_postal', 'shipping_phone','shipping_postal',)
     filter_class = ReceiptFilter
   
-    def get_customer_receipts(self, user_id):
-        """
-            HELPER FUNCTION: Used to return all the Receipt(s) that belong to 
-            the Customer User in our system.
-        """
-        try:
-            customer = Customer.objects.filter(user_id=user_id)
-            receipt = Receipt.objects.filter(customer=customer)
-            return receipt
-        except Customer.DoesNotExist:
-            return Receipt.objects.none()
-
     def get_queryset(self):
         """
             SECURITY: The following query override was set to protect private
@@ -57,19 +46,21 @@ class ReceiptViewSet(viewsets.ModelViewSet):
         # Customers Receipts in our application that belong to the organization,
         # else don't show.
         try:
+            customer = Customer.objects.filter(user_id=self.request.user.id)
             employee = Employee.objects.get(user__id=self.request.user.id)
-            receipt = Receipt.objects.filter(organization=employee.organization)
-            # If no receipts where returned, then return the customer receipt.
-            if len(receipt) is 0:
-                return self.get_customer_receipts(self.request.user.id)
-            else:
-                return receipt
+                          
+            # Either return all the receipts inside the Organization and/or
+            # return all the customers Receipts.
+            q = (Q(organization=employee.organization) | Q(customer=customer))
+                              
+            # Return results.
+            return Receipt.objects.filter(q)
+        except Customer.DoesNotExist:
+            return Receipt.objects.none()
         except Employee.DoesNotExist:
-            return self.get_customer_receipts(self.request.user.id)
+            return Receipt.objects.filter(customer=customer)
         except Receipt.DoesNotExist:
             return Receipt.objects.none() # Worst Case: Return nothing found.
-
-
 
     @detail_route(methods=['get'], permission_classes=[BelongsToCustomerOrIsEmployeeUser])
     def apply_discounts(self, request, pk=None):
