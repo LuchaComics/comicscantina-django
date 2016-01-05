@@ -2,12 +2,39 @@
 {% include 'api/organization.html' %}
 {% include 'api/employee.html' %}
 {% include 'api/customer.html' %}
+{% include 'api/receipt.html' %}
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
     function ajax_proceed_next()
     {
-        window.location = '/';
+        get_customer({{ request.customer.customer_id }}, function(customer){
+            get_receipt({{ request.receipt.receipt_id }}, function(receipt) {
+                                 
+                // Update the receipt with the latest customer information.
+                receipt['customer'] = customer['customer_id']
+                receipt['billing_address'] = customer['billing_address'];
+                receipt['email'] = customer['email'];
+                receipt['billing_phone'] = customer['billing_phone'];
+                receipt['billing_city'] = customer['billing_city'];
+                receipt['billing_province'] = customer['billing_province'];
+                receipt['billing_country'] = customer['billing_country'];
+                receipt['billing_postal'] = customer['billing_postal'];
+                receipt['shipping_address'] = customer['shipping_address'];
+                receipt['shipping_phone'] = customer['shipping_phone'];
+                receipt['shipping_city'] = customer['shipping_city'];
+                receipt['shipping_province'] = customer['shipping_province'];
+                receipt['shipping_country'] = customer['shipping_country'];
+                receipt['shipping_postal'] = customer['shipping_postal'];
+                                 
+                // Update the receipt.
+                set_receipt(receipt, function(json_result) {
+                    //console.log({{ request.receipt.receipt_id }});
+                    window.location = '/';
+                }); // End Set Receipt jQuery.
+                        
+            }); // End Get Receipt jQuery
+        }); // End Get Customer
     }
 
 </script>
