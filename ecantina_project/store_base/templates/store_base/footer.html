@@ -69,10 +69,13 @@
                             </a>
                         </li>
                         {% else %}
-                        <li>
-                            <a onclick="window.location='/inventory/register/step1';"> Become a Merchant
-                            </a>
-                        </li>
+                            {% if request.subdomain == None %}
+                            <!-- Only display this option in the main aggregate Store. -->
+                            <li>
+                                <a onclick="window.location='/inventory/register/step1';"> Become a Merchant
+                                </a>
+                            </li>
+                            {% endif %}
                         {% endif %}
                         
                     </ul>
