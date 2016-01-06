@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import filters
-from api.pagination import LargeResultsSetPagination
+from api.pagination import RegularResultsSetPagination
 from api.permissions import IsAdminUserOrReadOnly
 from api.models.gcd.series import GCDSeries
 from api.serializers import SeriesSerializer
@@ -25,7 +25,7 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = GCDSeries.objects.all()
     serializer_class = SeriesSerializer
-    pagination_class = LargeResultsSetPagination
+    pagination_class = RegularResultsSetPagination
     permission_classes = (IsAdminUserOrReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = SeriesFilter
