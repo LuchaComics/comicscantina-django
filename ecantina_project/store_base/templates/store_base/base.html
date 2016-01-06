@@ -175,6 +175,16 @@
                 }
             );
         }
+    
+        /**
+         * Function will search through all the store products and list.
+         */
+        function ajax_submit_top_menu_search()
+        {
+            var search = $('#id_top_menu_search').val();
+            window.location = '/search?keyword='+search;
+        }
+    
     </script>
     
     {% if GOOGLE_ANALYTICS_KEY != '' %}

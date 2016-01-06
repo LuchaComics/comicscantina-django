@@ -209,10 +209,10 @@
     <div class="search-full text-right"><a class="pull-right search-close"> <i class=" fa fa-times-circle"> </i> </a>
         
         <div class="searchInputBox pull-right">
-            <input type="search" data-searchurl="search?=" name="q" placeholder="start typing and hit enter to search"
+            <input id="id_top_menu_search" type="input" placeholder="start typing and hit enter to search"
                 class="search-input">
-                <button class="btn-nobg search-btn" type="submit"><i class="fa fa-search"> </i></button>
-                </div>
+                <button onclick="ajax_submit_top_menu_search();" class="btn-nobg search-btn" type="submit"><i class="fa fa-search"> </i></button>
+            </div>
     </div>
     <!--/.search-full-->
     

@@ -89,6 +89,7 @@ INSTALLED_APPS = (
     'store_customer',
     'store_register',
     'store_help',
+    'store_search',
     'api',
 )
 

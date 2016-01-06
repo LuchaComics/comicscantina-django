@@ -148,6 +148,7 @@ python manage.py startapp store_checkout
 python manage.py startapp store_customer
 python manage.py startapp store_register
 python manage.py startapp store_help
+python manage.py startapp store_search
 python manage.py startapp api
 
 (11) Then go to ecantina_project/settings.py and make sure to include the following:
@@ -185,7 +186,8 @@ INSTALLED_APPS = (
     'store_checkout',
     'store_customer',
     'store_register',
-    'store_help','
+    'store_help',
+    'store_search',
     'api','
 )
 - - - - - - - - - - - - - - - - - - - - - - - - - -
