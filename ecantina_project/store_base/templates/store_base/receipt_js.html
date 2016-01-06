@@ -43,6 +43,9 @@
             }
                     
         });
+        {% else %}
+        // If the user is not logged in then take the customer to the login page.
+        window.location = "/customer/authentication";
         {% endif %}
     }
 

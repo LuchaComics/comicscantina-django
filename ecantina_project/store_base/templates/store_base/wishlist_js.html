@@ -2,6 +2,8 @@
 <!-- PAGE -->
 <script>
     function ajax_favor(product_id) {
+        {% if receipt != None %}
+        
         var customer_id = parseInt({{ customer.customer_id }});
         customer_id = isNaN(customer_id) ? 0 : customer_id;
         if (customer_id <= 0) {
@@ -48,5 +50,12 @@
                 console.log(json_error);
             }
         ); // End Filter by Product ID
+        
+        {% else %}
+        
+        // If the user is not logged in then take the customer to the login page.
+        window.location = "/customer/authentication";
+        
+        {% endif %}
     }
 </script>
