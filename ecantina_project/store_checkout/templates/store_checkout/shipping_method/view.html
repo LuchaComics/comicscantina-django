@@ -91,7 +91,6 @@
                                                     <td>Pick up in-store</td>
                                                     <td>Free!</td>
                                                 </tr>
-                                                {% if has_no_shipping == False %}
                                                 <tr>
                                                     <td>
                                                         <label class="radio">
@@ -106,7 +105,7 @@
                                                     <td>Shipped to you</td>
                                                     <td>${{ receipt.shipping_amount }}</td>
                                                 </tr>
-                                                {% endif %}
+                                                
                                             </tbody>
                                         </table>
                                     </div>

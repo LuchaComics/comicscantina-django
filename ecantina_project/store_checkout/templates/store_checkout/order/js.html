@@ -4,6 +4,12 @@
 {% include 'api/common_js.html' %}
 {% include 'store_base/receipt_js.html' %}
 <script>
+    $(document).ready(function () {
+        {% if has_no_shipping %}
+        $('#warning-modal').modal();
+        {% endif %}
+    });
+    
     function ajax_confirm_and_proceed_next()
     {
         //TODO: ADD PAYPAL HANDLING.

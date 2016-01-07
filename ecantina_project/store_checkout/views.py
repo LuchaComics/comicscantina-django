@@ -98,23 +98,9 @@ def checkout_shipping_method_page(request):
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-    
-    # Lock out 'Shipping' option if a single product in the cart requires
-    # in store pickup only.
-    has_no_shipping = False
-    for product in receipt.products.all():
-        if product.has_no_shipping:
-            has_no_shipping = True
-
-    # Lock out 'Shipping' option if the organization does not support it.
-    preference = OrgShippingPreference.objects.get_by_org_or_none(organization=org)
-    if preference is not None:
-        if preference.is_pickup_only:
-            has_no_shipping = True
 
     # Display the view with all our model information.
     return render(request, 'store_checkout/shipping_method/view.html',{
-        'has_no_shipping': has_no_shipping,
         'receipt': receipt,
         'customer': customer,
         'employee': employee,
@@ -270,8 +256,16 @@ def checkout_order_page(request):
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
     
+    # Run this next set of code to detect if we should give a warning to the
+    # Customer so they'll know some items cannot are pickup only.
+    has_no_shipping = False
+    for product in receipt.products.all():
+        if product.has_no_shipping:
+            has_no_shipping = True
+
     # Display the view with all our model information.
     return render(request, 'store_checkout/order/view.html',{
+        'has_no_shipping': has_no_shipping,
         'paypal_form': form,
         'receipt': receipt,
         'customer': customer,
@@ -279,4 +273,5 @@ def checkout_order_page(request):
         'org': org,
         'store': store,
         'page': 'home',
+        'src_urls': ['store_checkout/order/warning_modal.html'], # MODAL
     })
