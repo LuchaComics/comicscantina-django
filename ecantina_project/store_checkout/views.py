@@ -274,6 +274,7 @@ def checkout_order_page(request):
         "invoice": str(receipt.receipt_id),
         "notify_url": notify_url,
         "return": return_url,
+        "return_url": return_url,
         "cancel_return": cancel_url,
         "custom": "perform_receipt_checkout",  # Custom command to correlate to some function later (optional)
     }
@@ -300,4 +301,4 @@ def checkout_order_page(request):
         'src_urls': ['store_checkout/order/warning_modal.html'], # MODAL
     })
 
-# https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/#id08A6HF00TZS
+# https://django-paypal.readthedocs.org/en/stable/standard/ipn.html
