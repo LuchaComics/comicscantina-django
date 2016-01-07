@@ -143,31 +143,31 @@
                     <tbody>
                         <tr>
                             <td>Sub-Total</td>
-                            <td class="price">${{ receipt.sub_total }}</td>
+                            <td id="id_sidemenu_subtotal" class="price">${{ receipt.sub_total }}</td>
                         </tr>
                         <tr>
                             <td>Tax</td>
-                            <td class="price" id="total-tax">${{ receipt.tax_amount }}</td>
+                            <td id="id_sidemenu_tax" class="price" id="total-tax">${{ receipt.tax_amount }}</td>
                         </tr>
                         <tr class="cart-total-price ">
                             <td>Sub-Total with Tax</td>
-                            <td class="price">${{ receipt.sub_total_with_tax }}</td>
+                            <td id="id_sidemenu_tax_with_amount" class="price">${{ receipt.sub_total_with_tax }}</td>
                         </tr>
                         <tr style="">
                             <td>Shipping</td>
                             {% if receipt.shipping_amount > 0 %}
-                            <td class="price"><span>${{ receipt.shipping_amount }}</span></td>
+                            <td id="id_sidemenu_shipping" class="price"><span>${{ receipt.shipping_amount }}</span></td>
                             {% else %}
-                            <td class="price"><span class="success">Free shipping!</span></td>
+                            <td id="id_sidemenu_shipping" class="price"><span class="success">-</span></td>
                             {% endif %}
                         </tr>
                         <tr class="cart-total-price ">
                             <td>Discount</td>
-                            <td class="price">${{ receipt.discount_amount }}</td>
+                            <td id="id_sidemenu_discount" class="price">${{ receipt.discount_amount }}</td>
                         </tr>
                         <tr>
                             <td> Total</td>
-                            <td class=" site-color" id="total-price">${{ receipt.total_amount }}</td>
+                            <td id="id_sidemenu_total" class=" site-color" id="total-price">${{ receipt.total_amount }}</td>
                         </tr>
                     </tbody>
                     <tbody>

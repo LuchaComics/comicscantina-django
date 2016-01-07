@@ -128,6 +128,7 @@ class Command(BaseCommand):
         receipt.has_error = True
         receipt.error = constants.SHIPPING_RATE_ERROR_TYPE
         receipt.save()
+        print("Org Shipping error for Receipt #"+str(receipt.receipt_id))
         return Decimal(0.00) # Return no rate.
 
     def compute_shipping_cost_for_aggregate(self, receipt):
@@ -150,6 +151,9 @@ class Command(BaseCommand):
             receipt.has_error = True
             receipt.error = constants.SHIPPING_RATE_ERROR_TYPE
             receipt.save()
+            print("Unified Shipping error for Receipt #"+str(receipt.receipt_id))
+            print("Using country: "+str(iso_3166_1_numeric_country_code))
+            print("")
         return Decimal(0.00) # Return no rate.
 
 #
