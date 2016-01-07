@@ -262,7 +262,8 @@ def checkout_order_page(request):
 
     return_url = base_url+"/checkout/thank_you/"+str(receipt.receipt_id)
     cancel_url = base_url+"/checkout/cancel"
-    notify_url = base_url+"/checkout/" + reverse('paypal-ipn'),
+    notify_url = base_url+ reverse('paypal-ipn'),
+    print(notify_url)
 
     # What you want the button to do.
     paypal_dict = {
