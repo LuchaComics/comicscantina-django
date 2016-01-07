@@ -65,23 +65,31 @@
                         </li>
                         
                         {% if employee %}
-                        <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight">
-                                <a title="My wishlists"
-                                    href="/inventory/login">
-                                    <i class="fa fa-briefcase"></i> Inventory
-                                </a>
-                            </div>
-                        </li>
+                            {% if request.user.is_superuser == False %}
+                                <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
+                                    <div class="thumbnail equalheight">
+                                        <a title="My wishlists"
+                                            href="/inventory/login">
+                                            <i class="fa fa-briefcase"></i> Inventory
+                                        </a>
+                                    </div>
+                                </li>
+                            {% endif %}
                         {% else %}
-                        <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
-                            <div class="thumbnail equalheight">
-                                <a title="My wishlists"
-                                    href="/inventory/register/step1">
-                                    <i class="fa fa-briefcase"></i> Become a Merchant
-                                </a>
-                            </div>
-                        </li>
+                            {% if request.subdomain == None %}
+                                {% if request.user.is_superuser == False %}
+                                    <!-- Only display this option in the main aggregate Store. -->
+                                    <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center ">
+                                        <div class="thumbnail equalheight">
+                                            <a title="My wishlists"
+                                                href="/inventory/register/step1">
+                                                <i class="fa fa-briefcase"></i> Become a Merchant
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        
                         {% endif %}
                         
                     </ul>

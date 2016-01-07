@@ -64,17 +64,23 @@
                             </a>
                         </li>
                         {% if employee %}
-                        <li>
-                            <a onclick="window.location='/inventory/login';"> Inventory
-                            </a>
-                        </li>
+                            {% if request.user.is_superuser == False %}
+                                <li>
+                                    <a onclick="window.location='/inventory/login';"> Inventory
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% else %}
                             {% if request.subdomain == None %}
-                            <!-- Only display this option in the main aggregate Store. -->
-                            <li>
-                                <a onclick="window.location='/inventory/register/step1';"> Become a Merchant
-                                </a>
-                            </li>
+                                {% if request.user.is_superuser == False %}
+                                    <!-- Only display this option in the main aggregate Store. -->
+                                    <li>
+                                        <a onclick="window.location='/inventory/register/step1';"> Become a Merchant
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li>System Administrators cannot see this.</li>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                         
