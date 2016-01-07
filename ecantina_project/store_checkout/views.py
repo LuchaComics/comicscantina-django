@@ -262,7 +262,8 @@ def checkout_order_page(request):
 
     return_url = base_url+"/checkout/thank_you/"+str(receipt.receipt_id)
     cancel_url = base_url+"/checkout/cancel"
-    
+    notify_url = base_url+"/checkout/" + reverse('paypal-ipn'),
+
     # What you want the button to do.
     paypal_dict = {
         "currency_code": currency_code,
@@ -270,7 +271,7 @@ def checkout_order_page(request):
         "amount": str(receipt.total_amount),
         "item_name": "Comic Book(s) Purchase, Receipt #"+str(receipt.receipt_id),
         "invoice": str(receipt.receipt_id),
-        "notify_url": "/checkout/" + reverse('paypal-ipn'),
+        "notify_url": notify_url,
         "return_url": return_url,
         "cancel_return": cancel_url,
         "custom": "perform_receipt_checkout",  # Custom command to correlate to some function later (optional)
