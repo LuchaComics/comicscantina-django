@@ -94,6 +94,7 @@ PRODUCT_DISCOUNT_TYPE_OPTIONS = (
 ISO_4217_CURRENCY_OPTIONS = (
     (124, 'CAD'),
     (840, 'USD'),
+    (484, 'MXN'),
 )
 
 

@@ -222,6 +222,19 @@ def checkout_cancel_page(request):
     })
 
 
+def get_paypal_currency_code(iso_currency_code):
+    """
+        Function will map the currency code to paypal currency code
+    """
+    if iso_currency_code == 124:
+        return 'CAD'
+    if iso_currency_code == 840:
+        return 'USD'
+    if iso_currency_code == 484:
+        return 'MXN'
+    return 'CAD'
+
+
 @login_required(login_url='/')
 def checkout_order_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
@@ -235,12 +248,15 @@ def checkout_order_page(request):
     # Generate our URLs & pick the payment email
     base_url = secret_settings.SECRET_HTTP_PROTOCOL
     paypal_email = settings.PAYPAL_RECEIVER_EMAIL
+    currency_code = 'CAD'
     if org is not None and store is None:
         base_url += request.subdomain.name+"."+secret_settings.SECRET_DOMAIN
         paypal_email = org.paypal_email
+        currency_code = get_paypal_currency_code(org.currency)
     if org is not None and store is not None:
         base_url += request.subdomain.name+"."+secret_settings.SECRET_DOMAIN
         paypal_email = store.paypal_email
+        currency_code = get_paypal_currency_code(store.currency)
     if org is None and store is None:
         base_url += "www."+secret_settings.SECRET_DOMAIN
 
@@ -249,6 +265,7 @@ def checkout_order_page(request):
     
     # What you want the button to do.
     paypal_dict = {
+        "currency_code": currency_code,
         "business": paypal_email,
         "amount": str(receipt.total_amount),
         "item_name": "Comic Book(s) Purchase, Receipt #"+str(receipt.receipt_id),
