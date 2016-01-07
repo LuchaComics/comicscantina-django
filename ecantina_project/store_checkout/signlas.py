@@ -48,6 +48,7 @@ def paypal_checkout_online_receipt(receipt):
 
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender
+    print("Begin PayPal Processing")
     
     # If PayPal returns an indication that our payment was successful and
     # the custom callback function matches 'perform_receipt_checkout' then

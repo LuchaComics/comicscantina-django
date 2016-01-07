@@ -263,7 +263,7 @@ def checkout_order_page(request):
     return_url = base_url+"/checkout/thank_you/"+str(receipt.receipt_id)
     cancel_url = base_url+"/checkout/cancel"
     notify_url = base_url+ reverse('paypal-ipn'),
-    print(notify_url)
+    print('Pre-Checkout Receipt #', str(receipt.receipt_id))
 
     # What you want the button to do.
     paypal_dict = {
@@ -273,7 +273,7 @@ def checkout_order_page(request):
         "item_name": "Comic Book(s) Purchase, Receipt #"+str(receipt.receipt_id),
         "invoice": str(receipt.receipt_id),
         "notify_url": notify_url,
-        "return_url": return_url,
+        "return": return_url,
         "cancel_return": cancel_url,
         "custom": "perform_receipt_checkout",  # Custom command to correlate to some function later (optional)
     }
@@ -288,6 +288,7 @@ def checkout_order_page(request):
 
     # Display the view with all our model information.
     return render(request, 'store_checkout/order/view.html',{
+#        'image_url': 'https://www.comicscantina.com/static/paypal_logo.png'  # PayPal Logo
         'has_no_shipping': has_no_shipping,
         'paypal_form': form,
         'receipt': receipt,
@@ -298,3 +299,5 @@ def checkout_order_page(request):
         'page': 'home',
         'src_urls': ['store_checkout/order/warning_modal.html'], # MODAL
     })
+
+# https://developer.paypal.com/docs/classic/paypal-payments-standard/integration-guide/Appx_websitestandard_htmlvariables/#id08A6HF00TZS
