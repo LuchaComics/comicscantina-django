@@ -87,7 +87,7 @@
                                                         <label class="checkbox-inline" for="checkboxes-1">
                                                             <input name="checkboxes" id="id_agreed_to_terms" value="1"
                                                                 type="checkbox" />
-                                                                I have read and agree to the <a href="terms-conditions.html">Terms &amps; Conditions</a>
+                                                                I have read and agree to the <a href="/tos">Terms &amps; Conditions</a>
                                                         </label>
                                                     </div>
                                                     <div class="pull-right">
@@ -128,17 +128,12 @@
                                                     <div class="form-group clearfix">
                                                         <label class="checkbox-inline" for="checkboxes-0">
                                                             <input name="checkboxes" id="checkboxes-0" value="1"
-                                                                type="checkbox">
+                                                                type="checkbox" checked=true>
                                                                 I have read and agree to the
-                                                            <a href="terms-conditions.html">Terms &amp; Conditions</a>
+                                                            <a href="/tos">Terms &amp; Conditions</a>
                                                         </label>
                                                     </div>
-                                                    <div class="pull-right">
-                                                        <a onclick="ajax_paypal_checkout_and_proceed_next();"
-                                                          class="btn btn-primary btn-small "> Order &nbsp;
-                                                            <i class="fa fa-arrow-circle-right"></i>
-                                                        </a>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -154,6 +149,12 @@
                     
                     <div class="cartFooter w100">
                         <div class="box-footer">
+                            <div class="pull-right">
+                                <a onclick="ajax_paypal_checkout_and_proceed_next();"
+                                    class="btn btn-primary btn-small "> Order &nbsp;
+                                    <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                            </div>
                             <div class="pull-left">
                                 <a class="btn btn-default"
                                     href="/checkout/shipping_method">
