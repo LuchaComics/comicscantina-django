@@ -204,7 +204,7 @@
                 }
 
                 var comiclist = '<div class="table-responsive" style="background-color:inherit;">' +
-                        '<table class="table table-hover" style="color:#fff !important;">' +
+                        '<table class="table" style="color:#fff !important;">' +
                         '<thead>' +
                         '<tr>' +
                         '<th style="color:#fff;width:15%;text-align:center;">Cover Image</th>' +
@@ -263,30 +263,30 @@
                             // Image
                             if (val['small_url'] == "" || val['small_url'] == null) {
                                 var url = '{% static "inventory/img/missing_cover.png" %}';
-                                comiclist += '<th><img class="product-image center-block" width="50" alt="product-title" src="'+url+'" /></th>';
+                                comiclist += '<td><img class="product-image center-block" width="50" alt="product-title" src="'+url+'" /></td>';
                             } else {
-                                comiclist += '<th><img class="product-image center-block" width="50" alt="product-title" src="'+val['small_url']+'" /></th>';
+                                comiclist += '<td><img class="product-image center-block" width="50" alt="product-title" src="'+val['small_url']+'" /></td>';
                             }
                                     
                             // Issue #
-                            comiclist += '<th>';
+                            comiclist += '<td>';
                             comiclist += '<h4 style="vertical-align: middle;" class="comic-issue product-title m-sm center-block text-center">';
                             comiclist += product_name +'</h4>';
-                            comiclist += '</th>';
+                            comiclist += '</td>';
                                      
                             // Publication Date
-                            comiclist += '<th>';
+                            comiclist += '<td>';
                             comiclist += '<span style="vertical-align: middle;" class="center-block comic-date text-muted text-center">';
-                            comiclist += val['publication_date'] + '</span></th>';
+                            comiclist += val['publication_date'] + '</span></td>';
                                 
                             // Buttons
                             var safe_product_name = product_name.replace("'", "&apos;");
                             var onclick1 = 'ajax_create_and_load_product('+issue_id+');';
-                            comiclist += '<th style="text-align:center;">';
+                            comiclist += '<td style="text-align:center;">';
                             comiclist += '<button onclick="ajax_load_modal('+issue_id+');" style="vertical-align: middle;margin-bottom:5px;" type="button" class="btn btn-success btn-add-cart btn-labeled"><span class="btn-label"><i class="fa fa-plus-square"></i></span>Quick Add</button><br/>';
                                                 
                             comiclist += '<button onclick="'+onclick1+'" style="vertical-align: middle;" type="button" class="btn btn-primary btn-view-details btn-labeled"><span class="btn-label"><i class="fa fa-edit"></i></span>Add Details</button>';
-                            comiclist += '</th>';
+                            comiclist += '</td>';
                                             
                             comiclist += '</tr>';
                         });
