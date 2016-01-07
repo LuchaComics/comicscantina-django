@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from ecantina_project import constants
+from ecantina_project import secret_settings
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
@@ -227,21 +228,24 @@ def checkout_order_page(request):
     org = request.organization
     store = request.store
     
-    # Generate our URLs & pick the payment email
-    paypal_email = settings.PAYPAL_RECEIVER_EMAIL
-    base_url = settings.SITE_DOMAIN_URL
-    if org is not None and store is None:
-        base_url += "/"+str(org.org_id)
-        paypal_email = org.paypal_email
-    if org is not None and store is not None:
-        base_url += "/"+str(org.org_id)+"/"+str(store.store_id)
-        paypal_email = store.paypal_email
-    return_url = base_url+"/checkout/thank_you"
-    cancel_url = base_url+"/checkout/cancel"
-
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
+    
+    # Generate our URLs & pick the payment email
+    base_url = secret_settings.SECRET_HTTP_PROTOCOL
+    paypal_email = settings.PAYPAL_RECEIVER_EMAIL
+    if org is not None and store is None:
+        base_url += request.subdomain.name+"."+secret_settings.SECRET_DOMAIN
+        paypal_email = org.paypal_email
+    if org is not None and store is not None:
+        base_url += request.subdomain.name+"."+secret_settings.SECRET_DOMAIN
+        paypal_email = store.paypal_email
+    if org is None and store is None:
+        base_url += "www."+secret_settings.SECRET_DOMAIN
+
+    return_url = base_url+"/checkout/thank_you/"+str(receipt.receipt_id)
+    cancel_url = base_url+"/checkout/cancel"
     
     # What you want the button to do.
     paypal_dict = {
@@ -250,7 +254,7 @@ def checkout_order_page(request):
         "item_name": "Comic Book(s) Purchase, Receipt #"+str(receipt.receipt_id),
         "invoice": str(receipt.receipt_id),
         "notify_url": "/checkout/" + reverse('paypal-ipn'),
-        "return_url": return_url+"/"+str(receipt.receipt_id),
+        "return_url": return_url,
         "cancel_return": cancel_url,
         "custom": "perform_receipt_checkout",  # Custom command to correlate to some function later (optional)
     }

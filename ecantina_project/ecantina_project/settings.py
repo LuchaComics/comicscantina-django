@@ -43,9 +43,6 @@ ALLOWED_HOSTS = SECRET_ALLOWED_HOSTS
 # 'Sites Framework' requires this line.
 SITE_ID = 1
 
-# The address domain URL.
-SITE_DOMAIN_URL = "http://www.comicscantina.com"
-
 # The Google Analytics Key
 GOOGLE_ANALYTICS_KEY = SECRET_GOOGLE_ANALYTICS_KEY
 
