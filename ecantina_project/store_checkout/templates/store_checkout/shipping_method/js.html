@@ -38,7 +38,9 @@
             }
             receipt['error'] = 0;
             set_receipt(receipt, function(json_result) {
-                window.location = '/checkout/payment_method';
+                perform_receipt_checkout_computation({{ receipt.receipt_id }}, function(json_results3) {
+                    window.location = '/checkout/payment_method';
+                });
             }); // End Set Receipt.
         }); // End Get Receipt
 
