@@ -184,6 +184,11 @@
             var search = $('#id_top_menu_search').val();
             window.location = '/search?keyword='+search;
         }
+
+        // setup tooltip for remove item from cart button
+        $(document).ready(function(){
+            $('.cart-remove-item').tooltip();
+        });
     
     </script>
     
