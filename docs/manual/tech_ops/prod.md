@@ -625,6 +625,19 @@ http://108.61.119.219
 
 2. And then scroll to the ***server*** line and replace the code with the following.
   ```
+
+
+service nginx restart
+   http {
+         # some directives ...
+
+         client_max_body_size 0;
+
+         # some more directives ...
+  }
+
+  # some code ...
+
   server {
         server_name ~(?<short_url>\w+)\.comicscantina\.com$;
 
