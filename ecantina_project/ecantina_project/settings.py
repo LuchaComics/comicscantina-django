@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'inventory_pulllist',
     'inventory_register',
     'inventory_wishlist',
+    'mobile_pos',
     'etl',
     'store_base',
     'store_landpage',
@@ -99,7 +100,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'ecantina_project.middleware.ECantinaSubDomainMiddleware',
+    'ecantina_project.custom_middleware.ECantinaSubDomainMiddleware',
+    'ecantina_project.mobile_middleware.MobileDeviceDetectorMiddleware',
 #    'django.middleware.cache.UpdateCacheMiddleware',    # per-site cache
 #    'django.middleware.common.CommonMiddleware',        # per-site cache
 #    'django.middleware.cache.FetchFromCacheMiddleware', # per-site cache

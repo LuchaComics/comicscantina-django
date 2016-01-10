@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Cantina Cart Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/scanner.css" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<!-- ---------- dashboard ------------- -->
+<div data-role="page" id="cart-overview">
+    <!-- ---------- header------------- -->
+    <div data-role="header" data-theme="b" data-id="header-nav" data-position="fixed" >
+        <div class="header-logo">
+            <img src="img/logo.png" alt="Comics Cantina" />
+        </div>
+        <div class="header-title">
+            <h1>Cart Management</h1>
+        </div>
+        <div class="header-nav">
+            <a data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-notext"></a>
+            <a href="#nav-panel" class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext"></a>
+        </div>
+    </div>
+
+    <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="nav-panel" align="center">
+        <img src="img/user.jpg" />
+        <div class="text-left">
+            <h4 class="text-center">Hi, Rodolfo</h4>
+            <div class="divider"></div>
+            <h5>Store Name</h5>
+            <h5>Store Address</h5>
+            <h5>Cart Sessions: 2</h5>
+            <h5>Total Sales Today: 12</h5>
+        </div>
+        <a onclick="window.location='dashboard.html#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
+        <a onclick="window.location='index.html#login-page';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
+    </div><!-- /panel -->
+
+    <!-- ---------- content ------------- -->
+    <div data-role="content" align="center" data-theme="a">
+        <div class="row">                            <!-- row -->
+            <div class="container">
+                <ul data-role="listview" data-inset="true" id="cart-infos">
+                    <li data-role="list-divider"><h4>Cart Information</h4></li>
+                    <li class="cart-info"><h5><span>Created At</span><span class="text-right">1:05 PM</span></h5></li>
+                    <li class="cart-info"><h5><span>Opened By</span><span class="text-right">Employee Name</span></h5></li>
+                    <li class="cart-info"><h5><span>Opened For</span><span class="text-right">Customer Name</span></h5></li>
+                </ul>
+
+                <ul data-role="listview" data-inset="true" id="cart-items">
+                    <li data-role="list-divider"><h4>Cart Items</h4><span class="ui-li-count">4</span></li>
+                    <li class="cart-item">
+                        <h5>
+                            <span>Batman Issue #1</span>
+                            <span class="text-right item-price">$5.00</span>
+                            <a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext btnRemoveCartItem"></a>
+                        </h5>
+                    </li>
+                    <li class="cart-item">
+                        <h5>
+                            <span>Spiderman Issue #1</span>
+                            <span class="text-right item-price">$20.00</span>
+                            <a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext btnRemoveCartItem"></a>
+                        </h5>
+                    </li>
+                    <li class="cart-item">
+                        <h5>
+                            <span>Iron Man Issue #1</span>
+                            <span class="text-right item-price">$7.00</span>
+                            <a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext btnRemoveCartItem"></a>
+                        </h5>
+                    </li>
+                    <li class="cart-item">
+                        <h5>
+                            <span>The Green Lantern Issue #1</span>
+                            <span class="text-right item-price">$35.00</span>
+                            <a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext btnRemoveCartItem"></a>
+                        </h5>
+                    </li>
+                    <li data-role="list-divider" class="cart-total-footer">
+                        <h4 class="f-left">Cart Total</h4>
+                        <h4 class="f-right text-right cart-total">$67.00</h4>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ---------- footer ------------- -->
+    <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer-nav" >
+        <button id="btnCancelSale" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Cancel Sale</button>
+        <button id="btnScanItem" onclick="window.location='scanner.html#qr-code-scanner';" class="ui-btn ui-corner-all ui-icon-camera ui-btn-icon-left">Scan Item</button>
+    </div>
+
+    <!-- ---------- remove item popup ------------- -->
+    <div data-role="popup" id="remove-popup" data-theme="a" class="ui-corner-all" data-transition="pop">
+        <div style="padding:10px 20px;">
+            <h3>Remove this item from cart?</h3>
+            <p class="cart-item-title"></p>
+            <button id="btnRemoveItemAccept" data-role="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b" onclick="remove_item=true;removeCartItem();">Remove Item</button>
+            <button onclick="$('#remove-popup').popup('close');" data-role="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b">Cancel</button>
+        </div>
+    </div>
+
+    <!-- ---------- cancel sale popup ------------- -->
+    <div data-role="popup" id="cancel-popup" data-theme="a" class="ui-corner-all" data-transition="pop">
+        <div style="padding:10px 20px;">
+            <h3>Cancel this sale? (The cart will be deleted)</h3>
+            <button id="btnCancelAccept" data-role="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b" onclick="remove_cart=true;removeCart();">Cancel Sale</button>
+            <button onclick="$('#cancel-popup').popup('close');" data-role="button" class="ui-btn ui-corner-all ui-shadow ui-btn-b">Cancel</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+
+
+
+    function removeCart(){
+        if( remove_cart == true ){
+            // delete the cart
+
+            window.location="dashboard.html#dashboard";
+        }
+    }
+
+    function removeCartItem(){
+        if( remove_item == true ) {
+            // remove item from cart
+
+            $(removed_item).detach().remove();
+            $('#remove-popup').popup('close');
+            $('#cart-items').listview('refresh');
+            var items = $('#cart-items .ui-li-divider .ui-li-count').text( $('#cart-items .cart-item').length );
+            refreshCartTotal();
+        }
+
+        remove_item = false;
+    }
+
+    function refreshCartTotal(){
+        var total = 0;
+        $('.item-price').each(function(index, el){
+            var price = $(el).text();
+            price = price.substring(1);
+            total += parseFloat(price);
+        });
+        total = "$" + total.toFixed(2);
+        $('.cart-total').text(total);
+        $('#cart-items').listview('refresh');
+    }
+
+
+
+    $(document).ready(function(){
+        $('.btnRemoveCartItem').on('click', function(){
+            var cartItem = $(this).parentsUntil('ul').find('span:first-child').text();
+            $('#remove-popup div p.cart-item-title').text(cartItem);
+            removed_item = $(this).parentsUntil('ul');
+            $('#remove-popup').popup('open');
+        });
+
+        $('#btnCancelSale').on('click', function(){
+           $('#cancel-popup').popup('open');
+        });
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Cantina Cart Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/scanner.css" type="text/css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<!-- ---------- checkout main menu ------------- -->
+<div data-role="page" id="checkout-main-menu" defaultPageTransition="slide">
+    <!-- ---------- header------------- -->
+    <div data-role="header" data-theme="b" data-id="header-nav" data-position="fixed" >
+        <div class="header-logo">
+            <img src="img/logo.png" alt="Comics Cantina" />
+        </div>
+        <div class="header-title">
+            <h1>Cart Management</h1>
+        </div>
+        <div class="header-nav">
+            <a onclick="window.location='dashboard.html#dashboard';" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all"></a>
+            <a href="#nav-panel-main" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all"></a>
+        </div>
+    </div>
+
+    <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="nav-panel-main" align="center">
+        <img src="img/user.jpg" />
+        <div class="text-left">
+            <h4 class="text-center">Hi, Rodolfo</h4>
+            <div class="divider"></div>
+            <h5>Store Name</h5>
+            <h5>Store Address</h5>
+            <h5>Cart Sessions: 2</h5>
+            <h5>Total Sales Today: 12</h5>
+        </div>
+        <a href="#" onclick="window.location='index.html#login-page';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini ui-corner-all">Logout</a>
+    </div><!-- /panel -->
+
+    <!-- ---------- content ------------- -->
+    <div data-role="content" align="center" data-theme="a">
+        <div class="row">                            <!-- row -->
+            <div class="container">
+                <ul data-role="listview" data-inset="true" id="store-select">
+                    <li data-role="list-divider"><h4>New Cart</h4><span class="ui-li-count">1:50 PM</span></li>
+                    <li><a class="ui-icon-user"  onclick="window.location='#checkout-customer-lookup';">Lookup Customer</a></li>
+                    <li><a class="ui-icon-user">Scan Customer Card</a></li>
+                    <li><a class="ui-icon-user">Guest Checkout</a></li>
+                    <li><a class="ui-icon-delete" onclick="window.location='dashboard.html#dashboard';">Cancel Checkout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ---------- checkout customer lookup ------------- -->
+<div data-role="page" id="checkout-customer-lookup" defaultPageTransition="slide">
+    <!-- ---------- header------------- -->
+    <div data-role="header" data-theme="b" data-id="header-nav" data-position="fixed" >
+        <div class="header-logo">
+            <img src="img/logo.png" alt="Comics Cantina" />
+        </div>
+        <div class="header-title">
+            <h1>Cart Management</h1>
+        </div>
+        <div class="header-nav">
+            <a onclick="window.location='#checkout-main-menu';" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all"></a>
+            <a href="#nav-panel-customer-lookup" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all"></a>
+        </div>
+    </div>
+
+    <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="nav-panel-customer-lookup" align="center">
+        <img src="img/user.jpg" />
+        <div class="text-left">
+            <h4 class="text-center">Hi, Rodolfo</h4>
+            <div class="divider"></div>
+            <h5>Store Name</h5>
+            <h5>Store Address</h5>
+            <h5>Cart Sessions: 2</h5>
+            <h5>Total Sales Today: 12</h5>
+        </div>
+        <a onclick="window.location='dashboard.html#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
+        <a onclick="window.location='index.html#login-page';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
+    </div><!-- /panel -->
+
+    <!-- ---------- content ------------- -->
+    <div data-role="content" align="center" data-theme="a">
+        <div class="row">                            <!-- row -->
+            <div class="container">
+                <form>
+                    <input type="search" name="search" id="search" value="" placeholder="Search first name, last name or email">
+                    <input type="button" id="btnLookupCustomer" value="Lookup Customer" class="ui-btn ui-shadow ui-corner-all w100" />
+                </form>
+
+                <ul data-role="listview" data-inset="true" id="customer-results" style="display:none;">
+                    <li data-role="list-divider"><h4>Customers</h4><span class="ui-li-count">2</span></li>
+                    <li><a onclick="window.location='cart.html#cart-overview';"><span>John Doe</span><span class="text-right">john@email.com</span></a></li>
+                    <li><a onclick="window.location='cart.html#cart-overview';"><span>Bill Smith</span><span class="text-right">bill@email.com</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#btnLookupCustomer').on('click', function(){
+            var search = $('#search').val;
+
+            // do customer lookup
+
+            // show results
+            $('#customer-results').fadeIn(500);
+        });
+    });
+</script>
+
+</body>
+</html>
