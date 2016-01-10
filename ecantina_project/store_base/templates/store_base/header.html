@@ -169,7 +169,7 @@
                                         <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
                                         <td style="width:15%" class="miniCartSubtotal"><span> ${{ product.sub_price }}</span></td>
                                         <td style="width:5%" class="delete">
-                                            <a onclick="ajax_remove_from_cart({{ product.product_id }});"> x </a>
+                                            <a class="cart-remove-item" onclick="ajax_remove_from_cart({{ product.product_id }});" style="font-size:22pt;color:red;" data-toggle="tooltip" data-placement="left" data-original-title="Remove From Cart"> x </a>
                                         </td>
                                     </tr>
                                     {% endfor %}
