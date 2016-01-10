@@ -1,3 +1,6 @@
+{% load staticfiles %}
+{% include 'api/login.html' %}
+{% include 'api/receipt.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/scanner.css" type="text/css" />
+    <!--    <link rel="stylesheet" href="{% static 'mobilepos/css/bootstrap.min.css' %}" />-->
+    <!--    <link rel="stylesheet" href="{% static 'mobilepos/css/bootstrap-theme.css' %}" />-->
+    <link rel="stylesheet" href="{% static 'mobilepos/css/bootstrap.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'mobilepos/css/scanner.css' %}" type="text/css" />
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -19,7 +24,7 @@
     <!-- ---------- header------------- -->
     <div data-role="header" data-theme="b" data-id="header-nav" data-position="fixed" >
         <div class="header-logo">
-            <img src="img/logo.png" alt="Comics Cantina" />
+            <img src="{% static 'mobilepos/img/logo.png' %}" alt="Comics Cantina" />
         </div>
         <div class="header-title">
             <h1>Cart Management</h1>
@@ -31,17 +36,19 @@
     </div>
 
     <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="nav-panel" align="center">
-        <img src="img/user.jpg" />
+        {% if employee.profile == None %}
+            <img src="{% static 'inventory/img/dummy.png' %}" alt="Avatar" class="img-thumbnail img-circle">
+        {% else %}
+            <img src="{{ employee.profile.image.url }}" alt="Avatar" class="img-thumbnail img-circle">
+        {% endif %}
         <div class="text-left">
-            <h4 class="text-center">Hi, Rodolfo</h4>
+            <h4 class="text-center">Hi, {{ employee.user.first_name }}</h4>
             <div class="divider"></div>
-            <h5>Store Name</h5>
-            <h5>Store Address</h5>
-            <h5>Cart Sessions: 2</h5>
-            <h5>Total Sales Today: 12</h5>
+            <h5>{{ store.name|escape|safe }}</h5>
+            <h5>{% if store.unit_number %}{{ store.unit_number }}-{% endif %}{{ store.street_number }} {{ store.street_name }}</h5>
         </div>
-        <a onclick="window.location='dashboard.html#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
-        <a onclick="window.location='index.html#login-page';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
+        <a onclick="window.location='/mobile/pos/{{ store.store_id }}/dashboard#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
+        <a onclick="ajax_logout();" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
     </div><!-- /panel -->
 
     <!-- ---------- content ------------- -->
@@ -123,9 +130,46 @@
 </div>
 
 <script>
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
 
-
-
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+    });
+                  
+    /**
+     *  Function will log the User. from the system and return them to the
+     *  login page.
+     */
+    function ajax_logout() {
+        sign_off(
+            function(json_result) {
+                // Return the the login screen when successsfully logged out.
+                window.location="/mobile/pos/login";
+            },
+            function(error_callback) {
+                $('.alert-danger').css('display','block');
+                $('.alert-danger').text(error_callback.message);
+                console.log(error_callback.message);
+            }
+        ); // End Login
+    }
 
     function removeCart(){
         if( remove_cart == true ){
