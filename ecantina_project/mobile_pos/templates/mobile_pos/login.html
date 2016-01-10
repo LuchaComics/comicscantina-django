@@ -1,4 +1,8 @@
 {% load staticfiles %}
+{% include 'api/register.html' %}
+{% include 'api/login.html' %}
+{% include 'api/employee.html' %}
+{% include 'api/store.html' %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,13 +48,13 @@
                             <span class="glyphicon glyphicon-user">
                             </span>
                         </span>
-                        <input type="email" name="username" value="" id="username" class="form-control" placeholder="Username" data-role="none">
+                        <input type="email" name="email" value="" id="id_email" class="form-control" placeholder="Email" data-role="none">
                     </div>
                     <div class="input-group input-group-lg" id="password-input">
                         <span class="input-group-addon" style="">
                             <span class="glyphicon glyphicon-lock"></span>
                         </span>
-                        <input type="password" name="password" value="" id="password" class="form-control" placeholder="Password" data-role="none">
+                        <input type="password" name="password" value="" id="id_password" class="form-control" placeholder="Password" data-role="none">
                     </div>
                     <div class="checkbox">
                     </div>
@@ -93,7 +97,7 @@
                             <span class="glyphicon glyphicon-user">
                             </span>
                         </span>
-                        <input type="text" name="username" value="" id="forgot-username" class="form-control" placeholder="Username">
+                        <input type="text" name="email" value="" id="id_forgot_email" class="form-control" placeholder="Email">
                     </div>
                     <div class="checkbox">
                     </div>
@@ -123,7 +127,7 @@
     <!-- ---------- login content ------------- -->
     <div data-role="content" align="center" data-theme="a">
         <div class="row">                            <!-- row -->
-            <div class="container">
+            <div id="id_table_placeholder" class="container">
                 <ul data-role="listview" data-inset="true" id="store-select">
                     <li data-role="list-divider"><h4>Select Store</h4></li>
                     <li><a data-storeid="1">Store 1 Name</a></li>
@@ -139,11 +143,34 @@
 </body>
 
 <script>
-    $(document).ready(function(){
-        $('#btnLogin').on('click', function(){
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
+        });
+
+    
+       $('#btnLogin').on('click', function(){
             $('.alert-danger').css('display','none');
             var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            var email = $('#username').val();
+            var email = $('#id_email').val();
+            var password = $("#id_password").val();
 
             if( email == "" ){
                 $('.alert-danger').css('display','block');
@@ -153,12 +180,24 @@
                 $('.alert-danger').css('display','block');
                 $('.alert-danger').text('Invalid username, please use a registered email address.')
             }
-            else if( $('#password').val() == "" ){
+            else if( password == "" ){
                 $('.alert-danger').css('display','block');
                 $('.alert-danger').text('Invalid password, please enter a valid password.')
             }
             else{
-                window.location='#store-page';
+                // Run the login code for logging in.
+                ajax_inventory_authenticate(
+                    email,
+                    password,
+                    function(user_id) {
+                        // Run the UI for picking the store the user would like to log into.
+                        ajax_inventory_load_stores(user_id);
+                    },
+                    function(error_message) {
+                        $('.alert-danger').css('display','block');
+                        $('.alert-danger').text(error_message)
+                    }
+                );
             }
 
             // if can't connect to server show an error using .alert-danger
@@ -166,13 +205,143 @@
 
         $('#store-select li a').on('click', function(){
             // login to the store
-            window.location='dashboard.html#dashboard';
+            //window.location='/mobile/pos/1/dashboard#dashboard';
         });
 
         $('#btnPassReset').on('click', function(){
             // do password reset
         });
     });
-</script>v
+    
+    /**
+     *  The following code is used to call our API for loggin in.
+     */
+    function ajax_inventory_authenticate(email, password, success_callback, error_callback)
+    {
+        sign_in(
+            email,
+            password,
+            function(json_result) {
+                // success code execution here
+                if (json_result.status == "success")
+                {
+                    console.log("Logged in!");
+                    success_callback(json_result['user_id']);
+                }
+                else
+                {
+                    error_callback("Wrong email and/or password.");
+                }
+            },
+            function(xhr,status,error) {
+                error_callback("Unknown error occured");
+            }
+        );
+    }
 
+    function ajax_inventory_load_stores(user_id) {
+        // STEP 1: Lookup the Employee for the logged in 'user_id'.
+        ajax_get_employee(
+            user_id,
+            function(employee_id) {
+                // STEP 2: Lookup all the stores belonging to the 'Employee'.
+                ajax_get_stores(
+                    employee_id,
+                    function(json_result) {
+                        // STEP 3: Generate the stores table UI.
+                        generate_stores_table(json_result, function(ok) {
+                            // STEP 4: Load up the stores table UI.
+                            window.location='#store-page';
+                        });
+                    },
+                    function(error_json) {
+                        $('.alert-danger').css('display','block');
+                        $('.alert-danger').text('Unknown server error looking up stores. See console logs.');
+                        console.log(error_json);
+                    }
+                ); // End Get All Stores
+            },
+            function(error_json) {
+                $('.alert-danger').css('display','block');
+                $('.alert-danger').text('Unknown server error looking up employee. See console logs.');
+                console.log(error_json);
+            }
+        ); // End Get Employee
+    }
+
+    /**
+     *  Function looks up the 'Employee' based on the 'user_id' field and then
+     *  this function returns the 'employee_id' belonging to 'Employee'.
+     */
+    function ajax_get_employee(user_id, success_callback, error_callback)
+    {
+        var criteria = Array();
+        criteria.push({ 'user__id': user_id });
+        filter_employees_by(
+            criteria,
+            function(json_result) {
+                $(json_result).each(function(iter,meta){ // Process the meta information.
+                    $(meta['results']).each(function(iter,val){ // Process the results search data.
+                        success_callback(val['employee_id']);
+                    });
+                });
+            },
+            function(error_json) {
+                error_callback(error_json);
+            }
+        ); // End Filter Employees
+    }
+
+    /**
+     *  Function looks up all the stores that belong to the particular 'Employee'.
+     */
+    function ajax_get_stores(employee_id, success_callback, error_callback)
+    {
+        var criteria = Array();
+        criteria.push({ 'employee__employee_id': employee_id });
+        criteria.push({ 'is_suspended': 'False' });
+        filter_stores_by(
+            criteria,
+            function(json_result) {
+                $(json_result).each(function(iter,meta){ // Process the meta information.
+                    success_callback(meta['results']);
+                });
+            },
+            function(error_json) {
+                error_callback(error_json);
+            }
+        ); // End Filter Stores
+    }
+
+    /**
+     *  Function will generate the list of stores to go into for the POS app.
+     */
+    function generate_stores_table(json_result, callback) {
+        // Debugging code
+        //var json_text = JSON.stringify(result, null, 2);
+        //var obj = JSON.parse(json_text);
+        
+        var html = '<ul data-role="listview" data-inset="true" id="store-select">';
+        html += '<li data-role="list-divider"><h4>Select Store</h4></li>';
+        $(json_result).each(function(iter,val){ // Process the results search data.
+            html += '<li>';
+            var onclick = "ajax_load_dashboard("+val['store_id']+");";
+            html += '<a onclick='+onclick+' data-storeid="'+val['store_id']+'">' + val['name'] +'</a>';
+            html += '</li>';
+        });
+        html += '</ul>';
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+        
+        callback(html); // Indicate we've finished and generated the table.
+    }
+
+    /**
+     *  Function will load the 'Dashboard' page for the particular store.
+     */
+    function ajax_load_dashboard(store_id) {
+        window.location='/mobile/pos/'+store_id+'/dashboard#dashboard';
+    }
+
+</script>
 </html>

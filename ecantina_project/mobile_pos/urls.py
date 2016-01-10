@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, include, url
 from mobile_pos.views import pos_login
-#from inventory_checkout.views import pos_customer
-#from inventory_checkout.views import pos_item
-#from inventory_checkout.views import pos_receipt
-#from inventory_checkout.views import pos_record
+from mobile_pos.views import pos_dashboard
+
 
 urlpatterns = patterns('',
     url(r'^mobile/pos/login$', pos_login.login_page),
+    url(r'^mobile/pos/(\d+)/dashboard$', pos_dashboard.dashboard_page),
+                       
     # Session
     #-----------
 #    url(r'^inventory/(\d+)/(\d+)/checkout$', pos_session.checkout_page),

@@ -1,4 +1,35 @@
 <script>
+    function filter_stores_by(criteria, success_callback, error_callback)
+    {
+        var url = "/api/stores/?format=json";
+        for (var i = 0; i < criteria.length; i++) {
+            url += "&";
+        
+            // Build our search criteria in the URL based on the results.
+            for(var index in criteria[i]) {
+                url += index + "=" + criteria[i][index];
+            }
+        }
+    
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                success_callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                error_callback(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+    
     function set_store(data, success_callback, error_callback)
     {
         // Setup depending on whether we are inserting or updating.
