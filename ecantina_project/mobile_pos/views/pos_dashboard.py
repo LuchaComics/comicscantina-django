@@ -8,8 +8,27 @@ from api.models.ec.store import Store
 from api.models.ec.receipt import Receipt
 
 
-#@login_required(login_url='/inventory/login')
+@login_required(login_url='/mobile/pos/login')
 def dashboard_page(request, store_id=0):
+    try:
+        store = Store.objects.get(store_id=store_id)
+    except Store.DoesNotExist:
+        return render(request, 'mobile_pos/no_store.html',{})
+        
+    employee = Employee.objects.get(user__id=request.user.id)
+        
+    try:
+        receipts = Receipt.objects.filter(
+            has_purchased_online=False,
+            has_finished=False,
+            employee=employee,
+        )
+    except Receipt.DoesNotExist:
+        receipts = None
+        
     return render(request, 'mobile_pos/dashboard.html',{
-        'page':'dashboard',
+        'store': store,
+        'employee': employee,
+        'receipts': receipts,
+        'page': 'dashboard',
     })

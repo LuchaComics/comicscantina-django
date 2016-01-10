@@ -1,33 +1,11 @@
 from django.conf.urls import patterns, include, url
 from mobile_pos.views import pos_login
 from mobile_pos.views import pos_dashboard
+from mobile_pos.views import pos_cart
 
 
 urlpatterns = patterns('',
     url(r'^mobile/pos/login$', pos_login.login_page),
     url(r'^mobile/pos/(\d+)/dashboard$', pos_dashboard.dashboard_page),
-                       
-    # Session
-    #-----------
-#    url(r'^inventory/(\d+)/(\d+)/checkout$', pos_session.checkout_page),
-#      
-#    # Customers
-#    #-----------
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/customer$', pos_customer.checkout_page),
-#                       
-#    # Items
-#    #-----------
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items$', pos_item.checkout_page),
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/content$', pos_item.content_page),
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/(\d+)/change_discount_type$', pos_item.ajax_change_discount_type),
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/(\d+)/change_discount_amount$', pos_item.ajax_change_discount_amount),
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/items/change_tax$', pos_item.ajax_change_tax),
-#                           
-#    # Receipt
-#    #-----------
-#    url(r'^inventory/(\d+)/(\d+)/checkout/(\d+)/receipt$', pos_receipt.checkout_page),
-#                       
-#    # Record
-#    #-----------
-#    url(r'^inventory/(\d+)/(\d+)/checkout_record$', pos_record.pos_record_page),
+    url(r'^mobile/pos/(\d+)/cart/(\d+)/$', pos_cart.cart_page),
 )
