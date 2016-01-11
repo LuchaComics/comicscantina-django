@@ -49,20 +49,21 @@
             <div class="divider"></div>
             <h5>{{ store.name|escape|safe }}</h5>
             <h5>{% if store.unit_number %}{{ store.unit_number }}-{% endif %}{{ store.street_number }} {{ store.street_name }}</h5>
+            <div class="divider"></div>
         </div>
         <a onclick="ajax_logout();"
              class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout
         </a>
     </div><!-- /panel -->
 
-    <!-- ---------- login content ------------- -->
+    <!-- ---------- content ------------- -->
     <div data-role="content" align="center" data-theme="a">
         <div class="row">                            <!-- row -->
             <div class="container">
                 <ul data-role="listview" data-inset="true" id="store-select">
                     <li data-role="list-divider"><h4>Store Management</h4></li>
                     <li><a class="ui-icon-shop" onclick="open_new_cart();">Start Checkout</a></li>
-                    <li><a class="ui-icon-delete">Remove Item From Inventory</a></li>
+                    <li><a class="ui-icon-delete" onclick="window.location='/mobile/pos/{{ store.store_id }}/remove_product';">Remove Item From Inventory</a></li>
                 </ul>
                 <ul data-role="listview" data-inset="true" id="cart-select">
                     <li data-role="list-divider">

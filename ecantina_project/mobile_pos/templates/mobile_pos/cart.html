@@ -47,6 +47,7 @@
             <div class="divider"></div>
             <h5>{{ store.name|escape|safe }}</h5>
             <h5>{% if store.unit_number %}{{ store.unit_number }}-{% endif %}{{ store.street_number }} {{ store.street_name }}</h5>
+            <div class="divider"></div>
         </div>
         <a onclick="window.location='/mobile/pos/{{ store.store_id }}/dashboard#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
         <a onclick="ajax_logout();" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
@@ -149,6 +150,7 @@
             <div class="divider"></div>
             <h5>{{ store.name|escape|safe }}</h5>
             <h5>{% if store.unit_number %}{{ store.unit_number }}-{% endif %}{{ store.street_number }} {{ store.street_name }}</h5>
+            <div class="divider"></div>
         </div>
         <a onclick="window.location='/mobile/pos/{{ store.store_id }}/dashboard#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
         <a onclick="ajax_logout();" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
