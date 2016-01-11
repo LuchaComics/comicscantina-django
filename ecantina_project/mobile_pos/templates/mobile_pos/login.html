@@ -190,8 +190,7 @@
                     email,
                     password,
                     function(user_id) {
-                        // Run the UI for picking the store the user would like to log into.
-                        ajax_inventory_load_stores(user_id);
+                        window.location='/mobile/pos/pick_store';
                     },
                     function(error_message) {
                         $('.alert-danger').css('display','block');
@@ -237,110 +236,6 @@
                 error_callback("Unknown error occured");
             }
         );
-    }
-
-    function ajax_inventory_load_stores(user_id) {
-        // STEP 1: Lookup the Employee for the logged in 'user_id'.
-        ajax_get_employee(
-            user_id,
-            function(employee_id) {
-                // STEP 2: Lookup all the stores belonging to the 'Employee'.
-                ajax_get_stores(
-                    employee_id,
-                    function(json_result) {
-                        // STEP 3: Generate the stores table UI.
-                        generate_stores_table(json_result, function(ok) {
-                            // STEP 4: Load up the stores table UI.
-                            window.location='#store-page';
-                        });
-                    },
-                    function(error_json) {
-                        $('.alert-danger').css('display','block');
-                        $('.alert-danger').text('Unknown server error looking up stores. See console logs.');
-                        console.log(error_json);
-                    }
-                ); // End Get All Stores
-            },
-            function(error_json) {
-                $('.alert-danger').css('display','block');
-                $('.alert-danger').text('Unknown server error looking up employee. See console logs.');
-                console.log(error_json);
-            }
-        ); // End Get Employee
-    }
-
-    /**
-     *  Function looks up the 'Employee' based on the 'user_id' field and then
-     *  this function returns the 'employee_id' belonging to 'Employee'.
-     */
-    function ajax_get_employee(user_id, success_callback, error_callback)
-    {
-        var criteria = Array();
-        criteria.push({ 'user__id': user_id });
-        filter_employees_by(
-            criteria,
-            function(json_result) {
-                $(json_result).each(function(iter,meta){ // Process the meta information.
-                    $(meta['results']).each(function(iter,val){ // Process the results search data.
-                        success_callback(val['employee_id']);
-                    });
-                });
-            },
-            function(error_json) {
-                error_callback(error_json);
-            }
-        ); // End Filter Employees
-    }
-
-    /**
-     *  Function looks up all the stores that belong to the particular 'Employee'.
-     */
-    function ajax_get_stores(employee_id, success_callback, error_callback)
-    {
-        var criteria = Array();
-        criteria.push({ 'employee__employee_id': employee_id });
-        criteria.push({ 'is_suspended': 'False' });
-        filter_stores_by(
-            criteria,
-            function(json_result) {
-                $(json_result).each(function(iter,meta){ // Process the meta information.
-                    success_callback(meta['results']);
-                });
-            },
-            function(error_json) {
-                error_callback(error_json);
-            }
-        ); // End Filter Stores
-    }
-
-    /**
-     *  Function will generate the list of stores to go into for the POS app.
-     */
-    function generate_stores_table(json_result, callback) {
-        // Debugging code
-        //var json_text = JSON.stringify(result, null, 2);
-        //var obj = JSON.parse(json_text);
-        
-        var html = '<ul data-role="listview" data-inset="true" id="store-select">';
-        html += '<li data-role="list-divider"><h4>Select Store</h4></li>';
-        $(json_result).each(function(iter,val){ // Process the results search data.
-            html += '<li>';
-            var onclick = "ajax_load_dashboard("+val['store_id']+");";
-            html += '<a onclick='+onclick+' data-storeid="'+val['store_id']+'">' + val['name'] +'</a>';
-            html += '</li>';
-        });
-        html += '</ul>';
-        $('#id_table_placeholder').html(''); // Clear Table
-        $(html).appendTo('#id_table_placeholder'); // Load Table.
-        
-        callback(html); // Indicate we've finished and generated the table.
-    }
-
-    /**
-     *  Function will load the 'Dashboard' page for the particular store.
-     */
-    function ajax_load_dashboard(store_id) {
-        window.location='/mobile/pos/'+store_id+'/dashboard#dashboard';
     }
 
 </script>
