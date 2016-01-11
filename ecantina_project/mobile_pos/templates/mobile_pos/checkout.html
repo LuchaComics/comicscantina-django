@@ -58,7 +58,7 @@
             <div class="container">
                 <ul data-role="listview" data-inset="true" id="store-select">
                     <li data-role="list-divider"><h4>Checkout Cart</h4><span class="ui-li-count">1:50 PM</span></li>
-                    <li><a class="ui-icon-user">Finalizer Checkout</a></li>
+                    <li><a onclick="ajax_checkout();" class="ui-icon-user">Finalizer Checkout</a></li>
                     <li><a class="ui-icon-delete" data-rel="back">Cancel Checkout</a></li>
                 </ul>
             </div>
@@ -68,17 +68,29 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('#btnLookupCustomer').on('click', function(){
-            var search = $('#search').val;
+    //-------------------------------------//
+    // Fix jQuery CSFR Code Issue - 1 of 2 //
+    //-------------------------------------//
+    // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
 
-            // do customer lookup
-
-            // show results
-            $('#customer-results').fadeIn(500);
+    $(document).ready(function () {
+        //-------------------------------------//
+        // Fix jQuery CSFR Code Issue - 2 of 2 //
+        //-------------------------------------//
+        // Note: https://docs.djangoproject.com/en/1.8/ref/csrf/
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                }
+            }
         });
     });
-    
+                  
     /**
      *  Function will log the User. from the system and return them to the
      *  login page.
@@ -96,6 +108,28 @@
             }
         ); // End Login
     }
+
+    /**
+     *  Function will verify that all the products are valid to checkout
+     *  and then procceeds to checkout the order by making the products
+     *  sold and give the customer/guest a purchase record.
+     */
+    function ajax_checkout()
+    {
+        perform_receipt_checkout(
+            {{ receipt.receipt_id }},
+            function(json_result) {
+                if (json_result['status'] == 'success') {
+                    window.location='/mobile/pos/{{ store.store_id }}/dashboard';
+                }
+                else {
+                    console.log(json_result);
+                    alert("Error, a product item is already sold out and reserved - you cannot purchase.");
+                }
+            }
+        );
+    }
+
 </script>
 
 </body>
