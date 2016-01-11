@@ -87,18 +87,18 @@
                 </ul>
                 
                 <button onclick="window.location='#checkout-customer-lookup';" class="ui-btn ui-icon-user ui-btn-icon-left ui-shadow ui-corner-all" id="btnFinishCheckout">Set Customer</button>
-                <button onclick="window.location='/mobile/pos/{{ store.store_id }}/cart/{{ receipt.receipt_id }}/checkout';" class="ui-btn ui-icon-tag ui-btn-icon-left ui-shadow ui-corner-all" id="btnFinishCheckout">Checkout</button>
+                <button id="btnScanItem" onclick="window.location='/mobile/pos/{{ store.store_id }}/cart/{{ receipt.receipt_id }}/product_scanner#qr-code-scanner';" class="ui-btn ui-icon-camera ui-btn-icon-left ui-shadow ui-corner-all">Scan Item</button>
 
             </div>
         </div>
     </div>
 
     <!-- ---------- footer ------------- -->
-    <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer-nav" >
+    <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer-nav" data-tap-toggle="false">
         <button id="btnCancelSale" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Cancel Sale</button>
-        <button id="btnScanItem" onclick="window.location='/mobile/pos/{{ store.store_id }}/cart/{{ receipt.receipt_id }}/product_scanner#qr-code-scanner';" class="ui-btn ui-corner-all ui-icon-camera ui-btn-icon-left">Scan Item</button>
+        <button onclick="window.location='/mobile/pos/{{ store.store_id }}/cart/{{ receipt.receipt_id }}/checkout';" class="ui-btn ui-icon-check ui-btn-icon-left ui-corner-all" id="btnFinishCheckout">Checkout</button>
     </div>
-
+    
     <!-- ---------- remove item popup ------------- -->
     <div data-role="popup" id="remove-popup" data-theme="a" class="ui-corner-all" data-transition="pop">
         <div style="padding:10px 20px;">

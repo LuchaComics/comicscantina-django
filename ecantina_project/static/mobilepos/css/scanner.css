@@ -11,8 +11,27 @@
     margin-top: 0;
     padding: 0px 10px;
 }
+.ui-listview li *{
+    font-weight: 600;
+    font-size: 10pt !important;
+}
+.ui-popup *{
+    font-family: Arial;
+}
+.panel-body{
+    padding: 5px 10px;
+}
+.alert{
+    margin: 10px 0px;
+}
 .text-right{
     text-align:right;
+}
+span.text-right{
+    float:right;
+    padding-right: 10px !important;
+    display: inline-block !important;
+    width: auto !important;
 }
 .text-left{
     text-align:left;
@@ -95,10 +114,10 @@
  * ------------------ */
 .ui-panel{
     background-color: #F6F6F6;
-    max-width:220px;
+    height: 100%;
 }
 .ui-panel .ui-panel-inner img{
-    width:40%;
+    width:50%;
     border-radius: 50%;
     margin-left:auto;
     margin-right:auto;
@@ -108,6 +127,11 @@
     margin: 15px 0px;
     font-weight: normal;
 }
+.ui-panel .ui-panel-inner .menu-nav{
+    width: 15em;
+    margin: auto;
+    margin-top:20px;
+}
 
 /* Login Page / Forgot Pass / Store Select
  * ------------------ */
@@ -115,14 +139,14 @@
     padding: 20px;
 }
 .ui-content .row #inner-login-container img{
-    width:80%;
+    width:60%;
     max-width:300px;
 }
 .ui-content .row #inner-login-container #login-form .input-group{
     margin-top: 10px;
 }
 .ui-content .row #inner-login-container form .forgot-pass{
-    margin-bottom: 10px;
+    margin: 10px;
 }
 .ui-content .row #inner-forgot-container{
     padding: 20px;
@@ -165,19 +189,21 @@
     display:inline-block;
     background:none;
     font-size: 10pt !important;
+    font-weight: 400;
 }
 .ui-content .row .container .ui-listview li.cart-item p.comic-title{
-    display: block;
     padding: 0;
     margin: 0;
-    line-height: 30px;
-    font-size: 9pt;
+    margin-bottom: 5px;
+    font-size: 9pt !important;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: normal;
 }
 .ui-content .row .container .ui-listview li.cart-item span.item-price{
     float: right;
     font-weight: bold;
+    padding-right: 0px !important;
 }
 .ui-content .row .container .ui-listview li.cart-item img{
     margin: 5px;
@@ -204,11 +230,15 @@
     background-color: #F9A9B2 !important;
 }
 .ui-footer #btnScanItem{
-    float:right;
     margin: 5px;
 }
 .ui-footer #btnCancelSale{
     float:left;
+    margin: 5px;
+    background-color: darkred;
+}
+.ui-footer #btnFinishCheckout{
+    float:right;
     margin: 5px;
 }
 .ui-footer #btnEmailReceipt{
@@ -218,6 +248,7 @@
 .ui-footer #btnFinishSale{
     float:right;
     margin: 5px;
+    background-color: green;
 }
 
 #comic-popup div img{
@@ -228,21 +259,33 @@
 
 /* Cart - QR Code Scanner
  * ------------------ */
-#qr-code-scanner .ui-content .row .container #qr-code-image{
+.ui-content .row .container #qr-code-image,
+.ui-content .row .container #customer-code-image,
+.ui-content .row .container #remove-code-image{
     width: 100%;
     height: 240px;
-    max-width:295px;
+    max-width:100%;
     border: 1px solid #CCC;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#qr-code-scanner .ui-content .row .container #scan-qr-form input[type='file']{
+.ui-content .row .container * input[type='file']{
     display: none;
 }
-#qr-code-scanner .ui-content .row .container #scan-qr-form div.ui-input-btn,
-#qr-code-scanner .ui-content .row .container #scan-qr-form div.ui-input-btn input[type='button']{
+.ui-content .row .container * div.ui-input-btn,
+.ui-content .row .container * div.ui-input-btn input[type='button']{
     max-width: 295px;
 }
-#qr-code-scanner .ui-content .row .container .panel{
+.ui-content .row .container .panel{
     margin-top: 20px !important;
+}
+.ui-content .row .container .panel .panel-body #item-scan-result p,
+.ui-content .row .container .panel .panel-body #customer-scan-result p,
+.ui-content .row .container .panel .panel-body #remove-scan-result p{
+    margin: 5px 0px;
+}
+.ui-content .row .container .panel .panel-body #item-scan-result p.help-text,
+.ui-content .row .container .panel .panel-body #customer-scan-result p.help-text,
+.ui-content .row .container .panel .panel-body #remove-scan-result p.help-text{
+    text-align: left;
 }

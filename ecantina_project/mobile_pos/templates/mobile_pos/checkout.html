@@ -20,10 +20,10 @@
 </head>
 <body>
 
-<!-- ---------- checkout main menu ------------- -->
-<div data-role="page" id="checkout-main-menu" defaultPageTransition="slide">
+<!-- ---------- dashboard ------------- -->
+<div data-role="page" id="cart-finalize" defaultPageTransition="slide">
     <!-- ---------- header------------- -->
-    <div data-role="header" data-theme="b" data-id="header-nav" data-position="fixed" >
+    <div data-role="header" data-theme="b" data-id="header-nav" data-position="fixed" data-tap-toggle="false">
         <div class="header-logo">
             <img src="{% static 'mobilepos/img/logo.png' %}" alt="Comics Cantina" />
         </div>
@@ -32,40 +32,79 @@
         </div>
         <div class="header-nav">
             <a data-rel="back" class="ui-btn ui-icon-back ui-btn-icon-notext ui-corner-all"></a>
-            <a href="#nav-panel-main" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all"></a>
+            <a href="#nav-panel2" class="ui-btn ui-icon-bars ui-corner-all ui-btn-icon-notext"></a>
         </div>
     </div>
-
-    <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="nav-panel-main" align="center">
+    
+    <!-- panel -->
+    <div data-role="panel" data-position="right" data-display="overlay" data-theme="a" id="nav-panel2" align="center">
         {% if employee.profile == None %}
             <img src="{% static 'inventory/img/dummy.png' %}" alt="Avatar" class="img-thumbnail img-circle">
         {% else %}
             <img src="{{ employee.profile.image.url }}" alt="Avatar" class="img-thumbnail img-circle">
         {% endif %}
+        
         <div class="text-left">
             <h4 class="text-center">Hi, {{ employee.user.first_name }}</h4>
             <div class="divider"></div>
             <h5>{{ store.name|escape|safe }}</h5>
             <h5>{% if store.unit_number %}{{ store.unit_number }}-{% endif %}{{ store.street_number }} {{ store.street_name }}</h5>
-        </div>
-        <a onclick="window.location='/mobile/pos/{{ store.store_id }}/dashboard#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
-        <a onclick="ajax_logout();" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
-    </div><!-- /panel -->
 
-    <!-- ---------- content ------------- -->
+            <div class="divider"></div>
+        </div>
+        <div class="menu-nav">
+            <a onclick="window.location='/mobile/pos/{{ store.store_id }}/dashboard#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
+            <a onclick="ajax_logout();" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
+
+        </div>
+    </div>
+    <!-- /panel -->
+    
+    <!-- ---------- login content ------------- -->
     <div data-role="content" align="center" data-theme="a">
         <div class="row">                            <!-- row -->
             <div class="container">
-                <ul data-role="listview" data-inset="true" id="store-select">
-                    <li data-role="list-divider"><h4>Checkout Cart</h4><span class="ui-li-count">1:50 PM</span></li>
-                    <li><a onclick="ajax_checkout();" class="ui-icon-user">Finalizer Checkout</a></li>
-                    <li><a class="ui-icon-delete" data-rel="back">Cancel Checkout</a></li>
+                <ul data-role="listview" data-inset="true" id="receipt">
+                    <li data-role="list-divider"><h4>Receipt</h4><span class="ui-li-count">{{ receipt.created }}</span></li>
+                    {% for product in receipt.products.all %}
+                    <li class="cart-item" data-item-id="1">
+                        <p class="comic-title">{{ product.name }}</p>
+                        <span class="text-right item-price">${{ product.sub_price }}</span>
+                    </li>
+                    {% endfor %}
+                    <li data-role="list-divider" class="cart-total-footer">
+                        <h4 class="f-left">Subtotal</h4>
+                        <h4 class="f-right text-right cart-subtotal">${{ receipt.sub_total }}</h4>
+                    </li>
+                    <li data-role="list-divider" class="cart-total-footer">
+                        <h4 class="f-left">Tax</h4>
+                        <h4 class="f-right text-right cart-tax">${{ receipt.tax_amount }}</h4>
+                    </li>
+                    <li data-role="list-divider" class="cart-total-footer">
+                        <h4 class="f-left">Subtotal with tax</h4>
+                        <h4 class="f-right text-right cart-tax">${{ receipt.sub_total_with_tax }}</h4>
+                    </li>
+                    <li data-role="list-divider" class="cart-total-footer">
+                        <h4 class="f-left">Discount</h4>
+                        <h4 class="f-right text-right cart-tax">${{ receipt.discount_amount }}</h4>
+                    </li>
+                    <li data-role="list-divider" class="cart-total-footer">
+                        <h4 class="f-left">Total</h4>
+                        <h4 class="f-right text-right cart-total">${{ receipt.total_amount }}</h4>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
-
+    
+    <!-- ---------- footer ------------- -->
+    <div data-role="footer" data-theme="b" data-position="fixed" data-id="footer-nav" data-tap-toggle="false">
+        
+        <button id="btnFinishSale" onclick="ajax_checkout();" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-left">Finish Sale</button>
+    </div>
+    
 </div>
+
 
 <script>
     //-------------------------------------//
