@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import filters
 from rest_framework.decorators import detail_route
 from ecantina_project import constants
+from api.authentication import CsrfExemptSessionAuthentication, BasicAuthentication
 from api.pagination import LargeResultsSetPagination
 from api.permissions import BelongsToCustomerOrIsEmployeeUser
 from api.models.ec.organization import Organization
@@ -29,6 +30,7 @@ class ReceiptViewSet(viewsets.ModelViewSet):
     """
         API endpoint that allows customers to be viewed or edited.
     """
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     queryset = Receipt.objects.all()
     serializer_class = ReceiptSerializer
     pagination_class = LargeResultsSetPagination

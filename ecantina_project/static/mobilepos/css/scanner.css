@@ -9,7 +9,7 @@
 .ui-content{
     clear:both;
     margin-top: 0;
-    padding: 10px;
+    padding: 0px 10px;
 }
 .text-right{
     text-align:right;
@@ -29,9 +29,25 @@
 .w100{
     width: 100%;
 }
+.p10{
+    padding: 10px;
+}
+.p20{
+    padding: 20px;
+}
+.m10{
+    margin: 10px;
+}
+.m20{
+    margin: 20px;
+}
 .ui-li-divider{
     background-color: #E74C3C !important;
     color: #fff !important;
+}
+.ui-li-divider h4{
+    font-size: 11pt !important;
+    font-weight: bold !important;
 }
 .divider {
     width: 90%;
@@ -62,11 +78,14 @@
     font-size:12pt;
     line-height:35px;
     text-align:center;
+    margin: 10px;
+    font-family: Arial;
+    font-weight: bold;
 }
 .ui-header .header-nav{
     float:right;
     position:relative;
-    top:-52px;
+    top:-51px;
 }
 .ui-header .header-nav a{
     margin-right: 5px;
@@ -76,32 +95,37 @@
  * ------------------ */
 .ui-panel{
     background-color: #F6F6F6;
+    max-width:220px;
 }
 .ui-panel .ui-panel-inner img{
-    width:60%;
+    width:40%;
     border-radius: 50%;
     margin-left:auto;
     margin-right:auto;
     border:1px solid #ddd;
 }
+.ui-panel .ui-panel-inner h5{
+    margin: 15px 0px;
+    font-weight: normal;
+}
 
 /* Login Page / Forgot Pass / Store Select
  * ------------------ */
 .ui-content .row #inner-login-container{
-    padding: 10px;
+    padding: 20px;
 }
 .ui-content .row #inner-login-container img{
     width:80%;
     max-width:300px;
 }
 .ui-content .row #inner-login-container #login-form .input-group{
-    margin: 10px;
+    margin-top: 10px;
 }
 .ui-content .row #inner-login-container form .forgot-pass{
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 .ui-content .row #inner-forgot-container{
-    padding: 60px;
+    padding: 20px;
 }
 .ui-content .row #inner-forgot-container img{
     width: 80%;
@@ -124,28 +148,48 @@
 
 /* Cart
  * ------------------ */
+.ui-content .row .container .ui-collapsible-heading-toggle{
+    background-color: #E74C3C !important;
+    color: #fff !important;
+}
+.ui-content .row .container .ui-collapsible h4 a{
+    font-size: 11pt !important;
+    font-weight: normal !important;
+    padding-left: 40px;
+}
 .ui-content .row .container .ui-listview li h5{
     margin: 0px;
     width:100%;
 }
 .ui-content .row .container .ui-listview li.cart-item span{
     display:inline-block;
-    width:40%;
     background:none;
-    font-size: 10pt;
+    font-size: 10pt !important;
 }
-.ui-content .row .container .ui-listview li.cart-item h5 .btnRemoveCartItem{
-    display: inline-block;
-    float: right;
+.ui-content .row .container .ui-listview li.cart-item p.comic-title{
+    display: block;
+    padding: 0;
     margin: 0;
+    line-height: 30px;
+    font-size: 9pt;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
-.ui-content .row .container .ui-listview li.cart-info{
+.ui-content .row .container .ui-listview li.cart-item span.item-price{
+    float: right;
+    font-weight: bold;
+}
+.ui-content .row .container .ui-listview li.cart-item img{
+    margin: 5px;
+    height: 70px;
+}
+.ui-content .row .container #cart-infos li.cart-info{
     padding: 5px 20px;
 }
-.ui-content .row .container .ui-listview li.cart-info h5 span{
+.ui-content .row .container #cart-infos li.cart-info h5 span{
     font-size: 10pt;
 }
-.ui-content .row .container .ui-listview li h5 span{
+.ui-content .row .container #cart-infos li h5 span{
     display:inline-block;
     width:50%;
     background:none;
@@ -166,6 +210,20 @@
 .ui-footer #btnCancelSale{
     float:left;
     margin: 5px;
+}
+.ui-footer #btnEmailReceipt{
+    float: left;
+    margin: 5px;
+}
+.ui-footer #btnFinishSale{
+    float:right;
+    margin: 5px;
+}
+
+#comic-popup div img{
+    width: 90%;
+    margin: auto;
+    display: block;
 }
 
 /* Cart - QR Code Scanner
