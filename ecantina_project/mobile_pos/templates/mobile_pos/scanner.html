@@ -67,6 +67,7 @@
             <h5>{{ store.name|escape|safe }}</h5>
             <h5>{% if store.unit_number %}{{ store.unit_number }}-{% endif %}{{ store.street_number }} {{ store.street_name }}</h5>
         </div>
+        <a onclick="window.location='/mobile/pos/{{ store.store_id }}/dashboard#dashboard';" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Main Menu</a>
         <a onclick="ajax_logout();" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini">Logout</a>
 
     </div><!-- /panel -->
@@ -273,7 +274,24 @@
             }
         }); // End Get Receipt.
     }
-        
+       
+    /**
+     *  Function will log the User. from the system and return them to the
+     *  login page.
+     */
+    function ajax_logout() {
+        sign_off(
+            function(json_result) {
+                // Return the the login screen when successsfully logged out.
+                window.location="/mobile/pos/login";
+            },
+            function(error_callback) {
+                $('.alert-danger').css('display','block');
+                $('.alert-danger').text(error_callback.message);
+                console.log(error_callback.message);
+            }
+        ); // End Login
+    }
 </script>
 
 </body>
