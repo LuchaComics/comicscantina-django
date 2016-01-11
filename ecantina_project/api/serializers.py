@@ -294,6 +294,8 @@ class SubDomainSerializer(serializers.ModelSerializer):
             'download', 'downloader', 'downloading', 'news', 'blogs', 'www',
             'tutorial', 'tutorials', 'edu', 'education', 'educational', 'link',
             'article', 'www2', 'ww3', 'ww4', 'store', 'storing', 'start', 'begin',
+            'checkout', 'pos', 'api', 'ssh', 'buy', 'learn', 'discover',
+            'discovery', 
         ]
         if value in reserved_words:
             raise serializers.ValidationError("Cannot us a reserved name")
