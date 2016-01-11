@@ -56,34 +56,28 @@
     <div data-role="content" align="center" data-theme="a">
         <div class="row">                            <!-- row -->
             <div class="container">
+                <div data-role="collapsible">
+                    <h4 id="cart-info-header">Cart Info</h4>
+                    <ul data-role="listview" id="cart-infos">
+                        <li class="cart-info"><h5><span>Created At</span><span class="text-right">{{ receipt.created }}</span></h5></li>
+                        <li class="cart-info"><h5><span>Opened By</span><span class="text-right">{{ employee.user.first_name }} {{ employee.user.last_name }}</span></h5></li>
+                        <li class="cart-info"><h5><span>Opened For</span><span class="text-right">{{ receipt.customer.first_name }} {{ receipt.customer.last_name }}</span></h5></li>
+                    </ul>
+                </div>
                 
-                <ul data-role="listview" data-inset="true" id="store-select">
-                    <li data-role="list-divider"><h4>Cart Commands</h4><span class="ui-li-count">{{ receipt.created }}</span></li>
-                    <li>
-                        <a class="ui-icon-user"  onclick="window.location='#checkout-customer-lookup';">Lookup Customer</a>
-                    </li>
-                    <!-- <li><a class="ui-icon-user">Scan Customer Card</a></li>-->
-                    <li>
-                        <a class="ui-icon-delete" onclick="window.location='/mobile/pos/{{ store.store_id }}/cart/{{ receipt.receipt_id }}/checkout';">Checkout</a>
-                    </li>
-                </ul>
                 
-                <ul data-role="listview" data-inset="true" id="cart-infos">
-                    <li data-role="list-divider"><h4>Cart Information</h4></li>
-                    <li class="cart-info"><h5><span>Created At</span><span class="text-right">{{ receipt.created }}</span></h5></li>
-                    <li class="cart-info"><h5><span>Opened By</span><span class="text-right">{{ employee.user.first_name }} {{ employee.user.last_name }}</span></h5></li>
-                    <li class="cart-info"><h5><span>Opened For</span><span class="text-right">{{ receipt.customer.first_name }} {{ receipt.customer.last_name }}</span></h5></li>
-                </ul>
-
-                <ul data-role="listview" data-inset="true" id="cart-items">
-                    <li data-role="list-divider"><h4>Cart Items</h4><span class="ui-li-count">{{ receipt.products.all.count }}</span></li>
-                    {% for product in receipt.prodcuts.all.count %}
+                <ul data-role="listview" data-split-icon="delete" data-inset="true" id="cart-items">
+                    <li data-role="list-divider">
+                        <h4>Cart Items</h4>
+                        <span class="ui-li-count">{{ receipt.products.count }}</span>
+                    </li>
+                    {% for product in receipt.products.all %}
                     <li class="cart-item">
-                        <h5>
-                            <span>{{ product.name }}</span>
+                        <a class="btnShowComicImg" data-img="comic1.jpg">
+                            <p class="comic-title">{{ product.name }}</p>
                             <span class="text-right item-price">${{ product.sub_price }}</span>
-                            <a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext btnRemoveCartItem"></a>
-                        </h5>
+                            <a data-id='{{ product.product_id }}' class="btnRemoveCartItem"></a>
+                        </a>
                     </li>
                     {% endfor %}
                     <li data-role="list-divider" class="cart-total-footer">
@@ -91,6 +85,9 @@
                         <h4 class="f-right text-right cart-total">${{ receipt.sub_total }}</h4>
                     </li>
                 </ul>
+                
+                <button onclick="window.location='#checkout-customer-lookup'" class="ui-btn ui-icon-user ui-btn-icon-left ui-shadow ui-corner-all" id="btnFinishCheckout">Set Customer</button>
+                <button class="ui-btn ui-icon-tag ui-btn-icon-left ui-shadow ui-corner-all" id="btnFinishCheckout">Finish Checkout</button>
 
             </div>
         </div>
@@ -175,9 +172,7 @@
     </div>
     
 </div>
-
-
-
+<input type="hidden" id="id_remember_product_id" value=0 />
 
 <script>
     //-------------------------------------//
@@ -202,12 +197,17 @@
             }
         });
                       
-                      $('.btnRemoveCartItem').on('click', function(){
-                                                 var cartItem = $(this).parentsUntil('ul').find('span:first-child').text();
-                                                 $('#remove-popup div p.cart-item-title').text(cartItem);
-                                                 removed_item = $(this).parentsUntil('ul');
-                                                 $('#remove-popup').popup('open');
-                                                 });
+        $('.btnRemoveCartItem').on('click', function(){
+            // Remember the product_id that was selected.
+            var product_id = $(this).data("id");
+            $('#id_remember_product_id').val(product_id);
+                                   
+            // Load up the Warning dialog.
+            var cartItem = $(this).parentsUntil('ul').find('span:first-child').text();
+            $('#remove-popup div p.cart-item-title').text(cartItem);
+            removed_item = $(this).parentsUntil('ul');
+            $('#remove-popup').popup('open');
+        });
                       
         $('#btnCancelSale').on('click', function(){
             $('#cancel-popup').popup('open');
@@ -261,7 +261,7 @@
         $(json_result).each(function(iter,meta){ // Process the meta information.
                         
             // Update results count
-            var count = meta['count'];
+            var count = parseInt(meta['count']);
                         
             // Generate UI Based on whether there are results or not.
             if (count != 0) {
@@ -354,28 +354,53 @@
 
     function removeCartItem(){
         if( remove_item == true ) {
-            // remove item from cart
-
-            $(removed_item).detach().remove();
-            $('#remove-popup').popup('close');
-            $('#cart-items').listview('refresh');
-            var items = $('#cart-items .ui-li-divider .ui-li-count').text( $('#cart-items .cart-item').length );
-            refreshCartTotal();
+            // Remove item from cart.
+            var product_id = parseInt( $('#id_remember_product_id').val() );
+            var receipt_id = parseInt({{ receipt.receipt_id }});
+            
+            // STEP 1: Get the current Receipt.
+            get_receipt(receipt_id, function(json_results) {
+                        
+                // STEP 2: Remove Product from the Receipt.
+                var products = json_results['products'];
+                var i = products.indexOf(product_id);
+                if (i != -1) {
+                    products.splice(i, 1);
+                }
+                json_results['products'] = products;
+                json_results['error'] = 0;
+                        
+                // STEP 3: Update the cart.
+                set_receipt(json_results, function(json_results2) {
+                                    
+                    // STEP 4: Update that receipt by re-computing the totals
+                    perform_receipt_checkout_computation(receipt_id, function(json_results3) {
+                        // Update the GUI.
+                        $(removed_item).detach().remove();
+                        $('#remove-popup').popup('close');
+                        $('#cart-items').listview('refresh');
+                        var items = $('#cart-items .ui-li-divider .ui-li-count').text( $('#cart-items .cart-item').length );
+                        ajax_refresh_cart();
+                    });
+                });
+            });
         }
 
         remove_item = false;
     }
 
-    function refreshCartTotal(){
-        var total = 0;
-        $('.item-price').each(function(index, el){
-            var price = $(el).text();
-            price = price.substring(1);
-            total += parseFloat(price);
-        });
-        total = "$" + total.toFixed(2);
-        $('.cart-total').text(total);
-        $('#cart-items').listview('refresh');
+    function ajax_refresh_cart(){
+        get_receipt({{ receipt.receipt_id }}, function(receipt) {
+            // Generate new values for the UI.
+            var total = "$" + receipt['sub_total'];
+            var arr = receipt['products'];
+            var count = arr.filter(function(value) { return value !== undefined }).length;
+                    
+            // Update UI.
+            $('.cart-total').text(total);
+            $('.ui-li-count').text(count);
+            $('#cart-items').listview('refresh');
+        }); // End Get Receipt.
     }
 </script>
 
