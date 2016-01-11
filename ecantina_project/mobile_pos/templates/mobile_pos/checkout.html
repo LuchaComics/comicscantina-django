@@ -60,7 +60,7 @@
     </div>
     <!-- /panel -->
     
-    <!-- ---------- login content ------------- -->
+    <!-- ---------- content ------------- -->
     <div data-role="content" align="center" data-theme="a">
         <div class="row">                            <!-- row -->
             <div class="container">
@@ -93,6 +93,7 @@
                         <h4 class="f-right text-right cart-total">${{ receipt.total_amount }}</h4>
                     </li>
                 </ul>
+                <div class="alert alert-danger" style="display:none;" role="alert">Receipt detected a problem.</div>
             </div>
         </div>
     </div>
@@ -162,8 +163,9 @@
                     window.location='/mobile/pos/{{ store.store_id }}/dashboard';
                 }
                 else {
+                    $('.alert-danger').css('display','block');
+                    $('.alert-danger').text("Error, a product item is already sold out and reserved - you cannot purchase.");
                     console.log(json_result);
-                    alert("Error, a product item is already sold out and reserved - you cannot purchase.");
                 }
             }
         );
