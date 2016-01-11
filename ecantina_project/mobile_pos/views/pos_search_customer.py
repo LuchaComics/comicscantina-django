@@ -9,7 +9,7 @@ from api.models.ec.receipt import Receipt
 
 
 @login_required(login_url='/mobile/pos/login')
-def cart_page(request, store_id=0, receipt_id=0):
+def search_customer_page(request, store_id=0, receipt_id=0):
     try:
         store = Store.objects.get(store_id=store_id)
     except Store.DoesNotExist:
@@ -22,7 +22,7 @@ def cart_page(request, store_id=0, receipt_id=0):
     except Receipt.DoesNotExist:
         receipt = None
 
-    return render(request, 'mobile_pos/cart.html',{
+    return render(request, 'mobile_pos/search_customers.html',{
         'receipt': receipt,
         'store': store,
         'employee': employee,

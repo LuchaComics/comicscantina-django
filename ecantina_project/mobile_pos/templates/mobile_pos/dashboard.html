@@ -181,6 +181,59 @@
     function ajax_load_receipt(receipt_id) {
         window.location="/mobile/pos/{{ store.store_id }}/cart/"+receipt_id+"/";
     }
+
+    /**
+     *  Makes a JSON call to our API service to fetch all the open cart sessions
+     *  we have under this employee.
+     */
+    function ajax_refresh_table() {
+        var criteria = {
+            'has_purchased_online': false,
+            'has_finished': false,
+            'employee': {{ employee.employee_id }},
+        };
+        console.log(criteria);
+        filter_receipts(criteria, function(json_result) {
+            generate_table(json_result); // Take the JSON results and generate a HTML table from it.
+        });
+    }
+
+    /**
+     *  Renders a table listing all the open cart sessions in our system.
+     */
+    function generate_table(json_result)
+    {
+        // Debugging code
+        //var json_text = JSON.stringify(json_result, null, 2);
+        //var obj = JSON.parse(json_text);
+    
+        var html = '';
+    
+        $(json_result).each(function(iter,meta){ // Process the meta information.
+                        
+            // Update results count
+            var count = meta['count'];
+                        
+            // Generate UI Based on whether there are results or not.
+            if (count != 0) {
+                html += '<ul data-role="listview" data-inset="true" id="cart-select">';
+                html += '<li data-role="list-divider"><h4>Open Carts</h4><span class="ui-li-count">'+count+'</span></li>';
+                        
+                $(meta['results']).each(function(iter,val){ // Process the results search data.
+                    var receipt_id = val['receipt_id'];
+                    var created = val['created'];
+                    var url = "/inventory/{{ org.org_id }}/{{ store.store_id }}/checkout/" + receipt_id +"/customer";
+                    html += '<li>';
+                    html += '<a><span>Cart #'+receipt_id+'</span><span class="text-right">'+created+'</span></a></li>';
+                    html += '</li>';
+                });
+                html += '</ul>';
+            }
+        });
+        $('#id_table_placeholder').html(''); // Clear Table
+        $(html).appendTo('#id_table_placeholder'); // Load Table.
+    }
+
 </script>
 
 </body>
