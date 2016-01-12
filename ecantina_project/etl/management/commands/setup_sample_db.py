@@ -5,13 +5,56 @@ from django.db import connection, transaction
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from ecantina_project import constants
-from api.models.ec.imageupload import ImageUpload
+
+# Grand Comics Database Models
+#------------------------------------------------------------------
+from api.models.gcd.country import GCDCountry
+from api.models.gcd.language import GCDLanguage
+from api.models.gcd.image import GCDImage
+from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
+from api.models.gcd.publisher import GCDPublisher
+from api.models.gcd.brandgroup import GCDBrandGroup
+from api.models.gcd.brand import GCDBrand
+from api.models.gcd.series import GCDSeries
+from api.models.gcd.issue import GCDIssue
+from api.models.gcd.storytype import GCDStoryType
+from api.models.gcd.story import GCDStory
+from api.models.gcd.branduse import GCDBrandUse
+from api.models.gcd.brandemblemgroup import GCDBrandEmblemGroup
+
+# Comics Cantina Database Models
+#------------------------------------------------------------------
+from api.models.ec.imagebinaryupload import ImageBinaryUpload
+from api.models.ec.customer import Customer
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.employee import Employee
 from api.models.ec.section import Section
-from api.models.ec.category import Category
+from api.models.ec.imageupload import ImageUpload
+from api.models.ec.comic import Comic
+from api.models.ec.product import Product
+from api.models.ec.helprequest import HelpRequest
+from api.models.ec.receipt import Receipt
+from api.models.ec.promotion import Promotion
+from api.models.ec.wishlist import Wishlist
+from api.models.ec.pulllist import Pulllist
+from api.models.ec.pulllistsubscription import PulllistSubscription
 from api.models.ec.tag import Tag
+from api.models.ec.brand import Brand
+from api.models.ec.category import Category
+from api.models.ec.orgshippingpreference import OrgShippingPreference
+from api.models.ec.orgshippingrate import OrgShippingRate
+from api.models.ec.store_shipping_preference import StoreShippingPreference
+from api.models.ec.store_shipping_rates import StoreShippingRate
+from api.models.ec.emailsubscription import EmailSubscription
+from api.models.ec.unified_shipping_rates import UnifiedShippingRate
+from api.models.ec.print_history import PrintHistory
+from api.models.ec.subdomain import SubDomain
+from api.models.ec.banned_domain import BannedDomain
+from api.models.ec.banned_ip import BannedIP
+from api.models.ec.banned_word import BannedWord
+from api.models.ec.catalog_item import CatalogItem
+
 
 class Command(BaseCommand):
     """
@@ -25,9 +68,15 @@ class Command(BaseCommand):
     """
     help = 'Populates the tables neccessary to give us a initial start.'
     
-    
     def handle(self, *args, **options):
-        os.system('clear;')  # Clear the console text.
+        # Defensive Code: Prevent this custom command code from running if
+        #                 the application is not in 'Unit Test' mode.
+        is_running_unit_tests = len(sys.argv) > 1 and sys.argv[1] == 'test'
+        if not is_running_unit_tests:
+            self.stdout.write('Cannot run, only acceptable command in unit testing.')
+            return
+        
+        # Get the current time.
         now = datetime.now()
         
         #----------------
@@ -47,39 +96,41 @@ class Command(BaseCommand):
             user.save()
             user = User.objects.get(email='bmika@icloud.com')
 
-        #----------------
-        # Image Uploads
-        #----------------
-        try:
-            org_logo = ImageUpload.objects.get(upload_id=1)
-        except ImageUpload.DoesNotExist:
-            org_logo = ImageUpload.objects.create(
-                upload_id = 1,
-                upload_date = now,
-                image = 'upload/bascomics_logo.png',
-                user = user,
-            )
-
-        try:
-            profile = ImageUpload.objects.get(upload_id=2)
-        except ImageUpload.DoesNotExist:
-            profile = ImageUpload.objects.create(
-                upload_id = 2,
-                upload_date = now,
-                image = 'upload/pepe.png',
-                user = user,
-            )
-
-        try:
-            store_logo = ImageUpload.objects.get(upload_id=1)
-        except ImageUpload.DoesNotExist:
-            store_logo = ImageUpload.objects.create(
-                upload_id = 3,
-                upload_date = now,
-                image = 'upload/bascomics_logo.png',
-                user = user,
-            )
-
+#        #----------------
+#        # Image Uploads
+#        #----------------
+#        try:
+#            org_logo = ImageUpload.objects.get(upload_id=1)
+#        except ImageUpload.DoesNotExist:
+#            org_logo = ImageUpload.objects.create(
+#                upload_id = 1,
+#                upload_date = now,
+#                image = 'upload/bascomics_logo.png',
+#                user = user,
+#            )
+#
+#        try:
+#            profile = ImageUpload.objects.get(upload_id=2)
+#        except ImageUpload.DoesNotExist:
+#            profile = ImageUpload.objects.create(
+#                upload_id = 2,
+#                upload_date = now,
+#                image = 'upload/pepe.png',
+#                user = user,
+#            )
+#
+#        try:
+#            store_logo = ImageUpload.objects.get(upload_id=1)
+#        except ImageUpload.DoesNotExist:
+#            store_logo = ImageUpload.objects.create(
+#                upload_id = 3,
+#                upload_date = now,
+#                image = 'upload/bascomics_logo.png',
+#                user = user,
+#            )
+        org_logo = None
+        profile = None
+        store_logo = None
 
         #-----------------
         # Organization
@@ -103,7 +154,7 @@ class Command(BaseCommand):
                 email=None,
                 phone='5194399636',
                 fax=None,
-                twitter='https://twitter.com/bascomics',
+                twitter='bascomics',
                 facebook_url=None,
                 instagram_url=None,
                 linkedin_url=None,
@@ -263,6 +314,71 @@ class Command(BaseCommand):
                 organization_id = 1,
             )
 
+        #-----------------
+        # GCD Language
+        #-----------------
+        try:
+            english = GCDLanguage.objects.get(language_id=25)
+        except GCDLanguage.DoesNotExist:
+            english = GCDLanguage.objects.create(
+                language_id=25,
+                name = 'English',
+                code = 'en',
+            )
+
+        #-----------------
+        # GCD Country
+        #-----------------
+        try:
+            canada = GCDCountry.objects.get(country_id=36)
+            united_states = GCDCountry.objects.get(country_id=225)
+        except GCDCountry.DoesNotExist:
+            canada = GCDCountry.objects.create(
+                country_id=36,
+                name = 'Canada',
+                code = 'en',
+            )
+            united_states = GCDCountry.objects.create(
+                country_id=225,
+                name = 'United States',
+                code = 'us',
+            )
+
+        #-----------------
+        # GCD Publisher
+        #-----------------
+        try:
+            marvel = GCDPublisher.objects.get(publisher_id=500)
+        except GCDPublisher.DoesNotExist:
+            marvel = GCDPublisher.objects.create(
+                publisher_id=666,
+                name = 'Marvel',
+                year_began = 2000,
+                year_ended = 2016,
+                notes = "",
+                url = "http://www.comicscantina.com",
+                country = canada,
+            )
+
+        #-----------------
+        # GCD Series
+        #-----------------
+        try:
+            series = GCDSeries.objects.get(publisher_id=500)
+        except GCDSeries.DoesNotExist:
+            series = GCDSeries.objects.create(
+                series_id=666,
+                name = 'Winterworld',
+                sort_name = 'Winterworld',
+                year_began = 2000,
+                year_ended = 2016,
+                publication_dates = "2014-01-01",
+                country = canada,
+                language = english,
+                publisher = marvel,
+                publisher_name = "Marvel",
+            )
+
         #------------
         #TODO: Continue adding here ...
         
@@ -315,6 +431,3 @@ class Command(BaseCommand):
             sql = 'SELECT setval(\'' + sql + '\', '
             sql += '(SELECT MAX(' + table['primarykey'] + ') FROM ' + table['tablename'] + ')+1)'
             cursor.execute(sql)
-        
-        # Finish Message!
-        self.stdout.write('Comics Cantina is now setup!')
