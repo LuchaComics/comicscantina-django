@@ -547,6 +547,10 @@ In summary, run the following codes and eCantina Database will be setup.
   ```
   cd /usr/ports/www/nginx && make install clean
   rehash
+
+  # Make sure the following are selected:
+  HTTP_GZIP_STATIC      Enable http_gzip_static module
+  HTTP_GUNZIP_FILTER    Enable http_gunzip_filter module
   ```
 
 2. add the following line to /etc/rc.conf:
@@ -642,6 +646,8 @@ service nginx restart
         server_name ~(?<short_url>\w+)\.comicscantina\.com$;
 
         access_log off;
+
+        gzip on;
 
         location /static/rest_framework/ {
             alias /usr/home/freebsd/py-ecantina/env/lib/python3.4/site-packages/rest_framework/static/rest_framework/; 
