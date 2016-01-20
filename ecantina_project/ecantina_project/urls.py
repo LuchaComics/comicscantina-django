@@ -30,7 +30,8 @@ sitemaps = {
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url('^', include('django.contrib.auth.urls')),  # Authentication
+    url(r'^admin/', include(admin.site.urls)), # Administration
     url(r'', include('store_base.urls')), 
     url(r'', include('store_landpage.urls')),
     url(r'', include('store_about.urls')),
