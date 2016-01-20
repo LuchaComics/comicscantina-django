@@ -64,7 +64,7 @@ def show_me_the_money(sender, **kwargs):
         except Receipt.DoesNotExist:
             print("Cannot find Receipt", str(receipt_id))
     else:
-        print("error")
+        print("PayPal Error", str(ipn_obj.payment_status))
 
 
 # IMPORTANT: When PayPal sends a transaction notification to our server

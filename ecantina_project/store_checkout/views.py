@@ -247,23 +247,33 @@ def checkout_order_page(request):
     
     # Generate our URLs & pick the payment email
     base_url = secret_settings.SECRET_HTTP_PROTOCOL
+    prefix = request.META.get("HTTP_X_CUSTOMURL")
+    
+    # Configure which PayPal address to send money
     paypal_email = settings.PAYPAL_RECEIVER_EMAIL
     currency_code = 'CAD'
     if org is not None and store is None:
-        base_url += request.subdomain.name+"."+secret_settings.SECRET_DOMAIN
         paypal_email = org.paypal_email
         currency_code = get_paypal_currency_code(org.currency)
     if org is not None and store is not None:
-        base_url += request.subdomain.name+"."+secret_settings.SECRET_DOMAIN
         paypal_email = store.paypal_email
         currency_code = get_paypal_currency_code(store.currency)
-    if org is None and store is None:
-        base_url += "www."+secret_settings.SECRET_DOMAIN
+
+    # Append the subdomain (including 'www') to the URL
+    if prefix:
+        base_url += prefix + "." + secret_settings.SECRET_DOMAIN
+    else:
+        base_url += secret_settings.SECRET_DOMAIN
 
     return_url = base_url+"/checkout/thank_you/"+str(receipt.receipt_id)
     cancel_url = base_url+"/checkout/cancel"
-    notify_url = base_url+ reverse('paypal-ipn'),
+    notify_url = secret_settings.SECRET_HTTP_PROTOCOL+secret_settings.SECRET_DOMAIN+reverse('paypal-ipn'),
     print('Pre-Checkout Receipt #', str(receipt.receipt_id))
+    print('notify_url', str(notify_url))
+    print('return_url', str(return_url))
+    print('cancel_return', str(cancel_url))
+    print('prefix', prefix)
+    print("")
 
     # What you want the button to do.
     paypal_dict = {

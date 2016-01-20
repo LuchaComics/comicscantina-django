@@ -60,6 +60,9 @@ urlpatterns = [
     url(r'', include('inventory_wishlist.urls')),
     url(r'', include('api.urls')),
                
+    # PayPal
+    url(r'^checkout/paypal/', include('paypal.standard.ipn.urls')),
+               
     # Sitemap
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
                
