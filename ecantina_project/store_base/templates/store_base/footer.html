@@ -8,10 +8,47 @@
                     <ul>
                         <li class="supportLi">
                             <p> Your total comic book inventory system </p>
-                            <h4><a class="inline" href="tel:5195213135"> <strong> <i class="fa fa-phone"> </i> (519)521-3135</strong> </a>
+                            <h4>
+                                {% if request.subdomain == None %}
+                                    <a class="inline" href="tel:5195213135">
+                                        <strong>
+                                            <i class="fa fa-phone"> </i> (519)521-3135
+                                        </strong>
+                                    </a>
+                                {% else %}
+                                    {% if request.subdomain.organization != None and request.subdomain.store == None %}
+                                        <a class="inline" href="tel:{{ request.subdomain.organization.phone }}">
+                                            <strong>
+                                                <i class="fa fa-phone"> </i> {{ request.subdomain.organization.phone }}
+                                            </strong>
+                                        </a>
+                                    {% elif request.subdomain.organization != None and request.subdomain.store != None %}
+                                        <a class="inline" href="tel:{{ request.subdomain.store.phone }}">
+                                            <strong>
+                                                <i class="fa fa-phone"> </i> {{ request.subdomain.store.phone }}
+                                            </strong>
+                                        </a>
+                                    {% else %}
+                                        <a class="inline" href="tel:5195213135">
+                                            <strong>
+                                                <i class="fa fa-phone"> </i> (519)521-3135
+                                            </strong>
+                                       </a>
+                                    {% endif %}
+                                {% endif %}
                             </h4>
-                            <h4><a class="inline" href="mailto:support@comicscantina.com"> <i class="fa fa-envelope-o"> </i>
-                                support@comicscantina.com </a>
+                            <h4>
+                                {% if request.subdomain == None %}
+                                    <a class="inline" href="mailto:support@comicscantina.com"><i class="fa fa-envelope-o"></i>support@comicscantina.com </a>
+                                {% else %}
+                                    {% if request.subdomain.organization != None and request.subdomain.store == None %}
+                                        <a class="inline" href="mailto:{{ request.subdomain.organization.email }}"><i class="fa fa-envelope-o"></i>{{ request.subdomain.organization.email }}</a>
+                                    {% elif request.subdomain.organization != None and request.subdomain.store != None %}
+                                        <a class="inline" href="mailto:{{ request.subdomain.store.email }}"><i class="fa fa-envelope-o"></i>{{ request.subdomain.store.email }}</a>
+                                    {% else %}
+                                        <a class="inline" href="mailto:support@comicscantina.com"><i class="fa fa-envelope-o"></i>support@comicscantina.com </a>
+                                    {% endif %}
+                                {% endif %}
                             </h4>
                         </li>
                     </ul>

@@ -7,12 +7,45 @@
                 <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6">
                     <div class="pull-left ">
                         <ul class="userMenu ">
-                            <li><a href="/help"> <span class="hidden-xs">HELP</span><i
-                                class="glyphicon glyphicon-info-sign hide visible-xs "></i> </a></li>
-                            <li class="phone-number"><a href="tel:5195213135"> <span> <i
-                                class="glyphicon glyphicon-phone-alt "></i></span> <span class="hidden-xs"
-                                    style="margin-left:5px"> (519) 521-3135</span>
-                            </a></li>
+                            <li>
+                                <a href="/help">
+                                    <span class="hidden-xs">HELP</span>
+                                    <i class="glyphicon glyphicon-info-sign hide visible-xs ">
+                                    </i>
+                                </a>
+                            </li>
+                            <li class="phone-number">
+                                
+                                {% if request.subdomain == None %}
+                                    <a href="tel:5195213135">
+                                {% else %}
+                                    {% if request.subdomain.organization != None and request.subdomain.store == None %}
+                                    <a href="tel:{{ request.subdomain.organization.phone }}">
+                                    {% elif request.subdomain.organization != None and request.subdomain.store != None %}
+                                    <a href="tel:{{ request.subdomain.store.phone }}">
+                                    {% else %}
+                                    <a href="tel:5195213135">
+                                    {% endif %}
+                                {% endif %}
+                                    <span>
+                                        <i class="glyphicon glyphicon-phone-alt "></i>
+                                    </span>
+                                    <span class="hidden-xs"
+                                          style="margin-left:5px">
+                                        {% if request.subdomain == None %}
+                                            (519) 521-3135
+                                        {% else %}
+                                            {% if request.subdomain.organization != None and request.subdomain.store == None %}
+                                                {{ request.subdomain.organization.phone }}
+                                            {% elif request.subdomain.organization != None and request.subdomain.store != None %}
+                                                {{ request.subdomain.store.phone }}
+                                            {% else %}
+                                                Error
+                                            {% endif %}
+                                        {% endif %}
+                                    </span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
