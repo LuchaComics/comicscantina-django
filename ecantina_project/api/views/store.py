@@ -11,6 +11,8 @@ from api.models.ec.employee import Employee
 from api.models.ec.store import Store
 from api.serializers import StoreSerializer
 
+from rest_framework.decorators import detail_route
+from api.models.ec.product import Product
 
 class StoreFilter(django_filters.FilterSet):
     store_id = django_filters.CharFilter(name="store__store_id")
@@ -36,4 +38,50 @@ class StoreViewSet(viewsets.ModelViewSet):
     permission_classes = (BelongsToOrganizationOrReadOnly, IsAuthenticatedOrReadOnly)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = StoreFilter
+
+    @detail_route(methods=['get'], permission_classes=[BelongsToOrganizationOrReadOnly])
+    def make_products_pickup_required(self, request, pk=None):
+        """
+            Function will make all products inside this store to have in-store
+            pickup set to True.
+        """
+        # Fetch the individual store.
+        store = self.get_object()
+        
+        # Fetch all the Products for this store (which are not sold).
+        try:
+            products = Product.objects.filter(is_sold=False, store=store)
+        except Product.DoesNotExist:
+            products = None
+        
+        # Process all products.
+        for product in products.all():
+            product.has_no_shipping = True
+            product.save()
+
+        # Return success message.
+        return Response({'status': 'success', 'message': 'All products require in-store pickup now.'})
+
+    @detail_route(methods=['get'], permission_classes=[BelongsToOrganizationOrReadOnly])
+    def make_products_pickup_optional(self, request, pk=None):
+        """
+            Function will make all products inside this store to have in-store
+            pickup set to False.
+        """
+        # Fetch the individual store.
+        store = self.get_object()
+        
+        # Fetch all the Products for this store (which are not sold).
+        try:
+            products = Product.objects.filter(is_sold=False, store=store)
+        except Product.DoesNotExist:
+            products = None
+        
+        # Process all products.
+        for product in products.all():
+            product.has_no_shipping = False
+            product.save()
+        
+        # Return success message.
+        return Response({'status': 'success', 'message': 'All products in store can be ordered only.'})
 

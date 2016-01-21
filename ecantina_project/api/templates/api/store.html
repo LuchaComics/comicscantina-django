@@ -104,4 +104,47 @@
         });
     }
 
+    function perform_make_products_pickup_required(store_id, success_callback, error_callback) {
+       var url = "/api/stores/" + store_id + "/make_products_pickup_required/?format=json";
+       jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                success_callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                error_callback(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
+
+    function perform_make_products_pickup_optional(store_id, success_callback, error_callback) {
+        var url = "/api/stores/" + store_id + "/make_products_pickup_optional/?format=json";
+        jQuery.ajax({
+            url: url,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function(json_results){
+                success_callback(json_results);
+            },
+            error: function(xhr,status,error) {
+                console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
+                error_callback(xhr.responseText);
+            },
+            complete: function(xhr,status) {
+                // Do nothing.
+            }
+        });
+    }
+
 </script>
