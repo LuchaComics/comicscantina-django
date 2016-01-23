@@ -27,7 +27,7 @@ def baidu_txt_page(request):
 def http_500_error_page(request):
     """
         Simulates generating a HTTP 500 error which will trigger the 'AdminEmailHandler'
-        to successfully get called.
+        to successfully get called. For debugging purposes only!
     """
     raise Exception('mesg')
     return render(request, 'inventory_base/txt/baidu_verify_ObbdOAW2Jy.html', {}, content_type="text/plain")
