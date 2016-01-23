@@ -46,8 +46,9 @@ SITE_ID = 1
 # The Google Analytics Key
 GOOGLE_ANALYTICS_KEY = SECRET_GOOGLE_ANALYTICS_KEY
 
-# Application definition
 
+# Application definition
+#
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -211,6 +212,37 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Error Emailing
+# https://docs.djangoproject.com/en/dev/topics/logging/
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+         },
+    },
+}
+
 
 
 # Django REST Framework Configuration (Third Party)
