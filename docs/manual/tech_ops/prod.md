@@ -235,7 +235,7 @@ monitoring for these purposes.
   ext_if="vtnet0"
 
   webports = "{http, https}"
-  int_tcp_services = "{domain, ntp, www, https, ftp}"
+  int_tcp_services = "{domain, ntp, smtp, www, https, ftp, 465, 587}"
   int_udp_services = "{domain, ntp}"
 
   set skip on lo
@@ -272,16 +272,16 @@ monitoring for these purposes.
   ```
   vi /etc/rc.conf
   
-  - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
+  - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - 
   ###### FIREWALL
   #
-  pf_enable="YES" 		# Turn PF on when pc boots.
-  pf_rules="/etc/pf.conf" # Define the rules for the firewall
-  pf_flags=""			# Additional flags (none).
-  pflog_enabled="YES"		# Turn on packet loggin support.
+  pf_enable="YES" 		         # Turn PF on when pc boots.
+  pf_rules="/etc/pf.conf"        # Define the rules for the firewall
+  pf_flags=""			         # Additional flags (none).
+  pflog_enable="YES"		     # Turn on packet loggin support.
   pflog_logfile="/var/log/pflog" # Where to log data to, used by pflog daemon
-  pflog_flags=""			# Additional flags (None).
-  - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - - - - 
+  pflog_flags=""			     # Additional flags (None).
+  - - - - - - - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - 
   ```
 
 3. To start the firewall, run the following. Note: More instructions can be found here: [PF Firewall](https://www.freebsd.org/doc/handbook/firewalls-pf.html)
