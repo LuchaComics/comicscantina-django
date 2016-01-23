@@ -38,6 +38,9 @@ SECRET_KEY = SECRET_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = SECRET_DEBUG
 
+# List of people to contact on error when DEBUG=False
+ADMINS = SECRET_ADMINS
+
 ALLOWED_HOSTS = SECRET_ALLOWED_HOSTS
 
 # 'Sites Framework' requires this line.
