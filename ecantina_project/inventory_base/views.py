@@ -33,6 +33,10 @@ def http_500_error_page(request):
     return render(request, 'inventory_base/txt/baidu_verify_ObbdOAW2Jy.html', {}, content_type="text/plain")
 
 
+def google_page(request):
+    return render(request, 'inventory_base/txt/googled758fc2c6b7f8d7e.html', {}, content_type="text/plain")
+
+
 PNG_EXTENSION = 'png'
 JPG_EXTENSION = 'jpg'
 JPEG_EXTENSION = 'jpeg'
