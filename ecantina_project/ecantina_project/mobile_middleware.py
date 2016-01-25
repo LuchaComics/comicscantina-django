@@ -16,20 +16,30 @@ class MobileDeviceDetectorMiddleware(object):
         the 'True' value, else 'False'.
     """
     def process_request(self, request):
+        
+        # Variable controls whether the current request was made by a mobile
+        # browser or not.
         request.is_mobile = False
-        if request.META['HTTP_USER_AGENT']:
-            user_agent = request.META['HTTP_USER_AGENT']
+        
+        # Attempt to see if the request made was from a legitimate browser/device.
+        # Else skip and do something else.
+        try:
+            # Attempt to detect what device is being used.
+            if request.META['HTTP_USER_AGENT']:
+                user_agent = request.META['HTTP_USER_AGENT']
             
-            # Perform basic validation.
-            b = reg_b.search(user_agent)
-            v = reg_v.search(user_agent[0:4])
-            if b or v:
-                request.is_mobile = True
-    
-            # Perform extra validation.
-            extra_criteria = ["iphone", "ipad", "android", "blackberry", "iemobile", "windows phone os 7"]
-            user_agent = user_agent.lower()
-            for criteria in extra_criteria:
-                if user_agent.find(criteria) > 0:
+                # Perform basic validation.
+                b = reg_b.search(user_agent)
+                v = reg_v.search(user_agent[0:4])
+                if b or v:
                     request.is_mobile = True
-        return None
+    
+                # Perform extra validation.
+                extra_criteria = ["iphone", "ipad", "android", "blackberry", "iemobile", "windows phone os 7"]
+                user_agent = user_agent.lower()
+                for criteria in extra_criteria:
+                    if user_agent.find(criteria) > 0:
+                        request.is_mobile = True
+            return None
+        except Exception as e:
+            return None
