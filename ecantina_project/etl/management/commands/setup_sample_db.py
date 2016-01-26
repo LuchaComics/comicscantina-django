@@ -235,82 +235,101 @@ class Command(BaseCommand):
         
         # Create Sections
         try:
-            sections = Section.objects.filter(store=store)
+            section1 = Section.objects.get(section_id=1)
+            section2 = Section.objects.get(section_id=2)
+            section3 = Section.objects.get(section_id=3)
+            section4 = Section.objects.get(section_id=4)
         except Section.DoesNotExist:
-            Section.objects.create(
+            section1 = Section.objects.create(
                 section_id=1,
                 name='Downstairs',
                 store=store,
                 organization = organization,
             )
-            Section.objects.create(
+            section2 = Section.objects.create(
                 section_id=2,
                 name='Upstairs',
                 store=store,
                 organization = organization,
             )
-            Section.objects.create(
+            section3 = Section.objects.create(
                 section_id=3,
                 name='Front Pile',
                 store=store,
                 organization = organization,
             )
-            Section.objects.create(
+            section4 = Section.objects.create(
                 section_id=4,
                 name='Back Pile',
                 store=store,
                 organization = organization,
             )
+        sections = Section.objects.filter(store=store)
+        
 
         #-----------------
         # Tag
         #-----------------
         try:
-            tags = Tag.objects.all()
+            tag1 = Tag.objects.get(tag_id=1)
+            tag2 = Tag.objects.get(tag_id=2)
+            tag3 = Tag.objects.get(tag_id=3)
+            tag4 = Tag.objects.get(tag_id=4)
+            tag5 = Tag.objects.get(tag_id=5)
+            tag6 = Tag.objects.get(tag_id=6)
+            tag7 = Tag.objects.get(tag_id=7)
+            tag8 = Tag.objects.get(tag_id=8)
+            tag9 = Tag.objects.get(tag_id=9)
+            tag10 = Tag.objects.get(tag_id=10)
         except Tag.DoesNotExist:
-            Tag.objects.create(
+            tag1 = Tag.objects.create(
                 tag_id=1,
                 name = 'Marvel',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag2 = Tag.objects.create(
                 tag_id=2,
                 name = 'DC',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag3 = Tag.objects.create(
                 tag_id=3,
                 name = 'Image',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag4 = Tag.objects.create(
                 tag_id=4,
                 name = 'BOOM!',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag5 = Tag.objects.create(
                 tag_id=5,
                 name = 'Lucha Comics',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag6 = Tag.objects.create(
                 tag_id=6,
                 name = 'Dark Horse',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag7 = Tag.objects.create(
                 tag_id=7,
                 name = 'Dynamite',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag8 = Tag.objects.create(
                 tag_id=8,
                 name = 'IDW',
                 organization_id = 1,
             )
-            Tag.objects.create(
+            tag9 = Tag.objects.create(
                 tag_id=9,
                 name = 'Batman',
+                organization_id = 1,
+            )
+            tag10 = Tag.objects.create(
+                tag_id=10,
+                name = 'Ice Age',
                 organization_id = 1,
             )
 
@@ -348,12 +367,12 @@ class Command(BaseCommand):
         # GCD Publisher
         #-----------------
         try:
-            marvel = GCDPublisher.objects.get(publisher_id=500)
+            marvel = GCDPublisher.objects.get(publisher_id=666)
         except GCDPublisher.DoesNotExist:
             marvel = GCDPublisher.objects.create(
                 publisher_id=666,
                 name = 'Marvel',
-                year_began = 2000,
+                year_began = 1945,
                 year_ended = 2016,
                 notes = "",
                 url = "http://www.comicscantina.com",
@@ -361,10 +380,36 @@ class Command(BaseCommand):
             )
 
         #-----------------
+        # GCD Brand
+        #-----------------
+        try:
+            brand = GCDBrand.objects.get(brand_id=666)
+        except GCDBrand.DoesNotExist:
+            brand = GCDBrand.objects.create(
+                brand_id = 666,
+                issue_count = 1,
+#                parent = models.ForeignKey(GCDPublisher, null=True)
+#                group = models.ManyToManyField(GCDBrandGroup, blank=True,)
+#                images = models.ManyToManyField(GCDImage)
+                name = 'Marvel',
+                year_began = 2016,
+                year_ended = 300,
+                year_began_uncertain = False,
+                year_ended_uncertain = False,
+                notes = '',
+                keywords = '',
+#                url = '',
+                reserved = False,
+#                created = models.DateTimeField(auto_now_add=True)
+#                modified = models.DateTimeField(auto_now=True)
+                deleted = False,
+            )
+
+        #-----------------
         # GCD Series
         #-----------------
         try:
-            series = GCDSeries.objects.get(publisher_id=500)
+            series = GCDSeries.objects.get(publisher_id=666)
         except GCDSeries.DoesNotExist:
             series = GCDSeries.objects.create(
                 series_id=666,
@@ -379,6 +424,216 @@ class Command(BaseCommand):
                 publisher_name = "Marvel",
             )
 
+        #-----------------
+        # GCD Issues
+        #-----------------
+        try:
+            issue = GCDIssue.objects.get(issue_id=666)
+        except GCDIssue.DoesNotExist:
+            issue = GCDIssue.objects.create(
+                issue_id = 666,
+                number = '12',
+                title = 'Continental Union History Book',
+                no_title = False,
+                volume = 'vol 1',
+                no_volume = False,
+                display_volume_with_number = 'False',
+                isbn = '1234567890',
+                no_isbn = True,
+                valid_isbn = '987654321',
+                variant_of_id = 1,
+                variant_name = '',
+                barcode = '',
+                no_barcode = True,
+                rating = '100',
+                no_rating = True,
+                is_first_issue = True,
+                is_last_issue = True,
+                publication_date = '2015-01-01',
+                key_date = '2014-01-01',
+                on_sale_date = '',
+                on_sale_date_uncertain = True,
+                sort_code = 1,
+                indicia_frequency = '',
+                price = '',
+                page_count = 9.99,
+                page_count_uncertain = False,
+                editing = '',
+                no_editing = False,
+                notes = '',
+                keywords = '',
+                is_indexed = 1,
+                reserved = False,
+#                created = models.DateTimeField(auto_now_add=True)
+#                modified = models.DateTimeField(auto_now=True, db_index=True)
+                deleted = False,
+                indicia_pub_not_printed = False,
+                no_brand = False,
+#                small_url = '',
+#                medium_url = '',
+#                large_url = '',
+#                alt_small_url = '',
+#                alt_medium_url = '',
+#                alt_large_url = '',
+                has_alternative = False,
+                brand = brand,
+                series = series,
+#                indicia_publisher = models.ForeignKey(GCDIndiciaPublisher, null=True)
+#                images = models.ManyToManyField(GCDImage, blank=True)
+                publisher_name = 'Marvel',
+                genre = 'History',
+                product_name = 'Contentinal Union History',
+
+            )
+
+        #-----------------
+        # Category
+        #-----------------
+        try:
+            category1 = Category.objects.get(category_id=1)
+            category2 = Category.objects.get(category_id=2)
+            category3 = Category.objects.get(category_id=3)
+            category4 = Category.objects.get(category_id=4)
+            category5 = Category.objects.get(category_id=5)
+            category6 = Category.objects.get(category_id=6)
+            category7 = Category.objects.get(category_id=7)
+        except Category.DoesNotExist:
+            category1 = Category.objects.create(
+                category_id=1,
+                parent_id = 0,
+                name = 'Comic',
+            )
+            category2 = Category.objects.create(
+                category_id=2,
+                parent_id = 1,
+                name = 'Comic - Graphic Novel',
+            )
+            category3 = Category.objects.create(
+                category_id=3,
+                parent_id = 1,
+                name = 'Comic - Golden Age',
+            )
+            category4 = Category.objects.create(
+                category_id=4,
+                parent_id = 1,
+                name = 'Comic - Silver Age',
+            )
+            category5 = Category.objects.create(
+                category_id=5,
+                parent_id = 1,
+                name = 'Comic - Bronze Age',
+            )
+            category6 = Category.objects.create(
+                category_id=6,
+                parent_id = 1,
+                name = 'Comic - Modern',
+            )
+            category7 = Category.objects.create(
+                category_id=7,
+                parent_id = 1,
+                name = 'Comic - Trade Paperbacks',
+            )
+        except Category.DoesNotExist:
+            pass
+    
+        #------------------------
+        # Unified Shipping Rates
+        #------------------------
+        try:
+            shipping_rates = UnifiedShippingRate.objects.all()
+            if len(shipping_rates) <= 0:
+                UnifiedShippingRate.objects.create(
+                    shipping_rate_id = 1,
+                    country = 124, # Canada
+                    comics_rate1 = 10,
+                    comics_rate2 = 20,
+                    comics_rate3 = 25,
+                    comics_rate4 = 30,
+                    comics_rate5 = 35,
+                    comics_rate6 = 40,
+                    comics_rate7 = 50,
+                    comics_rate8 = 75,
+                    comics_rate9 = 100,
+                    comics_rate10 = 140,
+                )
+        except UnifiedShippingRate.DoesNotExist:
+            pass
+
+        #-----------------
+        # Brand
+        #-----------------
+        try:
+            brand1 = Brand.objects.get(brand_id=1)
+        except Brand.DoesNotExist:
+            brand1 = Brand.objects.create(
+                brand_id=1,
+                name='Galactic Alliance of Humankind',
+            )
+
+        #----------
+        # Product
+        #----------
+        try:
+            product1 = Product.objects.get(product_id=1)
+        except Product.DoesNotExist:
+            product1 = Product.objects.create(
+                name='Ice Age Now',
+                type=constants.COMIC_PRODUCT_TYPE,
+                description='The sun enteres a catastrophic cooling phase and threatens humanity.',
+                is_sold=False,
+                is_listed=False,
+                is_new=False,
+                is_featured=False,
+                sub_price=10.99,
+                has_tax=True,
+                tax_rate=0.13,
+                tax_amount=1.00,
+                sub_price_with_tax=12.99,
+                discount=0.10,
+                discount_type=1,
+                price=13.99,
+                cost=9.1,
+                currency=124,
+                language='EN',
+#                image='',
+#                image = models.ForeignKey(ImageUpload, null=True, blank=True,)
+#                image_url = models.URLField(null=True, blank=True)
+#                images = models.ManyToManyField(ImageUpload, blank=True, related_name='product_images')
+                organization = organization,
+                store = store,
+                section = section1,
+#                tags = None,
+                brand = brand1,
+                category = category1,
+#                qrcode = models.ImageField(upload_to='qrcode', null=True, blank=True)
+                is_qrcode_printed = False,
+                has_no_shipping = False,
+                is_unlimited = False,
+            )
+
+
+        #----------
+        # Comics
+        #----------
+        try:
+            comic1 = Comic.objects.get(comic_id=1)
+        except Comic.DoesNotExist:
+            comic1 = Comic.objects.create(
+                comic_id = 1,
+                is_cgc_rated = False,
+                age = 1, # constants.AGE_OPTIONS
+                cgc_rating = 10.0, # constants.CGC_RATING_OPTIONS
+                label_colour = 'Yellow', # constants.LABEL_COLOUR_OPTIONS
+                condition_rating = 10, # constants.CONDITION_RATING_RATING_OPTIONS
+                is_canadian_priced_variant = False,
+                is_variant_cover = False,
+                is_retail_incentive_variant = False,
+                is_newsstand_edition = False,
+                organization = organization,
+                product = product1,
+                issue = issue,
+            )
+
         #------------
         #TODO: Continue adding here ...
         
@@ -391,9 +646,12 @@ class Command(BaseCommand):
         tables_info = [
             # eCantina Tables
             {"tablename": "ec_brands", "primarykey": "brand_id",},
+#            {"tablename": "ec_comic_catalog_items", "primarykey": "catalog_comic_id",},
             {"tablename": "ec_comics", "primarykey": "comic_id",},
             {"tablename": "ec_customers", "primarykey": "customer_id",},
             {"tablename": "ec_employees", "primarykey": "employee_id",},
+            {"tablename": "ec_categories", "primarykey": "category_id",},
+            {"tablename": "ec_unified_shipping_rates", "primarykey": "shipping_rate_id",},
 #            {"tablename": "ec_email_subscriptions", "primarykey": "subscription_id",},
             {"tablename": "ec_help_requests", "primarykey": "help_id",},
             {"tablename": "ec_image_uploads", "primarykey": "upload_id",},
