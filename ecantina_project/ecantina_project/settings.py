@@ -228,39 +228,39 @@ MEDIA_URL = '/media/'
 # Error Emailing
 # https://docs.djangoproject.com/en/dev/topics/logging/
 
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': False,
-#    'handlers': {
-#        'mail_admins': {
-#            'level': 'ERROR',
-#            'class': 'django.utils.log.AdminEmailHandler',
-#            'include_html': False, # Set to this value to prevent spam
-#        }
-#    },
-#    'loggers': {
-#        'django.request': {
-#            'handlers': ['mail_admins'],
-#            'level': 'ERROR',
-#            'propagate': False,
-#         },
-#    },
-#}
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': False, # Set to this value to prevent spam
+        }
     },
     'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+         },
     },
 }
+#LOGGING = {
+#    'version': 1,
+#    'disable_existing_loggers': False,
+#    'handlers': {
+#        'console': {
+#            'class': 'logging.StreamHandler',
+#        },
+#    },
+#    'loggers': {
+#        'django': {
+#            'handlers': ['console'],
+#            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+#        },
+#    },
+#}
 
 
 # Django REST Framework Configuration (Third Party)

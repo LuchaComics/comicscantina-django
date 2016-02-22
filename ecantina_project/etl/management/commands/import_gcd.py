@@ -36,7 +36,7 @@ class Command(BaseCommand):
         involves inserting new records or updating existing records.
         
         Run in your console:
-        $ python manage.py import_gcd /Users/bartlomiejmika/Developer/ecantina/gcd/xml
+        $ python manage.py import_gcd /Users/bartlomiejmika/Developer/rodolfomartinez/comicscantina/gcd/xml
         
         (Where that file path is the path to where the GCD XML files are located)
         

@@ -6,6 +6,10 @@ from api.models.gcd.country import GCDCountry
 
 
 class ImportCountry:
+    """
+        tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_country.xml > gcd_country2.xml
+        mv gcd_country2.xml gcd_country.xml
+    """
     def __init__(self, file_path):
         self.file_path = file_path
     

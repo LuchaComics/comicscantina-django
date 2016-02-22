@@ -17,6 +17,7 @@ class ImportPublisher:
             
         Step (2):
             Rename gcd_publisher2 to gcd_publisher and delete old.
+            mv gcd_publisher2.xml gcd_publisher.xml
             
         Step (3):
             This class will work without error.

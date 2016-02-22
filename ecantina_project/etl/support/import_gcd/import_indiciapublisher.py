@@ -18,6 +18,7 @@ class ImportIndiciaPublisher:
         
         Step (2):
         Rename gcd_publisher2 to gcd_publisher and delete old.
+        mv gcd_indicia_publisher2.xml gcd_indicia_publisher.xml
         
         Step (3):
         This class will work without error.

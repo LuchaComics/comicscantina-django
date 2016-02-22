@@ -6,6 +6,10 @@ from api.models.gcd.language import GCDLanguage
 
 
 class ImportLanguage:
+    """
+        tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_language.xml > gcd_language.xml
+        mv gcd_language.xml gcd_language.xml
+    """
     def __init__(self, file_path):
         self.file_path = file_path
     
