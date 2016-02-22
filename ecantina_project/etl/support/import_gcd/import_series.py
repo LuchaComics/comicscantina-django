@@ -11,32 +11,23 @@ from api.models.gcd.series import GCDSeries
 class ImportSeries:
     """
         Class is responsible for opening CSV file and importing into database.
-        
-        HOWTO: Setup File for processing.
-        Step (1):
-            Go to the directory where our publisher file exists and run this:
-            tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_series.xml > gcd_series2.xml
-            
-        Step (2):
-            Rename gcd_publisher2 to gcd_publisher and delete old.
-            mv gcd_series2.xml gcd_series.xml
-            
-        Step (3):
-            This class will work without error.
-            
-        Note:
-            http://stackoverflow.com/questions/15977075/elementtree-parseerror-not-well-formed-invalid-token
     """
     def __init__(self, file_path):
         self.file_path = file_path
     
     def begin_import(self):
+        # Remove the text formating.
+        fp = self.file_path
+        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
+        os.system("mv "+fp+"2 "+fp+";")
+        
+        # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
                 self.import_row(elem)
                 elem.clear()
 
-    def import_row(self, row):
+    def import_row(self, root):
         #-----------#
         #  Extract  #
         #-----------#

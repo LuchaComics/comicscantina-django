@@ -18,23 +18,29 @@ class ImportLanguage:
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, root):
+
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = 0
-        name = None
-        code = None
-        for child in root:
-            if child.attrib['name'] == 'id':
-                id = child.text
-            if child.attrib['name'] == 'name':
-                name = child.text
-            if child.attrib['name'] == 'code':
-                code = child.text
+        id = int(array['id'])
+        name = array['name']
+        code = array['code']
         
         #-----------#
         # Transform #
