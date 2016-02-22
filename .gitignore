@@ -165,3 +165,4 @@ ecantina_project/media/upload/*.JPEG
 ecantina_project/media/upload/*.JPG
 ecantina_project/media/upload/*.PNG
 ecantina_project/media/upload/*.png
+ecantina_project/static/CACHE/*
