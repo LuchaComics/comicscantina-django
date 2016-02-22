@@ -146,6 +146,9 @@ class ImportIssue:
         if not editing:
             editing = ""
 
+        if not publication_date:
+            publication_date = ""
+
         no_title = True if no_title is '1' else False
         no_volume = True if no_volume is '1' else False
         display_volume_with_number = True if display_volume_with_number is '1' else False
