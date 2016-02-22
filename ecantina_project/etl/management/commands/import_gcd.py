@@ -16,12 +16,12 @@ from etl.support.import_gcd.import_story import *
 IMPORT_FILE_NAMES = [
 #    'gcd_country.xml',
 #    'gcd_language.xml',
-    'gcd_publisher.xml',
+#    'gcd_publisher.xml',
 #    'gcd_indicia_publisher.xml',
 #    'gcd_series.xml' ,
 #    'gcd_brand_group.xml',
 #    'gcd_brand.xml',
-#    'gcd_issue.xml',
+    'gcd_issue.xml',
 #    'gcd_story_type.xml',
 #    'gcd_story.xml'
 ]

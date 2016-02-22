@@ -9,7 +9,7 @@ from api.models.gcd.indiciapublisher import GCDIndiciaPublisher
 
 class ImportIndiciaPublisher:
     """
-        Class is responsible for opening CSV file and importing into database.
+        Class is responsible for opening XML file and importing into database.
     """
     def __init__(self, file_path):
         self.file_path = file_path
@@ -23,79 +23,42 @@ class ImportIndiciaPublisher:
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, root):
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = 0
-        parent_id = 0
-        name = None
-        country_id = 0
-        year_began = None
-        year_ended = None
-        is_surrogate = None
-        notes = None
-        url = None
-        created = None
-        modified = None
-        issue_count = None
-        reserved = None
-        deleted = None
-        year_began_uncertain = None
-        year_ended_uncertain = None
+        id = int(array['id']);
+        parent_id = array['parent_id']
+        name = array['name']
+        country_id = int(array['country_id'])
+        year_began = array['year_began']
+        year_ended = array['year_ended']
+        is_surrogate = array['is_surrogate']
+        notes = array['notes']
+        url = array['url']
+        created = array['created']
+        modified = array['modified']
+        issue_count = array['issue_count']
+        reserved = array['reserved']
+        deleted = array['deleted']
+        year_began_uncertain = array['year_began_uncertain']
+        year_ended_uncertain = array['year_ended_uncertain']
         
-        for child in root:
-            if child.attrib['name'] == 'id':
-                id = int(child.text)
-            
-            if child.attrib['name'] == 'name':
-                name = child.text
-            
-            if child.attrib['name'] == 'country_id':
-                country_id = int(child.text)
-            
-            if child.attrib['name'] == 'year_began':
-                year_began = child.text
-            
-            if child.attrib['name'] == 'year_ended':
-                year_ended = child.text
-            
-            if child.attrib['name'] == 'is_surrogate':
-                is_surrogate = child.text
-            
-            if child.attrib['name'] == 'notes':
-                notes = child.text
-            
-            if child.attrib['name'] == 'url':
-                url = child.text
-            
-            if child.attrib['name'] == 'parent_id':
-                parent_id = child.text
-            
-            if child.attrib['name'] == 'created':
-                created = child.text
-            
-            if child.attrib['name'] == 'modified':
-                modified = child.text
-            
-            if child.attrib['name'] == 'issue_count':
-                issue_count = child.text
-            
-            if child.attrib['name'] == 'reserved':
-                reserved = child.text
-            
-            if child.attrib['name'] == 'deleted':
-                deleted = child.text
-            
-            if child.attrib['name'] == 'year_began_uncertain':
-                year_began_uncertain = child.text
-            
-            if child.attrib['name'] == 'year_ended_uncertain':
-                year_ended_uncertain = child.text
-
         #-----------#
         # Transform #
         #-----------#

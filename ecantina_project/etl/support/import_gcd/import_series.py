@@ -10,7 +10,7 @@ from api.models.gcd.series import GCDSeries
 
 class ImportSeries:
     """
-        Class is responsible for opening CSV file and importing into database.
+        Class is responsible for opening XML file and importing into database.
     """
     def __init__(self, file_path):
         self.file_path = file_path
@@ -20,56 +20,68 @@ class ImportSeries:
         fp = self.file_path
         os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
         os.system("mv "+fp+"2 "+fp+";")
-        
+
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, root):
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = int(row.findtext('id'))
-        name = row.findtext('name')
-        sort_name = row.findtext('sort_name')
-        format = row.findtext('format')
-        year_began = row.findtext('year_began')
-        year_ended = row.findtext('year_ended')
-        year_began_uncertain = row.findtext('year_began_uncertain')
-        year_ended_uncertain = row.findtext('year_ended_uncertain')
-        publication_dates = row.findtext('publication_dates')
-        first_issue_id = row.findtext('first_issue_id')
-        last_issue_id = row.findtext('last_issue_id')
-        is_current = row.findtext('is_current')
-        publisher_id = int(row.findtext('publisher_id'))
-        country_id = int(row.findtext('country_id'))
-        language_id = int(row.findtext('language_id'))
-        tracking_notes = row.findtext('tracking_notes')
-        notes = row.findtext('notes')
-        publication_notes = row.findtext('publication_notes')
-        has_gallery = row.findtext('has_gallery')
-        open_reserve = row.findtext('open_reserve')
-        issue_count = int(row.findtext('issue_count'))
-        created = row.findtext('created')
-        modified = row.findtext('modified')
-        reserved = row.findtext('reserved')
-        deleted = row.findtext('deleted')
-        has_indicia_frequency = row.findtext('has_indicia_frequency')
-        has_isbn = row.findtext('has_isbn')
-        has_barcode = row.findtext('has_barcode')
-        has_issue_title = row.findtext('has_issue_title')
-        has_volume = row.findtext('has_volume')
-        is_comics_publication = row.findtext('is_comics_publication')
-        color = row.findtext('color')
-        dimensions = row.findtext('dimensions')
-        paper_stock = row.findtext('paper_stock')
-        binding = row.findtext('binding')
-        publishing_format = row.findtext('publishing_format')
-        has_rating = row.findtext('has_rating')
-        publication_type_id = row.findtext('publication_type_id')
-        is_singleton = row.findtext('is_singleton')
+        id = int(array['id'])
+        name = array['name']
+        sort_name = array['sort_name']
+        format = array['format']
+        year_began = array['year_began']
+        year_ended = array['year_ended']
+        year_began_uncertain = array['year_began_uncertain']
+        year_ended_uncertain = array['year_ended_uncertain']
+        publication_dates = array['publication_dates']
+        first_issue_id = array['first_issue_id']
+        last_issue_id = array['last_issue_id']
+        is_current = array['is_current']
+        publisher_id = int(array['publisher_id'])
+        country_id = int(array['country_id'])
+        language_id = int(array['language_id'])
+        tracking_notes = array['tracking_notes']
+        notes = array['notes']
+        publication_notes = array['publication_notes']
+        has_gallery = array['has_gallery']
+        open_reserve = array['open_reserve']
+        issue_count = int(array['issue_count'])
+        created = array['created']
+        modified = array['modified']
+        reserved = array['reserved']
+        deleted = array['deleted']
+        has_indicia_frequency = array['has_indicia_frequency']
+        has_isbn = array['has_isbn']
+        has_barcode = array['has_barcode']
+        has_issue_title = array['has_issue_title']
+        has_volume = array['has_volume']
+        is_comics_publication = array['is_comics_publication']
+        color = array['color']
+        dimensions = array['dimensions']
+        paper_stock = array['paper_stock']
+        binding = array['binding']
+        publishing_format = array['publishing_format']
+        has_rating = array['has_rating']
+        publication_type_id = array['publication_type_id']
+        is_singleton = array['is_singleton']
 
         #-----------#
         # Transform #
@@ -91,12 +103,57 @@ class ImportSeries:
             language = None
 
         # Fix their weird data
-        year_began = 0 if year_began in 'NULL' else int(year_began)
-        year_began = year_began if year_began <= 9999 else 0
-        year_ended = 0 if year_ended in 'NULL' else int(year_ended)
-        year_ended = year_ended if year_ended <= 9999 else 0
-        year_began_uncertain = False if year_began_uncertain is '0' else True
-        year_ended_uncertain = False if year_ended_uncertain is '0' else True
+        if year_began:
+            year_began = 0 if year_began in 'NULL' else int(year_began)
+            year_began = year_began if year_began <= 9999 else 0
+
+        if year_ended:
+            year_ended = 0 if year_ended in 'NULL' else int(year_ended)
+            year_ended = year_ended if year_ended <= 9999 else 0
+
+        if year_began_uncertain:
+            year_began_uncertain = False if year_began_uncertain is '0' else True
+            year_ended_uncertain = False if year_ended_uncertain is '0' else True
+
+        if publication_type_id:
+            publication_type_id = 0 if publication_type_id in 'NULL' else int(publication_type_id)
+
+        if first_issue_id:
+            first_issue_id = 0 if first_issue_id in 'NULL' else int(first_issue_id)
+                
+        if last_issue_id:
+            last_issue_id = 0 if last_issue_id in 'NULL' else int(last_issue_id)
+                
+        if open_reserve:
+            open_reserve = 0 if open_reserve in 'NULL' else int(open_reserve)
+
+        if not name:
+            name = ""
+
+        if not format:
+            format = ""
+
+        if not paper_stock:
+            paper_stock = 0
+
+        if not publishing_format:
+            publishing_format = 0
+
+        if not publication_dates:
+            publication_dates = ""
+
+        if not binding:
+            binding = ""
+
+        if not color:
+            color = ""
+
+        if not dimensions:
+            dimensions = ""
+
+        if not sort_name:
+            sort_name = name
+
         has_barcode = False if has_barcode is '0' else True
         has_indicia_frequency = False if has_indicia_frequency is '0' else True
         has_isbn = False if has_isbn is '0' else True
@@ -109,10 +166,6 @@ class ImportSeries:
         has_gallery = False if has_gallery is '0' else True
         reserved = False if reserved is '0' else True
         deleted = False if deleted is '0' else True
-        first_issue_id = 0 if first_issue_id in 'NULL' else int(first_issue_id)
-        last_issue_id = 0 if last_issue_id in 'NULL' else int(last_issue_id)
-        publication_type_id = 0 if publication_type_id in 'NULL' else int(publication_type_id)
-        open_reserve = 0 if open_reserve in 'NULL' else int(open_reserve)
 
         # Generate Image URL
         base_url = settings.COMICS_CANTINA_IMAGE_SERVER_BASE_URL + str(id)

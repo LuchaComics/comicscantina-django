@@ -14,75 +14,78 @@ from api.models.gcd.issue import GCDIssue
 
 class ImportIssue:
     """
-        Class is responsible for opening CSV file and importing into database.
-        
-        HOWTO: Setup File for processing.
-        Step (1):
-            Go to the directory where our publisher file exists and run this:
-            tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_issue.xml > gcd_issue2.xml
-            
-        Step (2):
-            Rename gcd_publisher2 to gcd_publisher and delete old.
-            mv gcd_issue2.xml gcd_issue.xml
-            
-        Step (3):
-            This class will work without error.
-            
-        Note:
-            http://stackoverflow.com/questions/15977075/elementtree-parseerror-not-well-formed-invalid-token
+        Class is responsible for opening XML file and importing into database.
     """
     def __init__(self, file_path):
         self.file_path = file_path
     
     def begin_import(self):
+        # Remove the text formating.
+#        fp = self.file_path
+#        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
+#        os.system("mv "+fp+"2 "+fp+";")
+
+        # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, row):
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = int(row.findtext('id'))
-        number = row.findtext('number')
-        volume = row.findtext('volume')
-        no_volume = row.findtext('no_volume')
-        display_volume_with_number = row.findtext('display_volume_with_number')
-        series_id = row.findtext('series_id')
-        indicia_publisher_id = row.findtext('indicia_publisher_id')
-        indicia_pub_not_printed = row.findtext('indicia_pub_not_printed')
-        brand_id = row.findtext('brand_id')
-        no_brand = row.findtext('no_brand')
-        publication_date = row.findtext('publication_date')
-        key_date = row.findtext('key_date')
-        sort_code = row.findtext('sort_code')
-        price = row.findtext('price')
-        page_count = row.findtext('page_count')
-        page_count_uncertain = row.findtext('page_count_uncertain')
-        indicia_frequency = row.findtext('indicia_frequency')
-        no_indicia_frequency = row.findtext('no_indicia_frequency')
-        editing = row.findtext('editing')
-        no_editing = row.findtext('no_editing')
-        notes = row.findtext('notes')
-        created = row.findtext('created')
-        modified = row.findtext('modified')
-        reserved = row.findtext('reserved')
-        deleted = row.findtext('deleted')
-        is_indexed = row.findtext('is_indexed')
-        isbn = row.findtext('isbn')
-        valid_isbn = row.findtext('valid_isbn')
-        no_isbn = row.findtext('no_isbn')
-        variant_of_id = row.findtext('variant_of_id')
-        variant_name = row.findtext('variant_name')
-        barcode = row.findtext('barcode')
-        no_barcode = row.findtext('no_barcode')
-        title = row.findtext('title')
-        no_title = row.findtext('no_title')
-        on_sale_date = row.findtext('on_sale_date')
-        on_sale_date_uncertain = row.findtext('on_sale_date_uncertain')
-        rating = row.findtext('rating')
-        no_rating = row.findtext('no_rating')
+        id = int(array['id'])
+        number = array['number']
+        volume = array['volume']
+        no_volume = array['no_volume']
+        display_volume_with_number = array['display_volume_with_number']
+        series_id = array['series_id']
+        indicia_publisher_id = array['indicia_publisher_id']
+        indicia_pub_not_printed = array['indicia_pub_not_printed']
+        brand_id = array['brand_id']
+        no_brand = array['no_brand']
+        publication_date = array['publication_date']
+        key_date = array['key_date']
+        sort_code = array['sort_code']
+        price = array['price']
+        page_count = array['page_count']
+        page_count_uncertain = array['page_count_uncertain']
+        indicia_frequency = array['indicia_frequency']
+        no_indicia_frequency = array['no_indicia_frequency']
+        editing = array['editing']
+        no_editing = array['no_editing']
+        notes = array['notes']
+        created = array['created']
+        modified = array['modified']
+        reserved = array['reserved']
+        deleted = array['deleted']
+        is_indexed = array['is_indexed']
+        isbn = array['isbn']
+        valid_isbn = array['valid_isbn']
+        no_isbn = array['no_isbn']
+        variant_of_id = array['variant_of_id']
+        variant_name = array['variant_name']
+        barcode = array['barcode']
+        no_barcode = array['no_barcode']
+        title = array['title']
+        no_title = array['no_title']
+        on_sale_date = array['on_sale_date']
+        on_sale_date_uncertain = array['on_sale_date_uncertain']
+        rating = array['rating']
+        no_rating = array['no_rating']
 
         #-----------#
         # Transform #
@@ -91,24 +94,71 @@ class ImportIssue:
             brand_id = 0
         else:
             brand_id = 0 if brand_id in 'NULL' else int(brand_id)
-        series_id = 0 if series_id in 'NULL' else int(series_id)
-        indicia_publisher_id = 0 if indicia_publisher_id in 'NULL' else int(indicia_publisher_id)
+        
+        if series_id:
+            series_id = 0 if series_id in 'NULL' else int(series_id)
+        
+        if indicia_publisher_id:
+            indicia_publisher_id = 0 if indicia_publisher_id in 'NULL' else int(indicia_publisher_id)
+        
+        if variant_of_id:
+            variant_of_id = 0 if variant_of_id in 'NULL' else int(variant_of_id)
+
+        if page_count:
+            page_count = 0 if page_count in 'NULL' else Decimal(page_count)
+
+        if is_indexed:
+            is_indexed = False if is_indexed in 'NULL' else int(is_indexed)
+
+        if not title:
+            title = ""
+        
+        if not volume:
+            volume = ""
+        
+        if not isbn:
+            isbn = ""
+        
+        if not valid_isbn:
+            valid_isbn = ""
+        
+        if not variant_of_id:
+            variant_of_id = 0
+        
+        if not variant_name:
+            variant_name = ""
+        
+        if not barcode:
+            barcode = ""
+    
+        if not rating:
+            rating = ""
+
+        if not indicia_frequency:
+            indicia_frequency = ""
+
+        if not on_sale_date:
+            on_sale_date = ""
+
+        if not price:
+            price = ""
+
+        if not editing:
+            editing = ""
+
         no_title = True if no_title is '1' else False
         no_volume = True if no_volume is '1' else False
         display_volume_with_number = True if display_volume_with_number is '1' else False
         no_isbn = True if no_isbn is '1' else False
-        variant_of_id = 0 if variant_of_id in 'NULL' else int(variant_of_id)
         no_barcode = True if no_barcode is '1' else False
         on_sale_date_uncertain = True if on_sale_date_uncertain is '1' else False
         no_rating = True if no_rating is '1' else False
         no_indicia_frequency = True if no_indicia_frequency is '1' else False
-        page_count = 0 if page_count in 'NULL' else Decimal(page_count)
         no_editing = True if no_editing in '1' else False
         reserved = True if reserved in '1' else False
         indicia_pub_not_printed = True if indicia_pub_not_printed in '1' else False
         no_brand = True if no_brand in '1' else False
         deleted = True if deleted in '1' else False
-        is_indexed = False if is_indexed in 'NULL' else int(is_indexed)
 
         try:
             indicia_publisher = GCDIndiciaPublisher.objects.get(indicia_publisher_id=indicia_publisher_id)

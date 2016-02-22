@@ -8,7 +8,7 @@ from api.models.gcd.publisher import GCDPublisher
 
 class ImportPublisher:
     """
-        Class is responsible for opening CSV file and importing into database.
+        Class is responsible for opening XML file and importing into database.
     """
     def __init__(self, file_path):
         self.file_path = file_path
