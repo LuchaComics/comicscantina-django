@@ -14,16 +14,16 @@ from etl.support.import_gcd.import_storytype import *
 from etl.support.import_gcd.import_story import *
 
 IMPORT_FILE_NAMES = [
-    'gcd_country.xml',
-    'gcd_language.xml',
+#    'gcd_country.xml',
+#    'gcd_language.xml',
     'gcd_publisher.xml',
-    'gcd_indicia_publisher.xml',
-    'gcd_series.xml' ,
-    'gcd_brand_group.xml',
-    'gcd_brand.xml',
-    'gcd_issue.xml',
-    'gcd_story_type.xml',
-    'gcd_story.xml'
+#    'gcd_indicia_publisher.xml',
+#    'gcd_series.xml' ,
+#    'gcd_brand_group.xml',
+#    'gcd_brand.xml',
+#    'gcd_issue.xml',
+#    'gcd_story_type.xml',
+#    'gcd_story.xml'
 ]
 
 class Command(BaseCommand):
@@ -35,14 +35,11 @@ class Command(BaseCommand):
         and iterate through them to import them into the database. Importing
         involves inserting new records or updating existing records.
         
+        
         Run in your console:
-        $ python manage.py import_gcd /Users/bartlomiejmika/Developer/rodolfomartinez/comicscantina/gcd/xml
-        
-        (Where that file path is the path to where the GCD XML files are located)
-        
-        Note: sometiems we may need to run:
-        tr -dc '[\011\012\015\040-\176\200-\377]' < gcd_publisher.xml > gcd_publisher2.xml
-        mv gcd_publisher2.xml gcd_publisher.xml
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        python manage.py import_gcd /Users/bartlomiejmika/Developer/rodolfomartinez/comicscantina/gcd/xml
+        - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     """
     help = 'ETL loads up the GCD database into our applicaton using the provided xml files.'
     
