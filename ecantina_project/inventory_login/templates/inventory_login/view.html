@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles compress %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,6 +8,7 @@
         <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
         <title>Comics Cantina - Login Page</title>
         <!-- Local CSS -->
+        {% compress css %}
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/fontawesome/css/font-awesome.min.css' %}" id="">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/simple-line-icons/css/simple-line-icons.css' %}" id="">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/animate.css/animate.min.css' %}" id="">
@@ -15,14 +16,15 @@
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/weather-icons/css/weather-icons.min.css' %}" id="">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/bootstrap.css' %}" id="bscss">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/app.css' %}" id="maincss">
-                                    
-  
-           <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/theme-e.css' %}" id="themecss">
-          <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/comicscantina.css' %}" id="comicscantinacss">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/theme-e.css' %}" id="themecss">
+        <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/comicscantina.css' %}" id="comicscantinacss">
+        {% endcompress %}
           
-          <!-- Local JS -->
-          <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
-          <script type="text/javascript" src="{% static 'inventory/js/bootstrap/dist/js/bootstrap.js' %}"></script>
+        <!-- Local JS -->
+        {% compress js %}
+        <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'inventory/js/bootstrap/dist/js/bootstrap.js' %}"></script>
+        {% endcompress %}
     </head>
     <body>
         <!-- CSRF Token -->
@@ -71,6 +73,7 @@
             </div>
         </div>
         <!-- Local JS -->
+        {% compress js %}
         <script type="text/javascript" src="{% static 'inventory/js/modernizr/modernizr.custom.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/matchMedia/matchMedia.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
@@ -92,7 +95,7 @@
         <script type="text/javascript" src="{% static 'inventory/js/moment/min/moment-with-locales.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/demo/demo-flot.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/app.js' %}"></script>
-
+        {% endcompress %}
     </body>
     {% include "inventory_login/js.html" %}
 </html>

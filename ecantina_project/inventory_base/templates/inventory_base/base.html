@@ -18,6 +18,7 @@
         <link rel="apple-touch-icon" sizes="144x144" href="{% static "img/apple-touch-icon-144x144.png" %}">
 
         <!-- Local CSS -->
+        {% compress css %}
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/fontawesome/css/font-awesome.min.css' %}" id="">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/simple-line-icons/css/simple-line-icons.css' %}" id="">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/animate.css/animate.min.css' %}" id="">
@@ -25,8 +26,6 @@
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/weather-icons/css/weather-icons.min.css' %}" id="">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/bootstrap.css' %}" id="bscss">
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/app.css' %}" id="maincss">
-            
-        
             
 <!--        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/jquery/jquery-ui/jquery-ui.css' %}" id="">
 <!--        <link type="text/css" rel="stylesheet" href="{% static 'inventory/js/jquery/jquery-ui/jquery-ui.structure.css' %}" id="">-->
@@ -36,12 +35,15 @@
         <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/comicscantina.css' %}" id="comicscantinacss">
 <!--        <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/jquery.filer.css' %}" id="jqfiler">-->
 <!--        <link type="text/css" rel="stylesheet" href="{% static 'inventory/css/themes/jquery.filer-dragdropbox-theme.css' %}" id="jqfilertheme">-->
+        {% endcompress %}
         <!-- /.Local CSS -->
     
         
         <!-- Local JS -->
+        {% compress js %}
         <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/bootstrap/dist/js/bootstrap.js' %}"></script>
+        {% endcompress %}
         <!-- /.Local JS -->
         
     </head>
@@ -100,6 +102,7 @@
         </div>
         
         <!-- Local JS -->
+        {% compress js %}
         <script type="text/javascript" src="{% static 'inventory/js/modernizr/modernizr.custom.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/matchMedia/matchMedia.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/jquery/dist/jquery.js' %}"></script>
@@ -121,6 +124,7 @@
         <script type="text/javascript" src="{% static 'inventory/js/moment/min/moment-with-locales.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/demo/demo-flot.js' %}"></script>
         <script type="text/javascript" src="{% static 'inventory/js/app.js' %}"></script>
+        {% endcompress %}
         <script>
             function ajax_logout() {
                 sign_off(

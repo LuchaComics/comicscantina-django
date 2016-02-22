@@ -37,7 +37,9 @@
         
         
         <!-- Local CSS -->
-        <link type="text/css" rel="stylesheet" href="{% static 'store/bootstrap/css/bootstrap.css' %}">
+        {% compress css %}
+            <link type="text/css" rel="stylesheet" href="{% static 'store/bootstrap/css/bootstrap.css' %}">
+        {% endcompress %}
         {% if org != None %}
             {% if store != None %}
             <link type="text/css" rel="stylesheet" href="/static/store/css/{{ store.style }}">
@@ -45,18 +47,21 @@
             <link type="text/css" rel="stylesheet" href="/static/store/css/{{ org.style }}">
             {% endif %}
         {% else %}
-        <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
+            {% compress css %}
+                <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
+            {% endcompress %}
         {% endif %}
-        
         <!-- /.Local CSS -->
         
     
         
         <!-- Local JS header -->
-        <script type="text/javascript" src="{% static 'store/js/jquery/jquery-1.10.1.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'store/bootstrap/js/bootstrap.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'store/js/idangerous.swiper-2.1.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'store/js/pace.min.js' %}"></script>
+        {% compress js %}
+            <script type="text/javascript" src="{% static 'store/js/jquery/jquery-1.10.1.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'store/bootstrap/js/bootstrap.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'store/js/idangerous.swiper-2.1.min.js' %}"></script>
+            <script type="text/javascript" src="{% static 'store/js/pace.min.js' %}"></script>
+        {% endcompress %}
         <!-- /.Local JS Header -->
     
         
@@ -125,11 +130,12 @@
     {% include "store_base/footer.html" %}
 
     <!-- Local JS footer -->
+    <script type="text/javascript" src="{% static 'store/js/helper-plugins/jquery.mousewheel.min.js' %}"></script>
+    {% compress js %}
+    <script type="text/javascript" src="{% static 'store/js/jquery.mCustomScrollbar.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/jquery.cycle2.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/jquery.easing.1.3.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/jquery.parallax-1.1.js' %}"></script>
-    <script type="text/javascript" src="{% static 'store/js/helper-plugins/jquery.mousewheel.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'store/js/jquery.mCustomScrollbar.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/plugins/icheck-1.x/icheck.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/grids.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/owl.carousel.min.js' %}"></script>
@@ -137,6 +143,7 @@
     <script type="text/javascript" src="{% static 'store/js/bootstrap.touchspin.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/home.js' %}"></script>
     <script type="text/javascript" src="{% static 'store/js/script.js' %}"></script>
+    {% endcompress %}
     <!-- /.Local JS Footer -->
     
     
