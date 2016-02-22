@@ -22,94 +22,46 @@ class ImportPublisher:
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, root):
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = 0
-        name = None
-        country_id = None
-        year_began = None
-        year_ended = None
-        notes = None
-        url = None
-        is_master = None
-        parent_id = None
-        imprint_count = None
-        brand_count = None
-        indicia_publisher_count = None
-        series_count = None
-        created = None
-        modified = None
-        issue_count = None
-        reserved = None
-        deleted = None
-        year_began_uncertain = 0
-        year_ended_uncertain = 0
-        for child in root:
-            if child.attrib['name'] == 'id':
-                id = int(child.text)
-            
-            if child.attrib['name'] == 'name':
-                name = child.text
-            
-            if child.attrib['name'] == 'country_id':
-                country_id = int(child.text)
-            
-            if child.attrib['name'] == 'year_began':
-                year_began = child.text
-            
-            if child.attrib['name'] == 'year_ended':
-                year_ended = child.text
-            
-            if child.attrib['name'] == 'notes':
-                notes = child.text
-            
-            if child.attrib['name'] == 'url':
-                url = child.text
-            
-            if child.attrib['name'] == 'is_master':
-                is_master = child.text
-            
-            if child.attrib['name'] == 'parent_id':
-                parent_id = child.text
-            
-            if child.attrib['name'] == 'imprint_count':
-                imprint_count = child.text
-            
-            if child.attrib['name'] == 'brand_count':
-                brand_count = child.text
-            
-            if child.attrib['name'] == 'indicia_publisher_count':
-                indicia_publisher_count = child.text
-            
-            if child.attrib['name'] == 'series_count':
-                series_count = child.text
-            
-            if child.attrib['name'] == 'created':
-                created = child.text
-            
-            if child.attrib['name'] == 'modified':
-                modified = child.text
-            
-            if child.attrib['name'] == 'issue_count':
-                issue_count = child.text
-            
-            if child.attrib['name'] == 'reserved':
-                reserved = child.text
-            
-            if child.attrib['name'] == 'deleted':
-                deleted = child.text
-            
-            if child.attrib['name'] == 'year_began_uncertain':
-                year_began_uncertain = child.text
-            
-            if child.attrib['name'] == 'year_ended_uncertain':
-                year_ended_uncertain = child.text
-
+        id = int(array['id'])
+        name = array['name']
+        country_id = int(array['country_id'])
+        year_began = array['year_began']
+        year_ended = array['year_ended']
+        notes = array['notes']
+        url = array['url']
+        is_master = array['is_master']
+        parent_id = array['parent_id']
+        imprint_count = array['imprint_count']
+        brand_count = array['brand_count']
+        indicia_publisher_count = array['indicia_publisher_count']
+        series_count = array['series_count']
+        created = array['created']
+        modified = array['modified']
+        issue_count = array['issue_count']
+        reserved = array['reserved']
+        deleted = array['deleted']
+        year_began_uncertain = array['year_began_uncertain']
+        year_ended_uncertain = array['year_ended_uncertain']
+        
         #-----------#
         # Transform #
         #-----------#
