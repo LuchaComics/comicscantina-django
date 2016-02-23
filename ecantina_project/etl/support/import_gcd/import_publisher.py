@@ -15,10 +15,10 @@ class ImportPublisher:
     
     def begin_import(self):
         # Remove the text formating.
-        fp = self.file_path
-        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
-        os.system("mv "+fp+"2 "+fp+";")
-        
+#        fp = self.file_path
+#        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
+#        os.system("mv "+fp+"2 "+fp+";")
+
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":

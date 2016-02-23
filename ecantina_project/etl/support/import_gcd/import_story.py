@@ -16,57 +16,75 @@ class ImportStory:
     
     def begin_import(self):
         # Remove the text formating.
-        fp = self.file_path
-        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
-        os.system("mv "+fp+"2 "+fp+";")
-        
+#        fp = self.file_path
+#        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
+#        os.system("mv "+fp+"2 "+fp+";")
+
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, row):
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = int(row.findtext('id'))
-        title = row.findtext('title')
-        title_inferred = row.findtext('title_inferred')
-        feature = row.findtext('feature')
-        sequence_number = row.findtext('sequence_number')
-        page_count = row.findtext('page_count')
-        issue_id = row.findtext('issue_id')
-        script = row.findtext('script')
-        pencils = row.findtext('pencils')
-        inks = row.findtext('inks')
-        colors = row.findtext('colors')
-        letters = row.findtext('letters')
-        editing = row.findtext('editing')
-        genre = row.findtext('genre')
-        characters = row.findtext('characters')
-        synopsis = row.findtext('synopsis')
-        reprint_notes = row.findtext('reprint_notes')
-        created = row.findtext('created')
-        modified = row.findtext('modified')
-        notes = row.findtext('notes')
-        no_script = row.findtext('no_script')
-        no_pencils = row.findtext('no_pencils')
-        no_inks = row.findtext('no_inks')
-        no_colors = row.findtext('no_colors')
-        no_letters = row.findtext('no_letters')
-        no_editing = row.findtext('no_editing')
-        page_count_uncertain = row.findtext('page_count_uncertain')
-        type_id = row.findtext('type_id')
-        job_number = row.findtext('job_number')
-        name = row.findtext('name')
-        reserved = row.findtext('reserved')
-        deleted = row.findtext('deleted')
+        id = int(array['id'])
+        title = array['title']
+        title_inferred = array['title_inferred']
+        feature = array['feature']
+        sequence_number = array['sequence_number']
+        page_count = array['page_count']
+        issue_id = array['issue_id']
+        script = array['script']
+        pencils = array['pencils']
+        inks = array['inks']
+        colors = array['colors']
+        letters = array['letters']
+        editing = array['editing']
+        genre = array['genre']
+        characters = array['characters']
+        synopsis = array['synopsis']
+        reprint_notes = array['reprint_notes']
+        created = array['created']
+        modified = array['modified']
+        notes = array['notes']
+        no_script = array['no_script']
+        no_pencils = array['no_pencils']
+        no_inks = array['no_inks']
+        no_colors = array['no_colors']
+        no_letters = array['no_letters']
+        no_editing = array['no_editing']
+        page_count_uncertain = array['page_count_uncertain']
+        type_id = array['type_id']
+        job_number = array['job_number']
+        reserved = array['reserved']
+        deleted = array['deleted']
+        
+        # Protected extract.
+        try:
+            name = array['name']
+        except Exception as e:
+            name = ""
 
         #-----------#
         # Transform #
         #-----------#
-        page_count = 0 if page_count in 'NULL' else Decimal(page_count)
+        if page_count:
+            page_count = 0 if page_count in 'NULL' else Decimal(page_count)
 
         try:
             story_type = GCDStoryType.objects.get(story_type_id = type_id)
@@ -77,6 +95,12 @@ class ImportStory:
             issue = GCDIssue.objects.get(issue_id = issue_id)
         except GCDIssue.DoesNotExist:
             issue = None
+        
+        if not name:
+            name = ""
+        
+        if not editing:
+            editing = ""
 
         #--------#
         #  Load  #

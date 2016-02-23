@@ -22,16 +22,28 @@ class ImportStoryType:
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
             if elem.tag == "row":
-                self.import_row(elem)
+                # Create an array holding all the row data.
+                array = {}
+                
+                # Iterate through all the rows and save the items.
+                for child in elem:
+                    name = child.attrib['name']
+                    text = child.text
+                    array[name] = text
+                
+                # Import the data
+                self.import_row(array)
+                
+                # Clear temp data.
                 elem.clear()
 
-    def import_row(self, row):
+    def import_row(self, array):
         #-----------#
         #  Extract  #
         #-----------#
-        id = int(row.findtext('id'))
-        name = row.findtext('name')
-        sort_code = row.findtext('sort_code')
+        id = int(array['id'])
+        name = array['name']
+        sort_code = array['sort_code']
 
         #-----------#
         # Transform #
