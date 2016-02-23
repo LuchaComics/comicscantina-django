@@ -12,6 +12,9 @@ from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
 
 
+INITIAL_ID_NUMBER = 0  # Set what value to start the ETL import to.
+
+
 class ImportIssue:
     """
         Class is responsible for opening XML file and importing into database.
@@ -37,8 +40,8 @@ class ImportIssue:
                     text = child.text
                     array[name] = text
                 
-                # Import the data
-                self.import_row(array)
+                if int(array['id']) >= INITIAL_ID_NUMBER:
+                    self.import_row(array)
                 
                 # Clear temp data.
                 elem.clear()
@@ -148,6 +151,15 @@ class ImportIssue:
 
         if not publication_date:
             publication_date = ""
+
+        if not key_date:
+            key_date = ""
+        
+        if not key_date:
+            key_date = ""
+        
+        if not number:
+            number = "0"
 
         no_title = True if no_title is '1' else False
         no_volume = True if no_volume is '1' else False
