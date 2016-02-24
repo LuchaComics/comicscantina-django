@@ -13,6 +13,7 @@ from etl.support.import_gcd.import_issue import *
 from etl.support.import_gcd.import_storytype import *
 from etl.support.import_gcd.import_story import *
 
+
 IMPORT_FILE_NAMES = [
     'gcd_country.xml',
     'gcd_language.xml',
@@ -25,6 +26,7 @@ IMPORT_FILE_NAMES = [
     'gcd_story_type.xml',
     'gcd_story.xml'
 ]
+
 
 class Command(BaseCommand):
     """

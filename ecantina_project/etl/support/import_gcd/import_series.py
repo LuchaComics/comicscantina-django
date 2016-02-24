@@ -12,14 +12,16 @@ class ImportSeries:
     """
         Class is responsible for opening XML file and importing into database.
     """
-    def __init__(self, file_path):
+    def __init__(self, file_path, has_formatting_requirements=False):
         self.file_path = file_path
-    
+        self.has_formatting_requirements = has_formatting_requirements
+
     def begin_import(self):
-        # Remove the text formating.
-        fp = self.file_path
-        os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
-        os.system("mv "+fp+"2 "+fp+";")
+        if self.has_formatting_requirements:
+            # Remove the text formating.
+            fp = self.file_path
+            os.system("tr -dc '[\011\012\015\040-\176\200-\377]' < "+fp+" > "+fp+"2;")
+            os.system("mv "+fp+"2 "+fp+";")
 
         # Iterate through the contents of the file and import it.
         for event, elem in ET.iterparse(self.file_path):
