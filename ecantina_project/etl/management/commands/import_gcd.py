@@ -28,6 +28,9 @@ IMPORT_FILE_NAMES = [
 ]
 
 
+HAS_FORMATTING = False
+
+
 class Command(BaseCommand):
     """
         ----------------------
@@ -73,34 +76,34 @@ class Command(BaseCommand):
     def begin_processing_xml(self, full_file_path):
         # Match the file names with the specific database imports
         if 'gcd_country.xml' in full_file_path:
-            importer = ImportCountry(full_file_path)
+            importer = ImportCountry(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_language.xml' in full_file_path:
-            importer = ImportLanguage(full_file_path)
+            importer = ImportLanguage(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_publisher.xml' in full_file_path:
-            importer = ImportPublisher(full_file_path)
+            importer = ImportPublisher(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_indicia_publisher.xml' in full_file_path:
-            importer = ImportIndiciaPublisher(full_file_path)
+            importer = ImportIndiciaPublisher(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_series.xml' in full_file_path:
-            importer = ImportSeries(full_file_path)
+            importer = ImportSeries(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_brand_group.xml' in full_file_path:
-            importer = ImportBrandGroup(full_file_path)
+            importer = ImportBrandGroup(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_brand.xml' in full_file_path:
-            importer = ImportBrand(full_file_path)
+            importer = ImportBrand(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_issue.xml' in full_file_path:
-            importer = ImportIssue(full_file_path)
+            importer = ImportIssue(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_story_type.xml' in full_file_path:
-            importer = ImportStoryType(full_file_path)
+            importer = ImportStoryType(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         if 'gcd_story.xml' in full_file_path:
-            importer = ImportStory(full_file_path)
+            importer = ImportStory(full_file_path, HAS_FORMATTING)
             importer.begin_import()
         self.stdout.write('Imported "%s"' % full_file_path)
 
