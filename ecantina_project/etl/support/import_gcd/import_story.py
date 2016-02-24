@@ -137,6 +137,18 @@ class ImportStory:
         if not letters:
             letters = ""
 
+        if not pencils:
+            pencils = ""
+
+        if not inks:
+            inks = ""
+
+        if not title_inferred:
+            title_inferred = ""
+
+        if not colors:
+            colors = ""
+
         #--------#
         #  Load  #
         #--------#
