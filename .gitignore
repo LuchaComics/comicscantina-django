@@ -166,3 +166,4 @@ ecantina_project/media/upload/*.JPG
 ecantina_project/media/upload/*.PNG
 ecantina_project/media/upload/*.png
 ecantina_project/static/CACHE/*
+ecantina_project/etl/fixtures/*
