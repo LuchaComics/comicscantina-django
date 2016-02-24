@@ -7,6 +7,10 @@ from api.models.gcd.storytype import GCDStoryType
 from api.models.gcd.story import GCDStory
 from api.models.gcd.issue import GCDIssue
 
+
+INITIAL_ID_NUMBER = 1489230  # Set what value to start the ETL import to.
+
+
 class ImportStory:
     """
         Class is responsible for opening XML file and importing into database.
@@ -33,7 +37,8 @@ class ImportStory:
                     array[name] = text
                 
                 # Import the data
-                self.import_row(array)
+                if int(array['id']) >= INITIAL_ID_NUMBER:
+                    self.import_row(array)
                 
                 # Clear temp data.
                 elem.clear()
@@ -101,6 +106,36 @@ class ImportStory:
         
         if not editing:
             editing = ""
+        
+        if not job_number:
+            job_number = ""
+
+        if not characters:
+            characters = ""
+
+        if not synopsis:
+            synopsis = ""
+
+        if not reprint_notes:
+            reprint_notes = ""
+
+        if not notes:
+            notes = ""
+
+        if not script:
+            script = ""
+
+        if not feature:
+            feature = ""
+
+        if not genre:
+            genre = ""
+
+        if not title:
+            title = ""
+
+        if not letters:
+            letters = ""
 
         #--------#
         #  Load  #
