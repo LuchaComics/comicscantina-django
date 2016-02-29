@@ -19,40 +19,42 @@
         <div class="col-sm-10 show-case-wrapper center-block relative">
             <div id="productShowCase" class="owl-carousel owl-theme">
                 {% for product in featured_products %}
-                <div class="product-slide">
-                    <div class="col-sm-5 product-slide-left">
-                        <a class="product-slide-img"
-                            href="/products/{{ product.product_id }}/">
-                        <img alt="img"
-                             src="{{ product.image_url }}"
-                           class="img-responsive" />
-                        </a>
-                    </div>
-                    <div class="col-sm-7">
-                        <div class="product-slide-inner ">
-                            <h1 class="product-title">{{ product.name | escape | safe }}</h1>
-                            
-                            <h3 class="product-code">Product Code : {{ product.product_id }}</h3>
-                            
-                            <div class="product-price">
-                                <span class="price-sales"> ${{ product.sub_price }}</span>
-                                <!--<span class="price-standard">$95</span>-->
-                            </div>
-                            <div class="details-description">
-                                <p>{{ product.description|slice:":125" }}</p>
-                            </div>
-                            {% if product in receipt.products.all %}
-                            <a onclick="ajax_remove_from_cart({{ product.product_id }});"
+                    {% if forloop.counter <= 5 %}
+                    <div class="product-slide">
+                        <div class="col-sm-5 product-slide-left">
+                            <a class="product-slide-img"
+                                href="/products/{{ product.product_id }}/">
+                            <img alt="img"
+                                 src="{{ product.image_url }}"
+                               class="img-responsive" />
+                            </a>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="product-slide-inner ">
+                                <h1 class="product-title">{{ product.name | escape | safe }}</h1>
+
+                                <h3 class="product-code">Product Code : {{ product.product_id }}</h3>
+
+                                <div class="product-price">
+                                    <span class="price-sales"> ${{ product.sub_price }}</span>
+                                    <!--<span class="price-standard">$95</span>-->
+                                </div>
+                                <div class="details-description">
+                                    <p>{{ product.description|slice:":125" }}</p>
+                                </div>
+                                {% if product in receipt.products.all %}
+                                <a onclick="ajax_remove_from_cart({{ product.product_id }});"
+                                    title="Add to Cart"
+                                    class="btn btn-stroke-dark"> <i
+                                        class="glyphicon glyphicon-shopping-cart"></i> Remove from Cart</a></div>
+                                {% else %}
+                            <a onclick="ajax_add_to_cart({{ product.product_id }});"
                                 title="Add to Cart"
                                 class="btn btn-stroke-dark"> <i
-                                    class="glyphicon glyphicon-shopping-cart"></i> Remove from Cart</a></div>
-                            {% else %}
-                        <a onclick="ajax_add_to_cart({{ product.product_id }});"
-                            title="Add to Cart"
-                            class="btn btn-stroke-dark"> <i
-                                class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
-                            {% endif %}
-                </div>
+                                    class="glyphicon glyphicon-shopping-cart"></i> Add to Cart</a></div>
+                                {% endif %}
+                    </div>
+                    {% endif %}
             </div>
             {% empty %}
             
