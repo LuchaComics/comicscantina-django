@@ -14,6 +14,25 @@
 import os
 import sys
 
+"""
+Add support for .env files.
+"""
+import dj_database_url
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+def env_var(key, default=None):
+    """Retrieves env vars and makes Python boolean replacements"""
+    val = os.environ.get(key, default)
+    if val == 'True':
+        val = True
+    elif val == 'False':
+        val = False
+    return val
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Import variables for our application. Basically all imported variables
@@ -33,21 +52,28 @@ except ImportError:
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_SECRET_KEY
+SECRET_KEY = env_var("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = SECRET_DEBUG
+DEBUG = env_var("IS_DEBUG")
 
-# List of people to contact on error when DEBUG=False
-ADMINS = SECRET_ADMINS
+ALLOWED_HOSTS = [env_var("ALLOWED_HOSTS")]
 
-ALLOWED_HOSTS = SECRET_ALLOWED_HOSTS
+# The person to contact on error when DEBUG=False
+ADMINS = [(env_var("ADMIN_NAME"), env_var("ADMIN_EMAIL")),]
 
 # 'Sites Framework' requires this line.
 SITE_ID = 1
 
 # The Google Analytics Key
-GOOGLE_ANALYTICS_KEY = SECRET_GOOGLE_ANALYTICS_KEY
+GOOGLE_ANALYTICS_KEY = env_var("GOOGLE_ANALYTICS_KEY")
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Application definition
+
+
 
 
 # Application definition
@@ -134,17 +160,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ecantina_project.wsgi.application'
 
 
+
 # Django Caching
-# https://docs.djangoproject.com/en/1.8/topics/cache/
-#
+# https://docs.djangoproject.com/en/dev/topics/cache/
+
 CACHES = {
     'default': { # (PROD/QA)
         'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
         'LOCATION': '127.0.0.1:11211',
     }
-#    'default': { # (DEV)
-#        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-#    }
+    # 'default': { # (DEV)
+    #    'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    # }
 }
 
 
@@ -153,29 +180,55 @@ CACHES = {
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "ecantina_db",
-        "USER": SECRET_DB_USER,
-        "PASSWORD": SECRET_DB_PASSWORD,
-        "HOST": SECRET_DB_HOST,
-        "PORT": SECRET_DB_PORT,
+    'default': {
+        'CONN_MAX_AGE': 0,
+        "ENGINE": "django.db.backends.postgresql_psycopg2"
     }
 }
+DATABASES['default'] = dj_database_url.config(default=env_var("DATABASE_URL"))
 
 
 
 # Email
-# http://stackoverflow.com/questions/19264907/python-django-gmail-smtp-setup
+#
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = SECRET_EMAIL_HOST
-EMAIL_PORT = SECRET_EMAIL_PORT
-EMAIL_HOST_USER = SECRET_EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = SECRET_EMAIL_HOST_PASSWORD
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-DEFAULT_TO_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = SECRET_EMAIL_HOST_USER
+EMAIL_BACKEND = env_var("EMAIL_BACKEND")
+MAILGUN_ACCESS_KEY = env_var("MAILGUN_ACCESS_KEY")
+MAILGUN_SERVER_NAME = env_var("MAILGUN_SERVER_NAME")
+DEFAULT_FROM_EMAIL = env_var("DEFAULT_FROM_EMAIL")
+DEFAULT_TO_EMAIL = env_var("DEFAULT_TO_EMAIL")
+APPEND_SLASH=False
+
+
+
+# Error Emailing
+# https://docs.djangoproject.com/en/dev/topics/logging/
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': False, # Set to this value to prevent spam
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
 
 
 
@@ -226,43 +279,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-# Error Emailing
-# https://docs.djangoproject.com/en/dev/topics/logging/
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': False, # Set to this value to prevent spam
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-         },
-    },
-}
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': False,
-#    'handlers': {
-#        'console': {
-#            'class': 'logging.StreamHandler',
-#        },
-#    },
-#    'loggers': {
-#        'django': {
-#            'handlers': ['console'],
-#            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-#        },
-#    },
-#}
-
 
 # Django REST Framework Configuration (Third Party)
 #
@@ -277,18 +293,40 @@ REST_FRAMEWORK = {
 }
 
 
+
 # PayPal
 #
-PAYPAL_RECEIVER_EMAIL = SECRET_PAYPAL_RECEIVER_EMAIL
-PAYPAL_TEST = SECRET_PAYPAL_TEST
+
+PAYPAL_RECEIVER_EMAIL = env_var("PAYPAL_RECEIVER_EMAIL")
+PAYPAL_TEST = env_var("PAYPAL_TEST")
+
 
 
 # External Servers
 #
+
 COMICS_CANTINA_IMAGE_SERVER_BASE_URL = SECRET_COMICS_CANTINA_IMAGE_SERVER_BASE_URL
 
 
+
 # django-htmlmin
+# https://github.com/cobrateam/django-htmlmin
+
+HTML_MINIFY = env_var("HTML_MINIFY")
+KEEP_COMMENTS_ON_MINIFYING = env_var("KEEP_COMMENTS_ON_MINIFYING")
+
+
+
+# Django-Compressor
+# http://django-compressor.readthedocs.org/en/latest/settings/
+
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'compressor.filters.cssmin.rCSSMinFilter',]
+COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
+COMPRESS_ENABLED = env_var("COMPRESS_ENABLED")
+
+
+
+# Django-Compressor + Django-Storages
 #
-HTML_MINIFY = True
-KEEP_COMMENTS_ON_MINIFYING = True
+
+# COMPRESS_STORAGE = 'gsfurniture.custom_storage.CachedS3BotoStorage' #TODO: Uncomment when using Amazon S3.

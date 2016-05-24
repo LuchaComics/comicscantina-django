@@ -154,6 +154,7 @@ env/*
 # Application Specific Ignores
 #—————————————————————————————
 ecantina_project/secret_settings.py
+ecantina_project/.env
 media/cover/*
 media/qrcode/*.png
 media/qrcode/*.PNG
