@@ -1,9 +1,6 @@
 from datetime import date
 from django.db import models
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
-from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -22,94 +19,94 @@ class ReadOnlyCustomerForm(forms.ModelForm):
             'wants_flyers': 'Receive special offers from our partners!',
         }
         widgets = {
-            'first_name': TextInput(attrs={
+            'first_name': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter First Name',
                 'readonly': u'true',
             }),
-            'last_name': TextInput(attrs={
+            'last_name': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Last Name',
                 'readonly': u'true',
             }),
-            'billing_street_number': TextInput(attrs={
+            'billing_street_number': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Street #',
                 'readonly': u'true',
             }),
-            'billing_street_name': TextInput(attrs={
+            'billing_street_name': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Street Name',
                 'readonly': u'true',
             }),
-            'billing_unit_number': TextInput(attrs={
+            'billing_unit_number': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Unit #',
                 'readonly': u'true',
             }),
-            'billing_city': TextInput(attrs={
+            'billing_city': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City',
                 'readonly': u'true',
             }),
-            'billing_province': Select(attrs={'class': u'form-control', 'readonly': u'true',}),
-            'billing_country': Select(attrs={'class': u'form-control', 'readonly': u'true',}),
-            'billing_postal': TextInput(attrs={
+            'billing_province': forms.Select(attrs={'class': u'form-control', 'readonly': u'true',}),
+            'billing_country': forms.Select(attrs={'class': u'form-control', 'readonly': u'true',}),
+            'billing_postal': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip',
                 'readonly': u'true',
             }),
-            'billing_phone': TextInput(attrs={
+            'billing_phone': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Phone Number',
                 'readonly': u'true',
             }),
-            'shipping_name': TextInput(attrs={
+            'shipping_name': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Full Name',
                 'readonly': u'true',
             }),
-            'shipping_street_number': TextInput(attrs={
+            'shipping_street_number': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Street #',
                 'readonly': u'true',
             }),
-            'shipping_street_name': TextInput(attrs={
+            'shipping_street_name': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Street Name',
                 'readonly': u'true',
             }),
-            'shipping_unit_number': TextInput(attrs={
+            'shipping_unit_number': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Unit #',
                 'readonly': u'true',
             }),
-            'shipping_city': TextInput(attrs={
+            'shipping_city': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City',
                 'readonly': u'true',
             }),
-            'shipping_province': Select(attrs={'class': u'form-control', 'readonly': u'true',}),
-            'shipping_country': Select(attrs={'class': u'form-control', 'readonly': u'true',}),
-            'shipping_postal': TextInput(attrs={
+            'shipping_province': forms.Select(attrs={'class': u'form-control', 'readonly': u'true',}),
+            'shipping_country': forms.Select(attrs={'class': u'form-control', 'readonly': u'true',}),
+            'shipping_postal': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip',
                 'readonly': u'true',
             }),
-            'shipping_phone': TextInput(attrs={
+            'shipping_phone': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Phone Number',
                 'readonly': u'true',
             }),
-            'website': TextInput(attrs={
+            'website': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Website URL',
                 'readonly': u'true',
             }),
-            'email': TextInput(attrs={
+            'email': forms.TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Email Address',
                 'readonly': u'true',
             }),
-            'date_of_birth': SelectDateWidget(attrs={'readonly': u'true',}),
+            'date_of_birth': forms.SelectDateWidget(attrs={'readonly': u'true',}),
         }

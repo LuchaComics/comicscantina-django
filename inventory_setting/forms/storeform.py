@@ -2,7 +2,6 @@ from datetime import date
 from django.db import models
 from django import forms
 from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -46,8 +45,8 @@ class StoreForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter City'
             }),
-            'province': Select(attrs={'class': u'form-control'}),
-            'country': Select(attrs={'class': u'form-control'}),
+            'province': forms.Select(attrs={'class': u'form-control'}),
+            'country': forms.Select(attrs={'class': u'form-control'}),
             'postal': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Postal Code / Zip'
@@ -100,33 +99,33 @@ class StoreForm(forms.ModelForm):
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Flicker URL'
             }),
-            'monday_to': Select(attrs={'class': u'form-control'}),
-            'tuesday_to': Select(attrs={'class': u'form-control'}),
-            'wednesday_to':Select(attrs={'class': u'form-control'}),
-            'thursday_to': Select(attrs={'class': u'form-control'}),
-            'friday_to': Select(attrs={'class': u'form-control'}),
-            'saturday_to': Select(attrs={'class': u'form-control'}),
-            'sunday_to': Select(attrs={'class': u'form-control'}),
-            'monday_from': Select(attrs={'class': u'form-control'}),
-            'tuesday_from': Select(attrs={'class': u'form-control'}),
-            'monday_to': Select(attrs={'class': u'form-control'}),
-            'wednesday_from':Select(attrs={'class': u'form-control'}),
-            'thursday_from': Select(attrs={'class': u'form-control'}),
-            'friday_from': Select(attrs={'class': u'form-control'}),
-            'saturday_from': Select(attrs={'class': u'form-control'}),
-            'sunday_from': Select(attrs={'class': u'form-control'}),
-            'currency': Select(attrs={'class': u'form-control'}),
-            'language': Select(attrs={'class': u'form-control'}),
+            'monday_to': forms.Select(attrs={'class': u'form-control'}),
+            'tuesday_to': forms.Select(attrs={'class': u'form-control'}),
+            'wednesday_to':forms.Select(attrs={'class': u'form-control'}),
+            'thursday_to': forms.Select(attrs={'class': u'form-control'}),
+            'friday_to': forms.Select(attrs={'class': u'form-control'}),
+            'saturday_to': forms.Select(attrs={'class': u'form-control'}),
+            'sunday_to': forms.Select(attrs={'class': u'form-control'}),
+            'monday_from': forms.Select(attrs={'class': u'form-control'}),
+            'tuesday_from': forms.Select(attrs={'class': u'form-control'}),
+            'monday_to': forms.Select(attrs={'class': u'form-control'}),
+            'wednesday_from':forms.Select(attrs={'class': u'form-control'}),
+            'thursday_from': forms.Select(attrs={'class': u'form-control'}),
+            'friday_from': forms.Select(attrs={'class': u'form-control'}),
+            'saturday_from': forms.Select(attrs={'class': u'form-control'}),
+            'sunday_from': forms.Select(attrs={'class': u'form-control'}),
+            'currency': forms.Select(attrs={'class': u'form-control'}),
+            'language': forms.Select(attrs={'class': u'form-control'}),
             'tax_rate': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter Tax Rate'
             }),
-#            'is_comics_vendor': Select(attrs={'class': u'form-control'}),
-#            'is_furniture_vendor': Select(attrs={'class': u'form-control'}),
-#            'is_coins_vendor': Select(attrs={'class': u'form-control'}),
+#            'is_comics_vendor': forms.Select(attrs={'class': u'form-control'}),
+#            'is_furniture_vendor': forms.Select(attrs={'class': u'form-control'}),
+#            'is_coins_vendor': forms.Select(attrs={'class': u'form-control'}),
             'paypal_email': TextInput(attrs={
                 'class': u'form-control mb-lg',
                 'placeholder': u'Enter PayPal Email Address'
             }),
-            'style': Select(attrs={'class': u'form-control'}),
+            'style': forms.Select(attrs={'class': u'form-control'}),
     }

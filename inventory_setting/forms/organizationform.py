@@ -2,7 +2,6 @@ from datetime import date
 from django.db import models
 from django import forms
 from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -18,7 +17,7 @@ class OrganizationForm(forms.ModelForm):
 #                  'instagram_url' , 'linkedin_url' , 'github_url' , 'google_url' , 'youtube_url' , 'flickr_url'
                   ]
         labels = {
-        
+
         }
         widgets = {
            'name': TextInput(attrs={
@@ -46,8 +45,8 @@ class OrganizationForm(forms.ModelForm):
                 'class': u'form-control',
                 'placeholder': u'Enter City'
             }),
-            'province': Select(attrs={'class': u'form-control'}),
-            'country': Select(attrs={'class': u'form-control'}),
+            'province': forms.Select(attrs={'class': u'form-control'}),
+            'country': forms.Select(attrs={'class': u'form-control'}),
             'postal': TextInput(attrs={
                 'class': u'form-control',
                 'placeholder': u'Enter Postal Code / Zip'
@@ -100,11 +99,11 @@ class OrganizationForm(forms.ModelForm):
                 'class': u'form-control',
                 'placeholder': u'Enter Flicker URL'
             }),
-            'currency': Select(attrs={'class': u'form-control'}),
-            'language': Select(attrs={'class': u'form-control'}),
+            'currency': forms.Select(attrs={'class': u'form-control'}),
+            'language': forms.Select(attrs={'class': u'form-control'}),
             'paypal_email': TextInput(attrs={
                 'class': u'form-control',
                 'placeholder': u'Enter PayPal Receiving Email Address'
             }),
-           'style': Select(attrs={'class': u'form-control'}),
+           'style': forms.Select(attrs={'class': u'form-control'}),
         }

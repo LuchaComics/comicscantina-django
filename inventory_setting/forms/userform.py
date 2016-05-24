@@ -2,7 +2,6 @@ from datetime import date
 from django.db import models
 from django import forms
 from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
 from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -71,5 +70,3 @@ class UserForm(forms.ModelForm):
         if password != password_repeated:
             raise forms.ValidationError("Passwords do not match.")
         return password_repeated
-
-

@@ -1,9 +1,6 @@
 from datetime import date
 from django.db import models
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
-from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from api.models.gcd.issue import GCDIssue
@@ -26,10 +23,10 @@ class ComicForm(forms.ModelForm):
             'is_retail_incentive_variant': 'Is Retail Incentive Variant',
         }
         widgets = {
-            'age': Select(attrs={'class': u'form-control'}),
-            'cgc_rating': Select(attrs={'class': u'form-control'}),
-            'label_colour': Select(attrs={'class': u'form-control m0 mb10'}),
-            'condition_rating': Select(attrs={'class': u'form-control m0 mb10'}),
+            'age': forms.Select(attrs={'class': u'form-control'}),
+            'cgc_rating': forms.Select(attrs={'class': u'form-control'}),
+            'label_colour': forms.Select(attrs={'class': u'form-control m0 mb10'}),
+            'condition_rating': forms.Select(attrs={'class': u'form-control m0 mb10'}),
         }
 
 
@@ -45,25 +42,25 @@ class IssueForm(forms.ModelForm):
             'genre': 'Genre',
         }
         widgets = {
-            'series': TextInput(attrs={
+            'series': forms.TextInput(attrs={
                 'class': u'form-control mb10 input-disabled mt0 p0',
                 'style':'position:relative;top:-3px;',
                 'placeholder':'Series',
                 'readonly': u'true',
             }),
-            'number': TextInput(attrs={
+            'number': forms.TextInput(attrs={
                 'class':'form-control mb10 input-disabled p0',
                 'placeholder':'Issue #','readonly': u'true',
             }),
-            'title': TextInput(attrs={
+            'title': forms.TextInput(attrs={
                 'class':'form-control mb10 input-disabled p0',
                 'placeholder':'Comic Title','readonly': u'true',
             }),
-            'publisher_name': TextInput(attrs={
+            'publisher_name': forms.TextInput(attrs={
                 'class':'form-control mb10 input-disabled p0',
                 'placeholder':'Publisher Name','readonly': u'true',
             }),
-            'genre': TextInput(attrs={
+            'genre': forms.TextInput(attrs={
                 'class':'form-control mb10 input-disabled p0',
                 'placeholder':'Genre','readonly': u'true',
             }),
@@ -73,9 +70,6 @@ class IssueForm(forms.ModelForm):
 from datetime import date
 from django.db import models
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
-from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
@@ -87,10 +81,10 @@ class ImageUploadForm(forms.ModelForm):
         model = ImageUpload
         fields = ['image']
         labels = {
-        
+
         }
         widgets = {
-    
+
     }
 
 
@@ -99,21 +93,21 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['name', 'description', 'price', 'section', 'sub_price','price','cost', 'store','type','images', 'category', 'qrcode', 'has_no_shipping', 'is_listed', 'is_new', 'is_featured',]
         labels = {
-            
+
         }
         widgets = {
-            'name': TextInput(attrs={
+            'name': forms.TextInput(attrs={
                 'class':'form-control',
                 'placeholder':'Product Name',
             }),
-            'description': Textarea(attrs={'class': u'form-control','placeholder': u'Enter Description'}),
-            'images': Select(attrs={'class': u'form-control mb10 mt-lg'}),
-            'type': Select(attrs={'class': u'form-control'}),
-            'sub_price': NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount', 'step': 1.00}),
-            'price': NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount', 'step': 1.00}),
-            'cost': NumberInput(attrs={'class': u'form-control','placeholder': u'Cost Amount', 'step': 1.00}),
-            'location': Select(attrs={'class': u'form-control'}),
-            'section': Select(attrs={'class': u'form-control'}),
-            'store': Select(attrs={'class': u'form-control'}),
-            'category': Select(attrs={'class': u'form-control'}),
+            'description': forms.Textarea(attrs={'class': u'form-control','placeholder': u'Enter Description'}),
+            'images': forms.Select(attrs={'class': u'form-control mb10 mt-lg'}),
+            'type': forms.Select(attrs={'class': u'form-control'}),
+            'sub_price': forms.NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount', 'step': 1.00}),
+            'price': forms.NumberInput(attrs={'class': u'form-control','placeholder': u'Price Amount', 'step': 1.00}),
+            'cost': forms.NumberInput(attrs={'class': u'form-control','placeholder': u'Cost Amount', 'step': 1.00}),
+            'location': forms.Select(attrs={'class': u'form-control'}),
+            'section': forms.Select(attrs={'class': u'form-control'}),
+            'store': forms.Select(attrs={'class': u'form-control'}),
+            'category': forms.Select(attrs={'class': u'form-control'}),
     }

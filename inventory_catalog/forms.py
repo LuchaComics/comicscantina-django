@@ -1,9 +1,6 @@
 from datetime import date
 from django.db import models
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
-from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -22,17 +19,17 @@ class CatalogItemForm(forms.ModelForm):
             'volume_in_litres': 'Volume (L)',
         }
         widgets = {
-            'type': Select(attrs={'class': u'form-control'}),
-            'name': TextInput(attrs={
+            'type': forms.Select(attrs={'class': u'form-control'}),
+            'name': forms.TextInput(attrs={
                 'class': u'form-control',
                 'placeholder': u'Enter Name of Item'
             }),
-            'description': Textarea(attrs={
+            'description': forms.Textarea(attrs={
                 'class': u'form-control',
                 'placeholder': u'Enter Description',
                 'style':'height:100px;',
             }),
-            'brand_name': TextInput(attrs={
+            'brand_name': forms.TextInput(attrs={
                 'class': u'form-control',
                 'placeholder': u'Enter Brand Name of Item'
             }),

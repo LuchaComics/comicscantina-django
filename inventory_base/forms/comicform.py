@@ -1,9 +1,6 @@
 from datetime import date
 from django.db import models
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
-from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from api.models.gcd.issue import GCDIssue
@@ -25,13 +22,13 @@ class ComicForm(forms.ModelForm):
             'is_retail_incentive_variant': 'Is Retail Incentive Variant',
         }
         widgets = {
-            'age': Select(attrs={'class': u'form-control mb10 mt-lg'}),
-            'cgc_rating': Select(attrs={'class': u'form-control'}),
-            'label_colour': Select(attrs={'class': u'form-control m0 mb10'}),
-            'condition_rating': Select(attrs={'class': u'form-control m0 mb10'}),
-            'price': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Price Amount'}),
-            'cost': NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Cost Amount'}),
-            'location': Select(attrs={'class': u'form-control m0 mb10'}),
-            'section': Select(attrs={'class': u'form-control m0 mb10'}),
-            'store': Select(attrs={'class': u'form-control m0 mb10'}),
+            'age': forms.Select(attrs={'class': u'form-control mb10 mt-lg'}),
+            'cgc_rating': forms.Select(attrs={'class': u'form-control'}),
+            'label_colour': forms.Select(attrs={'class': u'form-control m0 mb10'}),
+            'condition_rating': forms.Select(attrs={'class': u'form-control m0 mb10'}),
+            'price': forms.NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Price Amount'}),
+            'cost': forms.NumberInput(attrs={'class': u'form-control mb10','placeholder': u'Cost Amount'}),
+            'location': forms.Select(attrs={'class': u'form-control m0 mb10'}),
+            'section': forms.Select(attrs={'class': u'form-control m0 mb10'}),
+            'store': forms.Select(attrs={'class': u'form-control m0 mb10'}),
         }

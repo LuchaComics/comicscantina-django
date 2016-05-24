@@ -22,11 +22,15 @@ from inventory_base.forms.customerform import CustomerForm
 from inventory_base.forms.readonlycustomerform import ReadOnlyCustomerForm
 
 
+# Import our signals.
+from store_checkout.signlas import *
+
+
 def cart_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # If user is logged in, fetch the Customer record or create one. Then
     # fetch a Receipt record or create a new one.
     customer = None
@@ -51,7 +55,7 @@ def checkout_shipping_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
@@ -73,11 +77,11 @@ def checkout_billing_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-    
+
     # Display the view with all our model information.
     return render(request, 'store_checkout/billing/view.html',{
         'receipt': receipt,
@@ -95,7 +99,7 @@ def checkout_shipping_method_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
@@ -117,7 +121,7 @@ def checkout_payment_method_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
@@ -149,12 +153,12 @@ def checkout_thank_you_page(request, receipt_id=0):
     billing_address += ' ' + old_receipt.customer.billing_street_name
     if old_receipt.customer.billing_unit_number:
         billing_address = old_receipt.customer.billing_unit_number + '-' + billing_address
-            
+
     shipping_address = old_receipt.customer.shipping_street_number
     shipping_address += ' ' + old_receipt.customer.shipping_street_name
     if old_receipt.customer.shipping_unit_number:
         shipping_address = old_receipt.customer.shipping_unit_number + '-' + shipping_address
-    
+
     old_receipt.email = old_receipt.customer.email
     old_receipt.billing_address = billing_address
     old_receipt.billing_phone = old_receipt.customer.billing_phone
@@ -168,14 +172,14 @@ def checkout_thank_you_page(request, receipt_id=0):
     old_receipt.shipping_province = old_receipt.customer.shipping_province
     old_receipt.shipping_country = old_receipt.customer.shipping_country
     old_receipt.shipping_postal = old_receipt.customer.shipping_postal
-        
+
     # STEP 2: Finalize our receipt.
     old_receipt.purchased = datetime.today()
     old_receipt.has_finished = True
     old_receipt.status = constants.ONLINE_SALE_STATUS
     old_receipt.payment_method = constants.PAYPAL_PAYMENT_METHOD
     old_receipt.save()
-        
+
     # STEP 3: Inform our products that they are sold out.
     for product in old_receipt.products.all():
         product.is_sold = True
@@ -206,11 +210,11 @@ def checkout_cancel_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-    
+
     # Display the view with all our model information.
     return render(request, 'store_checkout/cancel/view.html',{
         'receipt': receipt,
@@ -240,15 +244,15 @@ def checkout_order_page(request):
     employee = Employee.objects.get_for_user_id_or_none(request.user.id)
     org = request.organization
     store = request.store
-    
+
     # Fetch Customer / Receipt.
     customer = Customer.objects.get_or_create_for_user_email(request.user.email)
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
-    
+
     # Generate our URLs & pick the payment email
     base_url = secret_settings.SECRET_HTTP_PROTOCOL
     prefix = request.META.get("HTTP_X_CUSTOMURL")
-    
+
     # Configure which PayPal address to send money
     paypal_email = settings.PAYPAL_RECEIVER_EMAIL
     currency_code = 'CAD'
@@ -289,7 +293,7 @@ def checkout_order_page(request):
         "custom": "perform_receipt_checkout",  # Custom command to correlate to some function later (optional)
     }
     form = PayPalPaymentsForm(initial=paypal_dict)
-    
+
     # Run this next set of code to detect if we should give a warning to the
     # Customer so they'll know some items cannot are pickup only.
     has_no_shipping = False

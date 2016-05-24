@@ -1,9 +1,6 @@
 from datetime import date
 from django.db import models
 from django import forms
-from django.forms import ModelForm, Textarea, TextInput, NumberInput
-from django.forms.extras.widgets import Select, SelectDateWidget
-from django.forms.widgets import EmailInput
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -27,7 +24,7 @@ class OrgShippingRateForm(forms.ModelForm):
             'comics_rate10':'201-300 Comics Rate:',
         }
         widgets = {
-            'country': Select(attrs={'class': u'form-control', 'disabled': u'true',}),
+            'country': forms.Select(attrs={'class': u'form-control', 'disabled': u'true',}),
 #            'comics_rate1': TextInput(attrs={
 #                 'class': u'form-control mb-lg',
 #                 'placeholder': u'Rate'
