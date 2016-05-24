@@ -28,7 +28,7 @@ DerivedData
 
 
 #—————————
-# OSX 
+# OSX
 #—————————
 .DS_Store
 .AppleDouble
@@ -89,6 +89,8 @@ $RECYCLE.BIN/
 #—————————
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__pycache__/*
+__pycache__
 *.py[cod]
 
 # C extensions
@@ -144,7 +146,8 @@ docs/_build/
 #—————————————————————————————
 # Important Note: Make sure this is the name of the virtualenv directory
 # that you set when you where setting up the project.
-env/  
+env/
+env/*
 *.cfg
 
 #—————————————————————————————

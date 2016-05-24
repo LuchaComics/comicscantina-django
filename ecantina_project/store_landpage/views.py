@@ -33,10 +33,10 @@ def front_page(request):
         )
     
         if org:
-            featured_products = featured_products.filter(organization=org)
+            featured_products = featured_products.filter(organization=org).order_by('-price')
                 
         if store:
-            featured_products = featured_products.filter(store=store)
+            featured_products = featured_products.filter(store=store).order_by('-price')
     except Product.DoesNotExist:
         featured_products = None
     
