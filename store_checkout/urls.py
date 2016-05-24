@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from . import views
 
 
-urlpatterns = patterns('',
+urlpatterns = (
     url(r'^cart$', views.cart_page),
     url(r'^checkout/shipping$', views.checkout_shipping_page),
     url(r'^checkout/billing$', views.checkout_billing_page),

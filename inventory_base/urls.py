@@ -10,10 +10,10 @@ urlpatterns = patterns('',
     url(r'^BingSiteAuth\.xml$', views.bing_txt_page, name='bing'),
     url(r'^baidu_verify_ObbdOAW2Jy\.html$', views.baidu_txt_page, name='baidu'),
     url(r'^googled758fc2c6b7f8d7e\.html$', views.google_page, name='google'),
-                       
+
     # Testing that AdminEmailHandler works.
     #url(r'^500$', views.http_500_error_page), # For debugging purposes only!
-                       
+
     # Image Redirection to http://img.comicscantina.com
     url(r'^img/(.*)$', views.image_page, name='file'),
 )

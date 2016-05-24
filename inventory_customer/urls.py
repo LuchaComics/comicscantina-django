@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 from . import views
 
-urlpatterns = patterns('',
+
+urlpatterns = (
     url(r'^inventory/(\d+)/(\d+)/customers$', views.customers_page),
     url(r'^inventory/(\d+)/(\d+)/customer/(\d+)$', views.customer_page),
     url(r'^inventory/(\d+)/(\d+)/customer/(\d+)/profile$', views.profile_page),

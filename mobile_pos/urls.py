@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from mobile_pos import views
 
 
-urlpatterns = patterns('',
+urlpatterns = (
     url(r'^mobile/pos/login$', views.login_page),
     url(r'^mobile/pos/pick_store$', views.pick_store_page),
     url(r'^mobile/pos/(\d+)/dashboard$', views.dashboard_page),

@@ -9,7 +9,7 @@ from inventory_setting.views import tag
 from inventory_setting.views import shipping
 
 
-urlpatterns = patterns('',
+urlpatterns = (
     # Generic
     url(r'^user/settings/register$', generic.ajax_register),
     url(r'^user/settings/update_password$',generic.ajax_update_password),
