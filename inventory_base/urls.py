@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from . import views
 
 
-urlpatterns = patterns('',
+urlpatterns = (
     # Custom Files
     url(r'^robots\.txt$', views.robots_txt_page, name='robots'),
     url(r'^humans\.txt$', views.humans_txt_page, name='humans'),
@@ -16,9 +16,4 @@ urlpatterns = patterns('',
 
     # Image Redirection to http://img.comicscantina.com
     url(r'^img/(.*)$', views.image_page, name='file'),
-)
-
-# Captchas
-urlpatterns += patterns('',
-    url(r'^captcha/', include('captcha.urls')),
 )

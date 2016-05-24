@@ -90,7 +90,6 @@ INSTALLED_APPS = (
     'compressor',
     'rest_framework',
     'rest_framework.authtoken',
-    'captcha',
     'paypal.standard.ipn',
     'inventory_base',
     'inventory_catalog',
@@ -229,15 +228,6 @@ LOGGING = {
         },
     },
 }
-
-
-
-# Captcha App (Third Party)
-# http://django-simple-captcha.readthedocs.org/en/latest/advanced.html
-
-if 'test' in sys.argv:
-    CAPTCHA_TEST_MODE = True
-CAPTCHA_FONT_SIZE = 52
 
 
 
