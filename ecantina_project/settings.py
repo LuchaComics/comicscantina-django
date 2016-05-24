@@ -34,13 +34,8 @@ def env_var(key, default=None):
     return val
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# Import variables for our application. Basically all imported variables
-# have a SECRET_* prefix.
-try:
-    from ecantina_project.secret_settings import *
-except ImportError:
-    pass
 
 # Import all constants to use throughout our application
 try:
@@ -87,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'storages',
     'compressor',
     'rest_framework',
     'rest_framework.authtoken',
@@ -246,27 +242,38 @@ USE_TZ = False
 
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
+# Django-Storages
+#
+AWS_STORAGE_BUCKET_NAME = env_var("AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = env_var("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env_var("AWS_SECRET_ACCESS_KEY")
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
-STATIC_URL = '/static/'
-COMPRESS_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, "media"),
-)
+
+
+# Static files (CSS, JavaScript, Images) + Django-Storages
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'ecantina_project.custom_storage.StaticStorage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+MEDIAFILES_LOCATION = 'media'
+MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+DEFAULT_FILE_STORAGE = 'ecantina_project.custom_storage.MediaStorage'
+
+MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',  # Django-Compressor
+    'compressor.finders.CompressorFinder'
 ]
 
-# User uploaded content.
-#
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'ecantina_project', 'static'),
+)
 
 
 
@@ -295,7 +302,7 @@ PAYPAL_TEST = env_var("PAYPAL_TEST")
 # External Servers
 #
 
-COMICS_CANTINA_IMAGE_SERVER_BASE_URL = SECRET_COMICS_CANTINA_IMAGE_SERVER_BASE_URL
+COMICS_CANTINA_IMAGE_SERVER_BASE_URL = env_var("COMICS_CANTINA_IMAGE_SERVER_BASE_URL")
 
 
 
@@ -319,4 +326,4 @@ COMPRESS_ENABLED = env_var("COMPRESS_ENABLED")
 # Django-Compressor + Django-Storages
 #
 
-# COMPRESS_STORAGE = 'gsfurniture.custom_storage.CachedS3BotoStorage' #TODO: Uncomment when using Amazon S3.
+COMPRESS_STORAGE = 'ecantina_project.custom_storage.CachedS3BotoStorage'

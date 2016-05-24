@@ -29,3 +29,6 @@ KEEP_COMMENTS_ON_MINIFYING=True
 # paypal
 PAYPAL_RECEIVER_EMAIL=''
 PAYPAL_TEST='True
+
+# Application
+COMICS_CANTINA_IMAGE_SERVER_BASE_URL = "https://www.comicscantina.com/img/"

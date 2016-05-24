@@ -155,6 +155,7 @@ env/*
 #—————————————————————————————
 ecantina_project/secret_settings.py
 ecantina_project/.env
+ecantina_project/static/CACHE/*
 media/cover/*
 media/qrcode/*.png
 media/qrcode/*.PNG

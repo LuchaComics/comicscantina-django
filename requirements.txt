@@ -3,6 +3,7 @@ Markdown==2.6.6
 Pillow==3.2.0
 argparse==1.4.0
 beautifulsoup4==4.4.1
+boto==2.40.0
 click==6.6
 dj-database-url==0.4.1
 django-appconf==1.0.2
@@ -11,6 +12,7 @@ django-filter==0.13.0
 django-htmlmin==0.9.1
 django-mailgun==0.9.1
 django-paypal==0.3.2
+django-storages==1.4.1
 djangorestframework==3.3.3
 gunicorn==19.6.0
 html5lib==0.9999999
