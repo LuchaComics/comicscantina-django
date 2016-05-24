@@ -172,3 +172,4 @@ media/upload/*.PNG
 media/upload/*.png
 static/CACHE/*
 etl/fixtures/*
+db/*
