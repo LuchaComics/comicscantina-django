@@ -13,6 +13,7 @@ from api.models.gcd.issue import GCDIssue
 
 IMAGE_SERVER_BASEL_URL = "http://127.0.0.1:8000/image/"
 IMAGE_DOES_NOT_EXIST_MD5_CODE = b'\xdaY\xbb\x93\x13\xc9\x14N\xfa\xd0\x86\xbf\x10\x85\xb7\x87'
+SYNC_ARTIFICAL_DELAY = 1 # (measured in seconds)
 
 
 class Command(BaseCommand):
@@ -98,7 +99,7 @@ class Command(BaseCommand):
 
             # Delete the local file.
             self.delete_at_filepath(filepath)
-            sleep(1)
+            sleep(SYNC_ARTIFICAL_DELAY)
 
     def save_all_issues(self):
         """
@@ -193,4 +194,4 @@ class Command(BaseCommand):
             except GCDIssue.DoesNotExist:
                 print("Issue ID:", an_issue.issue_id, "- Skipped")
             print()
-            sleep(1) # Add artifical delay.
+            sleep(SYNC_ARTIFICAL_DELAY)
