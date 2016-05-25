@@ -175,3 +175,4 @@ media/upload/*.tif
 static/CACHE/*
 etl/fixtures/*
 db/*
+*.sqlite3
