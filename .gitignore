@@ -163,6 +163,7 @@ media/qrcode/*.jpeg
 media/qrcode/*.jpg
 media/qrcode/*.JPEG
 media/qrcode/*.JPG
+media/upload/*.TIF
 scripts/cover/*
 media/upload/*.jpeg
 media/upload/*.jpg
@@ -170,6 +171,7 @@ media/upload/*.JPEG
 media/upload/*.JPG
 media/upload/*.PNG
 media/upload/*.png
+media/upload/*.tif
 static/CACHE/*
 etl/fixtures/*
 db/*
