@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from ecantina_project import constants
-from ecantina_project import secret_settings
+from ecantina_project.settings import env_var
 from api.models.ec.organization import Organization
 from api.models.ec.store import Store
 from api.models.ec.comic import Comic
@@ -250,7 +250,7 @@ def checkout_order_page(request):
     receipt = Receipt.objects.get_or_create_for_online_customer(customer)
 
     # Generate our URLs & pick the payment email
-    base_url = secret_settings.SECRET_HTTP_PROTOCOL
+    base_url = env_var("HTTP_PROTOCOL")
     prefix = request.META.get("HTTP_X_CUSTOMURL")
 
     # Configure which PayPal address to send money
@@ -265,13 +265,13 @@ def checkout_order_page(request):
 
     # Append the subdomain (including 'www') to the URL
     if prefix:
-        base_url += prefix + "." + secret_settings.SECRET_DOMAIN
+        base_url += prefix + "." +  env_var("DOMAIN")
     else:
-        base_url += secret_settings.SECRET_DOMAIN
+        base_url += env_var("DOMAIN")
 
     return_url = base_url+"/checkout/thank_you/"+str(receipt.receipt_id)
     cancel_url = base_url+"/checkout/cancel"
-    notify_url = secret_settings.SECRET_HTTP_PROTOCOL+secret_settings.SECRET_DOMAIN+reverse('paypal-ipn'),
+    notify_url = env_var("HTTP_PROTOCOL") + env_var("DOMAIN") + reverse('paypal-ipn'),
     print('Pre-Checkout Receipt #', str(receipt.receipt_id))
     print('notify_url', str(notify_url))
     print('return_url', str(return_url))
