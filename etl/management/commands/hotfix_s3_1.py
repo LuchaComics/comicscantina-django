@@ -3,7 +3,6 @@ import sys
 import io
 import requests
 import hashlib
-from time import sleep
 from django.core.files import File
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -16,7 +15,6 @@ from ecantina_project.settings import env_var
 
 IMAGE_SERVER_BASEL_URL = "http://127.0.0.1:8000/image/"
 IMAGE_DOES_NOT_EXIST_MD5_CODE = b'\xdaY\xbb\x93\x13\xc9\x14N\xfa\xd0\x86\xbf\x10\x85\xb7\x87'
-SYNC_ARTIFICAL_DELAY = 0 # (measured in seconds)
 
 
 class Command(BaseCommand):
@@ -91,9 +89,7 @@ class Command(BaseCommand):
                 # matches.
                 md5 = self.md5_for_file(f)
                 if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                    a_series.cover = None
-                    a_series.save()
-                    print("Series ID:", a_series.series_id, "- Skipped")
+                    pass
                 else:
                     f = File(f)
                     a_series.cover = f
@@ -102,7 +98,6 @@ class Command(BaseCommand):
 
             # Delete the local file.
             self.delete_at_filepath(filepath)
-            sleep(SYNC_ARTIFICAL_DELAY)
 
     def save_all_issues(self):
         """
@@ -126,7 +121,7 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        print(url, "- Skipped")
+                        pass
                     else:
                         an_issue.small_image = File(f)
                         an_issue.save()
@@ -139,7 +134,7 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        print(url, "- Skipped")
+                        pass
                     else:
                         an_issue.medium_image = File(f)
                         an_issue.save()
@@ -152,7 +147,7 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        print(url, "- Skipped")
+                        pass
                     else:
                         an_issue.large_image = File(f)
                         an_issue.save()
@@ -165,7 +160,7 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        print(url, "- Skipped")
+                        pass
                     else:
                         an_issue.alt_small_image = File(f)
                         an_issue.save()
@@ -178,7 +173,7 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        print(url, "- Skipped")
+                        pass
                     else:
                         an_issue.alt_medium_image = File(f)
                         an_issue.save()
@@ -191,7 +186,7 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        print(url, "- Skipped")
+                        pass
                     else:
                         an_issue.alt_large_image = File(f)
                         an_issue.save()
@@ -201,5 +196,5 @@ class Command(BaseCommand):
                 print("Issue ID:", an_issue.issue_id, "- Saved")
             except GCDIssue.DoesNotExist:
                 print("Issue ID:", an_issue.issue_id, "- Skipped")
-            print()
-            sleep(SYNC_ARTIFICAL_DELAY)
+
+            print()  # Add new line which is blank spaced.
