@@ -37,6 +37,9 @@ class Command(BaseCommand):
         # images depending on whether it's an uploaded image or a GCD image.
         products = Product.objects.all()
         for a_product in products.all():
+            if 'www.comicscantina.com' in a_product.image_url:
+                print(a_product.image_url, "- OLD RECORD SKIPPED")
+
             if 'upload' in a_product.image_url:
                 # Save the image(s) uploaded.
                 if a_product.image:
