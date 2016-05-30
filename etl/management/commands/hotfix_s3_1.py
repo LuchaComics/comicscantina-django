@@ -89,7 +89,8 @@ class Command(BaseCommand):
                 # matches.
                 md5 = self.md5_for_file(f)
                 if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                    pass
+                    a_series.cover = None
+                    a_series.save()
                 else:
                     f = File(f)
                     a_series.cover = f
@@ -121,7 +122,8 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        pass
+                        an_issue.small_image = None
+                        an_issue.save()
                     else:
                         an_issue.small_image = File(f)
                         an_issue.save()
@@ -134,7 +136,8 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        pass
+                        an_issue.medium_image = None
+                        an_issue.save()
                     else:
                         an_issue.medium_image = File(f)
                         an_issue.save()
@@ -147,7 +150,8 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        pass
+                        an_issue.large_image = None
+                        an_issue.save()
                     else:
                         an_issue.large_image = File(f)
                         an_issue.save()
@@ -160,7 +164,8 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        pass
+                        an_issue.alt_small_image = None
+                        an_issue.save()
                     else:
                         an_issue.alt_small_image = File(f)
                         an_issue.save()
@@ -173,7 +178,8 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        pass
+                        an_issue.alt_medium_image = None
+                        an_issue.save()
                     else:
                         an_issue.alt_medium_image = File(f)
                         an_issue.save()
@@ -186,7 +192,8 @@ class Command(BaseCommand):
                 with open(filepath, 'rb') as f:
                     md5 = self.md5_for_file(f)
                     if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                        pass
+                        an_issue.alt_large_image = None
+                        an_issue.save()
                     else:
                         an_issue.alt_large_image = File(f)
                         an_issue.save()
