@@ -9,6 +9,9 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from api.models.gcd.series import GCDSeries
 from api.models.gcd.issue import GCDIssue
+from api.models.ec.comic import Comic
+from api.models.ec.product import Product
+from ecantina_project.settings import env_var
 
 
 IMAGE_SERVER_BASEL_URL = "http://127.0.0.1:8000/image/"
@@ -26,6 +29,7 @@ class Command(BaseCommand):
         os.system('clear;')  # Clear the console text.
         self.save_all_series()
         self.save_all_issues()
+        self.update_all_products()
 
     def md5_for_file(self, f, block_size=2**20):
         """
@@ -64,6 +68,26 @@ class Command(BaseCommand):
         """
         if os.path.isfile(filepath):
             os.remove(filepath)
+
+    def update_all_products(self):
+        """
+        Iterate through all the Products and update their product image.
+        """
+        # Fetch all the products we have in our inventory and update their
+        # images depending on whether it's an uploaded image or a GCD image.
+        products = Product.objects.all()
+        for a_product in products.all():
+            if 'upload' in a_product.image_url:
+                # Save the image(s) uploaded.
+                if a_product.image:
+                    pass  # Do nothing.
+            else:
+                comic = Comic.objects.get(product=a_product)
+                if comic.issue.small_image:
+                    bucket_name = env_var("AWS_STORAGE_BUCKET_NAME")
+                    url = "https://s3.amazonaws.com/"+bucket_name+"/media/"+str(comic.issue.large_image)
+                    a_product.image_url = url
+                    a_product.save()
 
     def save_all_series(self):
         """
