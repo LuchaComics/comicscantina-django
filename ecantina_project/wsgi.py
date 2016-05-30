@@ -13,4 +13,14 @@ from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ecantina_project.settings")
 
+# When the application loads for the first time, clear the previous cache.
+from django.core.cache import caches
+try:
+    cache = caches['default']
+    if cache is not None:
+        cache.clear()
+        print("Cache Cleared")
+except Exception as e:
+    print(e)
+
 application = get_wsgi_application()
