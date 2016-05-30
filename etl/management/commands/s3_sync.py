@@ -13,7 +13,7 @@ from api.models.gcd.issue import GCDIssue
 
 IMAGE_SERVER_BASEL_URL = "http://127.0.0.1:8000/image/"
 IMAGE_DOES_NOT_EXIST_MD5_CODE = b'\xdaY\xbb\x93\x13\xc9\x14N\xfa\xd0\x86\xbf\x10\x85\xb7\x87'
-SYNC_ARTIFICAL_DELAY = 1 # (measured in seconds)
+SYNC_ARTIFICAL_DELAY = 0 # (measured in seconds)
 
 
 class Command(BaseCommand):
@@ -105,9 +105,14 @@ class Command(BaseCommand):
         """
         Save all issues.
         """
-        # issues = GCDIssue.objects.filter(issue_id=1) # For debugging purposes only.
-        issues = GCDIssue.objects.all()
+        # For debugging purposes only.
+        # issues = GCDIssue.objects.filter(issue_id=1)
+        # issues = GCDIssue.objects.filter(small_image__isnull=True).order_by("issue_id")
 
+        # Code to use.
+        issues = GCDIssue.objects.all().order_by("issue_id")
+
+        # Iterate through all the Issues and process them.
         for an_issue in issues.all():
             try:
                 filename = str(an_issue.issue_id)
