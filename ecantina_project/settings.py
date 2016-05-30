@@ -179,10 +179,10 @@ DATABASES = {
         'CONN_MAX_AGE': 0,
         "ENGINE": "django.db.backends.postgresql_psycopg2"
     },
-    'image_server': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    # 'image_server': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 }
 DATABASES['default'] = dj_database_url.config(default=env_var("DATABASE_URL"))
 
