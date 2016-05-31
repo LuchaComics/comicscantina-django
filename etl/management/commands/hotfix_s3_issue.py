@@ -20,13 +20,19 @@ IMAGE_DOES_NOT_EXIST_MD5_CODE = b'\xdaY\xbb\x93\x13\xc9\x14N\xfa\xd0\x86\xbf\x10
 class Command(BaseCommand):
     help = 'ETL iterates all the Series and Issues, downloads them from a local running eCantina-Archive server and saves it to Amazon S3.'
 
+    def add_arguments(self, parser):
+        # Parameters control where we start and stop for series IDs.
+        parser.add_argument('min_id', nargs='+', type=int)
+        parser.add_argument('max_id', nargs='+', type=int)
+
     def handle(self, *args, **options):
         """
         Main entry into this ETL. This is where the code will start running from.
         """
         os.system('clear;')  # Clear the console text.
-        self.save_all_series()
-        self.save_all_issues()
+        min_id = options['min_id'][0]
+        max_id = options['max_id'][0]
+        self.save_all_issues(min_id, max_id)
 
     def md5_for_file(self, f, block_size=2**20):
         """
@@ -66,50 +72,19 @@ class Command(BaseCommand):
         if os.path.isfile(filepath):
             os.remove(filepath)
 
-    def save_all_series(self):
-        """
-        Save all series.
-        """
-        series = GCDSeries.objects.all().order_by("series_id")
-        for a_series in series.all():
-            # Generate the file name.
-            filename = str(a_series.series_id) + ".jpg"
-
-            # Generate the URL to access.
-            url = IMAGE_SERVER_BASEL_URL + filename
-
-            # Download the file locally from the URL.
-            filepath = self.download_file(url);
-
-            # Get the Image & save it to our model which will upload to
-            # our Amazon S3 service.
-            with open(filepath, 'rb') as f:
-                # Do not upload the "Cover Missing" image by checking the
-                # MD5 and not downloading the that image if the signiture
-                # matches.
-                md5 = self.md5_for_file(f)
-                if md5 == IMAGE_DOES_NOT_EXIST_MD5_CODE:
-                    a_series.cover = None
-                    a_series.save()
-                else:
-                    f = File(f)
-                    a_series.cover = f
-                    a_series.save()
-                    print("Series ID:", a_series.series_id, "- Saved")
-
-            # Delete the local file.
-            self.delete_at_filepath(filepath)
-
-    def save_all_issues(self):
+    def save_all_issues(self, min_id, max_id):
         """
         Save all issues.
         """
         # For debugging purposes only.
         # issues = GCDIssue.objects.filter(issue_id=1)
-        # issues = GCDIssue.objects.filter(small_image__isnull=True).order_by("issue_id")
-
+        
         # Code to use.
-        issues = GCDIssue.objects.all().order_by("issue_id")
+        issues = GCDIssue.objects.filter(
+            issue_id__gte=min_id,
+            issue_id__lte=max_id,
+            # small_image__isnull=True
+        ).order_by("issue_id")
 
         # Iterate through all the Issues and process them.
         for an_issue in issues.all():
