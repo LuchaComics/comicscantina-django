@@ -80,7 +80,7 @@ class Command(BaseCommand):
             series_id__gte=min_id,
             series_id__lte=max_id,
         ).order_by("series_id")
-        
+
         for a_series in series.all():
             # Generate the file name.
             filename = str(a_series.series_id) + ".jpg"
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                     f = File(f)
                     a_series.cover = f
                     a_series.save()
-                    print("Series ID:", a_series.series_id, "- Saved")
+                    self.stdout.write("Series ID: " + str(a_series.series_id) + " - Saved")
 
             # Delete the local file.
             self.delete_at_filepath(filepath)

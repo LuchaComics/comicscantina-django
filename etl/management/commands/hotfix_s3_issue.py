@@ -21,7 +21,7 @@ class Command(BaseCommand):
     help = 'ETL iterates all the Series and Issues, downloads them from a local running eCantina-Archive server and saves it to Amazon S3.'
 
     def add_arguments(self, parser):
-        # Parameters control where we start and stop for series IDs.
+        # Parameters control where we start and stop for Issue IDs.
         parser.add_argument('min_id', nargs='+', type=int)
         parser.add_argument('max_id', nargs='+', type=int)
 
@@ -78,12 +78,12 @@ class Command(BaseCommand):
         """
         # For debugging purposes only.
         # issues = GCDIssue.objects.filter(issue_id=1)
-        
+
         # Code to use.
         issues = GCDIssue.objects.filter(
             issue_id__gte=min_id,
             issue_id__lte=max_id,
-            # small_image__isnull=True
+            #small_image__isnull=True  # Debugging Purposes: Return only non-processed images.
         ).order_by("issue_id")
 
         # Iterate through all the Issues and process them.
@@ -102,7 +102,7 @@ class Command(BaseCommand):
                     else:
                         an_issue.small_image = File(f)
                         an_issue.save()
-                        print(url, "- Saved")
+                        self.stdout.write(url + " - Saved")
                 self.delete_at_filepath(filepath)
 
                 # Medium Image
@@ -116,7 +116,7 @@ class Command(BaseCommand):
                     else:
                         an_issue.medium_image = File(f)
                         an_issue.save()
-                        print(url, "- Saved")
+                        self.stdout.write(url + " - Saved")
                 self.delete_at_filepath(filepath)
 
                 # Large Image
@@ -130,7 +130,7 @@ class Command(BaseCommand):
                     else:
                         an_issue.large_image = File(f)
                         an_issue.save()
-                        print(url, "- Saved")
+                        self.stdout.write(url + " - Saved")
                 self.delete_at_filepath(filepath)
 
                 # Alt Small Image
@@ -144,7 +144,7 @@ class Command(BaseCommand):
                     else:
                         an_issue.alt_small_image = File(f)
                         an_issue.save()
-                        print(url, "- Saved")
+                        self.stdout.write(url + " - Saved")
                 self.delete_at_filepath(filepath)
 
                 # Alt Medium Image
@@ -158,7 +158,7 @@ class Command(BaseCommand):
                     else:
                         an_issue.alt_medium_image = File(f)
                         an_issue.save()
-                        print(url, "- Saved")
+                        self.stdout.write(url + " - Saved")
                 self.delete_at_filepath(filepath)
 
                 # Alt Large Image
@@ -172,11 +172,9 @@ class Command(BaseCommand):
                     else:
                         an_issue.alt_large_image = File(f)
                         an_issue.save()
-                        print(url, "- Saved")
+                        self.stdout.write(url + " - Saved")
                 self.delete_at_filepath(filepath)
 
-                print("Issue ID:", an_issue.issue_id, "- Saved")
+                self.stdout.write("Issue ID: " + str(an_issue.issue_id) + " - Saved")
             except GCDIssue.DoesNotExist:
-                print("Issue ID:", an_issue.issue_id, "- Skipped")
-
-            print()  # Add new line which is blank spaced.
+                self.stdout.write("Issue ID: " + str(an_issue.issue_id) + " - Skipped")

@@ -38,7 +38,7 @@ class Command(BaseCommand):
         products = Product.objects.all()
         for a_product in products.all():
             if 'www.comicscantina.com' in a_product.image_url:
-                print(a_product.image_url, "- OLD RECORD SKIPPED")
+                self.stdout.write(a_product.image_url + "- OLD RECORD SKIPPED")
 
             if 'upload' in a_product.image_url:
                 # Save the image(s) uploaded.
@@ -46,7 +46,7 @@ class Command(BaseCommand):
                     url = "https://s3.amazonaws.com/"+bucket_name+"/media/"+str(a_product.image.image)
                     a_product.image_url = url
                     a_product.save()
-                    print(url,"- Saved")
+                    self.stdout.write(url + "- Saved")
             else:
                 comic = Comic.objects.get(product=a_product)
                 if comic.issue.small_image:
@@ -54,4 +54,4 @@ class Command(BaseCommand):
                     url = "https://s3.amazonaws.com/"+bucket_name+"/media/"+str(comic.issue.large_image)
                     a_product.image_url = url
                     a_product.save()
-                    print(url,"- Saved")
+                    self.stdout.write(url + "- Saved")
