@@ -32,13 +32,13 @@ sitemaps = {
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),  # Authentication
     url(r'^admin/', include(admin.site.urls)), # Administration
-    url(r'', include('store_base.urls')), 
+    url(r'', include('store_base.urls')),
     url(r'', include('store_landpage.urls')),
     url(r'', include('store_about.urls')),
     url(r'', include('store_products.urls')),
     url(r'', include('store_blog.urls')),
     url(r'', include('store_checkout.urls')),
-    url(r'', include('store_customer.urls')),               
+    url(r'', include('store_customer.urls')),
     url(r'', include('store_register.urls')),
     url(r'', include('store_help.urls')),
     url(r'', include('store_search.urls')),
@@ -59,11 +59,14 @@ urlpatterns = [
     url(r'', include('inventory_register.urls')),
     url(r'', include('inventory_wishlist.urls')),
     url(r'', include('api.urls')),
-               
+
     # PayPal
     url(r'^checkout/paypal/', include('paypal.standard.ipn.urls')),
-               
+
     # Sitemap
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-               
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# # Custom errors.
+handler404 = "store_base.views.http_404_page"
