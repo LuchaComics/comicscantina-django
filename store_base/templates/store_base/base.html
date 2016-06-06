@@ -40,7 +40,73 @@
         {% compress css %}
             <link type="text/css" rel="stylesheet" href="{% static 'store/bootstrap/css/bootstrap.css' %}">
         {% endcompress %}
-        <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
+        {% if org != None %}
+            {% if store != None %}
+                {% if store.style == 'ecantina-style-0.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-0.css' %}">
+                {% elif store.style == 'ecantina-style-1.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-1.css' %}">
+                {% elif store.style == 'ecantina-style-2.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-2.css' %}">
+                {% elif store.style == 'ecantina-style-3.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-3.css' %}">
+                {% elif store.style == 'ecantina-style-4.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-4.css' %}">
+                {% elif store.style == 'ecantina-style-5.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-5.css' %}">
+                {% elif store.style == 'ecantina-style-6.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-6.css' %}">
+                {% elif store.style == 'ecantina-style-7.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-7.css' %}">
+                {% elif store.style == 'ecantina-style-8.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-8.css' %}">
+                {% elif store.style == 'ecantina-style-9.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-9.css' %}">
+                {% elif store.style == 'ecantina-style-10.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-10.css' %}">
+                {% elif store.style == 'ecantina-style-11.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-11.css' %}">
+                {% elif store.style == 'ecantina-style-black.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-black.css' %}">
+                {% else %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
+                {% endif %}
+            {% else %}
+                {% if org.style == 'ecantina-style-0.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-0.css' %}">
+                {% elif org.style == 'ecantina-style-1.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-1.css' %}">
+                {% elif org.style == 'ecantina-style-2.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-2.css' %}">
+                {% elif org.style == 'ecantina-style-3.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-3.css' %}">
+                {% elif org.style == 'ecantina-style-4.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-4.css' %}">
+                {% elif org.style == 'ecantina-style-5.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-5.css' %}">
+                {% elif org.style == 'ecantina-style-6.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-6.css' %}">
+                {% elif org.style == 'ecantina-style-7.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-7.css' %}">
+                {% elif org.style == 'ecantina-style-8.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-8.css' %}">
+                {% elif org.style == 'ecantina-style-9.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-9.css' %}">
+                {% elif org.style == 'ecantina-style-10.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-10.css' %}">
+                {% elif org.style == 'ecantina-style-11.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-11.css' %}">
+                {% elif org.style == 'ecantina-style-black.css' %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/ecantina-style-black.css' %}">
+                {% else %}
+                    <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% compress css %}
+                <link type="text/css" rel="stylesheet" href="{% static 'store/css/style.css' %}">
+            {% endcompress %}
+        {% endif %}
         <!-- /.Local CSS -->
 
 
