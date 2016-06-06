@@ -37,7 +37,11 @@ def list_page(request):
         brands = None
 
     # Get the categories and select the current category.
-    category_id = int(request.GET.get('category'))
+    try:
+        category_id = int(request.GET.get('category'))
+    except Exception as e:
+        category_id = 1  # Automatically set to "All Comics".
+
     try:
         current_category = Category.objects.get(category_id=category_id)
     except Category.DoesNotExist:
