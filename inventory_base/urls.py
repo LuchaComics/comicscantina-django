@@ -13,7 +13,4 @@ urlpatterns = (
 
     # Testing that AdminEmailHandler works.
     #url(r'^500$', views.http_500_error_page), # For debugging purposes only!
-
-    # Image Redirection to http://img.comicscantina.com
-    url(r'^img/(.*)$', views.image_page, name='file'),
 )
