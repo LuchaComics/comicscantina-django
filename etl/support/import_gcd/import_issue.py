@@ -22,7 +22,7 @@ class ImportIssue:
     def __init__(self, file_path, has_formatting_requirements=False):
         self.file_path = file_path
         self.has_formatting_requirements = has_formatting_requirements
-    
+
     def begin_import(self):
         if self.has_formatting_requirements:
             # Remove the text formating.
@@ -35,16 +35,16 @@ class ImportIssue:
             if elem.tag == "row":
                 # Create an array holding all the row data.
                 array = {}
-                
+
                 # Iterate through all the rows and save the items.
                 for child in elem:
                     name = child.attrib['name']
                     text = child.text
                     array[name] = text
-                
+
                 if int(array['id']) >= INITIAL_ID_NUMBER:
                     self.import_row(array)
-                
+
                 # Clear temp data.
                 elem.clear()
 
@@ -99,13 +99,13 @@ class ImportIssue:
             brand_id = 0
         else:
             brand_id = 0 if brand_id in 'NULL' else int(brand_id)
-        
+
         if series_id:
             series_id = 0 if series_id in 'NULL' else int(series_id)
-        
+
         if indicia_publisher_id:
             indicia_publisher_id = 0 if indicia_publisher_id in 'NULL' else int(indicia_publisher_id)
-        
+
         if variant_of_id:
             variant_of_id = 0 if variant_of_id in 'NULL' else int(variant_of_id)
 
@@ -117,25 +117,25 @@ class ImportIssue:
 
         if not title:
             title = ""
-        
+
         if not volume:
             volume = ""
-        
+
         if not isbn:
             isbn = ""
-        
+
         if not valid_isbn:
             valid_isbn = ""
-        
+
         if not variant_of_id:
             variant_of_id = 0
-        
+
         if not variant_name:
             variant_name = ""
-        
+
         if not barcode:
             barcode = ""
-    
+
         if not rating:
             rating = ""
 
@@ -156,10 +156,10 @@ class ImportIssue:
 
         if not key_date:
             key_date = ""
-        
+
         if not key_date:
             key_date = ""
-        
+
         if not number:
             number = "0"
 
@@ -188,7 +188,7 @@ class ImportIssue:
         except GCDSeries.DoesNotExist:
             series = None
             publisher_name = ""
-        
+
         try:
             brand = GCDBrand.objects.get(brand_id=brand_id)
         except GCDBrand.DoesNotExist:
@@ -250,12 +250,12 @@ class ImportIssue:
             entry.rating = rating
             entry.no_rating = no_rating
             entry.publisher_name = publisher_name
-            entry.small_url = small_url
-            entry.medium_url = medium_url
-            entry.large_url = large_url
-            entry.alt_small_url = alt_small_url
-            entry.alt_medium_url = alt_medium_url
-            entry.alt_large_url = alt_large_url
+            # entry.small_url = small_url
+            # entry.medium_url = medium_url
+            # entry.large_url = large_url
+            # entry.alt_small_url = alt_small_url
+            # entry.alt_medium_url = alt_medium_url
+            # entry.alt_large_url = alt_large_url
             entry.has_alternative = has_alternative
             entry.save()
         except GCDIssue.DoesNotExist:
@@ -301,12 +301,12 @@ class ImportIssue:
                 rating = rating,
                 no_rating = no_rating,
                 publisher_name=publisher_name,
-                small_url = small_url,
-                medium_url = medium_url,
-                large_url = large_url,
-                alt_small_url = alt_small_url,
-                alt_medium_url = alt_medium_url,
-                alt_large_url = alt_large_url,
+                # small_url = small_url,
+                # medium_url = medium_url,
+                # large_url = large_url,
+                # alt_small_url = alt_small_url,
+                # alt_medium_url = alt_medium_url,
+                # alt_large_url = alt_large_url,
                 has_alternative = has_alternative,
             )
 
