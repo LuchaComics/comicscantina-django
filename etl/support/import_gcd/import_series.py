@@ -28,16 +28,16 @@ class ImportSeries:
             if elem.tag == "row":
                 # Create an array holding all the row data.
                 array = {}
-                
+
                 # Iterate through all the rows and save the items.
                 for child in elem:
                     name = child.attrib['name']
                     text = child.text
                     array[name] = text
-                
+
                 # Import the data
                 self.import_row(array)
-                
+
                 # Clear temp data.
                 elem.clear()
 
@@ -98,7 +98,7 @@ class ImportSeries:
         except GCDPublisher.DoesNotExist:
             publisher = None
         publisher_name = publisher.name
-        
+
         try:
             language = GCDLanguage.objects.get(language_id=language_id)
         except language.DoesNotExist:
@@ -122,10 +122,10 @@ class ImportSeries:
 
         if first_issue_id:
             first_issue_id = 0 if first_issue_id in 'NULL' else int(first_issue_id)
-                
+
         if last_issue_id:
             last_issue_id = 0 if last_issue_id in 'NULL' else int(last_issue_id)
-                
+
         if open_reserve:
             open_reserve = 0 if open_reserve in 'NULL' else int(open_reserve)
 
@@ -171,7 +171,7 @@ class ImportSeries:
 
         # Generate Image URL
         base_url = settings.COMICS_CANTINA_IMAGE_SERVER_BASE_URL + str(id)
-        cover_url = base_url + '.jpg'
+        # cover_url = base_url + '.jpg'
 
         #--------#
         #  Load  #
@@ -217,7 +217,7 @@ class ImportSeries:
             entry.publication_type_id=publication_type_id
             entry.is_singleton=is_singleton
             entry.publisher_name = publisher_name
-            entry.cover_url = cover_url
+            # entry.cover_url = cover_url
             entry.save()
         except GCDSeries.DoesNotExist:
             print("ImportSeries: Inserting: " + str(id))
@@ -260,5 +260,5 @@ class ImportSeries:
                 publication_type_id=publication_type_id,
                 is_singleton=is_singleton,
                 publisher_name=publisher_name,
-                cover_url=cover_url,
+                # cover_url=cover_url,
             )

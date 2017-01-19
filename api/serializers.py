@@ -184,7 +184,7 @@ class PulllistSubscriptionSerializer(serializers.ModelSerializer):
 class SeriesSerializer(serializers.ModelSerializer):
     class Meta:
         model = GCDSeries
-        fields = ('series_id', 'name', 'sort_name', 'format', 'color', 'dimensions', 'paper_stock', 'binding', 'publishing_format', 'tracking_notes', 'notes', 'publication_notes', 'keywords', 'year_began', 'year_ended', 'year_began_uncertain', 'year_ended_uncertain', 'publication_dates', 'has_barcode', 'has_indicia_frequency', 'has_isbn', 'has_issue_title', 'has_volume', 'created', 'has_rating', 'is_current', 'is_comics_publication', 'is_singleton', 'reserved', 'open_reserve', 'modified', 'deleted', 'country', 'language', 'publication_type_id', 'publisher', 'images', 'issue_count', 'has_gallery', 'publisher_name', 'cover_url',)
+        fields = ('series_id', 'name', 'sort_name', 'format', 'color', 'dimensions', 'paper_stock', 'binding', 'publishing_format', 'tracking_notes', 'notes', 'publication_notes', 'keywords', 'year_began', 'year_ended', 'year_began_uncertain', 'year_ended_uncertain', 'publication_dates', 'has_barcode', 'has_indicia_frequency', 'has_isbn', 'has_issue_title', 'has_volume', 'created', 'has_rating', 'is_current', 'is_comics_publication', 'is_singleton', 'reserved', 'open_reserve', 'modified', 'deleted', 'country', 'language', 'publication_type_id', 'publisher', 'images', 'issue_count', 'has_gallery', 'publisher_name',)
 
 
 class IssueSerializer(serializers.ModelSerializer):
@@ -270,7 +270,7 @@ class SubDomainSerializer(serializers.ModelSerializer):
         # Validate to ensure there are not capitals.
         if not value.islower():
             raise serializers.ValidationError("Your subdomain can only contain lowercase letters.")
-        
+
         # Validate to ensure there are no special characters (including whitespace).
         if not value.isalpha():
             raise serializers.ValidationError("Your subdomain cannot have special characters.")
@@ -295,11 +295,11 @@ class SubDomainSerializer(serializers.ModelSerializer):
             'tutorial', 'tutorials', 'edu', 'education', 'educational', 'link',
             'article', 'www2', 'ww3', 'ww4', 'store', 'storing', 'start', 'begin',
             'checkout', 'pos', 'api', 'ssh', 'buy', 'learn', 'discover',
-            'discovery', 
+            'discovery',
         ]
         if value in reserved_words:
             raise serializers.ValidationError("Cannot us a reserved name")
-        
+
         # Validate to ensure the domain name isn't using a 'bad word'.
         bad_words = BannedWord.objects.all()
         if value in bad_words:
