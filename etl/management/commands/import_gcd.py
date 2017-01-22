@@ -1,5 +1,8 @@
 import os
 import sys
+import re
+import os.path as ospath
+import codecs
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from etl.support.import_gcd.import_country import *
@@ -47,7 +50,32 @@ class Command(BaseCommand):
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     """
     help = 'ETL loads up the GCD database into our applicaton using the provided xml files.'
-    
+ 
+    def strip_chars(self, f):
+        remove_re = re.compile(u'[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F%s]'
+                               % u'')
+        head,tail = ospath.split(f)
+        fin = codecs.open(f, encoding = 'utf-8')
+        fout = codecs.open(head + os.path.sep + 'tmp.xml', mode = 'w', encoding = 'utf-8')
+        i = 1
+        stripped = 0
+        for line in fin:
+            new_line, count = remove_re.subn('', line)
+            if count > 0:
+                plur = ((count > 1) and u's') or u''
+                sys.stderr.write('Line %d, removed %s character%s.\n'
+                                 % (i, count, plur))
+
+            fout.write(new_line)
+            stripped = stripped + count
+            i = i + 1
+        sys.stderr.write('Stripped %d characters from %d lines.\n'
+                         % (stripped, i))
+        fin.close()
+        fout.close()
+        os.rename(f, head + os.path.sep + 'old_' + tail)
+        os.rename(head + os.path.sep + 'tmp.xml', f)
+ 
     def add_arguments(self, parser):
         parser.add_argument('file_path', nargs='+')
     
@@ -75,6 +103,8 @@ class Command(BaseCommand):
 
     def begin_processing_xml(self, full_file_path):
         # Match the file names with the specific database imports
+        
+        
         if 'gcd_country.xml' in full_file_path:
             importer = ImportCountry(full_file_path, HAS_FORMATTING)
             importer.begin_import()
@@ -121,7 +151,8 @@ class Command(BaseCommand):
             for full_file_path in full_file_paths:
                 if full_file_path.endswith(".xml"):
                     if file_name in full_file_path:
-                        self.begin_processing_xml(full_file_path)
+                        self.strip_chars(full_file_path)
+                        # self.begin_processing_xml(full_file_path)
     
         # Print Finish Message
         self.stdout.write('Importer Successfully Finished')
