@@ -152,7 +152,7 @@ class Command(BaseCommand):
                 if full_file_path.endswith(".xml"):
                     if file_name in full_file_path:
                         self.strip_chars(full_file_path)
-                        # self.begin_processing_xml(full_file_path)
+                        self.begin_processing_xml(full_file_path)
     
         # Print Finish Message
         self.stdout.write('Importer Successfully Finished')
