@@ -170,7 +170,7 @@ class ImportSeries:
         deleted = False if deleted is '0' else True
 
         # Generate Image URL
-        base_url = settings.COMICS_CANTINA_IMAGE_SERVER_BASE_URL + str(id)
+        #base_url = settings.COMICS_CANTINA_IMAGE_SERVER_BASE_URL + str(id)
         # cover_url = base_url + '.jpg'
 
         #--------#
