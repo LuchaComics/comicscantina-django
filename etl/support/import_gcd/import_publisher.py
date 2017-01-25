@@ -76,10 +76,12 @@ class ImportPublisher:
         if year_began:
             year_began = 0 if year_began in 'NULL' else int(year_began)
             year_began = year_began if year_began <= 9999 else 0
+            year_began = year_began if year_began >= 0 else 0
 
         if year_ended:
             year_ended = 0 if year_ended in 'NULL' else int(year_ended)
             year_ended = year_ended if year_ended <= 9999 else 0
+            year_ended = year_ended if year_ended >= 0 else 0
 
         # Fix NULL entries into the name.
         if not name:
