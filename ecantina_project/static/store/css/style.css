@@ -490,6 +490,11 @@ input[type="text"], input[type="password"], input[type="email"] {
     height: 36px;
 }
 
+/* ISSUE #7 */
+#id_login_email, #id_login_password{
+	font-size: 18px;
+}
+
 /*
 
 btn style moved to btn.css in V.5
