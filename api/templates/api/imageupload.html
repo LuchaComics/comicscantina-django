@@ -67,7 +67,9 @@
             },
             error: function(xhr,status,error) {
                 console.debug(status + ': ' + error + ' -- ' + xhr.responseText);
-                alert(xhr.responseText);
+                //ISSUE #8
+                //alert(xhr.responseText);
+                alert('Your image is too large. Please try an image that is less than 10mb.');
             },
             complete: function(xhr,status) {
                 // Do nothing.

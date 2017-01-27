@@ -163,6 +163,26 @@
             ajax_set_data();
         }
     }
+    
+    /**
+     *  Function will validate an URL, needed for image url validation, given that 
+     *  images may not be stored in the same domain server.
+     *  http://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+     */
+    function ValidURL(str) {
+        var pattern = new RegExp( '^(https?:\/\/)?' + // protocol
+            '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|' + // domain name
+            '((\d{1,3}\.){3}\d{1,3}))' + // OR ip (v4) address
+            '(\:\d+)?(\/[-a-z\d%_.~+]*)*' + // port and path
+            '(\?[;&a-z\d%_.~+=-]*)?' + // query string
+            '(\#[-a-z\d_]*)?$','i' ); // fragment locater
+        
+        if ( !pattern.test( str ) ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     /**
      *  Function will either insert / update the Product, Comic, and ImageUpload
@@ -243,7 +263,7 @@
             arr['image'] = parseInt( upload_id );
             
         }
-        
+
         // MAJOR BUGFIX: If we upload a custom image initially, the url is like
         // "/media/upload/Weekly_1_cAvxO7G.jpg" and is missing the protocol and
         // domain so we need to add it in.
@@ -256,10 +276,20 @@
             if ( url.indexOf( domain ) > -1 ) {
                 // Do nothing.
             } else {
-                url = protocol + "//" + domain + url;
+                //ISSUE #10
+                //Image URL is from a different domain.
+                //Ex: https://comicscantina.s3.amazonaws.com/media/upload/Weekly_1_cAvxO7G.jpg
+                if ( ValidURL( url ) ) {
+                    // Do nothing.
+                }
+                else{
+                    url = protocol + "//" + domain + url;
+                }
+  
             }
         }
         arr['image_url'] = url;
+        alert(url);
                 
     {% if product_form.instance.product_id > 0 %}
         // If we are editing a product, then we need to add in the product_id
