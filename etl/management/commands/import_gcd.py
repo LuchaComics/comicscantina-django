@@ -41,15 +41,15 @@ class Command(BaseCommand):
         This ETL will load up all the *.xml files in the entered directory
         and iterate through them to import them into the database. Importing
         involves inserting new records or updating existing records.
-        
-        
+
+
         Run in your console:
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         python manage.py import_gcd /Users/bartlomiejmika/Developer/rodolfomartinez/comicscantina/gcd/xml
         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     """
     help = 'ETL loads up the GCD database into our applicaton using the provided xml files.'
- 
+
     def strip_chars(self, f):
         remove_re = re.compile(u'[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F%s]'
                                % u'')
@@ -74,10 +74,10 @@ class Command(BaseCommand):
         fout.close()
         os.rename(f, head + os.path.sep + 'old_' + tail)
         os.rename(head + os.path.sep + 'tmp.xml', f)
- 
+
     def add_arguments(self, parser):
         parser.add_argument('file_path', nargs='+')
-    
+
     def handle(self, *args, **options):
         os.system('clear;')  # Clear the console text.
         for file_path in options['file_path']:
@@ -91,7 +91,7 @@ class Command(BaseCommand):
             it yields a 3-tuple (dirpath, dirnames, filenames).
         """
         file_paths = []  # List which will store all of the full filepaths.
-    
+
         # Walk the tree.
         for root, directories, files in os.walk(directory):
             for filename in files:
@@ -102,8 +102,8 @@ class Command(BaseCommand):
 
     def begin_processing_xml(self, full_file_path):
         # Match the file names with the specific database imports
-        
-        
+
+
         if 'gcd_country.xml' in full_file_path:
             importer = ImportCountry(full_file_path, HAS_FORMATTING)
             importer.begin_import()
@@ -144,7 +144,7 @@ class Command(BaseCommand):
         """
         # Run the above function and store its results in a variable.
         full_file_paths = self.get_filepaths(file_path)
-        
+
         # Import in order.
         for file_name in IMPORT_FILE_NAMES:
             for full_file_path in full_file_paths:
@@ -152,6 +152,6 @@ class Command(BaseCommand):
                     if file_name in full_file_path:
                         self.strip_chars(full_file_path)
                         self.begin_processing_xml(full_file_path)
-    
+
         # Print Finish Message
         self.stdout.write('Importer Successfully Finished')

@@ -65,8 +65,16 @@ class GCDSeries(models.Model):
     deleted = models.BooleanField(default=False, db_index=True)
 
     # Country and Language info.
-    country = models.ForeignKey(GCDCountry)
-    language = models.ForeignKey(GCDLanguage)
+    country = models.ForeignKey(
+        GCDCountry,
+        blank=True,
+        null=True
+    )
+    language = models.ForeignKey(
+        GCDLanguage,
+        blank=True,
+        null=True
+    )
 
     # Cover
     cover = models.ImageField(

@@ -101,7 +101,7 @@ class ImportSeries:
 
         try:
             language = GCDLanguage.objects.get(language_id=language_id)
-        except language.DoesNotExist:
+        except GCDLanguage.DoesNotExist:
             language = None
 
         # Fix their weird data

@@ -9,7 +9,7 @@ class GCDIndiciaPublisher(models.Model):
         app_label = 'api'
         ordering = ('name',)
         db_table = 'gcd_indicia_publishers'
-    
+
     indicia_publisher_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, db_index=True)
     year_began = models.PositiveSmallIntegerField(db_index=True, null=True)
@@ -19,7 +19,7 @@ class GCDIndiciaPublisher(models.Model):
     notes = models.TextField(null=True, blank=True)
     url = models.URLField(null=True, max_length=255, blank=True, default=u'')
     is_surrogate = models.BooleanField(db_index=True)
-    
+
     # Fields related to change management.
     reserved = models.BooleanField(default=False, db_index=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -34,7 +34,11 @@ class GCDIndiciaPublisher(models.Model):
     issue_count = models.IntegerField(default=0)
 
     # Referenced
-    country = models.ForeignKey(GCDCountry)
+    country = models.ForeignKey(
+        GCDCountry,
+        blank=True,
+        null=True
+    )
     images = models.ManyToManyField(GCDImage, blank=True)
     parent = models.ForeignKey(GCDPublisher, null=True)
 
