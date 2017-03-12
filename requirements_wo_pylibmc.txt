@@ -1,11 +1,8 @@
-Django==1.9.6
-Markdown==2.6.6
-Pillow==3.2.0
-argparse==1.4.0
 beautifulsoup4==4.4.1
 boto==2.40.0
 click==6.6
 dj-database-url==0.4.1
+Django==1.9.6
 django-appconf==1.0.2
 django-compressor==2.0
 django-filter==0.13.0
@@ -16,8 +13,10 @@ django-storages==1.4.1
 djangorestframework==3.3.3
 gunicorn==19.6.0
 html5lib==0.9999999
+Markdown==2.6.6
 ordereddict==1.1
 pep8==1.7.0
+Pillow==3.2.0
 psycopg2==2.6.1
 python-dotenv==0.5.0
 pytz==2016.4
@@ -27,4 +26,5 @@ requests==2.10.0
 rjsmin==1.0.12
 simplejson==3.8.2
 six==1.10.0
+sorl-thumbnail==12.3
 urllib3==1.15.1

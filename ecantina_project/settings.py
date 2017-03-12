@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'storages',
     'compressor',
+    'sorl.thumbnail',
     'rest_framework',
     'rest_framework.authtoken',
     'paypal.standard.ipn',
@@ -328,3 +329,11 @@ COMPRESS_ENABLED = env_var("COMPRESS_ENABLED")
 #
 
 COMPRESS_STORAGE = 'ecantina_project.custom_storage.CachedS3BotoStorage'
+
+
+# sorl-thumbnail
+# https://github.com/mariocesar/sorl-thumbnail
+
+THUMBNAIL_ENGINE = 'ecantina_project.snorlthumbnailutils.Engine'
+THUMBNAIL_DEBUG=True
+THUMBNAIL_FORCE_OVERWRITE = True

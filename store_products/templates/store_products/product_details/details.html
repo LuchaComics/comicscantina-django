@@ -1,5 +1,5 @@
 {% extends 'store_base/base.html' %}
-{% load staticfiles %}
+{% load staticfiles thumbnail %}
 {% block content %}
 <div class="container main-container headerOffset">
     <div class="row">
@@ -32,9 +32,13 @@
             <div class='zoom' id='zoomContent'>
                 {% if comic == None %}
                     <!-- Custom Products -->
-                    <img alt="img"
-                         src="{{ product.image.image.url }}"
-                       class="img-responsive" />
+                    {% thumbnail product.image.image "480x640" crop="center" as im %}
+                        <img alt="{{ product.name|escape|safe }}" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive" />
+                    {% empty %}
+                        <img alt="Missing Cover"
+                             src="{% static "inventory/img/missing_cover.png" %}"
+                           class="img-responsive" />
+                    {% endthumbnail %}
                     <!-- /.Custom Products -->
                 {% else %}
                     <!-- Comic Products -->
@@ -46,10 +50,15 @@
                         <a class="gall-item"
                            title="{{ product.name | escape | safe }}"
                             href="{{ comic.product.image_url }}">
-                            <img class="zoomImage1 img-responsive"
-                              data-src="{{ comic.product.image_url }}"
-                                   src='{{ comic.product.image_url }}'
-                                   alt='Daisy on the Ohoopee' />
+
+                            {% thumbnail comic.product.image.image "480x640" crop="center" as im %}
+                                <img alt="{{ comic.product.name|escape|safe }}" src="{{ im.url }}" data-src="{{ comic.product.image_url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive" />
+                            {% empty %}
+                                <img alt="Missing Cover"
+                                     src="{% static "inventory/img/missing_cover.png" %}"
+                                   class="img-responsive" />
+                            {% endthumbnail %}
+
                         </a>
                     {% endif %}
                     <!-- /.Comic Products -->
@@ -59,10 +68,10 @@
              <div class="zoomThumb ">
              <a class="zoomThumbLink">
              <img data-large="images/zoom/zoom1hi.jpg" src="images/zoom/zoom1.jpg" alt="Saleen" title=""/></a>
-             
+
              <a class="zoomThumbLink">
              <img data-large="images/zoom/zoom2hi.jpg" src="images/zoom/zoom2.jpg" alt="Saleen" title=""/></a>
-             
+
              <a class="zoomThumbLink">
              <img data-large="images/zoom/zoom3hi.jpg" src="images/zoom/zoom3.jpg" alt="Saleen" title=""/></a>
              </div>
@@ -114,8 +123,8 @@
              --><!-- productFilter -->
             <div class="cart-actions">
                 <div class="addto">
-                    
-                    
+
+
                     {% if product in receipt.products.all %}
                     <!-- REMOVE FROM CART -->
                     <button onclick="ajax_remove_from_cart({{ product.product_id }});" class="button btn-cart cart first"
@@ -127,7 +136,7 @@
                         title="Add to Cart" type="button">Add to Cart
                     </button>
                     {% endif %}
-                    
+
                     <a id="id_fav_{{ product.product_id }}"
                   onclick="ajax_favor({{ product.product_id }});" class="link-wishlist wishlist">Add to Wishlist</a>
                 </div>
@@ -292,7 +301,7 @@
                             </tfoot>
                         </table>
                     </div>
-                    
+
                     {% if stories.count > 0 %}
                     <!-- Story -->
                     <div class="tab-pane" id="story">
@@ -310,14 +319,14 @@
                                     {% else %}
                                     <td>No Title</td>
                                     {% endif %}
-                                    
+
                                     <!-- Page Count -->
                                     {% if story.page_count_uncertain == True%}
                                     <td>{{ story.page_count | floatformat }} {% if story.page_count > 1 %}Pages{% else %}Page {% endif %}</td>
                                     {% else %}
                                     <td>{{ story.page_count }} Pages</td>
                                     {% endif %}
-                                    
+
                                 </tr>{% endfor %}
                             </tbody>
                             <tfoot>
@@ -330,7 +339,7 @@
                     </div>
                     <!-- /.Story -->
                     {% endif %}
-                    
+
                     <div class="tab-pane" id="shipping">
                         <table>
                             <colgroup>
@@ -383,7 +392,7 @@
                         <a href="http://www.twitter.com/{{ org.twitter }}"><i class="fa fa-twitter"></i></a>
                         {% endif %}
                     {% endif %}
-                    
+
                 </div>
             </div>
             <!--/.product-share-->
@@ -394,98 +403,98 @@
     <!--
      <div class="row recommended">
      <h1> YOU MAY ALSO LIKE </h1>
-     
+
      <div id="SimilarProductSlider">
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/a1.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">YOUR LIFE</a></h4>
-     
+
      <div class="price"><span>$57</span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/a2.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">RED CROWN</a></h4>
-     
+
      <div class="price"><span>$44</span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/a3.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">WHITE GOLD</a></h4>
-     
+
      <div class="price"><span>$35</span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/a4.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">DENIM 4240</a></h4>
-     
+
      <div class="price"> $<span>55</span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/30.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">CROWN ROCK</a></h4>
-     
+
      <div class="price"><span>$500</span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/a5.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">SLIM ROCK</a></h4>
-     
+
      <div class="price"><span>$50 </span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/36.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">ROCK T-Shirts </a></h4>
-     
+
      <div class="price"><span>$130</span></div>
      </div>
      </div>
      </div>
      /.item
-     
+
      <div class="item">
      <div class="product"><a class="product-image"> <img src="images/product/13.jpg" alt="img"> </a>
-     
+
      <div class="description">
      <h4><a href="san-remo-spaghetti">Denim T-Shirts </a></h4>
-     
+
      <div class="price"><span>$43</span></div>
      </div>
      </div>
