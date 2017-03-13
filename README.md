@@ -1,9 +1,9 @@
-# py-ecantina
+# comicscantina-django
 ## Description
 A web-platform for distrubting online comic books.
 
 ## Features
-* View all comics from Grand Comics Database 
+* View all comics from Grand Comics Database
 * Physical comic book inventory tracking system
 * Print and track sales with QR codes
 * Integrates with point of sales devices
@@ -23,8 +23,8 @@ For Linux and OSX users, run these commands:
 1. First clone the project locally and then go into the directory
 
   ```
-  git clone https://github.com/rodolfomartinez/py-ecantina.git 
-  cd py-ecantina
+  git clone git@gitlab.com:theshootingstarpress/comicscantina-django.git
+  cd comicscantina-django
   ```
 
 
@@ -58,7 +58,7 @@ For Linux and OSX users, run these commands:
   ```
   pip install -r requirements.txt
   ```
-  
+
 
 ### Database
 We are almost done! Just follow these instructions and the database will be setup for the application to use.
@@ -92,7 +92,7 @@ We are almost done! Just follow these instructions and the database will be setu
   ```
 
 
-5. Your database "ecantina_db" is now setup with an admin user account "django" using the passowrd "123password”. 
+5. Your database "ecantina_db" is now setup with an admin user account "django" using the passowrd "123password”.
 
 ### Application + Database
 Run the following command to create your custom settings instance. Note: Please write all your application passwords here as it won't be tracked on git.
@@ -107,17 +107,17 @@ Run the following commands to populate the database.
   ```
   $ cd ../ecantina_project
   $ python manage.py makemigrations
-  $ python manage.py migrate 
+  $ python manage.py migrate
   $ python manage.py setup_ecantina
   ```
 
 
 
 ### Importing Grand Comics Database
-Please see the file [gcd.txt](https://github.com/rodolfomartinez/py-ecantina/blob/master/docs/manual/development/gcd.txt) for more instructions.
+Please see the file [gcd.txt](https://github.com/rodolfomartinez/comicscantina-django/blob/master/docs/manual/development/gcd.txt) for more instructions.
 
 ## Usage
-To run the web-app, you’ll need to run the server instance and access the page from your browser. 
+To run the web-app, you’ll need to run the server instance and access the page from your browser.
 
 Start up the web-server:
 
@@ -125,7 +125,7 @@ Start up the web-server:
   $ cd ecantina_project
   $ python manage.py runserver
   ```
-  
+
 
 In your web-browser, load up the following url
 
