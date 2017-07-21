@@ -178,6 +178,7 @@
             '(\#[-a-z\d_]*)?$','i' ); // fragment locater
         
         if ( !pattern.test( str ) ) {
+            alert('This is not valid url string');
             return false;
         } else {
             return true;
@@ -281,6 +282,7 @@
                 //Ex: https://comicscantina.s3.amazonaws.com/media/upload/Weekly_1_cAvxO7G.jpg
                 if ( ValidURL( url ) ) {
                     // Do nothing.
+                    alert(again not valid url test);
                 }
                 else{
                     url = protocol + "//" + domain + url;
@@ -289,7 +291,7 @@
             }
         }
         arr['image_url'] = url;
-        alert(url);
+        //alert(url);
                 
     {% if product_form.instance.product_id > 0 %}
         // If we are editing a product, then we need to add in the product_id
