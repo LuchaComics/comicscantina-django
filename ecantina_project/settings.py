@@ -250,7 +250,7 @@ AWS_STORAGE_BUCKET_NAME = env_var("AWS_STORAGE_BUCKET_NAME")
 AWS_ACCESS_KEY_ID = env_var("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env_var("AWS_SECRET_ACCESS_KEY")
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
+AWS_S3_USE_SSL = False
 
 
 # Static files (CSS, JavaScript, Images) + Django-Storages
